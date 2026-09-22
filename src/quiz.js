@@ -81,12 +81,14 @@
   }
 
   var ST = D.stats || {};
+  var REPO = 'https://github.com/jeffkirdeikis/squamish-voters';
   function caveat() { return '<b>Not all candidates</b> have answered our questionnaire yet.'; }
   // Shown once, between the last answer and the results, so nobody reads a match as a verdict.
   function renderGate() {
     root.innerHTML = '<div class="gate"><h2>Before you see your matches</h2>' +
       '<p>These results are <b>unbiased, but not yet fully reliable</b>. ' + caveat() + ' For the others we scored their public statements and votes, and some candidates have said very little, so they can’t be matched well or at all yet.</p>' +
       '<p>Please treat this as a starting point, not an answer. Every candidate has a profile on this site with their positions and sources. Read them before you decide.</p>' +
+      '<p>This quiz has <b>no agenda</b>. Every score comes only from what candidates have said and done in public — their council votes, their websites and interviews, or their own answers to our questionnaire — and each one links to its source. Nothing is guessed. The whole site is <b>open source</b>: anyone can read the code and the data at <a href="' + REPO + '" target="_blank" rel="noopener">github.com/jeffkirdeikis/squamish-voters</a>.</p>' +
       '<div class="btn-row"><button class="btn big" id="showres" type="button">Show my matches →</button><a class="btn secondary" href="/candidates/">Browse the candidates</a></div></div>';
   }
   function renderResults() {
@@ -99,7 +101,7 @@
     function ranked(office) { return all.filter(function (r) { return r.c.office === office && r.pct !== null; }).sort(function (a, b) { return b.pct - a.pct || b.n - a.n; }); }
     function thin(office) { return all.filter(function (r) { return r.c.office === office && r.pct === null; }); }
     var m = ranked('mayor'), c = ranked('council'), html = '';
-    html += '<p class="reminder">Based on the public record. ' + caveat() + ' <a href="/candidates/">Browse all candidates</a>.</p>';
+    html += '<p class="reminder">Based only on the public record, with a source for every score. ' + caveat() + ' <a href="/candidates/">Browse all candidates</a> · <a href="' + REPO + '" target="_blank" rel="noopener">Open source</a>.</p>';
     html += resultCard(m, c);
     html += '<h2>For Mayor <span class="small">(you vote for 1)</span></h2>' + m.map(function (r, i) { return matchCard(r, i === 0 && r.pct >= RECOMMEND); }).join('');
     html += thinList(thin('mayor'));
