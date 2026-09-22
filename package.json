@@ -1,0 +1,12 @@
+{
+  "name": "squamish-votes",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs && python3 -m http.server 4173 --directory dist"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.8.0"
+  }
+}

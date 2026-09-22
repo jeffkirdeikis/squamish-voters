@@ -1,0 +1,1000 @@
+{
+  "updated": "September 20, 2026",
+  "contact_email": "squamishvoters@gmail.com",
+  "key_dates": [
+    {
+      "date": "Oct 7, 8, 10 & 15",
+      "label": "Advance voting days"
+    },
+    {
+      "date": "Saturday, Oct 17",
+      "label": "Election day · 8 a.m. to 8 p.m. · Brennan Park"
+    },
+    {
+      "date": "Anyone can vote by mail",
+      "label": "Ballots must arrive by 8 p.m. on Oct 17"
+    }
+  ],
+  "trustees": [
+    "April Lowe",
+    "Leanne Roderick",
+    "Dalia Shehata",
+    "Lisa Turpin",
+    "Robyn Walters"
+  ],
+  "voting": {
+    "general_voting_day": {
+      "date": "Saturday, October 17, 2026",
+      "hours": "8 a.m. to 8 p.m.",
+      "places": [
+        {
+          "name": "Brennan Park Recreation Centre",
+          "address": "1009 Centennial Way, Squamish, B.C.",
+          "note": "This is the only general voting day location listed by the District."
+        }
+      ],
+      "unofficial_results": "Declared October 17, 2026 (after polls close)",
+      "official_results": "October 21, 2026",
+      "source_url": "https://squamish.ca/government-and-administration/council/election/"
+    },
+    "advance_voting": [
+      {
+        "date": "Wednesday, October 7, 2026",
+        "place": "The 55 Activity Centre",
+        "address": "1201 Village Green Way, Squamish",
+        "hours": "8 a.m. to 8 p.m."
+      },
+      {
+        "date": "Thursday, October 8, 2026",
+        "place": "The 55 Activity Centre",
+        "address": "1201 Village Green Way, Squamish",
+        "hours": "12 p.m. to 8 p.m."
+      },
+      {
+        "date": "Saturday, October 10, 2026",
+        "place": "Totem Hall",
+        "address": "1380 Stawamus Road, Squamish, BC V8B 0B5",
+        "hours": "8 a.m. to 8 p.m."
+      },
+      {
+        "date": "Thursday, October 15, 2026",
+        "place": "Brennan Park Recreation Centre",
+        "address": "1009 Centennial Way, Squamish",
+        "hours": "12 p.m. to 8 p.m."
+      }
+    ],
+    "advance_voting_sources": {
+      "dates_places_hours": "https://squamish.ca/government-and-administration/council/election/",
+      "address_55_activity_centre": "https://squamish.ca/rec/seniors/",
+      "address_totem_hall": "https://www.squamish.net/contact/",
+      "note": "The District election page lists venue names only (no street addresses) for advance voting; addresses were taken from the venue operators' own pages. Days of the week were computed from the calendar, not stated on the District page."
+    },
+    "mail_ballot": {
+      "who": "All eligible voters may apply to vote by mail.",
+      "how_to_apply": "Complete the Mail Ballot Application Form and return it in person at Municipal Hall (37955 Second Avenue) or by email to elections@squamish.ca. Printed forms are available at Municipal Hall.",
+      "application_form_url": "https://squamish.ca/assets/elections/2026/Request-a-Mail-Ballot-Application-2026-fillable.pdf",
+      "if_not_on_voters_list": "You must provide copies of two pieces of identification with an emailed application (or present ID in person at Municipal Hall instead).",
+      "application_deadline": "not found (the District page says 'Applications are now open' but states no application cut-off; only the return deadline is given)",
+      "pickup": "The District recommends picking up the package in person and returning it directly to Municipal Hall; you are emailed when it is ready. Someone else can pick it up only if named and authorized on your application form, and they must show two pieces of ID including one with a photo.",
+      "return_deadline": "Must be RECEIVED by 8:00 p.m. on Saturday, October 17, 2026 (voter is responsible for ensuring it arrives on time).",
+      "return_options": [
+        "In person at Municipal Hall, 37955 Second Avenue, Monday to Friday 8:30 a.m. to 4:30 p.m. (excluding holidays)",
+        "Municipal Hall drop box, open 24/7, and open until 8:00 p.m. on General Voting Day",
+        "By mail or courier to the address on the return envelope (allow enough delivery time)",
+        "In person or by courier to Brennan Park Recreation Centre, 1009 Centennial Way, on General Voting Day only, up to 8:00 p.m."
+      ],
+      "help": "For help completing the form, call Legislative Services at 604-892-5217.",
+      "source_url": "https://squamish.ca/government-and-administration/council/election/"
+    },
+    "eligibility": {
+      "resident_elector": [
+        "18 years of age or older (at the time of voting)",
+        "A Canadian citizen (the District notes: no landed immigrants, permanent residents or corporations)",
+        "A resident of British Columbia for at least 6 months immediately before the day of registration (the District's key dates list March 10 as the last day to meet the 6-month requirement for Oct. 17)",
+        "A resident of the District of Squamish at the time of registration",
+        "Not disqualified by law from voting"
+      ],
+      "non_resident_property_elector": {
+        "rule": "Instead of living in Squamish, you may qualify if you have been the registered owner of real property in the District of Squamish for at least 30 days immediately before registering, and meet the age, citizenship, 6-month BC residency and not-disqualified requirements.",
+        "what_to_bring_on_voting_day": [
+          "Two pieces of identification (one must have your signature)",
+          "Proof of ownership (e.g., a recent Land Title Search Certificate or Certificate of Indefeasible Title)",
+          "If the property has multiple owners: written consent from the majority of all owners designating you as the one owner who will vote for that property"
+        ],
+        "limits": [
+          "The property must not be held in trust for a corporation or another trust; there is no corporate vote.",
+          "A non-resident property elector may vote only once in Squamish regardless of how many properties they own.",
+          "District tax notices may not show all owners; Land Titles Office documentation is required.",
+          "The District asks non-resident property electors to phone the Election Office (604-892-5217) about required documents."
+        ]
+      },
+      "source_url": "https://squamish.ca/government-and-administration/council/election/"
+    },
+    "registration": {
+      "same_day_registration": true,
+      "same_day_details": "Qualified electors who are not on the List of Registered Electors may register at the voting place on voting day by showing at least two separate pieces of identification (one must have a signature) proving identity and residency, and making a solemn declaration of eligibility.",
+      "advance_registration": "Advance registration (through Elections BC) closed at 4:30 p.m. on August 25, 2026 and reopens Monday, October 19, 2026. To check or update your information: elections.bc.ca/register or 1-800-661-8683.",
+      "source_url": "https://squamish.ca/government-and-administration/council/election/"
+    },
+    "id_to_bring": {
+      "rule_as_stated_by_district": "The District states the ID requirement in the context of registering on voting day: two separate pieces of ID, one of which must have a signature, proving identity and residency. Whether already-registered voters must show ID is not stated on the District page (not found).",
+      "acceptable_id": [
+        "BC Driver's Licence",
+        "ICBC Vehicle Insurance Documents",
+        "BC Identification Card",
+        "BC Services Card",
+        "BC CareCard",
+        "Passport",
+        "Citizenship Card",
+        "Social Insurance Card",
+        "Utility bill for electricity, natural gas, water, telephone or cable",
+        "Government of Canada document certifying registration under the Indian Act (e.g., status card)",
+        "Citizenship or membership card issued by a First Nation",
+        "Citizenship card issued by Metis Nation British Columbia"
+      ],
+      "source_url": "https://squamish.ca/government-and-administration/council/election/"
+    },
+    "free_transit_on_election_day": "not found (no mention on the District election page or BC Transit Squamish pages as of 2026-09-19)",
+    "accessibility": {
+      "curbside_voting": "not found on the District election page as of 2026-09-19",
+      "special_voting_care_homes_hospital": "not found on the District election page as of 2026-09-19",
+      "mail_ballot_as_accessible_option": "All eligible voters may vote by mail; help completing the mail ballot application is available from Legislative Services at 604-892-5217.",
+      "recommendation": "Call the Election Office at 604-892-5217 to ask about curbside or special voting; a formal Notice of Election may add these details closer to voting day.",
+      "source_url": "https://squamish.ca/government-and-administration/council/election/"
+    },
+    "on_the_ballot": {
+      "summary": "Squamish voters will elect a Mayor, six Councillors and two School Trustees.",
+      "mayor": {
+        "seats": 1,
+        "candidates_declared": [
+          "Sean Easton",
+          "Jenna Stoner",
+          "Daniel Deal"
+        ]
+      },
+      "councillors": {
+        "seats": 6,
+        "how_many_you_can_vote_for": "Six councillors are to be elected. The District election page does not spell out the 'vote for up to six, you may vote for fewer' instruction (not found on the page); under BC local election rules a voter may mark up to as many candidates as there are seats and may choose fewer. Confirm wording with the Election Office before publishing.",
+        "candidates_declared_sept_11": [
+          "Eric Andersen",
+          "Ian Brown",
+          "Kieran Brownie",
+          "Janice DesJardins",
+          "Sarah Ellis",
+          "John French",
+          "Sean Goodwin",
+          "Andrew Hamilton",
+          "A. John Lowe",
+          "Henri A. Nzedom",
+          "Anders Ourom",
+          "Luc Perreault",
+          "Chris Pettingill",
+          "Laura Prosko",
+          "Chris Ryan",
+          "Shaun Veltkamp"
+        ],
+        "withdrawn": [
+          "Henri A. Nzedom"
+        ],
+        "remaining_candidates_count": 15,
+        "withdrawn_source_url": "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/"
+      },
+      "school_trustees": {
+        "seats_for_squamish": 2,
+        "district": "Sea to Sky School District No. 48, Trustee Election Area 1",
+        "candidates_declared": [
+          "April Lowe",
+          "Leanne Roderick",
+          "Dalia Shehata",
+          "Lisa Turpin",
+          "Robyn Walters"
+        ]
+      },
+      "other_races_covered_by_local_media_not_on_district_ballot": "Squamish-Lillooet Regional District Area D director (Cameron Bell, Paula De Jong) and Conseil scolaire francophone trustee (Robert Joncas) are covered on the Squamish Chief hub; these are not District of Squamish offices.",
+      "sources": [
+        "https://squamish.ca/government-and-administration/council/election/",
+        "https://squamish.ca/assets/elections/2026/Declaration_of_Election_By_Voting_Form-8-11.pdf",
+        "https://squamish.ca/assets/elections/2026/Declaration_of_Candidates_Form-8-8.pdf",
+        "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/",
+        "https://www.squamishchief.com/local-news/central-hub-for-squamish-chief-2026-election-coverage-12725517"
+      ]
+    },
+    "key_dates": [
+      {
+        "date": "2026-03-10",
+        "event": "Last day to meet 6-month BC residency requirement for Oct. 17 voting"
+      },
+      {
+        "date": "2026-08-25",
+        "event": "Advance elector registration closed (4:30 p.m.)"
+      },
+      {
+        "date": "2026-09-11",
+        "event": "Nominations closed (4 p.m.)"
+      },
+      {
+        "date": "2026-09-18",
+        "event": "Last day to withdraw as a candidate"
+      },
+      {
+        "date": "2026-09-19",
+        "event": "Campaign period starts"
+      },
+      {
+        "date": "2026-10-07",
+        "event": "Advance voting, The 55 Activity Centre, 8 a.m.-8 p.m."
+      },
+      {
+        "date": "2026-10-08",
+        "event": "Advance voting, The 55 Activity Centre, 12-8 p.m."
+      },
+      {
+        "date": "2026-10-10",
+        "event": "Advance voting, Totem Hall, 8 a.m.-8 p.m."
+      },
+      {
+        "date": "2026-10-15",
+        "event": "Advance voting, Brennan Park, 12-8 p.m."
+      },
+      {
+        "date": "2026-10-17",
+        "event": "General Voting Day, Brennan Park, 8 a.m.-8 p.m.; mail ballots due 8 p.m."
+      },
+      {
+        "date": "2026-10-21",
+        "event": "Declaration of official results"
+      },
+      {
+        "date": "2027-01-15",
+        "event": "Deadline for campaign financing disclosure statements to Elections BC"
+      }
+    ],
+    "chief_election_officer": {
+      "name": "Melissa von Bloedau",
+      "title": "Chief Election Officer, District of Squamish",
+      "phone": "604-892-5217",
+      "email": "elections@squamish.ca",
+      "address": "Municipal Hall, 37955 Second Avenue, P.O. Box 310, Squamish, B.C. V8B 0A3",
+      "sources": [
+        "https://squamish.ca/government-and-administration/council/election/",
+        "https://squamish.ca/assets/elections/2026/Declaration_of_Election_By_Voting_Form-8-11.pdf"
+      ]
+    },
+    "campaign_finance_contact": {
+      "body": "Elections BC (campaign financing, expense limits, third-party advertising)",
+      "phone": "1-855-929-0280",
+      "url": "https://elections.bc.ca/lecf"
+    }
+  },
+  "events": [
+    {
+      "date": "2026-09-23",
+      "time": "6:30 to 9 p.m.",
+      "title": "Outdoor Recreation All-Candidates Meeting",
+      "host": "SORCA (Squamish Off-Road Cycling Association)",
+      "place": "Capilano University (Squamish campus), Multi-Purpose Room",
+      "cost": "Free",
+      "registration": "Required (Eventbrite)",
+      "registration_url": "https://www.eventbrite.ca/e/2026-outdoor-recreation-all-candidates-meeting-hosted-by-sorca-tickets-1999417209697",
+      "host_url": "https://www.sorca.ca/events-list/outdoor-rec-all-candidates-meeting-hosted-by-sorca",
+      "livestream": "not found",
+      "source_url": "https://www.squamishchief.com/2026-civic-election/mark-your-calendars-upcoming-squamish-all-candidate-events-to-attend-12786619"
+    },
+    {
+      "date": "2026-09-28",
+      "time": "5 p.m.",
+      "title": "Squamish Municipal Elections All-Candidates Meet & Greet",
+      "host": "Squamish Legion",
+      "place": "Squamish Legion, 40194 Glenalder Place, Garibaldi Highlands",
+      "cost": "Free",
+      "registration": "Not required",
+      "livestream": "not found",
+      "source_url": "https://www.squamishchief.com/2026-civic-election/mark-your-calendars-upcoming-squamish-all-candidate-events-to-attend-12786619"
+    },
+    {
+      "date": "2026-10-05",
+      "time": "6 to 9 p.m.",
+      "title": "Municipal All-Candidates Meeting",
+      "host": "Joint Engagement Committee (Squamish Chamber of Commerce, Downtown Squamish BIA and Tourism Squamish) in partnership with The Squamish Chief",
+      "place": "Brennan Park Recreation Centre",
+      "cost": "Free",
+      "registration": "Required via Squamish Chamber Events",
+      "registration_url": "https://www.squamishchamber.com/events/#id=557&cid=1224&wid=1201&type=Cal",
+      "livestream": "not found",
+      "source_url": "https://www.squamishchief.com/2026-civic-election/mark-your-calendars-upcoming-squamish-all-candidate-events-to-attend-12786619"
+    },
+    {
+      "date": "2026-10-08",
+      "time": "6:30 to 8 p.m.",
+      "title": "Candidates Quiz Night",
+      "host": "OurSquamish",
+      "place": "Brackendale Art Gallery",
+      "cost": "not found",
+      "registration": "Required (Eventbrite)",
+      "registration_url": "https://www.eventbrite.ca/e/squamish-election-all-candidates-quiz-night-tickets-2001090360135",
+      "livestream": "not found",
+      "note": "Mayor and council candidates answer quiz-style questions on local issues, trivia and audience-submitted questions. Note this falls on the same evening as an advance voting day (Oct. 8, 12-8 p.m.).",
+      "source_url": "https://www.squamishchief.com/2026-civic-election/mark-your-calendars-upcoming-squamish-all-candidate-events-to-attend-12786619"
+    }
+  ],
+  "coverage_hubs": [
+    {
+      "outlet": "The Squamish Chief",
+      "what": "Central election coverage hub (candidate list, candidate profile stories, polls, SLRD and SD48 races); described as an evolving page",
+      "url": "https://www.squamishchief.com/local-news/central-hub-for-squamish-chief-2026-election-coverage-12725517"
+    },
+    {
+      "outlet": "The Squamish Chief",
+      "what": "Evolving list of all-candidates events (published Sept. 16, 2026); organizers can email news@squamishchief.com to add events",
+      "url": "https://www.squamishchief.com/2026-civic-election/mark-your-calendars-upcoming-squamish-all-candidate-events-to-attend-12786619"
+    },
+    {
+      "outlet": "The Squamish Chief",
+      "what": "Reader survey of voter priorities (self-selected, not a scientific poll): recreation facilities (avg rank 3.21) and property taxes/cost of living (3.25) essentially tied for top issue, then climate resilience and aging infrastructure (3.70), housing affordability and zoning (4.23), public safety and street disorder (4.77), parking and bike lanes (5.17), Indigenous relations (5.69), industry/LNG (6.17)",
+      "url": "https://www.squamishchief.com/local-news/property-taxes-recreation-top-squamish-voters-priorities-12721806"
+    },
+    {
+      "outlet": "The Squamish Chief",
+      "what": "Editorial listing the questions it wants candidates to answer (parking, LNG relationship, street disorder/unhoused/vanlife, Brennan Park, property taxes)",
+      "url": "https://www.squamishchief.com/2026-civic-election/editorial-why-squamish-voters-deserve-specific-answers-from-candidates-12783144"
+    },
+    {
+      "outlet": "The Squamish Chief",
+      "what": "Candidate questionnaire",
+      "url": "not found (no published candidate questionnaire located as of 2026-09-19)"
+    },
+    {
+      "outlet": "The Squamish Reporter",
+      "what": "Dedicated election hub or candidate questionnaire",
+      "url": "not found (no election category/tag page located; coverage appears as individual stories, e.g. https://www.squamishreporter.com/2026/03/03/local-elections-2026-will-squamish-councillors-run-again/ and https://www.squamishreporter.com/2026/09/14/desjardins-squamish-council-platform/)"
+    },
+    {
+      "outlet": "District of Squamish",
+      "what": "Official candidate list with each candidate's contact info and nomination papers",
+      "url": "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/"
+    }
+  ],
+  "issues": [
+    {
+      "key": "growth",
+      "title": "Growth and the pace of development",
+      "explainer": "Squamish is one of the fastest-growing communities in B.C., and how fast and where it should grow is a long-running debate. The Province now requires municipalities to allow more homes on single-family lots (Bill 44) and has ordered Squamish to complete a minimum number of new homes by 2030, which limits how much council can slow growth even if it wanted to. Council has already rezoned most residential lots to allow up to four homes and approved neighbourhood plans that pre-zone areas such as Garibaldi Estates for more housing, which some residents opposed. Large master-planned projects (Cheekeye, the Oceanfront) are under way, while the proposed Garibaldi at Squamish ski resort is in doubt after the Province refused to extend its environmental certificate. The next council will decide how growth is paired with infrastructure, amenities and neighbourhood character.",
+      "key_facts": [
+        {
+          "fact": "BC Stats estimates Squamish's population at 28,569 on July 1, 2025, up from 27,572 in 2024 (+997, +3.6%), tied with Langford for the strongest growth among B.C. municipalities over 10,000 people.",
+          "source_url": "https://www2.gov.bc.ca/assets/gov/data/statistics/people-population-community/population/pop_subprovincial_population_highlights.pdf"
+        },
+        {
+          "fact": "A provincial Housing Target Order effective Sept. 1, 2025 requires Squamish to deliver at least 1,069 net new homes by Aug. 31, 2030 (160 in year one), which the Province says is 75% of estimated need of 1,425.",
+          "source_url": "https://www.squamishreporter.com/2025/08/25/province-sets-five-year-housing-goal-for-squamish/"
+        },
+        {
+          "fact": "The District reported 153 net new home completions in the first six months of the provincial target (year-one target: 160), 34 of them below market; the year-five annual target rises to 299. The District approved 434 residential building permits in 2025.",
+          "source_url": "https://www.squamishreporter.com/2026/03/23/squamish-meets-provincial-housing-pace-but-falls-short-on-federal-targets/"
+        },
+        {
+          "fact": "Squamish is cumulatively 286 units behind on housing starts under its federal Housing Accelerator Fund agreement, which expires Jan. 11, 2027; staff said rising costs mean more approved projects are not proceeding to construction.",
+          "source_url": "https://www.squamishreporter.com/2026/03/23/squamish-meets-provincial-housing-pace-but-falls-short-on-federal-targets/"
+        },
+        {
+          "fact": "To comply with Bill 44 (small-scale multi-unit housing), council adopted zoning changes in June 2024 creating the R-1 zone; many lots that once allowed a single home plus an accessory unit may now have up to four principal dwelling units, depending on zoning and site conditions. Further zones (R-2 to R-5) followed in February 2025.",
+          "source_url": "https://squamish.ca/building-and-land-development/home-land-and-property-development/residential-zoning-changes/"
+        },
+        {
+          "fact": "The Garibaldi Estates Neighbourhood Plan was adopted in June 2025 over some residents' objections; on May 19, 2026 council gave three readings to five pre-zoning bylaws for the area (the medium-lot GE-1 zone, max three storeys/11 m, passed 5-2 with Couns. Hamilton and Greenlaw opposed).",
+          "source_url": "https://www.squamishchief.com/local-news/update-squamish-council-advances-garibaldi-estates-pre-zoning-11818601"
+        },
+        {
+          "fact": "Cheekeye: the development is approved for 1,395 homes (1,215 approved in 2024 plus 180 more) on condition the developer builds a roughly 24-metre-high, $115-million debris-flow barrier sized for 2.8 million cubic metres; the barrier was damaged by debris events and an atmospheric river during construction, and the District takes ownership of it in 2026 (the 10-year capital plan carries $100 million for the asset).",
+          "source_url": "https://www.cbc.ca/news/canada/british-columbia/squamish-debris-barrier-9.7148628"
+        },
+        {
+          "fact": "Garibaldi at Squamish (Brohm Ridge; proposal of more than 5,500 housing units plus 2,500 employee units over a 30-year build-out) had to 'substantially start' by Jan. 26, 2026; the Province refused the proponent's request to extend the deadline to 2031. The Aquilini-backed proponent says it remains committed.",
+          "source_url": "https://www.squamishchief.com/local-news/garibaldi-at-squamish-backers-committed-to-resort-despite-provincial-setback-11729323"
+        },
+        {
+          "fact": "Oceanfront Squamish (Matthews West) is planned as a 100-acre community of more than 2,500 homes; a 249-unit rental development with a childcare building went to council in July 2026 after Advisory Design Panel support in April 2026.",
+          "source_url": "https://www.squamishreporter.com/2026/07/10/council-to-consider-249-unit-rental-development-for-oceanfront/"
+        },
+        {
+          "fact": "Downtown building-height / tower debate and University (Upper Finch) lands: specific 2026 decisions not found in this research pass. A six-storey, 45-unit mixed-use building at 38140 Third Avenue went to council April 21, 2026.",
+          "source_url": "https://www.squamishreporter.com/2026/04/20/district-of-squamish-council-to-consider-third-avenue-mixed-use-development/"
+        },
+        {
+          "fact": "OCP: council gave first reading to OCP Amendment Bylaw No. 3139, a provincially mandated update adding housing policies and targets to the Official Community Plan. Final adoption status: not found.",
+          "source_url": "https://letstalksquamish.ca/housing"
+        }
+      ],
+      "sources": [
+        "https://www2.gov.bc.ca/assets/gov/data/statistics/people-population-community/population/pop_subprovincial_population_highlights.pdf",
+        "https://www.squamishreporter.com/2025/08/25/province-sets-five-year-housing-goal-for-squamish/",
+        "https://www.squamishreporter.com/2026/03/23/squamish-meets-provincial-housing-pace-but-falls-short-on-federal-targets/",
+        "https://squamish.ca/building-and-land-development/home-land-and-property-development/residential-zoning-changes/",
+        "https://www.squamishchief.com/local-news/update-squamish-council-advances-garibaldi-estates-pre-zoning-11818601",
+        "https://www.cbc.ca/news/canada/british-columbia/squamish-debris-barrier-9.7148628",
+        "https://www.squamishchief.com/local-news/historic-milestone-for-squamish-1215-new-homes-massive-debris-barrier-approved-9090164",
+        "https://www.squamishchief.com/local-news/garibaldi-at-squamish-backers-committed-to-resort-despite-provincial-setback-11729323",
+        "https://oceanfrontsquamish.com/",
+        "https://letstalksquamish.ca/housing"
+      ],
+      "teaser": "Squamish is one of the fastest-growing communities in B.C., and how fast and where it should grow is a long-running debate.",
+      "short_explainer": "Squamish is one of the fastest-growing communities in B.C., and how fast and where it should grow is a long-running debate. The Province now requires municipalities to allow more homes on single-family lots (Bill 44) and has ordered Squamish to complete a minimum number of new homes by 2030, which limits how much council can slow growth even if it wanted to."
+    },
+    {
+      "key": "housing_affordability",
+      "title": "Housing affordability and non-market housing",
+      "explainer": "Squamish is one of the most expensive places to live in B.C.: home prices rival Metro Vancouver's and the local 'living wage' is the second highest in the province. Building more market housing does not by itself produce homes that lower- and middle-income workers can afford, so attention falls on non-market (non-profit, below-market) housing. The District created an arm's-length non-profit, the Squamish Community Housing Society (Housing Squamish), and contributes land, fee waivers and tax exemptions, but deep affordability depends on provincial and federal money. In February 2026 the Province cancelled the funding program that was to pay for a planned 100-unit affordable rental building on Government Road, stalling it. Voters will hear different views on how much the municipality itself should spend or give up (land, fees, taxes) to get affordable homes built.",
+      "key_facts": [
+        {
+          "fact": "Squamish's 2025 living wage is $28.00/hour, second highest in B.C. after Whistler ($29.60) and up 4.6% from $26.76 in 2024; the report attributes the gap over Metro Vancouver largely to higher childcare costs.",
+          "source_url": "https://www.squamishreporter.com/2025/11/18/squamish-living-wage-rises-to-28-per-hour-amid-rising-costs/"
+        },
+        {
+          "fact": "Housing Squamish's planned 100-unit affordable rental project at 39900 Government Road stalled after the Province cancelled the BC Housing Community Housing Fund call in February 2026.",
+          "source_url": "https://www.squamishchief.com/local-news/advocates-say-its-time-for-local-politicians-to-step-up-on-affordable-housing-12776406"
+        },
+        {
+          "fact": "Housing Squamish's executive director (Sarah Ellis, who is also a 2026 council candidate) says local government should contribute serviced public land, waive development charges, fees and taxes, and expedite approvals to compete for limited senior-government funding. (Attributed position, not a neutral finding.)",
+          "source_url": "https://www.squamishchief.com/local-news/advocates-say-its-time-for-local-politicians-to-step-up-on-affordable-housing-12776406"
+        },
+        {
+          "fact": "A June 2026 Research Co. poll for Housing Central found 85% of B.C. respondents say it is important for local politicians to commit to expanding non-profit and co-op housing, and 71% expect their local government to act on affordable housing (province-wide poll, not Squamish-specific).",
+          "source_url": "https://www.squamishchief.com/local-news/advocates-say-its-time-for-local-politicians-to-step-up-on-affordable-housing-12776406"
+        },
+        {
+          "fact": "Of 153 homes completed in the first six months of the provincial housing target, 34 were considered below market.",
+          "source_url": "https://www.squamishreporter.com/2026/03/23/squamish-meets-provincial-housing-pace-but-falls-short-on-federal-targets/"
+        },
+        {
+          "fact": "Spirit Creek Apartments (BC Housing, District of Squamish and Sea to Sky Community Services) provides 76 homes for low- to moderate-income households, with Foundry Sea to Sky and the Youth Hub on the ground floor.",
+          "source_url": "https://www.sscs.ca/spirit-creek-apartments/"
+        },
+        {
+          "fact": "Home prices: a local realtor blog citing Greater Vancouver REALTORS data reports Squamish's composite benchmark price was $1,122,200 in January 2026 (briefly above Greater Vancouver's $1,101,900) and $1,078,400 in April 2026. Secondary source; verify against GVR stats packages before publishing.",
+          "source_url": "https://www.jaydeveryrealestate.com/blog/101275/squamish-2026-real-estate-forecast-why-were-outperforming-the-lower-mainland"
+        },
+        {
+          "fact": "Current Squamish rental vacancy rate and average rent (CMHC 2025): not found in this research pass.",
+          "source_url": "https://www03.cmhc-schl.gc.ca/hmip-pimh/en"
+        }
+      ],
+      "sources": [
+        "https://www.squamishchief.com/local-news/advocates-say-its-time-for-local-politicians-to-step-up-on-affordable-housing-12776406",
+        "https://www.squamishreporter.com/2025/11/18/squamish-living-wage-rises-to-28-per-hour-amid-rising-costs/",
+        "https://www.squamishfoundation.com/living-wage-in-squamish/",
+        "https://housingsquamish.ca/",
+        "https://www.sscs.ca/spirit-creek-apartments/",
+        "https://housingcentral.ca/election-2026/"
+      ],
+      "teaser": "Squamish is one of the most expensive places to live in B.C.: home prices rival Metro Vancouver's and the local 'living wage' is the second highest in the province.",
+      "short_explainer": "Squamish is one of the most expensive places to live in B.C.: home prices rival Metro Vancouver's and the local 'living wage' is the second highest in the province. Building more market housing does not by itself produce homes that lower- and middle-income workers can afford, so attention falls on non-market (non-profit, below-market) housing."
+    },
+    {
+      "key": "homelessness",
+      "title": "Homelessness, encampments and supportive housing",
+      "explainer": "The number of people without housing in Squamish has grown, and a visible encampment downtown (near Main Street and Third Avenue, close to the Under One Roof shelter) has become a flashpoint for both compassion and safety concerns. Housing and shelters are funded by the Province through BC Housing, but the municipality decides on land, leases and bylaw enforcement, and courts have limited how cities can clear encampments when there is not enough shelter space. In 2026 the Province named Squamish a HEART & HEARTH community, which brings outreach teams and temporary modular housing, but the first proposed site (a downtown park) was dropped after opposition and technical problems, and no replacement site has been announced. Separately, council unanimously endorsed a 60-year lease for a 65-unit permanent supportive housing building on Government Road. Candidates differ on location, consultation, enforcement and how fast to move.",
+      "key_facts": [
+        {
+          "fact": "The 2025 point-in-time count (April 15, 2025) found 125 people experiencing homelessness in Squamish, up 17% from 107 in 2021; the top reason for housing loss was 'not enough income' (53%). Across surveyed B.C. communities the increase was 34%.",
+          "source_url": "https://squamish.ca/building-and-land-development/addressing-homelessness/"
+        },
+        {
+          "fact": "BC Housing's Squamish 2025 count report is the primary source for the count figures (Squamish Chief reporting on the count: people identifying as Indigenous made up 19% of those counted).",
+          "source_url": "https://www.bchousing.org/sites/default/files/media/documents/Homeless-Count-Squamish-2025.pdf"
+        },
+        {
+          "fact": "Under One Roof (37871 Third Avenue, operated by Squamish Helping Hands) has 16 year-round low-barrier emergency shelter beds plus 15 extreme-weather beds in cold and rainy months; directory listings also show 39 supportive housing units in the building.",
+          "source_url": "https://www.squamishhelpinghands.ca/how-we-help/shelter-transitional-housing/"
+        },
+        {
+          "fact": "The Province designated Squamish a HEART & HEARTH community in February 2026. The first proposed temporary-housing site, 37956 Loggers Lane (Xwu'nekw Park), was dropped in June 2026 as not viable after due diligence; a petition questioning that site gathered 964 signatures. As of the District's page on 2026-09-19, no replacement site has been confirmed.",
+          "source_url": "https://squamish.ca/building-and-land-development/addressing-homelessness/"
+        },
+        {
+          "fact": "BC Housing told council on June 23, 2026 that site selection is outside the scope of public engagement because property transactions cannot be public until final; engagement begins once a site is locked in.",
+          "source_url": "https://www.squamishreporter.com/2026/06/24/public-wont-be-allowed-input-on-location-of-temporary-housing-site-in-squamish/"
+        },
+        {
+          "fact": "On July 21, 2026 council voted unanimously to endorse a 60-year, $10 nominal lease to the Provincial Rental Housing Corporation for a six-storey, 65-studio supportive housing building at 39900 Government Road, to be operated by Squamish Helping Hands with 24/7 staffing; final project approval is expected by May 2028.",
+          "source_url": "https://www.squamishchief.com/local-news/update-squamish-council-endorses-lease-for-supportive-housing-on-government-road-12473752"
+        },
+        {
+          "fact": "On Aug. 31, 2026 the District announced downtown safety actions: routine patrols by Bylaw, Squamish Fire Rescue and RCMP, regular encampment monitoring, bylaw staff with specialized homelessness-response training, debris and danger-tree removal, and appointment of a new Director of Public Safety overseeing the emergency program, bylaw and police services.",
+          "source_url": "https://www.squamishreporter.com/2026/09/01/downtown-encampments-district-hires-public-safety-director-steps-up-patrols/"
+        },
+        {
+          "fact": "The District states it must manage encampments in accordance with Charter protections and legal precedent, and that its Camping Bylaw is aligned with the right of people experiencing homelessness to shelter on public land overnight.",
+          "source_url": "https://squamish.ca/building-and-land-development/addressing-homelessness/"
+        },
+        {
+          "fact": "What council has voted on is housing, not enforcement. On July 21, 2026 council unanimously endorsed a 60-year lease for 65 supportive homes at 39900 Government Road. On July 8, 2025 it waived fees for that project 6–1 (Chris Pettingill opposed, citing pipeline risk at the site, not the housing).",
+          "source_url": "https://www.squamishchief.com/local-news/update-squamish-council-endorses-lease-for-supportive-housing-on-government-road-12473752"
+        },
+        {
+          "fact": "The September 2026 clearing of the downtown encampment was a District staff action under the Trespass Act, not a council vote, and no councillor is on record for or against it. Encampment residents have gone to court to stop the eviction.",
+          "source_url": "https://www.squamishchief.com/local-news/squamish-encampment-residents-file-court-petition-to-halt-eviction-12771072"
+        },
+        {
+          "fact": "On Aug. 31, 2026 the District announced a new public safety director and stepped-up bylaw and RCMP patrols downtown. It was announced by news release; council did not vote on it.",
+          "source_url": "https://www.squamishreporter.com/2026/09/01/downtown-encampments-district-hires-public-safety-director-steps-up-patrols/"
+        },
+        {
+          "fact": "Squamish has no bylaw on using drugs in public places, and council has never voted on one (we searched 233 sets of council minutes from 2023 to 2026). So no sitting councillor has a voting record on it.",
+          "source_url": "https://squamish.civicweb.net/"
+        },
+        {
+          "fact": "This is why most candidates can only be placed on the ‘housing and support’ side of our charts: it is the only side anyone has had to vote on. Candidates who answer our questionnaire are placed on both.",
+          "source_url": "https://squamishvoters.com/compass/"
+        }
+      ],
+      "sources": [
+        "https://squamish.ca/building-and-land-development/addressing-homelessness/",
+        "https://www.bchousing.org/sites/default/files/media/documents/Homeless-Count-Squamish-2025.pdf",
+        "https://www.squamishchief.com/local-news/indigenous-locals-over-represented-in-squamish-homelessness-count-11306828",
+        "https://www.squamishhelpinghands.ca/how-we-help/shelter-transitional-housing/",
+        "https://www.squamishchief.com/local-news/bc-housing-brings-homelessness-plan-to-squamish-council-with-site-still-unknown-12467730",
+        "https://www.squamishreporter.com/2026/06/24/public-wont-be-allowed-input-on-location-of-temporary-housing-site-in-squamish/",
+        "https://www.squamishreporter.com/2026/04/27/squamish-businesses-call-for-consultation-on-downtown-homeless-housing-proposal/",
+        "https://www.squamishchief.com/local-news/update-squamish-council-endorses-lease-for-supportive-housing-on-government-road-12473752",
+        "https://www.bchousing.org/projects-partners/projects/squamish-temporary-housing"
+      ],
+      "teaser": "The number of people without housing in Squamish has grown, and a visible encampment downtown (near Main Street and Third Avenue, close to the Under One Roof shelter) has become a flashpoint for both compassion and safety concerns.",
+      "short_explainer": "The number of people without housing in Squamish has grown, and a visible encampment downtown (near Main Street and Third Avenue, close to the Under One Roof shelter) has become a flashpoint for both compassion and safety concerns. Housing and shelters are funded by the Province through BC Housing, but the municipality decides on land, leases and bylaw enforcement, and courts have limited how cities can clear encampments when there is not enough shelter space."
+    },
+    {
+      "key": "policing",
+      "title": "Policing and community safety",
+      "explainer": "Squamish is policed by the RCMP under a contract, and the municipality pays most of the bill. Under the RCMP cost-sharing formula, B.C. municipalities with 5,000 to 14,999 people pay 70% of policing costs and those over 15,000 pay 90%; Squamish crossed that line after the 2011 census and has paid 90% since 2012 (this is not a new 2026 change). Rising RCMP contract costs are one of the main reasons the District projects double-digit tax increases in 2027 and 2028. Crime statistics are mixed: property crime fell in 2025 while violent crime, collisions and some other categories rose. Downtown street disorder linked to the encampment has made public safety a more prominent campaign topic, alongside bylaw enforcement capacity.",
+      "key_facts": [
+        {
+          "fact": "In 2011 Squamish paid 70% of its policing costs ($2.1 million); after passing 15,000 population it moved to the 90% share, about $1 million more per year at the time (2012 reporting).",
+          "source_url": "https://www.piquenewsmagazine.com/sea-to-sky/squamish-signs-on-for-new-rcmp-deal-2491474"
+        },
+        {
+          "fact": "District finance staff told council the projected tax increases of 13% (2027) and 12.9% (2028) are 'largely due to the increased cost of RCMP member contracts', plus debt servicing, added fire-services staffing and transit expansion.",
+          "source_url": "https://www.squamishchief.com/local-news/tough-budget-squamish-council-passes-first-decade-long-financial-plan-11710524"
+        },
+        {
+          "fact": "The 2025 draft budget included a $695,000 increase for police services among pre-committed cost changes.",
+          "source_url": "https://www.squamishchief.com/local-news/heres-what-you-need-to-know-about-squamish-property-taxes-in-2025-9746032"
+        },
+        {
+          "fact": "RCMP 2025 year-end report to council (May 19, 2026): total calls for service up 5.96% versus the 2021-2024 average; property crime down 4.92% (1,077 offences in 2025 vs 1,181 in 2024), with theft from vehicles down 45% against the five-year average but frauds, auto theft and bike theft up.",
+          "source_url": "https://www.squamishchief.com/local-news/violent-crime-highway-collisions-rise-in-squamish-rcmp-says-12308567"
+        },
+        {
+          "fact": "Violent crime: 505 incidents in 2025, 12.66% above average; sexual assault reports up 46.43% and intimate partner violence up 16.81% over the average (RCMP cautioned this may partly reflect more reporting); criminal harassment 35 cases versus an average of 10.",
+          "source_url": "https://www.squamishchief.com/local-news/violent-crime-highway-collisions-rise-in-squamish-rcmp-says-12308567"
+        },
+        {
+          "fact": "Excessive-speeding tickets rose from 59 (2024) to 457 (2025) and 527 by May 2026; there were 355 vehicle crashes in 2025, up from 295, and collisions were up 64% in the first quarter of 2026. Most occur on Highway 99, which is BC Highway Patrol jurisdiction.",
+          "source_url": "https://www.squamishchief.com/local-news/violent-crime-highway-collisions-rise-in-squamish-rcmp-says-12308567"
+        },
+        {
+          "fact": "The detachment runs a Car 99 program pairing a police officer with a clinician or nurse five days a week, added a vulnerable persons unit in 2026, and refocused its community team on crime reduction (prolific offenders and high-crime zones).",
+          "source_url": "https://www.squamishchief.com/local-news/violent-crime-highway-collisions-rise-in-squamish-rcmp-says-12308567"
+        },
+        {
+          "fact": "Number of funded RCMP officers in Squamish and the total 2026 policing budget: not found in this research pass (the RCMP's full 2025 year-end presentation to council is linked here).",
+          "source_url": "https://squamish.civicweb.net/FileStorage/888A049DC2FA4B89B70F9E59605641AE-Squamish%20RCMP%20PP%202025%20Year%20End.pdf"
+        },
+        {
+          "fact": "PearlSpace has publicly called on candidates to address intimate partner violence.",
+          "source_url": "https://www.squamishchief.com/2026-civic-election/pearlspace-calls-on-squamish-candidates-to-address-intimate-partner-violence-12783947"
+        },
+        {
+          "fact": "Council has not held a stand-alone vote on how many RCMP or bylaw officers to fund. New officers are added inside the yearly budget: council minutes from Feb. 18, 2025 record a plan to add four RCMP members through the financial plan.",
+          "source_url": "https://squamish.civicweb.net/document/249714"
+        }
+      ],
+      "sources": [
+        "https://www.piquenewsmagazine.com/sea-to-sky/squamish-signs-on-for-new-rcmp-deal-2491474",
+        "https://www.squamishchief.com/local-news/tough-budget-squamish-council-passes-first-decade-long-financial-plan-11710524",
+        "https://www.squamishchief.com/local-news/violent-crime-highway-collisions-rise-in-squamish-rcmp-says-12308567",
+        "https://squamish.ca/public-safety-services/rcmp/",
+        "https://www.squamishreporter.com/2026/09/01/downtown-encampments-district-hires-public-safety-director-steps-up-patrols/"
+      ],
+      "teaser": "Squamish is policed by the RCMP under a contract, and the municipality pays most of the bill.",
+      "short_explainer": "Squamish is policed by the RCMP under a contract, and the municipality pays most of the bill. Under the RCMP cost-sharing formula, B.C."
+    },
+    {
+      "key": "taxes_spending",
+      "title": "Property taxes, spending and big capital projects",
+      "explainer": "Property taxes are, with recreation facilities, the top issue for readers surveyed by the Squamish Chief. In January 2026 council unanimously adopted the District's first 10-year financial plan, which raised the amount collected from property taxes by 12.8% in 2026 and projects about 13% more in each of 2027 and 2028, averaging 8.3% a year over the decade. The District says the drivers are aging buildings that must be replaced (public works yard, fire halls, Brennan Park), RCMP contract costs, wages, debt payments and building up reserves; one councillor noted that below-average increases in earlier years made the jump sharper. Some 2026 candidates are campaigning on tax freezes or zero increases, while incumbents who are running generally defend the plan as necessary. Voters may want to ask any candidate promising lower taxes which services or projects would change.",
+      "key_facts": [
+        {
+          "fact": "2026: general property tax revenue requirement of $56.1 million, up 12.8% ($6.4 million) over 2025, or about $382 more for the average residential taxpayer. Utility rates: wastewater +7.2%, water +1.8%, solid waste +5.2%. 2026 operating budget: $82.2 million.",
+          "source_url": "https://www.squamishchief.com/local-news/tough-budget-squamish-council-passes-first-decade-long-financial-plan-11710524"
+        },
+        {
+          "fact": "Projected increases (not yet decided): 13% in 2027 and 12.9% in 2028; average 8.3% per year across the 2026-2035 plan.",
+          "source_url": "https://www.squamishchief.com/local-news/tough-budget-squamish-council-passes-first-decade-long-financial-plan-11710524"
+        },
+        {
+          "fact": "2025: the draft 2025-2029 plan (adopted Dec. 17, 2024) called for a 9.6% increase in tax revenue, about $250 for the average residential property, with a projected five-year average of 10.5%. Whether the final adopted 2025 figure differed from the 9.6% draft was not confirmed.",
+          "source_url": "https://www.squamishchief.com/local-news/heres-what-you-need-to-know-about-squamish-property-taxes-in-2025-9746032"
+        },
+        {
+          "fact": "2024: the 2024-2028 plan (adopted Dec. 19, 2023) projected an 8.9% increase in property tax revenue, an average of $213 per residential unit.",
+          "source_url": "https://squamish.ca/government-and-administration/financial-services/budget-financial-statements-and-annual-reports/budget-2024/"
+        },
+        {
+          "fact": "2023: the tax revenue requirement rose 8.9% over 2022, but just over half was covered by growth (new taxpayers); existing taxpayers saw a 4.2% increase.",
+          "source_url": "https://www.squamishchief.com/local-news/squamish-council-approves-property-tax-increase-of-42-7078897"
+        },
+        {
+          "fact": "10-year plan totals: revenues $1.45 billion; expenses $1 billion; capital plan $347 million plus $100 million for the Cheekeye barrier asset; capital funded by $232 million reserves, $75 million borrowing, $26 million grants, $12.5 million developer charges/contributions. Debt servicing is projected to peak at 17% (provincial limit 25%, District policy limit 20%).",
+          "source_url": "https://www.squamishchief.com/local-news/tough-budget-squamish-council-passes-first-decade-long-financial-plan-11710524"
+        },
+        {
+          "fact": "Public Works Facility replacement: $37 million budget, rated 'critical'; council authorized $20.2 million of borrowing over 20 years in September 2023.",
+          "source_url": "https://squamish.ca/projects-plans-and-initiatives/master-plans/facilities/public-works/"
+        },
+        {
+          "fact": "Brennan Park Recreation Centre: a Recreation Centre Task Force is in Phase 1 (needs validation and technical feasibility, consultant Cornerstone Planning Group), due spring 2027; the expansion/upgrade itself is currently unfunded. Council budgeted $125,000 (2026) and $300,000 (year two) for Phase 1. An earlier $16.3-million renovation was supported by an $11.7-million federal grant.",
+          "source_url": "https://www.squamishchief.com/local-news/new-engagement-plan-set-for-brennan-park-recreation-centre-upgrades-12564220"
+        },
+        {
+          "fact": "Spring 2026 amendment: higher assessed value at the Woodfibre LNG site produced about $7.2 million in Class 4 (major industry) tax in 2026, $5.8 million more than planned; council directed $7.2 million to capital reserves rather than ongoing operations.",
+          "source_url": "https://www.squamishchief.com/local-news/squamish-council-amends-10-year-financial-plan-boosts-reserves-with-woodfibre-lng-tax-windfall-12189221"
+        },
+        {
+          "fact": "Campaign positions reported so far (attributed, not endorsed): council candidate Janice DesJardins calls for zero property tax increases and referendums on major capital projects; council candidate Laura Prosko pitches a property tax freeze.",
+          "source_url": "https://www.squamishreporter.com/2026/09/14/desjardins-squamish-council-platform/"
+        },
+        {
+          "fact": "Fire hall replacement costs and current total District debt: not confirmed in this pass (older reporting put one new fire hall at $13.3 million).",
+          "source_url": "https://www.squamishchief.com/local-news/critical-infrastructure-projects-prompt-59-net-increase-in-squamish-taxes-6246604"
+        }
+      ],
+      "sources": [
+        "https://www.squamishchief.com/local-news/tough-budget-squamish-council-passes-first-decade-long-financial-plan-11710524",
+        "https://www.squamishchief.com/local-news/squamish-council-amends-10-year-financial-plan-boosts-reserves-with-woodfibre-lng-tax-windfall-12189221",
+        "https://letstalksquamish.ca/budget-2026",
+        "https://squamish.ca/government-and-administration/financial-services/budget-financial-statements-and-annual-reports/budget-2025/",
+        "https://squamish.ca/government-and-administration/financial-services/budget-financial-statements-and-annual-reports/budget-2024/",
+        "https://www.squamishchief.com/local-news/squamish-council-approves-property-tax-increase-of-42-7078897",
+        "https://squamish.ca/projects-plans-and-initiatives/master-plans/facilities/public-works/",
+        "https://squamish.ca/rec/rectaskforce/",
+        "https://www.squamishchief.com/local-news/property-taxes-recreation-top-squamish-voters-priorities-12721806",
+        "https://www.squamishchief.com/local-news/laura-prosko-touts-industry-ties-pitches-property-tax-freeze-in-squamish-council-bid-12793364"
+      ],
+      "teaser": "Property taxes are, with recreation facilities, the top issue for readers surveyed by the Squamish Chief.",
+      "short_explainer": "Property taxes are, with recreation facilities, the top issue for readers surveyed by the Squamish Chief. In January 2026 council unanimously adopted the District's first 10-year financial plan, which raised the amount collected from property taxes by 12.8% in 2026 and projects about 13% more in each of 2027 and 2028, averaging 8.3% a year over the decade."
+    },
+    {
+      "key": "environment_lng",
+      "title": "Climate, the environment and the Woodfibre LNG plant",
+      "explainer": "Woodfibre LNG is building a liquefied natural gas export plant on Howe Sound about 7 km from downtown, fed by a new FortisBC pipeline; it was approved by senior governments and the Squamish Nation, not by council, and remains divisive locally. Council's real levers are land-use permits (such as the 'floatel' worker housing) and how the plant is taxed. The biggest live decision is a proposed 10-year deal under which Woodfibre would pay the District at least $142 million from 2027 in exchange for a fixed, much lower municipal tax bill, and would drop its lawsuits over 2025 and 2026 taxes; the current council plans to vote in early October, days before the election. This is really two separate arguments. One is about the plant itself and the climate. The other is about money: supporters of the deal value predictable revenue and an end to litigation, while critics — including several candidates who support the plant — say the District may be giving up revenue and that the decision is rushed. Separately, the District has a goal of cutting community greenhouse gas emissions 45% by 2030.",
+      "key_facts": [
+        {
+          "fact": "The plant will produce 2.1 million tonnes of LNG per year, is expected to operate about 40 years, and the District lists completion as expected in 2027.",
+          "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/woodfibre-liquefied-natural-gas-and-fortisbceagle-mountain-pipeline/woodfibre-lng-project/"
+        },
+        {
+          "fact": "Proposed agreement: $117 million in fixed Community Enhancement Payments over 10 years ($10M in 2027; $16M/yr 2028-2030; $15M in 2031; $10M/yr 2032-2033; $8M/yr 2034-2036; not inflation-indexed; capital projects only) plus municipal property tax fixed at $2.5 million in 2027 with CPI adjustments via a Revitalization Tax Exemption bylaw, for a total of at least $142 million.",
+          "source_url": "https://www.squamishreporter.com/2026/09/18/wlng-lawsuits-would-be-dismissed-under-proposed-142-million-squamish-agreement/"
+        },
+        {
+          "fact": "District staff say revenue under regular taxation 'could be either higher or lower' than the agreement; the documents can be accepted or rejected but not amended; WLNG's 2025 and 2026 legal proceedings would be dismissed by consent if approved.",
+          "source_url": "https://www.squamishreporter.com/2026/09/18/wlng-lawsuits-would-be-dismissed-under-proposed-142-million-squamish-agreement/"
+        },
+        {
+          "fact": "Timeline: council considers first three readings of the tax exemption bylaw at a special meeting on Sept. 22, 2026 at 6 p.m.; a final decision on both parts is expected in early October 2026 so it can take effect for the 2027 tax year. Written public comments are being accepted through a form on the District's page.",
+          "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/wlng-agreement/"
+        },
+        {
+          "fact": "Under normal taxation, the District says Woodfibre LNG paid $7.7 million in municipal property tax in 2026 while still under construction, at a major-industry rate of 125 — about four times the B.C. average for that class. The District itself says keeping that rate for 10 years “would be unusual”.",
+          "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/wlng-agreement/"
+        },
+        {
+          "fact": "Mayoral candidate Sean Easton has said council should vote no on the proposed agreement (attributed campaign position).",
+          "source_url": "https://www.squamishreporter.com/2026/09/14/council-vote-no-woodfibre-lng-agreement-sean-easton/"
+        },
+        {
+          "fact": "Floatel: the first floating worker camp has housed workers since June 2024 (about 650 workers); on July 29, 2025 council approved a two-year Temporary Use Permit covering the existing vessel and a proposed second vessel. Workers are ferried to and from the Lower Mainland and have no recreational access to the community.",
+          "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/woodfibre-liquefied-natural-gas-and-fortisbceagle-mountain-pipeline/woodfibre-lng-project/"
+        },
+        {
+          "fact": "FortisBC's Eagle Mountain-Woodfibre Gas Pipeline adds about 50 km of pipeline from Coquitlam to the site, including a roughly 9 km tunnel under the Skwelwil'em Squamish Estuary; in-town work includes 2 km of pipe along Finch Drive and Industrial Way in 2026.",
+          "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/woodfibre-liquefied-natural-gas-and-fortisbceagle-mountain-pipeline/fortisbc-eagle-mountain-woodfibre-gas-pipeline-project/"
+        },
+        {
+          "fact": "In the Chief's reader survey, 'attitude toward industry and LNG' ranked low on average (6.17 of 9) but was polarizing: nearly 14% put it in their top three and more than half in their bottom three.",
+          "source_url": "https://www.squamishchief.com/local-news/property-taxes-recreation-top-squamish-voters-priorities-12721806"
+        },
+        {
+          "fact": "Council's 2023-2026 Strategic Plan sets a goal of reducing community GHG emissions 45% by 2030 through the Community Climate Action Plan.",
+          "source_url": "https://squamish.ca/government-and-administration/council/strategic-plan/"
+        },
+        {
+          "fact": "Would normal taxes bring in more? Nobody knows. District staff estimate that without the deal, the finished plant would pay between $9 million and $29 million a year depending on the tax rate council could sustain, compared with an average of $14.2 million a year under the deal. Staff say regular taxation “could be either higher or lower” and make no recommendation.",
+          "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/wlng-agreement/"
+        },
+        {
+          "fact": "Why not far more? Staff assume the finished plant will be assessed at only $400–600 million, not its $5-billion-plus construction cost, because the Province sets how heavy industry is valued and depreciated.",
+          "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/wlng-agreement/"
+        },
+        {
+          "fact": "What critics of the deal point to: the $117 million in payments never rises with inflation, is front-loaded (about $18.5 million a year in 2028–30, falling to about $10.5 million by 2034–36), can only be spent on capital projects, does not increase if the plant expands, and must be partly repaid if Woodfibre’s tax bill ever rises above the agreed amount — so $142 million works as a ceiling as well as a floor.",
+          "source_url": "https://squamish.ca/assets/WLNG/CEP-Agreement-FINAL-25-Aug-26.pdf"
+        },
+        {
+          "fact": "What supporters of the deal point to: the Province could change how LNG plants are valued or cap the tax rate (it already caps port and utility rates in Squamish), Woodfibre could win assessment appeals, and three court actions over the 2025 and 2026 tax rates would be dropped with no refunds.",
+          "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/wlng-agreement/"
+        },
+        {
+          "fact": "Process: council can only accept or reject the deal, not amend it; public input is by written comment only. First three readings are on Sept. 22; if they pass, the final vote is Oct. 6. A “no” means normal taxation continues in 2027, not zero revenue.",
+          "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/wlng-agreement/"
+        },
+        {
+          "fact": "Among candidates who have taken a side, opposition to the deal is about money and timing, not the environment: Daniel Deal, Sean Easton, Janice DesJardins and Laura Prosko all want it rejected or delayed for a better one, and none of them opposes the plant itself. Sean Goodwin supports signing. Sitting councillors had not declared before the Sept. 22 vote.",
+          "source_url": "https://www.squamishchief.com/local-news/is-the-woodfibre-lng-tax-deal-fair-here-is-what-the-company-and-critics-are-saying-12799020"
+        }
+      ],
+      "sources": [
+        "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/wlng-agreement/",
+        "https://www.squamishreporter.com/2026/09/18/wlng-lawsuits-would-be-dismissed-under-proposed-142-million-squamish-agreement/",
+        "https://www.biv.com/news/resources-agriculture/district-of-squamish-seeks-public-input-on-10-year-woodfibre-lng-financial-deal-12706807",
+        "https://www.squamishchief.com/local-news/woodfibre-lng-files-new-court-petition-against-district-of-squamish-over-2026-property-tax-bylaw-12476193",
+        "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/woodfibre-liquefied-natural-gas-and-fortisbceagle-mountain-pipeline/woodfibre-lng-project/",
+        "https://news.gov.bc.ca/releases/2025ENV0036-001093",
+        "https://myseatosky.org/news/updates/woodfibre-lngs-terrible-tax-deal/"
+      ],
+      "teaser": "Woodfibre LNG is building a liquefied natural gas export plant on Howe Sound about 7 km from downtown, fed by a new FortisBC pipeline; it was approved by senior governments and the Squamish Nation, not by council, and remains divisive locally.",
+      "short_explainer": "Woodfibre LNG is building a gas export plant on Howe Sound, about 7 km from downtown. Senior governments and the Squamish Nation approved it — council did not, and cannot stop it. What council does control is local: permits for worker housing (the ‘floatel’ and workers’ lodges), rules on traffic, noise and safety, and how hard it presses the Province to enforce the plant’s conditions. In April 2024 council refused the floatel permit 4–3; the Province overrode it, and in July 2025 council approved a two-year permit 5–2. How the plant is taxed is a separate question — see Taxes & spending."
+    },
+    {
+      "key": "transportation",
+      "title": "Transportation, regional transit and Highway 99",
+      "explainer": "Inside town, Squamish's BC Transit bus system has been expanding, partly paid for by local property taxes. What Squamish still lacks is any public bus to Vancouver or Whistler; only private coaches run, and a regional service studied since 2017 has stalled over who pays and who governs it. The Province says local governments must first agree on a service model and their share of funding, while local leaders say provincial funding and political will have been missing. Highway 99 is a provincial road, so council can only lobby, but collisions and multi-hour closures are a daily-life concern for commuters. Bike lanes are also contested locally. Parking has its own section below.",
+      "key_facts": [
+        {
+          "fact": "Local transit expanded on Jan. 4, 2026 with more weekday and late Sunday trips on Route 1 Brackendale and Route 2 Highlands.",
+          "source_url": "https://news.gov.bc.ca/releases/2026TT0008-000012"
+        },
+        {
+          "fact": "An OnDemand transit service launched March 30, 2026, and summer 2026 brought the seasonal Route 5 South Park plus free rides on weekends and holidays from June 8 to Sept. 7.",
+          "source_url": "https://www.bctransit.com/seasonal-service-change-in-squamish-2026-05-25/"
+        },
+        {
+          "fact": "No public regional transit links Squamish to Vancouver or Whistler; private operators (Squamish Connector, Epic Rides, Skylynx) run coaches. A 2017 BC Transit study proposed eight buses for $3.3 million a year, with the Province covering $1.4 million and local governments the rest; it never launched. The former Squamish-Whistler Route 98 (2005-2010) carried 125-200 riders a day before being cut.",
+          "source_url": "https://www.piquenewsmagazine.com/cover-stories/missed-connections-12061675"
+        },
+        {
+          "fact": "In March 2026 the Ministry of Transportation and Transit said local governments must first determine the preferred service model, governance structure and local funding; the corridor has no regional transit commission, which is required before a regional motor fuel tax can fund transit.",
+          "source_url": "https://www.squamishchief.com/local-news/sea-to-sky-transit-push-hits-provincial-governance-hurdle-12007318"
+        },
+        {
+          "fact": "Highway 99 safety: 355 crashes in the Squamish area in 2025 (up from 295) and a 64% rise in collisions in Q1 2026 despite a jump in speeding tickets; the RCMP is forming a highway working group to identify high-collision zones and press the Province for design changes.",
+          "source_url": "https://www.squamishchief.com/local-news/violent-crime-highway-collisions-rise-in-squamish-rcmp-says-12308567"
+        },
+        {
+          "fact": "Downtown paid parking: council decided in March 2025 not to proceed downtown until at least 2027; a paid-parking pilot at tourism locations (e.g., Darrell Bay, about $3/hour to a $10/day maximum in peak months) runs to the end of 2026.",
+          "source_url": "https://www.squamishchief.com/local-news/paid-parking-to-be-implemented-at-squamishs-darrell-bay-by-this-summer-10371967"
+        }
+      ],
+      "sources": [
+        "https://news.gov.bc.ca/releases/2026TT0008-000012",
+        "https://www.bctransit.com/transit-service-expansion-in-squamish-2025-12-18/",
+        "https://www.squamishchief.com/local-news/squamishs-bus-system-is-becoming-more-robust-12479719",
+        "https://www.piquenewsmagazine.com/cover-stories/missed-connections-12061675",
+        "https://www.squamishchief.com/local-news/sea-to-sky-transit-push-hits-provincial-governance-hurdle-12007318",
+        "https://www.squamishchief.com/local-news/update-highway-99-closuresea-to-sky-highway-reopened-at-2-am-after-serious-crash-12511828",
+        "https://letstalksquamish.ca/parking-management"
+      ],
+      "teaser": "Inside town, Squamish's BC Transit bus system has been expanding, partly paid for by local property taxes.",
+      "short_explainer": "Inside town, Squamish's BC Transit bus system has been expanding, partly paid for by local property taxes. What Squamish still lacks is any public bus to Vancouver or Whistler; only private coaches run, and a regional service studied since 2017 has stalled over who pays and who governs it."
+    },
+    {
+      "key": "parking",
+      "title": "Parking",
+      "teaser": "How much parking new buildings must include, whether to charge for it, and whether to build more.",
+      "short_explainer": "Parking comes up in almost every conversation about downtown and about new buildings. Council does not just decide whether to charge for parking. It also decides how much parking each new building must include, and it has often allowed less.",
+      "explainer": "Parking comes up in almost every conversation about downtown and about new buildings. Council does not just decide whether to charge for parking. It also decides how much parking each new building must include, and it has often allowed less. Supporters of less parking say it makes homes cheaper to build, and that more people will walk, bike or take the bus as the town fills in. Critics say most Squamish households still need a car, often two, and that the cars simply end up on the street. There are three live questions. First, new buildings: council can cut the required parking for one project (a variance), let a builder pay cash instead of building stalls, or drop the requirement entirely, as it did in 2025 for small lots near future frequent bus routes. Second, paid parking: a 2023 District study found the downtown core close to full at peak times and recommended charging on Cleveland and Second avenues, but council has put that off until at least 2027 and is running a pilot at Darrell Bay instead, where locals pay too. Third, more supply: a 2020 study priced a downtown parkade at $10 million to $25 million, and the District says it will try managing demand first. Some candidates say downtown has a shortage of spaces. Others say it has enough spaces that are poorly managed.",
+      "key_facts": [
+        {
+          "fact": "Downtown paid parking is on hold. At a March 11, 2025 committee meeting council chose a paid-parking pilot at Darrell Bay only, which the Squamish Chief reported 'means that paid-parking will not move forward in downtown Squamish until at least 2027'. Staff are to report back with an evaluation in early 2027.",
+          "source_url": "https://www.squamishchief.com/local-news/paid-parking-to-be-implemented-at-squamishs-darrell-bay-by-this-summer-10371967"
+        },
+        {
+          "fact": "The Darrell Bay pilot started in summer 2025 and costs $3 an hour to a maximum of $10 a day in peak months (June to September), with lower fees the rest of the year. Council dropped the proposed resident pass, so locals pay too.",
+          "source_url": "https://letstalksquamish.ca/parking-management"
+        },
+        {
+          "fact": "The District's 2023 Downtown Parking Study found the commercial core (Cleveland and Second, Main to Pemberton) 67% full on weekdays and 76% on weekends, peaking at 87-88% around noon on weekends, while downtown residential streets were about 45-50% full. It recommended paid parking, resident permits, more enforcement and loading zones.",
+          "source_url": "https://www.squamishreporter.com/2023/09/11/parking-in-downtown-squamish-core-at-near-capacity-dos-report/"
+        },
+        {
+          "fact": "A 2020 District-commissioned study priced a downtown parkade at about $10 million (200 stalls) to $25 million (400 stalls), or $50,000 to $63,000 per stall. It said user fees could recoup construction costs in 'anywhere from 2 to 12 years depending upon the parkade size and rate structure chosen', and that cash-in-lieu collected from developers at the then rate of $15,000 a stall would raise only about $4.7 million.",
+          "source_url": "https://squamish.ca/assets/Parking/200226-DoS-Downtown-Parkade-Study.pdf"
+        },
+        {
+          "fact": "The District says it will try demand management before a parkade: 'Prior to advancing towards the construction of a parkade the District intends to use alternative parking management approaches to manage demand', such as enforcement, paid parking and resident-exempt permits, because of the cost and the land a parkade needs.",
+          "source_url": "https://letstalksquamish.ca/parking-management"
+        },
+        {
+          "fact": "In May 2024 council unanimously removed off-street parking requirements for secondary suites, coach houses (ADUs) and multi-unit flex units, and for affordable housing projects. It kept a minimum of one stall per unit in multiplexes, which is more parking than the Province recommended.",
+          "source_url": "https://www.squamishchief.com/local-news/squamish-council-rubber-stamps-new-housing-zone-and-fewer-parking-requirements-8819998"
+        },
+        {
+          "fact": "In September 2025 council voted 5-2 to allow up to six units, with no off-street parking requirement, on R-1 and R-4 lots within 400 metres of a frequent bus route. It only takes effect once a route runs every 15 minutes; no Squamish route does yet. About 100 properties would qualify today.",
+          "source_url": "https://www.squamishreporter.com/2025/09/23/squamish-council-votes-5-2-on-housing-near-transit-routes/"
+        },
+        {
+          "fact": "Downtown developers can pay cash-in-lieu instead of building required commercial parking stalls. At 38026 Second Ave (June 2025) the developer paid $150,000 for five stalls, which is $30,000 a stall.",
+          "source_url": "https://www.squamishchief.com/local-news/more-rental-units-coming-to-downtown-squamish-10775930"
+        },
+        {
+          "fact": "Council has been sending developers' parking cash-in-lieu to the Alternative Forms of Transportation Reserve Fund rather than the Off-Street Parking Facilities Reserve Fund, which exists to pay for parking infrastructure. In April 2026 it did so with $210,000 from the 38140 Third Ave project, over the objections of councillors Andersen and Greenlaw.",
+          "source_url": "https://www.squamishchief.com/real-estate-news/squamish-council-gives-final-approval-to-six-storey-mixed-use-project-on-long-vacant-downtown-lot-12125360"
+        },
+        {
+          "fact": "The Squamish Chief reported in May 2025 that councillors 'are typically in favour of parking variances', but most balked at a University Highlands proposal to cut required parking from 723 stalls to 439 (about 40%) because of poor transit to the hilltop site. Staff had supported the cut, saying full parking would likely mean dropping the 32 affordable units.",
+          "source_url": "https://www.squamishchief.com/local-news/councillors-not-willing-to-support-bold-parking-variance-for-university-highlands-development-10669687"
+        },
+        {
+          "fact": "More than 2,600 people answered the District's 2024-25 parking survey. Themes reported to council included cost of living, where downtown employees would park, business fears of losing customers to places with free parking, frustration with how much parking new developments provide, and the needs of seniors and people with mobility issues.",
+          "source_url": "https://letstalksquamish.ca/parking-management"
+        }
+      ],
+      "sources": [
+        "https://letstalksquamish.ca/parking-management",
+        "https://squamish.ca/assets/Parking/200226-DoS-Downtown-Parkade-Study.pdf",
+        "https://www.squamishchief.com/local-news/councillors-not-willing-to-support-bold-parking-variance-for-university-highlands-development-10669687",
+        "https://www.squamishchief.com/local-news/more-rental-units-coming-to-downtown-squamish-10775930",
+        "https://www.squamishchief.com/local-news/paid-parking-to-be-implemented-at-squamishs-darrell-bay-by-this-summer-10371967",
+        "https://www.squamishchief.com/local-news/squamish-council-rubber-stamps-new-housing-zone-and-fewer-parking-requirements-8819998",
+        "https://www.squamishchief.com/real-estate-news/squamish-council-gives-final-approval-to-six-storey-mixed-use-project-on-long-vacant-downtown-lot-12125360",
+        "https://www.squamishreporter.com/2023/09/11/parking-in-downtown-squamish-core-at-near-capacity-dos-report/",
+        "https://www.squamishreporter.com/2025/09/23/squamish-council-votes-5-2-on-housing-near-transit-routes/"
+      ]
+    },
+    {
+      "key": "economy",
+      "title": "Local economy, employment lands, downtown and tourism",
+      "explainer": "Many Squamish residents commute out of town for work, so creating local jobs is a recurring goal. That requires land and buildings for businesses ('employment lands'), which compete with housing for scarce flat, flood-safe land; council set a goal of a net increase in employment space by September 2026. Tourism is a major employer and brings about two million visitors a year, but residents are increasingly unsure they benefit, citing crowding, congestion and parking. Downtown businesses are also directly affected by the encampment, parking policy and new mixed-use buildings. Candidates differ on how welcoming to be to industry (including LNG), how to manage visitors, and how much commercial space to require in new developments.",
+      "key_facts": [
+        {
+          "fact": "A Tourism Squamish study estimates about two million visitors in 2024 (1.9 million domestic, mostly from Greater Vancouver) who spent $408 million and generated $85 million in tax revenue; just over 65% of domestic visitors were day-trippers.",
+          "source_url": "https://www.squamishchief.com/local-news/tourism-squamish-study-finds-408m-visitor-impact-12179373"
+        },
+        {
+          "fact": "In the accompanying survey of more than 1,200 residents, 86% said tourism is important to the economy, but only 43% agreed it enhances quality of life (38% disagreed); congestion and parking were top concerns.",
+          "source_url": "https://www.squamishchief.com/local-news/tourism-squamish-study-finds-408m-visitor-impact-12179373"
+        },
+        {
+          "fact": "A 2025 study found rock climbing generated $25.4 million in local spending in Squamish in 2025.",
+          "source_url": "https://www.cbc.ca/news/canada/british-columbia/rock-climbing-in-squamish-produced-25-4-million-in-local-spending-in-2025-9.7142118"
+        },
+        {
+          "fact": "Council's 2023-2026 Strategic Plan targets: 'create a net increase of employment lands and spaces both on land and marine by September 2026' and 'increase economic activity in the core'. Whether these targets were met: not found.",
+          "source_url": "https://squamish.ca/government-and-administration/council/strategic-plan/"
+        },
+        {
+          "fact": "The District raised the maximum height in the C-1 Local Commercial zone from three to four storeys to support mixed-use buildings and help offset an employment-space requirement (Neighbourhood Commercial Nodes project).",
+          "source_url": "https://letstalksquamish.ca/neighbourhood-nodes-squamish"
+        },
+        {
+          "fact": "The Oct. 5 all-candidates meeting is hosted by the business community's Joint Engagement Committee (Chamber of Commerce, Downtown Squamish BIA, Tourism Squamish), which also called for consultation on the downtown HEARTH housing site in April 2026.",
+          "source_url": "https://www.squamishreporter.com/2026/04/27/squamish-businesses-call-for-consultation-on-downtown-homeless-housing-proposal/"
+        }
+      ],
+      "sources": [
+        "https://www.squamishchief.com/local-news/tourism-squamish-study-finds-408m-visitor-impact-12179373",
+        "https://investsquamish.ca/about/our-projects/squamish-tourism-impact-study/",
+        "https://investsquamish.ca/about/our-projects/employment-space-research/",
+        "https://squamish.ca/government-and-administration/council/strategic-plan/",
+        "https://letstalksquamish.ca/neighbourhood-nodes-squamish"
+      ],
+      "teaser": "Many Squamish residents commute out of town for work, so creating local jobs is a recurring goal.",
+      "short_explainer": "Many Squamish residents commute out of town for work, so creating local jobs is a recurring goal. That requires land and buildings for businesses ('employment lands'), which compete with housing for scarce flat, flood-safe land; council set a goal of a net increase in employment space by September 2026."
+    },
+    {
+      "key": "recreation_facilities",
+      "title": "Recreation facilities and Brennan Park",
+      "explainer": "Recreation amenities were ranked the single most important issue more often than any other in the Squamish Chief's reader survey. Brennan Park Recreation Centre, the town's only pool and arena complex, was built for a much smaller community and residents have asked for expansion for more than a decade. The District has a staff task force and consultants studying needs and feasibility, reporting in spring 2027, but there is no money yet set aside for a major expansion. The proposed Woodfibre LNG payments could only be used for capital projects such as recreation facilities. Candidates will differ on how big to go, how to pay (borrowing, reserves, LNG money, referendum) and how soon.",
+      "key_facts": [
+        {
+          "fact": "Recreation facilities and community amenities had the best average rank (3.21 of 9) and were named the number-one issue by 26.5% of respondents in the Chief's self-selected reader survey.",
+          "source_url": "https://www.squamishchief.com/local-news/property-taxes-recreation-top-squamish-voters-priorities-12721806"
+        },
+        {
+          "fact": "The Recreation Centre Task Force's three-phase project is in Phase 1 (needs validation, technical feasibility, recommendations), expected to finish in spring 2027; consultants advised against a separate council select committee and noted the project is 'currently unfunded'.",
+          "source_url": "https://www.squamishchief.com/local-news/new-engagement-plan-set-for-brennan-park-recreation-centre-upgrades-12564220"
+        },
+        {
+          "fact": "The District planned about $1 million for consultants to update the parks and recreation master plan and assess Brennan Park upgrades.",
+          "source_url": "https://www.squamishreporter.com/2025/11/30/district-plans-to-spend-1-million-on-consultants-for-brennan-park-upgrades/"
+        },
+        {
+          "fact": "Money from the proposed WLNG Community Enhancement Payments would go to a reserve usable only for council-selected capital projects; the staff report lists recreation facilities among the possible uses.",
+          "source_url": "https://www.squamishreporter.com/2026/09/18/wlng-lawsuits-would-be-dismissed-under-proposed-142-million-squamish-agreement/"
+        }
+      ],
+      "sources": [
+        "https://squamish.ca/rec/rectaskforce/",
+        "https://squamish.ca/projects-plans-and-initiatives/master-plans/facilities/brennan-park-recreation-centre/",
+        "https://www.squamishchief.com/local-news/new-engagement-plan-set-for-brennan-park-recreation-centre-upgrades-12564220",
+        "https://www.squamishchief.com/local-news/property-taxes-recreation-top-squamish-voters-priorities-12721806"
+      ],
+      "teaser": "Recreation amenities were ranked the single most important issue more often than any other in the Squamish Chief's reader survey.",
+      "short_explainer": "Recreation amenities were ranked the single most important issue more often than any other in the Squamish Chief's reader survey. Brennan Park Recreation Centre, the town's only pool and arena complex, was built for a much smaller community and residents have asked for expansion for more than a decade."
+    },
+    {
+      "key": "flood_hazards_climate_resilience",
+      "title": "Flood protection, natural hazards and aging infrastructure",
+      "explainer": "Much of Squamish, including downtown, sits on a floodplain at the mouth of five rivers and on the sea, and the Cheekeye Fan faces rare but very large debris flows from Mount Garibaldi. Protecting the town means steadily raising dikes and maintaining hazard structures, which is expensive and relies heavily on federal and provincial grants. 'Climate resilience and aging infrastructure' ranked third among issues in the Chief's reader survey. In 2026 the District is taking ownership of the new Cheekeye debris barrier, a roughly $100-million asset that taxpayers will have to operate and maintain. These costs sit behind much of the long-term tax plan.",
+      "key_facts": [
+        {
+          "fact": "The $5.4-million Jimmy Jimmy (Judd) Slough project, completed July 2026, raised and widened about 900 metres of the Squamish River dike protecting Brackendale and Garibaldi Estates; it was mostly grant-funded and came in under budget.",
+          "source_url": "https://www.squamishchief.com/local-news/squamish-river-dike-upgrades-complete-after-54m-project-12620477"
+        },
+        {
+          "fact": "Dike upgrades follow the District's 2017 Integrated Flood Hazard Management Plan, which ranked the Judd Slough raise as the top priority.",
+          "source_url": "https://squamish.ca/building-and-land-development/home-land-and-property-development/integrated-flood-hazard-management-plan/"
+        },
+        {
+          "fact": "The District received a $4-million grant toward downtown flood protection (sea dike) improvements.",
+          "source_url": "https://squamish.ca/government-and-administration/district-information/news/district-of-squamish-receives-4-million-grant-for-downtown-flood-protection-improvements/"
+        },
+        {
+          "fact": "The District takes ownership of the Cheekeye debris barrier in 2026 as diking authority and will be responsible for operations and maintenance; council approved a shared tax approach to fund it.",
+          "source_url": "https://www.squamishchief.com/local-news/squamish-council-sets-course-for-future-funding-of-debris-flow-barrier-11330774"
+        },
+        {
+          "fact": "Climate resilience and aging infrastructure ranked third (average 3.70 of 9) in the Chief's reader survey.",
+          "source_url": "https://www.squamishchief.com/local-news/property-taxes-recreation-top-squamish-voters-priorities-12721806"
+        }
+      ],
+      "sources": [
+        "https://news.gov.bc.ca/releases/2026EMCR0033-000896",
+        "https://www.squamishchief.com/local-news/squamish-river-dike-upgrades-complete-after-54m-project-12620477",
+        "https://squamish.ca/building-and-land-development/home-land-and-property-development/integrated-flood-hazard-management-plan/",
+        "https://squamish.ca/building-and-land-development/home-land-and-property-development/cheekeye-fan/"
+      ],
+      "teaser": "Much of Squamish, including downtown, sits on a floodplain at the mouth of five rivers and on the sea, and the Cheekeye Fan faces rare but very large debris flows from Mount Garibaldi.",
+      "short_explainer": "Much of Squamish, including downtown, sits on a floodplain at the mouth of five rivers and on the sea, and the Cheekeye Fan faces rare but very large debris flows from Mount Garibaldi. Protecting the town means steadily raising dikes and maintaining hazard structures, which is expensive and relies heavily on federal and provincial grants."
+    },
+    {
+      "key": "other_campaign_topics",
+      "title": "Also in the conversation: childcare, short-term rentals, vanlife, Indigenous relations",
+      "explainer": "Several smaller topics recur in 2026 coverage. Childcare is scarce and expensive, and is cited as the main reason Squamish's living wage exceeds Metro Vancouver's. Short-term rentals are limited to an operator's principal residence, with a capped number of temporary permits for suites, and enforcement has been uneven. The Chief's editorial board has asked candidates for their approach to people living in vehicles ('vanlifers') alongside street disorder. The District's relationship with the Squamish Nation (Skwxwu7mesh Uxwumixw), a major landowner and development partner, ranked in the top three issues for about 23% of survey respondents.",
+      "key_facts": [
+        {
+          "fact": "The 2025 Squamish living wage report attributes Squamish's higher-than-Metro-Vancouver living wage largely to higher childcare costs.",
+          "source_url": "https://www.squamishreporter.com/2025/11/18/squamish-living-wage-rises-to-28-per-hour-amid-rising-costs/"
+        },
+        {
+          "fact": "A childcare building is included in the 249-unit Oceanfront rental proposal that went to council in July 2026.",
+          "source_url": "https://www.squamishreporter.com/2026/07/10/council-to-consider-249-unit-rental-development-for-oceanfront/"
+        },
+        {
+          "fact": "Short-term rentals are permitted only in an operator's principal residence; the District capped Temporary Use Permits for non-principal-residence suites/coach houses at 30, and the first permits issued in 2021 expire in 2026. Staff acknowledged enforcement dropped in 2025 due to staffing shortages, while listings fell 16%.",
+          "source_url": "https://www.squamishchief.com/highlights/short-term-rental-listings-fall-16-in-squamish-but-compliance-gaps-remain-12026735"
+        },
+        {
+          "fact": "The Squamish Chief's Sept. 16, 2026 editorial asks candidates for specifics on reducing parking, the LNG relationship, street disorder and 'easing tensions for and with vanlifers', Brennan Park, and property taxes.",
+          "source_url": "https://www.squamishchief.com/2026-civic-election/editorial-why-squamish-voters-deserve-specific-answers-from-candidates-12783144"
+        },
+        {
+          "fact": "Indigenous relations: about 23% of Chief survey respondents ranked it in their top three issues (average rank 5.69 of 9). Advance voting on Oct. 10 is at Totem Hall, a Squamish Nation facility.",
+          "source_url": "https://www.squamishchief.com/local-news/property-taxes-recreation-top-squamish-voters-priorities-12721806"
+        },
+        {
+          "fact": "Mayor Armand Hurford is not seeking re-election, so the mayor's seat is open; Coun. Jenna Stoner is running for mayor and Couns. John French, Andrew Hamilton and Chris Pettingill are seeking re-election to council.",
+          "source_url": "https://www.squamishchief.com/local-news/squamish-mayor-armand-hurford-wont-run-for-position-next-election-10788389"
+        }
+      ],
+      "sources": [
+        "https://squamish.ca/home-and-property/bylaws-and-guidelines/short-term-rentals/",
+        "https://www.squamishchief.com/highlights/short-term-rental-listings-fall-16-in-squamish-but-compliance-gaps-remain-12026735",
+        "https://www.squamishchief.com/2026-civic-election/editorial-why-squamish-voters-deserve-specific-answers-from-candidates-12783144",
+        "https://www.squamishreporter.com/2026/03/03/local-elections-2026-will-squamish-councillors-run-again/",
+        "https://www.squamishchief.com/local-news/central-hub-for-squamish-chief-2026-election-coverage-12725517"
+      ],
+      "teaser": "Several smaller topics recur in 2026 coverage.",
+      "short_explainer": "Several smaller topics recur in 2026 coverage. Childcare is scarce and expensive, and is cited as the main reason Squamish's living wage exceeds Metro Vancouver's."
+    }
+  ]
+}

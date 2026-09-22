@@ -1,0 +1,20 @@
+export const OFFICIAL = {
+ "Daniel Deal": "vote.daniel.for.mayor@gmail.com",
+ "Sean Easton": "sean@seaneaston.com",
+ "Jenna Stoner": "jennaforsquamish@gmail.com",
+ "Eric Andersen": "se_andersen@telus.net",
+ "Ian Brown": "ian@ianbrownsquamish.com",
+ "Kieran Brownie": "kieranbrownie.squamish@gmail.com",
+ "Janice DesJardins": "desjardinsforcouncil@gmail.com",
+ "Sarah Ellis": "sarahellisforsquamish@gmail.com",
+ "John French": "johnsqfrench@gmail.com",
+ "Sean Goodwin": "sean.goodwin2026@gmail.com",
+ "Andrew Hamilton": "andrew@andrewforsquamish.ca",
+ "A. John Lowe": "scotialowe@gmail.com",
+ "Anders Ourom": "aiourom@telus.net",
+ "Luc Perreault": "lucperreault2026@gmail.com",
+ "Chris Pettingill": "chris@chrisforsquamish.ca",
+ "Laura Prosko": "lauraproskoforcouncil@gmail.com",
+ "Chris Ryan": "chrisryansquamishcouncil@gmail.com",
+ "Shaun Veltkamp": "shaunveltkamp@gmail.com"
+};

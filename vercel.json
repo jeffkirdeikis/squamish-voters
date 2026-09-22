@@ -1,0 +1,30 @@
+{
+  "buildCommand": "node build.mjs",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.squamishvoters.com"
+        }
+      ],
+      "destination": "https://squamishvoters.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "squamish-votes.vercel.app"
+        }
+      ],
+      "destination": "https://squamishvoters.com/$1",
+      "permanent": false
+    }
+  ]
+}

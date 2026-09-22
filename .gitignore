@@ -1,0 +1,14 @@
+node_modules
+dist
+.vercel
+.env*
+.admin-token
+.DS_Store
+# internal working material, not part of the published guide
+research/
+outreach/
+candidate-survey.md
+*.pdf
+!public/docs/*.pdf
+data/candidates.pre-*.json
+scratchpad/

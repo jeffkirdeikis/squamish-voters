@@ -1,0 +1,369 @@
+[
+ {
+  "id": "q1",
+  "issue": "growth",
+  "topic": "Growth",
+  "short": "Slow growth",
+  "text": "Squamish is growing too fast. Council should slow the pace of new development approvals.",
+  "why": "Squamish has been one of the fastest-growing communities in B.C. Some say roads, schools and services can’t keep up; others say slowing down pushes prices higher.",
+  "core": true
+ },
+ {
+  "id": "q2",
+  "issue": "growth",
+  "topic": "Growth",
+  "short": "Taller buildings",
+  "text": "Taller buildings (above 6 storeys) should be allowed downtown and near transit and services.",
+  "why": "Building up fits more homes on less land, but changes views and the feel of downtown.",
+  "core": true
+ },
+ {
+  "id": "q3",
+  "issue": "growth",
+  "topic": "Growth",
+  "short": "New neighbourhoods",
+  "text": "Squamish should open new land and new neighbourhoods for housing, rather than adding density to existing ones.",
+  "why": "Building out spreads growth to new areas instead of changing existing streets, but it needs new roads, pipes and services.",
+  "core": true
+ },
+ {
+  "id": "q4",
+  "issue": "housing_affordability",
+  "topic": "Housing",
+  "short": "Public $ for housing",
+  "text": "The District should put more public money and land into non-market and below-market housing.",
+  "why": "Non-market housing is rented or sold below market rates, usually run by a non-profit. It costs public money or land.",
+  "core": true,
+  "what": {
+   "term": "Non-market housing",
+   "def": "homes rented or sold for less than the going rate, usually run by a non-profit so they stay cheaper for good."
+  }
+ },
+ {
+  "id": "q5",
+  "issue": "homelessness",
+  "topic": "Homelessness",
+  "short": "More shelter space",
+  "text": "Squamish needs more shelter and supportive-housing spaces, even if they are located near residential areas.",
+  "why": "Supportive housing gives people a home with on-site help. Where to put it is often the hardest question.",
+  "core": true,
+  "what": {
+   "term": "Supportive housing",
+   "def": "homes for people leaving homelessness, with staff on site to help with health, addiction or daily life."
+  }
+ },
+ {
+  "id": "q6",
+  "issue": "policing",
+  "topic": "Policing",
+  "short": "More police",
+  "text": "Squamish should fund more RCMP officers and policing.",
+  "why": "Policing is one of the biggest lines in the District budget. More officers means higher costs.",
+  "core": true
+ },
+ {
+  "id": "q7",
+  "issue": "taxes_spending",
+  "topic": "Taxes",
+  "short": "Hold taxes down",
+  "text": "Keeping property tax increases at or below inflation should be a top priority, even if it means cutting services or delaying projects.",
+  "why": "Recent tax increases have been above inflation, partly to pay for aging facilities and new staff.",
+  "core": true
+ },
+ {
+  "id": "q23",
+  "issue": "taxes_spending",
+  "topic": "Taxes",
+  "short": "Woodfibre tax deal",
+  "text": "The District should sign the proposed 10-year tax agreement with Woodfibre LNG.",
+  "why": "This is about money, not whether you like the plant. If yes: $142 million is locked in and the court cases end, but the amount can’t go up. If no: Woodfibre keeps paying normal taxes — staff guess $9 to $29 million a year — the court cases carry on, and the Province could cap the rate.",
+  "core": true,
+  "what": {
+   "term": "The tax deal",
+   "def": "Woodfibre LNG would pay Squamish at least $142 million over 10 years — a fixed, much lower tax bill plus set yearly payments — and drop its lawsuits over its 2025 and 2026 taxes."
+  }
+ },
+ {
+  "id": "q8",
+  "issue": "environment_lng",
+  "topic": "Environment",
+  "short": "Press Woodfibre on impacts",
+  "text": "The District should use its permit powers to press Woodfibre LNG on local impacts, even if that means delays or legal fights.",
+  "why": "In 2024 council refused the permit for Woodfibre’s floating worker housing 4–3; the Province overrode it, and Woodfibre is now suing over the delay. The other view: approve permits promptly and work with the company. The tax deal is a separate question.",
+  "core": true,
+  "what": {
+   "term": "What council can actually do",
+   "def": "It cannot stop the Woodfibre LNG plant — senior governments approved it and it is being built. Council controls local permits, such as the floating worker housing (the “floatel”) and workers’ lodges, plus local rules on traffic, noise and safety, and it can press the Province to enforce the plant’s conditions."
+  },
+  "text_was": "The District should take a tough line on Woodfibre LNG and its impacts."
+ },
+ {
+  "id": "q9",
+  "issue": "environment_lng",
+  "topic": "Environment",
+  "short": "Climate priority",
+  "text": "Climate action should be a top council priority, even when it adds cost.",
+  "why": "This covers things like building rules, electric vehicle charging, and flood and wildfire protection.",
+  "core": true
+ },
+ {
+  "id": "q10",
+  "issue": "economy",
+  "topic": "Local economy",
+  "short": "Cut red tape",
+  "text": "The District should cut red tape and speed up permits for builders and businesses.",
+  "why": "Faster approvals can lower costs and bring jobs. Rules also exist to protect neighbours and the environment.",
+  "core": true
+ },
+ {
+  "id": "q11",
+  "issue": "transportation",
+  "topic": "Transportation",
+  "short": "Regional transit",
+  "text": "Regional transit to Vancouver and Whistler is worth spending local tax dollars on.",
+  "why": "There is no public commuter bus on the Sea to Sky Highway. Starting one would likely need local money as well as provincial money.",
+  "core": true
+ },
+ {
+  "id": "q37",
+  "issue": "parking",
+  "topic": "Parking",
+  "short": "Parking in new buildings",
+  "text": "New buildings should have to provide enough parking for the people who live there, instead of being approved with less.",
+  "why": "Council decides how much parking a new building needs. It can cut that number for one project (a “variance”), let the builder pay cash instead of building stalls (“cash-in-lieu”), or drop the requirement altogether, as it has near future frequent bus routes. Less parking makes homes cheaper to build and suits people without cars. Critics say the cars end up on the street.",
+  "core": true
+ },
+ {
+  "id": "q12",
+  "issue": "taxes_spending",
+  "topic": "Recreation",
+  "short": "Brennan Park",
+  "text": "Major recreation investments, like renewing Brennan Park, should go ahead even if the District has to borrow.",
+  "why": "Fixing it up or making it bigger could cost tens of millions of dollars, and there is no money set aside for it yet.",
+  "core": true,
+  "what": {
+   "term": "Brennan Park",
+   "def": "Squamish’s main recreation centre, with the town’s only public pool and ice rink. It was built when the town was much smaller."
+  }
+ },
+ {
+  "id": "q18",
+  "issue": "homelessness",
+  "topic": "Homelessness",
+  "short": "Move Under One Roof",
+  "text": "The Under One Roof shelter and its services should be moved out of downtown.",
+  "why": "Some say downtown carries too much of the load and that street disorder hurts businesses. Others say services need to be where people already are, and that moving them only moves the problem.",
+  "core": true,
+  "what": {
+   "term": "Under One Roof",
+   "def": "the building on Third Avenue downtown with Squamish’s emergency shelter beds and about 39 homes with on-site support. It is run by the charity Squamish Helping Hands."
+  }
+ },
+ {
+  "id": "q31",
+  "issue": "homelessness",
+  "topic": "Homelessness",
+  "short": "Clear encampments",
+  "core": true,
+  "text": "The District should clear tent encampments from public spaces, even when there is nowhere else for those people to go.",
+  "why": "This is the sharpest split on the issue: enforcement first, or shelter first. Clearing a camp restores the public space, but people move on to another one unless housing is available."
+ },
+ {
+  "id": "q34",
+  "issue": "other_campaign_topics",
+  "topic": "District spending",
+  "short": "Inclusion spending",
+  "core": true,
+  "text": "Spending on inclusion and community symbols — such as rainbow crosswalks, flags and proclamations — is a good use of District money.",
+  "why": "Supporters call it a cheap, visible signal that everyone belongs. Critics call it money that should go to roads, policing or taxes."
+ },
+ {
+  "id": "q13",
+  "issue": "housing_affordability",
+  "topic": "Housing",
+  "short": "Below-market share",
+  "text": "Large new developments should be required to include a fixed share of below-market homes, even if that means fewer homes get built.",
+  "why": "Called inclusionary zoning. It creates affordable units at no direct cost to taxpayers, but developers say it makes some projects unviable.",
+  "core": false
+ },
+ {
+  "id": "q14",
+  "issue": "growth",
+  "topic": "Growth",
+  "short": "Rules not deals",
+  "text": "Height and density should follow clear rules set in advance, rather than being negotiated project by project.",
+  "why": "Today much of Squamish's density is agreed case by case, along with what the developer gives back.",
+  "core": false
+ },
+ {
+  "id": "q15",
+  "issue": "housing_affordability",
+  "topic": "Housing",
+  "short": "Keep District land",
+  "text": "The District should hold on to the land it owns and use it for housing, rather than selling it to fund other things.",
+  "why": "Selling land raises money now; keeping it gives council a lever on future housing.",
+  "core": false
+ },
+ {
+  "id": "q16",
+  "issue": "housing_affordability",
+  "topic": "Housing",
+  "short": "Short-term rentals",
+  "text": "Short-term rentals like Airbnb should be restricted further in Squamish.",
+  "why": "Every home rented to visitors is one not rented to a resident — but some owners rely on that income.",
+  "core": false
+ },
+ {
+  "id": "q17",
+  "issue": "homelessness",
+  "topic": "Homelessness",
+  "short": "Vehicle living",
+  "text": "The District should provide a sanctioned place on public land for people living in vehicles.",
+  "why": "People are sleeping in vans and cars around town. A sanctioned lot brings rules and services; neighbours often object to the location.",
+  "core": false
+ },
+ {
+  "id": "q19",
+  "issue": "policing",
+  "topic": "Policing",
+  "short": "More bylaw officers",
+  "text": "The District should put more bylaw enforcement officers downtown.",
+  "why": "Bylaw officers handle things short of crime — camping, noise, parking, street disorder.",
+  "core": false
+ },
+ {
+  "id": "q20",
+  "issue": "policing",
+  "topic": "Policing",
+  "short": "Crisis response",
+  "text": "The District should fund mental-health and outreach crisis response teams alongside the RCMP.",
+  "why": "The idea is that a trained worker, not a police officer, answers some calls. It costs money on top of policing.",
+  "core": false
+ },
+ {
+  "id": "q21",
+  "issue": "taxes_spending",
+  "topic": "Taxes",
+  "short": "Referendum on big projects",
+  "text": "Capital projects above a set cost should go to a public referendum before council approves them.",
+  "why": "It gives residents a direct say, but adds months and cost to every large project.",
+  "core": false
+ },
+ {
+  "id": "q22",
+  "issue": "taxes_spending",
+  "topic": "Recreation",
+  "short": "Borrow for Brennan Park",
+  "text": "The District should borrow to renew Brennan Park now rather than wait until it can be paid for from savings.",
+  "why": "Borrowing means starting sooner and paying interest; waiting means an aging facility for longer.",
+  "core": false
+ },
+ {
+  "id": "q24",
+  "issue": "environment_lng",
+  "topic": "Environment",
+  "short": "Greener new buildings",
+  "text": "New buildings should have to meet higher energy standards, even if that raises the cost of building.",
+  "why": "Tighter standards cut emissions and bills later, but add to the upfront price of a home.",
+  "core": false
+ },
+ {
+  "id": "q25",
+  "issue": "parking",
+  "topic": "Parking",
+  "short": "Paid parking",
+  "text": "Paid parking downtown is a fair way to manage demand for spaces.",
+  "why": "The District’s 2023 study recommended paid parking on Cleveland and Second avenues. Charging frees up spaces and raises money; some worry it pushes shoppers away. Council has put it off until at least 2027.",
+  "core": false
+ },
+ {
+  "id": "q36",
+  "issue": "parking",
+  "topic": "Parking",
+  "short": "More public parking",
+  "text": "Downtown Squamish needs more public parking, and the District should get it built.",
+  "why": "A 2020 study priced a downtown parkade at $10 million to $25 million. Supporters say visitor fees or developers’ money could pay for it. Others say downtown has enough spaces and the real problem is how they are managed.",
+  "core": false
+ },
+ {
+  "id": "q38",
+  "issue": "parking",
+  "topic": "Parking",
+  "short": "Locals park free",
+  "text": "If Squamish brings in paid parking, residents should park free and only visitors should pay.",
+  "why": "In 2025 council voted 5–2 to drop the resident pass from the Darrell Bay paid-parking pilot, so locals pay there too. Some candidates want free permits for residents; others say exempting locals defeats the purpose of managing demand.",
+  "core": false
+ },
+ {
+  "id": "q26",
+  "issue": "transportation",
+  "topic": "Transportation",
+  "short": "Bike lanes and sidewalks",
+  "text": "The District should spend local money on protected bike lanes and sidewalks.",
+  "why": "Safer routes for walking and cycling, paid for from the local budget.",
+  "core": false
+ },
+ {
+  "id": "q27",
+  "issue": "economy",
+  "topic": "Local economy",
+  "short": "Protect job land",
+  "text": "Land set aside for industry and jobs should be protected from being rezoned for housing.",
+  "why": "Housing pressure makes industrial land valuable to build on — but a town with no job land becomes a commuter suburb.",
+  "core": false
+ },
+ {
+  "id": "q28",
+  "issue": "flood_hazards_climate_resilience",
+  "topic": "Flood & hazards",
+  "short": "Flood protection",
+  "text": "The District should increase spending on dikes and flood protection, even if it means higher taxes.",
+  "why": "Much of Squamish sits on a floodplain and the dikes need work.",
+  "core": false
+ },
+ {
+  "id": "q29",
+  "issue": "other_campaign_topics",
+  "topic": "Squamish Nation",
+  "short": "Joint decisions",
+  "text": "The District should formalize shared decision-making with the Squamish Nation on land use.",
+  "why": "Going beyond consultation to a standing agreement on how decisions get made together.",
+  "core": false
+ },
+ {
+  "id": "q30",
+  "issue": "other_campaign_topics",
+  "topic": "Childcare",
+  "short": "More childcare",
+  "text": "The District should actively work to expand subsidized childcare spaces.",
+  "why": "Childcare is mainly provincial, but the town can provide land, space and faster approvals.",
+  "core": false
+ },
+ {
+  "id": "q32",
+  "issue": "homelessness",
+  "topic": "Homelessness",
+  "short": "Safety first",
+  "core": false,
+  "text": "When public safety downtown and services for homeless people pull in different directions, safety should come first.",
+  "why": "A question about priorities rather than a specific project."
+ },
+ {
+  "id": "q33",
+  "issue": "homelessness",
+  "topic": "Homelessness",
+  "short": "Spread housing out",
+  "core": false,
+  "text": "Supportive and low-income housing should be spread across all neighbourhoods rather than concentrated downtown.",
+  "why": "Spreading it shares the load but puts projects on streets that often object."
+ },
+ {
+  "id": "q35",
+  "issue": "policing",
+  "topic": "Policing",
+  "short": "Drug use in public",
+  "core": false,
+  "text": "The District should use bylaws to stop open drug use in parks, sidewalks and other public spaces.",
+  "why": "B.C. law limits what a municipality can do here, but councils can set bylaws and direct enforcement."
+ }
+]
