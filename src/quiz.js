@@ -8,6 +8,7 @@
   // Below this you disagree more than you agree. Such a candidate is never presented as a pick,
   // even when so few candidates are matchable that they'd otherwise fall into the top 6.
   var RECOMMEND = 55;
+  var THIN = 6; // below this many comparable answers the card says "only N" — a 76% on five questions is weaker than a 61% on ten
   var CHOICES = [[2, 'Strongly agree'], [1, 'Somewhat agree'], [0, 'Mixed — I’m in the middle'], [-1, 'Somewhat disagree'], [-2, 'Strongly disagree']];
   var state = SV.store.get('sv26_quiz', null) || { answers: {}, important: {}, i: 0, done: false };
 
@@ -56,15 +57,26 @@
       '<a class="match" href="/candidates/' + c.slug + '/">' + avatar(c) +
       '<span class="match-txt"><b>' + esc(c.name) + '</b>' + (c.direct ? '<span class="badge direct">✓ Answered us directly</span>' : '') +
       '<span class="meter" aria-hidden="true"><span style="width:' + r.pct + '%"></span></span>' +
-      '<span class="pctline"><b class="pct">' + r.pct + '%</b> ' + (r.pct < RECOMMEND ? 'match — you mostly disagree' : 'match') + ' · ' + 'based on ' + (r.n < 5 ? 'only ' : '') + r.n + ' of your ' + answeredCount() + ' answers' + '</span></span>' +
+      '<span class="pctline"><b class="pct">' + r.pct + '%</b> ' + (r.pct < RECOMMEND ? 'match — you mostly disagree' : 'match') + ' · ' + 'based on ' + (r.n < THIN ? 'only ' : '') + r.n + ' of your ' + answeredCount() + ' answers' + '</span></span>' +
       '<span class="go" aria-hidden="true">\u203a</span></a>' +
       '<div class="match-foot no-print"><button type="button" class="btn secondary add" aria-label="Add ' + esc(c.name) + ' to my ballot" data-pick="' + c.slug + '" data-office="' + c.office + '" data-name="' + esc(c.name) + '">+ Add</button>' +
-      '<details id="why-' + c.slug + '"><summary>Why ' + r.pct + '%? You’re close on ' + r.rows.filter(function (x) { return x.d <= 1; }).length + ' of ' + r.n + '</summary><p class="small">✓ close to you · ~ partly · ✕ far apart</p><ul class="agree-list">' +
+      '<details id="why-' + c.slug + '"><summary>Why ' + r.pct + '%? ' + tally(r.rows) + '</summary><p class="small">✓ same answer as you (counts in full) · ~ one step off (counts two-thirds) · ✕ further apart (counts a third or nothing)</p><ul class="agree-list">' +
       r.rows.slice().sort(function (a, b) { return a.d - b.d; }).map(function (x) {
-        return '<li class="' + (x.d <= 1 ? 'same' : x.d >= 3 ? 'diff' : 'part') + '"><b>' + esc(x.q.short) + ':</b> ' + esc(c.name.split(' ').slice(-1)[0]) + ' ' + word(x.v) + '</li>';
+        return '<li class="' + (x.d === 0 ? 'same' : x.d === 1 ? 'part' : 'diff') + '"><b>' + esc(x.q.short) + ':</b> ' + esc(c.name.split(' ').slice(-1)[0]) + ' ' + word(x.v) + '</li>';
       }).join('') + '</ul><p class="small">Based on ' + r.n + ' of your ' + Q.length + ' answers.</p></details></div></div>';
   }
 
+  // Headline for the "Why N%?" toggle. The buckets are the same ones the score uses, so the
+  // words and the number can't disagree (a voter once read "close on 9 of 10" as a 90% match).
+  function tally(rows) {
+    var same = 0, near = 0;
+    rows.forEach(function (x) { if (x.d === 0) same++; else if (x.d === 1) near++; });
+    var far = rows.length - same - near, parts = [];
+    if (same) parts.push('same answer on ' + same);
+    if (near) parts.push('one step off on ' + near);
+    if (far) parts.push('further apart on ' + far);
+    return 'Of ' + rows.length + ': ' + parts.join(', ');
+  }
   function good(list) { return list.filter(function (r) { return r.pct >= RECOMMEND; }); }
   function resultCard(m, c) {
     var gm = good(m).slice(0, 1), gc = good(c).slice(0, 6), picks = gm.concat(gc);

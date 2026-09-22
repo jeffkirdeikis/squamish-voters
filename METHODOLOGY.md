@@ -64,8 +64,13 @@ Rules around the percentage:
   "match — you mostly disagree". If fewer than 6 council candidates clear 55%, fewer
   are shown; the list is never padded.
 - Ties are broken by more overlapping questions first, then alphabetically.
-- Every match card shows "based on N of your M answers" so a high match on few
-  questions is visibly weaker than one on many.
+- Every match card shows "based on N of your M answers", and says "only N" when the
+  overlap is under 6 (`THIN`), so a 76% on five questions is visibly weaker than a 61%
+  on ten.
+- The "Why N%?" toggle uses the same three buckets as the credit curve: ✓ same answer
+  (full credit), ~ one step off (two-thirds), ✕ further apart (a third or nothing). It
+  used to count one-step answers as ✓ "close", which let a voter read "close on 9 of 10"
+  as a 90% match while the number said 61%.
 
 Why the credit curve is `1 - d/3` and not `1 - d/4`: the original curve gave a "mixed"
 voter half credit against a candidate who strongly agrees, which read to voters as
