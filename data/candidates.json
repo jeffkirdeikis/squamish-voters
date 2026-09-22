@@ -3595,7 +3595,7 @@
   "incumbent": false,
   "incumbent_role": null,
   "slug": "laura-prosko",
-  "occupation_background": "Executive with 15+ years in stakeholder, Indigenous and government relations on major B.C. infrastructure and energy projects (Enbridge, Woodfibre LNG, Massey Tunnel replacement). She says she was recruited to move to Squamish in 2020 to work on Woodfibre LNG (until May 2025) and, per The Squamish Reporter, is now executive director of a business improvement association (not named). Has served on boards/volunteered with the Squamish Chamber of Commerce, Westwinds Squamish Senior Living Society, Rotary, PACs and others.",
+  "occupation_background": "Executive Director of the Central Lonsdale Business Improvement Association (North Vancouver), with more than 15 years of senior leadership experience in Indigenous and stakeholder relations on three major B.C. projects (Enbridge, Woodfibre LNG, Massey Tunnel replacement) representing about $27 billion in investment. She says she was recruited to move to Squamish in 2020 to work on Woodfibre LNG (until May 2025). Serves on the Westwinds Seniors Board and the International Cultural Heritage Society, previously served with the Squamish Chamber of Commerce, has been involved with Rotary, and is trained as an Emergency Support Services Officer and Information Officer.",
   "tagline": "“It's time to build a sustainable Squamish - affordable, safe, prosperous and ready for the future.”",
   "top_priorities": [
    "Housing, Affordability, Growth and Infrastructure",
@@ -3607,23 +3607,39 @@
   "supports": [
    {
     "text": "A property tax freeze for 2027 and 2028, funded by budget efficiencies, senior-government grants and public-private partnerships",
-    "source_url": "https://www.squamishchief.com/local-news/laura-prosko-touts-industry-ties-pitches-property-tax-freeze-in-squamish-council-bid-12793364"
+    "source_url": "/candidates/laura-prosko/statement/#p1"
    },
    {
     "text": "Fast-tracking permits and zoning for rental, workforce and missing-middle housing; a Workforce Housing Strategy",
-    "source_url": "https://www.lauraprosko.com/priorities"
+    "source_url": "/candidates/laura-prosko/statement/#p1"
+   },
+   {
+    "text": "Investing in basics that haven't kept pace with growth: roads, sidewalks, water and sewer, street lighting and parks",
+    "source_url": "/candidates/laura-prosko/statement/#p1"
+   },
+   {
+    "text": "A thorough Official Community Plan review and stronger emergency and flood preparedness",
+    "source_url": "/candidates/laura-prosko/statement/#p1"
    },
    {
     "text": "Expanding Brennan Park (pool and ice rink) as an urgent priority in year one",
-    "source_url": "https://www.lauraprosko.com/priorities"
+    "source_url": "/candidates/laura-prosko/statement/#p4"
    },
    {
     "text": "A 10-year financial agreement and a 40-year MOU with Woodfibre LNG, plus legacy projects from WLNG and FortisBC (she worked on the Woodfibre LNG project from 2020 to May 2025)",
-    "source_url": "https://www.lauraprosko.com/priorities"
+    "source_url": "/candidates/laura-prosko/statement/#p3"
+   },
+   {
+    "text": "A new District liaison role, held by a Squamish Nation member, on Woodfibre LNG regulation, local content and procurement",
+    "source_url": "/candidates/laura-prosko/statement/#p3"
    },
    {
     "text": "Permit decisions in under 8 weeks for straightforward applications, and a small-business liaison at the District",
-    "source_url": "https://www.lauraprosko.com/priorities"
+    "source_url": "/candidates/laura-prosko/statement/#p2"
+   },
+   {
+    "text": "A Tourism Master Plan in year one of the next council term",
+    "source_url": "/candidates/laura-prosko/statement/#p2"
    },
    {
     "text": "More downtown parking, for example along Loggers Lane",
@@ -3631,15 +3647,27 @@
    },
    {
     "text": "Protecting and expanding public access to the waterfront",
-    "source_url": "https://www.lauraprosko.com/priorities"
+    "source_url": "/candidates/laura-prosko/statement/#p1"
+   },
+   {
+    "text": "Pressing Vancouver Coastal Health and the Regional Hospital District for a firm timeline on a new long-term care facility, and for more hospice and acute-care capacity at Squamish General Hospital",
+    "source_url": "/candidates/laura-prosko/statement/#p4"
+   },
+   {
+    "text": "A Squamish Poverty Reduction and Affordability Strategy",
+    "source_url": "/candidates/laura-prosko/statement/#p4"
    },
    {
     "text": "Supporting RCMP, fire rescue, emergency services and stronger mental health supports",
-    "source_url": "https://www.lauraprosko.com/priorities"
+    "source_url": "/candidates/laura-prosko/statement/#p4"
    },
    {
-    "text": "A public capital-projects dashboard, an annual Budget Town Hall and a Multiculturalism Advisory Committee",
-    "source_url": "https://www.lauraprosko.com/priorities"
+    "text": "Half-price dog tags every January",
+    "source_url": "/candidates/laura-prosko/statement/#p4"
+   },
+   {
+    "text": "A public capital-projects dashboard, an annual Budget Town Hall, a Multiculturalism Advisory Committee and quarterly \"Coffee with Your Councillor\" sessions",
+    "source_url": "/candidates/laura-prosko/statement/#p5"
    }
   ],
   "opposes": [
@@ -3653,7 +3681,7 @@
    },
    {
     "text": "The province shifting further tax burden onto local small businesses",
-    "source_url": "https://www.lauraprosko.com/priorities"
+    "source_url": "/candidates/laura-prosko/statement/#p2"
    },
    {
     "text": "Polarization in local decision-making over industry vs. environment",
@@ -3667,7 +3695,7 @@
   "stances": {
    "growth": {
     "position": "Managed mix",
-    "summary": "Frames her approach as 'balanced' and 'responsible' growth: fast-track rental, workforce and missing-middle housing while catching up on core infrastructure and leading a thorough OCP review. No stated position on building heights or greenfield expansion.",
+    "summary": "Frames her approach as 'balanced' and 'responsible' growth: fast-track rental, workforce and missing-middle housing while catching up on core infrastructure (roads, sidewalks, water and sewer, street lighting, parks) and leading a thorough OCP review. No stated position on building heights or greenfield expansion.",
     "quote": "Squamish's future does not depend on choosing one priority over another. It depends on finding the right balance between growth, sustainability, community well-being, and long-term prosperity.",
     "source_url": "https://www.squamishchief.com/opinion/squamish-letter-long-history-of-industry-and-innovation-12431511",
     "confidence": "medium"
@@ -3683,14 +3711,14 @@
     "position": "General support for vulnerable residents; no specifics",
     "summary": "Platform promises a Squamish Poverty Reduction and Affordability Strategy, 'stronger mental health supports' and to 'support vulnerable people in accessing the help and services they need'. No statement found on shelters, supportive housing, Under One Roof or encampments.",
     "quote": null,
-    "source_url": "https://www.lauraprosko.com/priorities",
+    "source_url": "/candidates/laura-prosko/statement/#p4",
     "confidence": "low"
    },
    "policing": {
     "position": "Supports RCMP and emergency services",
     "summary": "Platform says she will 'prioritize community safety and support RCMP, fire rescue, emergency services and stronger mental health supports'. No specific position found on officer counts, RCMP budget or bylaw enforcement.",
-    "quote": null,
-    "source_url": "https://www.lauraprosko.com/priorities",
+    "quote": "Prioritize community safety and support RCMP, fire rescue, emergency services and stronger mental health supports.",
+    "source_url": "/candidates/laura-prosko/statement/#p4",
     "confidence": "medium"
    },
    "taxes_spending": {
@@ -3718,7 +3746,7 @@
     "position": "Pro-business: cut red tape, diversify, leverage major projects",
     "summary": "Wants sub-8-week permit decisions, a small-business liaison, investment attraction in tech, film, outdoor recreation and port/rail, a Tourism Master Plan in year one, and local-content opportunities from Woodfibre LNG for Squamish businesses and workers.",
     "quote": null,
-    "source_url": "https://www.lauraprosko.com/priorities",
+    "source_url": "/candidates/laura-prosko/statement/#p2",
     "confidence": "high"
    },
    "parking": {
@@ -3764,6 +3792,10 @@
   "photo_url": "https://www.lauraprosko.com/images/laura-profile.webp",
   "sources": [
    {
+    "title": "Laura Prosko: platform statement sent to Squamish Voters (Sept 22 2026), in full",
+    "url": "/candidates/laura-prosko/statement/"
+   },
+   {
     "title": "Laura Prosko campaign site - Five Point Plan",
     "url": "https://www.lauraprosko.com/priorities"
    },
@@ -3788,9 +3820,17 @@
     "url": "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/"
    }
   ],
-  "research_notes": "Sept 20 2026 LNG split: q8 now covers the plant's impacts only; the 10-year tax deal is scored separately as q23. q23=-1 — Says the current agreement 'should wait until after the election'; wants 'a stronger 10-year financial agreement'. Against THIS deal now, not against a deal. (https://www.squamishchief.com/local-news/laura-prosko-touts-industry-ties-pitches-property-tax-freeze-in-squamish-council-bid-12793364). q8 scored 0: she wants the pending WLNG agreement held for a stronger deal, but her framing throughout is partnership, not a tough line, and she worked on the project from 2020 to May 2025. PARKING (Sept 21 2026, research/parking-0921.json): q36 +1: Freeze property taxes. Build attainable housing. Expand Brennan Park. Protect waterfront access. Increase downtown parking. (https://www.lauraprosko.com/priorities) | q37 +1: She is not in favour of parking variances for development applications. (https://www.squamishchief.com/local-news/laura-prosko-touts-industry-ties-pitches-property-tax-freeze-in-squamish-council-bid-12793364)",
+  "research_notes": "Sept 20 2026 LNG split: q8 now covers the plant's impacts only; the 10-year tax deal is scored separately as q23. q23=-1 — Says the current agreement 'should wait until after the election'; wants 'a stronger 10-year financial agreement'. Against THIS deal now, not against a deal. (https://www.squamishchief.com/local-news/laura-prosko-touts-industry-ties-pitches-property-tax-freeze-in-squamish-council-bid-12793364). q8 scored 0: she wants the pending WLNG agreement held for a stronger deal, but her framing throughout is partnership, not a tough line, and she worked on the project from 2020 to May 2025. PARKING (Sept 21 2026, research/parking-0921.json): q36 +1: Freeze property taxes. Build attainable housing. Expand Brennan Park. Protect waterfront access. Increase downtown parking. (https://www.lauraprosko.com/priorities) | q37 +1: She is not in favour of parking variances for development applications. (https://www.squamishchief.com/local-news/laura-prosko-touts-industry-ties-pitches-property-tax-freeze-in-squamish-council-bid-12793364) Sept 22 2026: Laura emailed Squamish Voters her full 'Meet Laura' + Five-Point Plan text (same plan as her website, plus: BIA named as Central Lonsdale BIA; boards; LTC/hospice asks; dog tags; Coffee with Your Councillor). Published in full at /candidates/laura-prosko/statement/ with the 'Sent us their platform' badge. No quiz scores changed — she said she will fill in the questionnaire separately.",
   "photo": "img/laura-prosko.jpg",
-  "photo_credit": "candidate’s campaign"
+  "photo_credit": "candidate’s campaign",
+  "direct": {
+   "kind": "statement",
+   "date": "2026-09-22",
+   "url": "/candidates/laura-prosko/statement/",
+   "file": "statement-laura-prosko.html",
+   "title": "Meet Laura / Five-Point Plan for a Sustainable Squamish",
+   "how": "sent this statement to Squamish Voters by email"
+  }
  },
  {
   "name": "Chris Ryan",

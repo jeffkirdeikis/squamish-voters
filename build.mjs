@@ -311,7 +311,7 @@ function directNotice(c) {
   if (c.direct.kind === 'email') return `<div class="notice direct"><b>✓ New — ${f} answered us by email.</b> On ${when}, ${f} sent Squamish Voters written answers about ${esc(c.direct.topic)}. They are published in full, word for word. <a href="#emailed">Read ${f}’s answers</a>.</div>`;
   return isDirectQ(c)
     ? `<div class="notice direct"><b>✓ Verified — in ${f}’s own words.</b> ${f} filled in our candidate questionnaire on ${when}. It was sent from the email address ${f} filed with the District of Squamish. Everything marked <span class="badge direct">✓ Direct answer</span> below is ${f}’s own answer, not our reading of the public record. <a href="#questionnaire">Jump to all answers</a>.</div>`
-    : `<div class="notice direct"><b>✓ New — sent to us by ${f}.</b> ${f} sent Squamish Voters a platform statement on ${when}. The supports, against list and topics below now come from it. <a href="${esc(c.direct.url)}" target="_blank" rel="noopener">Read the original (PDF)</a>.</div>`;
+    : `<div class="notice direct"><b>✓ New — sent to us by ${f}.</b> ${f} sent Squamish Voters a platform statement on ${when}. The supports, against list and topics below now come from it. ${/\.pdf$/i.test(c.direct.url) ? `<a href="${esc(c.direct.url)}" target="_blank" rel="noopener">Read the original (PDF)</a>` : `<a href="${esc(c.direct.url)}">Read it in full, in ${f}’s own words →</a>`}.</div>`;
 }
 // Written answers a candidate emailed us: published whole, never trimmed or reworded.
 function emailedAnswers(c) {
@@ -772,6 +772,19 @@ write('/vote/', page({
   <p class="small">Event list from the <a href="${esc((ctx.coverage_hubs || [])[1]?.url || '')}" target="_blank" rel="noopener">Squamish Chief’s running list</a>, updated as new events are announced. All details here come from the District of Squamish — <a href="${esc(gv.source_url)}" target="_blank" rel="noopener">check the official page</a> for last-minute changes.</p>`,
 }));
 
+// A platform statement a candidate sent us as text (not a PDF): published whole on its own page, like a positions paper.
+for (const c of all.filter((x) => x.direct?.kind === 'statement' && x.direct.file)) {
+  const f = esc(first(c));
+  write(c.direct.url, page({
+    url: '/candidates/', title: `${c.name}: platform statement, in full`,
+    desc: `${c.name}’s own platform statement for the 2026 Squamish election, sent to Squamish Voters, in full.`,
+    body: `<p class="crumbs"><a href="/candidates/${c.slug}/">← ${esc(c.name)}’s profile</a></p>
+    <h1>${esc(c.name)}: platform statement, in full</h1>
+    <div class="notice direct"><b>These are ${f}’s own words, not ours.</b> ${f} ${esc(c.direct.how)} on ${esc(fmtLong(c.direct.date))}, under the title “${esc(c.direct.title.replace(/[“”]/g, "'"))}”. It is published whole; nothing has been cut or reworded. Spot a typing mistake? <a href="mailto:${esc(SITE.contact)}">Tell us</a>.</div>
+    <div class="paper">${pageFile(c.direct.file)}</div>
+    <div class="btn-row"><a class="btn secondary" href="/candidates/${c.slug}/">← Back to ${f}’s profile</a></div>`,
+  }));
+}
 for (const c of all.filter((x) => x.paper)) {
   const f = esc(first(c));
   write(c.paper.url, page({
