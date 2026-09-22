@@ -650,6 +650,8 @@ write('/issues/', page({
 const clientData = {
   questions: QUESTIONS.map((q) => ({ id: q.id, text: q.text, short: q.short, why: q.why, topic: q.topic, what: q.what || null })),
   candidates: all.map((c) => ({ slug: c.slug, name: c.name, office: c.office, incumbent: !!c.incumbent, initials: initials(c), photo: hasPhoto(c) ? '/' + c.photo : null, answers: c.quiz_answers || {}, direct: isDirectQ(c) })),
+  // For the "before you see your matches" notice: how thin the record still is.
+  stats: { total: all.length, answered: all.filter(isDirectQ).length, unmatched: all.filter((c) => QUESTIONS.filter((q) => typeof c.quiz_answers?.[q.id] === 'number').length < 4).length },
 };
 fs.mkdirSync(DIST, { recursive: true });
 fs.writeFileSync(path.join(DIST, 'data.js'), 'window.SV_DATA=' + JSON.stringify(clientData) + ';');

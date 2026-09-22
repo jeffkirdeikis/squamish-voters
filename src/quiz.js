@@ -80,6 +80,15 @@
       '<div class="btn-row no-print"><button type="button" class="btn" id="saveall">Save these to my ballot</button><button type="button" class="btn secondary" id="share">Share</button></div></div>';
   }
 
+  var ST = D.stats || {};
+  function caveat() { return '<b>Not all candidates</b> have answered our questionnaire yet.'; }
+  // Shown once, between the last answer and the results, so nobody reads a match as a verdict.
+  function renderGate() {
+    root.innerHTML = '<div class="gate"><h2>Before you see your matches</h2>' +
+      '<p>These results are <b>unbiased, but not yet fully reliable</b>. ' + caveat() + ' For the others we scored their public statements and votes, and some candidates have said very little, so they can’t be matched well or at all yet.</p>' +
+      '<p>Please treat this as a starting point, not an answer. Every candidate has a profile on this site with their positions and sources. Read them before you decide.</p>' +
+      '<div class="btn-row"><button class="btn big" id="showres" type="button">Show my matches →</button><a class="btn secondary" href="/candidates/">Browse the candidates</a></div></div>';
+  }
   function renderResults() {
     var answered = Q.filter(function (q) { return typeof state.answers[q.id] === 'number'; }).length;
     if (answered < MIN_OVERLAP) {
@@ -90,6 +99,7 @@
     function ranked(office) { return all.filter(function (r) { return r.c.office === office && r.pct !== null; }).sort(function (a, b) { return b.pct - a.pct || b.n - a.n; }); }
     function thin(office) { return all.filter(function (r) { return r.c.office === office && r.pct === null; }); }
     var m = ranked('mayor'), c = ranked('council'), html = '';
+    html += '<p class="reminder">Based on the public record. ' + caveat() + ' <a href="/candidates/">Browse all candidates</a>.</p>';
     html += resultCard(m, c);
     html += '<h2>For Mayor <span class="small">(you vote for 1)</span></h2>' + m.map(function (r, i) { return matchCard(r, i === 0 && r.pct >= RECOMMEND); }).join('');
     html += thinList(thin('mayor'));
@@ -114,7 +124,7 @@
     var intro = document.getElementById('quiz-intro');
     if (intro) intro.hidden = state.done || state.i > 0;
     if (state.done && !state.counted) { state.counted = true; save(); SV.track('Quiz finished'); }
-    if (state.done) renderResults(); else renderQuestion();
+    if (state.done && !state.ack) renderGate(); else if (state.done) renderResults(); else renderQuestion();
   }
 
   root.addEventListener('click', function (e) {
@@ -132,6 +142,8 @@
       // how far people get (every 5th question) — the step number only, never the answer
       if ((state.i + 1) % 5 === 0 && state.i + 1 < Q.length) SV.track('Quiz reached', { question: state.i + 1 });
       setTimeout(function () { if (state.i < Q.length - 1) state.i++; else state.done = true; save(); render(); focusTop(); }, 450);
+    } else if (t.id === 'showres') {
+      state.ack = true; save(); render(); focusTop();
     } else if (t.id === 'next') {
       if (state.i < Q.length - 1) state.i++; else state.done = true;
       save(); render(); focusTop();

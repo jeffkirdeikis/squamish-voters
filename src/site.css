@@ -694,3 +694,9 @@ h2.q-text { font-family: Georgia, serif; font-size: clamp(1.3rem, 4.6vw, 1.9rem)
 blockquote.long p { margin: 0 0 .7rem; } blockquote.long { font-style: normal; }
 .ednote { background: var(--warn-bg); color: var(--warn-ink); border-radius: 8px; padding: .5rem .7rem; }
 .means { margin: -.3rem 0 .7rem; } .means summary { font-size: .95rem; min-height: 2.4rem; color: var(--link); font-weight: 600; cursor: pointer; } .means p { font-size: 1rem; color: var(--ink-2); margin: .3rem 0 .5rem; max-width: 46rem; }
+/* quiz: notice shown once before the results */
+.gate { background: var(--surface); border: 2px solid var(--brand); border-radius: var(--radius); padding: 1.4rem 1.2rem; box-shadow: var(--shadow); }
+.gate h2 { margin-top: 0; }
+.gate p { font-size: 1.1rem; line-height: 1.5; }
+.gate .btn-row { margin-top: 1rem; }
+.reminder { background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: .7rem .9rem; font-size: .95rem; margin: 0 0 1rem; }
