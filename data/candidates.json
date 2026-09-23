@@ -1000,7 +1000,7 @@
     "url": "https://www.squamishchief.com/local-news/when-is-paid-parking-starting-in-squamish-9993452"
    }
   ],
-  "research_notes": "Sept 20 2026 street-axis recheck: q5=2 — “We have examples of supportive housing projects in neighbourhoods all around the District of Squamish and they are success stories. We have success stories in i” (https://www.squamishchief.com/local-news/squamish-council-waives-fees-and-services-for-new-housing-project-10934574, 2025-07-08). Resolved (was flagged as a data conflict): the local parser merged two separate Feb 10 2026 committee motions into one record. The minutes show (1) a motion by Mayor Hurford, SECONDED BY ANDERSEN, to bring the 'increasing the delegation criteria for Development and Variance Permits' item back with bylaws drafted, which FAILED with Stoner, Pettingill, Greenlaw, Hamilton and French opposed; and (2) a motion by Hamilton to increase the delegated criteria for Development Permits only, which CARRIED with Pettingill, Stoner and Greenlaw opposed. Andersen supported both; the Chief account is correct and there is no conflict. Andersen, French and Hurford separately opposed Hamilton's motion for a costed outside audit of the development review process. PARKING (Sept 21 2026, research/parking-0921.json): q36 +1: We are overlooking, in our planning for the downtown, the need for off-street parking facilities and here is an example of where we can take advantage of an opportunity to put some dollars into that fund. (https://www.squamishchief.com/real-estate-news/squamish-council-gives-final-approval-to-six-storey-mixed-use-project-on-long-vacant-downtown-lot-12125360) | q37 +1: I am in alignment with Councillor Greenlaw’s concerns, in particular with the 400 metre distance. I’m uncomfortable with how far it goes. (https://www.squamishreporter.com/2025/09/23/squamish-council-votes-5-2-on-housing-near-transit-routes/)",
+  "research_notes": "Sept 20 2026 street-axis recheck: q5=2 — “We have examples of supportive housing projects in neighbourhoods all around the District of Squamish and they are success stories. We have success stories in i” (https://www.squamishchief.com/local-news/squamish-council-waives-fees-and-services-for-new-housing-project-10934574, 2025-07-08). Resolved (was flagged as a data conflict): the local parser merged two separate Feb 10 2026 committee motions into one record. The minutes show (1) a motion by Mayor Hurford, SECONDED BY ANDERSEN, to bring the 'increasing the delegation criteria for Development and Variance Permits' item back with bylaws drafted, which FAILED with Stoner, Pettingill, Greenlaw, Hamilton and French opposed; and (2) a motion by Hamilton to increase the delegated criteria for Development Permits only, which CARRIED with Pettingill, Stoner and Greenlaw opposed. Andersen supported both; the Chief account is correct and there is no conflict. Andersen, French and Hurford separately opposed Hamilton's motion for a costed outside audit of the development review process. PARKING (Sept 21 2026, research/parking-0921.json): q36 +1: We are overlooking, in our planning for the downtown, the need for off-street parking facilities and here is an example of where we can take advantage of an opportunity to put some dollars into that fund. (https://www.squamishchief.com/real-estate-news/squamish-council-gives-final-approval-to-six-storey-mixed-use-project-on-long-vacant-downtown-lot-12125360) | q37 +1: I am in alignment with Councillor Greenlaw’s concerns, in particular with the 400 metre distance. I’m uncomfortable with how far it goes. (https://www.squamishreporter.com/2025/09/23/squamish-council-votes-5-2-on-housing-near-transit-routes/) Sept 22 2026 sweep: no 2026 campaign website; the 2022 site ericandersenforsquamish.com no longer resolves. Facebook/Instagram only.",
   "incumbent_label": "Current councillor",
   "photo": "img/eric-andersen.jpg",
   "growth_group": "slow",
@@ -2063,7 +2063,7 @@
     "url": "https://www.ianbrownsquamish.com/"
    }
   ],
-  "research_notes": "Platform is short and general; no positions found on Woodfibre LNG, policing, homelessness, building heights or tax targets. Q11/Q12 scores are inferred from his support for regional transit and rec-centre expansion; he did not explicitly say local tax dollars or borrowing should fund them (he prefers exploring P3s for recreation). Mayoral candidate Sean Easton attended his launch and said the two are aligned on many issues (Chief) - that is Easton's characterization, not Brown's. photo_url is a campaign poster image (photo with name banner and 'Community Leadership' text), not a clean headshot; the Chief article has a plain photo by Liz McDonald (copyright Chief). The Instagram handle on his site (@ianbrownmusic) is a personal/music account, not campaign-specific. The site's blog feed contains a generic Feb 2026 post that reads like template text and was not used. Nomination PDF is a scan and was not machine-readable. Facebook page could not be read.",
+  "research_notes": "Platform is short and general; no positions found on Woodfibre LNG, policing, homelessness, building heights or tax targets. Q11/Q12 scores are inferred from his support for regional transit and rec-centre expansion; he did not explicitly say local tax dollars or borrowing should fund them (he prefers exploring P3s for recreation). Mayoral candidate Sean Easton attended his launch and said the two are aligned on many issues (Chief) - that is Easton's characterization, not Brown's. photo_url is a campaign poster image (photo with name banner and 'Community Leadership' text), not a clean headshot; the Chief article has a plain photo by Liz McDonald (copyright Chief). The Instagram handle on his site (@ianbrownmusic) is a personal/music account, not campaign-specific. The site's blog feed contains a generic Feb 2026 post that reads like template text and was not used. Nomination PDF is a scan and was not machine-readable. Facebook page could not be read. Sept 22 2026 website sweep: ianbrownsquamish.com is already the primary source (10 of 14 items cite it, incl. the 3 transcribed 'On Location' videos). Its nav also has 'My Addresses' — a Wix members-only page behind a login wall with no readable content — plus Events (empty), Photo Gallery and Donations; the blog feed still only has the three Feb 2026 template posts. Nothing new to add.",
   "photo": "img/ian-brown.jpg",
   "photo_credit": "candidate’s campaign"
  },
@@ -2250,7 +2250,7 @@
     "url": "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/"
    }
   ],
-  "research_notes": "Very little public information: essentially one Squamish Chief profile (published today, Sept 19 2026) plus a one-line Instagram bio; Instagram post captions could not be read without login and should be checked manually. No campaign website. Q8 and Q12 are scored 0 (mixed evidence): he raised floatel habitat concerns in 2024 but in 2026 declined a firm WLNG position and stressed the need for an industrial tax base; he wants more rec/third space but not funded from the municipal budget alone. Squamish Access Society directorship is from a 2021 report and current status is unverified; the Squamish Arts and SAS pages were found via search snippets and not read in full. No campaign headshot URL found from his own sources (the Chief article has a photo by Liz McDonald, copyright Chief). Nomination PDF is a scan and was not machine-readable.",
+  "research_notes": "Very little public information: essentially one Squamish Chief profile (published today, Sept 19 2026) plus a one-line Instagram bio; Instagram post captions could not be read without login and should be checked manually. No campaign website. Q8 and Q12 are scored 0 (mixed evidence): he raised floatel habitat concerns in 2024 but in 2026 declined a firm WLNG position and stressed the need for an industrial tax base; he wants more rec/third space but not funded from the municipal budget alone. Squamish Access Society directorship is from a 2021 report and current status is unverified; the Squamish Arts and SAS pages were found via search snippets and not read in full. No campaign headshot URL found from his own sources (the Chief article has a photo by Liz McDonald, copyright Chief). Nomination PDF is a scan and was not machine-readable. Sept 22 2026 sweep: still no campaign website; the Sept 19 Chief profile remains the only platform source.",
   "photo": null
  },
  {
@@ -2304,6 +2304,50 @@
    {
     "text": "An annual 'How are we doing?' questionnaire to residents",
     "source_url": "https://janicedesjardins.com/"
+   },
+   {
+    "text": "'Missing middle' housing — townhouses, duplexes, triplexes and low-rise apartments — throughout the community, with updated zoning and streamlined approvals",
+    "source_url": "https://janicedesjardins.com/highlights/housing"
+   },
+   {
+    "text": "Protecting existing rental stock, incentives for purpose-built rental, and stopping the loss of affordable units to short-term rentals and renovictions",
+    "source_url": "https://janicedesjardins.com/highlights/housing"
+   },
+   {
+    "text": "Higher affordable-housing requirements and stronger community-benefit agreements in new developments, plus a Housing Action Plan with targets, timelines and public progress reports",
+    "source_url": "https://janicedesjardins.com/highlights/housing"
+   },
+   {
+    "text": "More frequent buses on core routes, evening and weekend service, better coverage of newer neighbourhoods, and exploring express regional service with BC Transit and TransLink",
+    "source_url": "https://janicedesjardins.com/highlights/transit"
+   },
+   {
+    "text": "A Seniors Advisory Council (as council did for youth) and implementing the Age Friendly Community Plan council endorsed",
+    "source_url": "https://janicedesjardins.com/seniors"
+   },
+   {
+    "text": "Mayor and council lobbying Victoria 'long and hard' for the cancelled 152-bed long-term care facility, and directing staff to seek private and BC Housing partners for more assisted living",
+    "source_url": "https://janicedesjardins.com/seniors"
+   },
+   {
+    "text": "Ground-level, wheelchair-accessible seniors' housing near shops and services, with Eagle Grove as the model and new developments contributing land or money",
+    "source_url": "https://janicedesjardins.com/seniors"
+   },
+   {
+    "text": "Funding core services and the infrastructure maintenance backlog before adding new programs; a business case, competitive procurement and honest over-budget reporting for every major spend",
+    "source_url": "https://janicedesjardins.com/highlights/taxation"
+   },
+   {
+    "text": "A needs assessment and public consultation before deciding whether to repair, renew or replace Brennan Park, paid for through grants, partnerships, naming rights and phased financing",
+    "source_url": "https://janicedesjardins.com/highlights"
+   },
+   {
+    "text": "Moving restaurant patios off street parking stalls and banning food trucks from parking on Cleveland and 2nd Avenues between Victoria and Pemberton",
+    "source_url": "https://janicedesjardins.com/highlights"
+   },
+   {
+    "text": "Implementing the District's existing Heritage Management Strategy before development pressure makes it too late",
+    "source_url": "https://janicedesjardins.com/highlights"
    }
   ],
   "opposes": [
@@ -2330,6 +2374,14 @@
    {
     "text": "Housing vulnerable seniors together with people with serious mental-health and substance-use disorders in the proposed Government Road supportive housing project (2025 letter)",
     "source_url": "https://www.squamishchief.com/opinion/squamish-letter-resident-raises-concerns-over-mixed-supportive-housing-plan-10923036"
+   },
+   {
+    "text": "Removing any more parking stalls near seniors' facilities and seniors' housing — 'particularly not to put in bike lanes'",
+    "source_url": "https://janicedesjardins.com/seniors"
+   },
+   {
+    "text": "Deferred maintenance, which she calls 'a debt that future taxpayers will pay with interest'",
+    "source_url": "https://janicedesjardins.com/highlights/taxation"
    }
   ],
   "stances": {
@@ -2342,7 +2394,7 @@
    },
    "housing_affordability": {
     "position": "Land bank for employee and housing-society housing (Whistler model)",
-    "summary": "Says Squamish has done the paperwork on affordable housing but barely delivered, and that zoning reform alone does not make anything affordable. Wants a land bank, possibly from Crown land, for employee housing, co-op style ownership and housing society projects, citing Whistler.",
+    "summary": "Says Squamish has done the paperwork on affordable housing but barely delivered, and that zoning reform alone does not make anything affordable. Wants a land bank, possibly from Crown land, for employee housing, co-op style ownership and housing society projects, citing Whistler. Her site's housing page adds: 'missing middle' townhouses and low-rise 'throughout the community' with streamlined approvals, protecting rental stock from short-term rentals and renovictions, higher affordable-housing requirements in new developments, and a Housing Action Plan with targets and public reporting.",
     "quote": "Zoning reform makes building possible, it doesn't make anything affordable. That takes land, covenants, and capital. And those are the three boxes still unticked in Squamish.",
     "source_url": "https://www.squamishchief.com/2026-civic-election/janice-desjardins-hones-in-on-fiscal-responsibility-in-her-run-for-squamish-council-12781514",
     "confidence": "high"
@@ -2375,11 +2427,11 @@
     "confidence": "high"
    },
    "transportation": {
-    "position": "More downtown parking options now; transit position to come",
-    "summary": "Says retail, medical-office and downtown employees need parking options immediately; would explore managing empty stalls in downtown residential buildings and on-street cafe stalls, via a stakeholder parking committee with one councillor. Lists transit as a key issue but has not yet published details.",
+    "position": "More downtown parking now; more frequent buses, evening/weekend service and express regional links",
+    "summary": "Says retail, medical-office and downtown employees need parking options immediately; would explore managing empty stalls in downtown residential buildings and on-street cafe stalls, via a stakeholder parking committee with one councillor. Lists transit as a key issue but has not yet published details. Her transit page calls for more frequent service on core routes, evening and weekend hours, coverage of newer neighbourhoods, better shelters and real-time arrival information, and exploring express regional connections with BC Transit and TransLink. She also wants new developments located and designed to support transit.",
     "quote": "Retail employees, medical offices, and downtown employees all need parking options immediately.",
-    "source_url": "https://janicedesjardins.com/",
-    "confidence": "medium"
+    "source_url": "https://janicedesjardins.com/highlights/transit",
+    "confidence": "high"
    },
    "economy": {
     "position": "Attract industry as an 'economic engine'",
@@ -2412,14 +2464,17 @@
    "q7": 2,
    "q8": null,
    "q9": null,
-   "q10": null,
+   "q10": 1,
    "q11": null,
    "q12": -1,
    "q23": -2,
    "q25": null,
    "q36": 1,
    "q37": 2,
-   "q38": null
+   "q38": null,
+   "q13": 1,
+   "q16": 1,
+   "q21": 2
   },
   "links": {
    "website": "https://janicedesjardins.com/",
@@ -2461,9 +2516,25 @@
    {
     "title": "On parking",
     "url": "https://janicedesjardins.com/highlights"
+   },
+   {
+    "title": "Janice DesJardins campaign website - Housing",
+    "url": "https://janicedesjardins.com/highlights/housing"
+   },
+   {
+    "title": "Janice DesJardins campaign website - Transit",
+    "url": "https://janicedesjardins.com/highlights/transit"
+   },
+   {
+    "title": "Janice DesJardins campaign website - Taxation",
+    "url": "https://janicedesjardins.com/highlights/taxation"
+   },
+   {
+    "title": "Janice DesJardins campaign website - Seniors",
+    "url": "https://janicedesjardins.com/seniors"
    }
   ],
-  "research_notes": "Sept 20 2026 street-axis recheck: q5=0 — “While I fully support creating safe, affordable housing for people in need—including seniors, people with disabilities, and those experiencing homelessness—it i” (https://www.squamishchief.com/opinion/squamish-letter-resident-raises-concerns-over-mixed-supportive-housing-plan-10923036, 2025-07-09). Sept 20 2026 LNG split: q8 now covers the plant's impacts only; the 10-year tax deal is scored separately as q23. q23=-2 — 'She does not support' the agreement; 'not a good deal'. (https://www.squamishchief.com/2026-civic-election/janice-desjardins-hones-in-on-fiscal-responsibility-in-her-run-for-squamish-council-12781514). q8 set to null — Her opposition is entirely about money and timing. A public comment filed under her name (Aug 28) asks about valuation, litigation exposure and deadline flexibility and says her interest is 'not in relitigating whether the project should exist'. If anything her plant stance leans cooperative. Q5 is null: her July 2025 letter says she 'fully support[s] creating safe, affordable housing for people in need - including seniors, people with disabilities, and those experiencing homelessness', and objects only to mixing vulnerable seniors with people actively struggling with serious mental-health and substance-use disorders at 39900 Government Road, less than a kilometre from the new 152-bed long-term care facility. That is not a position on shelter/supportive-housing capacity or siting in general, so q5 stays unscored. PARKING (Sept 21 2026, research/parking-0921.json): q36 +1: There are nowhere near enough parking spaces downtown. [...] This committee would explore: angle parking on downtown streets; a dedicated employee parking lot; use of the old rail bed on Loggers Lane for angle parking [. (https://janicedesjardins.com/highlights) | q37 +2: I will also task the committee with updating parking bylaws to require adequate stalls for all forms of housing — including suites (https://janicedesjardins.com/highlights)",
+  "research_notes": "Sept 20 2026 street-axis recheck: q5=0 — “While I fully support creating safe, affordable housing for people in need—including seniors, people with disabilities, and those experiencing homelessness—it i” (https://www.squamishchief.com/opinion/squamish-letter-resident-raises-concerns-over-mixed-supportive-housing-plan-10923036, 2025-07-09). Sept 20 2026 LNG split: q8 now covers the plant's impacts only; the 10-year tax deal is scored separately as q23. q23=-2 — 'She does not support' the agreement; 'not a good deal'. (https://www.squamishchief.com/2026-civic-election/janice-desjardins-hones-in-on-fiscal-responsibility-in-her-run-for-squamish-council-12781514). q8 set to null — Her opposition is entirely about money and timing. A public comment filed under her name (Aug 28) asks about valuation, litigation exposure and deadline flexibility and says her interest is 'not in relitigating whether the project should exist'. If anything her plant stance leans cooperative. Q5 is null: her July 2025 letter says she 'fully support[s] creating safe, affordable housing for people in need - including seniors, people with disabilities, and those experiencing homelessness', and objects only to mixing vulnerable seniors with people actively struggling with serious mental-health and substance-use disorders at 39900 Government Road, less than a kilometre from the new 152-bed long-term care facility. That is not a position on shelter/supportive-housing capacity or siting in general, so q5 stays unscored. PARKING (Sept 21 2026, research/parking-0921.json): q36 +1: There are nowhere near enough parking spaces downtown. [...] This committee would explore: angle parking on downtown streets; a dedicated employee parking lot; use of the old rail bed on Loggers Lane for angle parking [. (https://janicedesjardins.com/highlights) | q37 +2: I will also task the committee with updating parking bylaws to require adequate stalls for all forms of housing — including suites (https://janicedesjardins.com/highlights) Sept 22 2026 website sweep: her site now has full pages on Housing, Transit, Taxation and Seniors (plus the Parking/Recreation highlights already used). Added 11 supports, 2 opposes. Scored q21 = +2 (referendums on major capital projects, Reporter Sept 14), q10 = +1 ('streamline approvals', 'timely' approval process), q13 = +1 ('higher affordable housing requirements in new developments'), q16 = +1 ('prevent the loss of affordable units to short-term rentals'). Left null: q11 (regional express service, but no word on local tax dollars), q26 (opposes removing parking near seniors' facilities for bike lanes — not a general bike-lane position), q22 (funding 'responsibly' via grants/partnerships is not a statement on borrowing). Note the housing page's missing-middle 'throughout the community' sits alongside her home-page line against high density in established neighbourhoods; q3 kept at +2 since missing middle is low-rise.",
   "photo": "img/janice-desjardins.jpg",
   "photo_credit": "candidate’s campaign"
  },
@@ -2916,7 +2987,7 @@
     "url": "https://udisc.com/leagues/squamish-disc-golf-club-CiZMue"
    }
   ],
-  "research_notes": "Sept 20 2026 LNG split: q8 now covers the plant's impacts only; the 10-year tax deal is scored separately as q23. q23=1 — Chief: he 'thinks the current proposal ... should be approved', while admitting he can't tell if it's a good deal. (+2 if the 'We need this' comment is confirmed his.) (https://www.squamishchief.com/local-news/life-long-squamish-resident-sean-goodwin-seeks-seat-at-city-hall-12787693). q8 set to null — Existing -1 appears to come from his support for signing the deal. Nothing on impacts. (-1 is defensible only if you rely on the 'enough of this fighting the inevitable' public comment and confirm it is the candidate.) q5 left null: moving Under One Roof out of downtown (q18 +2) is a siting position, not a statement on whether Squamish needs more shelter/supportive-housing spaces. q18 +2 rests on a direct, verbatim quote.",
+  "research_notes": "Sept 20 2026 LNG split: q8 now covers the plant's impacts only; the 10-year tax deal is scored separately as q23. q23=1 — Chief: he 'thinks the current proposal ... should be approved', while admitting he can't tell if it's a good deal. (+2 if the 'We need this' comment is confirmed his.) (https://www.squamishchief.com/local-news/life-long-squamish-resident-sean-goodwin-seeks-seat-at-city-hall-12787693). q8 set to null — Existing -1 appears to come from his support for signing the deal. Nothing on impacts. (-1 is defensible only if you rely on the 'enough of this fighting the inevitable' public comment and confirm it is the candidate.) q5 left null: moving Under One Roof out of downtown (q18 +2) is a siting position, not a statement on whether Squamish needs more shelter/supportive-housing spaces. q18 +2 rests on a direct, verbatim quote. Sept 22 2026 sweep: no campaign website found; Chief profile + his questionnaire remain the sources.",
   "photo": null,
   "answer_notes": {
    "q1": "I would agree that we are growing quickly but I think we just need to diversify where we are focusing the growth, we can still grow and maintain a healthy pace of development if we stop densifying the downtown core and leaning heavily on building condo's. I think we also need to start connecting the neighborhoods via new roads. I.e. Crumpit to Finch, Bailey Street, and possibly a road bridge along the tracks out of downtown from Pemberton St.",
@@ -2971,80 +3042,114 @@
   "incumbent": false,
   "incumbent_role": null,
   "slug": "a-john-lowe",
-  "occupation_background": "No public biography found. Nomination papers give his full name as Alexander John Lowe, a Squamish resident.",
-  "tagline": "No platform published yet.",
-  "top_priorities": [],
-  "supports": [],
-  "opposes": [],
+  "occupation_background": "Lifelong Squamish resident who has worked for Squamish Mills, the local forestry business, for about 60 years and is now wrapping up there. He says he would bring new ideas the way he saw councillors work 'back in the day' — meeting people, figuring out the problem and finding a solution through collaboration — and names former mayor Pat Brennan as his inspiration. (Squamish Chief profile, Sept 22, 2026.)",
+  "tagline": "New ideas, found the old-school way: meet people, look at the problem, work out a solution together.",
+  "top_priorities": [
+   "Council, not staff, in control of the District's agenda",
+   "Direct, face-to-face problem solving with residents",
+   "A town that is friendlier to industry, without the environmental damage of the past; more value-added wood businesses",
+   "More parking near downtown on CN land along Loggers Lane — and no paid parking meters"
+  ],
+  "supports": [
+   {
+    "text": "Making Squamish 'friendlier to industry' — but not in the old way that let industry damage the environment",
+    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878"
+   },
+   {
+    "text": "More value-added wood businesses in town instead of shipping logs straight off the foreshore, and harvesting more of the allowable cut locally",
+    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878"
+   },
+   {
+    "text": "Using CN-owned land on Loggers Lane for more parking near downtown, possibly bought and developed by private owners",
+    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878"
+   },
+   {
+    "text": "Council driving the agenda rather than staff: 'I want the councillors to be in control of the District'",
+    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878"
+   },
+   {
+    "text": "Old-school, face-to-face problem solving — meet the person, go and look at the problem, work out how to make it happen (he cites former mayor Pat Brennan)",
+    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878"
+   }
+  ],
+  "opposes": [
+   {
+    "text": "Paid parking meters downtown, which he calls 'stupid': they cost money to install and maintain and would bring in 'peanuts'",
+    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878"
+   },
+   {
+    "text": "Councillors 'not paying attention' and leaving staff to run the District",
+    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878"
+   }
+  ],
   "stances": {
    "growth": {
     "position": "No public position found",
-    "summary": "No public position found.",
+    "summary": "No public statement found. His Squamish Chief profile (Sept 22, 2026) covers industry, parking and how council should work with staff, and nothing on this topic.",
     "quote": null,
-    "source_url": "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/",
+    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878",
     "confidence": "none"
    },
    "housing_affordability": {
     "position": "No public position found",
-    "summary": "No public position found.",
+    "summary": "No public statement found. His Squamish Chief profile (Sept 22, 2026) covers industry, parking and how council should work with staff, and nothing on this topic.",
     "quote": null,
-    "source_url": "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/",
+    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878",
     "confidence": "none"
    },
    "homelessness": {
     "position": "No public position found",
-    "summary": "No public position found.",
+    "summary": "No public statement found. His Squamish Chief profile (Sept 22, 2026) covers industry, parking and how council should work with staff, and nothing on this topic.",
     "quote": null,
-    "source_url": "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/",
+    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878",
     "confidence": "none"
    },
    "policing": {
     "position": "No public position found",
-    "summary": "No public position found.",
+    "summary": "No public statement found. His Squamish Chief profile (Sept 22, 2026) covers industry, parking and how council should work with staff, and nothing on this topic.",
     "quote": null,
-    "source_url": "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/",
+    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878",
     "confidence": "none"
    },
    "taxes_spending": {
     "position": "No public position found",
-    "summary": "No public position found.",
-    "quote": null,
-    "source_url": "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/",
+    "summary": "No statement on taxes or the budget. His only spending comment is that parking meters would cost more to install and maintain than they raise.",
+    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878",
     "confidence": "none"
    },
    "environment_lng": {
     "position": "No public position found",
-    "summary": "No public position found.",
+    "summary": "No public statement found. His Squamish Chief profile (Sept 22, 2026) covers industry, parking and how council should work with staff, and nothing on this topic.",
     "quote": null,
-    "source_url": "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/",
+    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878",
     "confidence": "none"
    },
    "transportation": {
     "position": "No public position found",
-    "summary": "No public position found.",
+    "summary": "No public statement found. His Squamish Chief profile (Sept 22, 2026) covers industry, parking and how council should work with staff, and nothing on this topic.",
     "quote": null,
-    "source_url": "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/",
+    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878",
     "confidence": "none"
    },
    "economy": {
-    "position": "No public position found",
-    "summary": "No public position found.",
-    "quote": null,
-    "source_url": "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/",
-    "confidence": "none"
+    "position": "Friendlier to industry; more value-added wood businesses",
+    "summary": "Says the town needs to be friendlier to industry, 'but not in the old way that allowed industry to damage the environment'. Wants more value-added wood businesses rather than shipping logs straight off the foreshore, and thinks more of the allowable cut could be harvested locally.",
+    "quote": "There's an opportunity because the way we're bringing the logs down, they're going down to the foreshore and then they're getting shipped away.",
+    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878",
+    "confidence": "high"
    },
    "parking": {
-    "position": "No public position found",
-    "summary": "No campaign website, media profile or public statement on parking was found. (Do not attribute statements by 'John Lowe' of Squamish Mills to him; the identity is unconfirmed.)",
-    "quote": null,
-    "source_url": null,
-    "confidence": "none"
+    "position": "No paid parking meters; more parking on CN land along Loggers Lane",
+    "summary": "Calls paid parking meters 'stupid' — they cost money to buy and maintain, need staff, and would raise 'peanuts' while being a nuisance for locals. Points to CN-owned land on Loggers Lane as room for more parking near downtown, saying CN is 'amenable to making things happen' and private owners might buy and develop it.",
+    "quote": "The amount of money that they're going to get from that is peanuts. It's just nuisance value for people in the town.",
+    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878",
+    "confidence": "high"
    }
   },
   "compass": {
    "economic": 0,
    "social": 0,
-   "rationale": "No public statements, platform, website or media profile found as of Sept 19, 2026, so there is no evidence on which to place him. Values are placeholders at centre, not an assessment.",
+   "rationale": "Only one source (the Squamish Chief profile of Sept 22, 2026): pro-industry, anti-parking-meter, council-over-staff. Too thin to place; values are placeholders.",
    "confidence": "low"
   },
   "quiz_answers": {
@@ -3060,8 +3165,8 @@
    "q10": null,
    "q11": null,
    "q12": null,
-   "q25": null,
-   "q36": null,
+   "q25": -2,
+   "q36": 1,
    "q37": null,
    "q38": null
   },
@@ -3075,19 +3180,19 @@
   "photo_url": null,
   "sources": [
    {
+    "title": "Squamish Chief: Promising collaborative problem solving, John Lowe is running for Squamish council (Sept 22, 2026)",
+    "url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878"
+   },
+   {
     "title": "District of Squamish: 2026 Municipal Election Candidates",
     "url": "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/"
    },
    {
     "title": "Nomination papers - Alexander John Lowe (redacted)",
     "url": "https://squamish.ca/assets/elections/2026/A.-John-Lowe_Comms_v2_Redacted.pdf"
-   },
-   {
-    "title": "Squamish Chief: Central hub for 2026 election coverage (no Lowe profile as of Sep 17-19, 2026)",
-    "url": "https://www.squamishchief.com/local-news/central-hub-for-squamish-chief-2026-election-coverage-12725517"
    }
   ],
-  "research_notes": "VERY LITTLE PUBLIC INFO. Filed on the last day of nominations (Sep 11, 2026), acting as own financial agent, no elector organization. No website or socials listed; no Squamish Chief or Squamish Reporter profile found as of Sept 19, 2026 (the Chief appears to be publishing profiles one at a time - re-check its hub). Not an incumbent; does not appear among 2022 winners and no evidence of a previous run found. IDENTITY CAUTION: a 'John Lowe' is the long-time president of logging company Squamish Mills Ltd. (Wood Business magazine; 1999 council minutes), but I found NOTHING confirming that person is this candidate - do not publish that link without confirming with the candidate. Also do not confuse with April Lowe, the school trustee candidate (relationship, if any, unknown). Recommend emailing the candidate a questionnaire.",
+  "research_notes": "Sept 22 2026: first and only profile — Squamish Chief, published Sept 22 (Jennifer Thuncher). It CONFIRMS he is the John Lowe of Squamish Mills (about 60 years there, now wrapping up), which the Sept 19 notes had flagged as unconfirmed. Scored q25 = -2 (paid parking meters are 'stupid') and q36 = +1 (wants more parking near downtown on CN land, though possibly privately developed). No campaign website, no socials (rechecked Sept 22). Photo in the Chief is staff copyright — not used. Not to be confused with April Lowe, school trustee candidate (relationship unknown). Filed on the last day of nominations (Sep 11, 2026), acting as own financial agent, no elector organization. Not an incumbent; no evidence of a previous run.",
   "photo": null
  },
  {
@@ -3392,7 +3497,7 @@
     "url": "https://www.piquenewsmagazine.com/whistler-news/an-elevated-squamish-2497009"
    }
   ],
-  "research_notes": "Sept 21 2026: rebuilt from his own 13-point positions paper (public Facebook post, ~Sept 18 2026; screenshots from Jeff; FB post: https://www.facebook.com/anders.ourom/posts/so-before-i-leave-for-ten-days-at-the-yosemite-facelift-pursuing-my-commitment-t/10164266194121226/). Scores: q3 +1 (reluctantly for amending the GMB for Cheema Lands, #5); q5 +1 (supports the proposed supportive housing building, #4); q7 +1 (temporary freeze then inflation, but would accept more if the alternative is cuts, #3); q23 -1 (“I question the wisdom of the proposed ten year agreement”, #6); q36 +2 (central 3–4 storey parking garage, #7); q37 +1 (no further relaxation unless greater benefits, #7 — conditional, so not +2); q25 0 (“open to the ideas of pay parking”, #7); q17 +1 (permit system if a defined, serviced parking area, #1); q24 +1 (“truly green” buildings, #9; cost not addressed); q15 -1 (would sell the town hall land and if necessary Brennan Park land, #2). NOT scored: q6/q19 (describes what the District can do, no ask), q8 (monitor/lobby, not permit powers), q11 (lobby, no local money), q12 (no word on borrowing), q9, q10, q29, q38. Platform info comes from one Squamish Chief profile (Sep 14, 2026) plus his own Jan 2025 letter to council. His Facebook page (facebook.com/anders.ourom, labelled 'Andersourom' on the District page) could not be read without login - an editor with Facebook access should check it for platform posts. Not an incumbent. I found NO evidence he has run for Squamish council before (he is not among 2022 winners; full 2018/2022 candidate lists were not checked line by line). The BC Achievement page (2022) lists him as from Vancouver; he now files as a Squamish resident. CAUTION: letters to the Chief/Pique calling for a bike ban in Smoke Bluffs and criticizing park infrastructure are signed by PEDER Ourom (a nominator on his papers, presumably a relative) - do not attribute those to Anders. Anders' own letter does call for prohibiting bikes in Smoke Bluffs Park except on the commuter route. All quiz answers are null: nothing he has said maps cleanly onto the 12 statements (his parking-variance remark is about extracting benefits, not permit speed; his civic-centre renewal wish says nothing about borrowing). No headshot from a campaign/official source; the Chief ran a photo (credit Tim Cyr) at https://www.vmcdn.ca/f/files/squamishchief/images/politics-local/andersx2.jpg - permission needed. PARKING (Sept 21 2026, research/parking-0921.json): q37 +1: (Not) conceding on those things from whatever general rules you've set, unless you have tangible benefits that more than balance out what you're losing. And preferably different benefits delivered up front. (https://www.squamishchief.com/2026-civic-election/legal-background-and-community-service-anchor-anders-ouroms-squamish-council-bid-12778062)",
+  "research_notes": "Sept 21 2026: rebuilt from his own 13-point positions paper (public Facebook post, ~Sept 18 2026; screenshots from Jeff; FB post: https://www.facebook.com/anders.ourom/posts/so-before-i-leave-for-ten-days-at-the-yosemite-facelift-pursuing-my-commitment-t/10164266194121226/). Scores: q3 +1 (reluctantly for amending the GMB for Cheema Lands, #5); q5 +1 (supports the proposed supportive housing building, #4); q7 +1 (temporary freeze then inflation, but would accept more if the alternative is cuts, #3); q23 -1 (“I question the wisdom of the proposed ten year agreement”, #6); q36 +2 (central 3–4 storey parking garage, #7); q37 +1 (no further relaxation unless greater benefits, #7 — conditional, so not +2); q25 0 (“open to the ideas of pay parking”, #7); q17 +1 (permit system if a defined, serviced parking area, #1); q24 +1 (“truly green” buildings, #9; cost not addressed); q15 -1 (would sell the town hall land and if necessary Brennan Park land, #2). NOT scored: q6/q19 (describes what the District can do, no ask), q8 (monitor/lobby, not permit powers), q11 (lobby, no local money), q12 (no word on borrowing), q9, q10, q29, q38. Platform info comes from one Squamish Chief profile (Sep 14, 2026) plus his own Jan 2025 letter to council. His Facebook page (facebook.com/anders.ourom, labelled 'Andersourom' on the District page) could not be read without login - an editor with Facebook access should check it for platform posts. Not an incumbent. I found NO evidence he has run for Squamish council before (he is not among 2022 winners; full 2018/2022 candidate lists were not checked line by line). The BC Achievement page (2022) lists him as from Vancouver; he now files as a Squamish resident. CAUTION: letters to the Chief/Pique calling for a bike ban in Smoke Bluffs and criticizing park infrastructure are signed by PEDER Ourom (a nominator on his papers, presumably a relative) - do not attribute those to Anders. Anders' own letter does call for prohibiting bikes in Smoke Bluffs Park except on the commuter route. All quiz answers are null: nothing he has said maps cleanly onto the 12 statements (his parking-variance remark is about extracting benefits, not permit speed; his civic-centre renewal wish says nothing about borrowing). No headshot from a campaign/official source; the Chief ran a photo (credit Tim Cyr) at https://www.vmcdn.ca/f/files/squamishchief/images/politics-local/andersx2.jpg - permission needed. PARKING (Sept 21 2026, research/parking-0921.json): q37 +1: (Not) conceding on those things from whatever general rules you've set, unless you have tangible benefits that more than balance out what you're losing. And preferably different benefits delivered up front. (https://www.squamishchief.com/2026-civic-election/legal-background-and-community-service-anchor-anders-ouroms-squamish-council-bid-12778062) Sept 22 2026 sweep: no campaign website; positions paper (Facebook) + Chief profile remain the sources.",
   "photo": "img/anders-ourom.jpg",
   "photo_credit": "BC Achievement Foundation (2022)",
   "paper": {
@@ -3581,11 +3686,11 @@
     "url": "https://squamish.ca/assets/elections/2026/Luc-Perreault_Comms_Redacted.pdf"
    },
    {
-    "title": "Squamish Chief: Central hub for 2026 election coverage (no Perreault profile as of Sep 17-19, 2026)",
+    "title": "Squamish Chief: Central hub for 2026 election coverage (no Perreault profile as of Sept 22, 2026)",
     "url": "https://www.squamishchief.com/local-news/central-hub-for-squamish-chief-2026-election-coverage-12725517"
    }
   ],
-  "research_notes": "All platform content comes from his own single-page campaign site (the About/Commitment/Priorities/Connect nav items are anchors on one page). No Squamish Chief or Squamish Reporter profile found as of Sept 19, 2026 - re-check the Chief hub. Not an incumbent; no prior run found. Two emails exist: Lucperreault2026@gmail.com on the District's candidate page (used here) and Lucperreault.ctech@gmail.com in his website footer. His site does not name his employer; a third-party contact-scraper listing (RocketReach) associates the name with an engineering technologist role at the Resort Municipality of Whistler - unverified, so left out of the bio. He does not identify the development issue that prompted his run. Photo is the headshot from his campaign site (a second, three-quarter portrait is at .../2eb878a1-ff99-4804-8295-0cf038a64fb0/IMG_1673.PNG); append ?format=500w for a smaller size. Quiz answers are all null by design: his platform is worded generally and never takes a side on the specific trade-offs in the 12 statements (e.g. he wants regional transit 'high on the agenda' but does not say local tax dollars should pay for it; he wants recreation facilities to keep pace but does not address borrowing; he wants 'fiscally responsible governance' but states no tax-increase target). An editor could reasonably score q11 +1 but I did not.",
+  "research_notes": "All platform content comes from his own single-page campaign site (the About/Commitment/Priorities/Connect nav items are anchors on one page). No Squamish Chief or Squamish Reporter profile found as of Sept 19, 2026 - re-check the Chief hub. Not an incumbent; no prior run found. Two emails exist: Lucperreault2026@gmail.com on the District's candidate page (used here) and Lucperreault.ctech@gmail.com in his website footer. His site does not name his employer; a third-party contact-scraper listing (RocketReach) associates the name with an engineering technologist role at the Resort Municipality of Whistler - unverified, so left out of the bio. He does not identify the development issue that prompted his run. Photo is the headshot from his campaign site (a second, three-quarter portrait is at .../2eb878a1-ff99-4804-8295-0cf038a64fb0/IMG_1673.PNG); append ?format=500w for a smaller size. Quiz answers are all null by design: his platform is worded generally and never takes a side on the specific trade-offs in the 12 statements (e.g. he wants regional transit 'high on the agenda' but does not say local tax dollars should pay for it; he wants recreation facilities to keep pace but does not address borrowing; he wants 'fiscally responsible governance' but states no tax-increase target). An editor could reasonably score q11 +1 but I did not. Sept 22 2026 sweep: site unchanged (single page; About/Commitment/Priorities/Connect anchors), all content already captured. Still no Chief or Reporter profile.",
   "photo": "img/luc-perreault.jpg",
   "photo_credit": "candidate’s campaign"
  },
@@ -4027,11 +4132,11 @@
     "url": "https://squamish.ca/assets/elections/2026/Chris-Ryan_Comms_Redacted.pdf"
    },
    {
-    "title": "Squamish Chief 2026 election coverage hub (lists him as a candidate; no profile as of Sept 19)",
+    "title": "Squamish Chief 2026 election coverage hub (lists him as a candidate; no profile as of Sept 22)",
     "url": "https://www.squamishchief.com/local-news/central-hub-for-squamish-chief-2026-election-coverage-12725517"
    }
   ],
-  "research_notes": "Sept 20 2026: platform added from the press release Chris Ryan sent to Squamish Voters (Sept 18). q8 = -1 from his explicit statement that Squamish should work with, not fight, the LNG company. No other quiz scores assigned — the release does not address the other statements directly. Not an incumbent. Nothing beyond the official listing could be found: no campaign website, no Squamish Chief or Squamish Reporter profile as of Sept 19 2026, and no letters, delegations or past candidacies identifiable as him. His only listed channel is a LinkedIn profile, which blocks unauthenticated access, so occupation is unknown. Nomination papers (signed Sept 9, declared Sept 11 2026) contain no platform statement. The name is very common - web hits for 'Chris Ryan' were unrelated people or false matches and were NOT used. Recommend the site show him as 'No public information yet', exclude him from quiz matching, and contact him at the listed email / re-check the Chief hub. PARKING (Sept 21 2026, research/parking-0921.json): q36 +1: The solution: acquire the rail line on Loggers Lane from the provincial government's BC Rail Corporation and the lessee, CN Rail, to continue the bike lane down to Hunter Place Road. This would allow us to create angled  (https://squamishvoters.com/docs/chris-ryan-2026-09-18.pdf) | q37 +1: Builders need to supply sufficient parking instead of opting for cash-in-lieu [...] Parking is needed in all parts of our community as our housing becomes more expensive and several incomes are required to support a mort (https://squamishvoters.com/docs/chris-ryan-2026-09-18.pdf) | q38 +1: press release — Loggers Lane parking \"paid for by visitors but available to our residents and employees with a permit\" (one site, so +1).",
+  "research_notes": "Sept 20 2026: platform added from the press release Chris Ryan sent to Squamish Voters (Sept 18). q8 = -1 from his explicit statement that Squamish should work with, not fight, the LNG company. No other quiz scores assigned — the release does not address the other statements directly. Not an incumbent. Nothing beyond the official listing could be found: no campaign website, no Squamish Chief or Squamish Reporter profile as of Sept 19 2026, and no letters, delegations or past candidacies identifiable as him. His only listed channel is a LinkedIn profile, which blocks unauthenticated access, so occupation is unknown. Nomination papers (signed Sept 9, declared Sept 11 2026) contain no platform statement. The name is very common - web hits for 'Chris Ryan' were unrelated people or false matches and were NOT used. Recommend the site show him as 'No public information yet', exclude him from quiz matching, and contact him at the listed email / re-check the Chief hub. PARKING (Sept 21 2026, research/parking-0921.json): q36 +1: The solution: acquire the rail line on Loggers Lane from the provincial government's BC Rail Corporation and the lessee, CN Rail, to continue the bike lane down to Hunter Place Road. This would allow us to create angled  (https://squamishvoters.com/docs/chris-ryan-2026-09-18.pdf) | q37 +1: Builders need to supply sufficient parking instead of opting for cash-in-lieu [...] Parking is needed in all parts of our community as our housing becomes more expensive and several incomes are required to support a mort (https://squamishvoters.com/docs/chris-ryan-2026-09-18.pdf) | q38 +1: press release — Loggers Lane parking \"paid for by visitors but available to our residents and employees with a permit\" (one site, so +1). Sept 22 2026 sweep: still no campaign website, socials or Chief/Reporter profile; the Sept 18 press release remains the only platform source.",
   "photo": null,
   "direct": {
    "kind": "statement",
