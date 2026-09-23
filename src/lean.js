@@ -53,19 +53,13 @@
   });
   var cta = $('#you-cta');
   if (cta && placedYou) cta.innerHTML = '<b>★ You’re on the lists.</b> The ★ You row shows where your <a href="/quiz/">quiz answers</a> put you. It’s worked out in your browser and never sent anywhere.';
-  var svg = $('.compass-box svg');
-  var yx = score(MAP.x), yy = score(MAP.y);
-  if (svg && yx !== null && yy !== null) {
-    var S = (MAP.W - 2 * MAP.P) / (2 * MAP.R), x = MAP.P + (yx + MAP.R) * S, y = MAP.P + (MAP.R - yy) * S;
-    var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    g.innerHTML = '<circle cx="' + x + '" cy="' + y + '" r="13" fill="#ffb703" stroke="#14211c" stroke-width="2"/><text x="' + x + '" y="' + (y + 6) + '" text-anchor="middle" font-size="17" font-weight="700" fill="#14211c">★</text><text x="' + (x + 18) + '" y="' + (y - 12) + '" font-size="18" font-weight="700" fill="#14211c" paint-order="stroke" stroke="#fcfcfb" stroke-width="4">You</text>';
-    svg.appendChild(g);
-  }
+  // the compass page has a phone chart and a desktop chart; add ★ You to whichever becomes visible
+  if (window.matchMedia) { var mq = matchMedia('(max-width: 620px)'); var re = function () { SV.compassYou(); }; if (mq.addEventListener) mq.addEventListener('change', re); else if (mq.addListener) mq.addListener(re); }
 
   // ----- map dot details -----
   function showDot(g) {
     if (!g) return;
-    $$('.cdot').forEach(function (x) { x.classList.toggle('on', x === g); });
+    $$('.cdot').forEach(function (x) { x.classList.toggle('on', x.getAttribute('data-slug') === g.getAttribute('data-slug')); }); // both charts
     var d = CD[g.getAttribute('data-slug')], e = $('#cdetail'); e.textContent = '';
     var h = document.createElement('h3'); h.style.marginTop = '0'; h.textContent = d.n;
     var u = document.createElement('ul'); d.d.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; u.append(li); });

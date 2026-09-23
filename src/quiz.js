@@ -124,8 +124,11 @@
     if (others.length) html += '<details class="drop"><summary>See the other ' + others.length + ' council candidates we could match</summary>' + others.map(function (r) { return matchCard(r, false); }).join('') + '</details>';
     html += thinList(thin('council'));
         html += '<p class="small">A match is only as good as the public record — some candidates have said very little, so they match on fewer questions. <a href="/about/#quiz">How matching works</a>.</p>';
-    html += '<div class="btn-row no-print"><a class="btn big" href="/my-ballot/">Go to my ballot →</a><a class="btn secondary" href="/compass/">★ See yourself on “Where they lean”</a><button class="btn secondary" id="print" type="button">Print</button><button class="btn secondary" id="restart" type="button">Start again</button></div>';
+    html += '<div class="btn-row no-print"><a class="btn big" href="/my-ballot/">Go to my ballot →</a><a class="btn secondary" href="/compass/">★ See yourself on the full compass</a><button class="btn secondary" id="print" type="button">Print</button><button class="btn secondary" id="restart" type="button">Start again</button></div>';
     root.innerHTML = html;
+    // The small compass with ★ You, right under the shortlist
+    var tpl = document.getElementById('tpl-compass'), card = root.querySelector('.result-card');
+    if (tpl && card) { var mc = tpl.content.firstElementChild.cloneNode(true); card.parentNode.insertBefore(mc, card.nextSibling); if (!SV.compassYou(mc)) mc.remove(); } // needs to be on the page to measure labels
     SV.renderPicks();
   }
   function thinList(list) {

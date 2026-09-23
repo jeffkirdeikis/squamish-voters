@@ -182,9 +182,10 @@ const ICON = {
   compare: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>',
   quiz: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M9.3 9.300a2.8 2.8 0 1 1 3.9 2.600c-.8.4-1.2 1-1.2 1.9"/><path d="M12 17.200v.1"/></svg>',
   vote: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 13h16v7.500H4z"/><path d="M8 13l1.5-8.500h5L16 13"/><path d="M10 8.500l1.5 1.5 2.5-3"/></svg>',
+  compass: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>',
   ballot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 8.500l1.2 1.2 2-2.400M8.5 14.500l1.2 1.2 2-2.400M14 9h2M14 15h2"/></svg>',
 };
-const TABS = [['/', 'Home', 'home'], ['/candidates/', 'Candidates', 'people'], ['/quiz/', 'Quiz', 'quiz'], ['/compare/', 'Compare', 'compare'], ['/vote/', 'Voting', 'vote']];
+const TABS = [['/', 'Home', 'home'], ['/candidates/', 'People', 'people'], ['/quiz/', 'Quiz', 'quiz'], ['/compass/', 'Compass', 'compass'], ['/compare/', 'Compare', 'compare'], ['/vote/', 'Voting', 'vote']];
 
 function page({ url, title, desc, body, hero = '', scripts = '', noindex = false }) {
   const cur = (href) => ((href === '/' ? url === '/' : url.startsWith(href)) ? ' aria-current="page"' : '');
@@ -457,7 +458,8 @@ write('/compare/', page({
   body: `<h1>Compare the candidates</h1>
   <p class="lede">Pick an issue to see where everyone stands, side by side. Candidates for mayor are marked in yellow.</p>
   ${COMPARE_BLOCK}
-  <div class="grid cols-2" style="margin-top:1.5rem"><a class="card" href="/compass/"><h3>Where they lean</h3><p>The same candidates placed on money, growth, and Woodfibre LNG &amp; climate.</p></a><a class="card" href="/issues/"><h3>The issues explained</h3><p>Plain-language background on what this election is actually about.</p></a></div>`,
+  ${miniCompass({ heading: 'The same candidates on one map' })}
+  <a class="card" href="/issues/" style="display:block;margin-top:1.5rem"><h3>The issues explained</h3><p>Plain-language background on what this election is actually about.</p></a>`,
 }));
 
 // ---------- HOME (written after Compare because it reuses COMPARE_BLOCK) ----------
@@ -478,6 +480,7 @@ write('/', page({
   <h2>Running for Mayor <span class="small">— you vote for 1</span></h2>
   <div class="faces">${mayors.map(faceTile).join('')}</div>
   <div class="btn-row"><a class="btn secondary block" href="/candidates/#council">See all ${council.length} council candidates →</a></div>
+  ${miniCompass()}
   <div class="lean-teaser" data-carousel aria-roledescription="carousel" aria-label="Where they lean">
     <div class="lt-head">
       <span class="lt-kicker">Where they lean <span class="lt-count" data-car-count></span></span>
@@ -523,38 +526,98 @@ write('/candidates/', page({
 }));
 
 // ---------- COMPASS ----------
-function compassSvg() {
-  const W = 600, H = 600, P = 46, R = 2.15, S = (W - 2 * P) / (2 * R); // scores run -2..+2
+// mini: the small version for home, quiz results and Compare. Bigger type (it is drawn smaller), short axis words,
+// and not tappable — the whole chart is a link to the full one. data-map lets site.js add the ★ You dot.
+function compassSvg({ mini = false, tap = !mini } = {}) {
+  const W = 600, H = 600, P = mini ? 62 : 46, R = 2.15, S = (W - 2 * P) / (2 * R); // scores run -2..+2
+  const FS = mini ? 32 : 18, AFS = mini ? 27 : 18, DR = mini ? 13 : 10, cw = FS * 0.6;
   const px = (v) => P + (v + R) * S, py = (v) => P + (R - v) * S;
   const pts = placed.map((c) => { const p = compassPos(c); return { c, thin: p.thin, x: px(p.x.v), y: py(p.y.v) }; });
-  pts.forEach((p, i) => pts.slice(0, i).forEach((o) => { if (Math.hypot(p.x - o.x, p.y - o.y) < 24) { p.x += 20; p.y += 16; } }));
+  const near = mini ? 30 : 24;
+  pts.forEach((p, i) => pts.slice(0, i).forEach((o) => { if (Math.hypot(p.x - o.x, p.y - o.y) < near) { p.x += near * 0.83; p.y += near * 0.67; } }));
   const boxes = [];
   const hit = (b) => boxes.some((o) => b.x < o.x + o.w && b.x + b.w > o.x && b.y < o.y + o.h && b.y + b.h > o.y);
-  pts.forEach((p) => boxes.push({ x: p.x - 12, y: p.y - 12, w: 24, h: 24 }));
-  pts.forEach((p) => {
-    const name = lastName(p.c), w = name.length * 10.8 + 6, h = 26;
-    const opts = [[14, -9, 'start'], [-14 - w, -9, 'end'], [-w / 2, -32, 'middle'], [-w / 2, 14, 'middle'], [12, -28, 'start'], [12, 10, 'start'], [-12 - w, -28, 'end'], [-12 - w, 10, 'end']];
-    let best = opts[0];
-    for (const o of opts) { const b = { x: p.x + o[0], y: p.y + o[1], w, h }; if (!hit(b) && b.x > 4 && b.x + w < W - 4) { best = o; break; } }
-    const b = { x: p.x + best[0], y: p.y + best[1], w, h }; boxes.push(b);
-    p.lx = best[2] === 'start' ? b.x : best[2] === 'end' ? b.x + w : b.x + w / 2; p.ly = b.y + 18; p.anchor = best[2];
-  });
+  pts.forEach((p) => boxes.push({ x: p.x - DR - 2, y: p.y - DR - 2, w: 2 * DR + 4, h: 2 * DR + 4 }));
+  // keep names off the four axis titles
+  const tw = (t) => t.replace(/&amp;/g, '&').length * AFS * 0.62;
+  const L0 = mini ? ['▲ HOUSING & SUPPORT', '▼ ENFORCEMENT & ORDER', '◀ SPEND MORE', 'LOWER TAXES ▶'] : ['▲ HOUSING & SUPPORT FIRST', '▼ ENFORCEMENT & ORDER FIRST', '◀ LEFT · SPEND MORE ON SERVICES', 'RIGHT · LOWER TAXES ▶'];
+  boxes.push({ x: W / 2 - tw(L0[0]) / 2, y: P - 16 - AFS, w: tw(L0[0]), h: AFS + 6 }, { x: W / 2 - tw(L0[1]) / 2, y: H - P + 8, w: tw(L0[1]), h: AFS + 8 },
+    { x: P - 18 - AFS, y: H / 2 - tw(L0[2]) / 2, w: AFS + 4, h: tw(L0[2]) }, { x: W - P + 8, y: H / 2 - tw(L0[3]) / 2, w: AFS + 6, h: tw(L0[3]) });
+  boxes.forEach((b, i) => { b.wt = i < pts.length ? 10 : 1; }); // covering a dot is far worse than touching a name
+  const fixed = boxes.slice();
+  const dist = (q, b) => Math.hypot(Math.max(b.x - q.x, 0, q.x - b.x - b.w), Math.max(b.y - q.y, 0, q.y - b.y - b.h));
+  // Greedy placement depends on who goes first, so try many orders (seeded, so every build is identical) and keep the tidiest.
+  const layout = (order) => {
+    boxes.length = 0; boxes.push(...fixed); let total = 0; const res = new Map();
+    order.forEach((p) => {
+      const name = lastName(p.c), w = name.length * cw + 6, h = FS + 8, g = DR + 4;
+      const near = [[g, -h / 2], [-g - w, -h / 2], [-w / 2, -h - g + 4], [-w / 2, g - 2], [g - 2, -h - 2], [g - 2, 2], [-g + 2 - w, -h - 2], [-g + 2 - w, 2]].map((o) => [...o, false]);
+      // further out, with a thin line back to the dot (only when nothing close is clear)
+      const far = [0, 45, 90, 135, 180, 225, 270, 315, 20, 160, 200, 340].map((deg) => {
+        const t = (deg * Math.PI) / 180, r = DR + h * 1.6, cx = p.x + Math.cos(t) * (r + w / 2 * Math.abs(Math.cos(t))), cy = p.y - Math.sin(t) * (r + h / 2 * Math.abs(Math.sin(t)));
+        return [cx - w / 2 - p.x, cy - h / 2 - p.y, true];
+      });
+      const cost = (o) => {
+        const b = { x: p.x + o[0], y: p.y + o[1], w, h };
+        if (b.x < 4 || b.x + w > W - 4 || b.y < 2 || b.y + h > H - 2) return 1e9;
+        let c = boxes.reduce((a, q) => a + q.wt * Math.max(0, Math.min(b.x + b.w, q.x + q.w) - Math.max(b.x, q.x)) * Math.max(0, Math.min(b.y + b.h, q.y + q.h) - Math.max(b.y, q.y)), 0);
+        // a name must sit nearer its own dot than any other, or a reader could pin it on the wrong person (a line settles it)
+        if (!o[2]) c += pts.filter((q) => q !== p && dist(q, b) + 4 < dist(p, b)).length * 4000;
+        return c + (o[2] ? 1500 : 0);
+      };
+      let best = near[0], bestC = Infinity;
+      for (const o of [...near, ...far]) { const v = cost(o); if (v < bestC) { best = o; bestC = v; } if (!v) break; }
+      total += bestC;
+      const b = { x: p.x + best[0], y: p.y + best[1], w, h, wt: 1 }; boxes.push(b);
+      const mid = b.x + w / 2, anchor = best[2] ? 'middle' : mid > p.x + g ? 'start' : mid < p.x - g ? 'end' : 'middle';
+      const lx = anchor === 'start' ? b.x : anchor === 'end' ? b.x + w : mid;
+      // line from the dot's edge to the nearest point of the name
+      let lead = null;
+      if (best[2]) { const ex = Math.max(b.x, Math.min(p.x, b.x + w)), ey = Math.max(b.y + 4, Math.min(p.y, b.y + h - 4)), d = Math.hypot(ex - p.x, ey - p.y); lead = [p.x + ((ex - p.x) / d) * (DR + 1), p.y + ((ey - p.y) / d) * (DR + 1), ex, ey]; }
+      res.set(p, { lx, ly: b.y + h * 0.7, anchor, lead });
+    });
+    return { total, res };
+  };
+  let seed = 7; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  let bestL = layout(pts);
+  for (let t = 0; t < 600 && bestL.total > 0; t++) { const o = pts.slice().sort(() => rnd() - 0.5); const L = layout(o); if (L.total < bestL.total) bestL = L; }
+  pts.forEach((p) => Object.assign(p, bestL.res.get(p)));
   const col = (c) => (c.office === 'mayor' ? '#eb6834' : '#2a78d6');
-  return `<svg viewBox="0 0 ${W} ${H}" role="group" aria-labelledby="ctitle cdesc">
-  <title id="ctitle">The Squamish compass</title><desc id="cdesc">Scatter chart. Left to right runs from left (spend more on public services) to right (lower taxes). Bottom to top runs from enforcement and order first to housing and support first. The same information follows as sliders and a table.</desc>
+  const L = mini
+    ? { up: '▲ HOUSING &amp; SUPPORT', down: '▼ ENFORCEMENT &amp; ORDER', left: '◀ SPEND MORE', right: 'LOWER TAXES ▶' }
+    : { up: '▲ HOUSING &amp; SUPPORT FIRST', down: '▼ ENFORCEMENT &amp; ORDER FIRST', left: '◀ LEFT · SPEND MORE ON SERVICES', right: 'RIGHT · LOWER TAXES ▶' };
+  const id = (mini ? 'm' : '') + (tap ? 'c' : 'x');
+  const map = esc(JSON.stringify({ W, P, R, fs: FS, x: CLASSIC.x, y: CLASSIC.y }));
+  return `<svg viewBox="0 0 ${W} ${H}" role="${tap ? 'group' : 'img'}" aria-labelledby="${id}title ${id}desc" data-map="${map}">
+  <title id="${id}title">The Squamish compass</title><desc id="${id}desc">Scatter chart. Left to right runs from left (spend more on public services) to right (lower taxes). Bottom to top runs from enforcement and order first to housing and support first.${!tap ? ` Placed: ${placed.map((c) => esc(c.name)).join(', ')}.` : ' The same information follows as sliders and a table.'}</desc>
   <rect x="${P}" y="${P}" width="${W - 2 * P}" height="${H - 2 * P}" fill="#fcfcfb" stroke="#c3c2b7"/>
   <rect x="${P}" y="${P}" width="${(W - 2 * P) / 2}" height="${(H - 2 * P) / 2}" fill="#f4f1e8"/><rect x="${W / 2}" y="${H / 2}" width="${(W - 2 * P) / 2}" height="${(H - 2 * P) / 2}" fill="#f4f1e8"/>
   ${[-1, 1].map((t) => `<line x1="${px(t)}" y1="${P}" x2="${px(t)}" y2="${H - P}" stroke="#e1e0d9"/><line x1="${P}" y1="${py(t)}" x2="${W - P}" y2="${py(t)}" stroke="#e1e0d9"/>`).join('')}
   <line x1="${W / 2}" y1="${P}" x2="${W / 2}" y2="${H - P}" stroke="#898781" stroke-width="1.5"/><line x1="${P}" y1="${H / 2}" x2="${W - P}" y2="${H / 2}" stroke="#898781" stroke-width="1.5"/>
-  <text x="${W / 2}" y="${P - 16}" text-anchor="middle" font-size="18" font-weight="700" fill="#14211c">▲ HOUSING &amp; SUPPORT FIRST</text>
-  <text x="${W / 2}" y="${H - P + 30}" text-anchor="middle" font-size="18" font-weight="700" fill="#14211c">▼ ENFORCEMENT &amp; ORDER FIRST</text>
-  <text transform="translate(${P - 16} ${H / 2}) rotate(-90)" text-anchor="middle" font-size="18" font-weight="700" fill="#14211c">◀ LEFT · SPEND MORE ON SERVICES</text>
-  <text transform="translate(${W - P + 30} ${H / 2}) rotate(-90)" text-anchor="middle" font-size="18" font-weight="700" fill="#14211c">RIGHT · LOWER TAXES ▶</text>
-  ${pts.map((p) => `<g class="cdot" tabindex="0" role="button" data-slug="${p.c.slug}" aria-label="${esc(p.c.name)}">
-    <circle cx="${p.x}" cy="${p.y}" r="22" fill="transparent" stroke="none"/>
-    <circle cx="${p.x}" cy="${p.y}" r="10" fill="${p.thin ? '#fcfcfb' : col(p.c)}" stroke="${p.thin ? col(p.c) : '#fcfcfb'}" stroke-width="${p.thin ? 3.5 : 2}"/>
-    <text x="${p.lx}" y="${p.ly}" text-anchor="${p.anchor}" font-size="18" font-weight="600" fill="#14211c" paint-order="stroke" stroke="#fcfcfb" stroke-width="4">${esc(lastName(p.c))}</text></g>`).join('')}
+  <text x="${W / 2}" y="${P - 16}" text-anchor="middle" font-size="${AFS}" font-weight="700" fill="#14211c">${L.up}</text>
+  <text x="${W / 2}" y="${H - P + AFS + 12}" text-anchor="middle" font-size="${AFS}" font-weight="700" fill="#14211c">${L.down}</text>
+  <text transform="translate(${P - 16} ${H / 2}) rotate(-90)" text-anchor="middle" font-size="${AFS}" font-weight="700" fill="#14211c">${L.left}</text>
+  <text transform="translate(${W - P + AFS + 12} ${H / 2}) rotate(-90)" text-anchor="middle" font-size="${AFS}" font-weight="700" fill="#14211c">${L.right}</text>
+  ${pts.map((p) => `<g class="cdot"${!tap ? '' : ` tabindex="0" role="button" aria-label="${esc(p.c.name)}"`} data-slug="${p.c.slug}">
+    ${!tap ? '' : `<circle cx="${p.x}" cy="${p.y}" r="${DR + 12}" fill="transparent" stroke="none"/>`}
+    ${p.lead ? `<line x1="${p.lead[0].toFixed(1)}" y1="${p.lead[1].toFixed(1)}" x2="${p.lead[2].toFixed(1)}" y2="${p.lead[3].toFixed(1)}" stroke="#14211c" stroke-width="${mini ? 2 : 1.5}"/>` : ''}
+    <circle cx="${p.x}" cy="${p.y}" r="${DR}" fill="${p.thin ? '#fcfcfb' : col(p.c)}" stroke="${p.thin ? col(p.c) : '#fcfcfb'}" stroke-width="${p.thin ? DR * 0.35 : 2}"/>
+    <text x="${p.lx}" y="${p.ly}" text-anchor="${p.anchor}" font-size="${FS}" font-weight="600" fill="#14211c" paint-order="stroke" stroke="#fcfcfb" stroke-width="${FS / 4.5}">${esc(lastName(p.c))}</text></g>`).join('')}
   </svg>`;
+}
+// The small compass as a card. `you` adds the ★ You prompt (quiz CTA before the quiz, a note after it).
+function compassLegend(mini) { return `<div class="legend${mini ? ' mini' : ''}"><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="#eb6834"/></svg>Mayor</span><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="#2a78d6"/></svg>Council</span><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="7.5" fill="#fff" stroke="#2a78d6" stroke-width="3.5"/></svg>${mini ? 'Hollow = thin evidence' : 'Hollow = only one statement on homelessness, or partly our estimate'}</span></div>`; }
+function miniCaveat() { return `Only ${placed.length} of ${all.length} candidates have enough on the public record to place, and council has never voted on the enforcement side — so most sitting councillors can only show up on the upper half.`; }
+function miniCompass({ heading = 'The Squamish compass', you = true } = {}) {
+  return `<section class="mini-compass">
+  <span class="lt-kicker">🧭 ${heading}</span>
+  <p class="mc-q">Left or right on money. Support first or enforcement first on the streets.</p>
+  ${compassLegend(true)}
+  <a class="mc-chart" href="/compass/" aria-label="Open the full compass">${compassSvg({ mini: true })}</a>
+  <p class="small mc-note">${miniCaveat()} <a href="/compass/#map">How it’s worked out</a>.</p>
+  ${you ? `<p class="mc-you" data-you="none"><a class="btn secondary" href="/quiz/">★ Take the quiz to see where you land</a></p><p class="small mc-you" data-you="has" hidden><b>★ You</b> is where your quiz answers put you. It’s worked out on your device and never sent anywhere.</p>` : ''}
+  <a class="lt-go" href="/compass/">Open the full compass →</a>
+</section>`;
 }
 // One ranked list per theme: a row per candidate, grouped under plain-word headings, each with a dot on a short line.
 // Scrolls naturally on a phone and never stacks faces on top of each other.
@@ -603,24 +666,27 @@ write('/compass/', page({
   url: '/compass/', title: 'Where they lean',
   desc: 'Where Squamish mayor and council candidates sit on taxes and spending, growth, and Woodfibre LNG and climate — worked out from their public statements and votes.',
   body: `<h1>Where they lean</h1>
-  <p class="lede">Five questions split this election. Scroll down to see everyone lined up on each one.</p>
-  <nav class="chapters no-print" aria-label="Jump to a topic">${Object.entries(AXES).map(([k, A]) => `<a href="#axis-${k}" data-ch="axis-${k}"><span aria-hidden="true">${A.icon}</span> ${A.short || A.title}</a>`).join('')}<a href="#map" data-ch="map"><span aria-hidden="true">🧭</span> Compass</a></nav>
+  <p class="lede">Everyone on one map first, then the five questions that split this election, one at a time.</p>
+  <nav class="chapters no-print" aria-label="Jump to a topic"><a href="#map" data-ch="map"><span aria-hidden="true">🧭</span> Compass</a>${Object.entries(AXES).map(([k, A]) => `<a href="#axis-${k}" data-ch="axis-${k}"><span aria-hidden="true">${A.icon}</span> ${A.short || A.title}</a>`).join('')}</nav>
   <div class="lean-tools no-print">
     <label for="follow"><b>Follow one candidate:</b></label>
     <select id="follow"><option value="">— Show everyone —</option>${all.map((c) => `<option value="${c.slug}">${esc(c.name)}${c.office === 'mayor' ? ' (mayor)' : ''}</option>`).join('')}</select>
   </div>
-  ${Object.keys(AXES).map(leanList).join('<!--YOU-->').replace('<!--YOU-->', `<div class="card you-cta no-print" id="you-cta"><b>Where do <em>you</em> fit?</b> Take the <a href="/quiz/">3-minute quiz</a> and a ★ You marker appears on every list and on the map.</div>`)}
-
   <section class="spec" id="map">
   <h2><span aria-hidden="true">🧭</span> The political compass</h2>
   <p class="ask">Left or right on money. Support first or enforcement first on the streets.</p>
+  ${compassLegend(false)}
+  <div class="compass-box"><div class="cb-wide">${compassSvg()}</div><div class="cb-narrow">${compassSvg({ mini: true, tap: true })}</div></div>
+  <div class="card compass-detail" id="cdetail" aria-live="polite" style="margin-top:1rem"><p class="muted" style="margin:0">Tap any dot above to see the details here.</p></div>
   <p class="small"><b>Left–right</b> is about money: spend more on public services and housing (left), or hold taxes and spending down (right). <b>Up–down</b> is the argument downtown: put housing, shelter and support services first (up), or put enforcement, policing and clearing encampments first (down). Someone who wants both lands in the middle. Tap a dot for details.</p>
   <p class="small"><b>Read this before judging anyone by it:</b> council has voted on supportive housing but has never voted on encampments, police numbers or public drug use — so most sitting councillors can only show up on the upper half. Only candidates who answered our questionnaire are placed on both sides. <a href="/issues/#homelessness">What council has and hasn’t decided</a>.</p>
-  <div class="legend"><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="#eb6834"/></svg>Mayor</span><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="#2a78d6"/></svg>Council</span><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="7.5" fill="#fff" stroke="#2a78d6" stroke-width="3.5"/></svg>Hollow = only one statement on homelessness, or partly our estimate</span></div>
-  <div class="compass-box">${compassSvg()}</div>
-  <div class="card compass-detail" id="cdetail" aria-live="polite" style="margin-top:1rem"><p class="muted" style="margin:0">Tap any dot above to see the details here.</p></div>
   ${unplaced.length ? `<p class="small nopos"><b>Not on the compass</b> (too little on the public record to place fairly): ${unplaced.map((c) => `<a href="/candidates/${c.slug}/">${esc(c.name)}</a>`).join(', ')}.</p>` : ''}
   </section>
+
+  <h2 class="lean-more">Now topic by topic</h2>
+  <p>The compass squeezes everything into two lines. Here is where everyone sits on each of the five questions on its own.</p>
+  ${Object.keys(AXES).map(leanList).join('<!--YOU-->').replace('<!--YOU-->', `<div class="card you-cta no-print" id="you-cta"><b>Where do <em>you</em> fit?</b> Take the <a href="/quiz/">3-minute quiz</a> and a ★ You marker appears on the compass and on every list.</div>`)}
+
 
   <details class="drop"><summary>Everything above as a plain table</summary>
   <div class="table-scroll"><table class="issue-table"><thead><tr><th>Candidate</th>${Object.values(AXES).map((A) => `<th>${A.title}</th>`).join('')}</tr></thead><tbody>
@@ -630,7 +696,7 @@ write('/compass/', page({
   <details class="drop" hidden><summary>Why not “left vs. right”?</summary><p>Those labels come from national politics. Town councils don’t vote on civil liberties, candidates here don’t run for parties, and almost none of them have said anything about policing. Rather than guess, every position on this page is <b>calculated from the candidate’s sourced answers</b> to the same statements used in <a href="/quiz/">the quiz</a>. Anyone who hasn’t spoken publicly on a topic is left off that list, not parked in the middle.</p></details>`,
   scripts: `<script>var CD=${JSON.stringify(Object.fromEntries(placed.map((c) => [c.slug, { n: c.name, d: classicWords(c) }])))};
 var AX=${JSON.stringify(Object.fromEntries(Object.entries(AXES).map(([k, A]) => [k, A.q])))};
-var MAP=${JSON.stringify({ W: 600, P: 46, R: 2.15, x: CLASSIC.x, y: CLASSIC.y })};</script><script src="/lean.js"></script>`,
+</script><script src="/lean.js"></script>`,
 }));
 
 // ---------- ISSUES ----------
@@ -661,7 +727,8 @@ write('/quiz/', page({
   body: `<div class="quiz-shell"><div id="quiz-intro"><h1>Who should I vote for?</h1>
   <p class="lede">${QUESTIONS.length} statements. Tell us if you agree or disagree. It takes about three minutes, and your answers never leave your device.</p></div>
   <div id="quiz" class="card"><noscript>The quiz needs JavaScript turned on. You can still <a href="/compare/">compare candidates issue by issue</a>.</noscript></div>
-  <p class="small" style="margin-top:1rem">How matching works: we compare your answers to each candidate’s public positions and votes. Questions you mark as important count double. Where a candidate has no public position, that question is left out for them. <a href="/about/#quiz">Full method</a>.</p></div>`,
+  <p class="small" style="margin-top:1rem">How matching works: we compare your answers to each candidate’s public positions and votes. Questions you mark as important count double. Where a candidate has no public position, that question is left out for them. <a href="/about/#quiz">Full method</a>.</p></div>
+  <template id="tpl-compass">${miniCompass({ heading: 'Where you land', you: false })}</template>`,
   scripts: '<script src="/data.js"></script><script src="/quiz.js"></script>',
 }));
 

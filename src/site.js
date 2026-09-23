@@ -194,6 +194,40 @@
     if (d.classList.contains('said')) track('Comments opened', { statement: d.getAttribute('data-q') || '', on: where() });
     else if (d.classList.contains('means')) track('Explainer opened', { statement: d.getAttribute('data-q') || '', on: where() });
   }, true);
-  window.SV = { getBallot: getBallot, setBallot: setBallot, toggle: toggle, toast: toast, store: store, renderPicks: render, track: track };
+  // ----- ★ You on any compass (full or small), from quiz answers saved on this device — nothing is sent -----
+  function compassYou(root) {
+    var ans = (store.get('sv26_quiz', null) || {}).answers || {};
+    function score(q) {
+      var vals = Object.keys(q).map(function (id) { return typeof ans[id] === 'number' ? ans[id] * q[id] : null; }).filter(function (v) { return v !== null; });
+      return vals.length ? vals.reduce(function (a, b) { return a + b; }, 0) / vals.length : null;
+    }
+    var any = false;
+    [].forEach.call((root || document).querySelectorAll('svg[data-map]'), function (svg) {
+      if (!svg.getClientRects().length) return; // hidden copy (phone vs desktop chart): placed when it shows
+      var M; try { M = JSON.parse(svg.getAttribute('data-map')); } catch (e) { return; }
+      var yx = score(M.x), yy = score(M.y);
+      if (yx === null || yy === null || svg.querySelector('.cyou')) { if (svg.querySelector('.cyou')) any = true; return; }
+      var S = (M.W - 2 * M.P) / (2 * M.R), x = M.P + (yx + M.R) * S, y = M.P + (M.R - yy) * S, f = M.fs / 18;
+      var g = document.createElementNS('http://www.w3.org/2000/svg', 'g'); g.setAttribute('class', 'cyou');
+      g.innerHTML = '<circle cx="' + x + '" cy="' + y + '" r="' + 13 * f + '" fill="#ffb703" stroke="#14211c" stroke-width="2"/><text x="' + x + '" y="' + (y + 6 * f) + '" text-anchor="middle" font-size="' + 17 * f + '" font-weight="700" fill="#14211c">★</text><text class="cyl" font-size="' + M.fs + '" font-weight="700" fill="#14211c" paint-order="stroke" stroke="#fcfcfb" stroke-width="4">You</text>';
+      svg.appendChild(g);
+      // put "You" wherever it doesn't cover a candidate's name or dot
+      var lab = g.querySelector('.cyl'), r = 13 * f, others = [].map.call(svg.querySelectorAll('.cdot text, .cdot circle'), function (el) { try { return el.getBBox(); } catch (e) { return null; } }).filter(Boolean);
+      var tries = [[x + r + 4, y + M.fs * .35, 'start'], [x - r - 4, y + M.fs * .35, 'end'], [x, y + r + M.fs, 'middle'], [x, y - r - 6, 'middle'], [x + r, y - r, 'start'], [x - r, y - r, 'end'], [x + r, y + r + M.fs * .7, 'start'], [x - r, y + r + M.fs * .7, 'end']];
+      for (var t = 0; t < tries.length; t++) {
+        lab.setAttribute('x', tries[t][0]); lab.setAttribute('y', tries[t][1]); lab.setAttribute('text-anchor', tries[t][2]);
+        var bb = lab.getBBox();
+        var clash = bb.x < 2 || bb.x + bb.width > M.W - 2 || others.some(function (o) { return bb.x < o.x + o.width && bb.x + bb.width > o.x && bb.y < o.y + o.height && bb.y + bb.height > o.y; });
+        if (!clash) break;
+        if (t === tries.length - 1) { lab.setAttribute('x', tries[0][0]); lab.setAttribute('y', tries[0][1]); lab.setAttribute('text-anchor', 'start'); }
+      }
+      any = true;
+    });
+    [].forEach.call((root || document).querySelectorAll('[data-you]'), function (el) { el.hidden = (el.getAttribute('data-you') === 'has') !== any; });
+    return any;
+  }
+  compassYou();
+
+  window.SV = { getBallot: getBallot, setBallot: setBallot, toggle: toggle, toast: toast, store: store, renderPicks: render, track: track, compassYou: compassYou };
   render();
 })();

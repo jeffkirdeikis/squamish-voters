@@ -88,7 +88,7 @@ img { max-width: 100%; }
 .menu-panel a { display: block; color: #fff; text-decoration: none; padding: 1rem; font-size: 1.1rem; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,.12); }
 
 /* ---------- Bottom tab bar (mobile) ---------- */
-.tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; background: var(--surface); border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -2px 12px rgba(0,0,0,.08); max-width: 100vw; }
+.tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; background: var(--surface); border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -2px 12px rgba(0,0,0,.08); max-width: 100vw; }
 .tabbar a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .15rem; min-height: 4rem; text-decoration: none; color: var(--ink-2); font-weight: 600; text-align: center; line-height: 1.1; padding: .3rem .1rem; position: relative; min-width: 0; overflow: hidden; }
 /* fixed px, not rem: the A-A-A text scaler must not be able to widen the bar */
 .tabbar a > span:not(.ballot-count) { font-size: 12px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -700,3 +700,19 @@ blockquote.long p { margin: 0 0 .7rem; } blockquote.long { font-style: normal; }
 .gate p { font-size: 1.1rem; line-height: 1.5; }
 .gate .btn-row { margin-top: 1rem; }
 .reminder { background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: .7rem .9rem; font-size: .95rem; margin: 0 0 1rem; }
+/* small compass: home, Compare, quiz results */
+.mini-compass { margin: 1.6rem 0; padding: 1.1rem 1.1rem 1rem; border-radius: var(--radius); background: var(--surface); border: 2px solid var(--brand); box-shadow: var(--shadow); }
+.mc-q { font-family: Georgia, serif; font-size: 1.3rem; font-weight: 700; margin: .2rem 0 .6rem; line-height: 1.3; }
+.legend.mini { margin: 0 0 .5rem; font-size: .95rem; gap: .3rem 1rem; }
+.mc-chart { display: block; border-radius: 12px; }
+.mc-chart svg { width: 100%; height: auto; display: block; max-width: 520px; margin: 0 auto; }
+.mc-chart text { font-family: system-ui, sans-serif; }
+.mc-chart:hover svg, .mc-chart:focus-visible svg { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+.mc-note { color: var(--muted); margin: .6rem 0 .4rem; }
+.mc-you { margin: .6rem 0 0; }
+.lean-more { margin-top: 2rem; }
+@media (max-width: 380px) { .tabbar a > span:not(.ballot-count) { font-size: 11px; } }
+@media (max-width: 520px) { .mini-compass { padding: 1rem .7rem .9rem; } }
+.cb-narrow { display: none; }
+@media (max-width: 620px) { .cb-wide { display: none; } .cb-narrow { display: block; } .compass-box { padding: .3rem; } }
+.legend span > svg { flex: none; }
