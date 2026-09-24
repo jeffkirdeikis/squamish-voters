@@ -16,6 +16,7 @@ const QUESTIONS = ALL_QUESTIONS.filter((q) => q.core !== false);
 const EXTRA_QUESTIONS = ALL_QUESTIONS.filter((q) => q.core === false);
 const GLOSSARY = read('glossary.json');
 const ORIGIN = 'https://squamishvoters.com';
+const REPO = 'https://github.com/jeffkirdeikis/squamish-voters';
 const SITE = { name: 'Squamish Voters 2026', updated: ctx.updated, contact: ctx.contact_email || null };
 
 fs.rmSync(DIST, { recursive: true, force: true });
@@ -504,6 +505,11 @@ write('/', page({
     <div class="datebar">${(ctx.key_dates || []).map((d) => `<div class="datecard"><b>${esc(d.date)}</b><span>${esc(d.label)}</span></div>`).join('')}</div>
     <p class="small center" style="margin:.6rem 0 0">Full details on how, when and where to vote →</p>
   </a>
+  <div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg><div>
+    <h2>You can check our work</h2>
+    <p>No endorsements. The same questions go to every candidate, every claim links to its source, and the code and scoring formula are public for anyone to inspect.</p>
+    <p class="trust-links"><a href="${REPO}" target="_blank" rel="noopener">See the code on GitHub →</a><a href="/about/#quiz">How the scoring works →</a></p>
+  </div></div>
   <h2>Running for Mayor <span class="small">— you vote for 1</span></h2>
   <div class="faces">${mayors.map(faceTile).join('')}</div>
   <div class="btn-row"><a class="btn secondary block" href="/candidates/#council">See all ${council.length} council candidates →</a></div>

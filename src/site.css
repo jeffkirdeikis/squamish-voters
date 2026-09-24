@@ -716,3 +716,11 @@ blockquote.long p { margin: 0 0 .7rem; } blockquote.long { font-style: normal; }
 .cb-narrow { display: none; }
 @media (max-width: 620px) { .cb-wide { display: none; } .cb-narrow { display: block; } .compass-box { padding: .3rem; } }
 .legend span > svg { flex: none; }
+
+/* Home: "You can check our work" card (open source / no endorsements) */
+.trust-card { display: flex; gap: .9rem; align-items: flex-start; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--brand); border-radius: var(--radius); padding: 1rem 1.1rem; margin: 1.4rem 0; box-shadow: var(--shadow); }
+.trust-card > svg { flex: none; color: var(--brand); width: 30px; height: 30px; margin-top: .1rem; }
+.trust-card h2 { font-family: inherit; font-size: 1.05rem; margin: 0; }
+.trust-card p { margin: .3rem 0 0; font-size: .95rem; color: var(--ink-2); }
+.trust-card .trust-links { display: flex; flex-wrap: wrap; gap: .3rem 1.2rem; margin-top: .55rem; }
+.trust-links a { font-weight: 700; }
