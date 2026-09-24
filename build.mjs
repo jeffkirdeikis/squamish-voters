@@ -15,6 +15,7 @@ const ALL_QUESTIONS = read('questions.json');
 const QUESTIONS = ALL_QUESTIONS.filter((q) => q.core !== false);
 const EXTRA_QUESTIONS = ALL_QUESTIONS.filter((q) => q.core === false);
 const GLOSSARY = read('glossary.json');
+const ORIGIN = 'https://squamishvoters.com';
 const SITE = { name: 'Squamish Voters 2026', updated: ctx.updated, contact: ctx.contact_email || null };
 
 fs.rmSync(DIST, { recursive: true, force: true });
@@ -187,7 +188,7 @@ const ICON = {
 };
 const TABS = [['/', 'Home', 'home'], ['/candidates/', 'People', 'people'], ['/quiz/', 'Quiz', 'quiz'], ['/compass/', 'Compass', 'compass'], ['/compare/', 'Compare', 'compare'], ['/vote/', 'Voting', 'vote']];
 
-function page({ url, title, desc, body, hero = '', scripts = '', noindex = false }) {
+function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null }) {
   const cur = (href) => ((href === '/' ? url === '/' : url.startsWith(href)) ? ' aria-current="page"' : '');
   const full = title ? `${title} — ${SITE.name}` : `${SITE.name} — an independent voter guide for the October 17 election`;
   return `<!doctype html>
@@ -209,7 +210,7 @@ function page({ url, title, desc, body, hero = '', scripts = '', noindex = false
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://squamishvoters.com/og.png?v=3">
 <link rel="canonical" href="https://squamishvoters.com__PATH__">
-<meta name="theme-color" content="#0f4c3a">${noindex ? '\n<meta name="robots" content="noindex, nofollow">' : ''}
+<meta name="theme-color" content="#0f4c3a">${noindex ? '\n<meta name="robots" content="noindex, nofollow">' : ''}${jsonld ? `\n<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/site.css">
 </head>
@@ -259,7 +260,9 @@ ${scripts}${noindex ? '' : '\n<script>window.va=window.va||function(){(window.va
 </body></html>`;
 }
 
+const SITEMAP = []; // every indexable page, built into sitemap.xml at the end
 function write(url, html) {
+  if (!/name="robots" content="noindex/.test(html) && url !== '/404/') SITEMAP.push(url);
   const out = path.join(DIST, url, 'index.html');
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, html.replaceAll('__PATH__', url)); // each page's own address, for sharing and search engines
@@ -373,6 +376,21 @@ for (const c of all) {
   write(`/candidates/${c.slug}/`, page({
     url: '/candidates/', title: `${c.name} — ${c.office === 'mayor' ? 'candidate for Mayor' : 'candidate for Council'}`,
     desc: `${c.name}: what they support, what they oppose, and where they stand on growth, housing, homelessness, policing and taxes in Squamish.`,
+    jsonld: [{
+      '@context': 'https://schema.org', '@type': 'Person', name: c.name,
+      url: `${ORIGIN}/candidates/${c.slug}/`,
+      description: `Candidate for ${c.office === 'mayor' ? 'Mayor' : 'Council'} in the October 17, 2026 District of Squamish election.${c.tagline ? ' ' + c.tagline : ''}`,
+      ...(hasPhoto(c) ? { image: `${ORIGIN}/${c.photo}` } : {}),
+      ...(c.incumbent ? { jobTitle: 'Councillor, District of Squamish' } : {}),
+      homeLocation: { '@type': 'Place', name: 'Squamish, British Columbia' },
+      sameAs: Object.values(c.links || {}).filter(isUrl),
+    }, {
+      '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: `${ORIGIN}/` },
+        { '@type': 'ListItem', position: 2, name: 'Candidates', item: `${ORIGIN}/candidates/` },
+        { '@type': 'ListItem', position: 3, name: c.name, item: `${ORIGIN}/candidates/${c.slug}/` },
+      ],
+    }],
     body: `<p class="crumbs"><a href="/candidates/" data-back>← All candidates</a></p>
     <div class="profile">
     <aside class="profile-side">
@@ -455,6 +473,7 @@ const COMPARE_BLOCK = `<div class="cmp-wrap"><div class="picker no-print" data-p
   <nav class="panel-nav no-print" data-panel-nav="cmp" aria-label="Move between topics"></nav></div>`;
 write('/compare/', page({
   url: '/compare/', title: 'Compare the candidates',
+  desc: 'See where every Squamish mayor and council candidate stands on housing, growth, taxes, Woodfibre LNG and more, side by side, issue by issue.',
   body: `<h1>Compare the candidates</h1>
   <p class="lede">Pick an issue to see where everyone stands, side by side. Candidates for mayor are marked in yellow.</p>
   ${COMPARE_BLOCK}
@@ -466,6 +485,14 @@ write('/compare/', page({
 const v = ctx.voting || {};
 write('/', page({
   url: '/', title: '',
+  jsonld: [{
+    '@context': 'https://schema.org', '@type': 'WebSite', name: 'Squamish Voters', alternateName: 'SquamishVoters.com', url: `${ORIGIN}/`, inLanguage: 'en-CA',
+    description: 'Independent, non-partisan voter guide for the October 17, 2026 District of Squamish municipal election.',
+  }, {
+    '@context': 'https://schema.org', '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/`, logo: `${ORIGIN}/favicon.svg`,
+    founder: { '@type': 'Person', name: 'Jeff Kirdeikis' }, areaServed: 'Squamish, British Columbia',
+    ...(SITE.contact ? { email: SITE.contact } : {}),
+  }],
   hero: `<section class="hero"><div class="wrap">
     <h1>Not sure who to vote for in Squamish?</h1>
     <p class="lede">On <b>Saturday, October 17</b> we pick 1 mayor and 6 councillors. Here is where all ${all.length} candidates stand, in plain words.</p>
@@ -502,6 +529,7 @@ write('/', page({
 // ---------- CANDIDATES (list page; written after Compare because it reuses COMPARE_BLOCK) ----------
 write('/candidates/', page({
   url: '/candidates/', title: 'The candidates',
+  desc: `All ${all.length} candidates for Squamish mayor and council in the October 17, 2026 election, in alphabetical order, with what each supports and opposes.`,
   body: `<h1>The candidates</h1>
   <p class="lede">Everyone on the ballot, in alphabetical order. Tap anyone to see what they support and oppose.</p>
   <div class="jump"><a class="chip-btn" href="#mayor">Mayor (${mayors.length})</a><a class="chip-btn" href="#council">Council (${council.length})</a><a class="chip-btn" href="#compare">Compare them</a><a class="chip-btn" href="#trustees">School trustees</a></div>
@@ -702,6 +730,7 @@ var AX=${JSON.stringify(Object.fromEntries(Object.entries(AXES).map(([k, A]) => 
 // ---------- ISSUES ----------
 write('/issues/', page({
   url: '/issues/', title: 'The issues, explained',
+  desc: 'The big questions in the 2026 Squamish election — housing, growth, taxes, Woodfibre LNG, homelessness, policing, parking — explained in plain language with sources.',
   body: `<h1>The issues, explained</h1>
   <p class="lede">A plain-language primer on what this election is about. Tap any topic to open it.</p>
   ${(ctx.issues || []).map((i) => { const paras = i.explainer.split(/(?<=[.!?])\s+/); const mid = Math.ceil(paras.length / 2); return `<details class="issue-card" id="${i.key}"><summary><span><b>${esc(i.title)}</b><span class="teaser">${esc(i.teaser)}</span></span></summary>
@@ -736,6 +765,7 @@ write('/quiz/', page({
 const V = ctx.voting || {}, gv = V.general_voting_day || {}, mb = V.mail_ballot || {}, ceo = V.chief_election_officer || {};
 write('/my-ballot/', page({
   url: '/my-ballot/', title: 'My ballot',
+  desc: 'Build and print your own Squamish ballot: pick a mayor and up to six councillors, then bring your list into the voting booth on October 17.',
   body: `<h1>My ballot</h1>
   <p class="lede">Your list, saved on this phone or computer only. You’re allowed to bring it into the voting booth.</p>
   <h2>Mayor <span class="small">— vote for 1</span></h2><div id="b-mayor"></div>
@@ -797,6 +827,15 @@ const fmtDate = (iso) => new Date(iso + 'T12:00:00').toLocaleDateString('en-CA',
 write('/vote/', page({
   url: '/vote/', title: 'How, when and where to vote',
   desc: 'Squamish election day is Saturday, October 17, 2026, 8 a.m. to 8 p.m. at Brennan Park. Advance voting dates, mail ballots, ID and eligibility in plain language.',
+  jsonld: {
+    '@context': 'https://schema.org', '@type': 'Event', name: 'Squamish municipal election — General Voting Day',
+    description: 'Vote for Mayor, six Councillors and School Trustees in the District of Squamish 2026 general local election.',
+    startDate: '2026-10-17T08:00:00-07:00', endDate: '2026-10-17T20:00:00-07:00',
+    eventStatus: 'https://schema.org/EventScheduled', eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    isAccessibleForFree: true, image: `${ORIGIN}/og.png`,
+    location: { '@type': 'Place', name: 'Brennan Park Recreation Centre', address: { '@type': 'PostalAddress', streetAddress: '1009 Centennial Way', addressLocality: 'Squamish', addressRegion: 'BC', addressCountry: 'CA' } },
+    organizer: { '@type': 'GovernmentOrganization', name: 'District of Squamish', url: 'https://squamish.ca/government-and-administration/council/election/' },
+  },
   body: `<h1>How to vote</h1>
   <div class="card big-answer">
     <h2 style="margin-top:0">Saturday, October 17</h2>
@@ -864,7 +903,7 @@ for (const c of all.filter((x) => x.paper)) {
     <div class="btn-row"><a class="btn secondary" href="/candidates/${c.slug}/">← Back to ${f}’s profile</a></div>`,
   }));
 }
-write('/about/', page({ url: '/about/', title: 'About this guide', body: pageFile('about.html').replaceAll('<!--CONTACT-->', SITE.contact ? `<a href="mailto:${esc(SITE.contact)}">${esc(SITE.contact)}</a>` : 'a contact address will be posted here shortly.').replace('{{COUNT}}', String(all.length)).replace('{{UPDATED}}', esc(SITE.updated)) }));
+write('/about/', page({ url: '/about/', title: 'About this guide', desc: 'Who makes Squamish Voters, how candidate positions are sourced and scored, and how to send a correction. Independent and not affiliated with any candidate.', body: pageFile('about.html').replaceAll('<!--CONTACT-->', SITE.contact ? `<a href="mailto:${esc(SITE.contact)}">${esc(SITE.contact)}</a>` : 'a contact address will be posted here shortly.').replace('{{COUNT}}', String(all.length)).replace('{{UPDATED}}', esc(SITE.updated)) }));
 write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can’t find that page</h1><p class="lede">Try one of these instead.</p><div class="btn-row"><a class="btn big" href="/">Home</a><a class="btn big secondary" href="/candidates/">Candidates</a><a class="btn big secondary" href="/quiz/">Take the quiz</a></div>' }));
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
@@ -890,4 +929,13 @@ fs.writeFileSync(path.join(ROOT, 'api', '_official.js'),
 // ---------- static assets ----------
 for (const f of ['site.css', 'site.js', 'quiz.js', 'cform.js', 'admin.js', 'lean.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
+
+// ---------- sitemap (every indexable page written above; lastmod = build date) ----------
+const today = new Date().toISOString().slice(0, 10);
+const prio = (u) => (u === '/' ? '1.0' : ['/candidates/', '/quiz/', '/vote/'].includes(u) ? '0.8' : '0.6');
+fs.writeFileSync(path.join(DIST, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${[...new Set(SITEMAP)].map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>${today}</lastmod><priority>${prio(u)}</priority></url>`).join('\n')}
+</urlset>
+`);
 console.log(`Built ${all.length} candidates (${mayors.length} mayor, ${council.length} council) -> dist/`);
