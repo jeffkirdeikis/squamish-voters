@@ -143,6 +143,45 @@ const compassPos = (c) => {
   if (!x || !y) return null;
   return { x, y, est, thin: est || y.n < 2 };
 };
+// More two-line maps people can swipe through on /compass/ and the small compass cards. Each is worked out the
+// same way as the classic one: the average of a candidate's sourced scores on each list of statements.
+const PARKING_Q = { q36: 1, q37: 1, q38: 1, q25: -1, q26: -1, q11: -1 };
+const CMAPS = {
+  classic: {
+    title: 'The political compass', ask: 'Left or right on money. Support first or enforcement first on the streets.',
+    x: CLASSIC.x, y: CLASSIC.y,
+    L: { up: '▲ HOUSING &amp; SUPPORT FIRST', down: '▼ ENFORCEMENT &amp; ORDER FIRST', left: '◀ LEFT · SPEND MORE ON SERVICES', right: 'RIGHT · LOWER TAXES ▶' },
+    Lm: { up: '▲ HOUSING &amp; SUPPORT', down: '▼ ENFORCEMENT &amp; ORDER', left: '◀ SPEND MORE', right: 'LOWER TAXES ▶' },
+    xt: 'Left–right', xw: ['left (more public spending)', 'right (lower taxes)'], yt: 'Homelessness & street safety', yw: ['enforcement and order first', 'housing and support first'],
+    desc: 'Left to right runs from left (spend more on public services) to right (lower taxes). Bottom to top runs from enforcement and order first to housing and support first.',
+  },
+  growpay: {
+    title: 'How should we grow — and pay for it?', ask: 'Slow down or build more? Hold taxes down or spend on services?',
+    x: AXES.growth.q, y: CLASSIC.x,
+    L: { up: '▲ HOLD TAXES DOWN', down: '▼ SPEND MORE ON SERVICES', left: '◀ SLOW DOWN, BE CAUTIOUS', right: 'BUILD MORE, FASTER ▶' },
+    Lm: { up: '▲ HOLD TAXES DOWN', down: '▼ SPEND MORE', left: '◀ SLOW DOWN', right: 'BUILD MORE ▶' },
+    xt: 'Growth', xw: ['slow down, be cautious', 'build more, faster'], yt: 'Money', yw: ['spend more on public services', 'hold taxes and spending down'],
+    desc: 'Left to right runs from slow down and be cautious to build more, faster. Bottom to top runs from spend more on public services to hold taxes and spending down.',
+  },
+  cars: {
+    title: 'Cars or bikes — and how much growth?', ask: 'Parking and roads first, or transit and bikes first? Slow down or build more?',
+    x: AXES.growth.q, y: PARKING_Q,
+    L: { up: '▲ CARS &amp; PARKING FIRST', down: '▼ TRANSIT &amp; BIKES FIRST', left: '◀ SLOW DOWN, BE CAUTIOUS', right: 'BUILD MORE, FASTER ▶' },
+    Lm: { up: '▲ CARS &amp; PARKING', down: '▼ TRANSIT &amp; BIKES', left: '◀ SLOW DOWN', right: 'BUILD MORE ▶' },
+    xt: 'Growth', xw: ['slow down, be cautious', 'build more, faster'], yt: 'Getting around', yw: ['transit and bikes first', 'cars and parking first'],
+    desc: 'Left to right runs from slow down and be cautious to build more, faster. Bottom to top runs from transit and bikes first to cars and parking first.',
+  },
+};
+const qScore = (c, qs) => {
+  const vals = Object.entries(qs).map(([q, sign]) => (typeof c.quiz_answers?.[q] === 'number' ? c.quiz_answers[q] * sign : null)).filter((v) => v !== null);
+  return vals.length ? { v: vals.reduce((a, b) => a + b, 0) / vals.length, n: vals.length } : null;
+};
+const cmapPos = (c, key) => {
+  if (key === 'classic') return compassPos(c);
+  const M = CMAPS[key], x = qScore(c, M.x), y = qScore(c, M.y);
+  return x && y ? { x, y, est: false, thin: x.n < 2 || y.n < 2 } : null;
+};
+const placedOn = (key) => all.filter((c) => cmapPos(c, key));
 const isPlaced = (c) => !!compassPos(c);
 const placed = all.filter(isPlaced), unplaced = all.filter((c) => !isPlaced(c));
 
@@ -568,11 +607,12 @@ write('/candidates/', page({
 // ---------- COMPASS ----------
 // mini: the small version for home, quiz results and Compare. Bigger type (it is drawn smaller), short axis words,
 // and not tappable — the whole chart is a link to the full one. data-map lets site.js add the ★ You dot.
-function compassSvg({ mini = false, tap = !mini } = {}) {
+function compassSvg({ mini = false, tap = !mini, map: mk = 'classic' } = {}) {
+  const M = CMAPS[mk], placed = placedOn(mk);
   const W = 600, H = 600, P = mini ? 62 : 46, R = 2.15, S = (W - 2 * P) / (2 * R); // scores run -2..+2
   const FS = mini ? 32 : 18, AFS = mini ? 27 : 18, DR = mini ? 13 : 10, cw = FS * 0.6;
   const px = (v) => P + (v + R) * S, py = (v) => P + (R - v) * S;
-  const pts = placed.map((c) => { const p = compassPos(c); return { c, thin: p.thin, x: px(p.x.v), y: py(p.y.v) }; });
+  const pts = placed.map((c) => { const p = cmapPos(c, mk); return { c, thin: p.thin, x: px(p.x.v), y: py(p.y.v) }; });
   const near = mini ? 30 : 24;
   pts.forEach((p, i) => pts.slice(0, i).forEach((o) => { if (Math.hypot(p.x - o.x, p.y - o.y) < near) { p.x += near * 0.83; p.y += near * 0.67; } }));
   const boxes = [];
@@ -580,7 +620,7 @@ function compassSvg({ mini = false, tap = !mini } = {}) {
   pts.forEach((p) => boxes.push({ x: p.x - DR - 2, y: p.y - DR - 2, w: 2 * DR + 4, h: 2 * DR + 4 }));
   // keep names off the four axis titles
   const tw = (t) => t.replace(/&amp;/g, '&').length * AFS * 0.62;
-  const L0 = mini ? ['▲ HOUSING & SUPPORT', '▼ ENFORCEMENT & ORDER', '◀ SPEND MORE', 'LOWER TAXES ▶'] : ['▲ HOUSING & SUPPORT FIRST', '▼ ENFORCEMENT & ORDER FIRST', '◀ LEFT · SPEND MORE ON SERVICES', 'RIGHT · LOWER TAXES ▶'];
+  const L = mini ? M.Lm : M.L, L0 = [L.up, L.down, L.left, L.right];
   boxes.push({ x: W / 2 - tw(L0[0]) / 2, y: P - 16 - AFS, w: tw(L0[0]), h: AFS + 6 }, { x: W / 2 - tw(L0[1]) / 2, y: H - P + 8, w: tw(L0[1]), h: AFS + 8 },
     { x: P - 18 - AFS, y: H / 2 - tw(L0[2]) / 2, w: AFS + 4, h: tw(L0[2]) }, { x: W - P + 8, y: H / 2 - tw(L0[3]) / 2, w: AFS + 6, h: tw(L0[3]) });
   boxes.forEach((b, i) => { b.wt = i < pts.length ? 10 : 1; }); // covering a dot is far worse than touching a name
@@ -623,13 +663,10 @@ function compassSvg({ mini = false, tap = !mini } = {}) {
   for (let t = 0; t < 600 && bestL.total > 0; t++) { const o = pts.slice().sort(() => rnd() - 0.5); const L = layout(o); if (L.total < bestL.total) bestL = L; }
   pts.forEach((p) => Object.assign(p, bestL.res.get(p)));
   const col = (c) => (c.office === 'mayor' ? '#eb6834' : '#2a78d6');
-  const L = mini
-    ? { up: '▲ HOUSING &amp; SUPPORT', down: '▼ ENFORCEMENT &amp; ORDER', left: '◀ SPEND MORE', right: 'LOWER TAXES ▶' }
-    : { up: '▲ HOUSING &amp; SUPPORT FIRST', down: '▼ ENFORCEMENT &amp; ORDER FIRST', left: '◀ LEFT · SPEND MORE ON SERVICES', right: 'RIGHT · LOWER TAXES ▶' };
-  const id = (mini ? 'm' : '') + (tap ? 'c' : 'x');
-  const map = esc(JSON.stringify({ W, P, R, fs: FS, x: CLASSIC.x, y: CLASSIC.y }));
-  return `<svg viewBox="0 0 ${W} ${H}" role="${tap ? 'group' : 'img'}" aria-labelledby="${id}title ${id}desc" data-map="${map}">
-  <title id="${id}title">The Squamish compass</title><desc id="${id}desc">Scatter chart. Left to right runs from left (spend more on public services) to right (lower taxes). Bottom to top runs from enforcement and order first to housing and support first.${!tap ? ` Placed: ${placed.map((c) => esc(c.name)).join(', ')}.` : ' The same information follows as sliders and a table.'}</desc>
+  const id = mk + (mini ? 'm' : '') + (tap ? 'c' : 'x');
+  const map = esc(JSON.stringify({ W, P, R, fs: FS, x: M.x, y: M.y }));
+  return `<svg viewBox="0 0 ${W} ${H}" role="${tap ? 'group' : 'img'}" aria-labelledby="${id}title ${id}desc" data-map="${map}" data-cmap="${mk}">
+  <title id="${id}title">${esc(M.title)}</title><desc id="${id}desc">Scatter chart. ${M.desc}${!tap ? ` Placed: ${placed.map((c) => esc(c.name)).join(', ')}.` : ' The same information follows as sliders and a table.'}</desc>
   <rect x="${P}" y="${P}" width="${W - 2 * P}" height="${H - 2 * P}" fill="#fcfcfb" stroke="#c3c2b7"/>
   <rect x="${P}" y="${P}" width="${(W - 2 * P) / 2}" height="${(H - 2 * P) / 2}" fill="#f4f1e8"/><rect x="${W / 2}" y="${H / 2}" width="${(W - 2 * P) / 2}" height="${(H - 2 * P) / 2}" fill="#f4f1e8"/>
   ${[-1, 1].map((t) => `<line x1="${px(t)}" y1="${P}" x2="${px(t)}" y2="${H - P}" stroke="#e1e0d9"/><line x1="${P}" y1="${py(t)}" x2="${W - P}" y2="${py(t)}" stroke="#e1e0d9"/>`).join('')}
@@ -646,15 +683,25 @@ function compassSvg({ mini = false, tap = !mini } = {}) {
   </svg>`;
 }
 // The small compass as a card. `you` adds the ★ You prompt (quiz CTA before the quiz, a note after it).
-function compassLegend(mini) { return `<div class="legend${mini ? ' mini' : ''}"><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="#eb6834"/></svg>Mayor</span><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="#2a78d6"/></svg>Council</span><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="7.5" fill="#fff" stroke="#2a78d6" stroke-width="3.5"/></svg>${mini ? 'Hollow = thin evidence' : 'Hollow = only one statement on homelessness, or partly our estimate'}</span></div>`; }
-function miniCaveat() { return `Only ${placed.length} of ${all.length} candidates have enough on the public record to place, and council has never voted on the enforcement side — so most sitting councillors can only show up on the upper half.`; }
-function miniCompass({ heading = 'The Squamish compass', you = true } = {}) {
-  return `<section class="mini-compass">
-  <span class="lt-kicker">🧭 ${heading}</span>
-  <p class="mc-q">Left or right on money. Support first or enforcement first on the streets.</p>
-  ${compassLegend(true)}
-  <a class="mc-chart" href="/compass/" aria-label="Open the full compass">${compassSvg({ mini: true })}</a>
-  <p class="small mc-note">${miniCaveat()} <a href="/compass/#map">How it’s worked out</a>.</p>
+function compassLegend(mini, mk = 'classic') { return `<div class="legend${mini ? ' mini' : ''}"><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="#eb6834"/></svg>Mayor</span><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="#2a78d6"/></svg>Council</span><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="7.5" fill="#fff" stroke="#2a78d6" stroke-width="3.5"/></svg>${mini ? 'Hollow = thin evidence' : mk === 'classic' ? 'Hollow = only one statement on homelessness, or partly our estimate' : 'Hollow = only one statement on one of the two lines'}</span></div>`; }
+function miniCaveat(mk = 'classic') {
+  const n = placedOn(mk).length;
+  if (mk === 'classic') return `Only ${n} of ${all.length} candidates have enough on the public record to place, and council has never voted on the enforcement side — so most sitting councillors can only show up on the upper half.`;
+  if (mk === 'cars') return `Only ${n} of ${all.length} candidates have enough on the record to place. Most of the parking and bike-lane statements aren’t in the quiz, so ★ You rests on fewer of your answers here.`;
+  return `Only ${n} of ${all.length} candidates have enough on the record to place.`;
+}
+// ‹ 1 of 3 › header shared by the compass carousels (site.js [data-carousel] does the stepping).
+function carHead(label, what) { return  `<div class="lt-head"><span class="lt-kicker">${label} <span class="lt-count" data-car-count></span></span><span class="lt-arrows no-print"><button type="button" class="picker-step" data-car-prev aria-label="Previous ${what}">‹</button><button type="button" class="picker-step" data-car-next aria-label="Next ${what}">›</button></span></div>`; }
+function miniCompass({ heading = 'The Squamish compass', you = true, maps = Object.keys(CMAPS) } = {}) {
+  const slide = (mk, n) => `<div${maps.length > 1 ? ` data-slide${n ? ' hidden' : ''}` : ''}>
+  ${maps.length > 1 ? `<p class="mc-t">${esc(CMAPS[mk].title)}</p>` : ''}<p class="mc-q">${esc(CMAPS[mk].ask)}</p>
+  ${compassLegend(true, mk)}
+  <a class="mc-chart" href="/compass/${mk === 'classic' ? '' : '?map=' + mk}#map" aria-label="Open the full compass">${compassSvg({ mini: true, map: mk })}</a>
+  <p class="small mc-note">${miniCaveat(mk)} <a href="/compass/#how">How it’s worked out</a>.</p></div>`;
+  return `<section class="mini-compass"${maps.length > 1 ? ` data-carousel data-track="Compass step" aria-roledescription="carousel" aria-label="${esc(heading)}"` : ''}>
+  ${maps.length > 1 ? carHead(`🧭 ${heading}`, 'compass') : `<span class="lt-kicker">🧭 ${heading}</span>`}
+  ${maps.map(slide).join('')}
+  ${maps.length > 1 ? `<p class="small lt-hint no-print">Use the arrows to see ${maps.length - 1} more ways of mapping the same candidates.</p>` : ''}
   ${you ? `<p class="mc-you" data-you="none"><a class="btn secondary" href="/quiz/">★ Take the quiz to see where you land</a></p><p class="small mc-you" data-you="has" hidden><b>★ You</b> is where your quiz answers put you. It’s worked out on your device and never sent anywhere.</p>` : ''}
   <a class="lt-go" href="/compass/">Open the full compass →</a>
 </section>`;
@@ -699,6 +746,8 @@ function spectrumTeaser(key) {
   items.forEach((i) => { i.p = +trackPct(i.s.v); let l = 0; while (l < OFF.length - 1 && lanes[l] !== undefined && i.p - lanes[l] < 7) l++; lanes[l] = i.p; i.o = OFF[l]; });
   return `<div class="teaser-line"><div class="teaser-track">${items.map((i) => `<span style="left:${i.p}%;margin-top:${i.o * 1.8}rem" data-name="${esc(i.c.name)}${i.c.office === 'mayor' ? ' (mayor)' : ''}">${avatar(i.c, 'xs')}</span>`).join('')}</div><div class="spec-ends"><span>◀ ${A.lo}</span><span>${A.hi} ▶</span></div></div>`;
 }
+const cmapWords = (c, mk) => { const M = CMAPS[mk], p = cmapPos(c, mk); if (!p) return []; const w = (v, lo, hi) => (Math.abs(v) < 0.34 ? 'in the middle' : `${Math.abs(v) >= 1.2 ? 'clearly' : 'leans'} ${v < 0 ? lo : hi}`);
+  return [`${M.xt}: ${w(p.x.v, ...M.xw)} (${p.x.n} statement${p.x.n > 1 ? 's' : ''})`, `${M.yt}: ${w(p.y.v, ...M.yw)} (${p.y.n} statement${p.y.n > 1 ? 's' : ''})`]; };
 const classicWords = (c) => { const p = compassPos(c); if (!p) return []; const w = (v, lo, hi) => (Math.abs(v) < 0.34 ? 'in the middle' : `${Math.abs(v) >= 1.2 ? 'clearly' : 'leans'} ${v < 0 ? lo : hi}`);
   return [`Left–right: ${w(p.x.v, 'left (more public spending)', 'right (lower taxes)')}${p.est ? ' — our estimate from their platform' : ` (${p.x.n} statements)`}`, `Homelessness & street safety: ${w(p.y.v, 'enforcement and order first', 'housing and support first')} (${p.y.n} statement${p.y.n > 1 ? 's' : ''})`]; };
 const compassDetailAxes = (c) => Object.keys(AXES).map((k) => { const s = axisScore(c, k); return `${AXES[k].title}: ${axisWords(k, s)}${s ? ` (${s.n} statement${s.n > 1 ? 's' : ''})` : ''}`; });
@@ -706,21 +755,33 @@ write('/compass/', page({
   url: '/compass/', title: 'Where they lean',
   desc: 'Where Squamish mayor and council candidates sit on taxes and spending, growth, and Woodfibre LNG and climate — worked out from their public statements and votes.',
   body: `<h1>Where they lean</h1>
-  <p class="lede">Everyone on one map first, then the five questions that split this election, one at a time.</p>
+  <p class="lede">Everyone on a map first — swipe for three different maps — then the five questions that split this election, one at a time.</p>
   <nav class="chapters no-print" aria-label="Jump to a topic"><a href="#map" data-ch="map"><span aria-hidden="true">🧭</span> Compass</a>${Object.entries(AXES).map(([k, A]) => `<a href="#axis-${k}" data-ch="axis-${k}"><span aria-hidden="true">${A.icon}</span> ${A.short || A.title}</a>`).join('')}</nav>
   <div class="lean-tools no-print">
     <label for="follow"><b>Follow one candidate:</b></label>
     <select id="follow"><option value="">— Show everyone —</option>${all.map((c) => `<option value="${c.slug}">${esc(c.name)}${c.office === 'mayor' ? ' (mayor)' : ''}</option>`).join('')}</select>
   </div>
   <section class="spec" id="map">
-  <h2><span aria-hidden="true">🧭</span> The political compass</h2>
-  <p class="ask">Left or right on money. Support first or enforcement first on the streets.</p>
-  ${compassLegend(false)}
-  <div class="compass-box"><div class="cb-wide">${compassSvg()}</div><div class="cb-narrow">${compassSvg({ mini: true, tap: true })}</div></div>
+  <div class="cmap-car" data-carousel data-track="Compass step" aria-roledescription="carousel" aria-label="Three compasses">
+  ${carHead('🧭 Compass', 'compass')}
+  ${Object.keys(CMAPS).map((mk, n) => { const M = CMAPS[mk], un = all.filter((c) => !cmapPos(c, mk)); return `<div data-slide data-cmap-slide="${mk}"${n ? ' hidden' : ''}>
+  <h2>${esc(M.title)}</h2>
+  <p class="ask">${esc(M.ask)}</p>
+  ${compassLegend(false, mk)}
+  <div class="compass-box"><div class="cb-wide">${compassSvg({ map: mk })}</div><div class="cb-narrow">${compassSvg({ mini: true, tap: true, map: mk })}</div></div>
+  ${mk === 'classic' ? '' : `<p class="small">${mk === 'cars'
+    ? '<b>Up–down</b> is how people should get around: more public parking, parking required in new buildings and free parking for residents (up), against paid parking being fair and for spending local money on bike lanes, sidewalks and regional transit (down). <b>Left–right</b> is growth: slow the pace of approvals (left), or allow taller buildings and cut red tape for builders (right).'
+    : '<b>Up–down</b> is money: hold taxes and spending down (up), or spend more on housing, shelters, transit, recreation, bike lanes and childcare (down). <b>Left–right</b> is growth: slow the pace of approvals (left), or allow taller buildings and cut red tape for builders (right).'} Tap a dot for details.</p>
+  <p class="small">${esc(miniCaveat(mk))}</p>`}
+  ${un.length ? `<p class="small nopos"><b>Not on this map</b> (too little on the record to place fairly): ${un.map((c) => `<a href="/candidates/${c.slug}/">${esc(c.name)}</a>`).join(', ')}.</p>` : ''}
+  </div>`; }).join('')}
+  <p class="small lt-hint no-print">Use the arrows (or swipe) to see the same candidates mapped ${Object.keys(CMAPS).length} different ways.</p>
+  </div>
   <div class="card compass-detail" id="cdetail" aria-live="polite" style="margin-top:1rem"><p class="muted" style="margin:0">Tap any dot above to see the details here.</p></div>
+  <div data-cmap-note="classic">
   <p class="small"><b>Left–right</b> is about money: spend more on public services and housing (left), or hold taxes and spending down (right). <b>Up–down</b> is the argument downtown: put housing, shelter and support services first (up), or put enforcement, policing and clearing encampments first (down). Someone who wants both lands in the middle. Tap a dot for details.</p>
   <p class="small"><b>Read this before judging anyone by it:</b> council has voted on supportive housing but has never voted on encampments, police numbers or public drug use — so most sitting councillors can only show up on the upper half. Only candidates who answered our questionnaire are placed on both sides. <a href="/issues/#homelessness">What council has and hasn’t decided</a>.</p>
-  ${unplaced.length ? `<p class="small nopos"><b>Not on the compass</b> (too little on the public record to place fairly): ${unplaced.map((c) => `<a href="/candidates/${c.slug}/">${esc(c.name)}</a>`).join(', ')}.</p>` : ''}
+  </div>
   </section>
 
   <h2 class="lean-more">Now topic by topic</h2>
@@ -732,9 +793,9 @@ write('/compass/', page({
   <div class="table-scroll"><table class="issue-table"><thead><tr><th>Candidate</th>${Object.values(AXES).map((A) => `<th>${A.title}</th>`).join('')}</tr></thead><tbody>
   ${all.map((c) => `<tr><td><a href="/candidates/${c.slug}/">${esc(c.name)}</a>${c.office === 'mayor' ? '<br><span class="small">for mayor</span>' : ''}</td>${Object.keys(AXES).map((k) => { const s = axisScore(c, k); return `<td data-label="${AXES[k].title}">${s ? esc(axisWords(k, s)) : '<span class="muted">no public record</span>'}</td>`; }).join('')}</tr>`).join('')}
   </tbody></table></div></details>
-  <details class="drop"><summary>How the compass is worked out</summary><p>Nobody here runs for a party, so nobody chose these labels. Each dot is <b>calculated</b> from the same sourced answers used in the quiz. <b>Left–right</b> averages the statements about taxes, borrowing and public spending (housing, shelters, transit, recreation, bike lanes, childcare). <b>Up–down</b> averages the statements on homelessness and street safety: more shelter and supportive housing, and mental-health crisis teams (up), against more RCMP, more bylaw officers downtown, moving Under One Roof out of downtown, clearing encampments, putting safety first when the two conflict, and bylaws against public drug use (down). Where a candidate has answered fewer than two money statements, we use our own researched estimate of their lean from their platform and mark the dot hollow.</p></details>
+  <details class="drop" id="how"><summary>How the compasses are worked out</summary><p>Nobody here runs for a party, so nobody chose these labels. Each dot is <b>calculated</b> from the same sourced answers used in the quiz. <b>Left–right</b> averages the statements about taxes, borrowing and public spending (housing, shelters, transit, recreation, bike lanes, childcare). <b>Up–down</b> averages the statements on homelessness and street safety: more shelter and supportive housing, and mental-health crisis teams (up), against more RCMP, more bylaw officers downtown, moving Under One Roof out of downtown, clearing encampments, putting safety first when the two conflict, and bylaws against public drug use (down). Where a candidate has answered fewer than two money statements, we use our own researched estimate of their lean from their platform and mark the dot hollow.</p><p><b>How should we grow — and pay for it?</b> Left–right is the same growth line as the Growth list below (slow the pace of approvals; taller buildings downtown; cut red tape for builders). Up–down is the money line from the political compass, turned on its side.</p><p><b>Cars or bikes?</b> Left–right is the growth line. Up–down averages the parking and transport statements: more public parking downtown, parking required in new buildings and free parking for residents (up), against paid parking being fair, and spending local money on bike lanes, sidewalks and regional transit (down).</p><p>A dot is hollow when either line rests on a single statement.</p></details>
   <details class="drop" hidden><summary>Why not “left vs. right”?</summary><p>Those labels come from national politics. Town councils don’t vote on civil liberties, candidates here don’t run for parties, and almost none of them have said anything about policing. Rather than guess, every position on this page is <b>calculated from the candidate’s sourced answers</b> to the same statements used in <a href="/quiz/">the quiz</a>. Anyone who hasn’t spoken publicly on a topic is left off that list, not parked in the middle.</p></details>`,
-  scripts: `<script>var CD=${JSON.stringify(Object.fromEntries(placed.map((c) => [c.slug, { n: c.name, d: classicWords(c) }])))};
+  scripts: `<script>var CD=${JSON.stringify(Object.fromEntries(Object.keys(CMAPS).map((mk) => [mk, Object.fromEntries(placedOn(mk).map((c) => [c.slug, { n: c.name, d: mk === 'classic' ? classicWords(c) : cmapWords(c, mk) }]))])))};
 var AX=${JSON.stringify(Object.fromEntries(Object.entries(AXES).map(([k, A]) => [k, A.q])))};
 </script><script src="/lean.js"></script>`,
 }));
@@ -769,7 +830,7 @@ write('/quiz/', page({
   <p class="lede">${QUESTIONS.length} statements. Tell us if you agree or disagree. It takes about three minutes, and your answers never leave your device.</p></div>
   <div id="quiz" class="card"><noscript>The quiz needs JavaScript turned on. You can still <a href="/compare/">compare candidates issue by issue</a>.</noscript></div>
   <p class="small" style="margin-top:1rem">How matching works: we compare your answers to each candidate’s public positions and votes. Questions you mark as important count double. Where a candidate has no public position, that question is left out for them. <a href="/about/#quiz">Full method</a>.</p></div>
-  <template id="tpl-compass">${miniCompass({ heading: 'Where you land', you: false })}</template>`,
+  <template id="tpl-compass">${miniCompass({ heading: 'Where you land', you: false, maps: ['classic'] })}</template>`,
   scripts: '<script src="/data.js"></script><script src="/quiz.js"></script>',
 }));
 

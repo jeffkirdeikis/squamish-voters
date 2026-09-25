@@ -120,14 +120,20 @@
       slides.forEach(function (s, k) { s.hidden = k !== i; });
       if (count) count.textContent = (i + 1) + ' of ' + slides.length;
       if (typeof layoutTracks === 'function') layoutTracks();
+      if (window.SV && SV.compassYou) SV.compassYou(car); // ★ You can only be placed on a chart once it is visible
+      car.dispatchEvent(new CustomEvent('slide', { detail: slides[i] }));
     }
-    car.querySelectorAll('[data-car-prev]').forEach(function (b) { b.addEventListener('click', function () { show(i - 1); if (window.SV && SV.track) SV.track('Lean teaser', { step: 'prev' }); }); });
-    car.querySelectorAll('[data-car-next]').forEach(function (b) { b.addEventListener('click', function () { show(i + 1); if (window.SV && SV.track) SV.track('Lean teaser', { step: 'next' }); }); });
+    var ev = car.getAttribute('data-track') || 'Lean teaser';
+    car.querySelectorAll('[data-car-prev]').forEach(function (b) { b.addEventListener('click', function () { show(i - 1); if (window.SV && SV.track) SV.track(ev, { step: 'prev' }); }); });
+    car.querySelectorAll('[data-car-next]').forEach(function (b) { b.addEventListener('click', function () { show(i + 1); if (window.SV && SV.track) SV.track(ev, { step: 'next' }); }); });
     // swipe on phones
     var x0 = null;
     car.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
     car.addEventListener('touchend', function (e) { if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 50) show(dx < 0 ? i + 1 : i - 1); }, { passive: true });
-    show(0);
+    // /compass/?map=cars opens on that map (links from the small compass cards)
+    var want = (location.search.match(/[?&]map=(\w+)/) || [])[1], start = 0;
+    slides.forEach(function (s, k) { if (want && s.getAttribute('data-cmap-slide') === want) start = k; });
+    show(start);
   });
 
   // ----- home lean track: fan overlapping faces into rows using real pixel widths (build-time lanes are a % guess that is too tight on phones) -----

@@ -24,7 +24,7 @@
   function follow(slug, jump) {
     document.body.classList.toggle('following', !!slug);
     $$('[data-slug]').forEach(function (el) { el.classList.toggle('hl', !!slug && el.getAttribute('data-slug') === slug); });
-    if (slug && CD[slug]) showDot($('.cdot[data-slug="' + slug + '"]'));
+    if (slug) showDot($$('.cdot[data-slug="' + slug + '"]').filter(function (g) { return g.getClientRects().length; })[0]);
     try { history.replaceState(null, '', slug ? '#follow=' + slug : location.pathname); } catch (e) {}
     if (jump) { var first = $('.srow.hl') || $('.cdot.hl'); if (first) first.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
   }
@@ -60,11 +60,20 @@
   function showDot(g) {
     if (!g) return;
     $$('.cdot').forEach(function (x) { x.classList.toggle('on', x.getAttribute('data-slug') === g.getAttribute('data-slug')); }); // both charts
-    var d = CD[g.getAttribute('data-slug')], e = $('#cdetail'); e.textContent = '';
+    var svg = g.closest('svg'), d = (CD[(svg && svg.getAttribute('data-cmap')) || 'classic'] || {})[g.getAttribute('data-slug')], e = $('#cdetail');
+    if (!d) return; e.textContent = '';
     var h = document.createElement('h3'); h.style.marginTop = '0'; h.textContent = d.n;
     var u = document.createElement('ul'); d.d.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; u.append(li); });
     var a = document.createElement('a'); a.className = 'btn secondary'; a.href = '/candidates/' + g.getAttribute('data-slug') + '/'; a.textContent = 'Read full profile';
     e.append(h, u, a);
+  }
+  // the notes under the classic compass only apply to that map; clear old dot details when the map changes
+  var car = $('.cmap-car');
+  if (car) {
+    var sync = function (slide) { var mk = slide.getAttribute('data-cmap-slide'); $$('[data-cmap-note]').forEach(function (n) { n.hidden = n.getAttribute('data-cmap-note') !== mk; });
+      var e = $('#cdetail'), sl = sel && sel.value; if (sl && $('.cdot[data-slug="' + sl + '"]', slide)) showDot($$('.cdot[data-slug="' + sl + '"]', slide).filter(function (g) { return g.getClientRects().length; })[0]); else if (e) e.innerHTML = '<p class="muted" style="margin:0">Tap any dot above to see the details here.</p>'; };
+    car.addEventListener('slide', function (ev) { sync(ev.detail); });
+    var cur = $('[data-slide]:not([hidden])', car); if (cur) sync(cur);
   }
   $$('.cdot').forEach(function (g) {
     g.addEventListener('click', function () { showDot(g); });

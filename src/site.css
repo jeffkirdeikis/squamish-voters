@@ -734,3 +734,8 @@ summary:hover .more-btn { background: var(--brand); color: #fff; }
 .said > summary::-webkit-details-marker { display: none; }
 .said > summary .more-btn { margin-top: 0; }
 @media print { .more-btn { display: none !important; } }
+/* Compass carousels (/compass/ and the small compass cards) */
+.cmap-car > .lt-head { margin-bottom: .4rem; }
+.cmap-car [data-slide] > h2 { margin-top: .2rem; }
+.mc-t { font-weight: 700; color: var(--brand); margin: .4rem 0 0; }
+.mini-compass .lt-hint, .cmap-car .lt-hint { margin: .6rem 0 0; color: var(--muted); }
