@@ -9,7 +9,7 @@ C = json.load(open('data/candidates.json'))
 by = {c['name']: c for c in C}
 
 # Only real, verified submissions. A curl test entry under Sean Goodwin's name (Sept 20) is skipped by its user agent.
-USE = {'Sarah Ellis', 'Shaun Veltkamp', 'Sean Goodwin'}
+USE = {'Sarah Ellis', 'Shaun Veltkamp', 'Sean Goodwin', 'Daniel Deal', 'Laura Prosko'}
 seen = set()
 for r in sorted(RESP, key=lambda r: r['received'], reverse=True):   # newest first: a re-submission replaces the earlier one
     if r['who'] not in USE or not r.get('verified') or (r.get('ua') or '').startswith('curl') or r['who'] in seen:
@@ -21,6 +21,9 @@ for r in sorted(RESP, key=lambda r: r['received'], reverse=True):   # newest fir
     c['quiz_answers'] = qa
     c['answer_notes'] = {k: v.strip() for k, v in (r.get('notes') or {}).items() if v.strip()}
     c['own_words'] = {k: v.strip() for k, v in (r.get('writing') or {}).items() if v.strip() and k != 'corrections'}
+    # A platform statement sent earlier (e.g. Prosko, Sept 22) keeps its own page alongside the questionnaire.
+    if (c.get('direct') or {}).get('kind') == 'statement' and c['direct'].get('file'):
+        c['statement'] = c['direct']
     c['direct'] = {
         'kind': 'questionnaire',
         # Timestamps are stored in UTC; show the Squamish (Pacific, UTC-7 in September/October) calendar date.
@@ -50,6 +53,28 @@ HEAD = {
   'environment_lng': "Wants a harder bargain with Woodfibre LNG (“not leave millions on the table”); climate a top priority",
   'transportation': 'For bike lanes and sidewalks; lukewarm on paid parking downtown',
  },
+ 'Daniel Deal': {
+  'growth': 'Don’t slow approvals; fill in existing neighbourhoods first, expand the growth boundary later',
+  'housing_affordability': 'Strongly for more public money and land for below-market homes, and a required share in big projects',
+  'homelessness': 'Against clearing camps with nowhere to go; points to supportive housing on Government Road; wants the Province to pay',
+  'policing': 'Against funding more RCMP; strongly for mental-health crisis teams; a community task force to free up bylaw staff',
+  'taxes_spending': 'Strongly for holding taxes to inflation; against the Woodfibre tax deal; referendums on big projects',
+  'environment_lng': 'Against the 10-year Woodfibre tax deal; against pressing the plant through permits',
+  'transportation': 'Against spending local money on bike lanes ahead of recreation; in the middle on regional transit',
+  'economy': 'Strongly for cutting red tape; protect industrial land; bring back business incentives',
+  'parking': 'Build more downtown parking; against paid parking — if it comes, locals park free',
+ },
+ 'Laura Prosko': {
+  'growth': 'Growing too fast: infrastructure and Brennan Park first; against taller buildings downtown and new neighbourhoods for now',
+  'housing_affordability': 'Big projects should include below-market homes; “housing security”; keep Airbnb legal and regulated',
+  'homelessness': 'Bring everyone to the table; in the middle on shelters, moving Under One Roof and clearing camps',
+  'policing': 'Strongly for more RCMP, a mental-health car and bylaws against open drug use',
+  'taxes_spending': 'Two-year tax freeze without cutting services; against borrowing for Brennan Park now; against the Woodfibre deal',
+  'environment_lng': 'Climate action a top priority; wants the Woodfibre deal renegotiated for more money',
+  'transportation': 'Strongly for regional transit, bike lanes and sidewalks — “but we need fiscal responsibility”',
+  'economy': 'Strongly for cutting red tape for small business',
+  'parking': 'More public parking downtown; would vote no on parking variances; against paid parking',
+ },
  'Sean Goodwin': {
   'growth': 'Keep growing, but stop densifying downtown: open new land and link neighbourhoods with new roads',
   'housing_affordability': 'Prefers “attainable” homes sold to set income brackets; keep District land for housing',
@@ -71,6 +96,9 @@ for name, heads in HEAD.items():
         if was_none or not st_['summary']:
             st_['summary'] = f"{first} had said little in public about this before answering our questionnaire. {first}’s own answers are below."
             st_['confidence'] = 'none'; st_['quote'] = None
+# Researched summaries that her questionnaire now answers (q6 +2 more RCMP, q19, q35).
+_pp = by['Laura Prosko']['stances']['policing']
+_pp['summary'] = _pp['summary'].replace(' No specific position found on officer counts, RCMP budget or bylaw enforcement.', '')
 # Not an "against": move it to what he supports.
 v = by['Shaun Veltkamp']
 moved = [o for o in v['opposes'] if 'realign' in o['text']]
@@ -82,6 +110,9 @@ if moved and not any('qualified experts' in x['text'] for x in v['supports']):
 by['Sarah Ellis']['growth_group'] = 'up'        # her answers: taller buildings downtown +1, new land -1
 by['Shaun Veltkamp']['growth_group'] = 'mix'    # in the middle on all three growth statements
 by['Daniel Deal']['growth_group'] = 'mix'       # "fill in first; expand the boundary later" (as grouped before his headline was reworded)
+by['Daniel Deal']['growth_line'] = 'On growth: don’t slow approvals — fill in existing neighbourhoods first, and expand the growth boundary later.'
+by['Laura Prosko']['growth_group'] = 'slow'     # her answers: growing too fast +2, taller buildings -2, new land -2
+by['Laura Prosko']['growth_line'] = 'On growth: growing too fast — get infrastructure and Brennan Park right before more growth.'
 
 # Goodwin: strongly for opening new land (q3 +2), against taller buildings downtown (q2 -1) — "build out", in his own words.
 g = by['Sean Goodwin']

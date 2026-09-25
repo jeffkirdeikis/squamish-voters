@@ -724,3 +724,13 @@ blockquote.long p { margin: 0 0 .7rem; } blockquote.long { font-style: normal; }
 .trust-card p { margin: .3rem 0 0; font-size: .95rem; color: var(--ink-2); }
 .trust-card .trust-links { display: flex; flex-wrap: wrap; gap: .3rem 1.2rem; margin-top: .55rem; }
 .trust-links a { font-weight: 700; }
+/* Labelled "Click to expand" button inside a summary (profile topics, own-words rows, Compare comments). */
+.more-btn { display: inline-flex; align-self: flex-start; margin-top: .45rem; padding: .4rem .8rem; border-radius: 999px; background: var(--brand-soft); color: var(--brand); border: 1px solid var(--brand); font-weight: 700; font-size: .92rem; line-height: 1.25; }
+.more-btn .o, details[open] > summary .more-btn .c { display: none; }
+details[open] > summary .more-btn .o { display: inline; }
+summary:hover .more-btn { background: var(--brand); color: #fff; }
+.stance-row.has-more > summary::after { display: none; }
+.said > summary { list-style: none; }
+.said > summary::-webkit-details-marker { display: none; }
+.said > summary .more-btn { margin-top: 0; }
+@media print { .more-btn { display: none !important; } }

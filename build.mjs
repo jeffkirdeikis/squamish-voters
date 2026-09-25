@@ -83,7 +83,13 @@ const fmtLong = (d) => new Date(d + 'T12:00:00').toLocaleDateString('en-CA', { m
 const isDirectQ = (c) => c.direct?.kind === 'questionnaire';
 // Did the candidate answer this statement themselves? (Other scores on file are our reading of the public record.)
 const selfAnswered = (c, q) => isDirectQ(c) && typeof c.quiz_answers?.[q.id] === 'number' && (!c.direct.answered || c.direct.answered.includes(q.id));
-const wrote = (c, q) => (selfAnswered(c, q) && c.answer_notes?.[q.id]) || '';
+// A comment the candidate wrote on a statement — shown even where they chose not to pick an answer.
+const wrote = (c, q) => (isDirectQ(c) && c.answer_notes?.[q.id]) || '';
+const ansWord = (c, q) => selfAnswered(c, q) || !isDirectQ(c) ? ANSWER_WORD[String(c.quiz_answers[q.id])] : 'Didn’t pick an answer';
+// A platform statement sent to us as text keeps its own page, even after the candidate also answers the questionnaire.
+const stmtOf = (c) => c.statement || (c.direct?.kind === 'statement' ? c.direct : null);
+// The visible "read more" label inside a <summary>; CSS swaps the two halves when the row is open.
+const moreBtn = (label) => `<span class="more-btn" aria-hidden="true"><span class="c">${label} ▾</span><span class="o">Show less ▴</span></span>`;
 // Candidate-supplied material is flagged everywhere it appears, so readers can tell it from our reading of the record.
 const directBadge = (c) => !c.direct ? '' : `<span class="badge direct" title="${esc(c.direct.how)}">✓ ${isDirectQ(c) ? 'Answered us directly' : c.direct.kind === 'email' ? 'Answered us by email' : 'Sent us their platform'}</span>`;
 const growthSentence = (c) => esc(c.growth_line || GROWTH_SENTENCE[growthKey(c)]);
@@ -315,7 +321,7 @@ function directNotice(c) {
   const f = esc(first(c)), when = esc(fmtLong(c.direct.date));
   if (c.direct.kind === 'email') return `<div class="notice direct"><b>✓ New — ${f} answered us by email.</b> On ${when}, ${f} sent Squamish Voters written answers about ${esc(c.direct.topic)}. They are published in full, word for word. <a href="#emailed">Read ${f}’s answers</a>.</div>`;
   return isDirectQ(c)
-    ? `<div class="notice direct"><b>✓ Verified — in ${f}’s own words.</b> ${f} filled in our candidate questionnaire on ${when}. It was sent from the email address ${f} filed with the District of Squamish. Everything marked <span class="badge direct">✓ Direct answer</span> below is ${f}’s own answer, not our reading of the public record. <a href="#questionnaire">Jump to all answers</a>.</div>`
+    ? `<div class="notice direct"><b>✓ Verified — in ${f}’s own words.</b> ${f} filled in our candidate questionnaire on ${when}. It was sent from the email address ${f} filed with the District of Squamish. Everything marked <span class="badge direct">✓ Direct answer</span> below is ${f}’s own answer, not our reading of the public record. <a href="#questionnaire">Jump to all answers</a>.${stmtOf(c) ? ` ${f} also sent us a platform statement on ${esc(fmtLong(stmtOf(c).date))} — <a href="${esc(stmtOf(c).url)}">read it in full</a>.` : ''}</div>`
     : `<div class="notice direct"><b>✓ New — sent to us by ${f}.</b> ${f} sent Squamish Voters a platform statement on ${when}. The supports, against list and topics below now come from it. ${/\.pdf$/i.test(c.direct.url) ? `<a href="${esc(c.direct.url)}" target="_blank" rel="noopener">Read the original (PDF)</a>` : `<a href="${esc(c.direct.url)}">Read it in full, in ${f}’s own words →</a>`}.</div>`;
 }
 // Written answers a candidate emailed us: published whole, never trimmed or reworded.
@@ -324,7 +330,7 @@ function emailedAnswers(c) {
   const para = (t) => t.split(/\n\n+/).map((x) => `<p>${esc(x).replace(/\n/g, '<br>')}</p>`).join('');
   return `<h2 id="emailed">${esc(first(c))}’s emailed answers <span class="badge direct">✓ Own words</span></h2>
   <p class="small">Sent to Squamish Voters on ${esc(fmtLong(c.direct.date))}. Published in full and unedited.</p>
-  <div class="card stack">${c.emailed.map((x, n) => `<details class="stance-row"${n === 0 ? ' open' : ''}><summary><span class="txt"><b>${esc(x.q)}</b></span></summary><blockquote class="long">${para(x.a)}</blockquote>${x.note ? `<p class="small ednote">${esc(x.note)}</p>` : ''}</details>`).join('')}</div>`;
+  <div class="card stack">${c.emailed.map((x, n) => `<details class="stance-row has-more"${n === 0 ? ' open' : ''}><summary><span class="txt"><b>${esc(x.q)}</b>${moreBtn(`Click to expand — read ${esc(first(c))}’s full answer`)}</span></summary><blockquote class="long">${para(x.a)}</blockquote>${x.note ? `<p class="small ednote">${esc(x.note)}</p>` : ''}</details>`).join('')}</div>`;
 }
 function directAnswers(c) {
   if (!isDirectQ(c)) {
@@ -334,33 +340,33 @@ function directAnswers(c) {
     <ul class="qa">${rows.map((q) => `<li><b>${escGl(q.text)}</b><span class="ans">${ANSWER_WORD[String(c.quiz_answers[q.id])]}</span></li>`).join('')}</ul>
     <p class="small">Our reading of ${esc(first(c))}’s public statements and votes — ${esc(first(c))} has not answered our questionnaire.</p></details>` : '';
   }
-  const rows = ALL_QUESTIONS.filter((q) => selfAnswered(c, q));
+  const rows = ALL_QUESTIONS.filter((q) => selfAnswered(c, q) || wrote(c, q));
   // The longer answers are the most useful thing a candidate gives us, so they sit in the open, not inside the full list.
   const noted = rows.filter((q) => wrote(c, q)), SHOW = 4;
-  const noteLi = (q) => `<li><b>${escGl(q.text)}</b><span class="ans">${ANSWER_WORD[String(c.quiz_answers[q.id])]}</span><p>“${escGl(wrote(c, q))}”</p></li>`;
+  const noteLi = (q) => `<li><b>${escGl(q.text)}</b><span class="ans">${ansWord(c, q)}</span><p>“${escGl(wrote(c, q))}”</p></li>`;
   const words = WRITE_IN.filter(([k]) => c.own_words?.[k]);
   return `${words.length ? `<h2 id="own-words">In ${esc(first(c))}’s own words <span class="badge direct">✓ Direct</span></h2>
-  <div class="card stack">${words.map(([k, label]) => `<details class="stance-row"${k === 'pitch' || k === 'one_thing' ? ' open' : ''}><summary><span class="txt"><b>${esc(label.replace(/ — we may use.*$/, ''))}</b></span></summary><blockquote>${escGl(c.own_words[k])}</blockquote></details>`).join('')}</div>` : ''}
+  <div class="card stack">${words.map(([k, label]) => `<details class="stance-row has-more"${k === 'pitch' || k === 'one_thing' ? ' open' : ''}><summary><span class="txt"><b>${esc(label.replace(/ — we may use.*$/, ''))}</b>${moreBtn(`Click to expand — read ${esc(first(c))}’s full answer`)}</span></summary><blockquote>${escGl(c.own_words[k])}</blockquote></details>`).join('')}</div>` : ''}
   ${noted.length ? `<h2 id="explained">${esc(first(c))} explains ${noted.length === 1 ? 'an answer' : 'their answers'} <span class="badge direct">✓ Direct</span></h2>
   <p class="small">${esc(first(c))} added a comment to ${noted.length} of the statements we put to every candidate. These are ${esc(first(c))}’s words, unedited.</p>
   <div class="card"><ul class="qa">${noted.slice(0, SHOW).map(noteLi).join('')}</ul>
   ${noted.length > SHOW ? `<details class="more"><summary>Show ${noted.length - SHOW} more</summary><ul class="qa">${noted.slice(SHOW).map(noteLi).join('')}</ul></details>` : ''}</div>` : ''}
   <details class="drop" id="questionnaire"><summary>All ${rows.length} of ${esc(first(c))}’s questionnaire answers <span class="badge direct">✓ Direct</span></summary>
-  <ul class="qa">${rows.map((q) => `<li><b>${escGl(q.text)}</b><span class="ans">${ANSWER_WORD[String(c.quiz_answers[q.id])]}</span>${c.answer_notes?.[q.id] ? `<p>“${escGl(c.answer_notes[q.id])}”</p>` : ''}</li>`).join('')}</ul>
+  <ul class="qa">${rows.map((q) => `<li><b>${escGl(q.text)}</b><span class="ans">${ansWord(c, q)}</span>${wrote(c, q) ? `<p>“${escGl(wrote(c, q))}”</p>` : ''}</li>`).join('')}</ul>
   <p class="small">Answered by ${esc(c.name)} on ${esc(fmtLong(c.direct.date))}. Where these differ from our earlier reading of the public record, the candidate’s own answer is what counts in the quiz and compare pages.</p></details>`;
 }
 // The candidate's own questionnaire answers on one topic, shown inside that topic's row.
 function directOnTopic(c, key) {
   if (!isDirectQ(c)) return '';
-  const rows = ALL_QUESTIONS.filter((q) => q.issue === key && selfAnswered(c, q));
+  const rows = ALL_QUESTIONS.filter((q) => q.issue === key && (selfAnswered(c, q) || wrote(c, q)));
   if (!rows.length) return '';
-  return `<div class="direct-topic"><p class="small"><span class="badge direct">✓ Direct answer</span> ${esc(first(c))} told us:</p><ul class="qa">${rows.map((q) => `<li><b>${escGl(q.text)}</b><span class="ans">${ANSWER_WORD[String(c.quiz_answers[q.id])]}</span>${c.answer_notes?.[q.id] ? `<p>“${escGl(c.answer_notes[q.id])}”</p>` : ''}</li>`).join('')}</ul></div>`;
+  return `<div class="direct-topic"><p class="small"><span class="badge direct">✓ Direct answer</span> ${esc(first(c))} told us:</p><ul class="qa">${rows.map((q) => `<li><b>${escGl(q.text)}</b><span class="ans">${ansWord(c, q)}</span>${wrote(c, q) ? `<p>“${escGl(wrote(c, q))}”</p>` : ''}</li>`).join('')}</ul></div>`;
 }
 function stanceRow(c, i) {
   const s = c.stances?.[i.key] || {};
   const none = !s.position || /no public position/i.test(s.position);
   const mine = directOnTopic(c, i.key);
-  return `<details class="stance-row${none && !mine ? ' none' : ''}"><summary><span class="ic" aria-hidden="true">${i.icon}</span><span class="txt"><b>${i.title}</b><span class="pos">${none ? (mine ? 'Answered our questionnaire — tap to read' : 'Hasn’t said') : escGl(s.position)}</span>${mine ? '<span class="badge direct">✓ Own answers inside</span>' : ''}</span></summary>
+  return `<details class="stance-row${none && !mine ? ' none' : ' has-more'}"><summary><span class="ic" aria-hidden="true">${i.icon}</span><span class="txt"><b>${i.title}</b><span class="pos">${none ? (mine ? 'Answered our questionnaire' : 'Hasn’t said') : escGl(s.position)}</span>${mine ? '<span class="badge direct">✓ Own answers inside</span>' : ''}${none && !mine ? '' : moreBtn(`Click to expand — read more about ${esc(first(c))}’s view on this`)}</span></summary>
   ${none ? (mine ? '' : `<p class="muted">We could not find anything ${esc(c.name.split(' ')[0])} has said publicly about this.</p>`) : `<p>${escGl(s.summary)}${src(s.source_url)}</p>${s.quote ? `<blockquote>“${escGl(s.quote.replace(/^["“]|["”]$/g, ''))}”</blockquote>` : ''}${confLabel[s.confidence] ? `<p class="conf">${confLabel[s.confidence]}</p>` : ''}`}${mine}</details>`;
 }
 const confLabel = { high: 'Well documented', medium: 'Some evidence', low: 'Limited evidence', none: '' };
@@ -406,13 +412,13 @@ for (const c of all) {
     <div class="profile-main">
     ${thinRecord(c) ? `<div class="notice"><b>We could not find much yet.</b> ${esc(c.name)} has said very little in public so far. The best way to learn more is to email them${links ? ' using the link on this page' : ''}, or go to an <a href="/vote/#events">all-candidates meeting</a>.</div>` : ''}
     ${directNotice(c)}${paperNotice(c)}
-    <p class="small ours">${c.direct?.kind === 'statement' ? `Summarised by us from ${esc(first(c))}’s own statement.` : 'Our summary of what ' + esc(first(c)) + ' has said and done in public.'} Tap <b>[source]</b> on any line to check it yourself.</p>
+    <p class="small ours">${stmtOf(c) ? `Summarised by us from ${esc(first(c))}’s own statement.` : 'Our summary of what ' + esc(first(c)) + ' has said and done in public.'} Tap <b>[source]</b> on any line to check it yourself.</p>
     <div class="grid cols-2">
       ${sideList(c, 'supports', 'Supports', 'for', 'forlist')}
       ${sideList(c, 'opposes', 'Against', 'against', 'againstlist')}
     </div>
     <h2 id="issues">Where ${esc(c.name.split(' ')[0])} stands</h2>
-    <p class="small">Tap any topic to read more.</p>
+    <p class="small">Each topic opens up — press <b>Click to expand</b> for the detail, quotes and sources.</p>
     <div class="card stack">${ISSUES.map((i) => stanceRow(c, i)).join('')}</div>
     ${(c.top_priorities || []).length ? `<details class="drop"><summary>${esc(c.name.split(' ')[0])}’s own priority list</summary><ol class="ol">${c.top_priorities.map((p) => `<li>${escGl(p)}</li>`).join('')}</ol></details>` : ''}
     ${emailedAnswers(c)}
@@ -441,7 +447,7 @@ function spectrum(q) {
   <div class="bins">
   ${BINS.map(([val, cls, label]) => { const inBin = all.filter((c) => c.quiz_answers?.[q.id] === val); return inBin.length ? `<div class="bin ${cls}"><span class="lab">${label}</span><ul class="namechips">${inBin.map(nameChip).join('')}</ul></div>` : ''; }).join('')}
   ${unknown.length ? `<details class="bin-un"><summary>${unknown.length} ${unknown.length === 1 ? 'candidate hasn’t' : 'candidates haven’t'} said — show names</summary><ul class="namechips">${unknown.map(nameChip).join('')}</ul></details>` : ''}
-  </div>${said.length ? `<details class="said" data-q="${q.id}"><summary>Read what ${said.length === 1 ? esc(said[0].name) : said.length + ' candidates'} wrote about this</summary><ul class="qa">${said.map((c) => `<li><a href="/candidates/${c.slug}/#explained"><b>${esc(c.name)}</b></a>${c.office === 'mayor' ? ' <span class="small">(for mayor)</span>' : ''} <span class="ans">${ANSWER_WORD[String(c.quiz_answers[q.id])]}</span><p>“${esc(wrote(c, q))}”</p></li>`).join('')}</ul><p class="small">Comments candidates added when answering our questionnaire, unedited.</p></details>` : ''}</div>`;
+  </div>${said.length ? `<details class="said" data-q="${q.id}"><summary>${moreBtn(`Click to expand — read what ${said.length === 1 ? esc(said[0].name) : said.length + ' candidates'} wrote about this`)}</summary><ul class="qa">${said.map((c) => `<li><a href="/candidates/${c.slug}/#explained"><b>${esc(c.name)}</b></a>${c.office === 'mayor' ? ' <span class="small">(for mayor)</span>' : ''} <span class="ans">${ansWord(c, q)}</span><p>“${esc(wrote(c, q))}”</p></li>`).join('')}</ul><p class="small">Comments candidates added when answering our questionnaire, unedited.</p></details>` : ''}</div>`;
 }
 const issueSection = (i) => {
   const ic = issueCtx(i.key);
@@ -885,15 +891,15 @@ write('/vote/', page({
 }));
 
 // A platform statement a candidate sent us as text (not a PDF): published whole on its own page, like a positions paper.
-for (const c of all.filter((x) => x.direct?.kind === 'statement' && x.direct.file)) {
-  const f = esc(first(c));
-  write(c.direct.url, page({
+for (const c of all.filter((x) => stmtOf(x)?.file)) {
+  const f = esc(first(c)), st = stmtOf(c);
+  write(st.url, page({
     url: '/candidates/', title: `${c.name}: platform statement, in full`,
     desc: `${c.name}’s own platform statement for the 2026 Squamish election, sent to Squamish Voters, in full.`,
     body: `<p class="crumbs"><a href="/candidates/${c.slug}/">← ${esc(c.name)}’s profile</a></p>
     <h1>${esc(c.name)}: platform statement, in full</h1>
-    <div class="notice direct"><b>These are ${f}’s own words, not ours.</b> ${f} ${esc(c.direct.how)} on ${esc(fmtLong(c.direct.date))}, under the title “${esc(c.direct.title.replace(/[“”]/g, "'"))}”. It is published whole; nothing has been cut or reworded. Spot a typing mistake? <a href="mailto:${esc(SITE.contact)}">Tell us</a>.</div>
-    <div class="paper">${pageFile(c.direct.file)}</div>
+    <div class="notice direct"><b>These are ${f}’s own words, not ours.</b> ${f} ${esc(st.how)} on ${esc(fmtLong(st.date))}, under the title “${esc(st.title.replace(/[“”]/g, "'"))}”. It is published whole; nothing has been cut or reworded. Spot a typing mistake? <a href="mailto:${esc(SITE.contact)}">Tell us</a>.</div>
+    <div class="paper">${pageFile(st.file)}</div>
     <div class="btn-row"><a class="btn secondary" href="/candidates/${c.slug}/">← Back to ${f}’s profile</a></div>`,
   }));
 }
