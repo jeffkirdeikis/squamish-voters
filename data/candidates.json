@@ -4468,7 +4468,7 @@
    }
   ],
   "research_notes": "Sept 20 2026: platform added from the press release Chris Ryan sent to Squamish Voters (Sept 18). q8 = -1 from his explicit statement that Squamish should work with, not fight, the LNG company. No other quiz scores assigned — the release does not address the other statements directly. Sept 25 2026: questionnaire answered (form email had a typo, .comom; Jeff confirmed it is genuine). His own q8 +2 replaces our press-release reading of -1. Sept 20 2026: platform added from the press release Chris Ryan sent to Squamish Voters (Sept 18). q8 = -1 from his explicit statement that Squamish should work with, not fight, the LNG company. No other quiz scores assigned — the release does not address the other statements directly. Not an incumbent. Nothing beyond the official listing could be found: no campaign website, no Squamish Chief or Squamish Reporter profile as of Sept 19 2026, and no letters, delegations or past candidacies identifiable as him. His only listed channel is a LinkedIn profile, which blocks unauthenticated access, so occupation is unknown. Nomination papers (signed Sept 9, declared Sept 11 2026) contain no platform statement. The name is very common - web hits for 'Chris Ryan' were unrelated people or false matches and were NOT used. Recommend the site show him as 'No public information yet', exclude him from quiz matching, and contact him at the listed email / re-check the Chief hub. PARKING (Sept 21 2026, research/parking-0921.json): q36 +1: The solution: acquire the rail line on Loggers Lane from the provincial government's BC Rail Corporation and the lessee, CN Rail, to continue the bike lane down to Hunter Place Road. This would allow us to create angled  (https://squamishvoters.com/docs/chris-ryan-2026-09-18.pdf) | q37 +1: Builders need to supply sufficient parking instead of opting for cash-in-lieu [...] Parking is needed in all parts of our community as our housing becomes more expensive and several incomes are required to support a mort (https://squamishvoters.com/docs/chris-ryan-2026-09-18.pdf) | q38 +1: press release — Loggers Lane parking \"paid for by visitors but available to our residents and employees with a permit\" (one site, so +1). Sept 22 2026 sweep: still no campaign website, socials or Chief/Reporter profile; the Sept 18 press release remains the only platform source.",
-  "photo": null,
+  "photo": "img/chris-ryan.jpg",
   "direct": {
    "kind": "questionnaire",
    "date": "2026-09-25",
@@ -4554,7 +4554,8 @@
    "title": "Press release: “Meet Chris Ryan. A voice for Common Sense & Action in Squamish”",
    "how": "Sent to Squamish Voters by the candidate."
   },
-  "growth_group": "mix"
+  "growth_group": "mix",
+  "photo_credit": "candidate’s campaign"
  },
  {
   "name": "Shaun Veltkamp",
