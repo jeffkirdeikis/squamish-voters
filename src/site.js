@@ -234,6 +234,10 @@
   }
   compassYou();
 
+  // a link straight to a collapsed section (/candidates/x/#questionnaire) opens it
+  function openHash() { var d = location.hash && document.getElementById(location.hash.slice(1)); if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView(); } }
+  openHash(); window.addEventListener('hashchange', openHash);
+
   window.SV = { getBallot: getBallot, setBallot: setBallot, toggle: toggle, toast: toast, store: store, renderPicks: render, track: track, compassYou: compassYou };
   render();
 })();

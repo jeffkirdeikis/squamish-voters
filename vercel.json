@@ -25,6 +25,186 @@
       ],
       "destination": "https://squamishvoters.com/$1",
       "permanent": false
+    },
+    {
+      "source": "/a-john-lowe/answers/",
+      "destination": "/candidates/a-john-lowe/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/a-john-lowe/",
+      "destination": "/candidates/a-john-lowe/",
+      "permanent": false
+    },
+    {
+      "source": "/anders-ourom/answers/",
+      "destination": "/candidates/anders-ourom/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/anders-ourom/",
+      "destination": "/candidates/anders-ourom/",
+      "permanent": false
+    },
+    {
+      "source": "/andrew-hamilton/answers/",
+      "destination": "/candidates/andrew-hamilton/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/andrew-hamilton/",
+      "destination": "/candidates/andrew-hamilton/",
+      "permanent": false
+    },
+    {
+      "source": "/chris-pettingill/answers/",
+      "destination": "/candidates/chris-pettingill/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/chris-pettingill/",
+      "destination": "/candidates/chris-pettingill/",
+      "permanent": false
+    },
+    {
+      "source": "/chris-ryan/answers/",
+      "destination": "/candidates/chris-ryan/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/chris-ryan/",
+      "destination": "/candidates/chris-ryan/",
+      "permanent": false
+    },
+    {
+      "source": "/daniel-deal/answers/",
+      "destination": "/candidates/daniel-deal/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/daniel-deal/",
+      "destination": "/candidates/daniel-deal/",
+      "permanent": false
+    },
+    {
+      "source": "/eric-andersen/answers/",
+      "destination": "/candidates/eric-andersen/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/eric-andersen/",
+      "destination": "/candidates/eric-andersen/",
+      "permanent": false
+    },
+    {
+      "source": "/ian-brown/answers/",
+      "destination": "/candidates/ian-brown/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/ian-brown/",
+      "destination": "/candidates/ian-brown/",
+      "permanent": false
+    },
+    {
+      "source": "/janice-desjardins/answers/",
+      "destination": "/candidates/janice-desjardins/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/janice-desjardins/",
+      "destination": "/candidates/janice-desjardins/",
+      "permanent": false
+    },
+    {
+      "source": "/jenna-stoner/answers/",
+      "destination": "/candidates/jenna-stoner/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/jenna-stoner/",
+      "destination": "/candidates/jenna-stoner/",
+      "permanent": false
+    },
+    {
+      "source": "/john-french/answers/",
+      "destination": "/candidates/john-french/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/john-french/",
+      "destination": "/candidates/john-french/",
+      "permanent": false
+    },
+    {
+      "source": "/kieran-brownie/answers/",
+      "destination": "/candidates/kieran-brownie/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/kieran-brownie/",
+      "destination": "/candidates/kieran-brownie/",
+      "permanent": false
+    },
+    {
+      "source": "/laura-prosko/answers/",
+      "destination": "/candidates/laura-prosko/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/laura-prosko/",
+      "destination": "/candidates/laura-prosko/",
+      "permanent": false
+    },
+    {
+      "source": "/luc-perreault/answers/",
+      "destination": "/candidates/luc-perreault/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/luc-perreault/",
+      "destination": "/candidates/luc-perreault/",
+      "permanent": false
+    },
+    {
+      "source": "/sarah-ellis/answers/",
+      "destination": "/candidates/sarah-ellis/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/sarah-ellis/",
+      "destination": "/candidates/sarah-ellis/",
+      "permanent": false
+    },
+    {
+      "source": "/sean-easton/answers/",
+      "destination": "/candidates/sean-easton/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/sean-easton/",
+      "destination": "/candidates/sean-easton/",
+      "permanent": false
+    },
+    {
+      "source": "/sean-goodwin/answers/",
+      "destination": "/candidates/sean-goodwin/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/sean-goodwin/",
+      "destination": "/candidates/sean-goodwin/",
+      "permanent": false
+    },
+    {
+      "source": "/shaun-veltkamp/answers/",
+      "destination": "/candidates/shaun-veltkamp/#questionnaire",
+      "permanent": false
+    },
+    {
+      "source": "/shaun-veltkamp/",
+      "destination": "/candidates/shaun-veltkamp/",
+      "permanent": false
     }
   ]
 }

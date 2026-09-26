@@ -238,6 +238,9 @@ g['growth_group'] = 'out'
 g['growth_line'] = 'On growth: keep growing, but stop densifying downtown — open new land and link neighbourhoods with new roads.'
 
 by['Sean Easton']['growth_group'] = 'slow'     # q1 +2 growing too fast; q2 0, q3 -1
+# His answers now take positions on approvals (q1 +2), height (q2 0) and new land (q3 -1).
+_eg = by['Sean Easton']['stances']['growth']
+_eg['summary'] = _eg['summary'].replace(' He has not called for a pause on approvals, nor taken a position on tall buildings or new greenfield neighbourhoods.', '')
 by['Sean Easton']['growth_line'] = 'On growth: slow down and let infrastructure catch up — stop approving development just to hit provincial housing numbers.'
 by['Chris Ryan']['growth_group'] = 'mix'       # q1 0; q2 -2 against taller buildings; wants family housing and a second road first
 by['Chris Ryan']['growth_line'] = 'On growth: more family housing (“high density, low sprawl”), but no towers downtown — with parking and a second road into downtown.'
