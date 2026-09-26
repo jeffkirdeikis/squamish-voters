@@ -37,7 +37,9 @@
     var sum = 0, wsum = 0, n = 0, rows = [];
     Q.forEach(function (q) {
       var u = state.answers[q.id], v = c.answers[q.id];
-      if (u === undefined || u === null || v === undefined || v === null) return;
+      if (u === undefined || u === null) return;
+      // No answer from the candidate, but a comment: list it (unscored) so the voter still sees what they wrote.
+      if (v === undefined || v === null) { if (c.notes && c.notes[q.id]) rows.push({ q: q, d: null, u: u, v: null }); return; }
       var w = state.important[q.id] ? 2 : 1, d = Math.abs(u - v);
       // 0 = same answer, 1 step apart = 0.67, 2 steps = 0.33, 3+ steps = 0.
       // (The old 1 - d/4 curve gave a middle answer half credit against a strong yes, which read as agreement.)
@@ -45,8 +47,9 @@
       rows.push({ q: q, d: d, u: u, v: v });
     });
     // Shrink toward 50% by SHRINK pseudo-questions so a thin public record can't top the list on 4 lucky answers.
-    return { c: c, n: n, pct: n >= MIN_OVERLAP ? Math.round((sum + SHRINK * 0.5) / (wsum + SHRINK) * 100) : null, rows: rows };
+    return { c: c, n: n, notes: rows.filter(function (x) { return c.notes && c.notes[x.q.id]; }).length, pct: n >= MIN_OVERLAP ? Math.round((sum + SHRINK * 0.5) / (wsum + SHRINK) * 100) : null, rows: rows };
   }
+  function first(c) { var p = c.name.split(' '); return p[0].replace(/\.$/, '') === 'A' ? p[1] : p[0]; }
   function answeredCount() { return Q.filter(function (x) { return typeof state.answers[x.id] === 'number'; }).length; }
   function word(v) { return { '2': 'strongly agrees', '1': 'somewhat agrees', '0': 'is in the middle', '-1': 'somewhat disagrees', '-2': 'strongly disagrees' }[String(v)]; }
   function avatar(c) { return c.photo ? '<img class="avatar sm" src="' + c.photo + '" alt="">' : '<span class="avatar sm" aria-hidden="true">' + esc(c.initials) + '</span>'; }
@@ -59,10 +62,13 @@
       '<span class="meter" aria-hidden="true"><span style="width:' + r.pct + '%"></span></span>' +
       '<span class="pctline"><b class="pct">' + r.pct + '%</b> ' + (r.pct < RECOMMEND ? 'match — you mostly disagree' : 'match') + ' · ' + 'based on ' + (r.n < THIN ? 'only ' : '') + r.n + ' of your ' + answeredCount() + ' answers' + '</span></span>' +
       '<span class="go" aria-hidden="true">\u203a</span></a>' +
+      (r.notes ? '<p class="small notes-hint">💬 ' + esc(first(c)) + ' added comments on ' + r.notes + ' of these — open “Why ' + r.pct + '%?” to read them in their own words.</p>' : '') +
       '<div class="match-foot no-print"><button type="button" class="btn secondary add" aria-label="Add ' + esc(c.name) + ' to my ballot" data-pick="' + c.slug + '" data-office="' + c.office + '" data-name="' + esc(c.name) + '">+ Add</button>' +
       '<details id="why-' + c.slug + '"><summary>Why ' + r.pct + '%? ' + tally(r.rows) + '</summary><p class="small">✓ same answer as you (counts in full) · ~ one step off (counts two-thirds) · ✕ further apart (counts a third or nothing)</p><ul class="agree-list">' +
-      r.rows.slice().sort(function (a, b) { return a.d - b.d; }).map(function (x) {
-        return '<li class="' + (x.d === 0 ? 'same' : x.d === 1 ? 'part' : 'diff') + '"><b>' + esc(x.q.short) + ':</b> ' + esc(c.name.split(' ').slice(-1)[0]) + ' ' + word(x.v) + '</li>';
+      r.rows.slice().sort(function (a, b) { return (a.d === null ? 9 : a.d) - (b.d === null ? 9 : b.d); }).map(function (x) {
+        var last = esc(c.name.split(' ').slice(-1)[0]), note = c.notes && c.notes[x.q.id];
+        return '<li class="' + (x.d === null ? 'none' : x.d === 0 ? 'same' : x.d === 1 ? 'part' : 'diff') + '"><b>' + esc(x.q.short) + ':</b> ' + last + ' ' + (x.d === null ? 'didn’t pick an answer, but wrote a comment' : word(x.v)) +
+          (note ? '<details class="qnote"><summary>💬 Read ' + last + '’s comment</summary><blockquote>“' + esc(note) + '”</blockquote></details>' : '') + '</li>';
       }).join('') + '</ul><p class="small">Based on ' + r.n + ' of your ' + Q.length + ' answers.</p></details></div></div>';
   }
 
@@ -70,6 +76,7 @@
   // words and the number can't disagree (a voter once read "close on 9 of 10" as a 90% match).
   function tally(rows) {
     var same = 0, near = 0;
+    rows = rows.filter(function (x) { return x.d !== null; });
     rows.forEach(function (x) { if (x.d === 0) same++; else if (x.d === 1) near++; });
     var far = rows.length - same - near, parts = [];
     if (same) parts.push('same answer on ' + same);

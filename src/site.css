@@ -269,6 +269,10 @@ summary { cursor: pointer; font-weight: 700; color: var(--link); min-height: 2.7
 .agree-list li.same::before { content: "✓"; color: var(--yes); }
 .agree-list li.diff::before { content: "✕"; color: var(--no); }
 .agree-list li.part::before { content: "~"; color: var(--muted); }
+.agree-list li.none::before { content: "–"; color: var(--muted); }
+.qnote summary { cursor: pointer; color: var(--link, #1a5fb4); font-size: .9rem; padding: .2rem 0; }
+.qnote blockquote { margin: .3rem 0 .2rem; padding: .4rem .7rem; border-left: 3px solid var(--line); font-style: italic; }
+.notes-hint { margin: 0; padding: 0 1rem .6rem; color: var(--muted); }
 
 /* ---------- Ballot ---------- */
 .ballot-slot { display: flex; align-items: center; gap: .8rem; padding: .8rem; border: 2px dashed var(--line); border-radius: 12px; margin-bottom: .6rem; background: var(--surface); min-height: 4.4rem; }

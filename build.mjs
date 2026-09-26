@@ -817,7 +817,9 @@ write('/issues/', page({
 // ---------- QUIZ ----------
 const clientData = {
   questions: QUESTIONS.map((q) => ({ id: q.id, text: q.text, short: q.short, why: q.why, topic: q.topic, what: q.what || null })),
-  candidates: all.map((c) => ({ slug: c.slug, name: c.name, office: c.office, incumbent: !!c.incumbent, initials: initials(c), photo: hasPhoto(c) ? '/' + c.photo : null, answers: c.quiz_answers || {}, direct: isDirectQ(c) })),
+  candidates: all.map((c) => ({ slug: c.slug, name: c.name, office: c.office, incumbent: !!c.incumbent, initials: initials(c), photo: hasPhoto(c) ? '/' + c.photo : null, answers: c.quiz_answers || {}, direct: isDirectQ(c),
+    // The candidate's own comments on quiz statements, shown word for word under their answers in the results.
+    notes: Object.fromEntries(QUESTIONS.filter((q) => wrote(c, q)).map((q) => [q.id, wrote(c, q)])) })),
   // For the "before you see your matches" notice: how thin the record still is.
   stats: { total: all.length, answered: all.filter(isDirectQ).length, unmatched: all.filter((c) => QUESTIONS.filter((q) => typeof c.quiz_answers?.[q.id] === 'number').length < 4).length },
 };
