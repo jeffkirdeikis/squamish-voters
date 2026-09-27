@@ -145,6 +145,7 @@ const compassPos = (c) => {
 };
 // More two-line maps people can swipe through on /compass/ and the small compass cards. Each is worked out the
 // same way as the classic one: the average of a candidate's sourced scores on each list of statements.
+const neg = (qs) => Object.fromEntries(Object.entries(qs).map(([q, w]) => [q, -w]));
 const PARKING_Q = { q36: 1, q37: 1, q38: 1, q25: -1, q26: -1, q11: -1 };
 const CMAPS = {
   classic: {
@@ -156,12 +157,13 @@ const CMAPS = {
     desc: 'Left to right runs from left (spend more on public services) to right (lower taxes). Bottom to top runs from enforcement and order first to housing and support first.',
   },
   growpay: {
-    title: 'How should we grow — and pay for it?', ask: 'Slow down or build more? Hold taxes down or spend on services?',
-    x: AXES.growth.q, y: CLASSIC.x,
-    L: { up: '▲ HOLD TAXES DOWN', down: '▼ SPEND MORE ON SERVICES', left: '◀ SLOW DOWN, BE CAUTIOUS', right: 'BUILD MORE, FASTER ▶' },
-    Lm: { up: '▲ HOLD TAXES DOWN', down: '▼ SPEND MORE', left: '◀ SLOW DOWN', right: 'BUILD MORE ▶' },
-    xt: 'Growth', xw: ['slow down, be cautious', 'build more, faster'], yt: 'Money', yw: ['spend more on public services', 'hold taxes and spending down'],
-    desc: 'Left to right runs from slow down and be cautious to build more, faster. Bottom to top runs from spend more on public services to hold taxes and spending down.',
+    // Both lines run backwards from the other maps so spend-more / build-more sits top-left, like the classic compass.
+    title: 'How should we grow — and pay for it?', ask: 'Build more or slow down? Spend on services or hold taxes down?',
+    x: neg(AXES.growth.q), y: neg(CLASSIC.x),
+    L: { up: '▲ SPEND MORE ON SERVICES', down: '▼ HOLD TAXES DOWN', left: '◀ BUILD MORE, FASTER', right: 'SLOW DOWN, BE CAUTIOUS ▶' },
+    Lm: { up: '▲ SPEND MORE', down: '▼ HOLD TAXES DOWN', left: '◀ BUILD MORE', right: 'SLOW DOWN ▶' },
+    xt: 'Growth', xw: ['build more, faster', 'slow down, be cautious'], yt: 'Money', yw: ['hold taxes and spending down', 'spend more on public services'],
+    desc: 'Left to right runs from build more, faster to slow down and be cautious. Bottom to top runs from hold taxes and spending down to spend more on public services.',
   },
   cars: {
     title: 'Cars or bikes — and how much growth?', ask: 'Parking and roads first, or transit and bikes first? Slow down or build more?',
@@ -673,8 +675,9 @@ function compassSvg({ mini = false, tap = !mini, map: mk = 'classic' } = {}) {
   <line x1="${W / 2}" y1="${P}" x2="${W / 2}" y2="${H - P}" stroke="#898781" stroke-width="1.5"/><line x1="${P}" y1="${H / 2}" x2="${W - P}" y2="${H / 2}" stroke="#898781" stroke-width="1.5"/>
   <text x="${W / 2}" y="${P - 16}" text-anchor="middle" font-size="${AFS}" font-weight="700" fill="#14211c">${L.up}</text>
   <text x="${W / 2}" y="${H - P + AFS + 12}" text-anchor="middle" font-size="${AFS}" font-weight="700" fill="#14211c">${L.down}</text>
-  <text transform="translate(${P - 16} ${H / 2}) rotate(-90)" text-anchor="middle" font-size="${AFS}" font-weight="700" fill="#14211c">${L.left}</text>
-  <text transform="translate(${W - P + AFS + 12} ${H / 2}) rotate(-90)" text-anchor="middle" font-size="${AFS}" font-weight="700" fill="#14211c">${L.right}</text>
+  <!-- side titles are rotated -90°, so ▲/▼ glyphs render as ◀/▶ -->
+  <text transform="translate(${P - 16} ${H / 2}) rotate(-90)" text-anchor="middle" font-size="${AFS}" font-weight="700" fill="#14211c">${L.left.replace('◀', '▲')}</text>
+  <text transform="translate(${W - P + AFS + 12} ${H / 2}) rotate(-90)" text-anchor="middle" font-size="${AFS}" font-weight="700" fill="#14211c">${L.right.replace('▶', '▼')}</text>
   ${pts.map((p) => `<g class="cdot"${!tap ? '' : ` tabindex="0" role="button" aria-label="${esc(p.c.name)}"`} data-slug="${p.c.slug}">
     ${!tap ? '' : `<circle cx="${p.x}" cy="${p.y}" r="${DR + 12}" fill="transparent" stroke="none"/>`}
     ${p.lead ? `<line x1="${p.lead[0].toFixed(1)}" y1="${p.lead[1].toFixed(1)}" x2="${p.lead[2].toFixed(1)}" y2="${p.lead[3].toFixed(1)}" stroke="#14211c" stroke-width="${mini ? 2 : 1.5}"/>` : ''}
@@ -771,7 +774,7 @@ write('/compass/', page({
   <div class="compass-box"><div class="cb-wide">${compassSvg({ map: mk })}</div><div class="cb-narrow">${compassSvg({ mini: true, tap: true, map: mk })}</div></div>
   ${mk === 'classic' ? '' : `<p class="small">${mk === 'cars'
     ? '<b>Up–down</b> is how people should get around: more public parking, parking required in new buildings and free parking for residents (up), against paid parking being fair and for spending local money on bike lanes, sidewalks and regional transit (down). <b>Left–right</b> is growth: slow the pace of approvals (left), or allow taller buildings and cut red tape for builders (right).'
-    : '<b>Up–down</b> is money: hold taxes and spending down (up), or spend more on housing, shelters, transit, recreation, bike lanes and childcare (down). <b>Left–right</b> is growth: slow the pace of approvals (left), or allow taller buildings and cut red tape for builders (right).'} Tap a dot for details.</p>
+    : '<b>Up–down</b> is money: spend more on housing, shelters, transit, recreation, bike lanes and childcare (up), or hold taxes and spending down (down). <b>Left–right</b> is growth: allow taller buildings and cut red tape for builders (left), or slow the pace of approvals (right).'} Tap a dot for details.</p>
   <p class="small">${esc(miniCaveat(mk))}</p>`}
   ${un.length ? `<p class="small nopos"><b>Not on this map</b> (too little on the record to place fairly): ${un.map((c) => `<a href="/candidates/${c.slug}/">${esc(c.name)}</a>`).join(', ')}.</p>` : ''}
   </div>`; }).join('')}

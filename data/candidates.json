@@ -3244,15 +3244,48 @@
   "incumbent": false,
   "incumbent_role": null,
   "slug": "a-john-lowe",
-  "occupation_background": "Lifelong Squamish resident who has worked for Squamish Mills, the local forestry business, for about 60 years and is now wrapping up there. He says he would bring new ideas the way he saw councillors work 'back in the day' — meeting people, figuring out the problem and finding a solution through collaboration — and names former mayor Pat Brennan as his inspiration. (Squamish Chief profile, Sept 22, 2026.)",
-  "tagline": "New ideas, found the old-school way: meet people, look at the problem, work out a solution together.",
+  "occupation_background": "Has lived in the Squamish area since 1955: grew up in Britannia and graduated from Howe Sound Secondary in 1964. Started as a bookkeeper for West Bank Logging in 1965, then joined Squamish Mills in 1966 as accountant and bookkeeper. He became CEO of the company and its real-estate arm in 2012 and wound it down through 2022. Ran Squamish Air Services, a Sea to Sky and coast charter operation, for about 20 years. Managed commercial property and government-building construction and leases in Squamish and Pemberton. Volunteered 28 years with the Squamish Lions Club (president, then zone chair), ran Squamish Loggers Sports for about a decade, coached youth soccer, and organized a petition against moving the post office out of downtown. Now retired. He names former mayor Pat Brennan as his model for how council should work. (Campaign website; Squamish Chief, Sept 22, 2026)",
+  "tagline": "Council that sets the direction, disciplined spending, and a bigger business and industrial tax base.",
   "top_priorities": [
-   "Council, not staff, in control of the District's agenda",
-   "Direct, face-to-face problem solving with residents",
-   "A town that is friendlier to industry, without the environmental damage of the past; more value-added wood businesses",
-   "More parking near downtown on CN land along Loggers Lane — and no paid parking meters"
+   "Council leadership: council sets the vision, priorities and budget, staff carry it out; a council-written strategic plan within 90 days",
+   "Fiscal discipline: tighter budget oversight, a focus on core services, and clear reporting on where tax dollars go",
+   "A stronger business and industrial tax base so homeowners don’t carry an ever-growing share",
+   "Reliable services and infrastructure; plan growth carefully, including housing, transportation and parking",
+   "No paid parking meters; more parking near downtown on CN land along Loggers Lane"
   ],
   "supports": [
+   {
+    "text": "A council-authored strategic plan within the first 90 days, with clear, measurable priorities and regular public progress reports",
+    "source_url": "https://www.johnlowe.ca/"
+   },
+   {
+    "text": "Council sets the vision, priorities and budget; District administration carries out council’s direction",
+    "source_url": "https://www.johnlowe.ca/"
+   },
+   {
+    "text": "Disciplined budget oversight focused on core services and value for taxpayers, with major spending and capital priorities checked against community needs, affordability and long-term operating costs",
+    "source_url": "https://www.johnlowe.ca/"
+   },
+   {
+    "text": "More transparency so residents can see where tax dollars go and why",
+    "source_url": "https://www.johnlowe.ca/"
+   },
+   {
+    "text": "Rebuilding and diversifying the business and industrial tax base so residential taxpayers are not carrying an ever-growing share",
+    "source_url": "https://www.johnlowe.ca/"
+   },
+   {
+    "text": "Responsible economic development that brings jobs, investment and lasting municipal revenue, working with employers and industry while protecting the community’s long-term interests",
+    "source_url": "https://www.johnlowe.ca/"
+   },
+   {
+    "text": "Dependable municipal services and maintenance of the infrastructure people use every day; capital projects planned with clear costs, funding sources and operating costs",
+    "source_url": "https://www.johnlowe.ca/"
+   },
+   {
+    "text": "Planning growth carefully — housing, transportation, parking and land use — with neighbourhood character and livability in mind",
+    "source_url": "https://www.johnlowe.ca/"
+   },
    {
     "text": "Making Squamish 'friendlier to industry' — but not in the old way that let industry damage the environment",
     "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878"
@@ -3286,11 +3319,11 @@
   ],
   "stances": {
    "growth": {
-    "position": "No public position found",
-    "summary": "No public statement found. His Squamish Chief profile (Sept 22, 2026) covers industry, parking and how council should work with staff, and nothing on this topic.",
-    "quote": null,
-    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878",
-    "confidence": "none"
+    "position": "Plan growth carefully",
+    "summary": "His platform says growth should be planned carefully, including housing, transportation, parking and land-use decisions, while considering neighbourhood character and livability. He hasn’t said whether he wants growth faster or slower, or where new homes should go.",
+    "quote": "Plan growth carefully, including housing, transportation, parking and land-use decisions, while considering neighbourhood character and livability.",
+    "source_url": "https://www.johnlowe.ca/",
+    "confidence": "low"
    },
    "housing_affordability": {
     "position": "No public position found",
@@ -3314,10 +3347,11 @@
     "confidence": "none"
    },
    "taxes_spending": {
-    "position": "No public position found",
-    "summary": "No statement on taxes or the budget. His only spending comment is that parking meters would cost more to install and maintain than they raise.",
-    "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878",
-    "confidence": "none"
+    "position": "Disciplined spending on core services; grow the business and industrial tax base",
+    "summary": "His platform promises disciplined budget oversight focused on core services and value for taxpayers, checking major spending and capital projects against affordability and long-term operating costs, and more transparency on where tax dollars go. He wants to rebuild the business and industrial tax base so homeowners don’t carry an ever-growing share. He hasn’t named a tax-increase target or specific cuts. He also says parking meters would cost more to install and run than they raise.",
+    "quote": "Rebuild and diversify Squamish’s business and industrial tax base so residential taxpayers are not carrying an ever-growing share of the burden.",
+    "source_url": "https://www.johnlowe.ca/",
+    "confidence": "medium"
    },
    "environment_lng": {
     "position": "No public position found",
@@ -3335,7 +3369,7 @@
    },
    "economy": {
     "position": "Friendlier to industry; more value-added wood businesses",
-    "summary": "Says the town needs to be friendlier to industry, 'but not in the old way that allowed industry to damage the environment'. Wants more value-added wood businesses rather than shipping logs straight off the foreshore, and thinks more of the allowable cut could be harvested locally.",
+    "summary": "Says the town needs to be friendlier to industry, 'but not in the old way that allowed industry to damage the environment'. Wants more value-added wood businesses rather than shipping logs straight off the foreshore, and thinks more of the allowable cut could be harvested locally. His campaign platform adds: rebuild and diversify the business and industrial tax base, and support responsible economic development that brings jobs, investment and lasting municipal revenue.",
     "quote": "There's an opportunity because the way we're bringing the logs down, they're going down to the foreshore and then they're getting shipped away.",
     "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878",
     "confidence": "high"
@@ -3373,17 +3407,25 @@
    "q38": null
   },
   "links": {
-   "website": null,
+   "website": "https://www.johnlowe.ca/",
    "instagram": null,
    "facebook": null,
    "email_public": "scotialowe@gmail.com",
    "other": "https://squamish.ca/assets/elections/2026/A.-John-Lowe_Comms_v2_Redacted.pdf"
   },
-  "photo_url": null,
+  "photo_url": "https://images.squarespace-cdn.com/content/6ab2b8142126f469dee631f0/a1610c5d-4fcd-4e06-a35b-b97db6c3ea95/20250627_141737%280%29.jpg",
   "sources": [
    {
     "title": "Squamish Chief: Promising collaborative problem solving, John Lowe is running for Squamish council (Sept 22, 2026)",
     "url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878"
+   },
+   {
+    "title": "John Lowe campaign website — platform (johnlowe.ca)",
+    "url": "https://www.johnlowe.ca/"
+   },
+   {
+    "title": "John Lowe campaign website — About (johnlowe.ca/about)",
+    "url": "https://www.johnlowe.ca/about"
    },
    {
     "title": "District of Squamish: 2026 Municipal Election Candidates",
@@ -3394,8 +3436,11 @@
     "url": "https://squamish.ca/assets/elections/2026/A.-John-Lowe_Comms_v2_Redacted.pdf"
    }
   ],
-  "research_notes": "Sept 22 2026: first and only profile — Squamish Chief, published Sept 22 (Jennifer Thuncher). It CONFIRMS he is the John Lowe of Squamish Mills (about 60 years there, now wrapping up), which the Sept 19 notes had flagged as unconfirmed. Scored q25 = -2 (paid parking meters are 'stupid') and q36 = +1 (wants more parking near downtown on CN land, though possibly privately developed). No campaign website, no socials (rechecked Sept 22). Photo in the Chief is staff copyright — not used. Not to be confused with April Lowe, school trustee candidate (relationship unknown). Filed on the last day of nominations (Sep 11, 2026), acting as own financial agent, no elector organization. Not an incumbent; no evidence of a previous run.",
-  "photo": null
+  "research_notes": "Sept 22 2026: first and only profile — Squamish Chief, published Sept 22 (Jennifer Thuncher). It CONFIRMS he is the John Lowe of Squamish Mills (about 60 years there, now wrapping up), which the Sept 19 notes had flagged as unconfirmed. Scored q25 = -2 (paid parking meters are 'stupid') and q36 = +1 (wants more parking near downtown on CN land, though possibly privately developed). No campaign website, no socials (rechecked Sept 22). Photo in the Chief is staff copyright — not used. Not to be confused with April Lowe, school trustee candidate (relationship unknown). Filed on the last day of nominations (Sep 11, 2026), acting as own financial agent, no elector organization. Not an incumbent; no evidence of a previous run. Sept 26 2026: campaign website johnlowe.ca found (Jeff). Added its four-point platform (governance, fiscal discipline, business/industrial tax base, services & growth) and About-page bio; photo cropped from the photo on the site's home page (the logo is a ChatGPT image, not used). No quiz scores added — the platform is general and doesn't take a side on any statement (e.g. no tax target for q7, no pace-of-growth view for q1/q2). Contact page is a form only; no socials.",
+  "photo": "img/a-john-lowe.jpg",
+  "photo_credit": "candidate’s campaign",
+  "growth_group": "unknown",
+  "growth_line": "On growth: plan it carefully, with neighbourhood character in mind — hasn’t said faster or slower."
  },
  {
   "name": "Anders Ourom",
