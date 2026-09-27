@@ -123,6 +123,12 @@ for r in sorted(RESP, key=lambda r: r['received'], reverse=True):   # newest fir
     if r['who'] in VOUCHED: c['direct']['checked'] = c['direct']['how'] = VOUCHED[r['who']]
 
 
+# Answers a candidate re-answered by email after submitting (treated as a resubmission; notes kept as sent).
+# Veltkamp (Sept 26): the two Brennan Park borrowing statements, +2 -> 0; his notes say senior government and industry should pay.
+REVISED = {'Shaun Veltkamp': {'q12': 0, 'q22': 0}}
+for name, ch in REVISED.items():
+    by[name]['quiz_answers'].update(ch)
+
 # Topic headlines for candidates who answered us: written from their own answers, so a headline can never
 # contradict the answers shown under it (e.g. an old "no LNG position found" above a "strongly agree").
 HEAD = {
@@ -138,7 +144,7 @@ HEAD = {
   'growth': 'In the middle on pace; hold building heights and the growth boundary for now',
   'homelessness': 'More shelter space, and move Under One Roof out of downtown',
   'policing': 'More RCMP and bylaw officers',
-  'taxes_spending': 'Build a new community centre, borrowing if needed; chase senior-government money',
+  'taxes_spending': 'Build a new community centre, paid for mainly by senior government and industry, not local tax increases',
   'environment_lng': "Wants a harder bargain with Woodfibre LNG (“not leave millions on the table”); climate a top priority",
   'transportation': 'For bike lanes and sidewalks; lukewarm on paid parking downtown',
  },
