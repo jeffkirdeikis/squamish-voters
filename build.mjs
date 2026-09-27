@@ -166,12 +166,13 @@ const CMAPS = {
     desc: 'Left to right runs from build more, faster to slow down and be cautious. Bottom to top runs from hold taxes and spending down to spend more on public services.',
   },
   cars: {
-    title: 'Cars or bikes — and how much growth?', ask: 'Parking and roads first, or transit and bikes first? Slow down or build more?',
-    x: AXES.growth.q, y: PARKING_Q,
-    L: { up: '▲ CARS &amp; PARKING FIRST', down: '▼ TRANSIT &amp; BIKES FIRST', left: '◀ SLOW DOWN, BE CAUTIOUS', right: 'BUILD MORE, FASTER ▶' },
-    Lm: { up: '▲ CARS &amp; PARKING', down: '▼ TRANSIT &amp; BIKES', left: '◀ SLOW DOWN', right: 'BUILD MORE ▶' },
-    xt: 'Growth', xw: ['slow down, be cautious', 'build more, faster'], yt: 'Getting around', yw: ['transit and bikes first', 'cars and parking first'],
-    desc: 'Left to right runs from slow down and be cautious to build more, faster. Bottom to top runs from transit and bikes first to cars and parking first.',
+    // Both lines reversed, like growpay, so transit / build-more sits top-left.
+    title: 'Cars or bikes — and how much growth?', ask: 'Transit and bikes first, or parking and roads first? Build more or slow down?',
+    x: neg(AXES.growth.q), y: neg(PARKING_Q),
+    L: { up: '▲ TRANSIT &amp; BIKES FIRST', down: '▼ CARS &amp; PARKING FIRST', left: '◀ BUILD MORE, FASTER', right: 'SLOW DOWN, BE CAUTIOUS ▶' },
+    Lm: { up: '▲ TRANSIT &amp; BIKES', down: '▼ CARS &amp; PARKING', left: '◀ BUILD MORE', right: 'SLOW DOWN ▶' },
+    xt: 'Growth', xw: ['build more, faster', 'slow down, be cautious'], yt: 'Getting around', yw: ['cars and parking first', 'transit and bikes first'],
+    desc: 'Left to right runs from build more, faster to slow down and be cautious. Bottom to top runs from cars and parking first to transit and bikes first.',
   },
 };
 const qScore = (c, qs) => {
@@ -773,7 +774,7 @@ write('/compass/', page({
   ${compassLegend(false, mk)}
   <div class="compass-box"><div class="cb-wide">${compassSvg({ map: mk })}</div><div class="cb-narrow">${compassSvg({ mini: true, tap: true, map: mk })}</div></div>
   ${mk === 'classic' ? '' : `<p class="small">${mk === 'cars'
-    ? '<b>Up–down</b> is how people should get around: more public parking, parking required in new buildings and free parking for residents (up), against paid parking being fair and for spending local money on bike lanes, sidewalks and regional transit (down). <b>Left–right</b> is growth: slow the pace of approvals (left), or allow taller buildings and cut red tape for builders (right).'
+    ? '<b>Up–down</b> is how people should get around: paid parking is fair, and spend local money on bike lanes, sidewalks and regional transit (up), or more public parking, parking required in new buildings and free parking for residents (down). <b>Left–right</b> is growth: allow taller buildings and cut red tape for builders (left), or slow the pace of approvals (right).'
     : '<b>Up–down</b> is money: spend more on housing, shelters, transit, recreation, bike lanes and childcare (up), or hold taxes and spending down (down). <b>Left–right</b> is growth: allow taller buildings and cut red tape for builders (left), or slow the pace of approvals (right).'} Tap a dot for details.</p>
   <p class="small">${esc(miniCaveat(mk))}</p>`}
   ${un.length ? `<p class="small nopos"><b>Not on this map</b> (too little on the record to place fairly): ${un.map((c) => `<a href="/candidates/${c.slug}/">${esc(c.name)}</a>`).join(', ')}.</p>` : ''}
