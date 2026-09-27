@@ -714,6 +714,10 @@
    {
     "text": "Voted against reopening the camping bylaw's ban on sleeping in vehicles (Apr 2, 2024), saying the bylaw was brought in to address problem behaviour",
     "source_url": "https://www.squamishchief.com/local-news/squamish-council-endorses-priorities-for-rest-of-their-term-setting-aside-other-initiatives-8554208"
+   },
+   {
+    "text": "The proposed 10-year Woodfibre LNG tax agreement: moved the motion to reject it (on Sept. 22, 2026 council voted 5–2 not to give the proposed 10-year Woodfibre LNG tax agreement its first three readings), saying the payments would not rise with inflation and the District had no projects ready to build, which exposed it to rising costs",
+    "source_url": "https://www.squamishreporter.com/2026/09/23/squamish-council-rejects-woodfibre-lng-tax-deal/"
    }
   ],
   "stances": {
@@ -754,7 +758,7 @@
    },
    "environment_lng": {
     "position": "Opposes WLNG in principle; pragmatic about securing benefits; climate action a priority",
-    "summary": "Says she does not support the Woodfibre LNG project because fossil fuel expansion conflicts with climate commitments, but as a 'pragmatist' focuses on securing benefits for Squamish. She was one of four councillors who voted down the first floatel permit in April 2024, saying there was not enough information, and publicly criticized the province's override; in July 2025 she voted with the 5-2 majority to approve a two-year permit for two floatels after adding a shore-power condition. She also voted in favour of FortisBC's workers' lodge temporary use permit in 2024, which council rejected 4-3. She cites getting a climate emergency resolution passed unanimously in her first term (source: 2022 re-election release), made 15 of 16 climate commitments in the 2022 candidate survey run by My Sea to Sky, an advocacy group opposed to Woodfibre LNG, and lists the climate crisis among her advocacy priorities. Her vote on the proposed 10-year WLNG agreement (scheduled Sept 22, 2026) was not yet known at time of research.",
+    "summary": "Says she does not support the Woodfibre LNG project because fossil fuel expansion conflicts with climate commitments, but as a 'pragmatist' focuses on securing benefits for Squamish. She was one of four councillors who voted down the first floatel permit in April 2024, saying there was not enough information, and publicly criticized the province's override; in July 2025 she voted with the 5-2 majority to approve a two-year permit for two floatels after adding a shore-power condition. She also voted in favour of FortisBC's workers' lodge temporary use permit in 2024, which council rejected 4-3. She cites getting a climate emergency resolution passed unanimously in her first term (source: 2022 re-election release), made 15 of 16 climate commitments in the 2022 candidate survey run by My Sea to Sky, an advocacy group opposed to Woodfibre LNG, and lists the climate crisis among her advocacy priorities. On Sept 22, 2026 she moved the motion to reject the proposed 10-year WLNG tax agreement, which council passed 5–2, saying the payments would not rise with inflation.",
     "quote": "I don't support the project as a whole. I think the continued development of fossil fuels goes against our local, provincial and federal commitments, and international commitments on climate. I'm also a pragmatist and a realist.",
     "source_url": "https://www.squamishchief.com/local-news/heres-what-jenna-stoner-is-promising-to-do-if-she-becomes-mayor-of-squamish-12745909",
     "confidence": "high"
@@ -803,7 +807,8 @@
    "q25": 1,
    "q36": null,
    "q37": -1,
-   "q38": null
+   "q38": null,
+   "q23": -2
   },
   "links": {
    "website": "https://www.jennastoner.com",
@@ -923,7 +928,7 @@
     "url": "https://www.squamishchief.com/local-news/more-rental-units-coming-to-downtown-squamish-10775930"
    }
   ],
-  "research_notes": "No position found on RCMP funding (q6 null). On permit red tape, q10 stays null because her REASONS were not reported, but the record should note she voted against two streamlining packages at the Feb 10, 2026 Committee of the Whole: the motion to increase the delegated criteria for development permits (carried 4-3; Pettingill, Stoner and Greenlaw opposed) and the motion on eliminating the three-bedroom unit-mix requirement for rental projects, a temporary rental property tax abatement and continued pre-zoning beyond Bill 44 (Pettingill, Stoner, Greenlaw, Andersen and Mayor Hurford opposed). She was absent for the April 21, 2026 development-permit delegation readings. Against that sits her fourth campaign priority, a local government that is 'responsive, easy to navigate, modernized.' PARKING (Sept 21 2026, research/parking-0921.json): q25 +1: MOVED BY COUNCILLOR HAMILTON SECONDED BY COUNCILLOR STONER THAT Council endorse the Strategic Plan Priority Tactic, ”Paid Parking implementation by the end of 2025” [...] Mayor Hurford and Councillors Andersen, Greenlaw  (https://squamish.civicweb.net/document/237379/) | q37 -1: I am usually a very avid proponent of letting the market determine how much parking is necessary [...] It goes too far for even my comfort zone, and I usually feel like I'm pretty lenient on these pieces. (https://www.squamishchief.com/local-news/councillors-not-willing-to-support-bold-parking-variance-for-university-highlands-development-10669687)",
+  "research_notes": "No position found on RCMP funding (q6 null). On permit red tape, q10 stays null because her REASONS were not reported, but the record should note she voted against two streamlining packages at the Feb 10, 2026 Committee of the Whole: the motion to increase the delegated criteria for development permits (carried 4-3; Pettingill, Stoner and Greenlaw opposed) and the motion on eliminating the three-bedroom unit-mix requirement for rental projects, a temporary rental property tax abatement and continued pre-zoning beyond Bill 44 (Pettingill, Stoner, Greenlaw, Andersen and Mayor Hurford opposed). She was absent for the April 21, 2026 development-permit delegation readings. Against that sits her fourth campaign priority, a local government that is 'responsive, easy to navigate, modernized.' PARKING (Sept 21 2026, research/parking-0921.json): q25 +1: MOVED BY COUNCILLOR HAMILTON SECONDED BY COUNCILLOR STONER THAT Council endorse the Strategic Plan Priority Tactic, ”Paid Parking implementation by the end of 2025” [...] Mayor Hurford and Councillors Andersen, Greenlaw  (https://squamish.civicweb.net/document/237379/) | q37 -1: I am usually a very avid proponent of letting the market determine how much parking is necessary [...] It goes too far for even my comfort zone, and I usually feel like I'm pretty lenient on these pieces. (https://www.squamishchief.com/local-news/councillors-not-willing-to-support-bold-parking-variance-for-university-highlands-development-10669687) Sept 26 2026: q23 = -2 from the Sept 22 council vote on the WLNG agreement (Squamish Reporter, Sept 23).",
   "incumbent_label": "Current councillor",
   "photo": "img/jenna-stoner.jpg",
   "photo_credit": "candidate’s campaign"
@@ -978,6 +983,10 @@
    {
     "text": "Integrating supportive housing into residential neighbourhoods — calls existing Squamish examples 'success stories'",
     "source_url": "https://www.squamishchief.com/local-news/squamish-council-waives-fees-and-services-for-new-housing-project-10934574"
+   },
+   {
+    "text": "The proposed 10-year Woodfibre LNG tax agreement: voted for it (on Sept. 22, 2026 council voted 5–2 not to give the proposed 10-year Woodfibre LNG tax agreement its first three readings; he was one of the two in favour), doubting a new council would get a better outcome and calling ordinary taxation unreliable because assessments change",
+    "source_url": "https://www.squamishreporter.com/2026/09/23/squamish-council-rejects-woodfibre-lng-tax-deal/"
    }
   ],
   "opposes": [
@@ -1086,7 +1095,8 @@
    "q25": null,
    "q36": 1,
    "q37": 1,
-   "q38": null
+   "q38": null,
+   "q23": 2
   },
   "links": {
    "website": null,
@@ -1202,7 +1212,7 @@
     "url": "https://www.squamishchief.com/local-news/when-is-paid-parking-starting-in-squamish-9993452"
    }
   ],
-  "research_notes": "Sept 20 2026 street-axis recheck: q5=2 — “We have examples of supportive housing projects in neighbourhoods all around the District of Squamish and they are success stories. We have success stories in i” (https://www.squamishchief.com/local-news/squamish-council-waives-fees-and-services-for-new-housing-project-10934574, 2025-07-08). Resolved (was flagged as a data conflict): the local parser merged two separate Feb 10 2026 committee motions into one record. The minutes show (1) a motion by Mayor Hurford, SECONDED BY ANDERSEN, to bring the 'increasing the delegation criteria for Development and Variance Permits' item back with bylaws drafted, which FAILED with Stoner, Pettingill, Greenlaw, Hamilton and French opposed; and (2) a motion by Hamilton to increase the delegated criteria for Development Permits only, which CARRIED with Pettingill, Stoner and Greenlaw opposed. Andersen supported both; the Chief account is correct and there is no conflict. Andersen, French and Hurford separately opposed Hamilton's motion for a costed outside audit of the development review process. PARKING (Sept 21 2026, research/parking-0921.json): q36 +1: We are overlooking, in our planning for the downtown, the need for off-street parking facilities and here is an example of where we can take advantage of an opportunity to put some dollars into that fund. (https://www.squamishchief.com/real-estate-news/squamish-council-gives-final-approval-to-six-storey-mixed-use-project-on-long-vacant-downtown-lot-12125360) | q37 +1: I am in alignment with Councillor Greenlaw’s concerns, in particular with the 400 metre distance. I’m uncomfortable with how far it goes. (https://www.squamishreporter.com/2025/09/23/squamish-council-votes-5-2-on-housing-near-transit-routes/) Sept 22 2026 sweep: no 2026 campaign website; the 2022 site ericandersenforsquamish.com no longer resolves. Facebook/Instagram only.",
+  "research_notes": "Sept 20 2026 street-axis recheck: q5=2 — “We have examples of supportive housing projects in neighbourhoods all around the District of Squamish and they are success stories. We have success stories in i” (https://www.squamishchief.com/local-news/squamish-council-waives-fees-and-services-for-new-housing-project-10934574, 2025-07-08). Resolved (was flagged as a data conflict): the local parser merged two separate Feb 10 2026 committee motions into one record. The minutes show (1) a motion by Mayor Hurford, SECONDED BY ANDERSEN, to bring the 'increasing the delegation criteria for Development and Variance Permits' item back with bylaws drafted, which FAILED with Stoner, Pettingill, Greenlaw, Hamilton and French opposed; and (2) a motion by Hamilton to increase the delegated criteria for Development Permits only, which CARRIED with Pettingill, Stoner and Greenlaw opposed. Andersen supported both; the Chief account is correct and there is no conflict. Andersen, French and Hurford separately opposed Hamilton's motion for a costed outside audit of the development review process. PARKING (Sept 21 2026, research/parking-0921.json): q36 +1: We are overlooking, in our planning for the downtown, the need for off-street parking facilities and here is an example of where we can take advantage of an opportunity to put some dollars into that fund. (https://www.squamishchief.com/real-estate-news/squamish-council-gives-final-approval-to-six-storey-mixed-use-project-on-long-vacant-downtown-lot-12125360) | q37 +1: I am in alignment with Councillor Greenlaw’s concerns, in particular with the 400 metre distance. I’m uncomfortable with how far it goes. (https://www.squamishreporter.com/2025/09/23/squamish-council-votes-5-2-on-housing-near-transit-routes/) Sept 22 2026 sweep: no 2026 campaign website; the 2022 site ericandersenforsquamish.com no longer resolves. Facebook/Instagram only. Sept 26 2026: q23 = +2 from the Sept 22 council vote on the WLNG agreement (Squamish Reporter, Sept 23).",
   "incumbent_label": "Current councillor",
   "photo": "img/eric-andersen.jpg",
   "growth_group": "slow",
@@ -1259,6 +1269,10 @@
    {
     "text": "Keeping the proposed HEARTH temporary housing OFF the X̱wún̓eḵw waterfront park site ('fully unacceptable') while pursuing other locations",
     "source_url": "https://www.squamishchief.com/local-news/school-trustees-weigh-letter-as-concern-continues-over-hearth-housing-at-xxwunekw-park-12173611"
+   },
+   {
+    "text": "The proposed 10-year Woodfibre LNG tax agreement: voted for it (on Sept. 22, 2026 council voted 5–2 not to give the proposed 10-year Woodfibre LNG tax agreement its first three readings; he was one of the two in favour), saying the negotiators brought back an offer he could support",
+    "source_url": "https://www.squamishreporter.com/2026/09/23/squamish-council-rejects-woodfibre-lng-tax-deal/"
    }
   ],
   "opposes": [
@@ -1367,7 +1381,8 @@
    "q25": 0,
    "q36": -1,
    "q37": -1,
-   "q38": null
+   "q38": null,
+   "q23": 2
   },
   "links": {
    "website": "https://www.johnfrench.ca/",
@@ -1479,7 +1494,7 @@
     "url": "https://www.squamishchief.com/local-news/more-rental-units-coming-to-downtown-squamish-10775930"
    }
   ],
-  "research_notes": "Good 2026 material (own platform page plus Chief profile). DATA CONFLICT to fix on the old site: the locally parsed minutes list French as the lone opponent of the Nov 7 2023 motion to join Sue Big Oil, but the raw minutes text shows no named opposition and the Squamish Chief reports French voted IN FAVOUR at the Oct 24 2023 committee vote (Hamilton and Andersen opposed). The 'French opposed Sue Big Oil' attribution was NOT used. The Feb 10 2026 Committee of the Whole parse is CONFIRMED WRONG: the Chief (Feb 13 2026) reports the motion to widen delegated development-permit criteria carried 4-3, French in favour. The raw minutes block concatenates four motions, so the parser attached the wrong OPPOSED list. General rule: never use the parsed `opposed` field without reading `raw_text_block`. Parts of his platform text appear carried over from 2022 (e.g. 'accessibility I offered in my first term'). q7 set to 0 because he says tax increases are too high but proposes other revenue sources rather than service cuts, and voted for the 12.8% budget. q12 set to 0: he voted against cutting the 2025 Brennan Park line item but now stresses non-tax funding. Photo is the portrait used on his own campaign homepage (Wix-hosted; append /v1/fill/... for resizing). Did not rule out a mayoral bid in March but filed for council. PARKING (Sept 21 2026, research/parking-0921.json): q25 +1: I support an on-street pay parking program in the commercial area. (https://www.squamishchief.com/2022-civic-election/squamish-votes-2022-xxx-qa-5871496) | q36 -1: From these thinkers [...] I concluded what we have in Squamish is a parking management problem. In my travels downtown I find parking in places that aren’t obvious and in those places there’s often a few available spots. (https://www.johnfrench.ca/post/park-it) | q37 -1: I am totally with the mayor in his thinking around if there are a whole lot more parking spots built up there, that’s just going to lead to a whole lot more cars (https://www.squamishchief.com/local-news/councillors-not-willing-to-support-bold-parking-variance-for-university-highlands-development-10669687) Editor: q25 set to 0 (mixed) — his 2022 \"I support an on-street pay parking program\" is offset by his April 2024 vote against making paid parking a 2025 priority and Sept 2024 vote against studying it community-wide.",
+  "research_notes": "Good 2026 material (own platform page plus Chief profile). DATA CONFLICT to fix on the old site: the locally parsed minutes list French as the lone opponent of the Nov 7 2023 motion to join Sue Big Oil, but the raw minutes text shows no named opposition and the Squamish Chief reports French voted IN FAVOUR at the Oct 24 2023 committee vote (Hamilton and Andersen opposed). The 'French opposed Sue Big Oil' attribution was NOT used. The Feb 10 2026 Committee of the Whole parse is CONFIRMED WRONG: the Chief (Feb 13 2026) reports the motion to widen delegated development-permit criteria carried 4-3, French in favour. The raw minutes block concatenates four motions, so the parser attached the wrong OPPOSED list. General rule: never use the parsed `opposed` field without reading `raw_text_block`. Parts of his platform text appear carried over from 2022 (e.g. 'accessibility I offered in my first term'). q7 set to 0 because he says tax increases are too high but proposes other revenue sources rather than service cuts, and voted for the 12.8% budget. q12 set to 0: he voted against cutting the 2025 Brennan Park line item but now stresses non-tax funding. Photo is the portrait used on his own campaign homepage (Wix-hosted; append /v1/fill/... for resizing). Did not rule out a mayoral bid in March but filed for council. PARKING (Sept 21 2026, research/parking-0921.json): q25 +1: I support an on-street pay parking program in the commercial area. (https://www.squamishchief.com/2022-civic-election/squamish-votes-2022-xxx-qa-5871496) | q36 -1: From these thinkers [...] I concluded what we have in Squamish is a parking management problem. In my travels downtown I find parking in places that aren’t obvious and in those places there’s often a few available spots. (https://www.johnfrench.ca/post/park-it) | q37 -1: I am totally with the mayor in his thinking around if there are a whole lot more parking spots built up there, that’s just going to lead to a whole lot more cars (https://www.squamishchief.com/local-news/councillors-not-willing-to-support-bold-parking-variance-for-university-highlands-development-10669687) Editor: q25 set to 0 (mixed) — his 2022 \"I support an on-street pay parking program\" is offset by his April 2024 vote against making paid parking a 2025 priority and Sept 2024 vote against studying it community-wide. Sept 26 2026: q23 = +2 from the Sept 22 council vote on the WLNG agreement (Squamish Reporter, Sept 23).",
   "incumbent_label": "Current councillor",
   "photo": "img/john-french.jpg",
   "growth_group": "up",
@@ -1558,6 +1573,10 @@
    {
     "text": "Council making advocacy its main focus - he calls advocacy 'a necessary role' but says council shouldn't spend all its time on it at the expense of what is within its jurisdiction",
     "source_url": "https://www.squamishchief.com/local-news/andrew-hamilton-emphasizes-project-planning-in-squamish-council-re-election-bid-12770540"
+   },
+   {
+    "text": "The proposed 10-year Woodfibre LNG tax agreement: voted to reject it (on Sept. 22, 2026 council voted 5–2 not to give the proposed 10-year Woodfibre LNG tax agreement its first three readings), saying fixing the company’s contribution would not make the community’s own future costs certain",
+    "source_url": "https://www.squamishreporter.com/2026/09/23/squamish-council-rejects-woodfibre-lng-tax-deal/"
    }
   ],
   "stances": {
@@ -1645,7 +1664,8 @@
    "q25": 2,
    "q36": -1,
    "q37": -2,
-   "q38": -1
+   "q38": -1,
+   "q23": -2
   },
   "links": {
    "website": "https://www.andrewforsquamish.ca/",
@@ -1777,7 +1797,7 @@
     "url": "https://www.squamishreporter.com/2026/09/13/squamish-campaign-season-shouldnt-reset-the-clock/"
    }
   ],
-  "research_notes": "Sept 20 2026 street-axis recheck: q5=2 — “(it is) “very clear” that the community needs more affordable and supportive housing. “This is how it gets done.”” (https://www.squamishchief.com/local-news/squamish-council-waives-fees-and-services-for-new-housing-project-10934574, 2025-07-08). The April 2025 Brennan Park line-item amendment comes from parsed minutes (it failed, with Stoner, French, Pettingill and Mayor Hurford opposed) and his rationale for that specific amendment was not found. But his general position on Brennan Park IS on the record from Dec 2025: he moved to skip the two-year validation phase and go straight to a third-party feasibility study for a second pool and rink with $200,000 allocated, seconded by Pettingill and defeated, and he then opposed Stoner's scaled-down Phase 1. So his recreation votes are about sequencing and costing, not about refusing the investment; nothing was found on whether he would borrow for it, so q12 stays 0. PARKING (Sept 21 2026, research/parking-0921.json): q25 +2: Coun. Andrew Hamilton said his personal preference was to implement paid parking “everywhere, all at once.” [...] “I would have a slight preference towards having the downtown go first because I think that that's where w (https://www.squamishchief.com/local-news/when-is-paid-parking-starting-in-squamish-9993452) | q36 -1: So the local government decides to build their own ice cream shop. The municipal ice cream shop cannot cover its costs through ice cream sales, so the shortfall is covered by property tax. Now replace the word \"ice cream (https://www.andrewforsquamish.ca/) | q37 -2: Remove off-street parking requirements. Developers and businesses can then decide how many parking spaces to provide for their customers. (https://www.andrewforsquamish.ca/) | q38 -1: moved the Mar 11 2025 amendment deleting the resident pass from the Darrell Bay pilot (minutes: squamish.civicweb.net/document/251515/).",
+  "research_notes": "Sept 20 2026 street-axis recheck: q5=2 — “(it is) “very clear” that the community needs more affordable and supportive housing. “This is how it gets done.”” (https://www.squamishchief.com/local-news/squamish-council-waives-fees-and-services-for-new-housing-project-10934574, 2025-07-08). The April 2025 Brennan Park line-item amendment comes from parsed minutes (it failed, with Stoner, French, Pettingill and Mayor Hurford opposed) and his rationale for that specific amendment was not found. But his general position on Brennan Park IS on the record from Dec 2025: he moved to skip the two-year validation phase and go straight to a third-party feasibility study for a second pool and rink with $200,000 allocated, seconded by Pettingill and defeated, and he then opposed Stoner's scaled-down Phase 1. So his recreation votes are about sequencing and costing, not about refusing the investment; nothing was found on whether he would borrow for it, so q12 stays 0. PARKING (Sept 21 2026, research/parking-0921.json): q25 +2: Coun. Andrew Hamilton said his personal preference was to implement paid parking “everywhere, all at once.” [...] “I would have a slight preference towards having the downtown go first because I think that that's where w (https://www.squamishchief.com/local-news/when-is-paid-parking-starting-in-squamish-9993452) | q36 -1: So the local government decides to build their own ice cream shop. The municipal ice cream shop cannot cover its costs through ice cream sales, so the shortfall is covered by property tax. Now replace the word \"ice cream (https://www.andrewforsquamish.ca/) | q37 -2: Remove off-street parking requirements. Developers and businesses can then decide how many parking spaces to provide for their customers. (https://www.andrewforsquamish.ca/) | q38 -1: moved the Mar 11 2025 amendment deleting the resident pass from the Darrell Bay pilot (minutes: squamish.civicweb.net/document/251515/). Sept 26 2026: q23 = -2 from the Sept 22 council vote on the WLNG agreement (Squamish Reporter, Sept 23).",
   "incumbent_label": "Current councillor",
   "photo": "img/andrew-hamilton.jpg",
   "growth_group": "up",
@@ -1864,6 +1884,10 @@
    {
     "text": "The 2020 town-wide camping ban and the 2021 Camping Bylaw (sole vote against adoption), citing stigma against homeless people",
     "source_url": "https://www.squamishchief.com/local-news/camping-bylaw-changed-3794956"
+   },
+   {
+    "text": "The proposed 10-year Woodfibre LNG tax agreement: voted to reject it (on Sept. 22, 2026 council voted 5–2 not to give the proposed 10-year Woodfibre LNG tax agreement its first three readings), saying regular taxation gives a clearer public process through the annual budget",
+    "source_url": "https://www.squamishreporter.com/2026/09/23/squamish-council-rejects-woodfibre-lng-tax-deal/"
    }
   ],
   "stances": {
@@ -1950,7 +1974,8 @@
    "q25": 1,
    "q36": -1,
    "q37": -2,
-   "q38": -1
+   "q38": -1,
+   "q23": -2
   },
   "links": {
    "website": "https://chrisforsquamish.ca/",
@@ -2066,7 +2091,7 @@
     "url": "https://squamish.civicweb.net/document/237379/"
    }
   ],
-  "research_notes": "Best-documented of the four (full 2026 site, Chief and Reporter profiles). His platform page is largely a list of accomplishments and themes rather than new promises. Correction for the local voting profile: the April 30 2024 floatel denial motion was moved by Greenlaw and SECONDED by Pettingill (the profile's wording 'moved... seconding by himself' is garbled). q1 is 0 because he both values limiting growth impacts/'small-town feel' and supports meeting housing targets; he frequently votes against individual permits but has not called for slowing approvals overall. RESOLVED Sept 20 2026: his reasons for the 38026 Second Avenue no-vote were found — he said he was fine with the height and objected to the employment-space reduction, so q2 moved 0 → +1. The councillor who objected to the height variance that night was Andrew Hamilton, not Pettingill; the earlier note conflated them. q1 moved 0 → −1 and q3 −1 → −2 on explicit growth-boundary statements. Found and he supports compact growth. q6 rests on a 2020 statement only. q11 is +1 not +2 because his emphasis is on the province funding regional transit. The policing quote predates this term. My Sea to Sky (2022) rated him a 'Climate Leader' and opposed to WLNG, the floatel, FortisBC pipeline/workcamp and Garibaldi at Squamish. He discloses being a former BC Green Party chair on his own site. PARKING (Sept 21 2026, research/parking-0921.json): q25 +1: flexible paid parking to manage demand; spend revenue on improving downtown areas/transit (https://www.squamishchief.com/2022-civic-election/squamish-votes-2022-council-candidate-chris-pettingills-qa-5871333) | q36 -1: In general, I am a proponent of not putting huge investments into parking, given the mode shift and everything we need to do. (https://www.squamishchief.com/local-news/councillors-not-willing-to-support-bold-parking-variance-for-university-highlands-development-10669687) | q37 -2: It doesn’t seem like a workable variance at this point, even for someone like me who is pretty aggressive on parking reductions generally. (https://www.squamishchief.com/local-news/councillors-not-willing-to-support-bold-parking-variance-for-university-highlands-development-10669687) | q38 -1: seconded that amendment; Dec 2024 warned against expecting that \"it's just tourists that should pay\".",
+  "research_notes": "Best-documented of the four (full 2026 site, Chief and Reporter profiles). His platform page is largely a list of accomplishments and themes rather than new promises. Correction for the local voting profile: the April 30 2024 floatel denial motion was moved by Greenlaw and SECONDED by Pettingill (the profile's wording 'moved... seconding by himself' is garbled). q1 is 0 because he both values limiting growth impacts/'small-town feel' and supports meeting housing targets; he frequently votes against individual permits but has not called for slowing approvals overall. RESOLVED Sept 20 2026: his reasons for the 38026 Second Avenue no-vote were found — he said he was fine with the height and objected to the employment-space reduction, so q2 moved 0 → +1. The councillor who objected to the height variance that night was Andrew Hamilton, not Pettingill; the earlier note conflated them. q1 moved 0 → −1 and q3 −1 → −2 on explicit growth-boundary statements. Found and he supports compact growth. q6 rests on a 2020 statement only. q11 is +1 not +2 because his emphasis is on the province funding regional transit. The policing quote predates this term. My Sea to Sky (2022) rated him a 'Climate Leader' and opposed to WLNG, the floatel, FortisBC pipeline/workcamp and Garibaldi at Squamish. He discloses being a former BC Green Party chair on his own site. PARKING (Sept 21 2026, research/parking-0921.json): q25 +1: flexible paid parking to manage demand; spend revenue on improving downtown areas/transit (https://www.squamishchief.com/2022-civic-election/squamish-votes-2022-council-candidate-chris-pettingills-qa-5871333) | q36 -1: In general, I am a proponent of not putting huge investments into parking, given the mode shift and everything we need to do. (https://www.squamishchief.com/local-news/councillors-not-willing-to-support-bold-parking-variance-for-university-highlands-development-10669687) | q37 -2: It doesn’t seem like a workable variance at this point, even for someone like me who is pretty aggressive on parking reductions generally. (https://www.squamishchief.com/local-news/councillors-not-willing-to-support-bold-parking-variance-for-university-highlands-development-10669687) | q38 -1: seconded that amendment; Dec 2024 warned against expecting that \"it's just tourists that should pay\". Sept 26 2026: q23 = -2 from the Sept 22 council vote on the WLNG agreement (Squamish Reporter, Sept 23).",
   "incumbent_label": "Current councillor",
   "photo": "img/chris-pettingill.jpg",
   "growth_group": "up",

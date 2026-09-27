@@ -204,6 +204,7 @@ const placed = all.filter(isPlaced), unplaced = all.filter((c) => !isPlaced(c));
 // Plain answer to the question everyone asks about the Woodfibre deal. Facts from the District's own FAQ and staff report.
 const DEAL_SRC = 'https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/wlng-agreement/';
 const DEAL_IF_NO = `<div class="ifno"><h3>The Woodfibre tax deal: what each choice means</h3>
+<p class="deal-update"><b>Update, Sept. 22:</b> council said no, 5–2 (Stoner, Hamilton and Pettingill against; Andersen and French for). A future council could still negotiate a new deal, so where candidates stand still matters. <a href="https://www.squamishreporter.com/2026/09/23/squamish-council-rejects-woodfibre-lng-tax-deal/" target="_blank" rel="noopener">Squamish Reporter</a></p>
 <p>This is a question about money. It is not a vote for or against the plant, which is already being built, and candidates who support the plant are on both sides of it.</p>
 <div class="grid cols-2">
 <div><h4>If council says yes</h4><ul>

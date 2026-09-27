@@ -665,8 +665,12 @@
     {
       "key": "environment_lng",
       "title": "Climate, the environment and the Woodfibre LNG plant",
-      "explainer": "Woodfibre LNG is building a liquefied natural gas export plant on Howe Sound about 7 km from downtown, fed by a new FortisBC pipeline; it was approved by senior governments and the Squamish Nation, not by council, and remains divisive locally. Council's real levers are land-use permits (such as the 'floatel' worker housing) and how the plant is taxed. The biggest live decision is a proposed 10-year deal under which Woodfibre would pay the District at least $142 million from 2027 in exchange for a fixed, much lower municipal tax bill, and would drop its lawsuits over 2025 and 2026 taxes; the current council plans to vote in early October, days before the election. This is really two separate arguments. One is about the plant itself and the climate. The other is about money: supporters of the deal value predictable revenue and an end to litigation, while critics — including several candidates who support the plant — say the District may be giving up revenue and that the decision is rushed. Separately, the District has a goal of cutting community greenhouse gas emissions 45% by 2030.",
+      "explainer": "Woodfibre LNG is building a liquefied natural gas export plant on Howe Sound about 7 km from downtown, fed by a new FortisBC pipeline; it was approved by senior governments and the Squamish Nation, not by council, and remains divisive locally. Council's real levers are land-use permits (such as the 'floatel' worker housing) and how the plant is taxed. The biggest live decision is a proposed 10-year deal under which Woodfibre would pay the District at least $142 million from 2027 in exchange for a fixed, much lower municipal tax bill, and would drop its lawsuits over 2025 and 2026 taxes; on Sept. 22, 2026 council rejected it 5–2, so the question for the next council is whether to go back for a new deal. This is really two separate arguments. One is about the plant itself and the climate. The other is about money: supporters of the deal value predictable revenue and an end to litigation, while critics — including several candidates who support the plant — say the District may be giving up revenue and that the decision is rushed. Separately, the District has a goal of cutting community greenhouse gas emissions 45% by 2030.",
       "key_facts": [
+        {
+          "fact": "Result: on Sept. 22, 2026 council voted 5–2 to reject the proposed 10-year agreement. Against: Mayor Armand Hurford and Couns. Jenna Stoner (who moved the motion), Lauren Greenlaw, Andrew Hamilton and Chris Pettingill. For: Couns. Eric Andersen and John French. A future council could still consider another agreement.",
+          "source_url": "https://www.squamishreporter.com/2026/09/23/squamish-council-rejects-woodfibre-lng-tax-deal/"
+        },
         {
           "fact": "The plant will produce 2.1 million tonnes of LNG per year, is expected to operate about 40 years, and the District lists completion as expected in 2027.",
           "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/woodfibre-liquefied-natural-gas-and-fortisbceagle-mountain-pipeline/woodfibre-lng-project/"
@@ -678,10 +682,6 @@
         {
           "fact": "District staff say revenue under regular taxation 'could be either higher or lower' than the agreement; the documents can be accepted or rejected but not amended; WLNG's 2025 and 2026 legal proceedings would be dismissed by consent if approved.",
           "source_url": "https://www.squamishreporter.com/2026/09/18/wlng-lawsuits-would-be-dismissed-under-proposed-142-million-squamish-agreement/"
-        },
-        {
-          "fact": "Timeline: council considers first three readings of the tax exemption bylaw at a special meeting on Sept. 22, 2026 at 6 p.m.; a final decision on both parts is expected in early October 2026 so it can take effect for the 2027 tax year. Written public comments are being accepted through a form on the District's page.",
-          "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/wlng-agreement/"
         },
         {
           "fact": "Under normal taxation, the District says Woodfibre LNG paid $7.7 million in municipal property tax in 2026 while still under construction, at a major-industry rate of 125 — about four times the B.C. average for that class. The District itself says keeping that rate for 10 years “would be unusual”.",
@@ -724,15 +724,16 @@
           "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/wlng-agreement/"
         },
         {
-          "fact": "Process: council can only accept or reject the deal, not amend it; public input is by written comment only. First three readings are on Sept. 22; if they pass, the final vote is Oct. 6. A “no” means normal taxation continues in 2027, not zero revenue.",
-          "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/wlng-agreement/"
+          "fact": "Process: council could only accept or reject the deal, not amend it. With the deal rejected, normal taxation continues in 2027 (not zero revenue), and a future council could still consider another agreement.",
+          "source_url": "https://www.squamishreporter.com/2026/09/23/squamish-council-rejects-woodfibre-lng-tax-deal/"
         },
         {
-          "fact": "Among candidates who have taken a side, opposition to the deal is about money and timing, not the environment: Daniel Deal, Sean Easton, Janice DesJardins and Laura Prosko all want it rejected or delayed for a better one, and none of them opposes the plant itself. Sean Goodwin supports signing. Sitting councillors had not declared before the Sept. 22 vote.",
+          "fact": "Among candidates who have taken a side, opposition to the deal is about money and timing, not the environment: Daniel Deal, Sean Easton, Janice DesJardins and Laura Prosko all want it rejected or delayed for a better one, and none of them opposes the plant itself. Sean Goodwin supports signing. At the Sept. 22 vote, sitting councillors Stoner, Hamilton and Pettingill voted to reject it; Andersen and French voted for it.",
           "source_url": "https://www.squamishchief.com/local-news/is-the-woodfibre-lng-tax-deal-fair-here-is-what-the-company-and-critics-are-saying-12799020"
         }
       ],
       "sources": [
+        "https://www.squamishreporter.com/2026/09/23/squamish-council-rejects-woodfibre-lng-tax-deal/",
         "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/wlng-agreement/",
         "https://www.squamishreporter.com/2026/09/18/wlng-lawsuits-would-be-dismissed-under-proposed-142-million-squamish-agreement/",
         "https://www.biv.com/news/resources-agriculture/district-of-squamish-seeks-public-input-on-10-year-woodfibre-lng-financial-deal-12706807",
