@@ -146,6 +146,7 @@ const compassPos = (c) => {
 // More two-line maps people can swipe through on /compass/ and the small compass cards. Each is worked out the
 // same way as the classic one: the average of a candidate's sourced scores on each list of statements.
 const neg = (qs) => Object.fromEntries(Object.entries(qs).map(([q, w]) => [q, -w]));
+const PROJECTS_Q = { q12: 1, q22: 1, q28: 1, q21: -1 };
 const PARKING_Q = { q36: 1, q37: 1, q38: 1, q25: -1, q26: -1, q11: -1 };
 const CMAPS = {
   classic: {
@@ -164,6 +165,7 @@ const CMAPS = {
     Lm: { up: '▲ SPEND MORE', down: '▼ HOLD TAXES DOWN', left: '◀ BUILD MORE', right: 'SLOW DOWN ▶' },
     xt: 'Growth', xw: ['build more, faster', 'slow down, be cautious'], yt: 'Money', yw: ['hold taxes and spending down', 'spend more on public services'],
     desc: 'Left to right runs from build more, faster to slow down and be cautious. Bottom to top runs from hold taxes and spending down to spend more on public services.',
+    explain: '<b>Up–down</b> is money: spend more on housing, shelters, transit, recreation, bike lanes and childcare (up), or hold taxes and spending down (down). <b>Left–right</b> is growth: allow taller buildings and cut red tape for builders (left), or slow the pace of approvals (right).',
   },
   cars: {
     // Both lines reversed, like growpay, so transit / build-more sits top-left.
@@ -173,6 +175,17 @@ const CMAPS = {
     Lm: { up: '▲ TRANSIT &amp; BIKES', down: '▼ CARS &amp; PARKING', left: '◀ BUILD MORE', right: 'SLOW DOWN ▶' },
     xt: 'Growth', xw: ['build more, faster', 'slow down, be cautious'], yt: 'Getting around', yw: ['cars and parking first', 'transit and bikes first'],
     desc: 'Left to right runs from build more, faster to slow down and be cautious. Bottom to top runs from cars and parking first to transit and bikes first.',
+    explain: '<b>Up–down</b> is how people should get around: paid parking is fair, and spend local money on bike lanes, sidewalks and regional transit (up), or more public parking, parking required in new buildings and free parking for residents (down). <b>Left–right</b> is growth: allow taller buildings and cut red tape for builders (left), or slow the pace of approvals (right).',
+  },
+  projects: {
+    // Same orientation rule as the other maps: more public investment up, build more left.
+    title: 'Big projects — invest now or hold off?', ask: 'Borrow and build now, or wait and ask voters first? Build more or slow down?',
+    x: neg(AXES.growth.q), y: PROJECTS_Q,
+    L: { up: '▲ BORROW &amp; INVEST NOW', down: '▼ WAIT, OR ASK VOTERS FIRST', left: '◀ BUILD MORE, FASTER', right: 'SLOW DOWN, BE CAUTIOUS ▶' },
+    Lm: { up: '▲ INVEST NOW', down: '▼ WAIT / ASK VOTERS', left: '◀ BUILD MORE', right: 'SLOW DOWN ▶' },
+    xt: 'Growth', xw: ['build more, faster', 'slow down, be cautious'], yt: 'Big projects', yw: ['wait, or put big projects to a referendum', 'borrow and invest now'],
+    desc: 'Left to right runs from build more, faster to slow down and be cautious. Bottom to top runs from wait or ask voters first to borrow and invest now.',
+    explain: '<b>Up–down</b> is big projects: renew Brennan Park even if it means borrowing, borrow now rather than save up, and spend more on dikes and flood protection even with higher taxes (up), or send big capital projects to a public referendum first (down). <b>Left–right</b> is growth: allow taller buildings and cut red tape for builders (left), or slow the pace of approvals (right).',
   },
 };
 const qScore = (c, qs) => {
@@ -759,23 +772,21 @@ write('/compass/', page({
   url: '/compass/', title: 'Where they lean',
   desc: 'Where Squamish mayor and council candidates sit on taxes and spending, growth, and Woodfibre LNG and climate — worked out from their public statements and votes.',
   body: `<h1>Where they lean</h1>
-  <p class="lede">Everyone on a map first — swipe for three different maps — then the five questions that split this election, one at a time.</p>
+  <p class="lede">Everyone on a map first — swipe for ${Object.keys(CMAPS).length} different maps — then the five questions that split this election, one at a time.</p>
   <nav class="chapters no-print" aria-label="Jump to a topic"><a href="#map" data-ch="map"><span aria-hidden="true">🧭</span> Compass</a>${Object.entries(AXES).map(([k, A]) => `<a href="#axis-${k}" data-ch="axis-${k}"><span aria-hidden="true">${A.icon}</span> ${A.short || A.title}</a>`).join('')}</nav>
   <div class="lean-tools no-print">
     <label for="follow"><b>Follow one candidate:</b></label>
     <select id="follow"><option value="">— Show everyone —</option>${all.map((c) => `<option value="${c.slug}">${esc(c.name)}${c.office === 'mayor' ? ' (mayor)' : ''}</option>`).join('')}</select>
   </div>
   <section class="spec" id="map">
-  <div class="cmap-car" data-carousel data-track="Compass step" aria-roledescription="carousel" aria-label="Three compasses">
+  <div class="cmap-car" data-carousel data-track="Compass step" aria-roledescription="carousel" aria-label="${Object.keys(CMAPS).length} compasses">
   ${carHead('🧭 Compass', 'compass')}
   ${Object.keys(CMAPS).map((mk, n) => { const M = CMAPS[mk], un = all.filter((c) => !cmapPos(c, mk)); return `<div data-slide data-cmap-slide="${mk}"${n ? ' hidden' : ''}>
   <h2>${esc(M.title)}</h2>
   <p class="ask">${esc(M.ask)}</p>
   ${compassLegend(false, mk)}
   <div class="compass-box"><div class="cb-wide">${compassSvg({ map: mk })}</div><div class="cb-narrow">${compassSvg({ mini: true, tap: true, map: mk })}</div></div>
-  ${mk === 'classic' ? '' : `<p class="small">${mk === 'cars'
-    ? '<b>Up–down</b> is how people should get around: paid parking is fair, and spend local money on bike lanes, sidewalks and regional transit (up), or more public parking, parking required in new buildings and free parking for residents (down). <b>Left–right</b> is growth: allow taller buildings and cut red tape for builders (left), or slow the pace of approvals (right).'
-    : '<b>Up–down</b> is money: spend more on housing, shelters, transit, recreation, bike lanes and childcare (up), or hold taxes and spending down (down). <b>Left–right</b> is growth: allow taller buildings and cut red tape for builders (left), or slow the pace of approvals (right).'} Tap a dot for details.</p>
+  ${mk === 'classic' ? '' : `<p class="small">${M.explain} Tap a dot for details.</p>
   <p class="small">${esc(miniCaveat(mk))}</p>`}
   ${un.length ? `<p class="small nopos"><b>Not on this map</b> (too little on the record to place fairly): ${un.map((c) => `<a href="/candidates/${c.slug}/">${esc(c.name)}</a>`).join(', ')}.</p>` : ''}
   </div>`; }).join('')}
