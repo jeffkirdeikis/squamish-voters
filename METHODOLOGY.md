@@ -106,15 +106,13 @@ The dot's position on the track is linear: `4 + (v + 2) / 4 × 92` percent.
 
 ## 4. The 2-D compasses
 
-Code: `build.mjs`, constants `CMAPS`, `SUPPORT_Q`, `ENFORCE_Q`, `CLASSIC`, function `qScore`.
+Code: `build.mjs`, constants `CMAPS`, `SUPPORT_Q`, `CAMPS_Q`, `CLASSIC`, function `qScore`.
 
-Each axis is a **weighted** average: `Σ(score × weight) / Σ|weight|` over the statements the
-candidate has a score on, so the result stays on the −2..+2 scale. Most weights are ±1.
+Each axis is the plain average of `score × sign` over the statements the candidate has a score on.
 
 - **Homelessness compass.** X (left = more homeless shelters and outreach, right = fewer):
-  q5 (−1), q20 (−1). Y (up = let the camps stay, down = clear camps and more enforcement):
-  q31 (−2), q18 (−2), q19 (−1), q35 (−1), q6 (−1), q32 (−1). Clearing encampments and moving
-  the shelter out of downtown count double because they are the heart of the question.
+  q5 (−), q20 (−). Y (up = let the camps stay, down = clear the camps and move the shelter):
+  q31 (−), q18 (−).
 - The growth-and-pay (X: growth, Y: public spending vs. hold taxes down, using the list
   q7 (+), q21 (+), q4 (−), q5 (−), q11 (−), q12 (−), q22 (−), q26 (−), q30 (−), q34 (−), q15 (−), flipped),
   cars and big-projects maps use the lists defined in `CMAPS`.
