@@ -94,7 +94,7 @@ if not (r.get('research_notes') or '').startswith('Sept 20 2026'): r['research_n
 
 
 # Only real, verified submissions. A curl test entry under Sean Goodwin's name (Sept 20) is skipped by its user agent.
-USE = {'Sarah Ellis', 'Shaun Veltkamp', 'Sean Goodwin', 'Daniel Deal', 'Laura Prosko', 'Sean Easton', 'Chris Ryan', 'Andrew Hamilton'}
+USE = {'Sarah Ellis', 'Shaun Veltkamp', 'Sean Goodwin', 'Daniel Deal', 'Laura Prosko', 'Sean Easton', 'Chris Ryan', 'Andrew Hamilton', 'Luc Perreault'}
 # Submissions whose email didn't match the District filing but that Jeff confirmed with the candidate.
 # Chris Ryan (Sept 25): typed "…@gmail.comom" — a typo of his filed address.
 VOUCHED = {'Chris Ryan': 'The email address on the form had a typo, so Squamish Voters confirmed with Chris that the answers are his.'}
@@ -204,6 +204,17 @@ HEAD = {
   'economy': 'Leans toward cutting red tape and protecting industrial land',
   'parking': 'Strongly for paid parking downtown, with no free pass for locals; against requiring parking in new buildings',
  },
+ 'Luc Perreault': {
+  'growth': 'Neutral on slowing approvals; leans against taller buildings downtown (views); open to new neighbourhoods if residents benefit; clear rules set in advance',
+  'housing_affordability': 'Keep District land for housing; in the middle on more public money for below-market homes and on a required share in big projects',
+  'homelessness': 'A place for people living in vehicles; leans toward moving Under One Roof out of downtown; against clearing camps with nowhere to go; safety first',
+  'policing': 'Strongly for more bylaw officers downtown and bylaws against open drug use; leans toward more community policing and crisis teams',
+  'taxes_spending': 'Strongly against capping taxes at inflation if it cuts core infrastructure; cautious on borrowing for Brennan Park — look for partners first',
+  'environment_lng': 'Strongly for the Woodfibre tax deal and against pressing the plant through permits; core infrastructure before climate action',
+  'transportation': 'Leans toward regional transit (with cost-sharing partners) and bike lanes and sidewalks',
+  'economy': 'Strongly for cutting red tape and protecting industrial and commercial land from rezoning for housing',
+  'parking': 'Strongly for requiring parking in new buildings; leans against paid parking downtown, and toward residents free if it comes; more public parking',
+ },
  'Sean Goodwin': {
   'growth': 'Keep growing, but stop densifying downtown: open new land and link neighbourhoods with new roads',
   'housing_affordability': 'Prefers “attainable” homes sold to set income brackets; keep District land for housing',
@@ -268,6 +279,18 @@ by['Andrew Hamilton']['growth_line'] = 'On growth: not growing too fast — appr
 if 'Sept 27 2026' not in (by['Andrew Hamilton'].get('research_notes') or ''):
     by['Andrew Hamilton']['research_notes'] = ('Sept 27 2026: questionnaire answered. His own q23 -1 replaces our -2 from his Sept 22 council vote. '
         'He declined q8 (citing legal actions against the District and council), so q8 is left blank (our researched 0 removed). ' + (by['Andrew Hamilton'].get('research_notes') or ''))
+
+by['Luc Perreault']['growth_group'] = 'mix'    # q1 0; q2 -1 taller buildings; q3 +1 new land, but his note says neither density nor new land "everywhere"
+by['Luc Perreault']['growth_line'] = 'On growth: growth must pay its way and infrastructure must keep up — protect the views, and open new land only if it clearly benefits residents.'
+# Researched sentences his questionnaire now answers (q1/q2 growth, q7/q12/q22 taxes and Brennan Park, q11 transit funding, q25/q37/q38 parking).
+_ls = by['Luc Perreault']['stances']
+_ls['growth']['summary'] = _ls['growth']['summary'].replace('Does not call for slowing or for any particular built form. ', '')
+_ls['taxes_spending']['summary'] = _ls['taxes_spending']['summary'].replace(' No specific position found on tax-increase targets, borrowing, or named projects such as Brennan Park.', '')
+_ls['transportation']['summary'] = _ls['transportation']['summary'].replace(' Does not say how regional transit should be funded.', '')
+_ls['parking']['summary'] = _ls['parking']['summary'].replace(' No position on paid parking, a parkade or parking minimums.', '')
+if 'Sept 28 2026' not in (by['Luc Perreault'].get('research_notes') or ''):
+    by['Luc Perreault']['research_notes'] = ('Sept 28 2026: questionnaire answered (37 answers, 17 notes, 6 written) from lucperreault2026@gmail.com, the address on the District page. '
+        'All quiz answers were previously null, so nothing researched was replaced. ' + (by['Luc Perreault'].get('research_notes') or ''))
 
 # Veltkamp flagged our one-line growth summary as misleading; use his own answers instead.
 by['Shaun Veltkamp']['growth_line'] = 'On growth: cap building heights downtown for now, and finish existing neighbourhoods before opening new land.'
