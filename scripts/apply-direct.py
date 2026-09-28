@@ -125,7 +125,8 @@ for r in sorted(RESP, key=lambda r: r['received'], reverse=True):   # newest fir
 
 # Answers a candidate re-answered by email after submitting (treated as a resubmission; notes kept as sent).
 # Veltkamp (Sept 26): the two Brennan Park borrowing statements, +2 -> 0; his notes say senior government and industry should pay.
-REVISED = {'Shaun Veltkamp': {'q12': 0, 'q22': 0}}
+# Hamilton (Sept 27) declined q8, citing legal actions against the District and council: blank our researched reading so the quiz leaves it out.
+REVISED = {'Shaun Veltkamp': {'q12': 0, 'q22': 0}, 'Andrew Hamilton': {'q8': None}}
 for name, ch in REVISED.items():
     by[name]['quiz_answers'].update(ch)
 
@@ -266,7 +267,7 @@ by['Andrew Hamilton']['growth_group'] = 'up'   # q1 -2 not growing too fast; q2 
 by['Andrew Hamilton']['growth_line'] = 'On growth: not growing too fast — approve projects that meet the community’s needs, under clear rules set in advance.'
 if 'Sept 27 2026' not in (by['Andrew Hamilton'].get('research_notes') or ''):
     by['Andrew Hamilton']['research_notes'] = ('Sept 27 2026: questionnaire answered. His own q23 -1 replaces our -2 from his Sept 22 council vote. '
-        'He declined q8 (citing legal actions against the District and council), so q8 stays our reading of the record. ' + (by['Andrew Hamilton'].get('research_notes') or ''))
+        'He declined q8 (citing legal actions against the District and council), so q8 is left blank (our researched 0 removed). ' + (by['Andrew Hamilton'].get('research_notes') or ''))
 
 # Veltkamp flagged our one-line growth summary as misleading; use his own answers instead.
 by['Shaun Veltkamp']['growth_line'] = 'On growth: cap building heights downtown for now, and finish existing neighbourhoods before opening new land.'
