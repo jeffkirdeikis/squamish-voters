@@ -3321,7 +3321,7 @@
    }
   ],
   "research_notes": "Sept 20 2026 LNG split: q8 now covers the plant's impacts only; the 10-year tax deal is scored separately as q23. q23=1 — Chief: he 'thinks the current proposal ... should be approved', while admitting he can't tell if it's a good deal. (+2 if the 'We need this' comment is confirmed his.) (https://www.squamishchief.com/local-news/life-long-squamish-resident-sean-goodwin-seeks-seat-at-city-hall-12787693). q8 set to null — Existing -1 appears to come from his support for signing the deal. Nothing on impacts. (-1 is defensible only if you rely on the 'enough of this fighting the inevitable' public comment and confirm it is the candidate.) q5 left null: moving Under One Roof out of downtown (q18 +2) is a siting position, not a statement on whether Squamish needs more shelter/supportive-housing spaces. q18 +2 rests on a direct, verbatim quote. Sept 22 2026 sweep: no campaign website found; Chief profile + his questionnaire remain the sources.",
-  "photo": null,
+  "photo": "img/sean-goodwin.jpg",
   "answer_notes": {
    "q1": "I would agree that we are growing quickly but I think we just need to diversify where we are focusing the growth, we can still grow and maintain a healthy pace of development if we stop densifying the downtown core and leaning heavily on building condo's. I think we also need to start connecting the neighborhoods via new roads. I.e. Crumpit to Finch, Bailey Street, and possibly a road bridge along the tracks out of downtown from Pemberton St.",
    "q2": "If these buildings are not going to come with more than adequate parking space and potentially some affordable storefront space. Then I don't feel there is a place for them downtown anymore.",
@@ -3367,7 +3367,8 @@
    ]
   },
   "growth_group": "out",
-  "growth_line": "On growth: keep growing, but stop densifying downtown — open new land and link neighbourhoods with new roads."
+  "growth_line": "On growth: keep growing, but stop densifying downtown — open new land and link neighbourhoods with new roads.",
+  "photo_credit": "candidate’s campaign"
  },
  {
   "name": "A. John Lowe",
