@@ -125,24 +125,11 @@ const axisWords = (key, s) => {
 // Y: up (more government rules and enforcement) .. down (fewer rules, leave people and builders alone).
 const CLASSIC = {
   x: { q7: 1, q21: 1, q4: -1, q5: -1, q11: -1, q12: -1, q22: -1, q26: -1, q30: -1, q34: -1, q15: -1 },
-  // up = housing and support first, down = enforcement and order first (the 'street' list, flipped)
-  y: { q5: 1, q20: 1, q6: -1, q18: -1, q31: -1, q19: -1, q32: -1, q35: -1 },
 };
-const classicScore = (c, ax) => {
-  const vals = Object.entries(CLASSIC[ax]).map(([q, sign]) => (typeof c.quiz_answers?.[q] === 'number' ? c.quiz_answers[q] * sign : null)).filter((v) => v !== null);
-  return vals.length ? { v: vals.reduce((a, b) => a + b, 0) / vals.length, n: vals.length } : null;
-};
-const compassPosOld = (c) => { const x = axisScore(c, 'money'), y = axisScore(c, 'env'); return x && y && x.n + y.n >= 2 && x.n >= 1 ? { x, y, thin: x.n + y.n <= 3 } : null; };
-// Where a candidate has fewer than 2 scored statements on the money axis, fall back to our researched
-// estimate of their economic lean (−5..+5, written up with reasons in the data) and mark the dot as an estimate.
-const compassPos = (c) => {
-  let x = classicScore(c, 'x'); const y = classicScore(c, 'y'); let est = false;
-  const k = c.compass || {};
-  const hasEst = typeof k.economic === 'number' && !/no evidence|placeholder/i.test(k.rationale || '');
-  if ((!x || x.n < 2) && hasEst) { x = { v: Math.max(-2, Math.min(2, k.economic * 0.4)), n: x ? x.n : 0 }; est = true; }
-  if (!x || !y) return null;
-  return { x, y, est, thin: est || y.n < 2 };
-};
+// The homelessness compass splits that one line in two, because wanting more shelter and wanting encampments
+// cleared are not opposites. Left = more shelter & outreach. Down = clear camps, move the shelter, more enforcement.
+const SUPPORT_Q = { q5: -1, q20: -1 };
+const ENFORCE_Q = { q31: -1, q18: -1, q19: -1, q35: -1, q6: -1, q32: -1 };
 // More two-line maps people can swipe through on /compass/ and the small compass cards. Each is worked out the
 // same way as the classic one: the average of a candidate's sourced scores on each list of statements.
 const neg = (qs) => Object.fromEntries(Object.entries(qs).map(([q, w]) => [q, -w]));
@@ -150,12 +137,22 @@ const PROJECTS_Q = { q12: 1, q22: 1, q28: 1, q21: -1 };
 const PARKING_Q = { q36: 1, q37: 1, q38: 1, q25: -1, q26: -1, q11: -1 };
 const CMAPS = {
   classic: {
-    title: 'The political compass', ask: 'Left or right on money. Support first or enforcement first on the streets.',
-    x: CLASSIC.x, y: CLASSIC.y,
-    L: { up: '▲ HOUSING &amp; SUPPORT FIRST', down: '▼ ENFORCEMENT &amp; ORDER FIRST', left: '◀ LEFT · SPEND MORE ON SERVICES', right: 'RIGHT · LOWER TAXES ▶' },
-    Lm: { up: '▲ HOUSING &amp; SUPPORT', down: '▼ ENFORCEMENT &amp; ORDER', left: '◀ SPEND MORE', right: 'LOWER TAXES ▶' },
-    xt: 'Left–right', xw: ['left (more public spending)', 'right (lower taxes)'], yt: 'Homelessness & street safety', yw: ['enforcement and order first', 'housing and support first'],
-    desc: 'Left to right runs from left (spend more on public services) to right (lower taxes). Bottom to top runs from enforcement and order first to housing and support first.',
+    title: 'Homelessness: support and enforcement', ask: 'More shelter and outreach, or less? Clear the camps and move the shelter, or not?',
+    x: SUPPORT_Q, y: ENFORCE_Q,
+    L: { up: '▲ LESS ENFORCEMENT', down: '▼ CLEAR CAMPS · MOVE SHELTER · MORE BYLAW', left: '◀ MORE SHELTER &amp; OUTREACH', right: 'LESS SHELTER &amp; OUTREACH ▶' },
+    Lm: { up: '▲ LESS ENFORCEMENT', down: '▼ CLEAR CAMPS', left: '◀ MORE SHELTER', right: 'LESS SHELTER ▶' },
+    xt: 'Shelter & outreach', xw: ['more shelter and outreach', 'less shelter and outreach'], yt: 'Enforcement', yw: ['clear camps, move the shelter, more enforcement', 'less enforcement'],
+    desc: 'Left to right runs from more shelter and outreach to less. Bottom to top runs from clear encampments, move the shelter out of downtown and more enforcement, to less enforcement.',
+  },
+  political: {
+    // The closest a council race gets to the classic political compass: money left–right, enforcement up–down.
+    title: 'The political compass', ask: 'Spend more or lower taxes? More or less enforcement on the streets?',
+    x: CLASSIC.x, y: ENFORCE_Q,
+    L: { up: '▲ LESS ENFORCEMENT', down: '▼ MORE ENFORCEMENT', left: '◀ LEFT · SPEND MORE ON SERVICES', right: 'RIGHT · LOWER TAXES ▶' },
+    Lm: { up: '▲ LESS ENFORCEMENT', down: '▼ MORE ENFORCEMENT', left: '◀ SPEND MORE', right: 'LOWER TAXES ▶' },
+    xt: 'Left–right', xw: ['left (more public spending)', 'right (lower taxes)'], yt: 'Enforcement', yw: ['clear camps, move the shelter, more enforcement', 'less enforcement'],
+    desc: 'Left to right runs from left (spend more on public services) to right (lower taxes). Bottom to top runs from more enforcement to less enforcement.',
+    explain: '<b>Left–right</b> is money: spend more on housing, shelters, transit, recreation, bike lanes and childcare (left), or hold taxes and spending down (right). <b>Up–down</b> is the same enforcement line as the homelessness compass: clear encampments, move the shelter, more bylaw officers and RCMP, bylaws against public drug use (down), or less of that (up).',
   },
   growpay: {
     // Both lines run backwards from the other maps so spend-more / build-more sits top-left, like the classic compass.
@@ -193,12 +190,11 @@ const qScore = (c, qs) => {
   return vals.length ? { v: vals.reduce((a, b) => a + b, 0) / vals.length, n: vals.length } : null;
 };
 const cmapPos = (c, key) => {
-  if (key === 'classic') return compassPos(c);
   const M = CMAPS[key], x = qScore(c, M.x), y = qScore(c, M.y);
   return x && y ? { x, y, est: false, thin: x.n < 2 || y.n < 2 } : null;
 };
 const placedOn = (key) => all.filter((c) => cmapPos(c, key));
-const isPlaced = (c) => !!compassPos(c);
+const isPlaced = (c) => !!cmapPos(c, 'classic');
 const placed = all.filter(isPlaced), unplaced = all.filter((c) => !isPlaced(c));
 
 // Plain answer to the question everyone asks about the Woodfibre deal. Facts from the District's own FAQ and staff report.
@@ -631,7 +627,8 @@ function compassSvg({ mini = false, tap = !mini, map: mk = 'classic' } = {}) {
   const px = (v) => P + (v + R) * S, py = (v) => P + (R - v) * S;
   const pts = placed.map((c) => { const p = cmapPos(c, mk); return { c, thin: p.thin, x: px(p.x.v), y: py(p.y.v) }; });
   const near = mini ? 30 : 24;
-  pts.forEach((p, i) => pts.slice(0, i).forEach((o) => { if (Math.hypot(p.x - o.x, p.y - o.y) < near) { p.x += near * 0.83; p.y += near * 0.67; } }));
+  // nudge a dot off any earlier one, and keep going until it is clear (one nudge can land it on a third dot)
+  pts.forEach((p, i) => { for (let k = 0; k < 8; k++) { const o = pts.slice(0, i).find((o) => Math.hypot(p.x - o.x, p.y - o.y) < near); if (!o) break; p.x += near * 0.83; p.y += near * 0.67; } });
   const boxes = [];
   const hit = (b) => boxes.some((o) => b.x < o.x + o.w && b.x + b.w > o.x && b.y < o.y + o.h && b.y + b.h > o.y);
   pts.forEach((p) => boxes.push({ x: p.x - DR - 2, y: p.y - DR - 2, w: 2 * DR + 4, h: 2 * DR + 4 }));
@@ -701,10 +698,10 @@ function compassSvg({ mini = false, tap = !mini, map: mk = 'classic' } = {}) {
   </svg>`;
 }
 // The small compass as a card. `you` adds the ★ You prompt (quiz CTA before the quiz, a note after it).
-function compassLegend(mini, mk = 'classic') { return `<div class="legend${mini ? ' mini' : ''}"><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="#eb6834"/></svg>Mayor</span><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="#2a78d6"/></svg>Council</span><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="7.5" fill="#fff" stroke="#2a78d6" stroke-width="3.5"/></svg>${mini ? 'Hollow = thin evidence' : mk === 'classic' ? 'Hollow = only one statement on homelessness, or partly our estimate' : 'Hollow = only one statement on one of the two lines'}</span></div>`; }
+function compassLegend(mini, mk = 'classic') { return `<div class="legend${mini ? ' mini' : ''}"><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="#eb6834"/></svg>Mayor</span><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="#2a78d6"/></svg>Council</span><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="7.5" fill="#fff" stroke="#2a78d6" stroke-width="3.5"/></svg>${mini ? 'Hollow = thin evidence' : 'Hollow = only one statement on one of the two lines'}</span></div>`; }
 function miniCaveat(mk = 'classic') {
   const n = placedOn(mk).length;
-  if (mk === 'classic') return `Only ${n} of ${all.length} candidates have enough on the public record to place, and council has never voted on the enforcement side — so most sitting councillors can only show up on the upper half.`;
+  if (mk === 'classic') return `Only ${n} of ${all.length} candidates have said where they stand on enforcement — council has never voted on encampments, policing or public drug use.`;
   if (mk === 'cars') return `Only ${n} of ${all.length} candidates have enough on the record to place. Most of the parking and bike-lane statements aren’t in the quiz, so ★ You rests on fewer of your answers here.`;
   return `Only ${n} of ${all.length} candidates have enough on the record to place.`;
 }
@@ -766,8 +763,6 @@ function spectrumTeaser(key) {
 }
 const cmapWords = (c, mk) => { const M = CMAPS[mk], p = cmapPos(c, mk); if (!p) return []; const w = (v, lo, hi) => (Math.abs(v) < 0.34 ? 'in the middle' : `${Math.abs(v) >= 1.2 ? 'clearly' : 'leans'} ${v < 0 ? lo : hi}`);
   return [`${M.xt}: ${w(p.x.v, ...M.xw)} (${p.x.n} statement${p.x.n > 1 ? 's' : ''})`, `${M.yt}: ${w(p.y.v, ...M.yw)} (${p.y.n} statement${p.y.n > 1 ? 's' : ''})`]; };
-const classicWords = (c) => { const p = compassPos(c); if (!p) return []; const w = (v, lo, hi) => (Math.abs(v) < 0.34 ? 'in the middle' : `${Math.abs(v) >= 1.2 ? 'clearly' : 'leans'} ${v < 0 ? lo : hi}`);
-  return [`Left–right: ${w(p.x.v, 'left (more public spending)', 'right (lower taxes)')}${p.est ? ' — our estimate from their platform' : ` (${p.x.n} statements)`}`, `Homelessness & street safety: ${w(p.y.v, 'enforcement and order first', 'housing and support first')} (${p.y.n} statement${p.y.n > 1 ? 's' : ''})`]; };
 const compassDetailAxes = (c) => Object.keys(AXES).map((k) => { const s = axisScore(c, k); return `${AXES[k].title}: ${axisWords(k, s)}${s ? ` (${s.n} statement${s.n > 1 ? 's' : ''})` : ''}`; });
 write('/compass/', page({
   url: '/compass/', title: 'Where they lean',
@@ -795,8 +790,8 @@ write('/compass/', page({
   </div>
   <div class="card compass-detail" id="cdetail" aria-live="polite" style="margin-top:1rem"><p class="muted" style="margin:0">Tap any dot above to see the details here.</p></div>
   <div data-cmap-note="classic">
-  <p class="small"><b>Left–right</b> is about money: spend more on public services and housing (left), or hold taxes and spending down (right). <b>Up–down</b> is the argument downtown: put housing, shelter and support services first (up), or put enforcement, policing and clearing encampments first (down). Someone who wants both lands in the middle. Tap a dot for details.</p>
-  <p class="small"><b>Read this before judging anyone by it:</b> council has voted on supportive housing but has never voted on encampments, police numbers or public drug use — so most sitting councillors can only show up on the upper half. Only candidates who answered our questionnaire are placed on both sides. <a href="/issues/#homelessness">What council has and hasn’t decided</a>.</p>
+  <p class="small"><b>Left–right</b> is support: more shelter and supportive-housing spaces, and mental-health crisis teams (left), or less (right). <b>Up–down</b> is enforcement: clear tent encampments, move Under One Roof out of downtown, more bylaw officers and RCMP, bylaws against public drug use, and safety first when the two conflict (down), or less of that (up). These aren’t opposites — someone can want more shelter <em>and</em> the camps cleared (bottom-left). Tap a dot for details.</p>
+  <p class="small"><b>Read this before judging anyone by it:</b> council has voted on supportive housing but has never voted on encampments, police numbers or public drug use, so only candidates who answered our questionnaire can be placed. Everyone else is listed under the chart as not placed. <a href="/issues/#homelessness">What council has and hasn’t decided</a>.</p>
   </div>
   </section>
 
@@ -809,9 +804,9 @@ write('/compass/', page({
   <div class="table-scroll"><table class="issue-table"><thead><tr><th>Candidate</th>${Object.values(AXES).map((A) => `<th>${A.title}</th>`).join('')}</tr></thead><tbody>
   ${all.map((c) => `<tr><td><a href="/candidates/${c.slug}/">${esc(c.name)}</a>${c.office === 'mayor' ? '<br><span class="small">for mayor</span>' : ''}</td>${Object.keys(AXES).map((k) => { const s = axisScore(c, k); return `<td data-label="${AXES[k].title}">${s ? esc(axisWords(k, s)) : '<span class="muted">no public record</span>'}</td>`; }).join('')}</tr>`).join('')}
   </tbody></table></div></details>
-  <details class="drop" id="how"><summary>How the compasses are worked out</summary><p>Nobody here runs for a party, so nobody chose these labels. Each dot is <b>calculated</b> from the same sourced answers used in the quiz. <b>Left–right</b> averages the statements about taxes, borrowing and public spending (housing, shelters, transit, recreation, bike lanes, childcare). <b>Up–down</b> averages the statements on homelessness and street safety: more shelter and supportive housing, and mental-health crisis teams (up), against more RCMP, more bylaw officers downtown, moving Under One Roof out of downtown, clearing encampments, putting safety first when the two conflict, and bylaws against public drug use (down). Where a candidate has answered fewer than two money statements, we use our own researched estimate of their lean from their platform and mark the dot hollow.</p><p><b>How should we grow — and pay for it?</b> Left–right is the same growth line as the Growth list below (slow the pace of approvals; taller buildings downtown; cut red tape for builders). Up–down is the money line from the political compass, turned on its side.</p><p><b>Cars or bikes?</b> Left–right is the growth line. Up–down averages the parking and transport statements: more public parking downtown, parking required in new buildings and free parking for residents (up), against paid parking being fair, and spending local money on bike lanes, sidewalks and regional transit (down).</p><p>A dot is hollow when either line rests on a single statement.</p></details>
+  <details class="drop" id="how"><summary>How the compasses are worked out</summary><p>Nobody here runs for a party, so nobody chose these labels. Each dot is <b>calculated</b> from the same sourced answers used in the quiz. <b>Homelessness:</b> left–right averages the support statements (more shelter and supportive housing, even near homes; mental-health crisis teams alongside the RCMP). Up–down averages the enforcement statements (clear encampments even when there is nowhere else to go; move Under One Roof out of downtown; more bylaw officers downtown; more RCMP; bylaws against public drug use; safety first when it conflicts with services), with agreeing pushing the dot down.</p><p><b>The political compass:</b> left–right averages the statements about taxes, borrowing and public spending; up–down is the same enforcement line as the homelessness compass.</p><p><b>How should we grow — and pay for it?</b> Left–right is the same growth line as the Growth list below (slow the pace of approvals; taller buildings downtown; cut red tape for builders). Up–down averages the statements about taxes, borrowing and public spending (housing, shelters, transit, recreation, bike lanes, childcare).</p><p><b>Cars or bikes?</b> Left–right is the growth line. Up–down averages the parking and transport statements: more public parking downtown, parking required in new buildings and free parking for residents (up), against paid parking being fair, and spending local money on bike lanes, sidewalks and regional transit (down).</p><p>A dot is hollow when either line rests on a single statement.</p></details>
   <details class="drop" hidden><summary>Why not “left vs. right”?</summary><p>Those labels come from national politics. Town councils don’t vote on civil liberties, candidates here don’t run for parties, and almost none of them have said anything about policing. Rather than guess, every position on this page is <b>calculated from the candidate’s sourced answers</b> to the same statements used in <a href="/quiz/">the quiz</a>. Anyone who hasn’t spoken publicly on a topic is left off that list, not parked in the middle.</p></details>`,
-  scripts: `<script>var CD=${JSON.stringify(Object.fromEntries(Object.keys(CMAPS).map((mk) => [mk, Object.fromEntries(placedOn(mk).map((c) => [c.slug, { n: c.name, d: mk === 'classic' ? classicWords(c) : cmapWords(c, mk) }]))])))};
+  scripts: `<script>var CD=${JSON.stringify(Object.fromEntries(Object.keys(CMAPS).map((mk) => [mk, Object.fromEntries(placedOn(mk).map((c) => [c.slug, { n: c.name, d: cmapWords(c, mk) }]))])))};
 var AX=${JSON.stringify(Object.fromEntries(Object.entries(AXES).map(([k, A]) => [k, A.q])))};
 </script><script src="/lean.js"></script>`,
 }));
