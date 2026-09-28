@@ -94,7 +94,7 @@ if not (r.get('research_notes') or '').startswith('Sept 20 2026'): r['research_n
 
 
 # Only real, verified submissions. A curl test entry under Sean Goodwin's name (Sept 20) is skipped by its user agent.
-USE = {'Sarah Ellis', 'Shaun Veltkamp', 'Sean Goodwin', 'Daniel Deal', 'Laura Prosko', 'Sean Easton', 'Chris Ryan'}
+USE = {'Sarah Ellis', 'Shaun Veltkamp', 'Sean Goodwin', 'Daniel Deal', 'Laura Prosko', 'Sean Easton', 'Chris Ryan', 'Andrew Hamilton'}
 # Submissions whose email didn't match the District filing but that Jeff confirmed with the candidate.
 # Chris Ryan (Sept 25): typed "…@gmail.comom" — a typo of his filed address.
 VOUCHED = {'Chris Ryan': 'The email address on the form had a typo, so Squamish Voters confirmed with Chris that the answers are his.'}
@@ -192,6 +192,17 @@ HEAD = {
   'economy': 'Referendums on big projects; in the middle on cutting red tape',
   'parking': 'New buildings must supply parking; against paid parking — visitors only, locals free, once Loggers Lane parking exists',
  },
+ 'Andrew Hamilton': {
+  'growth': 'Not growing too fast: approve what meets community needs; clear rules set in advance; taller buildings by area-wide rezoning',
+  'housing_affordability': 'Strongly for a required share of below-market homes in big projects; more public money and land; match Airbnb rules to the Province',
+  'homelessness': 'More shelter and supportive housing, plus more to prevent street disorder; keep Under One Roof downtown; safety first',
+  'policing': 'Strongly for more bylaw officers downtown and mental-health crisis teams; in the middle on more RCMP',
+  'taxes_spending': 'Against capping taxes at inflation — it would mean cutting services; for borrowing for big projects; strongly for referendums above a set cost',
+  'environment_lng': 'Leans against the Woodfibre tax deal; won’t answer on Woodfibre permits, citing legal actions; core services before climate action',
+  'transportation': 'Strongly for regional transit, bike lanes and sidewalks',
+  'economy': 'Leans toward cutting red tape and protecting industrial land',
+  'parking': 'Strongly for paid parking downtown, with no free pass for locals; against requiring parking in new buildings',
+ },
  'Sean Goodwin': {
   'growth': 'Keep growing, but stop densifying downtown: open new land and link neighbourhoods with new roads',
   'housing_affordability': 'Prefers “attainable” homes sold to set income brackets; keep District land for housing',
@@ -250,6 +261,12 @@ _eg['summary'] = _eg['summary'].replace(' He has not called for a pause on appro
 by['Sean Easton']['growth_line'] = 'On growth: slow down and let infrastructure catch up — stop approving development just to hit provincial housing numbers.'
 by['Chris Ryan']['growth_group'] = 'mix'       # q1 0; q2 -2 against taller buildings; wants family housing and a second road first
 by['Chris Ryan']['growth_line'] = 'On growth: more family housing (“high density, low sprawl”), but no towers downtown — with parking and a second road into downtown.'
+
+by['Andrew Hamilton']['growth_group'] = 'up'   # q1 -2 not growing too fast; q2 +1 taller buildings; q3 0
+by['Andrew Hamilton']['growth_line'] = 'On growth: not growing too fast — approve projects that meet the community’s needs, under clear rules set in advance.'
+if 'Sept 27 2026' not in (by['Andrew Hamilton'].get('research_notes') or ''):
+    by['Andrew Hamilton']['research_notes'] = ('Sept 27 2026: questionnaire answered. His own q23 -1 replaces our -2 from his Sept 22 council vote. '
+        'He declined q8 (citing legal actions against the District and council), so q8 stays our reading of the record. ' + (by['Andrew Hamilton'].get('research_notes') or ''))
 
 # Veltkamp flagged our one-line growth summary as misleading; use his own answers instead.
 by['Shaun Veltkamp']['growth_line'] = 'On growth: cap building heights downtown for now, and finish existing neighbourhoods before opening new land.'
