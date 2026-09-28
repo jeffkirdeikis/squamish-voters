@@ -204,8 +204,10 @@
   function compassYou(root) {
     var ans = (store.get('sv26_quiz', null) || {}).answers || {};
     function score(q) {
-      var vals = Object.keys(q).map(function (id) { return typeof ans[id] === 'number' ? ans[id] * q[id] : null; }).filter(function (v) { return v !== null; });
-      return vals.length ? vals.reduce(function (a, b) { return a + b; }, 0) / vals.length : null;
+      // weighted average, same as qScore in build.mjs: a ±2 weight counts twice
+      var ids = Object.keys(q).filter(function (id) { return typeof ans[id] === 'number'; });
+      var wt = ids.reduce(function (a, id) { return a + Math.abs(q[id]); }, 0);
+      return ids.length ? ids.reduce(function (a, id) { return a + ans[id] * q[id]; }, 0) / wt : null;
     }
     var any = false;
     [].forEach.call((root || document).querySelectorAll('svg[data-map]'), function (svg) {

@@ -104,19 +104,23 @@ rather than placed in the middle. Rows resting on one statement are drawn hollow
 
 The dot's position on the track is linear: `4 + (v + 2) / 4 × 92` percent.
 
-## 4. The 2-D compass
+## 4. The 2-D compasses
 
-Code: `build.mjs`, constant `CLASSIC`, functions `classicScore`, `compassPos`.
+Code: `build.mjs`, constants `CMAPS`, `SUPPORT_Q`, `ENFORCE_Q`, `CLASSIC`, function `qScore`.
 
-- X (left = more public spending, right = hold taxes down): average of
-  q7 (+), q21 (+), q4 (−), q5 (−), q11 (−), q12 (−), q22 (−), q26 (−), q30 (−), q34 (−), q15 (−).
-- Y (up = housing and support first, down = enforcement and order first): the
-  homelessness line above, flipped in sign.
+Each axis is a **weighted** average: `Σ(score × weight) / Σ|weight|` over the statements the
+candidate has a score on, so the result stays on the −2..+2 scale. Most weights are ±1.
 
-A candidate is placed only if both axes have at least one score. If they have fewer
-than 2 money statements, X falls back to the researched `compass.economic` estimate
-(−5..+5, scaled by 0.4) and the dot is drawn hollow and labelled "our estimate".
-A dot is also hollow when Y rests on a single statement.
+- **Homelessness compass.** X (left = more homeless shelters and outreach, right = fewer):
+  q5 (−1), q20 (−1). Y (up = let the camps stay, down = clear camps and more enforcement):
+  q31 (−2), q18 (−2), q19 (−1), q35 (−1), q6 (−1), q32 (−1). Clearing encampments and moving
+  the shelter out of downtown count double because they are the heart of the question.
+- The growth-and-pay (X: growth, Y: public spending vs. hold taxes down, using the list
+  q7 (+), q21 (+), q4 (−), q5 (−), q11 (−), q12 (−), q22 (−), q26 (−), q30 (−), q34 (−), q15 (−), flipped),
+  cars and big-projects maps use the lists defined in `CMAPS`.
+
+A candidate is placed on a map only if both axes have at least one score. A dot is hollow
+when either axis rests on a single statement.
 
 ## 5. What the site never does
 
