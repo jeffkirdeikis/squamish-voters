@@ -102,7 +102,9 @@ const thinRecord = (c) => (c.supports || []).length + (c.opposes || []).length <
 // Every placement is computed from the fact-checked quiz scores (-2..+2); nothing here is a judgment call.
 // sign +1 means agreeing with the statement pushes toward the `hi` end of the axis.
 const AXES = {
-  street: { title: 'Homelessness & street safety', icon: '🏘️', short: 'Streets', ask: 'Housing and support first, or enforcement and order first?', lo: 'Housing and support first', hi: 'Enforcement and order first', q: { q5: -1, q20: -1, q6: 1, q18: 1, q31: 1, q19: 1, q32: 1, q35: 1 } },
+  // Only the three statements about where shelters and camps go (q5 more shelters even near homes, q18 move Under One Roof
+  // out of downtown, q31 clear camps). Policing, bylaw and drug-use statements are a different question and stay off this line.
+  street: { title: 'Homelessness', icon: '🏘️', short: 'Homelessness', ask: 'Keep shelters and camps where they are, or move shelters out and clear camps?', lo: 'More shelters, even near homes · let camps stay', hi: 'Move shelters out of downtown · clear camps', q: { q5: -1, q18: 1, q31: 1 } },
   money: { title: 'Money', icon: '💵', ask: 'Hold taxes down, or invest in services?', lo: 'Invest in services', hi: 'Hold taxes down', q: { q7: 1, q4: -1, q12: -1, q11: -1 } },
   growth: { title: 'Growth', icon: '🏗️', ask: 'Build more, faster — or slow down?', lo: 'Slow down, be cautious', hi: 'Build more, faster', q: { q1: -1, q2: 1, q10: 1 } },
   deal: { title: 'The Woodfibre tax deal', icon: '🤝', short: 'Tax deal', ask: 'Sign the 10-year tax deal with Woodfibre LNG, or not?', lo: 'Reject or renegotiate it', hi: 'Sign it', q: { q23: 1 } },
@@ -734,7 +736,7 @@ function leanList(key) {
   return `<section class="spec" id="axis-${key}" data-axis="${key}">
   <h2><span aria-hidden="true">${A.icon}</span> ${A.title}</h2>
   <p class="ask">${esc(A.ask)}</p>
-  ${key === 'street' ? `<p class="small">Some candidates want both more housing <b>and</b> more enforcement — they land in the middle. Many have only spoken about one side so far, so check the number of statements.</p>` : ''}
+  ${key === 'street' ? `<p class="small">Policing, bylaw officers and drug-use bylaws are left off this line — they’re a separate question. Some candidates have only answered one or two of these three statements, so check the number of statements.</p>` : ''}
   ${key === 'deal' ? `<p class="small">This is about <b>money, not the environment</b>. People on both sides of the plant itself disagree about whether this is a good deal for taxpayers. <a href="/issues/#environment_lng">What’s in the deal</a>.</p><details class="drop ifno-d"><summary>What happens if council says yes — or no?</summary>${DEAL_IF_NO.replace('<h3>The Woodfibre tax deal: what each choice means</h3>', '')}</details>` : ''}
   ${single ? '' : `<p class="small legend-line"><span class="lg-dot"></span> based on 2 or more statements &nbsp; <span class="lg-dot hollow"></span> only 1 statement — treat with care</p>`}
   <div class="spec-ends" aria-hidden="true"><span>◀ ${A.lo}</span><span>${A.hi} ▶</span></div>
