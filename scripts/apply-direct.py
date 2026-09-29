@@ -94,7 +94,7 @@ if not (r.get('research_notes') or '').startswith('Sept 20 2026'): r['research_n
 
 
 # Only real, verified submissions. A curl test entry under Sean Goodwin's name (Sept 20) is skipped by its user agent.
-USE = {'Sarah Ellis', 'Shaun Veltkamp', 'Sean Goodwin', 'Daniel Deal', 'Laura Prosko', 'Sean Easton', 'Chris Ryan', 'Andrew Hamilton', 'Luc Perreault'}
+USE = {'Sarah Ellis', 'Shaun Veltkamp', 'Sean Goodwin', 'Daniel Deal', 'Laura Prosko', 'Sean Easton', 'Chris Ryan', 'Andrew Hamilton', 'Luc Perreault', 'Jenna Stoner'}
 # Submissions whose email didn't match the District filing but that Jeff confirmed with the candidate.
 # Chris Ryan (Sept 25): typed "…@gmail.comom" — a typo of his filed address.
 VOUCHED = {'Chris Ryan': 'The email address on the form had a typo, so Squamish Voters confirmed with Chris that the answers are his.'}
@@ -215,6 +215,17 @@ HEAD = {
   'economy': 'Strongly for cutting red tape and protecting industrial and commercial land from rezoning for housing',
   'parking': 'Strongly for requiring parking in new buildings; leans against paid parking downtown, and toward residents free if it comes; more public parking',
  },
+ 'Jenna Stoner': {
+  'growth': 'Leans against slowing approvals; six storeys downtown and near transit, but leans against going taller; make better use of what’s built before opening new land',
+  'housing_affordability': 'Strongly for more public money and land for below-market homes, and a required share in big projects; case by case on selling District land',
+  'homelessness': 'Strongly for more shelter and supportive housing, and against moving Under One Roof or clearing camps with nowhere to go',
+  'policing': 'Strongly for mental-health crisis teams; leans toward more RCMP and bylaw officers, working alongside outreach',
+  'taxes_spending': 'Leans against capping taxes at inflation — zero-based budgeting instead; strongly for borrowing to renew Brennan Park now',
+  'environment_lng': 'Moved the motion to reject the Woodfibre tax deal; leans toward pressing the plant through permits; climate action a top priority',
+  'transportation': 'Strongly for regional transit, and for local money for bike lanes and sidewalks',
+  'economy': 'In the middle on cutting red tape — wants a public permit tracker instead; leans toward protecting industrial land',
+  'parking': 'Leans toward paid parking downtown, with residents free; leans against requiring parking in new buildings and against building a parkade',
+ },
  'Sean Goodwin': {
   'growth': 'Keep growing, but stop densifying downtown: open new land and link neighbourhoods with new roads',
   'housing_affordability': 'Prefers “attainable” homes sold to set income brackets; keep District land for housing',
@@ -226,6 +237,9 @@ HEAD = {
   'parking': 'A day lot where residents park free and visitors pay; tall buildings need “more than adequate” parking',
  },
 }
+# Stoner's researched policing headline said "no public position", which would wipe the summary below; her summary has real content (task force), so keep it.
+_sp = by['Jenna Stoner']['stances']['policing']
+if _sp['position'].lower().startswith('no public position'): _sp['position'] = ''
 STALE = re.compile(r"(?:^|(?<=[.!?”'\"]\s))[^.]*\b(?:[Nn]o (?:public |campaign |stated )?(?:statement|position|detail)s?\b[^.]*found|[Nn]o (?:stated )?position (?:found )?on|gives no position|[Nn]o position found)[^.]*\.\s*")
 for name, heads in HEAD.items():
     c = by[name]; first = name.split(' ')[0]
@@ -291,6 +305,18 @@ _ls['parking']['summary'] = _ls['parking']['summary'].replace(' No position on p
 if 'Sept 28 2026' not in (by['Luc Perreault'].get('research_notes') or ''):
     by['Luc Perreault']['research_notes'] = ('Sept 28 2026: questionnaire answered (37 answers, 17 notes, 6 written) from lucperreault2026@gmail.com, the address on the District page. '
         'All quiz answers were previously null, so nothing researched was replaced. ' + (by['Luc Perreault'].get('research_notes') or ''))
+
+by['Jenna Stoner']['growth_group'] = 'up'     # q1 -1; six storeys downtown (q2 -1 is on going above six); q3 -1 against new land
+by['Jenna Stoner']['growth_line'] = 'On growth: don’t slow approvals — build up to six storeys downtown and near transit, and make better use of what’s already built before opening new land.'
+# Researched sentences her questionnaire now answers (q2 heights, q25/q36/q37 parking, q27 employment land).
+_js = by['Jenna Stoner']['stances']
+_js['growth']['summary'] = _js['growth']['summary'].replace(' Caveat: no specific statement on building heights above six storeys was found, and the boundary statements date from 2022.', '')
+_js['transportation']['summary'] = _js['transportation']['summary'].replace(', but no current campaign position on paid parking or a parkade was found.', '.')
+_js['parking']['summary'] = _js['parking']['summary'].replace('No parking position in her 2026 campaign material. ', '')
+_js['economy']['summary'] = _js['economy']['summary'].replace(' No detailed campaign proposals on employment lands, tourism or downtown were found.', '')
+if 'Sept 28 2026: questionnaire' not in (by['Jenna Stoner'].get('research_notes') or ''):
+    by['Jenna Stoner']['research_notes'] = ('Sept 28 2026: questionnaire answered (38 answers, 38 notes, 6 written) from jennaforsquamish@gmail.com, the address on the District page. '
+        'Her own answers replace researched q4, q9, q11, q12 (+1 -> +2) and fill q2, q6, q10, q36, q38; the rest matched our reading. ' + (by['Jenna Stoner'].get('research_notes') or ''))
 
 # Veltkamp flagged our one-line growth summary as misleading; use his own answers instead.
 by['Shaun Veltkamp']['growth_line'] = 'On growth: cap building heights downtown for now, and finish existing neighbourhoods before opening new land.'
