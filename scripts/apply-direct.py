@@ -338,7 +338,7 @@ _os['transportation']['summary'] = _os['transportation']['summary'].replace(' He
 if 'Sept 30 2026: questionnaire' not in (by['Anders Ourom'].get('research_notes') or ''):
     by['Anders Ourom']['research_notes'] = ('Sept 30 2026: questionnaire answered (37 answers, 9 notes, 6 written) from aiourom@telus.net, the address on the District page. '
         'His own answers replace researched q7 (+1 -> +2), q15 (-1 -> +1; his positions paper would sell the town hall land), q25 (0 -> +1), q36 (+2 -> +1), q37 (+1 -> +2). '
-        'He left q23 blank with a note that it is now dated, so our -1 from his positions paper stays. His "corrections" field asked which profile we meant - reply sent by Jeff. ' + (by['Anders Ourom'].get('research_notes') or ''))
+        'He left q23 blank with a note that it is now dated, so our -1 from his positions paper stays. His "corrections" field asked which profile we meant (not a correction; no reply needed). ' + (by['Anders Ourom'].get('research_notes') or ''))
 
 # Veltkamp flagged our one-line growth summary as misleading; use his own answers instead.
 by['Shaun Veltkamp']['growth_line'] = 'On growth: cap building heights downtown for now, and finish existing neighbourhoods before opening new land.'
