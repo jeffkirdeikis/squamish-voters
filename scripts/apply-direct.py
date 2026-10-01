@@ -94,7 +94,7 @@ if not (r.get('research_notes') or '').startswith('Sept 20 2026'): r['research_n
 
 
 # Only real, verified submissions. A curl test entry under Sean Goodwin's name (Sept 20) is skipped by its user agent.
-USE = {'Sarah Ellis', 'Shaun Veltkamp', 'Sean Goodwin', 'Daniel Deal', 'Laura Prosko', 'Sean Easton', 'Chris Ryan', 'Andrew Hamilton', 'Luc Perreault', 'Jenna Stoner'}
+USE = {'Sarah Ellis', 'Shaun Veltkamp', 'Sean Goodwin', 'Daniel Deal', 'Laura Prosko', 'Sean Easton', 'Chris Ryan', 'Andrew Hamilton', 'Luc Perreault', 'Jenna Stoner', 'Anders Ourom'}
 # Submissions whose email didn't match the District filing but that Jeff confirmed with the candidate.
 # Chris Ryan (Sept 25): typed "…@gmail.comom" — a typo of his filed address.
 VOUCHED = {'Chris Ryan': 'The email address on the form had a typo, so Squamish Voters confirmed with Chris that the answers are his.'}
@@ -226,6 +226,17 @@ HEAD = {
   'economy': 'In the middle on cutting red tape — wants a public permit tracker instead; leans toward protecting industrial land',
   'parking': 'Leans toward paid parking downtown, with residents free; leans against requiring parking in new buildings and against building a parkade',
  },
+ 'Anders Ourom': {
+  'growth': 'Leans toward slowing approvals; reluctantly for opening the Cheema Lands; strongly for clear height and density rules set in advance',
+  'housing_affordability': 'Strongly for more public money and land for below-market homes; leans toward a required share in big projects and limits on short-term rentals',
+  'homelessness': 'Strongly against moving Under One Roof out of downtown; leans toward more shelter and supportive housing, and against clearing camps with nowhere to go',
+  'policing': 'Leans toward more RCMP, more bylaw officers downtown, crisis teams and bylaws against open drug use',
+  'taxes_spending': 'Strongly for keeping tax increases at or below inflation; also strongly for borrowing to renew Brennan Park now',
+  'environment_lng': 'Questions the 10-year Woodfibre tax deal; in the middle on pressing the plant through permits; leans toward climate action',
+  'transportation': 'Strongly for local money for regional transit; leans toward bike lanes and sidewalks, and fitting e-bikes and scooters in safely',
+  'economy': 'Strongly for protecting industrial land from rezoning; leans toward cutting red tape',
+  'parking': 'Strongly for requiring parking in new buildings; leans toward paid parking downtown with residents free, and more public parking',
+ },
  'Sean Goodwin': {
   'growth': 'Keep growing, but stop densifying downtown: open new land and link neighbourhoods with new roads',
   'housing_affordability': 'Prefers “attainable” homes sold to set income brackets; keep District land for housing',
@@ -317,6 +328,17 @@ _js['economy']['summary'] = _js['economy']['summary'].replace(' No detailed camp
 if 'Sept 28 2026: questionnaire' not in (by['Jenna Stoner'].get('research_notes') or ''):
     by['Jenna Stoner']['research_notes'] = ('Sept 28 2026: questionnaire answered (38 answers, 38 notes, 6 written) from jennaforsquamish@gmail.com, the address on the District page. '
         'Her own answers replace researched q4, q9, q11, q12 (+1 -> +2) and fill q2, q6, q10, q36, q38; the rest matched our reading. ' + (by['Jenna Stoner'].get('research_notes') or ''))
+
+by['Anders Ourom']['growth_group'] = 'out'    # q3 +1 new land (reluctantly for the Cheema Lands); q1 +1; q2 0
+by['Anders Ourom']['growth_line'] = 'On growth: leans toward slowing approvals; reluctantly for opening the Cheema Lands, under clear height and density rules set in advance.'
+# Researched sentences his questionnaire now answers (q6 RCMP, q11 regional transit money).
+_os = by['Anders Ourom']['stances']
+_os['policing']['summary'] = _os['policing']['summary'].replace('; he does not say whether he would fund more officers', '')
+_os['transportation']['summary'] = _os['transportation']['summary'].replace(' He does not say whether local tax dollars should pay for regional transit.', '')
+if 'Sept 30 2026: questionnaire' not in (by['Anders Ourom'].get('research_notes') or ''):
+    by['Anders Ourom']['research_notes'] = ('Sept 30 2026: questionnaire answered (37 answers, 9 notes, 6 written) from aiourom@telus.net, the address on the District page. '
+        'His own answers replace researched q7 (+1 -> +2), q15 (-1 -> +1; his positions paper would sell the town hall land), q25 (0 -> +1), q36 (+2 -> +1), q37 (+1 -> +2). '
+        'He left q23 blank with a note that it is now dated, so our -1 from his positions paper stays. His "corrections" field asked which profile we meant - reply sent by Jeff. ' + (by['Anders Ourom'].get('research_notes') or ''))
 
 # Veltkamp flagged our one-line growth summary as misleading; use his own answers instead.
 by['Shaun Veltkamp']['growth_line'] = 'On growth: cap building heights downtown for now, and finish existing neighbourhoods before opening new land.'
