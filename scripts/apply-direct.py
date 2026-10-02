@@ -94,7 +94,7 @@ if not (r.get('research_notes') or '').startswith('Sept 20 2026'): r['research_n
 
 
 # Only real, verified submissions. A curl test entry under Sean Goodwin's name (Sept 20) is skipped by its user agent.
-USE = {'Sarah Ellis', 'Shaun Veltkamp', 'Sean Goodwin', 'Daniel Deal', 'Laura Prosko', 'Sean Easton', 'Chris Ryan', 'Andrew Hamilton', 'Luc Perreault', 'Jenna Stoner', 'Anders Ourom'}
+USE = {'Sarah Ellis', 'Shaun Veltkamp', 'Sean Goodwin', 'Daniel Deal', 'Laura Prosko', 'Sean Easton', 'Chris Ryan', 'Andrew Hamilton', 'Luc Perreault', 'Jenna Stoner', 'Anders Ourom', 'Ian Brown', 'A. John Lowe'}
 # Submissions whose email didn't match the District filing but that Jeff confirmed with the candidate.
 # Chris Ryan (Sept 25): typed "…@gmail.comom" — a typo of his filed address.
 VOUCHED = {'Chris Ryan': 'The email address on the form had a typo, so Squamish Voters confirmed with Chris that the answers are his.'}
@@ -237,6 +237,28 @@ HEAD = {
   'economy': 'Strongly for protecting industrial land from rezoning; leans toward cutting red tape',
   'parking': 'Strongly for requiring parking in new buildings; leans toward paid parking downtown with residents free, and more public parking',
  },
+ 'Ian Brown': {
+  'growth': 'Leans toward slowing approvals and toward gradually expanding the growth boundary; in the middle on taller buildings; strongly for clear height and density rules set in advance',
+  'housing_affordability': 'Strongly against more District money and land for below-market homes — senior governments and non-profits should fund it; leans toward a required share in big projects; strongly against restricting Airbnb',
+  'homelessness': 'Strongly for putting safety first; leans toward clearing camps and a place for people living in vehicles; leans against moving Under One Roof; in the middle on more shelter near homes',
+  'policing': 'Strongly for bylaws against open drug use; leans toward more RCMP, more bylaw officers downtown and crisis teams',
+  'taxes_spending': 'In the middle on capping taxes at inflation; leans toward borrowing to renew Brennan Park now',
+  'environment_lng': 'Leans against the Woodfibre tax deal and against pressing the plant through permits; in the middle on climate action; leans toward higher energy standards',
+  'transportation': 'Leans toward local money for regional transit, with major provincial funding; strongly against local money for protected bike lanes',
+  'economy': 'Strongly for protecting industrial land from rezoning; in the middle on cutting red tape',
+  'parking': 'Strongly for more public parking downtown and for requiring parking in new buildings',
+ },
+ 'A. John Lowe': {
+  'growth': 'Leans toward slowing approvals; strongly against taller buildings downtown (views); strongly for opening new land, with developers paying all the costs',
+  'housing_affordability': 'In the middle on more public money for below-market homes — favours co-op housing with industry partners; leans against a required share in big projects; leans toward limiting short-term rentals to certain areas',
+  'homelessness': 'Strongly for clearing camps; leans against more shelter near homes; would use the Under One Roof building for seniors and find a new site for shelter services',
+  'policing': 'Strongly against bylaws on open drug use (“not enforceable”); leans against more RCMP until the Province helps pay, and against more bylaw officers and crisis teams',
+  'taxes_spending': 'Strongly for keeping tax increases at or below inflation and for referendums on big projects; strongly against borrowing to renew Brennan Park now',
+  'environment_lng': 'Strongly against signing the proposed Woodfibre tax deal, but open to a better-negotiated one; strongly for pressing the plant through permits; in the middle on climate action',
+  'transportation': 'In the middle on local money for regional transit — suggests rider-pay and employer funding; strongly against local money for protected bike lanes',
+  'economy': 'Strongly for protecting industrial land from rezoning; in the middle on cutting red tape — have builders supply their own certified professionals',
+  'parking': 'Strongly against paid parking downtown; strongly for builders providing parking; leans against the District building more public parking itself — private business should',
+ },
  'Sean Goodwin': {
   'growth': 'Keep growing, but stop densifying downtown: open new land and link neighbourhoods with new roads',
   'housing_affordability': 'Prefers “attainable” homes sold to set income brackets; keep District land for housing',
@@ -253,7 +275,7 @@ _sp = by['Jenna Stoner']['stances']['policing']
 if _sp['position'].lower().startswith('no public position'): _sp['position'] = ''
 STALE = re.compile(r"(?:^|(?<=[.!?”'\"]\s))[^.]*\b(?:[Nn]o (?:public |campaign |stated )?(?:statement|position|detail)s?\b[^.]*found|[Nn]o (?:stated )?position (?:found )?on|gives no position|[Nn]o position found)[^.]*\.\s*")
 for name, heads in HEAD.items():
-    c = by[name]; first = name.split(' ')[0]
+    c = by[name]; first = [w for w in name.split(' ') if not w.endswith('.')][0]
     for key, st_ in c['stances'].items():
         was_none = st_.get('confidence') == 'none' or 'no public position' in (st_.get('position') or '').lower()
         if key in heads: st_['position'] = heads[key]
@@ -339,6 +361,27 @@ if 'Sept 30 2026: questionnaire' not in (by['Anders Ourom'].get('research_notes'
     by['Anders Ourom']['research_notes'] = ('Sept 30 2026: questionnaire answered (37 answers, 9 notes, 6 written) from aiourom@telus.net, the address on the District page. '
         'His own answers replace researched q7 (+1 -> +2), q15 (-1 -> +1; his positions paper would sell the town hall land), q25 (0 -> +1), q36 (+2 -> +1), q37 (+1 -> +2). '
         'He left q23 blank with a note that it is now dated, so our -1 from his positions paper stays. His "corrections" field asked which profile we meant (not a correction; no reply needed). ' + (by['Anders Ourom'].get('research_notes') or ''))
+
+by['Ian Brown']['growth_group'] = 'out'    # q1 +1; q2 0; q3 +1 ("gradually expand the growth management boundary")
+by['Ian Brown']['growth_line'] = 'On growth: leans toward slowing approvals; gradually expand the growth boundary, under clear height and density rules set in advance.'
+# Researched sentences his questionnaire now answers (q1-q3 growth, q13 inclusionary share, q6/q19/q20 policing, q36/q37 parking).
+_bs = by['Ian Brown']['stances']
+_bs['growth']['summary'] = _bs['growth']['summary'].replace('Has not said whether Squamish should slow growth, build up or build out. ', '')
+_bs['housing_affordability']['summary'] = _bs['housing_affordability']['summary'].replace(' No stated position on the housing society, DCCs/ACCs or inclusionary zoning.', '')
+_bs['parking']['summary'] = _bs['parking']['summary'].replace(' He has not said what he would do.', '')
+if 'Oct 1 2026: questionnaire' not in (by['Ian Brown'].get('research_notes') or ''):
+    by['Ian Brown']['research_notes'] = ('Oct 1 2026: questionnaire answered (30 answers, 6 notes, 5 written) from ian@ianbrownsquamish.com, the address on the District page. '
+        'His own q11 +1 matched our inferred score; every other quiz answer was previously null. ' + (by['Ian Brown'].get('research_notes') or ''))
+
+by['A. John Lowe']['growth_group'] = 'out'    # q1 +1; q2 -2 against taller buildings; q3 +2 open new land
+by['A. John Lowe']['growth_line'] = 'On growth: leans toward slowing approvals; no taller buildings downtown — open new land instead, with developers paying all the costs.'
+_ws = by['A. John Lowe']['stances']
+_ws['growth']['summary'] = _ws['growth']['summary'].replace(' He hasn’t said whether he wants growth faster or slower, or where new homes should go.', '')
+_ws['taxes_spending']['summary'] = _ws['taxes_spending']['summary'].replace(' He hasn’t named a tax-increase target or specific cuts.', '')
+if 'Oct 1 2026: questionnaire' not in (by['A. John Lowe'].get('research_notes') or ''):
+    by['A. John Lowe']['research_notes'] = ('Oct 1 2026: questionnaire answered (38 answers, 37 notes, 7 written) from scotialowe@gmail.com, the address on the District page. '
+        'His own q36 -1 replaces our +1 from the Chief profile (he wants private business, not the District, to build it); q25 -2 matched. '
+        'NOTE q18: he answered -1 (leans against moving Under One Roof out of downtown) but his note and written answer say to repurpose the building for seniors and find a better site away from downtown — published as sent. ' + (by['A. John Lowe'].get('research_notes') or ''))
 
 # Veltkamp flagged our one-line growth summary as misleading; use his own answers instead.
 by['Shaun Veltkamp']['growth_line'] = 'On growth: cap building heights downtown for now, and finish existing neighbourhoods before opening new land.'

@@ -411,7 +411,7 @@ function stanceRow(c, i) {
   const none = !s.position || /no public position/i.test(s.position);
   const mine = directOnTopic(c, i.key);
   return `<details class="stance-row${none && !mine ? ' none' : ' has-more'}"><summary><span class="ic" aria-hidden="true">${i.icon}</span><span class="txt"><b>${i.title}</b><span class="pos">${none ? (mine ? 'Answered our questionnaire' : 'Hasn’t said') : escGl(s.position)}</span>${mine ? '<span class="badge direct">✓ Own answers inside</span>' : ''}${none && !mine ? '' : moreBtn(`Click to expand — read more about ${esc(first(c))}’s view on this`)}</span></summary>
-  ${none ? (mine ? '' : `<p class="muted">We could not find anything ${esc(c.name.split(' ')[0])} has said publicly about this.</p>`) : `<p>${escGl(s.summary)}${src(s.source_url)}</p>${s.quote ? `<blockquote>“${escGl(s.quote.replace(/^["“]|["”]$/g, ''))}”</blockquote>` : ''}${confLabel[s.confidence] ? `<p class="conf">${confLabel[s.confidence]}</p>` : ''}`}${mine}</details>`;
+  ${none ? (mine ? '' : `<p class="muted">We could not find anything ${esc(first(c))} has said publicly about this.</p>`) : `<p>${escGl(s.summary)}${src(s.source_url)}</p>${s.quote ? `<blockquote>“${escGl(s.quote.replace(/^["“]|["”]$/g, ''))}”</blockquote>` : ''}${confLabel[s.confidence] ? `<p class="conf">${confLabel[s.confidence]}</p>` : ''}`}${mine}</details>`;
 }
 const confLabel = { high: 'Well documented', medium: 'Some evidence', low: 'Limited evidence', none: '' };
 function miniSlider(c, key) {
@@ -450,7 +450,7 @@ for (const c of all) {
       <p class="growth-line">${growthSentence(c)}</p>
       <p class="lede tagline">${escGl(c.tagline)}</p>
       <div class="side-actions no-print">${pickBtn(c, 'btn big block')}</div>
-      ${links ? `<h2 class="side-h">Hear it from ${esc(c.name.split(' ')[0])} directly</h2><ul class="linklist">${links}</ul>` : ''}
+      ${links ? `<h2 class="side-h">Hear it from ${esc(first(c))} directly</h2><ul class="linklist">${links}</ul>` : ''}
       ${hasPhoto(c) ? `<p class="small muted">Photo: ${esc(c.photo_credit || 'candidate’s campaign')}.</p>` : ''}
     </aside>
     <div class="profile-main">
@@ -461,16 +461,16 @@ for (const c of all) {
       ${sideList(c, 'supports', 'Supports', 'for', 'forlist')}
       ${sideList(c, 'opposes', 'Against', 'against', 'againstlist')}
     </div>
-    <h2 id="issues">Where ${esc(c.name.split(' ')[0])} stands</h2>
+    <h2 id="issues">Where ${esc(first(c))} stands</h2>
     <p class="small">Each topic opens up — press <b>Click to expand</b> for the detail, quotes and sources.</p>
     <div class="card stack">${ISSUES.map((i) => stanceRow(c, i)).join('')}</div>
-    ${(c.top_priorities || []).length ? `<details class="drop"><summary>${esc(c.name.split(' ')[0])}’s own priority list</summary><ol class="ol">${c.top_priorities.map((p) => `<li>${escGl(p)}</li>`).join('')}</ol></details>` : ''}
+    ${(c.top_priorities || []).length ? `<details class="drop"><summary>${esc(first(c))}’s own priority list</summary><ol class="ol">${c.top_priorities.map((p) => `<li>${escGl(p)}</li>`).join('')}</ol></details>` : ''}
     ${emailedAnswers(c)}
     ${directAnswers(c)}
-    <details class="drop"><summary>About ${esc(c.name.split(' ')[0])}</summary><p>${escGl(c.occupation_background)}</p></details>
-    <details class="drop"><summary>Where ${esc(c.name.split(' ')[0])} leans on money, growth and LNG</summary>${Object.keys(AXES).map((k) => miniSlider(c, k)).join('')}<p class="small">Worked out from ${esc(c.name.split(' ')[0])}’s public statements and votes — not a label they chose. <a href="/compass/">See everyone side by side</a>.</p></details>
+    <details class="drop"><summary>About ${esc(first(c))}</summary><p>${escGl(c.occupation_background)}</p></details>
+    <details class="drop"><summary>Where ${esc(first(c))} leans on money, growth and LNG</summary>${Object.keys(AXES).map((k) => miniSlider(c, k)).join('')}<p class="small">Worked out from ${esc(first(c))}’s public statements and votes — not a label they chose. <a href="/compass/">See everyone side by side</a>.</p></details>
     <details class="drop"><summary>Sources we used (${(c.sources || []).filter((s) => isUrl(s.url)).length})</summary><ul class="small">${(c.sources || []).filter((s) => isUrl(s.url)).map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title || s.url)}</a></li>`).join('')}</ul></details>
-    ${links ? `<div class="mobile-links"><h2>Hear it from ${esc(c.name.split(' ')[0])} directly</h2><ul class="linklist">${links}</ul></div>` : ''}
+    ${links ? `<div class="mobile-links"><h2>Hear it from ${esc(first(c))} directly</h2><ul class="linklist">${links}</ul></div>` : ''}
     <p class="small claim">Are you ${esc(c.name)}, or did you spot a mistake? Email <a href="mailto:${SITE.contact}?subject=${encodeURIComponent('Update for ' + c.name)}">${SITE.contact}</a> to update or add to this page. <a href="/about/#corrections">How corrections work</a>.</p>
     <div class="btn-row no-print"><a class="btn secondary" href="/candidates/${prev.slug}/">← ${esc(prev.name)}</a><a class="btn secondary" href="/candidates/${next.slug}/">${esc(next.name)} →</a></div>
     </div></div>`,
