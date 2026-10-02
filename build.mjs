@@ -241,7 +241,7 @@ const TABS = [['/', 'Home', 'home'], ['/candidates/', 'People', 'people'], ['/qu
 
 function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null }) {
   const cur = (href) => ((href === '/' ? url === '/' : url.startsWith(href)) ? ' aria-current="page"' : '');
-  const full = title ? `${title} — ${SITE.name}` : `${SITE.name} — an independent voter guide for the October 17 election`;
+  const full = title ? `${title} — ${SITE.name}` : 'Squamish Election 2026: Mayor & Council Candidates Compared — Squamish Voters';
   return `<!doctype html>
 <html lang="en-CA">
 <head>
@@ -262,7 +262,10 @@ function page({ url, title, desc, body, hero = '', scripts = '', noindex = false
 <meta name="twitter:image" content="https://squamishvoters.com/og.png?v=3">
 <link rel="canonical" href="https://squamishvoters.com__PATH__">
 <meta name="theme-color" content="#0f4c3a">${noindex ? '\n<meta name="robots" content="noindex, nofollow">' : ''}${jsonld ? `\n<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/site.css">
 </head>
 <body>
@@ -425,7 +428,7 @@ for (const c of all) {
   const peers = c.office === 'mayor' ? mayors : council, idx = peers.indexOf(c);
   const prev = peers[(idx - 1 + peers.length) % peers.length], next = peers[(idx + 1) % peers.length];
   write(`/candidates/${c.slug}/`, page({
-    url: '/candidates/', title: `${c.name} — ${c.office === 'mayor' ? 'candidate for Mayor' : 'candidate for Council'}`,
+    url: '/candidates/', title: `${c.name} — Squamish ${c.office === 'mayor' ? 'Mayor' : 'Council'} candidate: positions & answers`,
     desc: `${c.name}: what they support, what they oppose, and where they stand on growth, housing, homelessness, policing and taxes in Squamish.`,
     jsonld: [{
       '@context': 'https://schema.org', '@type': 'Person', name: c.name,
@@ -523,7 +526,7 @@ const COMPARE_BLOCK = `<div class="cmp-wrap"><div class="picker no-print" data-p
   <ol class="small" style="margin-top:1rem">${QUESTIONS.map((q) => `<li><b>${esc(q.short)}:</b> “${esc(q.text)}”</li>`).join('')}</ol></section>
   <nav class="panel-nav no-print" data-panel-nav="cmp" aria-label="Move between topics"></nav></div>`;
 write('/compare/', page({
-  url: '/compare/', title: 'Compare the candidates',
+  url: '/compare/', title: 'Compare the Squamish candidates on every issue',
   desc: 'See where every Squamish mayor and council candidate stands on housing, growth, taxes, Woodfibre LNG and more, side by side, issue by issue.',
   body: `<h1>Compare the candidates</h1>
   <p class="lede">Pick an issue to see where everyone stands, side by side. Candidates for mayor are marked in yellow.</p>
@@ -540,7 +543,7 @@ write('/', page({
     '@context': 'https://schema.org', '@type': 'WebSite', name: 'Squamish Voters', alternateName: 'SquamishVoters.com', url: `${ORIGIN}/`, inLanguage: 'en-CA',
     description: 'Independent, non-partisan voter guide for the October 17, 2026 District of Squamish municipal election.',
   }, {
-    '@context': 'https://schema.org', '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/`, logo: `${ORIGIN}/favicon.svg`,
+    '@context': 'https://schema.org', '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/`, logo: `${ORIGIN}/icon-512.png`,
     founder: { '@type': 'Person', name: 'Jeff Kirdeikis' }, areaServed: 'Squamish, British Columbia',
     ...(SITE.contact ? { email: SITE.contact } : {}),
   }],
@@ -584,7 +587,7 @@ write('/', page({
 
 // ---------- CANDIDATES (list page; written after Compare because it reuses COMPARE_BLOCK) ----------
 write('/candidates/', page({
-  url: '/candidates/', title: 'The candidates',
+  url: '/candidates/', title: `All ${all.length} Squamish mayor and council candidates`,
   desc: `All ${all.length} candidates for Squamish mayor and council in the October 17, 2026 election, in alphabetical order, with what each supports and opposes.`,
   body: `<h1>The candidates</h1>
   <p class="lede">Everyone on the ballot, in alphabetical order. Tap anyone to see what they support and oppose.</p>
@@ -805,7 +808,7 @@ var AX=${JSON.stringify(Object.fromEntries(Object.entries(AXES).map(([k, A]) => 
 
 // ---------- ISSUES ----------
 write('/issues/', page({
-  url: '/issues/', title: 'The issues, explained',
+  url: '/issues/', title: 'Squamish election issues, explained',
   desc: 'The big questions in the 2026 Squamish election — housing, growth, taxes, Woodfibre LNG, homelessness, policing, parking — explained in plain language with sources.',
   body: `<h1>The issues, explained</h1>
   <p class="lede">A plain-language primer on what this election is about. Tap any topic to open it.</p>
@@ -829,7 +832,7 @@ const clientData = {
 fs.mkdirSync(DIST, { recursive: true });
 fs.writeFileSync(path.join(DIST, 'data.js'), 'window.SV_DATA=' + JSON.stringify(clientData) + ';');
 write('/quiz/', page({
-  url: '/quiz/', title: 'Who should I vote for? Take the quiz',
+  url: '/quiz/', title: 'Squamish election quiz: who should I vote for?',
   desc: `Answer ${QUESTIONS.length} plain-language questions and see which Squamish mayor and council candidates match your views.`,
   body: `<div class="quiz-shell"><div id="quiz-intro"><h1>Who should I vote for?</h1>
   <p class="lede">${QUESTIONS.length} statements. Tell us if you agree or disagree. It takes about three minutes, and your answers never leave your device.</p></div>
@@ -903,7 +906,7 @@ const pageFile = (f) => fs.readFileSync(path.join(ROOT, 'data', 'pages', f), 'ut
 const mapLink = (addr) => `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addr)}" target="_blank" rel="noopener">Map</a>`;
 const fmtDate = (iso) => new Date(iso + 'T12:00:00').toLocaleDateString('en-CA', { weekday: 'long', month: 'long', day: 'numeric' });
 write('/vote/', page({
-  url: '/vote/', title: 'How, when and where to vote',
+  url: '/vote/', title: 'How, when and where to vote in Squamish (Oct 17, 2026)',
   desc: 'Squamish election day is Saturday, October 17, 2026, 8 a.m. to 8 p.m. at Brennan Park. Advance voting dates, mail ballots, ID and eligibility in plain language.',
   jsonld: {
     '@context': 'https://schema.org', '@type': 'Event', name: 'Squamish municipal election — General Voting Day',
