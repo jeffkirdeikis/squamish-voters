@@ -80,4 +80,47 @@
   });
   timer = setInterval(load, 20000);
   load(true);
+
+  // ---- Ask chat spending (estimated from Anthropic list prices; the Anthropic Console has the exact bill) ----
+  var cu = document.getElementById('cu'), cuStats = document.getElementById('cu-stats'), cuNote = document.getElementById('cu-note'),
+    cuMore = document.getElementById('cu-more'), cuRecent = document.getElementById('cu-recent'), cuCount = -1;
+  function usd(n) { return '$' + (n < 10 ? n.toFixed(2) : n.toFixed(0)); }
+  function stat(big, label, warn) { var d = el('div', 'cu-stat' + (warn ? ' warn' : '')); d.append(el('b', null, big), el('span', null, label)); return d; }
+  function qa(r) {
+    var c = el('div', 'cu-qa');
+    c.append(el('p', 'small muted', new Date(r.at).toLocaleString('en-CA') + (r.turn > 1 ? ' · follow-up #' + r.turn : '') + (r.cost != null ? ' · ' + (r.cost * 100).toFixed(1) + '¢' : '')));
+    c.append(el('p', 'cu-q', r.q || r.error || ''));
+    if (r.bad && r.bad.length) c.append(el('p', 'flagline', '⚠ Linked to something not in the records: ' + r.bad.join(' ')));
+    c.append(el('blockquote', null, r.a || ''));
+    return c;
+  }
+  function loadUsage() {
+    if (!token) return;
+    var open = cuMore.open;
+    fetch('/api/chat-usage/?token=' + encodeURIComponent(token) + (open ? '&recent=20' : ''))
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (!d.ok) return;
+        cu.hidden = false;
+        cuStats.textContent = '';
+        var low = d.remaining < d.credit * 0.2;
+        cuStats.append(
+          stat(usd(d.total), 'spent so far'),
+          stat(usd(Math.max(0, d.remaining)), 'left of the ' + usd(d.credit) + ' credit', low),
+          stat(String(d.questions), 'questions asked'),
+          stat(String(d.today.questions) + ' · ' + usd(d.today.cost), 'today'),
+          stat((d.perQuestion * 100).toFixed(1) + '¢', 'average per question'));
+        cuNote.textContent = 'Estimated from Anthropic’s list prices. The exact bill is in the Anthropic Console under Usage. ' + (low ? 'Credit is running low: top it up in the Console before it runs out, or the chat will stop answering.' : '');
+        if (open && (d.questions !== cuCount || !cuRecent.childNodes.length)) {
+          cuRecent.textContent = '';
+          (d.recent || []).forEach(function (r) { cuRecent.append(qa(r)); });
+          if (!d.questions) cuRecent.append(el('p', 'muted', 'No questions yet.'));
+        }
+        cuCount = d.questions;
+      })
+      .catch(function () {});
+  }
+  cuMore.addEventListener('toggle', function () { if (cuMore.open) { cuCount = -1; loadUsage(); } });
+  setInterval(function () { if (document.getElementById('a-auto').checked) loadUsage(); }, 20000);
+  loadUsage();
 })();

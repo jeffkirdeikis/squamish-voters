@@ -743,3 +743,27 @@ summary:hover .more-btn { background: var(--brand); color: #fff; }
 .cmap-car [data-slide] > h2 { margin-top: .2rem; }
 .mc-t { font-weight: 700; color: var(--brand); margin: .4rem 0 0; }
 .mini-compass .lt-hint, .cmap-car .lt-hint { margin: .6rem 0 0; color: var(--muted); }
+
+/* ---------- Ask (chat) ---------- */
+.chat { display: flex; flex-direction: column; gap: .9rem; margin: 1.4rem 0; }
+.chat-msg { max-width: 46rem; padding: .9rem 1.15rem; border-radius: var(--radius); line-height: 1.55; overflow-wrap: anywhere; }
+.chat-msg p { margin: 0 0 .6rem; }
+.chat-msg p:last-child, .chat-msg ul:last-child { margin-bottom: 0; }
+.chat-msg ul { margin: 0 0 .6rem; padding-left: 1.3rem; }
+.chat-msg li { margin: .3rem 0; }
+.chat-msg.me { align-self: flex-end; background: var(--brand); color: var(--brand-ink); }
+.chat-msg.bot { align-self: flex-start; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.chat-reset { margin-top: .4rem; }
+.chat-form { display: flex; gap: .75rem; align-items: stretch; position: sticky; bottom: 5rem; background: var(--bg); padding: .6rem 0; }
+.chat-form textarea { flex: 1; min-width: 0; font: inherit; font-size: 1.1rem; padding: .8rem 1rem; border: 2px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); resize: vertical; }
+.chat-form textarea:focus { outline: 3px solid var(--focus); border-color: var(--brand); }
+.chat-starters .btn { font-weight: 600; font-size: 1rem; text-align: left; }
+@media (min-width: 900px) { .chat-form { bottom: 0; } }
+.cu-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: .75rem; margin: .6rem 0; }
+.cu-stat { background: var(--surface-2); border-radius: 12px; padding: .8rem 1rem; display: flex; flex-direction: column; }
+.cu-stat b { font-size: 1.6rem; line-height: 1.1; }
+.cu-stat span { font-size: .9rem; color: var(--ink-2); }
+.cu-stat.warn { background: var(--warn-bg); color: var(--warn-ink); }
+.cu-qa { border-top: 1px solid var(--line); padding: .8rem 0; }
+.cu-qa .cu-q { font-weight: 700; margin: .2rem 0 .4rem; }
+.cu-qa blockquote { white-space: pre-wrap; margin: 0; font-size: .95rem; }
