@@ -2667,10 +2667,11 @@
     "confidence": "medium"
    },
    "homelessness": {
-    "position": "No public position found",
-    "summary": "No public statement found on shelters, supportive housing, encampments or addictions services.",
+    "position": "Assess suitable locations soon; names the gravel lot at Loggers Lane and Vancouver as one to check",
+    "summary": "We found no public statement from Kieran on this before he answered our questionnaire. In his written answer, he says priority should go to assessing appropriate locations, and that the suitability of the gravel lot at Loggers Lane and Vancouver, which he has heard discussed, should be checked sooner rather than later. His full answer is below.",
     "source_url": "https://www.squamishchief.com/local-news/renter-kieran-brownie-runs-for-squamish-council-on-room-to-belong-12799980",
-    "confidence": "none"
+    "confidence": "low",
+    "quote": null
    },
    "policing": {
     "position": "No public position found",
@@ -2771,8 +2772,23 @@
     "url": "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/"
    }
   ],
-  "research_notes": "Very little public information: essentially one Squamish Chief profile (published today, Sept 19 2026) plus a one-line Instagram bio; Instagram post captions could not be read without login and should be checked manually. No campaign website. Q8 and Q12 are scored 0 (mixed evidence): he raised floatel habitat concerns in 2024 but in 2026 declined a firm WLNG position and stressed the need for an industrial tax base; he wants more rec/third space but not funded from the municipal budget alone. Squamish Access Society directorship is from a 2021 report and current status is unverified; the Squamish Arts and SAS pages were found via search snippets and not read in full. No campaign headshot URL found from his own sources (the Chief article has a photo by Liz McDonald, copyright Chief). Nomination PDF is a scan and was not machine-readable. Sept 22 2026 sweep: still no campaign website; the Sept 19 Chief profile remains the only platform source.",
-  "photo": null
+  "research_notes": "Oct 3 2026: questionnaire answered from kieranbrownie.squamish@gmail.com, verified against the District page, but only the six written questions: no agree/disagree answers and no notes, so every quiz answer stays null. Very little public information: essentially one Squamish Chief profile (published today, Sept 19 2026) plus a one-line Instagram bio; Instagram post captions could not be read without login and should be checked manually. No campaign website. Q8 and Q12 are scored 0 (mixed evidence): he raised floatel habitat concerns in 2024 but in 2026 declined a firm WLNG position and stressed the need for an industrial tax base; he wants more rec/third space but not funded from the municipal budget alone. Squamish Access Society directorship is from a 2021 report and current status is unverified; the Squamish Arts and SAS pages were found via search snippets and not read in full. No campaign headshot URL found from his own sources (the Chief article has a photo by Liz McDonald, copyright Chief). Nomination PDF is a scan and was not machine-readable. Sept 22 2026 sweep: still no campaign website; the Sept 19 Chief profile remains the only platform source.",
+  "photo": null,
+  "answer_notes": {},
+  "own_words": {
+   "one_thing": "Establish a functioning Community-District partnership framework without adding another layer of bureaucracy. \n\nI want to see Squamish build on existing policy to create a functioning community partnership framework that gives the community a more meaningful role in identifying priorities, developing solutions and taking responsibility for delivering them.\n\nThis isn't a new idea. It builds on existing community-engagement work and past mandates around strengthening Community–District relationships.",
+   "say_no": "I will vote against projects that don't have a credible funding and operating plan, even if they are popular. New development needs to deliver a clear net benefit to the community and not leave existing residents carrying the costs for additional municipal infrastructure and services.",
+   "homelessness": "I think priority needs to be given to assessing appropriate locations. I have heard the gravel lot at Loggers Lane and Vancouver discussed as one such site, and I believe its suitability needs to be validated sooner rather than later.",
+   "differently": "I would have approached some of the major community-impact decisions differently through establishing a clearer Council-Community relationship before the decision was made. We have the system for public engagement, but we need the opportunity for the community to work together and participate in finding ways forward.",
+   "disagree": "Squamish has a strong public-engagement process. The issue isn't whether the District is listening. I think the issue is whether residents have meaningful agency in what happens next.",
+   "pitch": "Kieran Brownie's focus is District to Community Relations: bridging differences, finding common ground, and building tangible frameworks that build on existing policy."
+  },
+  "direct": {
+   "kind": "questionnaire",
+   "date": "2026-10-03",
+   "how": "Sent from the email address the candidate filed with the District of Squamish.",
+   "answered": []
+  }
  },
  {
   "name": "Janice DesJardins",

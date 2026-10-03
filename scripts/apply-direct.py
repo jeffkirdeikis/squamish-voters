@@ -94,7 +94,7 @@ if not (r.get('research_notes') or '').startswith('Sept 20 2026'): r['research_n
 
 
 # Only real, verified submissions. A curl test entry under Sean Goodwin's name (Sept 20) is skipped by its user agent.
-USE = {'Sarah Ellis', 'Shaun Veltkamp', 'Sean Goodwin', 'Daniel Deal', 'Laura Prosko', 'Sean Easton', 'Chris Ryan', 'Andrew Hamilton', 'Luc Perreault', 'Jenna Stoner', 'Anders Ourom', 'Ian Brown', 'A. John Lowe'}
+USE = {'Sarah Ellis', 'Shaun Veltkamp', 'Sean Goodwin', 'Daniel Deal', 'Laura Prosko', 'Sean Easton', 'Chris Ryan', 'Andrew Hamilton', 'Luc Perreault', 'Jenna Stoner', 'Anders Ourom', 'Ian Brown', 'A. John Lowe', 'Kieran Brownie'}
 # Submissions whose email didn't match the District filing but that Jeff confirmed with the candidate.
 # Chris Ryan (Sept 25): typed "…@gmail.comom" — a typo of his filed address.
 VOUCHED = {'Chris Ryan': 'The email address on the form had a typo, so Squamish Voters confirmed with Chris that the answers are his.'}
@@ -382,6 +382,17 @@ if 'Oct 1 2026: questionnaire' not in (by['A. John Lowe'].get('research_notes') 
     by['A. John Lowe']['research_notes'] = ('Oct 1 2026: questionnaire answered (38 answers, 37 notes, 7 written) from scotialowe@gmail.com, the address on the District page. '
         'His own q36 -1 replaces our +1 from the Chief profile (he wants private business, not the District, to build it); q25 -2 matched. '
         'NOTE q18: he answered -1 (leans against moving Under One Roof out of downtown) but his note and written answer say to repurpose the building for seniors and find a better site away from downtown — published as sent. ' + (by['A. John Lowe'].get('research_notes') or ''))
+
+# Brownie (Oct 3) sent only the six written answers: no agree/disagree picks or notes, so no quiz scores change and no HEAD headlines.
+# His homelessness answer is the first public word on it; use it rather than leave "No public position found" above it.
+_kh = by['Kieran Brownie']['stances']['homelessness']
+if _kh['position'].lower().startswith('no public position'):
+    _kh['position'] = 'Assess suitable locations soon; names the gravel lot at Loggers Lane and Vancouver as one to check'
+    _kh['summary'] = 'We found no public statement from Kieran on this before he answered our questionnaire. In his written answer, he says priority should go to assessing appropriate locations, and that the suitability of the gravel lot at Loggers Lane and Vancouver, which he has heard discussed, should be checked sooner rather than later. His full answer is below.'
+    _kh['confidence'] = 'low'; _kh['quote'] = None
+if 'Oct 3 2026: questionnaire' not in (by['Kieran Brownie'].get('research_notes') or ''):
+    by['Kieran Brownie']['research_notes'] = ('Oct 3 2026: questionnaire answered from kieranbrownie.squamish@gmail.com, verified against the District page, but only the six written questions: '
+        'no agree/disagree answers and no notes, so every quiz answer stays null. ' + (by['Kieran Brownie'].get('research_notes') or ''))
 
 # Veltkamp flagged our one-line growth summary as misleading; use his own answers instead.
 by['Shaun Veltkamp']['growth_line'] = 'On growth: cap building heights downtown for now, and finish existing neighbourhoods before opening new land.'
