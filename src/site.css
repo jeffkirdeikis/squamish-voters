@@ -767,3 +767,11 @@ summary:hover .more-btn { background: var(--brand); color: #fff; }
 .cu-qa { border-top: 1px solid var(--line); padding: .8rem 0; }
 .cu-qa .cu-q { font-weight: 700; margin: .2rem 0 .4rem; }
 .cu-qa blockquote { white-space: pre-wrap; margin: 0; font-size: .95rem; }
+.chat-card { display: flex; gap: 1rem; align-items: flex-start; margin: 1.4rem 0; padding: 1.1rem 1.2rem; background: var(--surface); border: 2px solid var(--brand); border-radius: var(--radius); box-shadow: var(--shadow); color: var(--ink); text-decoration: none; }
+.chat-card:hover { background: var(--brand-soft); }
+.chat-card-icon { flex: none; width: 3rem; height: 3rem; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; }
+.chat-card-icon svg { width: 1.7rem; height: 1.7rem; }
+.chat-card-text { display: flex; flex-direction: column; gap: .3rem; min-width: 0; flex: 1; }
+.chat-card-text b { font-size: 1.2rem; color: var(--brand); }
+.chat-card-fake { display: flex; align-items: center; justify-content: space-between; gap: .6rem; margin-top: .4rem; padding: .55rem .6rem .55rem .9rem; border: 2px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--muted); font-size: .95rem; }
+.chat-card-fake .go { flex: none; background: var(--brand); color: #fff; font-weight: 700; border-radius: 999px; padding: .3rem .9rem; }

@@ -227,7 +227,7 @@ const NAV = [
   ['/candidates/', 'Candidates'], ['/quiz/', 'Quiz'], ['/compare/', 'Compare'], ['/compass/', 'Where they lean'], ['/vote/', 'How to vote'],
 ];
 // The Menu lists everything; the top bar only has room for the essentials.
-const MENU = [...NAV, ['/ask/', 'Ask a question'], ['/issues/', 'The issues explained'], ['/my-ballot/', 'My ballot']];
+const MENU = [...NAV, ['/ask/', 'AI chat: ask a question'], ['/issues/', 'The issues explained'], ['/my-ballot/', 'My ballot']];
 const ICON = {
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5L12 4l8.5 6.5V20a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1z"/><path d="M9.5 21v-6h5v6"/></svg>',
   people: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.5c2.5.2 4 1.8 4.5 4.5"/></svg>',
@@ -564,7 +564,11 @@ write('/', page({
     <div class="datebar">${(ctx.key_dates || []).map((d) => `<div class="datecard"><b>${esc(d.date)}</b><span>${esc(d.label)}</span></div>`).join('')}</div>
     <p class="small center" style="margin:.6rem 0 0">Full details on how, when and where to vote →</p>
   </a>
-  <div class="btn-row"><a class="btn secondary block" href="/ask/">Have a question? Ask about any candidate or issue →</a></div>
+  <a class="chat-card" href="/ask/">
+    <span class="chat-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.5a7.5 7.5 0 0 1-11.2 6.5L4 20l1.1-4.3A7.5 7.5 0 1 1 20 12.5z"/><path d="M9 11.5h6M9 14.5h4"/></svg></span>
+    <span class="chat-card-text"><b>Chat with our AI helper</b><span>Type any question about the candidates or voting, in your own words, and get an answer with links to the sources.</span>
+    <span class="chat-card-fake" aria-hidden="true">e.g. “What do the candidates say about taxes?”<span class="go">Ask →</span></span></span>
+  </a>
   <div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg><div>
     <h2>You can check our work</h2>
     <p>No endorsements. The same questions go to every candidate, every claim links to its source, and the code and scoring formula are public for anyone to inspect.</p>
@@ -1079,10 +1083,10 @@ let CHAT_KB = ''; // written to api/_kb.js at the end, once every page's address
   CHAT_KB = L.join('\n');
 }
 write('/ask/', page({
-  url: '/ask/', title: 'Ask about the candidates',
+  url: '/ask/', title: 'AI chat: ask about the candidates',
   desc: 'Ask plain-language questions about the 2026 Squamish mayor and council candidates. Answers come only from the sourced records in this guide, with links to check.',
-  body: `<h1>Ask about the candidates</h1>
-  <p class="lede">Type a question in your own words. Answers come <b>only</b> from the sourced records on this site, with links so you can check them. It will not tell you who to vote for.</p>
+  body: `<h1>Chat with our AI helper</h1>
+  <p class="lede">Type a question about the candidates or voting in your own words. Answers come <b>only</b> from the sourced records on this site, with links so you can check them. It will not tell you who to vote for.</p>
   <div class="notice info small">This is an AI assistant (Claude, made by Anthropic). It can make mistakes, so check the links before you rely on an answer. Questions are logged without names or addresses so we can fix wrong answers. Don’t type personal details.</div>
   <div id="chat" class="chat" aria-live="polite"></div>
   <div class="chat-starters" id="starters">
