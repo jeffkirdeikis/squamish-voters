@@ -898,7 +898,7 @@ write('/for-candidates/', page({
     <p>Anything here is published as a direct quote, attributed to you.</p>
     ${WRITE_IN.map(([k, label]) => `<label class="fld big-fld">${esc(label)}<textarea name="w_${k}" rows="4"></textarea></label>`).join('')}
     <h2>Photo</h2>
-    <div class="card"><p>If you’d like a photo on your profile, email one you own the rights to to <a href="mailto:${SITE.contact}">${SITE.contact}</a>. Four candidates currently show initials instead.</p></div>
+    <div class="card"><p>If you’d like a photo on your profile, email one you own the rights to to <a href="mailto:${SITE.contact}">${SITE.contact}</a>.${((n) => n ? ` ${n === 1 ? 'One candidate currently shows' : `${n} candidates currently show`} initials instead.` : '')(all.filter((c) => !hasPhoto(c)).length)}</p></div>
     <div class="btn-row"><button type="submit" class="btn big" id="fsubmit">Finish →</button><button type="button" class="btn secondary" id="fclear">Clear this form</button></div>
     <p class="small" id="fcount"></p>
     <p class="small"><b>Nothing is sent until the last step.</b> When you press Finish we show your answers and you send them to us — that is how we know they really came from you.</p>

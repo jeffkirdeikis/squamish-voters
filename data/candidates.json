@@ -2773,7 +2773,7 @@
    }
   ],
   "research_notes": "Oct 3 2026: questionnaire answered from kieranbrownie.squamish@gmail.com, verified against the District page, but only the six written questions: no agree/disagree answers and no notes, so every quiz answer stays null. Very little public information: essentially one Squamish Chief profile (published today, Sept 19 2026) plus a one-line Instagram bio; Instagram post captions could not be read without login and should be checked manually. No campaign website. Q8 and Q12 are scored 0 (mixed evidence): he raised floatel habitat concerns in 2024 but in 2026 declined a firm WLNG position and stressed the need for an industrial tax base; he wants more rec/third space but not funded from the municipal budget alone. Squamish Access Society directorship is from a 2021 report and current status is unverified; the Squamish Arts and SAS pages were found via search snippets and not read in full. No campaign headshot URL found from his own sources (the Chief article has a photo by Liz McDonald, copyright Chief). Nomination PDF is a scan and was not machine-readable. Sept 22 2026 sweep: still no campaign website; the Sept 19 Chief profile remains the only platform source.",
-  "photo": null,
+  "photo": "img/kieran-brownie.jpg",
   "answer_notes": {},
   "own_words": {
    "one_thing": "Establish a functioning Community-District partnership framework without adding another layer of bureaucracy. \n\nI want to see Squamish build on existing policy to create a functioning community partnership framework that gives the community a more meaningful role in identifying priorities, developing solutions and taking responsibility for delivering them.\n\nThis isn't a new idea. It builds on existing community-engagement work and past mandates around strengthening Community–District relationships.",
@@ -2788,7 +2788,8 @@
    "date": "2026-10-03",
    "how": "Sent from the email address the candidate filed with the District of Squamish.",
    "answered": []
-  }
+  },
+  "photo_credit": "candidate’s campaign"
  },
  {
   "name": "Janice DesJardins",
