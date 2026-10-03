@@ -104,10 +104,16 @@ for r in sorted(RESP, key=lambda r: r['received'], reverse=True):   # newest fir
         continue
     seen.add(r['who'])
     c = by[r['who']]
+    # A later submission with only written answers keeps the statements from the newest earlier one that has them
+    # (Brownie, Oct 3: statements at 12:31pm, then a reworded pitch alone at 12:44pm).
+    src = r if any(isinstance(v, int) for v in r['answers'].values()) else next(
+        (o for o in sorted(RESP, key=lambda o: o['received'], reverse=True)
+         if o['who'] == r['who'] and o.get('verified') and not (o.get('ua') or '').startswith('curl')
+         and any(isinstance(v, int) for v in o['answers'].values())), r)
     qa = dict(c.get('quiz_answers') or {})
-    qa.update({k: v for k, v in r['answers'].items() if isinstance(v, int)})
+    qa.update({k: v for k, v in src['answers'].items() if isinstance(v, int)})
     c['quiz_answers'] = qa
-    c['answer_notes'] = {k: v.strip() for k, v in (r.get('notes') or {}).items() if v.strip()}
+    c['answer_notes'] = {k: v.strip() for k, v in (src.get('notes') or {}).items() if v.strip()}
     c['own_words'] = {k: v.strip() for k, v in (r.get('writing') or {}).items() if v.strip() and k != 'corrections'}
     # A later submission with only the statements keeps written answers sent earlier (Brownie, Oct 3: we told him he need not retype them).
     for old in RESP:
@@ -123,7 +129,7 @@ for r in sorted(RESP, key=lambda r: r['received'], reverse=True):   # newest fir
         'date': (datetime.fromisoformat(r['received'].replace('Z', '+00:00')) - timedelta(hours=7)).date().isoformat(),
         'how': 'Sent from the email address the candidate filed with the District of Squamish.',
         # which statements the candidate answered themselves (other scores on file are our reading of the record)
-        'answered': sorted(k for k, v in r['answers'].items() if isinstance(v, int)),
+        'answered': sorted(k for k, v in src['answers'].items() if isinstance(v, int)),
     }
     if r['who'] in VOUCHED: c['direct']['checked'] = c['direct']['how'] = VOUCHED[r['who']]
 
@@ -252,6 +258,17 @@ HEAD = {
   'transportation': 'Leans toward local money for regional transit, with major provincial funding; strongly against local money for protected bike lanes',
   'economy': 'Strongly for protecting industrial land from rezoning; in the middle on cutting red tape',
   'parking': 'Strongly for more public parking downtown and for requiring parking in new buildings',
+ },
+ 'Kieran Brownie': {
+  'growth': 'In the middle on slowing approvals; strongly against taller buildings downtown; leans against opening new land and against fixed height and density rules set in advance',
+  'housing_affordability': 'Leans toward more public money and land for below-market homes, keeping District land for housing and tighter limits on short-term rentals; in the middle on a required share in big projects',
+  'homelessness': 'Strongly against clearing camps with nowhere to go and for spreading supportive housing across all neighbourhoods; leans toward more shelter near homes and a place for people living in vehicles; leans against moving Under One Roof',
+  'policing': 'Strongly for mental-health crisis teams; strongly against more RCMP; leans toward bylaws on open drug use; in the middle on more bylaw officers',
+  'taxes_spending': 'In the middle on holding tax increases to inflation and on referendums for big projects; leans toward borrowing to renew Brennan Park now and toward more flood-protection spending',
+  'environment_lng': 'In the middle on the Woodfibre tax deal, on pressing the plant through permits, on climate action as a top priority and on higher energy standards',
+  'transportation': 'Leans toward local money for regional transit and for protected bike lanes and sidewalks',
+  'economy': 'In the middle on cutting red tape and on protecting industrial land from rezoning',
+  'parking': 'Leans toward paid parking downtown, with residents parking free; in the middle on requiring builders to provide parking and on the District building more',
  },
  'A. John Lowe': {
   'growth': 'Leans toward slowing approvals; strongly against taller buildings downtown (views); strongly for opening new land, with developers paying all the costs',
@@ -388,13 +405,20 @@ if 'Oct 1 2026: questionnaire' not in (by['A. John Lowe'].get('research_notes') 
         'His own q36 -1 replaces our +1 from the Chief profile (he wants private business, not the District, to build it); q25 -2 matched. '
         'NOTE q18: he answered -1 (leans against moving Under One Roof out of downtown) but his note and written answer say to repurpose the building for seniors and find a better site away from downtown — published as sent. ' + (by['A. John Lowe'].get('research_notes') or ''))
 
-# Brownie (Oct 3) sent only the six written answers: no agree/disagree picks or notes, so no quiz scores change and no HEAD headlines.
+# Brownie (Oct 3) first sent only the six written answers, then all 38 agree/disagree answers (no notes) at 12:31pm and a reworded pitch at 12:44pm.
 # His homelessness answer is the first public word on it; use it rather than leave "No public position found" above it.
 _kh = by['Kieran Brownie']['stances']['homelessness']
 if _kh['position'].lower().startswith('no public position'):
     _kh['position'] = 'Assess suitable locations soon; names the gravel lot at Loggers Lane and Vancouver as one to check'
     _kh['summary'] = 'We found no public statement from Kieran on this before he answered our questionnaire. In his written answer, he says priority should go to assessing appropriate locations, and that the suitability of the gravel lot at Loggers Lane and Vancouver, which he has heard discussed, should be checked sooner rather than later. His full answer is below.'
     _kh['confidence'] = 'low'; _kh['quote'] = None
+by['Kieran Brownie']['growth_group'] = 'mix'   # q1 0; q2 -2 against taller buildings; q3 -1 against new land
+by['Kieran Brownie']['growth_line'] = 'On growth: in the middle on the pace; strongly against buildings above six storeys downtown, and leans against opening new land.'
+# He asked (email, Oct 3) for his pitch to replace the campaign slogan; the newest form wording wins.
+by['Kieran Brownie']['tagline'] = by['Kieran Brownie']['own_words']['pitch']
+by['Kieran Brownie']['research_notes'] = (by['Kieran Brownie'].get('research_notes') or '').replace(
+    'but only the six written questions: no agree/disagree answers and no notes, so every quiz answer stays null. ',
+    'six written answers first, then all 38 agree/disagree answers (no notes) the same afternoon. ')
 if 'Oct 3 2026: questionnaire' not in (by['Kieran Brownie'].get('research_notes') or ''):
     by['Kieran Brownie']['research_notes'] = ('Oct 3 2026: questionnaire answered from kieranbrownie.squamish@gmail.com, verified against the District page, but only the six written questions: '
         'no agree/disagree answers and no notes, so every quiz answer stays null. ' + (by['Kieran Brownie'].get('research_notes') or ''))

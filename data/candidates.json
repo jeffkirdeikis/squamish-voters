@@ -2595,7 +2595,7 @@
   "incumbent_role": "Not an incumbent; first-time candidate (no record of prior runs found)",
   "slug": "kieran-brownie",
   "occupation_background": "Squamish-based photographer, writer and longtime renter (per the Squamish Chief). Was a director-at-large of the Squamish Access Society (climbing access group) in 2021 and is a Squamish Arts member artist; his photography has appeared in The Walrus. Says he is running because his demographic is not represented at the council table.",
-  "tagline": "Kieran Brownie's focus is District to Community Relations: bridging differences, finding common ground, and building tangible frameworks that build on existing policy.",
+  "tagline": "Kieran Brownie's focus is District to Community Relations: bridging differences, finding common ground, and creating tangible frameworks that build on existing policy.",
   "top_priorities": [
    "Space to live (housing, with council working closely with Squamish Nation)",
    "Space to play (recreation and keeping outdoor-recreation revenue in town)",
@@ -2653,61 +2653,62 @@
   ],
   "stances": {
    "growth": {
-    "position": "No public position found",
-    "summary": "Has not taken a slow-down, build-up or build-out position. He told the Chief that Squamish has basically reached the limits of its footprint, that there is no quick fix, and that the long-term answer is District council working closely with Squamish Nation.",
-    "quote": "The long-term solution for it is going to be Squamish District council working closely and well with Squamish Nation.",
+    "position": "In the middle on slowing approvals; strongly against taller buildings downtown; leans against opening new land and against fixed height and density rules set in advance",
+    "summary": "Kieran had said little in public about this before answering our questionnaire. Kieran’s own answers are below.",
+    "quote": null,
     "source_url": "https://www.squamishchief.com/local-news/renter-kieran-brownie-runs-for-squamish-council-on-room-to-belong-12799980",
-    "confidence": "low"
+    "confidence": "none"
    },
    "housing_affordability": {
-    "position": "Renter's voice; partnership with Squamish Nation over senior-government grants",
-    "summary": "Runs as a longtime renter under the pillar 'space to live'. Says there is no quick fix and that the long-term answer lies within the valley, through a strong working relationship with Squamish Nation, rather than in grant applications to Victoria or Ottawa. No stated position on the housing society, DCCs/ACCs or inclusionary zoning.",
+    "position": "Leans toward more public money and land for below-market homes, keeping District land for housing and tighter limits on short-term rentals; in the middle on a required share in big projects",
+    "summary": "Runs as a longtime renter under the pillar 'space to live'. Says there is no quick fix and that the long-term answer lies within the valley, through a strong working relationship with Squamish Nation, rather than in grant applications to Victoria or Ottawa.",
     "quote": "The long-term solution for it is going to be Squamish District council working closely and well with Squamish Nation.",
     "source_url": "https://www.squamishchief.com/local-news/renter-kieran-brownie-runs-for-squamish-council-on-room-to-belong-12799980",
     "confidence": "medium"
    },
    "homelessness": {
-    "position": "Assess suitable locations soon; names the gravel lot at Loggers Lane and Vancouver as one to check",
+    "position": "Strongly against clearing camps with nowhere to go and for spreading supportive housing across all neighbourhoods; leans toward more shelter near homes and a place for people living in vehicles; leans against moving Under One Roof",
     "summary": "We found no public statement from Kieran on this before he answered our questionnaire. In his written answer, he says priority should go to assessing appropriate locations, and that the suitability of the gravel lot at Loggers Lane and Vancouver, which he has heard discussed, should be checked sooner rather than later. His full answer is below.",
     "source_url": "https://www.squamishchief.com/local-news/renter-kieran-brownie-runs-for-squamish-council-on-room-to-belong-12799980",
     "confidence": "low",
     "quote": null
    },
    "policing": {
-    "position": "No public position found",
-    "summary": "No public statement found on RCMP, bylaw enforcement or community safety.",
+    "position": "Strongly for mental-health crisis teams; strongly against more RCMP; leans toward bylaws on open drug use; in the middle on more bylaw officers",
+    "summary": "Kieran had said little in public about this before answering our questionnaire. Kieran’s own answers are below.",
     "source_url": "https://www.squamishchief.com/local-news/renter-kieran-brownie-runs-for-squamish-council-on-room-to-belong-12799980",
-    "confidence": "none"
+    "confidence": "none",
+    "quote": null
    },
    "taxes_spending": {
-    "position": "Industrial tax base needed to keep pressure off residents",
+    "position": "In the middle on holding tax increases to inflation and on referendums for big projects; leans toward borrowing to renew Brennan Park now and toward more flood-protection spending",
     "summary": "Frames Squamish's revenue problem as inherited: BC towns were built on industrial tax bases, and pushing industry out leaves a gap residents must cover. Prefers community-built recreation initiatives and keeping recreation revenue local over funding everything from the municipal budget. No specific tax target stated.",
     "quote": "If we aren't propping up our tax base, the only other option is for residents to be taxed more.",
     "source_url": "https://www.squamishchief.com/local-news/renter-kieran-brownie-runs-for-squamish-council-on-room-to-belong-12799980",
     "confidence": "medium"
    },
    "environment_lng": {
-    "position": "No firm position on the WLNG tax deal; raised floatel habitat concerns in 2024",
+    "position": "In the middle on the Woodfibre tax deal, on pressing the plant through permits, on climate action as a top priority and on higher energy standards",
     "summary": "Declined to take a firm position on the proposed Woodfibre LNG-District tax agreement, noting it will not come to the next council unless it collapses, but offered that it protects the District if WLNG does poorly and protects the company if it does very well. At the April 2024 floatel public hearing he raised concern about herring spawning habitat near the ship. No climate-policy statement found.",
     "quote": "The current tax deal is protecting the District if WLNG does poorly. But if WLNG does amazingly... it protects the company.",
     "source_url": "https://www.squamishchief.com/local-news/renter-kieran-brownie-runs-for-squamish-council-on-room-to-belong-12799980",
     "confidence": "medium"
    },
    "transportation": {
-    "position": "Parking is a process failure; spread services beyond downtown",
+    "position": "Leans toward local money for regional transit and for protected bike lanes and sidewalks",
     "summary": "Says the biggest parking challenge is town hall's decision-making process, which leaves residents feeling unheard. Notes that routing everyone downtown puts residents in competition with visitors; would look to the waterfront development for parking capacity and strengthen everyday services in outlying neighbourhoods. Nothing found on regional transit or Highway 99.",
     "quote": "I think the biggest challenge for parking right now is the decision-making process of town hall.",
     "source_url": "https://www.squamishchief.com/local-news/renter-kieran-brownie-runs-for-squamish-council-on-room-to-belong-12799980",
     "confidence": "medium"
    },
    "economy": {
-    "position": "Values an industrial tax base; keep recreation revenue local",
+    "position": "In the middle on cutting red tape and on protecting industrial land from rezoning",
     "summary": "Argues an industrial tax base matters because otherwise residents pay more, and wants more outdoor-recreation revenue to stay in town. Wants stronger everyday services in outlying neighbourhoods. No detailed economic platform found.",
     "source_url": "https://www.squamishchief.com/local-news/renter-kieran-brownie-runs-for-squamish-council-on-room-to-belong-12799980",
     "confidence": "low"
    },
    "parking": {
-    "position": "Parking is a process failure: residents feel they have no say and 'keep being told that there will be less parking'",
+    "position": "Leans toward paid parking downtown, with residents parking free; in the middle on requiring builders to provide parking and on the District building more",
     "summary": "Says the biggest parking challenge is how town hall makes decisions. He says routing everyone downtown puts residents in competition with visitors in peak months; he would look to the waterfront development for parking capacity and strengthen everyday services in outlying neighbourhoods. He has not taken a position on paid parking, a parkade or parking minimums.",
     "quote": "I think the biggest challenge for parking right now is the decision-making process of town hall. A lot of residents don't feel like they have any say in it, and they just keep being told that there will be less parking.",
     "source_url": "https://www.squamishchief.com/local-news/renter-kieran-brownie-runs-for-squamish-council-on-room-to-belong-12799980",
@@ -2721,22 +2722,44 @@
    "confidence": "low"
   },
   "quiz_answers": {
-   "q1": null,
-   "q2": null,
-   "q3": null,
-   "q4": null,
-   "q5": null,
-   "q6": null,
-   "q7": null,
-   "q8": null,
-   "q9": null,
-   "q10": null,
-   "q11": null,
-   "q12": null,
-   "q25": null,
-   "q36": null,
-   "q37": null,
-   "q38": null
+   "q1": 0,
+   "q2": -2,
+   "q3": -1,
+   "q4": 1,
+   "q5": 1,
+   "q6": -2,
+   "q7": 0,
+   "q8": 0,
+   "q9": 0,
+   "q10": 0,
+   "q11": 1,
+   "q12": 0,
+   "q25": 1,
+   "q36": 0,
+   "q37": 0,
+   "q38": 1,
+   "q23": 0,
+   "q18": -1,
+   "q31": -2,
+   "q34": 0,
+   "q13": 0,
+   "q14": -1,
+   "q15": 1,
+   "q16": 1,
+   "q17": 1,
+   "q19": 0,
+   "q20": 2,
+   "q21": 0,
+   "q22": 1,
+   "q24": 0,
+   "q26": 1,
+   "q27": 0,
+   "q28": 1,
+   "q29": 2,
+   "q30": 2,
+   "q32": 0,
+   "q33": 2,
+   "q35": 1
   },
   "links": {
    "website": null,
@@ -2772,24 +2795,65 @@
     "url": "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/"
    }
   ],
-  "research_notes": "Oct 3 2026: questionnaire answered from kieranbrownie.squamish@gmail.com, verified against the District page, but only the six written questions: no agree/disagree answers and no notes, so every quiz answer stays null. Very little public information: essentially one Squamish Chief profile (published today, Sept 19 2026) plus a one-line Instagram bio; Instagram post captions could not be read without login and should be checked manually. No campaign website. Q8 and Q12 are scored 0 (mixed evidence): he raised floatel habitat concerns in 2024 but in 2026 declined a firm WLNG position and stressed the need for an industrial tax base; he wants more rec/third space but not funded from the municipal budget alone. Squamish Access Society directorship is from a 2021 report and current status is unverified; the Squamish Arts and SAS pages were found via search snippets and not read in full. No campaign headshot URL found from his own sources (the Chief article has a photo by Liz McDonald, copyright Chief). Nomination PDF is a scan and was not machine-readable. Sept 22 2026 sweep: still no campaign website; the Sept 19 Chief profile remains the only platform source.",
+  "research_notes": "Oct 3 2026: questionnaire answered from kieranbrownie.squamish@gmail.com, verified against the District page, six written answers first, then all 38 agree/disagree answers (no notes) the same afternoon. Very little public information: essentially one Squamish Chief profile (published today, Sept 19 2026) plus a one-line Instagram bio; Instagram post captions could not be read without login and should be checked manually. No campaign website. Q8 and Q12 are scored 0 (mixed evidence): he raised floatel habitat concerns in 2024 but in 2026 declined a firm WLNG position and stressed the need for an industrial tax base; he wants more rec/third space but not funded from the municipal budget alone. Squamish Access Society directorship is from a 2021 report and current status is unverified; the Squamish Arts and SAS pages were found via search snippets and not read in full. No campaign headshot URL found from his own sources (the Chief article has a photo by Liz McDonald, copyright Chief). Nomination PDF is a scan and was not machine-readable. Sept 22 2026 sweep: still no campaign website; the Sept 19 Chief profile remains the only platform source.",
   "photo": "img/kieran-brownie.jpg",
   "answer_notes": {},
   "own_words": {
+   "pitch": "Kieran Brownie's focus is District to Community Relations: bridging differences, finding common ground, and creating tangible frameworks that build on existing policy.",
    "one_thing": "Establish a functioning Community-District partnership framework without adding another layer of bureaucracy. \n\nI want to see Squamish build on existing policy to create a functioning community partnership framework that gives the community a more meaningful role in identifying priorities, developing solutions and taking responsibility for delivering them.\n\nThis isn't a new idea. It builds on existing community-engagement work and past mandates around strengthening Community–District relationships.",
    "say_no": "I will vote against projects that don't have a credible funding and operating plan, even if they are popular. New development needs to deliver a clear net benefit to the community and not leave existing residents carrying the costs for additional municipal infrastructure and services.",
    "homelessness": "I think priority needs to be given to assessing appropriate locations. I have heard the gravel lot at Loggers Lane and Vancouver discussed as one such site, and I believe its suitability needs to be validated sooner rather than later.",
    "differently": "I would have approached some of the major community-impact decisions differently through establishing a clearer Council-Community relationship before the decision was made. We have the system for public engagement, but we need the opportunity for the community to work together and participate in finding ways forward.",
-   "disagree": "Squamish has a strong public-engagement process. The issue isn't whether the District is listening. I think the issue is whether residents have meaningful agency in what happens next.",
-   "pitch": "Kieran Brownie's focus is District to Community Relations: bridging differences, finding common ground, and building tangible frameworks that build on existing policy."
+   "disagree": "Squamish has a strong public-engagement process. The issue isn't whether the District is listening. I think the issue is whether residents have meaningful agency in what happens next."
   },
   "direct": {
    "kind": "questionnaire",
    "date": "2026-10-03",
    "how": "Sent from the email address the candidate filed with the District of Squamish.",
-   "answered": []
+   "answered": [
+    "q1",
+    "q10",
+    "q11",
+    "q12",
+    "q13",
+    "q14",
+    "q15",
+    "q16",
+    "q17",
+    "q18",
+    "q19",
+    "q2",
+    "q20",
+    "q21",
+    "q22",
+    "q23",
+    "q24",
+    "q25",
+    "q26",
+    "q27",
+    "q28",
+    "q29",
+    "q3",
+    "q30",
+    "q31",
+    "q32",
+    "q33",
+    "q34",
+    "q35",
+    "q36",
+    "q37",
+    "q38",
+    "q4",
+    "q5",
+    "q6",
+    "q7",
+    "q8",
+    "q9"
+   ]
   },
-  "photo_credit": "candidate’s campaign"
+  "photo_credit": "candidate’s campaign",
+  "growth_group": "mix",
+  "growth_line": "On growth: in the middle on the pace; strongly against buildings above six storeys downtown, and leans against opening new land."
  },
  {
   "name": "Janice DesJardins",
