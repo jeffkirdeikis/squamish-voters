@@ -560,10 +560,6 @@ write('/', page({
     <p class="hero-alt"><a href="/candidates/">Or just show me everyone running →</a></p>
   </div></section>`,
   body: `
-  <a class="datebar-link" href="/vote/">
-    <div class="datebar">${(ctx.key_dates || []).map((d) => `<div class="datecard"><b>${esc(d.date)}</b><span>${esc(d.label)}</span></div>`).join('')}</div>
-    <p class="small center" style="margin:.6rem 0 0">Full details on how, when and where to vote →</p>
-  </a>
   <a class="chat-card" href="/ask/">
     <span class="chat-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.5a7.5 7.5 0 0 1-11.2 6.5L4 20l1.1-4.3A7.5 7.5 0 1 1 20 12.5z"/><path d="M9 11.5h6M9 14.5h4"/></svg></span>
     <span class="chat-card-text"><b>Chat with our AI helper</b><span>Type any question about the candidates or voting, in your own words, and get an answer with links to the sources.</span>
