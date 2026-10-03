@@ -239,7 +239,19 @@ const ICON = {
 };
 const ASK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12.5a7.5 7.5 0 0 1-11.2 6.5L4 20l1.1-4.3A7.5 7.5 0 1 1 20 12.5z"/><path d="M9 11.5h6M9 14.5h4"/></svg>';
 const ASK_SEND = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5"/></svg>';
-const TABS = [['/', 'Home', 'home'], ['/candidates/', 'People', 'people'], ['/quiz/', 'Quiz', 'quiz'], ['/compass/', 'Compass', 'compass'], ['/compare/', 'Compare', 'compare'], ['/vote/', 'Voting', 'vote']];
+const TABS = [['/', 'Home', 'home'], ['/candidates/', 'People', 'people'], ['/quiz/', 'Quiz', 'quiz'], ['/compass/', 'Compass', 'compass'], ['/compare/', 'Compare', 'compare'], ['/ask/', 'Ask AI', 'chat']];
+// The phone Menu: every page, one per row, with How to vote near the top since it left the bottom bar.
+const MENU_ICON = {
+  chat: ASK_ICON,
+  issues: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/></svg>',
+  about: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.1"/></svg>',
+};
+const MOBILE_MENU = [
+  ['/', 'Home', 'home'], ['/vote/', 'How, when &amp; where to vote', 'vote'], ['/ask/', 'Ask our AI helper', 'chat'],
+  ['/candidates/', 'All candidates', 'people'], ['/quiz/', 'Take the quiz', 'quiz'], ['/compare/', 'Compare candidates', 'compare'],
+  ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/my-ballot/', 'My ballot', 'ballot'],
+  ['/about/', 'About this guide &amp; sources', 'about'],
+];
 
 function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null }) {
   const cur = (href) => ((href === '/' ? url === '/' : url.startsWith(href)) ? ' aria-current="page"' : '');
@@ -287,9 +299,7 @@ function page({ url, title, desc, body, hero = '', scripts = '', noindex = false
   </div>
   <div class="menu-panel" id="menu-panel">
     <nav class="wrap" aria-label="All pages">
-      <a href="/">Home</a>
-      ${MENU.map(([h, l]) => `<a href="${h}"${cur(h)}>${l}</a>`).join('')}
-      <a href="/about/">About this guide &amp; sources</a>
+      ${MOBILE_MENU.map(([h, l, i]) => `<a href="${h}"${cur(h)}>${MENU_ICON[i] || ICON[i] || ''}<span>${l}</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>`).join('')}
     </nav>
   </div>
 </header>
@@ -307,7 +317,7 @@ ${body}
   </div>
 </div></footer>
 <nav class="tabbar" aria-label="Quick navigation">
-  ${TABS.map(([h, l, i]) => `<a href="${h}"${cur(h)}>${ICON[i]}<span>${l}</span></a>`).join('')}
+  ${TABS.map(([h, l, i]) => `<a href="${h}"${cur(h)}>${ICON[i] || MENU_ICON[i]}<span>${l}</span></a>`).join('')}
 </nav>
 <a class="totop no-print" href="#main" id="totop" hidden>↑ Top</a>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
