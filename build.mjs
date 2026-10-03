@@ -368,7 +368,7 @@ function directNotice(c) {
   const f = esc(first(c)), when = esc(fmtLong(c.direct.date));
   if (c.direct.kind === 'email') return `<div class="notice direct"><b>✓ New — ${f} answered us by email.</b> On ${when}, ${f} sent Squamish Voters written answers about ${esc(c.direct.topic)}. They are published in full, word for word. <a href="#emailed">Read ${f}’s answers</a>.</div>`;
   return isDirectQ(c)
-    ? `<div class="notice direct"><b>✓ Verified — in ${f}’s own words.</b> ${f} filled in our candidate questionnaire on ${when}. ${c.direct.checked ? esc(c.direct.checked) : `It was sent from the email address ${f} filed with the District of Squamish.`} ${(c.direct.answered || [1]).length ? `Everything marked <span class="badge direct">✓ Direct answer</span> below is ${f}’s own answer, not our reading of the public record. <a href="#questionnaire">Jump to all answers</a>.` : `${f} answered the written questions but skipped the agree/disagree statements, so the quiz still has no answers from ${f}. <a href="#questionnaire">Read ${f}’s written answers</a>.`}${stmtOf(c) ? ` ${f} also sent us a platform statement on ${esc(fmtLong(stmtOf(c).date))} — <a href="${esc(stmtOf(c).url)}">read it in full</a>.` : ''}</div>`
+    ? `<div class="notice direct"><b>✓ Verified — in ${f}’s own words.</b> ${f} filled in our candidate questionnaire on ${when}. ${c.direct.checked ? esc(c.direct.checked) : `It was sent from the email address ${f} filed with the District of Squamish.`} ${(c.direct.answered || [1]).length ? `Everything marked <span class="badge direct">✓ Direct answer</span> below is ${f}’s own answer, not our reading of the public record. <a href="#questionnaire">Jump to all answers</a>.` : `${f} answered the written questions but skipped the agree/disagree statements, so the quiz still has no answers from ${f}. <a href="#own-words">Read ${f}’s written answers</a> · <a href="#questionnaire">see the statements not yet answered</a>.`}${stmtOf(c) ? ` ${f} also sent us a platform statement on ${esc(fmtLong(stmtOf(c).date))} — <a href="${esc(stmtOf(c).url)}">read it in full</a>.` : ''}</div>`
     : `<div class="notice direct"><b>✓ New — sent to us by ${f}.</b> ${f} sent Squamish Voters a platform statement on ${when}. The supports, against list and topics below now come from it. ${/\.pdf$/i.test(c.direct.url) ? `<a href="${esc(c.direct.url)}" target="_blank" rel="noopener">Read the original (PDF)</a>` : `<a href="${esc(c.direct.url)}">Read it in full, in ${f}’s own words →</a>`}.</div>`;
 }
 // Written answers a candidate emailed us: published whole, never trimmed or reworded.
@@ -392,7 +392,13 @@ function directAnswers(c) {
   const noted = rows.filter((q) => wrote(c, q)), SHOW = 4;
   const noteLi = (q) => `<li><b>${escGl(q.text)}</b><span class="ans">${ansWord(c, q)}</span><p>“${escGl(wrote(c, q))}”</p></li>`;
   const words = WRITE_IN.filter(([k]) => c.own_words?.[k]);
-  return `${rows.length ? '' : '<span id="questionnaire"></span>'}${words.length ? `<h2 id="own-words">In ${esc(first(c))}’s own words <span class="badge direct">✓ Direct</span></h2>
+  // Sent only written answers (Brownie, Oct 3): list the statements still open, so the candidate can see exactly what is left.
+  const open = (list) => `<ul class="qa">${list.map((q) => `<li><b>${escGl(q.text)}</b><span class="ans">Not answered yet</span></li>`).join('')}</ul>`;
+  const unanswered = rows.length ? '' : `<h2>Statements ${esc(first(c))} hasn’t answered yet</h2>
+  <p class="small">${esc(first(c))} sent the written answers above on ${esc(fmtLong(c.direct.date))}, but none of the ${ALL_QUESTIONS.length} agree/disagree statements we put to every candidate. The quiz and compasses use the first ${QUESTIONS.length}, so until some are answered they leave ${esc(first(c))} out.</p>
+  <details class="drop" id="questionnaire"><summary>The ${QUESTIONS.length} statements the quiz uses</summary>${open(QUESTIONS)}</details>
+  <details class="drop"><summary>${EXTRA_QUESTIONS.length} more optional statements</summary>${open(EXTRA_QUESTIONS)}</details>`;
+  return `${words.length ? `<h2 id="own-words">In ${esc(first(c))}’s own words <span class="badge direct">✓ Direct</span></h2>
   <div class="card stack">${words.map(([k, label]) => `<details class="stance-row has-more"${k === 'pitch' || k === 'one_thing' ? ' open' : ''}><summary><span class="txt"><b>${esc(label.replace(/ — we may use.*$/, ''))}</b>${moreBtn(`Click to expand — read ${esc(first(c))}’s full answer`)}</span></summary><blockquote>${escGl(c.own_words[k])}</blockquote></details>`).join('')}</div>` : ''}
   ${noted.length ? `<h2 id="explained">${esc(first(c))} explains ${noted.length === 1 ? 'an answer' : 'their answers'} <span class="badge direct">✓ Direct</span></h2>
   <p class="small">${esc(first(c))} added a comment to ${noted.length} of the statements we put to every candidate. These are ${esc(first(c))}’s words, unedited.</p>
@@ -400,7 +406,7 @@ function directAnswers(c) {
   ${noted.length > SHOW ? `<details class="more"><summary>Show ${noted.length - SHOW} more</summary><ul class="qa">${noted.slice(SHOW).map(noteLi).join('')}</ul></details>` : ''}</div>` : ''}
   ${rows.length ? `<details class="drop" id="questionnaire"><summary>All ${rows.length} of ${esc(first(c))}’s questionnaire answers <span class="badge direct">✓ Direct</span></summary>
   <ul class="qa">${rows.map((q) => `<li><b>${escGl(q.text)}</b><span class="ans">${ansWord(c, q)}</span>${wrote(c, q) ? `<p>“${escGl(wrote(c, q))}”</p>` : ''}</li>`).join('')}</ul>
-  <p class="small">Answered by ${esc(c.name)} on ${esc(fmtLong(c.direct.date))}. Where these differ from our earlier reading of the public record, the candidate’s own answer is what counts in the quiz and compare pages.</p></details>` : ''}`;
+  <p class="small">Answered by ${esc(c.name)} on ${esc(fmtLong(c.direct.date))}. Where these differ from our earlier reading of the public record, the candidate’s own answer is what counts in the quiz and compare pages.</p></details>` : unanswered}`;
 }
 // The candidate's own questionnaire answers on one topic, shown inside that topic's row.
 function directOnTopic(c, key) {

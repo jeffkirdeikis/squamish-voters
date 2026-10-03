@@ -109,6 +109,11 @@ for r in sorted(RESP, key=lambda r: r['received'], reverse=True):   # newest fir
     c['quiz_answers'] = qa
     c['answer_notes'] = {k: v.strip() for k, v in (r.get('notes') or {}).items() if v.strip()}
     c['own_words'] = {k: v.strip() for k, v in (r.get('writing') or {}).items() if v.strip() and k != 'corrections'}
+    # A later submission with only the statements keeps written answers sent earlier (Brownie, Oct 3: we told him he need not retype them).
+    for old in RESP:
+        if old['who'] == r['who'] and old is not r and old.get('verified') and not (old.get('ua') or '').startswith('curl'):
+            for k, v in (old.get('writing') or {}).items():
+                if v.strip() and k != 'corrections': c['own_words'].setdefault(k, v.strip())
     # A platform statement sent earlier (e.g. Prosko, Sept 22) keeps its own page alongside the questionnaire.
     if (c.get('direct') or {}).get('kind') == 'statement':
         c['statement'] = c['direct']
