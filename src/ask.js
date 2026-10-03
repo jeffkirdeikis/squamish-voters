@@ -1,25 +1,27 @@
-/* The "Ask" page: a simple chat that streams answers from /api/chat.
+/* The AI helper chat: streams answers from /api/chat/.
    The conversation lives only in this tab (sessionStorage), never on our server. */
 (function () {
-  var chat = document.getElementById('chat'), form = document.getElementById('ask-form'),
-    input = document.getElementById('ask-input'), send = document.getElementById('ask-send'),
-    starters = document.getElementById('starters');
-  if (!chat || !form) return;
-  var KEY = 'sv26_ask', MAX_USER = 12, history = [];
+  var log = document.getElementById('chat-log'), welcome = document.getElementById('chat-welcome'),
+    form = document.getElementById('ask-form'), input = document.getElementById('ask-input'),
+    send = document.getElementById('ask-send'), fresh = document.getElementById('chat-new');
+  if (!log || !form) return;
+  var KEY = 'sv26_ask', MAX_USER = 12, history = [], busy = false;
+  var touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
   try { history = JSON.parse(sessionStorage.getItem(KEY) || '[]') || []; } catch (e) { history = []; }
   function save() { try { sessionStorage.setItem(KEY, JSON.stringify(history)); } catch (e) {} }
 
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   // Tiny, safe markdown: escape everything first, then allow **bold**, "- " bullets and http(s) links.
-  // Links the server flags as not in the guide's records are shown as plain text.
+  // Short link labels ("source", "profile") become small source tags. Links the server flags as
+  // not in the guide's records are shown as plain text.
   function md(text, bad) {
     var lines = esc(text).split('\n'), out = [], list = false;
     lines.forEach(function (l) {
-      l = l.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, function (m, label, url) {
+      l = l.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/\(?\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)\)?/g, function (m, label, url) {
         var raw = url.replace(/&amp;/g, '&');
         if (bad && bad.indexOf(raw) !== -1) return label;
-        var own = /^https:\/\/squamishvoters\.com\//.test(raw);
-        return '<a href="' + url + '"' + (own ? '' : ' target="_blank" rel="noopener"') + '>' + label + '</a>';
+        var own = /^https:\/\/squamishvoters\.com\//.test(raw), cite = label.length <= 24;
+        return '<a href="' + url + '"' + (cite ? ' class="cite"' : '') + (own ? '' : ' target="_blank" rel="noopener"') + '>' + label + '</a>';
       });
       var li = /^\s*[-*•]\s+(.*)$/.exec(l);
       if (li) { if (!list) { out.push('<ul>'); list = true; } out.push('<li>' + li[1] + '</li>'); return; }
@@ -29,38 +31,40 @@
     if (list) out.push('</ul>');
     return out.join('');
   }
-  function bubble(role, html) {
-    var d = document.createElement('div');
-    d.className = 'chat-msg ' + (role === 'user' ? 'me' : 'bot');
-    d.innerHTML = html;
-    chat.appendChild(d);
-    return d;
+  function msg(role, html) {
+    var row = document.createElement('div');
+    row.className = 'msg ' + role;
+    var b = document.createElement('div');
+    b.className = 'bubble';
+    b.innerHTML = html;
+    row.appendChild(b);
+    log.appendChild(row);
+    return b;
   }
+  function userCount() { return history.filter(function (m) { return m.role === 'user'; }).length; }
   function render() {
-    chat.textContent = '';
-    history.forEach(function (m) { bubble(m.role, m.role === 'user' ? '<p>' + esc(m.content) + '</p>' : md(m.content, m.bad)); });
-    if (history.length) {
-      starters.hidden = true;
-      var r = document.createElement('div');
-      r.className = 'chat-reset no-print';
-      r.innerHTML = '<button type="button" class="btn secondary">Start a new conversation</button>';
-      r.firstChild.onclick = function () { history = []; save(); starters.hidden = false; render(); input.focus(); };
-      chat.appendChild(r);
-    }
+    Array.prototype.slice.call(log.children).forEach(function (n) { if (n !== welcome) n.remove(); });
+    welcome.hidden = history.length > 0;
+    fresh.hidden = history.length === 0;
+    history.forEach(function (m) { msg(m.role === 'user' ? 'me' : 'bot', m.role === 'user' ? '<p>' + esc(m.content) + '</p>' : md(m.content, m.bad)); });
   }
-  function busy(on) { send.disabled = on; input.disabled = on; send.textContent = on ? 'Thinking…' : 'Ask'; }
+  // Put the newest question at the top of the chat window, so the answer reads downward under it.
+  function showFromTop(el) { log.scrollTop = el.offsetTop - 12; }
+  function fit() { input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, 160) + 'px'; }
+  function setBusy(on) { busy = on; send.disabled = on; input.readOnly = on; }
 
   async function ask(q) {
-    q = q.trim();
-    if (!q) return;
-    if (history.filter(function (m) { return m.role === 'user'; }).length >= MAX_USER) {
-      bubble('bot', '<p>This conversation is getting long. Please start a new one below.</p>'); return;
-    }
+    q = (q || '').trim();
+    if (!q || busy) return;
+    if (userCount() >= MAX_USER) { msg('bot err', '<p>This conversation is getting long. Tap <b>New chat</b> to start fresh.</p>'); return; }
     history.push({ role: 'user', content: q });
     render();
-    var el = bubble('bot', '<p class="muted">Looking through the records…</p>');
-    el.scrollIntoView({ block: 'nearest' });
-    busy(true);
+    input.value = ''; fit();
+    if (touch) input.blur(); // drop the phone keyboard so the answer has room
+    var mine = log.lastElementChild;
+    var el = msg('bot', '<span class="typing" aria-label="Thinking"><i></i><i></i><i></i></span>');
+    showFromTop(mine);
+    setBusy(true);
     var text = '', bad = [], failed = '';
     try {
       var res = await fetch('/api/chat/', {
@@ -89,22 +93,24 @@
       if (failed && !text) throw new Error(failed);
       if (!text) throw new Error('No answer came back. Please try again.');
       history.push({ role: 'assistant', content: text, bad: bad });
+      save();
+      if (bad.length) el.innerHTML = md(text, bad); // unlink anything not in the records, in place
     } catch (e) {
       history.pop(); // let them retry the same question
-      input.value = q;
-      el.innerHTML = '<p><b>' + esc(e.message) + '</b></p>';
-      busy(false);
-      return;
+      save();
+      input.value = q; fit();
+      el.parentNode.className = 'msg bot err';
+      el.innerHTML = '<p>' + esc(e.message) + '</p>';
     }
-    save();
-    busy(false);
-    render();
-    input.value = '';
-    input.focus();
+    fresh.hidden = false;
+    setBusy(false);
   }
 
   form.addEventListener('submit', function (e) { e.preventDefault(); ask(input.value); });
-  input.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask(input.value); } });
-  starters.addEventListener('click', function (e) { var b = e.target.closest('[data-ask]'); if (b) ask(b.getAttribute('data-ask')); });
+  input.addEventListener('input', fit);
+  input.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); ask(input.value); } });
+  log.addEventListener('click', function (e) { var b = e.target.closest('[data-ask]'); if (b) ask(b.getAttribute('data-ask')); });
+  fresh.addEventListener('click', function () { history = []; save(); render(); log.scrollTop = 0; if (!touch) input.focus(); });
   render();
+  if (history.length) log.scrollTop = log.scrollHeight;
 })();

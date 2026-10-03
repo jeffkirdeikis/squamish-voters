@@ -237,6 +237,8 @@ const ICON = {
   compass: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>',
   ballot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 8.500l1.2 1.2 2-2.400M8.5 14.500l1.2 1.2 2-2.400M14 9h2M14 15h2"/></svg>',
 };
+const ASK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12.5a7.5 7.5 0 0 1-11.2 6.5L4 20l1.1-4.3A7.5 7.5 0 1 1 20 12.5z"/><path d="M9 11.5h6M9 14.5h4"/></svg>';
+const ASK_SEND = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5"/></svg>';
 const TABS = [['/', 'Home', 'home'], ['/candidates/', 'People', 'people'], ['/quiz/', 'Quiz', 'quiz'], ['/compass/', 'Compass', 'compass'], ['/compare/', 'Compare', 'compare'], ['/vote/', 'Voting', 'vote']];
 
 function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null }) {
@@ -561,9 +563,8 @@ write('/', page({
   </div></section>`,
   body: `
   <a class="chat-card" href="/ask/">
-    <span class="chat-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.5a7.5 7.5 0 0 1-11.2 6.5L4 20l1.1-4.3A7.5 7.5 0 1 1 20 12.5z"/><path d="M9 11.5h6M9 14.5h4"/></svg></span>
-    <span class="chat-card-text"><b>Chat with our AI helper</b><span>Type any question about the candidates or voting, in your own words, and get an answer with links to the sources.</span>
-    <span class="chat-card-fake" aria-hidden="true">e.g. “What do the candidates say about taxes?”<span class="go">Ask →</span></span></span>
+    <span class="chat-card-top"><span class="chat-avatar">${ASK_ICON}</span><span><b>Ask our AI helper</b><small>Answers from this guide, with sources</small></span></span>
+    <span class="chat-card-fake" aria-hidden="true"><span>What do the candidates say about taxes?</span><span class="go">${ASK_SEND}</span></span>
   </a>
   <div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg><div>
     <h2>You can check our work</h2>
@@ -1081,20 +1082,26 @@ let CHAT_KB = ''; // written to api/_kb.js at the end, once every page's address
 write('/ask/', page({
   url: '/ask/', title: 'AI chat: ask about the candidates',
   desc: 'Ask plain-language questions about the 2026 Squamish mayor and council candidates. Answers come only from the sourced records in this guide, with links to check.',
-  body: `<h1>Chat with our AI helper</h1>
-  <p class="lede">Type a question about the candidates or voting in your own words. Answers come <b>only</b> from the sourced records on this site, with links so you can check them. It will not tell you who to vote for.</p>
-  <div class="notice info small">This is an AI assistant (Claude, made by Anthropic). It can make mistakes, so check the links before you rely on an answer. Questions are logged without names or addresses so we can fix wrong answers. Don’t type personal details.</div>
-  <div id="chat" class="chat" aria-live="polite"></div>
-  <div class="chat-starters" id="starters">
-    <p class="small"><b>Try one of these:</b></p>
-    <div class="btn-row">${['What do the mayor candidates say about housing?', 'Who opposes the Woodfibre LNG agreement?', 'What has each council candidate said about property taxes?', 'Where and when can I vote?'].map((s) => `<button type="button" class="btn secondary" data-ask="${esc(s)}">${esc(s)}</button>`).join('')}</div>
-  </div>
-  <form id="ask-form" class="chat-form no-print">
-    <label for="ask-input" class="sr" style="position:absolute;left:-999em">Your question</label>
-    <textarea id="ask-input" rows="2" maxlength="600" placeholder="Ask about a candidate or an issue…" required></textarea>
-    <button type="submit" class="btn big" id="ask-send">Ask</button>
-  </form>
-  <p class="small muted">Want the full picture? See <a href="/candidates/">every candidate</a> or <a href="/compare/">compare them side by side</a>.</p>`,
+  body: `<section class="chat-app" aria-label="AI helper chat">
+    <header class="chat-head">
+      <span class="chat-avatar">${ASK_ICON}</span>
+      <div class="chat-title"><h1>AI helper</h1><p>Answers from this guide’s sources</p></div>
+      <button type="button" class="chat-new" id="chat-new" hidden>New chat</button>
+    </header>
+    <div class="chat-log" id="chat-log" aria-live="polite">
+      <div class="chat-welcome" id="chat-welcome">
+        <div class="msg bot"><div class="bubble"><p>Hi! Ask me anything about the ${all.length} candidates or how to vote. I’ll answer from this guide’s records and link every source so you can check it. I won’t tell you who to vote for.</p></div></div>
+        <p class="chat-try">Try asking</p>
+        <div class="chat-chips">${['What do the mayor candidates say about housing?', 'Who opposes the Woodfibre LNG tax deal?', 'What has each council candidate said about property taxes?', 'Where and when can I vote?'].map((q) => `<button type="button" data-ask="${esc(q)}">${esc(q)}</button>`).join('')}</div>
+      </div>
+    </div>
+    <form class="chat-composer" id="ask-form">
+      <label for="ask-input" class="sr" style="position:absolute;left:-999em">Your question</label>
+      <textarea id="ask-input" rows="1" maxlength="600" placeholder="Ask a question…" enterkeyhint="send" required></textarea>
+      <button type="submit" id="ask-send" aria-label="Send">${ASK_SEND}</button>
+    </form>
+    <p class="chat-fine">AI can make mistakes, so check the sources. Questions are saved without names so we can fix wrong answers; don’t type personal details. <a href="/about/">About this guide</a></p>
+  </section>`,
   scripts: `<script src="/ask.js"></script>`,
 }));
 
