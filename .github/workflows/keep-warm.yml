@@ -10,4 +10,5 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - run: curl -fsS -X POST -H "Authorization: Bearer ${{ secrets.WARM_TOKEN }}" https://squamishvoters.com/api/chat-warm/
+      - run: |
+          curl -fsS -X POST -H "Authorization: Bearer ${{ secrets.WARM_TOKEN }}" https://squamishvoters.com/api/chat-warm/
