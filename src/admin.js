@@ -110,7 +110,7 @@
           stat(String(d.questions), 'questions asked'),
           stat(String(d.today.questions) + ' · ' + usd(d.today.cost), 'today'),
           stat((d.perQuestion * 100).toFixed(1) + '¢', 'average per question'));
-        cuNote.textContent = 'Estimated from Anthropic’s list prices. The exact bill is in the Anthropic Console under Usage. ' + (d.limits ? 'Limits: ' + d.limits.perVisitorPerDay + ' questions per visitor a day; the chat pauses for everyone once a day’s spend reaches ' + usd(d.limits.dailyUsd) + '. ' : '') + (low ? 'Credit is running low: top it up in the Console before it runs out, or the chat will stop answering.' : '');
+        cuNote.textContent = 'Estimated from Anthropic’s list prices. The exact bill is in the Anthropic Console under Usage. ' + (d.warmups && d.warmups.count ? 'Includes ' + d.warmups.count + ' keep-warm pings (' + usd(d.warmups.cost) + ') that save rebuilding the cache. ' : '') + (d.limits ? 'Limits: ' + d.limits.perVisitorPerDay + ' questions per visitor a day; the chat pauses for everyone once a day’s spend reaches ' + usd(d.limits.dailyUsd) + '. ' : '') + (low ? 'Credit is running low: top it up in the Console before it runs out, or the chat will stop answering.' : '');
         if (open && (d.questions !== cuCount || !cuRecent.childNodes.length)) {
           cuRecent.textContent = '';
           (d.recent || []).forEach(function (r) { cuRecent.append(qa(r)); });

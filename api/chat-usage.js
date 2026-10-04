@@ -35,6 +35,7 @@ export default async function handler(req, res) {
       today: { questions: today.questions, cost: today.cost },
       perQuestion: u.questions ? u.total / u.questions : 0,
       limits: { perVisitorPerDay: Number(process.env.CHAT_PER_DAY || 50), dailyUsd: Number(process.env.CHAT_DAILY_USD || 25) },
+      warmups: { count: u.warmups, cost: u.warmup_cost },
       days: u.days, recent: u.recent, migrated,
     });
   } catch (err) {

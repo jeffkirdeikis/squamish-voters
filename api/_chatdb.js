@@ -42,13 +42,22 @@ export async function logAnswer(e) {
             VALUES (${e.at}, ${e.day}, ${e.visitor}, ${e.turn}, ${e.q}, ${e.a}, ${JSON.stringify(e.bad || [])}, ${e.stop}, ${e.model}, ${JSON.stringify(e.usage || {})}, ${e.cost})`;
 }
 
+// For the keep-warm ping: when the cache was last used (any call) and when someone last asked a real question.
+export async function lastUse() {
+  await init();
+  const r = await sql`SELECT max(at) AS any, max(at) FILTER (WHERE turn > 0) AS question FROM sv_chat_log`;
+  return { any: r[0].any ? new Date(r[0].any) : null, question: r[0].question ? new Date(r[0].question) : null };
+}
+
 // For the admin page: totals, the last 14 days, and optionally the latest answers.
 export async function usage(recent = 0) {
   await init();
   const [tot, days, rows] = await Promise.all([
-    sql`SELECT count(*)::int AS questions, coalesce(sum(cost), 0)::float AS total FROM sv_chat_log`,
-    sql`SELECT to_char(day, 'YYYY-MM-DD') AS day, count(*)::int AS questions, sum(cost)::float AS cost FROM sv_chat_log GROUP BY day ORDER BY day DESC LIMIT 14`,
-    recent ? sql`SELECT at, turn, q, a, bad, stop, model, cost FROM sv_chat_log ORDER BY at DESC LIMIT ${recent}` : [],
+    sql`SELECT (count(*) FILTER (WHERE turn > 0))::int AS questions, coalesce(sum(cost), 0)::float AS total,
+               (count(*) FILTER (WHERE turn = 0))::int AS warmups, coalesce(sum(cost) FILTER (WHERE turn = 0), 0)::float AS warmup_cost FROM sv_chat_log`,
+    sql`SELECT to_char(day, 'YYYY-MM-DD') AS day, (count(*) FILTER (WHERE turn > 0))::int AS questions, sum(cost)::float AS cost,
+               (count(*) FILTER (WHERE turn = 0))::int AS warmups FROM sv_chat_log GROUP BY day ORDER BY day DESC LIMIT 14`,
+    recent ? sql`SELECT at, turn, q, a, bad, stop, model, usage, cost FROM sv_chat_log WHERE turn > 0 ORDER BY at DESC LIMIT ${recent}` : [],
   ]);
   return { ...tot[0], days, recent: rows };
 }

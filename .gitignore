@@ -12,3 +12,4 @@ candidate-survey.md
 !public/docs/*.pdf
 data/candidates.pre-*.json
 scratchpad/
+.warm-token

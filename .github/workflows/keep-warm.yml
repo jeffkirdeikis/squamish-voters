@@ -1,0 +1,13 @@
+# Pings the Ask chat's keep-warm endpoint (api/chat-warm.js) every 10 minutes. The endpoint decides whether a
+# ping is needed, so most runs cost nothing. WARM_TOKEN must match the Vercel environment variable of the same name.
+name: Keep the chat cache warm
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - run: curl -fsS -X POST -H "Authorization: Bearer ${{ secrets.WARM_TOKEN }}" https://squamishvoters.com/api/chat-warm/
