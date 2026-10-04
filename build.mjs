@@ -220,6 +220,9 @@ const ISSUES = [
   { key: 'parking', title: 'Parking', icon: '🅿️', allq: true },
   { key: 'economy', title: 'Jobs & local economy', icon: '💼' },
 ].filter((i) => !i.allq || ALL_QUESTIONS.some((q) => q.issue === i.key)); // a topic with no statements yet stays hidden
+// Each topic's own page at /issues/<slug>/, named the way people search for it.
+const TOPIC_SLUG = { growth: 'growth-and-development', housing_affordability: 'housing', homelessness: 'homelessness', policing: 'policing-and-safety', taxes_spending: 'property-taxes', environment_lng: 'woodfibre-lng-and-climate', transportation: 'transit-and-highway-99', parking: 'parking', economy: 'jobs-and-economy', recreation_facilities: 'brennan-park-and-recreation', flood_hazards_climate_resilience: 'flood-protection', other_campaign_topics: 'childcare-rentals-and-vanlife' };
+const TOPIC_NAME = { growth: 'growth and development', housing_affordability: 'housing', homelessness: 'homelessness and supportive housing', policing: 'policing and community safety', taxes_spending: 'property taxes and spending', environment_lng: 'climate and the Woodfibre LNG plant', transportation: 'transit and Highway 99', parking: 'parking', economy: 'jobs and the local economy', recreation_facilities: 'Brennan Park and recreation', flood_hazards_climate_resilience: 'flood protection', other_campaign_topics: 'childcare, short-term rentals and vanlife' };
 const issueCtx = (key) => (ctx.issues || []).find((i) => i.key === key) || {};
 
 // ---------- layout ----------
@@ -227,7 +230,7 @@ const NAV = [
   ['/candidates/', 'Candidates'], ['/quiz/', 'Quiz'], ['/compare/', 'Compare'], ['/compass/', 'Where they lean'], ['/vote/', 'How to vote'],
 ];
 // The Menu lists everything; the top bar only has room for the essentials.
-const MENU = [...NAV, ['/ask/', 'AI chat: ask a question'], ['/issues/', 'The issues explained'], ['/my-ballot/', 'My ballot']];
+const MENU = [...NAV, ['/mayor/', 'The mayor race'], ['/faq/', 'Quick answers'], ['/ask/', 'AI chat: ask a question'], ['/issues/', 'The issues explained'], ['/my-ballot/', 'My ballot']];
 const ICON = {
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5L12 4l8.5 6.5V20a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1z"/><path d="M9.5 21v-6h5v6"/></svg>',
   people: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.5c2.5.2 4 1.8 4.5 4.5"/></svg>',
@@ -249,7 +252,7 @@ const MENU_ICON = {
 const MOBILE_MENU = [
   ['/', 'Home', 'home'], ['/vote/', 'How, when &amp; where to vote', 'vote'], ['/ask/', 'Ask our AI helper', 'chat'],
   ['/candidates/', 'All candidates', 'people'], ['/quiz/', 'Take the quiz', 'quiz'], ['/compare/', 'Compare candidates', 'compare'],
-  ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/my-ballot/', 'My ballot', 'ballot'],
+  ['/mayor/', 'The mayor race', 'people'], ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/faq/', 'Quick answers', 'about'], ['/my-ballot/', 'My ballot', 'ballot'],
   ['/about/', 'About this guide &amp; sources', 'about'],
 ];
 
@@ -485,6 +488,7 @@ for (const c of all) {
     <h2 id="issues">Where ${esc(first(c))} stands</h2>
     <p class="small">Each topic opens up — press <b>Click to expand</b> for the detail, quotes and sources.</p>
     <div class="card stack">${ISSUES.map((i) => stanceRow(c, i)).join('')}</div>
+    <p class="small">Compare everyone on: ${ISSUES.map((i) => `<a href="/issues/${TOPIC_SLUG[i.key]}/">${esc(TOPIC_NAME[i.key])}</a>`).join(' · ')}.</p>
     ${(c.top_priorities || []).length ? `<details class="drop"><summary>${esc(first(c))}’s own priority list</summary><ol class="ol">${c.top_priorities.map((p) => `<li>${escGl(p)}</li>`).join('')}</ol></details>` : ''}
     ${emailedAnswers(c)}
     ${directAnswers(c)}
@@ -517,7 +521,7 @@ function spectrum(q) {
 const issueSection = (i) => {
   const ic = issueCtx(i.key);
   return `<section id="${i.key}" data-panel data-group="cmp" hidden><h2><span aria-hidden="true">${i.icon}</span> ${i.title}</h2>
-  ${ic.short_explainer ? `<p>${esc(ic.short_explainer)} <a href="/issues/#${i.key}">More background</a></p>` : ''}
+  ${ic.short_explainer ? `<p>${esc(ic.short_explainer)} <a href="/issues/${TOPIC_SLUG[i.key]}/">More background and every candidate’s answer</a></p>` : ''}
   ${(i.allq ? ALL_QUESTIONS : QUESTIONS).filter((q) => q.issue === i.key).map((q) => spectrum(q) + (q.id === 'q23' ? `<details class="drop ifno-d"><summary>What happens if council says yes — or no?</summary>${DEAL_IF_NO.replace('<h3>The Woodfibre tax deal: what each choice means</h3>', '')}</details>` : '')).join('')}
   <details><summary>Read each candidate’s position on ${i.title.toLowerCase()}</summary>
   <div class="table-scroll"><table class="issue-table"><thead><tr><th>Candidate</th><th>Position</th></tr></thead><tbody>
@@ -583,6 +587,7 @@ write('/', page({
   </div></div>
   <h2>Running for Mayor <span class="small">— you vote for 1</span></h2>
   <div class="faces">${mayors.map(faceTile).join('')}</div>
+  <p><a href="/mayor/">Compare the ${mayors.length} mayor candidates side by side →</a></p>
   <div class="btn-row"><a class="btn secondary block" href="/candidates/#council">See all ${council.length} council candidates →</a></div>
   ${miniCompass()}
   <div class="lean-teaser" data-carousel aria-roledescription="carousel" aria-label="Where they lean">
@@ -834,7 +839,7 @@ write('/issues/', page({
     <p>${esc(paras.slice(0, mid).join(' '))}</p><p>${esc(paras.slice(mid).join(' '))}</p>
     ${i.key === 'environment_lng' || i.key === 'taxes_spending' ? DEAL_IF_NO : ''}
     ${(i.key_facts || []).length ? `<h3>Key facts</h3><ul class="facts">${i.key_facts.map((f) => `<li>${esc(f.fact)}${src(f.source_url)}</li>`).join('')}</ul>` : ''}
-    ${ISSUES.some((x) => x.key === i.key) ? `<div class="btn-row"><a class="btn secondary" href="/compare/#${i.key}">See where candidates stand →</a></div>` : ''}</details>`; }).join('')}`,
+    <div class="btn-row"><a class="btn secondary" href="/issues/${TOPIC_SLUG[i.key]}/">See where every candidate stands →</a></div></details>`; }).join('')}`,
   scripts: `<script>function openHash(){var el=location.hash&&document.getElementById(location.hash.slice(1));if(el&&el.tagName==='DETAILS'){el.open=true;el.scrollIntoView()}}window.addEventListener('hashchange',openHash);openHash()</script>`,
 }));
 
@@ -976,6 +981,118 @@ write('/vote/', page({
   <ul class="plainlist">${(ctx.events || []).map((e) => `<li><b>${esc(fmtDate(e.date))}</b> · ${esc(e.time)}<br>${esc(e.title)} — ${esc(e.place)}<br><span class="small">Hosted by ${esc(e.host)}.${/^required/i.test(e.registration || '') ? ' Registration required.' : ''} ${isUrl(e.registration_url) ? `<a href="${esc(e.registration_url)}" target="_blank" rel="noopener">Register</a> · ` : ''}<a href="${esc(e.source_url)}" target="_blank" rel="noopener">Details</a></span></li>`).join('')}</ul>
   <p class="small">Event list from the <a href="${esc((ctx.coverage_hubs || [])[1]?.url || '')}" target="_blank" rel="noopener">Squamish Chief’s running list</a>, updated as new events are announced. All details here come from the District of Squamish — <a href="${esc(gv.source_url)}" target="_blank" rel="noopener">check the official page</a> for last-minute changes.</p>`,
 }));
+
+// ---------- TOPIC PAGES, MAYOR RACE, QUICK ANSWERS (one page per real search: "squamish candidates housing", "who is running for mayor of squamish") ----------
+const hasStance = (c, key) => { const s = c.stances?.[key]; return !!(s && s.position && !/no public position/i.test(s.position)); };
+const crumbLd = (items) => ({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: items.map(([name, u], n) => ({ '@type': 'ListItem', position: n + 1, name, item: ORIGIN + u })) });
+const nameList = (cs) => cs.map((c) => `<a href="/candidates/${c.slug}/">${esc(c.name)}</a>`).join(', ');
+function stanceBlock(c, key) {
+  const s = c.stances[key];
+  return `<li class="tstance"><h3><a href="/candidates/${c.slug}/#issues">${esc(c.name)}</a>${c.office === 'mayor' ? ' <span class="small">(running for mayor)</span>' : ''}${c.incumbent ? ' <span class="small">· current councillor</span>' : ''}</h3>
+  <p><b>${escGl(s.position)}</b></p><p>${escGl(s.summary || '')}${src(s.source_url)}</p>${s.quote ? `<blockquote>“${escGl(s.quote.replace(/^["“]|["”]$/g, ''))}”</blockquote>` : ''}</li>`;
+}
+const TOPIC_EXTRA_Q = { recreation_facilities: ['q12', 'q22'] }; // Brennan Park statements are filed under taxes, but this is the page people look for
+for (const ic of ctx.issues || []) {
+  const slug = TOPIC_SLUG[ic.key]; if (!slug) continue;
+  const iss = ISSUES.find((x) => x.key === ic.key);
+  const qs = ALL_QUESTIONS.filter((q) => q.issue === ic.key || (TOPIC_EXTRA_Q[ic.key] || []).includes(q.id));
+  const withS = iss ? all.filter((c) => hasStance(c, ic.key)) : [];
+  const without = iss ? all.filter((c) => !hasStance(c, ic.key)) : [];
+  const name = TOPIC_NAME[ic.key];
+  const paras = ic.explainer.split(/(?<=[.!?])\s+/), mid = Math.ceil(paras.length / 2);
+  const url = `/issues/${slug}/`;
+  write(url, page({
+    url: '/issues/', title: `Where Squamish candidates stand on ${name} (2026 election)`,
+    desc: `${iss ? `${withS.length} of ${all.length} Squamish mayor and council candidates have a public position on ${name}. ` : ''}What each one has said, with sources, plus plain-language background for the October 17, 2026 election.`,
+    jsonld: crumbLd([['Home', '/'], ['The issues', '/issues/'], [ic.title, url]]),
+    body: `<p class="crumbs"><a href="/issues/">← All the issues</a></p>
+    <h1>Where the candidates stand on ${esc(name)}</h1>
+    ${ic.short_explainer && !ic.explainer.startsWith(ic.short_explainer.slice(0, 40)) ? `<p class="lede">${esc(ic.short_explainer)}</p>` : ''}
+    <h2>The background</h2>
+    <p>${escGl(paras.slice(0, mid).join(' '))}</p><p>${escGl(paras.slice(mid).join(' '))}</p>
+    ${ic.key === 'environment_lng' || ic.key === 'taxes_spending' ? DEAL_IF_NO : ''}
+    ${(ic.key_facts || []).length ? `<h3>Key facts</h3><ul class="facts">${ic.key_facts.map((f) => `<li>${esc(f.fact)}${src(f.source_url)}</li>`).join('')}</ul>` : ''}
+    ${qs.length ? `<h2>Agree or disagree?</h2><p>Where each candidate lands on ${qs.length === 1 ? 'this statement' : `these ${qs.length} statements`}, from their own questionnaire answers or their public record. Tap a name for the detail.</p>${qs.map(spectrum).join('')}` : ''}
+    ${iss ? `<h2>What each candidate has said</h2>
+    <p class="small">Mayor candidates first, then council, in alphabetical order. Our summary of the public record; tap <b>[source]</b> to check it.</p>
+    <ul class="plainlist tstances">${withS.map((c) => stanceBlock(c, ic.key)).join('')}</ul>
+    ${without.length ? `<p class="muted"><b>No public position found for:</b> ${nameList(without)}. If you are one of these candidates, <a href="mailto:${SITE.contact}?subject=${encodeURIComponent('Position on ' + name)}">send us your position</a>.</p>` : ''}` : ''}
+    <div class="btn-row no-print"><a class="btn" href="/quiz/">Take the ${QUESTIONS.length}-question quiz →</a><a class="btn secondary" href="/compare/">Compare everyone</a></div>
+    <h2>Other issues</h2><ul class="namechips">${(ctx.issues || []).filter((o) => o.key !== ic.key && TOPIC_SLUG[o.key]).map((o) => `<li><a href="/issues/${TOPIC_SLUG[o.key]}/">${esc(TOPIC_NAME[o.key])}</a></li>`).join('')}<li><a href="/issues/woodfibre-tax-deal/">the Woodfibre tax deal</a></li></ul>`,
+  }));
+}
+{ // The single hottest question of the campaign gets its own page.
+  const q23 = ALL_QUESTIONS.find((q) => q.id === 'q23');
+  if (q23) {
+    const yes = all.filter((c) => c.quiz_answers?.q23 > 0), no = all.filter((c) => c.quiz_answers?.q23 < 0);
+    write('/issues/woodfibre-tax-deal/', page({
+      url: '/issues/', title: 'Woodfibre LNG tax deal: where the Squamish candidates stand',
+      desc: `Should Squamish sign the 10-year tax agreement with Woodfibre LNG? ${yes.length} candidates lean yes, ${no.length} lean no. What each choice means and what every candidate has said, with sources.`,
+      jsonld: crumbLd([['Home', '/'], ['The issues', '/issues/'], ['Woodfibre LNG tax deal', '/issues/woodfibre-tax-deal/']]),
+      body: `<p class="crumbs"><a href="/issues/">← All the issues</a></p>
+      <h1>The Woodfibre LNG tax deal</h1>
+      <p class="lede">The District has proposed a 10-year agreement fixing what Woodfibre LNG pays in place of normal property tax. Here is what it means and where every candidate stands.</p>
+      ${DEAL_IF_NO}
+      <h2>Where the candidates stand</h2>${spectrum(q23)}
+      <p>For the wider debate about the plant itself, see <a href="/issues/${TOPIC_SLUG.environment_lng}/">climate and the Woodfibre LNG plant</a>. For property taxes generally, see <a href="/issues/${TOPIC_SLUG.taxes_spending}/">property taxes and spending</a>.</p>
+      <div class="btn-row no-print"><a class="btn" href="/quiz/">Take the quiz →</a><a class="btn secondary" href="/compare/#taxes_spending">Compare everyone on taxes</a></div>`,
+    }));
+  }
+}
+// Mayor race
+write('/mayor/', page({
+  url: '/candidates/', title: `Who is running for mayor of Squamish? The ${mayors.length} candidates compared`,
+  desc: `${mayors.map((c) => c.name).join(', ')} are running for mayor of Squamish on October 17, 2026. Their backgrounds and where each stands on housing, growth, taxes and Woodfibre LNG, side by side.`,
+  jsonld: [crumbLd([['Home', '/'], ['Candidates', '/candidates/'], ['Mayor', '/mayor/']]), { '@context': 'https://schema.org', '@type': 'ItemList', name: 'Candidates for Mayor of Squamish, 2026', itemListElement: mayors.map((c, n) => ({ '@type': 'ListItem', position: n + 1, name: c.name, url: `${ORIGIN}/candidates/${c.slug}/` })) }],
+  body: `<p class="crumbs"><a href="/candidates/">← All candidates</a></p>
+  <h1>Running for mayor of Squamish</h1>
+  <p class="lede">${mayors.length} people are running for mayor in the October 17, 2026 election: ${nameList(mayors)}. You vote for one. Here they are side by side, in alphabetical order.</p>
+  <div class="faces">${mayors.map(faceTile).join('')}</div>
+  ${mayors.map((c) => `<h2 id="${c.slug}"><a href="/candidates/${c.slug}/">${esc(c.name)}</a></h2>
+  <p>${c.incumbent ? '<b>Current councillor.</b> ' : ''}${escGl(c.occupation_background || '')}</p>
+  ${c.tagline ? `<p class="tagline">${escGl(c.tagline)}</p>` : ''}
+  ${(c.supports || []).length ? `<p><b>Supports, among other things:</b></p><ul>${c.supports.slice(0, 4).map((s) => `<li>${escGl(s.text)}${src(s.source_url)}</li>`).join('')}</ul>` : ''}
+  <p><a href="/candidates/${c.slug}/">${esc(first(c))}’s full profile →</a></p>`).join('')}
+  <h2>Issue by issue</h2>
+  ${ISSUES.map((i) => `<h3>${i.icon} <a href="/issues/${TOPIC_SLUG[i.key]}/">${esc(i.title)}</a></h3><ul class="plainlist">${mayors.map((c) => `<li><b>${esc(c.name)}:</b> ${hasStance(c, i.key) ? `${escGl(c.stances[i.key].position)}${src(c.stances[i.key].source_url)}` : '<span class="muted">No public position found.</span>'}</li>`).join('')}</ul>`).join('')}
+  <h2>Agree or disagree?</h2>
+  <div class="table-scroll"><table class="issue-table"><thead><tr><th>Statement</th>${mayors.map((c) => `<th>${esc(c.name)}</th>`).join('')}</tr></thead><tbody>
+  ${QUESTIONS.map((q) => `<tr><td>${esc(q.text)}</td>${mayors.map((c) => `<td>${typeof c.quiz_answers?.[q.id] === 'number' ? esc(ansWord(c, q)) : '<span class="muted">No position found</span>'}</td>`).join('')}</tr>`).join('')}
+  </tbody></table></div>
+  <div class="btn-row no-print"><a class="btn" href="/quiz/">Which of them matches you? Take the quiz →</a><a class="btn secondary" href="/candidates/#council">See the ${council.length} council candidates</a></div>`,
+}));
+// Quick answers
+{
+  const inc = all.filter((c) => c.incumbent);
+  const adv = (V.advance_voting || []).map((a) => `${a.date.replace(', 2026', '')}, ${a.hours}, at ${a.place} (${a.address})`);
+  const ts = ctx.voting?.on_the_ballot?.school_trustees || {};
+  const FAQ = [
+    ['When is the 2026 Squamish election?', `General voting day is ${gv.date}, from ${gv.hours.replace(/\.$/, '')}. Advance voting runs on ${(V.advance_voting || []).length} days before that.`, '<a href="/vote/">How, when and where to vote</a>'],
+    ['Who is running for mayor of Squamish?', `${mayors.length} candidates: ${mayors.map((c) => c.name).join(', ')}.`, '<a href="/mayor/">The mayor candidates compared</a>'],
+    ['Who is running for Squamish council?', `${council.length} candidates for 6 seats: ${council.map((c) => c.name).join(', ')}.`, '<a href="/candidates/#council">All council candidates</a>'],
+    ['Which current councillors are running again?', `${inc.map((c) => `${c.name} (${c.office === 'mayor' ? 'for mayor' : 'for council'})`).join(', ')}.`, ''],
+    ['How many candidates can I vote for?', `One mayor, up to six councillors and up to ${ts.seats_for_squamish || 2} school trustees. You may vote for fewer councillors than six.`, ''],
+    ['Where do I vote on election day?', `${(gv.places || []).map((p) => `${p.name}, ${p.address.replace(/\.$/, '')}`).join('; ')}. It is the only voting place on general voting day.`, ''],
+    ['When and where is advance voting in Squamish?', `${adv.join('. ')}. Anyone can vote early; no reason is needed.`, '<a href="/vote/">Maps and details</a>'],
+    ['Can I vote by mail in Squamish?', `${mb.who} ${mb.how_to_apply} Your ballot must be received by 8 p.m. on October 17.`, `<a href="${esc(mb.application_form_url)}" target="_blank" rel="noopener">Mail ballot application (PDF)</a>`],
+    ['What ID do I need to vote?', 'If you register at the voting place, bring two pieces of ID, one with your signature, that together show who you are and where you live. Examples: a BC driver’s licence, BC Services Card, passport or a utility bill.', '<a href="/vote/#can-i-vote">Full list of accepted ID</a>'],
+    ['Do I need to register before voting day?', 'No. You can register at the voting place when you vote.', ''],
+    ['Can I vote in Squamish if I own property but live somewhere else?', V.eligibility?.non_resident_property_elector?.rule || '', '<a href="/vote/#can-i-vote">What to bring</a>'],
+    ['Can renters vote?', 'Yes. You do not need to own property. If you live in Squamish and meet the age, citizenship and B.C. residency rules, you can vote.', ''],
+    ['Who is running for school trustee?', `${(ts.candidates_declared || ctx.trustees || []).join(', ')} are running for ${ts.seats_for_squamish || 2} seats on the ${ts.district || 'Sea to Sky school board'}.`, ''],
+    ['When will the results be announced?', `Unofficial results come out on election night after polls close at 8 p.m. Official results are declared on ${(gv.official_results || 'October 21, 2026').replace(/^.*?(October \d+, \d{4}).*$/, '$1')}.`, ''],
+    ['Who should I vote for?', 'We don’t endorse anyone. Our quiz compares your views with each candidate’s public positions and questionnaire answers.', '<a href="/quiz/">Take the quiz</a>'],
+  ].filter(([, a]) => a);
+  write('/faq/', page({
+    url: '/faq/', title: 'Squamish election 2026: quick answers',
+    desc: 'When is the Squamish election, who is running for mayor and council, where to vote, advance voting, mail ballots and ID: short answers for October 17, 2026.',
+    jsonld: { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: FAQ.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+    body: `<h1>Quick answers</h1>
+    <p class="lede">The questions people ask most about the October 17, 2026 Squamish election.</p>
+    ${FAQ.map(([q, a, more]) => `<h2>${esc(q)}</h2><p>${esc(a)}${more ? ` ${more} →` : ''}</p>`).join('')}
+    <p class="small">Voting details come from the <a href="${esc(gv.source_url)}" target="_blank" rel="noopener">District of Squamish election page</a>. Check it for last-minute changes.</p>`,
+  }));
+}
 
 // A platform statement a candidate sent us as text (not a PDF): published whole on its own page, like a positions paper.
 for (const c of all.filter((x) => stmtOf(x)?.file)) {
@@ -1121,7 +1238,7 @@ fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
 // ---------- sitemap (every indexable page written above; lastmod = build date) ----------
 const today = new Date().toISOString().slice(0, 10);
-const prio = (u) => (u === '/' ? '1.0' : ['/candidates/', '/quiz/', '/vote/'].includes(u) ? '0.8' : '0.6');
+const prio = (u) => (u === '/' ? '1.0' : ['/candidates/', '/quiz/', '/vote/', '/mayor/', '/faq/'].includes(u) ? '0.8' : '0.6');
 fs.writeFileSync(path.join(DIST, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${[...new Set(SITEMAP)].map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>${today}</lastmod><priority>${prio(u)}</priority></url>`).join('\n')}
