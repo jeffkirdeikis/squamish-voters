@@ -1,0 +1,373 @@
+{
+ "2026": {
+  "status": "pending",
+  "note": "Fill on election night from the District of Squamish declaration of unofficial results. status: pending | unofficial | official.",
+  "updated": null,
+  "source_url": null,
+  "ballots_cast": null,
+  "turnout_pct": null,
+  "mayor": [],
+  "council": [],
+  "trustees": [],
+  "unofficial_on": "Saturday, October 17, 2026, after polls close at 8 p.m.",
+  "official_on": "October 21, 2026",
+  "plan_source_url": "https://squamish.ca/government-and-administration/council/election/"
+ },
+ "2022": {
+  "source_url": "https://squamish.ca/assets/2022-Election/FINAL-DETERMINATION-October_18_2022.pdf",
+  "news_release_url": "https://squamish.ca/government-and-administration/district-information/news/squamish-2022-general-election-final-determination-of-results/",
+  "general_voting_day": "2022-10-15",
+  "mayor": [
+   {
+    "name": "Armand Victor Hurford",
+    "mail": 29,
+    "advance": 1557,
+    "special": 23,
+    "general_voting_day": 2827,
+    "total": 4436,
+    "elected": true
+   },
+   {
+    "name": "Mike Young (Squamish First)",
+    "mail": 5,
+    "advance": 474,
+    "special": 9,
+    "general_voting_day": 696,
+    "total": 1184,
+    "elected": false
+   },
+   {
+    "name": "Deanna Kalkalilh Lewis",
+    "mail": 4,
+    "advance": 296,
+    "special": 16,
+    "general_voting_day": 728,
+    "total": 1044,
+    "elected": false
+   }
+  ],
+  "council": [
+   {
+    "name": "Jenna Stoner",
+    "mail": 25,
+    "advance": 1407,
+    "special": 24,
+    "general_voting_day": 2638,
+    "total": 4094,
+    "elected": true
+   },
+   {
+    "name": "Eric Andersen",
+    "mail": 25,
+    "advance": 1306,
+    "special": 26,
+    "general_voting_day": 2285,
+    "total": 3642,
+    "elected": true
+   },
+   {
+    "name": "Lauren Greenlaw",
+    "mail": 26,
+    "advance": 1154,
+    "special": 24,
+    "general_voting_day": 2363,
+    "total": 3567,
+    "elected": true
+   },
+   {
+    "name": "Chris Pettingill",
+    "mail": 23,
+    "advance": 1172,
+    "special": 19,
+    "general_voting_day": 2102,
+    "total": 3316,
+    "elected": true
+   },
+   {
+    "name": "Andrew Hamilton",
+    "mail": 24,
+    "advance": 1129,
+    "special": 27,
+    "general_voting_day": 1891,
+    "total": 3071,
+    "elected": true
+   },
+   {
+    "name": "John French",
+    "mail": 18,
+    "advance": 1108,
+    "special": 21,
+    "general_voting_day": 1906,
+    "total": 3053,
+    "elected": true
+   },
+   {
+    "name": "Christina Walsh",
+    "mail": 12,
+    "advance": 817,
+    "special": 16,
+    "general_voting_day": 1687,
+    "total": 2532,
+    "elected": false
+   },
+   {
+    "name": "Gord Addison",
+    "mail": 21,
+    "advance": 791,
+    "special": 17,
+    "general_voting_day": 1581,
+    "total": 2410,
+    "elected": false
+   },
+   {
+    "name": "Rajan Hans (Squamish First)",
+    "mail": 13,
+    "advance": 802,
+    "special": 16,
+    "general_voting_day": 1150,
+    "total": 1981,
+    "elected": false
+   },
+   {
+    "name": "Adrien Byrne (Squamish First)",
+    "mail": 9,
+    "advance": 472,
+    "special": 13,
+    "general_voting_day": 851,
+    "total": 1345,
+    "elected": false
+   }
+  ],
+  "ballots_cast": 6718,
+  "turnout_pct": 39.73,
+  "total_eligible_electors": 16910
+ },
+ "2018": {
+  "source_url": "https://squamish.ca/assets/Uploads/2018-Election-Final-Results.pdf",
+  "news_release_url": "https://squamish.ca/government-and-administration/district-information/news/district-of-squamish-official-2018-election-results/",
+  "general_voting_day": "2018-10-20",
+  "mayor": [
+   {
+    "name": "Karen Elliott",
+    "advance": 731,
+    "special": 23,
+    "general_voting_day": 1519,
+    "total": 2273,
+    "elected": true
+   },
+   {
+    "name": "Jeff Cooke",
+    "advance": 407,
+    "special": 14,
+    "general_voting_day": 1253,
+    "total": 1674,
+    "elected": false
+   },
+   {
+    "name": "Susan Chapelle",
+    "advance": 473,
+    "special": 22,
+    "general_voting_day": 1130,
+    "total": 1625,
+    "elected": false
+   },
+   {
+    "name": "Paul Lalli",
+    "advance": 511,
+    "special": 18,
+    "general_voting_day": 840,
+    "total": 1369,
+    "elected": false
+   },
+   {
+    "name": "Tess Linsley",
+    "advance": 7,
+    "special": 1,
+    "general_voting_day": 13,
+    "total": 21,
+    "elected": false
+   }
+  ],
+  "council": [
+   {
+    "name": "Doug Race",
+    "advance": 1200,
+    "special": 35,
+    "general_voting_day": 2545,
+    "total": 3780,
+    "elected": true
+   },
+   {
+    "name": "Jenna Stoner",
+    "advance": 890,
+    "special": 33,
+    "general_voting_day": 2322,
+    "total": 3245,
+    "elected": true
+   },
+   {
+    "name": "Armand Hurford",
+    "advance": 782,
+    "special": 33,
+    "general_voting_day": 1913,
+    "total": 2728,
+    "elected": true
+   },
+   {
+    "name": "Eric Andersen",
+    "advance": 680,
+    "special": 18,
+    "general_voting_day": 1377,
+    "total": 2075,
+    "elected": true
+   },
+   {
+    "name": "John French",
+    "advance": 674,
+    "special": 22,
+    "general_voting_day": 1324,
+    "total": 2020,
+    "elected": true
+   },
+   {
+    "name": "Chris Pettingill",
+    "advance": 564,
+    "special": 25,
+    "general_voting_day": 1233,
+    "total": 1822,
+    "elected": true
+   },
+   {
+    "name": "Sacha Fabry",
+    "advance": 519,
+    "special": 22,
+    "general_voting_day": 1279,
+    "total": 1820,
+    "elected": false
+   },
+   {
+    "name": "Rajan Hans",
+    "advance": 637,
+    "special": 6,
+    "general_voting_day": 1083,
+    "total": 1726,
+    "elected": false
+   },
+   {
+    "name": "Stephen Fryer",
+    "advance": 454,
+    "special": 18,
+    "general_voting_day": 1121,
+    "total": 1593,
+    "elected": false
+   },
+   {
+    "name": "Edward Archibald",
+    "advance": 446,
+    "special": 11,
+    "general_voting_day": 1026,
+    "total": 1483,
+    "elected": false
+   },
+   {
+    "name": "Bianca Peters",
+    "advance": 432,
+    "special": 18,
+    "general_voting_day": 1005,
+    "total": 1455,
+    "elected": false
+   },
+   {
+    "name": "Paul Dosanjh",
+    "advance": 534,
+    "special": 16,
+    "general_voting_day": 894,
+    "total": 1444,
+    "elected": false
+   },
+   {
+    "name": "Mike Young",
+    "advance": 404,
+    "special": 12,
+    "general_voting_day": 990,
+    "total": 1406,
+    "elected": false
+   },
+   {
+    "name": "Alanna Gillis",
+    "advance": 383,
+    "special": 21,
+    "general_voting_day": 834,
+    "total": 1238,
+    "elected": false
+   },
+   {
+    "name": "Janice D. MacLean",
+    "advance": 344,
+    "special": 19,
+    "general_voting_day": 818,
+    "total": 1181,
+    "elected": false
+   },
+   {
+    "name": "Rick McKinney",
+    "advance": 324,
+    "special": 19,
+    "general_voting_day": 742,
+    "total": 1085,
+    "elected": false
+   },
+   {
+    "name": "Terrill Patterson",
+    "advance": 216,
+    "special": 10,
+    "general_voting_day": 561,
+    "total": 787,
+    "elected": false
+   },
+   {
+    "name": "Jacquie Menezes",
+    "advance": 231,
+    "special": 13,
+    "general_voting_day": 463,
+    "total": 707,
+    "elected": false
+   },
+   {
+    "name": "Lee O'Callaghan",
+    "advance": 145,
+    "special": 7,
+    "general_voting_day": 480,
+    "total": 632,
+    "elected": false
+   },
+   {
+    "name": "Phil Audet",
+    "advance": 97,
+    "special": 2,
+    "general_voting_day": 320,
+    "total": 419,
+    "elected": false
+   },
+   {
+    "name": "Ron Bahm",
+    "advance": 129,
+    "special": 3,
+    "general_voting_day": 247,
+    "total": 379,
+    "elected": false
+   },
+   {
+    "name": "Kevin Jewell",
+    "advance": 91,
+    "special": 2,
+    "general_voting_day": 233,
+    "total": 326,
+    "elected": false
+   }
+  ],
+  "ballots_cast": 7024,
+  "turnout_pct": 47.8,
+  "total_eligible_electors": 14695
+ }
+}

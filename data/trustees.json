@@ -1,0 +1,227 @@
+{
+ "updated": "2026-10-06",
+ "official_list_url": "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/",
+ "sd48_page_url": "https://sd48seatosky.org/apps/pages/trusteeelections2026",
+ "role": {
+  "what": "School trustees sit on the Board of Education for Sea to Sky School District 48, which runs public schools from Squamish to Pemberton. The board sets local policy for how schools run, sets student conduct policy, hires district staff and sets conditions of employment.",
+  "what_source": "https://www.squamishchief.com/2026-civic-election/squamish-editorial-residents-encouraged-to-run-for-overlooked-government-seats-12663076",
+  "board": "The board has 7 trustees: 2 from Squamish, 2 from Whistler, 1 from Pemberton and 1 each from regional district Areas C and D. Squamish is the only contested area this year; the other five trustees were elected without a vote.",
+  "board_source": "https://sd48seatosky.org/apps/pages/trusteeelections2026",
+  "pay": "Trustees are paid $19,660 a year (the board chair $24,687, the vice chair $21,992), as of January 1, 2026.",
+  "pay_source": "https://sd48seatosky.org/apps/pages/trusteeelections2026"
+ },
+ "candidates": [
+  {
+   "name": "April Lowe",
+   "incumbent": true,
+   "background": "Current trustee and chair of the Sea to Sky school board, seeking a second term. A retired teacher who taught in the corridor for more than 30 years, and a mother of four.",
+   "background_source_url": "https://www.squamishchief.com/local-news/april-lowe-seeks-second-term-as-sea-to-sky-school-trustee-12680793",
+   "website": null,
+   "email": "aprillklowe@gmail.com",
+   "priorities": [
+    {
+     "text": "Names as her biggest accomplishments the district's strategic plan and the difficult decision to return Blackwater Creek Elementary (D'Arcy) to kindergarten to Grade 3, which she called fiscally responsible.",
+     "source_url": "https://www.squamishchief.com/local-news/april-lowe-seeks-second-term-as-sea-to-sky-school-trustee-12680793"
+    },
+    {
+     "text": "Says student safety comes first in transportation, and that \"there really is no affordable way for our students to safely get from Squamish to Whistler to ski.\"",
+     "source_url": "https://www.squamishchief.com/local-news/april-lowe-seeks-second-term-as-sea-to-sky-school-trustee-12680793"
+    },
+    {
+     "text": "Says mental health will always be a concern, including \"additional counsellors or other adult support\" for students.",
+     "source_url": "https://www.squamishchief.com/local-news/april-lowe-seeks-second-term-as-sea-to-sky-school-trustee-12680793"
+    },
+    {
+     "text": "Has pushed for a pedestrian bridge over the Mamquam Blind Channel as a student safety issue.",
+     "source_url": "https://www.squamishchief.com/local-news/april-lowe-seeks-second-term-as-sea-to-sky-school-trustee-12680793"
+    },
+    {
+     "text": "Says the board has resolved its dispute over trustees working remotely.",
+     "source_url": "https://www.squamishchief.com/local-news/april-lowe-seeks-second-term-as-sea-to-sky-school-trustee-12680793"
+    }
+   ],
+   "media": [
+    {
+     "title": "April Lowe seeks second term as Sea to Sky school trustee",
+     "outlet": "Squamish Chief",
+     "date": "2026-08-19",
+     "url": "https://www.squamishchief.com/local-news/april-lowe-seeks-second-term-as-sea-to-sky-school-trustee-12680793"
+    },
+    {
+     "title": "Sea to Sky school board debate turns heated over in-person work",
+     "outlet": "Squamish Chief",
+     "date": "2026-03-13",
+     "url": "https://www.squamishchief.com/local-news/sea-to-sky-school-board-debate-turns-heated-over-in-person-work-12000672"
+    }
+   ]
+  },
+  {
+   "name": "Leanne Roderick",
+   "incumbent": false,
+   "background": "New candidate. A professor at Simon Fraser University with a PhD, and a parent. Her website lists 16 years of experience in education and policy.",
+   "background_source_url": "https://www.squamishchief.com/local-news/squamish-trustee-candidate-wants-policy-to-catch-up-with-ai-e-bikes-12793257",
+   "website": "https://www.leanneroderickfortrustee.ca/",
+   "email": "leanneroderickfortrustee@gmail.com",
+   "priorities": [
+    {
+     "text": "Long-term planning for school buildings and maintenance so growth is sustainable, working with the District of Squamish.",
+     "source_url": "https://www.squamishchief.com/local-news/squamish-trustee-candidate-wants-policy-to-catch-up-with-ai-e-bikes-12793257"
+    },
+    {
+     "text": "Wants the school district to be open about projected high school enrolment, space and timelines for land and provincial funding, and to make the case for another school \"well before\" a crisis.",
+     "source_url": "https://www.leanneroderickfortrustee.ca/"
+    },
+    {
+     "text": "Teach critical thinking and information literacy, and adopt a district policy on how students use artificial intelligence.",
+     "source_url": "https://www.squamishchief.com/local-news/squamish-trustee-candidate-wants-policy-to-catch-up-with-ai-e-bikes-12793257"
+    },
+    {
+     "text": "Student transportation: buses, safe walking and cycling routes. Sees youth e-bike use as a sign that community infrastructure must catch up.",
+     "source_url": "https://www.squamishchief.com/local-news/squamish-trustee-candidate-wants-policy-to-catch-up-with-ai-e-bikes-12793257"
+    },
+    {
+     "text": "Strong basics in reading, math and science, plus digital and financial literacy and pathways into trades, college, university and other careers.",
+     "source_url": "https://www.leanneroderickfortrustee.ca/"
+    }
+   ],
+   "media": [
+    {
+     "title": "Squamish trustee candidate wants policy to catch up with AI, e-bikes",
+     "outlet": "Squamish Chief",
+     "date": "2026-09-17",
+     "url": "https://www.squamishchief.com/local-news/squamish-trustee-candidate-wants-policy-to-catch-up-with-ai-e-bikes-12793257"
+    }
+   ]
+  },
+  {
+   "name": "Dalia Shehata",
+   "incumbent": false,
+   "background": "New candidate. Owner of Happimess Art Studio and a parent of two children in Squamish schools for a decade. Has volunteered on parent advisory councils, the district parent council's inclusion committee, and school district and municipal accessibility committees.",
+   "background_source_url": "https://www.squamishchief.com/2026-civic-election-sea-to-sky-school-district/dalia-shehata-joins-race-for-sea-to-sky-school-district-board-12777725",
+   "website": "https://www.daliashehata.ca/",
+   "email": "agencydalia@gmail.com",
+   "priorities": [
+    {
+     "text": "Accessibility: \"The closest thing to my heart is accessibility.\" Wants schools to go beyond the minimum required.",
+     "source_url": "https://www.squamishchief.com/2026-civic-election-sea-to-sky-school-district/dalia-shehata-joins-race-for-sea-to-sky-school-district-board-12777725"
+    },
+    {
+     "text": "Inclusion of every kind, including LGBTQ+ students, seen through the lens of disability and learning differences.",
+     "source_url": "https://www.squamishchief.com/2026-civic-election-sea-to-sky-school-district/dalia-shehata-joins-race-for-sea-to-sky-school-district-board-12777725"
+    },
+    {
+     "text": "Clearer communication with parents, including when something goes wrong at a school.",
+     "source_url": "https://www.squamishchief.com/2026-civic-election-sea-to-sky-school-district/dalia-shehata-joins-race-for-sea-to-sky-school-district-board-12777725"
+    },
+    {
+     "text": "Stronger, more consistent district policy on carrying out students' Individual Education Plans.",
+     "source_url": "https://www.daliashehata.ca/"
+    },
+    {
+     "text": "Working with teachers, support staff, principals, the District of Squamish and other governments so efforts are coordinated, not duplicated.",
+     "source_url": "https://www.daliashehata.ca/"
+    }
+   ],
+   "media": [
+    {
+     "title": "Dalia Shehata joins race for Sea to Sky School District board",
+     "outlet": "Squamish Chief",
+     "date": "2026-09-14",
+     "url": "https://www.squamishchief.com/2026-civic-election-sea-to-sky-school-district/dalia-shehata-joins-race-for-sea-to-sky-school-district-board-12777725"
+    }
+   ]
+  },
+  {
+   "name": "Lisa Turpin",
+   "incumbent": true,
+   "background": "Current trustee, seeking re-election. Her 2022 profile in the Squamish Chief described her as a bylaw administrator with the District of Squamish, a former Lions Bay councillor and a former early childhood educator with the Vancouver School Board.",
+   "background_source_url": "https://www.squamishchief.com/local-news/lisa-turpin-is-running-for-squamishs-school-board-5812399",
+   "website": null,
+   "email": "lisaturpin@icloud.com",
+   "priorities": [
+    {
+     "text": "Careful spending, for example buying equipment and cybersecurity tools for all schools together.",
+     "source_url": "https://www.squamishchief.com/local-news/lisa-turpin-runs-for-re-election-as-sea-to-sky-school-trustee-12670295"
+    },
+    {
+     "text": "Transportation and regional transit; says she has joined meetings with MLA Jeremy Valeriote on transit across the corridor.",
+     "source_url": "https://www.squamishchief.com/local-news/lisa-turpin-runs-for-re-election-as-sea-to-sky-school-trustee-12670295"
+    },
+    {
+     "text": "Mental health and addictions support for students and staff, and access to healthy food through the Feeding Healthy Futures program.",
+     "source_url": "https://www.squamishchief.com/local-news/lisa-turpin-runs-for-re-election-as-sea-to-sky-school-trustee-12670295"
+    },
+    {
+     "text": "Safe routes to school, including the long-awaited pedestrian bridge, and student safety on ride-hailing trips to Whistler for training.",
+     "source_url": "https://www.squamishchief.com/local-news/lisa-turpin-runs-for-re-election-as-sea-to-sky-school-trustee-12670295"
+    },
+    {
+     "text": "Points to board policies on animals at schools and more outdoor shade for students as work already done.",
+     "source_url": "https://www.squamishchief.com/local-news/lisa-turpin-runs-for-re-election-as-sea-to-sky-school-trustee-12670295"
+    }
+   ],
+   "media": [
+    {
+     "title": "Lisa Turpin runs for re-election as Sea to Sky school trustee",
+     "outlet": "Squamish Chief",
+     "date": "2026-08-16",
+     "url": "https://www.squamishchief.com/local-news/lisa-turpin-runs-for-re-election-as-sea-to-sky-school-trustee-12670295"
+    },
+    {
+     "title": "Lisa Turpin is running for Squamish's school board",
+     "outlet": "Squamish Chief",
+     "date": "2022-09-13",
+     "url": "https://www.squamishchief.com/local-news/lisa-turpin-is-running-for-squamishs-school-board-5812399"
+    },
+    {
+     "title": "Sea to Sky school board debate turns heated over in-person work",
+     "outlet": "Squamish Chief",
+     "date": "2026-03-13",
+     "url": "https://www.squamishchief.com/local-news/sea-to-sky-school-board-debate-turns-heated-over-in-person-work-12000672"
+    }
+   ]
+  },
+  {
+   "name": "Robyn Walters",
+   "incumbent": false,
+   "background": "New candidate. A mother of two who moved to Squamish from North Vancouver a year ago. Was a district manager with the Vancouver Farmers Markets for 10 years, ran an in-home daycare and a small bookshop, and has been treasurer of her daughter's school parent advisory council.",
+   "background_source_url": "https://www.squamishchief.com/2026-civic-election/robyn-walters-runs-for-school-trustee-role-12799766",
+   "website": null,
+   "email": "robynwalters.bc@gmail.com",
+   "priorities": [
+    {
+     "text": "Mental health: asks whether enough is spent on education assistants and school counsellors.",
+     "source_url": "https://www.squamishchief.com/2026-civic-election/robyn-walters-runs-for-school-trustee-role-12799766"
+    },
+    {
+     "text": "Review spending and make sure teachers get what they need to keep classrooms up to date.",
+     "source_url": "https://www.squamishchief.com/2026-civic-election/robyn-walters-runs-for-school-trustee-role-12799766"
+    },
+    {
+     "text": "More face-to-face engagement with the community through regular meetings.",
+     "source_url": "https://www.squamishchief.com/2026-civic-election/robyn-walters-runs-for-school-trustee-role-12799766"
+    },
+    {
+     "text": "Safe walking routes, such as parent-led \"walking school buses\" like those in North Vancouver.",
+     "source_url": "https://www.squamishchief.com/2026-civic-election/robyn-walters-runs-for-school-trustee-role-12799766"
+    },
+    {
+     "text": "The District of Squamish and the school district should plan land use and growth together.",
+     "source_url": "https://www.squamishchief.com/2026-civic-election/robyn-walters-runs-for-school-trustee-role-12799766"
+    },
+    {
+     "text": "Equity, diversity and inclusion: work with principals and teachers so the strategic plan shows up in classrooms.",
+     "source_url": "https://www.squamishchief.com/2026-civic-election/robyn-walters-runs-for-school-trustee-role-12799766"
+    }
+   ],
+   "media": [
+    {
+     "title": "Robyn Walters runs for school trustee role",
+     "outlet": "Squamish Chief",
+     "date": "2026-09-19",
+     "url": "https://www.squamishchief.com/2026-civic-election/robyn-walters-runs-for-school-trustee-role-12799766"
+    }
+   ]
+  }
+ ]
+}

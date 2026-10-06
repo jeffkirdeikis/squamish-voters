@@ -9,6 +9,8 @@ const DIST = path.join(ROOT, 'dist');
 const read = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f), 'utf8'));
 const candidates = read('candidates.json');
 const ctx = read('context.json');
+const TR = read('trustees.json');
+const RES = read('results.json'); // 2026 filled in on election night; 2022 and 2018 from the District's final determinations // school trustee race: researched from candidates' own sites and Squamish Chief profiles
 // The voter quiz and the comparison pages use only the 12 core statements, so they stay quick.
 // The rest are asked of candidates and shown on their profile once they answer.
 const ALL_QUESTIONS = read('questions.json');
@@ -252,13 +254,13 @@ const MENU_ICON = {
 const MOBILE_MENU = [
   ['/', 'Home', 'home'], ['/vote/', 'How, when &amp; where to vote', 'vote'], ['/ask/', 'Ask our AI helper', 'chat'],
   ['/candidates/', 'All candidates', 'people'], ['/quiz/', 'Take the quiz', 'quiz'], ['/compare/', 'Compare candidates', 'compare'],
-  ['/mayor/', 'The mayor race', 'people'], ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/faq/', 'Quick answers', 'about'], ['/my-ballot/', 'My ballot', 'ballot'],
+  ['/mayor/', 'The mayor race', 'people'], ['/trustees/', 'School trustees', 'people'], ['/results/', 'Election results', 'vote'], ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/faq/', 'Quick answers', 'about'], ['/my-ballot/', 'My ballot', 'ballot'],
   ['/about/', 'About this guide &amp; sources', 'about'],
 ];
 
 function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null }) {
   const cur = (href) => ((href === '/' ? url === '/' : url.startsWith(href)) ? ' aria-current="page"' : '');
-  const full = title ? `${title} — ${SITE.name}` : 'Squamish Election 2026: Mayor & Council Candidates Compared — Squamish Voters';
+  const full = title ? `${title} — ${SITE.name}` : 'Squamish Election 2026 (Oct 17): Mayor & Council Candidates, Quiz & How to Vote — Squamish Voters';
   return `<!doctype html>
 <html lang="en-CA">
 <head>
@@ -449,8 +451,8 @@ for (const c of all) {
   const peers = c.office === 'mayor' ? mayors : council, idx = peers.indexOf(c);
   const prev = peers[(idx - 1 + peers.length) % peers.length], next = peers[(idx + 1) % peers.length];
   write(`/candidates/${c.slug}/`, page({
-    url: '/candidates/', title: `${c.name} — Squamish ${c.office === 'mayor' ? 'Mayor' : 'Council'} candidate: positions & answers`,
-    desc: `${c.name}: what they support, what they oppose, and where they stand on growth, housing, homelessness, policing and taxes in Squamish.`,
+    url: '/candidates/', title: `${c.name}, Squamish ${c.office === 'mayor' ? 'mayor' : 'council'} candidate 2026: positions & answers`,
+    desc: `${c.name} is running for ${c.office === 'mayor' ? 'mayor' : 'council'} in the October 17, 2026 Squamish election. What they support and oppose, and where they stand on growth, housing, homelessness, policing and taxes, with sources.`,
     jsonld: [{
       '@context': 'https://schema.org', '@type': 'Person', name: c.name,
       url: `${ORIGIN}/candidates/${c.slug}/`,
@@ -571,7 +573,7 @@ write('/', page({
   }],
   hero: `<section class="hero"><div class="wrap">
     <h1>Not sure who to vote for in Squamish?</h1>
-    <p class="lede">On <b>Saturday, October 17</b> we pick 1 mayor and 6 councillors. Here is where all ${all.length} candidates stand, in plain words.</p>
+    <p class="lede">In the Squamish election on <b>Saturday, October 17, 2026</b>, we pick 1 mayor and 6 councillors. Here is where all ${all.length} candidates stand, in plain words.</p>
     <div class="btn-row"><a class="btn big" href="/quiz/">Who actually agrees with you? →<small>${QUESTIONS.length} quick questions · about 3 minutes</small></a></div>
     <p class="hero-alt"><a href="/candidates/">Or just show me everyone running →</a></p>
   </div></section>`,
@@ -629,8 +631,9 @@ write('/candidates/', page({
   <p>Pick an issue to see where everyone stands, side by side. Candidates for mayor are marked in yellow.</p>
   ${COMPARE_BLOCK}
   <h2 id="trustees">School trustees</h2>
-  <div class="card"><p>Squamish voters also elect school trustees for School District 48 (Sea to Sky). This guide focuses on mayor and council, but here is who is running:</p>
+  <div class="card"><p>Squamish voters also elect school trustees for School District 48 (Sea to Sky). Five people are running for two Squamish seats:</p>
   <p><b>${(ctx.trustees || []).map(esc).join(' · ')}</b></p>
+  <p><a class="btn secondary" href="/trustees/">Who they are and what they want to do →</a></p>
   <p class="small">See the <a href="https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/" target="_blank" rel="noopener">official candidate list</a> for their contact details.</p></div>`,
   scripts: `<script>document.querySelectorAll('[data-filter]').forEach(function(b){b.addEventListener('click',function(){var f=b.getAttribute('data-filter');document.querySelectorAll('[data-filter]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});document.querySelectorAll('#council-grid .crow').forEach(function(c){var inc=c.getAttribute('data-incumbent')==='true';c.hidden=f==='incumbent'?!inc:f==='new'?inc:false})})})</script>`,
 }));
@@ -929,9 +932,9 @@ const pageFile = (f) => fs.readFileSync(path.join(ROOT, 'data', 'pages', f), 'ut
 const mapLink = (addr) => `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addr)}" target="_blank" rel="noopener">Map</a>`;
 const fmtDate = (iso) => new Date(iso + 'T12:00:00').toLocaleDateString('en-CA', { weekday: 'long', month: 'long', day: 'numeric' });
 write('/vote/', page({
-  url: '/vote/', title: 'How, when and where to vote in Squamish (Oct 17, 2026)',
-  desc: 'Squamish election day is Saturday, October 17, 2026, 8 a.m. to 8 p.m. at Brennan Park. Advance voting dates, mail ballots, ID and eligibility in plain language.',
-  jsonld: {
+  url: '/vote/', title: 'Where and when to vote in Squamish: advance voting Oct 7, 8, 10, 15 and election day Oct 17',
+  desc: 'Squamish election day is Saturday, October 17, 2026, 8 a.m. to 8 p.m. at Brennan Park. Advance voting: Oct 7 and 8 at the 55 Activity Centre, Oct 10 at Totem Hall, Oct 15 at Brennan Park. Mail ballots, ID and who can vote.',
+  jsonld: [{
     '@context': 'https://schema.org', '@type': 'Event', name: 'Squamish municipal election — General Voting Day',
     description: 'Vote for Mayor, six Councillors and School Trustees in the District of Squamish 2026 general local election.',
     startDate: '2026-10-17T08:00:00-07:00', endDate: '2026-10-17T20:00:00-07:00',
@@ -939,8 +942,21 @@ write('/vote/', page({
     isAccessibleForFree: true, image: `${ORIGIN}/og.png`,
     location: { '@type': 'Place', name: 'Brennan Park Recreation Centre', address: { '@type': 'PostalAddress', streetAddress: '1009 Centennial Way', addressLocality: 'Squamish', addressRegion: 'BC', addressCountry: 'CA' } },
     organizer: { '@type': 'GovernmentOrganization', name: 'District of Squamish', url: 'https://squamish.ca/government-and-administration/council/election/' },
-  },
-  body: `<h1>How to vote</h1>
+  }, ...(V.advance_voting || []).map((a) => {
+    const d = new Date(a.date.replace(/^\w+, /, '') + ' 12:00').toISOString().slice(0, 10);
+    const hr = (t) => { const m = t.trim().match(/^(\d+)\s*([ap])/i); let h = +m[1] % 12; if (/p/i.test(m[2])) h += 12; return String(h).padStart(2, '0') + ':00:00-07:00'; };
+    const [from, to] = a.hours.split(/\s+to\s+/);
+    return {
+      '@context': 'https://schema.org', '@type': 'Event', name: `Squamish municipal election — advance voting at ${a.place}`,
+      description: 'Advance voting for Mayor, Council and School Trustees. Open to every eligible voter; no reason needed.',
+      startDate: `${d}T${hr(from)}`, endDate: `${d}T${hr(to)}`,
+      eventStatus: 'https://schema.org/EventScheduled', eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+      isAccessibleForFree: true, image: `${ORIGIN}/og.png`,
+      location: { '@type': 'Place', name: a.place, address: { '@type': 'PostalAddress', streetAddress: a.address.split(',')[0], addressLocality: 'Squamish', addressRegion: 'BC', addressCountry: 'CA' } },
+      organizer: { '@type': 'GovernmentOrganization', name: 'District of Squamish', url: 'https://squamish.ca/government-and-administration/council/election/' },
+    };
+  })],
+  body: `<h1>How to vote in Squamish</h1>
   <div class="card big-answer">
     <h2 style="margin-top:0">Saturday, October 17</h2>
     <p class="huge">${esc(gv.hours)}</p>
@@ -969,16 +985,16 @@ write('/vote/', page({
   <details class="drop"><summary>What’s on the ballot</summary>
     <ul class="plainlist"><li><b>Mayor</b> — vote for <b>1</b> of ${mayors.length}. <a href="/candidates/#mayor">See them</a></li>
     <li><b>Councillors</b> — vote for <b>up to 6</b> of ${council.length}. You may pick fewer, but marking more than 6 spoils that part of your ballot. <a href="/candidates/#council">See them</a></li>
-    <li><b>School trustees</b> — vote for <b>up to 2</b> of ${(ctx.trustees || []).length}. <a href="/candidates/#trustees">See them</a></li></ul>
+    <li><b>School trustees</b> — vote for <b>up to 2</b> of ${(ctx.trustees || []).length}. <a href="/trustees/">See them</a></li></ul>
     <p class="small">You can bring notes into the booth — such as <a href="/my-ballot/">your saved list</a>.</p>
   </details>
   <details class="drop"><summary>I need help, or I have trouble getting around</summary>
     <p>${escGl(V.accessibility?.recommendation)}</p>
     <p><b>${esc(ceo.name)}</b>, ${esc(ceo.title)}<br>Phone: <a href="tel:${esc((ceo.phone || '').replace(/[^0-9]/g, ''))}">${esc(ceo.phone)}</a><br>Email: <a href="mailto:${esc(ceo.email)}">${esc(ceo.email)}</a><br>${esc(ceo.address)}</p>
   </details>
-  <h2 id="events">Meet the candidates in person</h2>
-  <p>The best way to hear them in their own words.</p>
-  <ul class="plainlist">${(ctx.events || []).map((e) => `<li><b>${esc(fmtDate(e.date))}</b> · ${esc(e.time)}<br>${esc(e.title)} — ${esc(e.place)}<br><span class="small">Hosted by ${esc(e.host)}.${/^required/i.test(e.registration || '') ? ' Registration required.' : ''} ${isUrl(e.registration_url) ? `<a href="${esc(e.registration_url)}" target="_blank" rel="noopener">Register</a> · ` : ''}<a href="${esc(e.source_url)}" target="_blank" rel="noopener">Details</a></span></li>`).join('')}</ul>
+  <h2 id="events">All-candidates meetings</h2>
+  <p>The best way to hear them in their own words. Where a meeting was recorded, the link is below.</p>
+  <ul class="plainlist">${(ctx.events || []).map((e) => `<li><b>${esc(fmtDate(e.date))}</b> · ${esc(e.time)}<br>${esc(e.title)} — ${esc(e.place)}<br><span class="small">Hosted by ${esc(e.host)}.${/^required/i.test(e.registration || '') ? ' Registration required.' : ''} ${isUrl(e.registration_url) ? `<a href="${esc(e.registration_url)}" target="_blank" rel="noopener">Register</a> · ` : ''}<a href="${esc(e.source_url)}" target="_blank" rel="noopener">Details</a>${isUrl(e.recording_url) ? ` · <a href="${esc(e.recording_url)}" target="_blank" rel="noopener"><b>Watch the recording</b></a>` : ''}</span></li>`).join('')}</ul>
   <p class="small">Event list from the <a href="${esc((ctx.coverage_hubs || [])[1]?.url || '')}" target="_blank" rel="noopener">Squamish Chief’s running list</a>, updated as new events are announced. All details here come from the District of Squamish — <a href="${esc(gv.source_url)}" target="_blank" rel="noopener">check the official page</a> for last-minute changes.</p>`,
 }));
 
@@ -1027,11 +1043,11 @@ for (const ic of ctx.issues || []) {
     const yes = all.filter((c) => c.quiz_answers?.q23 > 0), no = all.filter((c) => c.quiz_answers?.q23 < 0);
     write('/issues/woodfibre-tax-deal/', page({
       url: '/issues/', title: 'Woodfibre LNG tax deal: where the Squamish candidates stand',
-      desc: `Should Squamish sign the 10-year tax agreement with Woodfibre LNG? ${yes.length} candidates lean yes, ${no.length} lean no. What each choice means and what every candidate has said, with sources.`,
+      desc: `Council rejected the 10-year Woodfibre LNG tax agreement 5–2 on Sept. 22, 2026; the next council could revisit it. ${yes.length} candidates lean yes, ${no.length} lean no. What each choice means and what every candidate has said, with sources.`,
       jsonld: crumbLd([['Home', '/'], ['The issues', '/issues/'], ['Woodfibre LNG tax deal', '/issues/woodfibre-tax-deal/']]),
       body: `<p class="crumbs"><a href="/issues/">← All the issues</a></p>
       <h1>The Woodfibre LNG tax deal</h1>
-      <p class="lede">The District has proposed a 10-year agreement fixing what Woodfibre LNG pays in place of normal property tax. Here is what it means and where every candidate stands.</p>
+      <p class="lede">On September 22, 2026, council voted 5–2 against a proposed 10-year agreement fixing what Woodfibre LNG pays in place of normal property tax. The next council could negotiate a new one. Here is what it means and where every candidate stands.</p>
       ${DEAL_IF_NO}
       <h2>Where the candidates stand</h2>${spectrum(q23)}
       <p>For the wider debate about the plant itself, see <a href="/issues/${TOPIC_SLUG.environment_lng}/">climate and the Woodfibre LNG plant</a>. For property taxes generally, see <a href="/issues/${TOPIC_SLUG.taxes_spending}/">property taxes and spending</a>.</p>
@@ -1041,7 +1057,7 @@ for (const ic of ctx.issues || []) {
 }
 // Mayor race
 write('/mayor/', page({
-  url: '/candidates/', title: `Who is running for mayor of Squamish? The ${mayors.length} candidates compared`,
+  url: '/candidates/', title: `Squamish mayor election 2026: who is running? The ${mayors.length} candidates compared`,
   desc: `${mayors.map((c) => c.name).join(', ')} are running for mayor of Squamish on October 17, 2026. Their backgrounds and where each stands on housing, growth, taxes and Woodfibre LNG, side by side.`,
   jsonld: [crumbLd([['Home', '/'], ['Candidates', '/candidates/'], ['Mayor', '/mayor/']]), { '@context': 'https://schema.org', '@type': 'ItemList', name: 'Candidates for Mayor of Squamish, 2026', itemListElement: mayors.map((c, n) => ({ '@type': 'ListItem', position: n + 1, name: c.name, url: `${ORIGIN}/candidates/${c.slug}/` })) }],
   body: `<p class="crumbs"><a href="/candidates/">← All candidates</a></p>
@@ -1059,16 +1075,67 @@ write('/mayor/', page({
   <div class="table-scroll"><table class="issue-table"><thead><tr><th>Statement</th>${mayors.map((c) => `<th>${esc(c.name)}</th>`).join('')}</tr></thead><tbody>
   ${QUESTIONS.map((q) => `<tr><td>${esc(q.text)}</td>${mayors.map((c) => `<td>${typeof c.quiz_answers?.[q.id] === 'number' ? esc(ansWord(c, q)) : '<span class="muted">No position found</span>'}</td>`).join('')}</tr>`).join('')}
   </tbody></table></div>
+  ${ctx.pay ? `<h2 id="pay">How much is the mayor of Squamish paid?</h2>
+  <p>In ${ctx.pay.year} the mayor was paid <b>$${ctx.pay.mayor.toLocaleString('en-CA')}</b> and each councillor about <b>$${ctx.pay.councillor.toLocaleString('en-CA')}</b>, not counting expenses and benefits.${src(ctx.pay.source_url)}</p>` : ''}
   <div class="btn-row no-print"><a class="btn" href="/quiz/">Which of them matches you? Take the quiz →</a><a class="btn secondary" href="/candidates/#council">See the ${council.length} council candidates</a></div>`,
 }));
+// School trustees (Sea to Sky School District 48, Squamish area: 2 seats)
+{
+  const R = TR.role;
+  write('/trustees/', page({
+    url: '/candidates/', title: `Squamish school trustee candidates 2026: who is running for the Sea to Sky school board`,
+    desc: `${TR.candidates.map((c) => c.name).join(', ')} are running for 2 Squamish seats on the Sea to Sky School District 48 board on October 17, 2026. Who they are and what each says they will focus on, with sources.`,
+    jsonld: [crumbLd([['Home', '/'], ['Candidates', '/candidates/'], ['School trustees', '/trustees/']]), { '@context': 'https://schema.org', '@type': 'ItemList', name: 'Candidates for school trustee, Squamish (SD48), 2026', itemListElement: TR.candidates.map((c, n) => ({ '@type': 'ListItem', position: n + 1, name: c.name, url: `${ORIGIN}/trustees/#${c.name.toLowerCase().replace(/[^a-z]+/g, '-')}` })) }],
+    body: `<p class="crumbs"><a href="/candidates/">← All candidates</a></p>
+    <h1>School trustee candidates</h1>
+    <p class="lede">On October 17, Squamish voters also elect <b>2 school trustees</b> for the Sea to Sky school board. ${TR.candidates.length} people are running: ${TR.candidates.map((c) => `<a href="#${c.name.toLowerCase().replace(/[^a-z]+/g, '-')}">${esc(c.name)}</a>`).join(', ')}. You can vote for up to 2. They are listed here in alphabetical order.</p>
+    <details class="drop"><summary>What does a school trustee do?</summary>
+      <p>${esc(R.what)}${src(R.what_source)}</p>
+      <p>${esc(R.board)}${src(R.board_source)}</p>
+      <p>${esc(R.pay)}${src(R.pay_source)}</p>
+    </details>
+    ${TR.candidates.map((c) => `<h2 id="${c.name.toLowerCase().replace(/[^a-z]+/g, '-')}">${esc(c.name)}${c.incumbent ? ' <span class="small">· current trustee</span>' : ''}</h2>
+    <p>${esc(c.background)}${src(c.background_source_url)}</p>
+    <p><b>What they say they will focus on:</b></p>
+    <ul>${c.priorities.map((p) => `<li>${esc(p.text)}${src(p.source_url)}</li>`).join('')}</ul>
+    <p class="small">${c.website ? `<a href="${esc(c.website)}" target="_blank" rel="noopener">Campaign website</a> · ` : ''}${c.email ? `<a href="mailto:${esc(c.email)}">${esc(c.email)}</a> · ` : ''}${(c.media || []).filter((m) => m.date >= '2026').map((m) => `<a href="${esc(m.url)}" target="_blank" rel="noopener">${esc(m.outlet)}: ${esc(m.title)}</a>`).join(' · ')}</p>`).join('')}
+    <div class="notice info">The trustee candidates did not fill in our questionnaire, which covered only mayor and council. These summaries come from each candidate’s own website and their profiles in the Squamish Chief; tap <b>[source]</b> to read the original. Are you a trustee candidate? <a href="mailto:${esc(SITE.contact)}">Send us a correction or your platform</a>.</div>
+    <p class="small">Official list and contact details: <a href="${esc(TR.official_list_url)}" target="_blank" rel="noopener">District of Squamish</a> · <a href="${esc(TR.sd48_page_url)}" target="_blank" rel="noopener">Sea to Sky School District 48</a>.</p>
+    <div class="btn-row no-print"><a class="btn" href="/candidates/">Mayor and council candidates →</a><a class="btn secondary" href="/vote/">How, when and where to vote</a></div>`,
+  }));
+}
+// Results: live on election night, past elections below so the page is indexed and useful before then
+{
+  const R26 = RES['2026'], live = R26.status !== 'pending' && (R26.mayor || []).length;
+  const n = (x) => Number(x).toLocaleString('en-CA');
+  const table = (rows, seats) => `<div class="table-scroll"><table class="issue-table"><thead><tr><th>Candidate</th><th>Votes</th><th></th></tr></thead><tbody>${[...rows].sort((a, b) => b.total - a.total).map((r) => `<tr><td>${r.elected ? '<b>' : ''}${esc(r.name)}${r.elected ? '</b>' : ''}</td><td>${n(r.total)}</td><td>${r.elected ? '<b>Elected</b>' : ''}</td></tr>`).join('')}</tbody></table></div>`;
+  const past = (y) => { const r = RES[y]; return `<h2 id="${y}">${y} results</h2>
+    <p>${n(r.ballots_cast)} ballots were cast, a turnout of <b>${r.turnout_pct}%</b> of ${n(r.total_eligible_electors)} eligible voters.${src(r.source_url, 'official results')}</p>
+    <h3>Mayor</h3>${table(r.mayor)}<h3>Council (6 elected)</h3>${table(r.council)}`; };
+  write('/results/', page({
+    url: '/results/', title: live ? `Squamish election results 2026 (${R26.status}): mayor, council and school trustees` : 'Squamish election results 2026: when and where to find them, and past results',
+    desc: live ? `${R26.status === 'official' ? 'Official' : 'Unofficial'} results of the October 17, 2026 Squamish election: votes for every mayor, council and school trustee candidate, and turnout.` : `Results of the October 17, 2026 Squamish election will be posted here after polls close at 8 p.m. Plus the full 2022 and 2018 Squamish results and turnout.`,
+    jsonld: crumbLd([['Home', '/'], ['Election results', '/results/']]),
+    body: `<h1>Squamish election results</h1>
+    ${live ? `<p class="lede"><b>${R26.status === 'official' ? 'Official' : 'Unofficial'} results</b>, updated ${esc(R26.updated || '')}.${src(R26.source_url, 'District of Squamish')}${R26.ballots_cast ? ` ${n(R26.ballots_cast)} ballots cast${R26.turnout_pct ? `, turnout ${R26.turnout_pct}%` : ''}.` : ''}</p>
+    <h2>Mayor</h2>${table(R26.mayor)}<h2>Council (6 elected)</h2>${table(R26.council)}${(R26.trustees || []).length ? `<h2>School trustees (2 elected)</h2>${table(R26.trustees)}` : ''}`
+    : `<div class="card big-answer"><h2 style="margin-top:0">2026 results: Saturday, October 17, after 8 p.m.</h2>
+    <p>Polls close at 8 p.m. The District of Squamish declares unofficial results that night, and we will post them here as soon as they are out. Official results are declared on ${esc(R26.official_on)}.${src(R26.plan_source_url, 'District of Squamish')}</p>
+    <p>Running in 2026: ${mayors.length} for mayor, ${council.length} for council and ${TR.candidates.length} for school trustee. <a href="/candidates/">See all the candidates</a> · <a href="/trustees/">school trustees</a>.</p>
+    <p><b>Haven’t voted yet?</b> <a href="/vote/">Where and when to vote</a>.</p></div>`}
+    ${past('2022')}
+    ${past('2018')}
+    <p class="small">Past results are from the District of Squamish’s signed final determinations. 2026 results come from the District’s declaration; check the <a href="https://squamish.ca/government-and-administration/council/election/" target="_blank" rel="noopener">District election page</a> for the official record.</p>`,
+  }));
+}
 // Quick answers
 {
   const inc = all.filter((c) => c.incumbent);
   const adv = (V.advance_voting || []).map((a) => `${a.date.replace(', 2026', '')}, ${a.hours}, at ${a.place} (${a.address})`);
   const ts = ctx.voting?.on_the_ballot?.school_trustees || {};
   const FAQ = [
-    ['When is the 2026 Squamish election?', `General voting day is ${gv.date}, from ${gv.hours.replace(/\.$/, '')}. Advance voting runs on ${(V.advance_voting || []).length} days before that.`, '<a href="/vote/">How, when and where to vote</a>'],
-    ['Who is running for mayor of Squamish?', `${mayors.length} candidates: ${mayors.map((c) => c.name).join(', ')}.`, '<a href="/mayor/">The mayor candidates compared</a>'],
+    ['When is the 2026 Squamish election?', `General voting day is ${gv.date}, from ${gv.hours.replace(/\.$/, '')}., at ${(gv.places || [])[0]?.name || 'Brennan Park'}. Advance voting days are October ${(V.advance_voting || []).map((a) => a.date.match(/(\d+), 2026/)[1]).join(', ').replace(/, (\d+)$/, ' and $1')}. You elect one mayor, six councillors and two school trustees.`, '<a href="/vote/">How, when and where to vote</a>'],
+    ['Who is running for mayor of Squamish?', `${mayors.length} people are running for mayor of Squamish in 2026: ${mayors.map((c) => c.name).join(', ')}. You vote for one.`, '<a href="/mayor/">The mayor candidates compared</a>'],
     ['Who is running for Squamish council?', `${council.length} candidates for 6 seats: ${council.map((c) => c.name).join(', ')}.`, '<a href="/candidates/#council">All council candidates</a>'],
     ['Which current councillors are running again?', `${inc.map((c) => `${c.name} (${c.office === 'mayor' ? 'for mayor' : 'for council'})`).join(', ')}.`, ''],
     ['How many candidates can I vote for?', `One mayor, up to six councillors and up to ${ts.seats_for_squamish || 2} school trustees. You may vote for fewer councillors than six.`, ''],
@@ -1079,8 +1146,10 @@ write('/mayor/', page({
     ['Do I need to register before voting day?', 'No. You can register at the voting place when you vote.', ''],
     ['Can I vote in Squamish if I own property but live somewhere else?', V.eligibility?.non_resident_property_elector?.rule || '', '<a href="/vote/#can-i-vote">What to bring</a>'],
     ['Can renters vote?', 'Yes. You do not need to own property. If you live in Squamish and meet the age, citizenship and B.C. residency rules, you can vote.', ''],
-    ['Who is running for school trustee?', `${(ts.candidates_declared || ctx.trustees || []).join(', ')} are running for ${ts.seats_for_squamish || 2} seats on the ${ts.district || 'Sea to Sky school board'}.`, ''],
-    ['When will the results be announced?', `Unofficial results come out on election night after polls close at 8 p.m. Official results are declared on ${(gv.official_results || 'October 21, 2026').replace(/^.*?(October \d+, \d{4}).*$/, '$1')}.`, ''],
+    ['Who is running for school trustee?', `${(ts.candidates_declared || ctx.trustees || []).join(', ')} are running for ${ts.seats_for_squamish || 2} seats on the ${ts.district || 'Sea to Sky school board'}.`, '<a href="/trustees/">The trustee candidates</a>'],
+    ['When will the results be announced?', `Unofficial results come out on election night after polls close at 8 p.m. Official results are declared on ${(gv.official_results || 'October 21, 2026').replace(/^.*?(October \d+, \d{4}).*$/, '$1')}.`, '<a href="/results/">Squamish election results</a>'],
+    ...(ctx.pay ? [['How much is the mayor of Squamish paid?', `In ${ctx.pay.year} the mayor was paid $${ctx.pay.mayor.toLocaleString('en-CA')} and each councillor about $${ctx.pay.councillor.toLocaleString('en-CA')}, not counting expenses and benefits (District of Squamish financial statement).`, '<a href="/mayor/#pay">Source</a>']] : []),
+    ['What was the turnout in the last Squamish election?', `In 2022, ${RES['2022'].ballots_cast.toLocaleString('en-CA')} ballots were cast, a turnout of ${RES['2022'].turnout_pct}% of eligible voters. In 2018 it was ${RES['2018'].turnout_pct}%.`, '<a href="/results/#2022">Past results</a>'],
     ['Who should I vote for?', 'We don’t endorse anyone. Our quiz compares your views with each candidate’s public positions and questionnaire answers.', '<a href="/quiz/">Take the quiz</a>'],
   ].filter(([, a]) => a);
   write('/faq/', page({

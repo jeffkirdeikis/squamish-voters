@@ -1,5 +1,5 @@
 {
-  "updated": "October 4, 2026",
+  "updated": "October 6, 2026",
   "contact_email": "squamishvoters@gmail.com",
   "key_dates": [
     {
@@ -278,7 +278,9 @@
       "registration_url": "https://www.eventbrite.ca/e/2026-outdoor-recreation-all-candidates-meeting-hosted-by-sorca-tickets-1999417209697",
       "host_url": "https://www.sorca.ca/events-list/outdoor-rec-all-candidates-meeting-hosted-by-sorca",
       "livestream": "not found",
-      "source_url": "https://www.squamishchief.com/2026-civic-election/mark-your-calendars-upcoming-squamish-all-candidate-events-to-attend-12786619"
+      "source_url": "https://www.squamishchief.com/2026-civic-election/mark-your-calendars-upcoming-squamish-all-candidate-events-to-attend-12786619",
+      "recording_url": "https://www.youtube.com/watch?v=KWNLbFBmxZM",
+      "transcript_url": "https://www.sorca.ca/news/outdoor-recreation-all-candidates-meeting-2026"
     },
     {
       "date": "2026-09-28",
@@ -292,11 +294,21 @@
       "source_url": "https://www.squamishchief.com/2026-civic-election/mark-your-calendars-upcoming-squamish-all-candidate-events-to-attend-12786619"
     },
     {
+      "date": "2026-10-03",
+      "time": "2 to 5 p.m.",
+      "title": "Municipal All-Candidates Meeting",
+      "host": "Squamish Minor Hockey Association",
+      "place": "Squamish Valley Golf Course, Curling Mezzanine",
+      "cost": "Free",
+      "registration": "Not required",
+      "source_url": "https://www.squamishchief.com/2026-civic-election/mark-your-calendars-upcoming-squamish-all-candidate-events-to-attend-12786619"
+    },
+    {
       "date": "2026-10-05",
       "time": "6 to 9 p.m.",
       "title": "Municipal All-Candidates Meeting",
       "host": "Joint Engagement Committee (Squamish Chamber of Commerce, Downtown Squamish BIA and Tourism Squamish) in partnership with The Squamish Chief",
-      "place": "Brennan Park Recreation Centre",
+      "place": "Don Ross Middle School, 42091 Ross Road (moved from Brennan Park to fit more people)",
       "cost": "Free",
       "registration": "Required via Squamish Chamber Events",
       "registration_url": "https://www.squamishchamber.com/events/#id=557&cid=1224&wid=1201&type=Cal",
@@ -305,10 +317,10 @@
     },
     {
       "date": "2026-10-08",
-      "time": "6:30 to 8 p.m.",
+      "time": "6:30 to 8 p.m. (doors 5:45 p.m.)",
       "title": "Candidates Quiz Night",
       "host": "OurSquamish",
-      "place": "Brackendale Art Gallery",
+      "place": "Brackendale Art Gallery, 41950 Government Road",
       "cost": "not found",
       "registration": "Required (Eventbrite)",
       "registration_url": "https://www.eventbrite.ca/e/squamish-election-all-candidates-quiz-night-tickets-2001090360135",
@@ -989,5 +1001,12 @@
       "teaser": "Several smaller topics recur in 2026 coverage.",
       "short_explainer": "Several smaller topics recur in 2026 coverage. Childcare is scarce and expensive, and is cited as the main reason Squamish's living wage exceeds Metro Vancouver's."
     }
-  ]
+  ],
+  "pay": {
+    "year": 2025,
+    "mayor": 103946,
+    "councillor": 46926,
+    "source_url": "https://squamish.ca/assets/Financial-statements/2025_SOFI_Report.pdf",
+    "note": "Remuneration actually paid in 2025, from the District of Squamish 2025 Statement of Financial Information (page 40). Excludes expenses and benefits."
+  }
 }
