@@ -94,7 +94,7 @@ if not (r.get('research_notes') or '').startswith('Sept 20 2026'): r['research_n
 
 
 # Only real, verified submissions. A curl test entry under Sean Goodwin's name (Sept 20) is skipped by its user agent.
-USE = {'Sarah Ellis', 'Shaun Veltkamp', 'Sean Goodwin', 'Daniel Deal', 'Laura Prosko', 'Sean Easton', 'Chris Ryan', 'Andrew Hamilton', 'Luc Perreault', 'Jenna Stoner', 'Anders Ourom', 'Ian Brown', 'A. John Lowe', 'Kieran Brownie'}
+USE = {'Sarah Ellis', 'Shaun Veltkamp', 'Sean Goodwin', 'Daniel Deal', 'Laura Prosko', 'Sean Easton', 'Chris Ryan', 'Andrew Hamilton', 'Luc Perreault', 'Jenna Stoner', 'Anders Ourom', 'Ian Brown', 'A. John Lowe', 'Kieran Brownie', 'Janice DesJardins'}
 # Submissions whose email didn't match the District filing but that Jeff confirmed with the candidate.
 # Chris Ryan (Sept 25): typed "…@gmail.comom" — a typo of his filed address.
 VOUCHED = {'Chris Ryan': 'The email address on the form had a typo, so Squamish Voters confirmed with Chris that the answers are his.'}
@@ -405,15 +405,16 @@ if 'Oct 1 2026: questionnaire' not in (by['A. John Lowe'].get('research_notes') 
         'His own q36 -1 replaces our +1 from the Chief profile (he wants private business, not the District, to build it); q25 -2 matched. '
         'NOTE q18: he answered -1 (leans against moving Under One Roof out of downtown) but his note and written answer say to repurpose the building for seniors and find a better site away from downtown — published as sent. ' + (by['A. John Lowe'].get('research_notes') or ''))
 
-# Brownie (Oct 3) first sent only the six written answers, then all 38 agree/disagree answers (no notes) at 12:31pm and a reworded pitch at 12:44pm.
+# Brownie (Oct 3) first sent only the six written answers, then all 38 agree/disagree answers (no notes) at 12:31pm, a reworded pitch at 12:44pm,
+# and all 38 answers again at 1:10pm (newest wins; it arrived after the 12:47pm commit and was applied Oct 8).
 # His homelessness answer is the first public word on it; use it rather than leave "No public position found" above it.
 _kh = by['Kieran Brownie']['stances']['homelessness']
 if _kh['position'].lower().startswith('no public position'):
     _kh['position'] = 'Assess suitable locations soon; names the gravel lot at Loggers Lane and Vancouver as one to check'
     _kh['summary'] = 'We found no public statement from Kieran on this before he answered our questionnaire. In his written answer, he says priority should go to assessing appropriate locations, and that the suitability of the gravel lot at Loggers Lane and Vancouver, which he has heard discussed, should be checked sooner rather than later. His full answer is below.'
     _kh['confidence'] = 'low'; _kh['quote'] = None
-by['Kieran Brownie']['growth_group'] = 'mix'   # q1 0; q2 -2 against taller buildings; q3 -1 against new land
-by['Kieran Brownie']['growth_line'] = 'On growth: in the middle on the pace; strongly against buildings above six storeys downtown, and leans against opening new land.'
+by['Kieran Brownie']['growth_group'] = 'mix'   # 1:10pm answers: q1 0, q2 0, q3 0
+by['Kieran Brownie']['growth_line'] = 'On growth: in the middle on the pace, on taller buildings downtown, and on opening new land.'
 # He asked (email, Oct 3) for his pitch to replace the campaign slogan; the newest form wording wins.
 by['Kieran Brownie']['tagline'] = by['Kieran Brownie']['own_words']['pitch']
 by['Kieran Brownie']['research_notes'] = (by['Kieran Brownie'].get('research_notes') or '').replace(
@@ -422,6 +423,11 @@ by['Kieran Brownie']['research_notes'] = (by['Kieran Brownie'].get('research_not
 if 'Oct 3 2026: questionnaire' not in (by['Kieran Brownie'].get('research_notes') or ''):
     by['Kieran Brownie']['research_notes'] = ('Oct 3 2026: questionnaire answered from kieranbrownie.squamish@gmail.com, verified against the District page, but only the six written questions: '
         'no agree/disagree answers and no notes, so every quiz answer stays null. ' + (by['Kieran Brownie'].get('research_notes') or ''))
+
+if 'Oct 6 2026: questionnaire' not in (by['Janice DesJardins'].get('research_notes') or ''):
+    by['Janice DesJardins']['research_notes'] = ('Oct 6 2026: questionnaire answered (17 answers, 17 notes, no written answers) from desjardinsforcouncil@gmail.com, the address on the District page. '
+        'NOTE q2: she answered +2 (allow buildings above six storeys) but her note says "Build smaller and lower for awhile". '
+        'NOTE q31: +1 (clear encampments) but her note proposes a serviced site by the Loggers Sports grounds. Both published as sent; worth confirming with her. ' + (by['Janice DesJardins'].get('research_notes') or ''))
 
 # Veltkamp flagged our one-line growth summary as misleading; use his own answers instead.
 by['Shaun Veltkamp']['growth_line'] = 'On growth: cap building heights downtown for now, and finish existing neighbourhoods before opening new land.'
