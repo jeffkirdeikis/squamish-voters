@@ -421,7 +421,7 @@ function directAnswers(c) {
   <p class="small">${esc(first(c))} added a comment to ${noted.length} of the statements we put to every candidate. These are ${esc(first(c))}’s words, unedited.</p>
   <div class="card"><ul class="qa">${noted.slice(0, SHOW).map(noteLi).join('')}</ul>
   ${noted.length > SHOW ? `<details class="more"><summary>Show ${noted.length - SHOW} more</summary><ul class="qa">${noted.slice(SHOW).map(noteLi).join('')}</ul></details>` : ''}</div>` : ''}
-  ${rows.length ? `<details class="drop" id="questionnaire"><summary>All ${rows.length} of ${esc(first(c))}’s questionnaire answers <span class="badge direct">✓ Direct</span></summary>
+  ${rows.length ? `<details class="drop" id="questionnaire" open><summary>All ${rows.length} of ${esc(first(c))}’s questionnaire answers <span class="badge direct">✓ Direct</span></summary>
   <ul class="qa">${rows.map((q) => `<li><b>${escGl(q.text)}</b><span class="ans">${ansWord(c, q)}</span>${wrote(c, q) ? `<p>“${escGl(wrote(c, q))}”</p>` : ''}</li>`).join('')}</ul>
   <p class="small">Answered by ${esc(c.name)} on ${esc(fmtLong(c.direct.date))}. Where these differ from our earlier reading of the public record, the candidate’s own answer is what counts in the quiz and compare pages.</p></details>` : unanswered}`;
 }
