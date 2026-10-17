@@ -27,6 +27,11 @@
       "permanent": false
     },
     {
+      "source": "/ask/",
+      "destination": "/",
+      "permanent": false
+    },
+    {
       "source": "/a-john-lowe/answers/",
       "destination": "/candidates/a-john-lowe/#questionnaire",
       "permanent": true

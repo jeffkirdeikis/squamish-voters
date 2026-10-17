@@ -232,7 +232,7 @@ const NAV = [
   ['/candidates/', 'Candidates'], ['/quiz/', 'Quiz'], ['/compare/', 'Compare'], ['/compass/', 'Where they lean'], ['/vote/', 'How to vote'],
 ];
 // The Menu lists everything; the top bar only has room for the essentials.
-const MENU = [...NAV, ['/mayor/', 'The mayor race'], ['/faq/', 'Quick answers'], ['/ask/', 'AI chat: ask a question'], ['/issues/', 'The issues explained'], ['/my-ballot/', 'My ballot']];
+const MENU = [...NAV, ['/mayor/', 'The mayor race'], ['/faq/', 'Quick answers'], ['/issues/', 'The issues explained'], ['/my-ballot/', 'My ballot']];
 const ICON = {
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5L12 4l8.5 6.5V20a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1z"/><path d="M9.5 21v-6h5v6"/></svg>',
   people: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.5c2.5.2 4 1.8 4.5 4.5"/></svg>',
@@ -242,17 +242,14 @@ const ICON = {
   compass: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>',
   ballot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 8.500l1.2 1.2 2-2.400M8.5 14.500l1.2 1.2 2-2.400M14 9h2M14 15h2"/></svg>',
 };
-const ASK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12.5a7.5 7.5 0 0 1-11.2 6.5L4 20l1.1-4.3A7.5 7.5 0 1 1 20 12.5z"/><path d="M9 11.5h6M9 14.5h4"/></svg>';
-const ASK_SEND = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5"/></svg>';
-const TABS = [['/', 'Home', 'home'], ['/candidates/', 'People', 'people'], ['/quiz/', 'Quiz', 'quiz'], ['/compass/', 'Compass', 'compass'], ['/compare/', 'Compare', 'compare'], ['/ask/', 'Ask AI', 'chat']];
+const TABS = [['/', 'Home', 'home'], ['/candidates/', 'People', 'people'], ['/quiz/', 'Quiz', 'quiz'], ['/compass/', 'Compass', 'compass'], ['/compare/', 'Compare', 'compare'], ['/vote/', 'Vote', 'vote']];
 // The phone Menu: every page, one per row, with How to vote near the top since it left the bottom bar.
 const MENU_ICON = {
-  chat: ASK_ICON,
   issues: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/></svg>',
   about: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.1"/></svg>',
 };
 const MOBILE_MENU = [
-  ['/', 'Home', 'home'], ['/vote/', 'How, when &amp; where to vote', 'vote'], ['/ask/', 'Ask our AI helper', 'chat'],
+  ['/', 'Home', 'home'], ['/vote/', 'How, when &amp; where to vote', 'vote'],
   ['/candidates/', 'All candidates', 'people'], ['/quiz/', 'Take the quiz', 'quiz'], ['/compare/', 'Compare candidates', 'compare'],
   ['/mayor/', 'The mayor race', 'people'], ['/trustees/', 'School trustees', 'people'], ['/results/', 'Election results', 'vote'], ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/faq/', 'Quick answers', 'about'], ['/my-ballot/', 'My ballot', 'ballot'],
   ['/about/', 'About this guide &amp; sources', 'about'],
@@ -578,10 +575,6 @@ write('/', page({
     <p class="hero-alt"><a href="/candidates/">Or just show me everyone running →</a></p>
   </div></section>`,
   body: `
-  <a class="chat-card" href="/ask/">
-    <span class="chat-card-top"><span class="chat-avatar">${ASK_ICON}</span><span><b>Ask our AI helper</b><small>Answers from this guide, with sources</small></span></span>
-    <span class="chat-card-fake" aria-hidden="true"><span>What do the candidates say about taxes?</span><span class="go">${ASK_SEND}</span></span>
-  </a>
   <div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg><div>
     <h2>You can check our work</h2>
     <p>No endorsements. The same questions go to every candidate, every claim links to its source, and the code and scoring formula are public for anyone to inspect.</p>
@@ -1196,13 +1189,7 @@ fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'
 write('/admin/', page({
   url: '/admin/', title: 'Responses', noindex: true,
   desc: 'Private.',
-  body: `<section class="card chat-usage" id="cu" hidden>
-    <h2 style="margin-top:0">Ask chat: spending</h2>
-    <div class="cu-stats" id="cu-stats"></div>
-    <p class="small muted" id="cu-note"></p>
-    <details class="more" id="cu-more"><summary>Latest questions and answers</summary><div id="cu-recent"></div></details>
-  </section>
-  <h1>Candidate responses</h1>
+  body: `<h1>Candidate responses</h1>
   <p class="lede" id="a-status">Checking…</p>
   <div class="btn-row no-print"><button type="button" class="btn secondary" id="a-refresh">Refresh now</button>
   <label class="small" style="display:flex;align-items:center;gap:.5rem"><input type="checkbox" id="a-auto" checked> Update automatically</label></div>
@@ -1217,92 +1204,8 @@ fs.writeFileSync(path.join(ROOT, 'api', '_official.js'),
     all.map((c) => [c.name, ((c.links || {}).email_public || '').toLowerCase()])
   ), null, 1) + ';\n');
 
-let CHAT_KB = ''; // written to api/_kb.js at the end, once every page's address is known
-// ---------- CHAT (the "Ask" page and the knowledge file its endpoint answers from) ----------
-// The chat may only answer from what is published on this site, so it reads the same data.
-// Internal fields (research_notes, corrections requests, photo bookkeeping) are left out on purpose.
-// The text must come out byte-identical between builds when the data has not changed, so the
-// API's prompt cache keeps working: no dates or random ordering in here.
-{
-  const plain = (html) => html.replace(/<(br|\/p|\/li|\/h\d|\/blockquote)[^>]*>/gi, '\n').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;|&rsquo;/g, '’').replace(/\n{3,}/g, '\n\n').trim();
-  const L = [];
-  const srcTag = (u) => (isUrl(u) ? ` [source: ${u}]` : u ? ' [source: Squamish Voters questionnaire]' : '');
-  L.push('# ELECTION BASICS', `Election: District of Squamish general local election, ${gv.date || 'Saturday, October 17, 2026'}. Mayor: vote for 1 of ${mayors.length}. Council: vote for up to 6 of ${council.length}. School trustees: vote for up to 2 of ${(ctx.trustees || []).length} (${(ctx.trustees || []).join(', ')}); this guide has no information on trustee positions.`);
-  L.push('Full voting details (official, from the District of Squamish):', JSON.stringify(V));
-  L.push('All-candidates events:', JSON.stringify(ctx.events || []));
-  L.push('', '# THE ISSUES, EXPLAINED (background written by Squamish Voters; https://squamishvoters.com/issues/)');
-  for (const i of ctx.issues || []) L.push(`## ${i.title} (topic key: ${i.key})`, i.explainer || '', ...(isUrl(i.source_url) ? [`[source: ${i.source_url}]`] : []));
-  L.push('', '# GLOSSARY', ...GLOSSARY.map((g) => `- ${g.term}${g.also?.length ? ` (also: ${g.also.join(', ')})` : ''}: ${g.def}`));
-  L.push('', '# THE QUIZ STATEMENTS (candidates and voters rate each from Strongly disagree to Strongly agree)', ...ALL_QUESTIONS.map((q) => `- ${q.id} [${q.topic}${q.core === false ? ', extra' : ', core quiz'}]: ${q.text}`));
-  L.push('', '# WRITTEN QUESTIONNAIRE QUESTIONS', ...WRITE_IN.filter(([k]) => k !== 'corrections').map(([k, t]) => `- ${k}: ${t.replace(/ — we may use.*$/, '')}`));
-  L.push('', `# CANDIDATES (${all.length}; alphabetical by last name, mayor first, then council)`);
-  for (const c of all) {
-    const f = first(c), url = `https://squamishvoters.com/candidates/${c.slug}/`;
-    L.push('', `## ${c.name} — ${c.office === 'mayor' ? 'running for MAYOR' : 'running for COUNCIL'}`, `Profile page: ${url}`);
-    L.push(`Incumbent: ${c.incumbent ? 'yes' : 'no'}${c.incumbent_role ? ` (${c.incumbent_role})` : ''}`);
-    if (c.tagline) L.push(`Campaign tagline: ${c.tagline}`);
-    if (c.occupation_background) L.push(`Background: ${c.occupation_background}`);
-    const links = Object.entries(c.links || {}).filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`);
-    if (links.length) L.push(`Links: ${links.join('; ')}`);
-    if (c.direct) L.push(`Answered Squamish Voters directly: yes, ${c.direct.kind} on ${c.direct.date}. ${c.direct.how || ''}`);
-    else L.push('Answered Squamish Voters directly: no (everything below is from the public record).');
-    if ((c.top_priorities || []).length) L.push('Top priorities (as the candidate states them):', ...c.top_priorities.map((p) => `- ${p}`));
-    L.push(`Supports (from the public record):${(c.supports || []).length ? '' : ' nothing found on the public record yet.'}`, ...(c.supports || []).map((s) => `- ${s.text}${srcTag(s.source_url)}`));
-    L.push(`Opposes (from the public record):${(c.opposes || []).length ? '' : ' nothing found on the public record yet.'}`, ...(c.opposes || []).map((s) => `- ${s.text}${srcTag(s.source_url)}`));
-    L.push('Positions by topic (Squamish Voters\' summary of the record):');
-    for (const [k, s] of Object.entries(c.stances || {})) {
-      if (!s || (!s.position && !s.summary)) { L.push(`- ${k}: No public position found.`); continue; }
-      L.push(`- ${k}: ${s.position || ''}${s.summary ? ` — ${s.summary}` : ''}${s.quote ? ` Quote: "${s.quote}"` : ''}${srcTag(s.source_url)}`);
-    }
-    const ow = WRITE_IN.filter(([k]) => k !== 'corrections' && c.own_words?.[k]);
-    if (ow.length) L.push(`Written answers to the Squamish Voters questionnaire (${f}'s own words):`, ...ow.map(([k]) => `- ${k}: ${c.own_words[k].replace(/\n+/g, ' ')}`));
-    const qa = ALL_QUESTIONS.filter((q) => typeof c.quiz_answers?.[q.id] === 'number' || wrote(c, q));
-    if (qa.length) {
-      L.push(`Quiz statement answers (scale: 2 Strongly agrees … -2 Strongly disagrees). "OWN ANSWER" = ${f} picked it in our questionnaire. "OUR READING" = Squamish Voters' estimate from the public record, not ${f}'s own pick:`);
-      for (const q of qa) {
-        const v = c.quiz_answers?.[q.id], own = selfAnswered(c, q);
-        const pick = typeof v === 'number' && (own || !isDirectQ(c)) ? `${ANSWER_WORD[String(v)]} (${own ? 'OWN ANSWER' : 'OUR READING'})` : 'did not pick an answer';
-        L.push(`- ${q.id}: ${pick}${wrote(c, q) ? ` — wrote: "${wrote(c, q).replace(/\n+/g, ' ')}"` : ''}`);
-      }
-    }
-    const missing = ALL_QUESTIONS.filter((q) => q.core !== false && typeof c.quiz_answers?.[q.id] !== 'number').map((q) => q.id);
-    if (missing.length) L.push(`Core quiz statements with no position on file: ${missing.join(', ')}`);
-    if (c.compass?.rationale) L.push(`Squamish Voters' compass placement (our interpretation, not the candidate's words; confidence ${c.compass.confidence || 'n/a'}): ${c.compass.rationale}`);
-    const st = stmtOf(c);
-    if (st?.file) L.push(`Platform statement "${st.title}" (${f}'s own words, ${st.date}; https://squamishvoters.com${st.url}):`, plain(pageFile(st.file)));
-    else if (st?.url) L.push(`Platform statement "${st.title}" (${st.date}) is published as a PDF: ${st.url}`);
-    if (c.paper?.file) L.push(`Positions paper "${c.paper.title}" (${f}'s own words, ${c.paper.date}; https://squamishvoters.com${c.paper.url}):`, plain(pageFile(c.paper.file)));
-  }
-  CHAT_KB = L.join('\n');
-}
-write('/ask/', page({
-  url: '/ask/', title: 'AI chat: ask about the candidates',
-  desc: 'Ask plain-language questions about the 2026 Squamish mayor and council candidates. Answers come only from the sourced records in this guide, with links to check.',
-  body: `<section class="chat-app" aria-label="AI helper chat">
-    <header class="chat-head">
-      <span class="chat-avatar">${ASK_ICON}</span>
-      <div class="chat-title"><h1>AI helper</h1><p>Answers from this guide’s sources</p></div>
-      <button type="button" class="chat-new" id="chat-new" hidden>New chat</button>
-    </header>
-    <div class="chat-log" id="chat-log" aria-live="polite">
-      <div class="chat-welcome" id="chat-welcome">
-        <div class="msg bot"><div class="bubble"><p>Hi! Ask me anything about the ${all.length} candidates or how to vote. I’ll answer from this guide’s records and link every source so you can check it. I won’t tell you who to vote for.</p></div></div>
-        <p class="chat-try">Try asking</p>
-        <div class="chat-chips">${['What do the mayor candidates say about housing?', 'Who opposes the Woodfibre LNG tax deal?', 'What has each council candidate said about property taxes?', 'Where and when can I vote?'].map((q) => `<button type="button" data-ask="${esc(q)}">${esc(q)}</button>`).join('')}</div>
-      </div>
-    </div>
-    <form class="chat-composer" id="ask-form">
-      <label for="ask-input" class="sr" style="position:absolute;left:-999em">Your question</label>
-      <textarea id="ask-input" rows="1" maxlength="600" placeholder="Ask a question…" enterkeyhint="send" required></textarea>
-      <button type="submit" id="ask-send" aria-label="Send">${ASK_SEND}</button>
-    </form>
-    <p class="chat-fine">AI can make mistakes, so check the sources. Questions are saved without names so we can fix wrong answers; don’t type personal details. <a href="/about/">About this guide</a></p>
-  </section>`,
-  scripts: `<script src="/ask.js"></script>`,
-}));
-
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'cform.js', 'admin.js', 'lean.js', 'ask.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'cform.js', 'admin.js', 'lean.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
 // ---------- sitemap (every indexable page written above; lastmod = build date) ----------
@@ -1313,6 +1216,4 @@ fs.writeFileSync(path.join(DIST, 'sitemap.xml'), `<?xml version="1.0" encoding="
 ${[...new Set(SITEMAP)].map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>${today}</lastmod><priority>${prio(u)}</priority></url>`).join('\n')}
 </urlset>
 `);
-// The chat's records, plus every address it may link to: anything quoted in the records and every page on this site.
-fs.writeFileSync(path.join(ROOT, 'api', '_kb.js'), `// Generated by build.mjs from data/. Do not edit by hand.\nexport const KB = ${JSON.stringify(CHAT_KB)};\nexport const URLS = ${JSON.stringify([...new Set([...(CHAT_KB.match(/https?:\/\/[^\s\]"'),;]+/g) || []), ...SITEMAP.map((u) => ORIGIN + u)])].sort())};\n`);
 console.log(`Built ${all.length} candidates (${mayors.length} mayor, ${council.length} council) -> dist/`);
