@@ -1106,19 +1106,22 @@ write('/mayor/', page({
     <p>${n(r.ballots_cast)} ballots were cast, a turnout of <b>${r.turnout_pct}%</b> of ${n(r.total_eligible_electors)} eligible voters.${src(r.source_url, 'official results')}</p>
     <h3>Mayor</h3>${table(r.mayor)}<h3>Council (6 elected)</h3>${table(r.council)}`; };
   write('/results/', page({
-    url: '/results/', title: live ? `Squamish election results 2026 (${R26.status}): mayor, council and school trustees` : 'Squamish election results 2026: when and where to find them, and past results',
-    desc: live ? `${R26.status === 'official' ? 'Official' : 'Unofficial'} results of the October 17, 2026 Squamish election: votes for every mayor, council and school trustee candidate, and turnout.` : `Results of the October 17, 2026 Squamish election will be posted here after polls close at 8 p.m. Plus the full 2022 and 2018 Squamish results and turnout.`,
+    url: '/results/', title: live ? `Squamish election results 2026 (${R26.status}): mayor, council and school trustees` : 'Squamish election results 2026 live: mayor, council and school trustees',
+    desc: live ? `${R26.status === 'official' ? 'Official' : 'Unofficial'} results of the October 17, 2026 Squamish election: votes for every mayor, council and school trustee candidate, and turnout.` : `Live results of the October 17, 2026 Squamish election for mayor, council and school trustee. Polls close at 8 p.m.; results update here automatically as the District reports them. Plus 2022 and 2018 results.`,
     jsonld: crumbLd([['Home', '/'], ['Election results', '/results/']]),
-    body: `<h1>Squamish election results</h1>
+    body: `<h1>Squamish election results${live ? '' : ' 2026 live'}</h1>
     ${live ? `<p class="lede"><b>${R26.status === 'official' ? 'Official' : 'Unofficial'} results</b>, updated ${esc(R26.updated || '')}.${src(R26.source_url, 'District of Squamish')}${R26.ballots_cast ? ` ${n(R26.ballots_cast)} ballots cast${R26.turnout_pct ? `, turnout ${R26.turnout_pct}%` : ''}.` : ''}</p>
     <h2>Mayor</h2>${table(R26.mayor)}<h2>Council (6 elected)</h2>${table(R26.council)}${(R26.trustees || []).length ? `<h2>School trustees (2 elected)</h2>${table(R26.trustees)}` : ''}`
-    : `<div class="card big-answer"><h2 style="margin-top:0">2026 results: Saturday, October 17, after 8 p.m.</h2>
-    <p>Polls close at 8 p.m. The District of Squamish declares unofficial results that night, and we will post them here as soon as they are out. Official results are declared on ${esc(R26.official_on)}.${src(R26.plan_source_url, 'District of Squamish')}</p>
+    : `<div class="card big-answer" id="live"><p class="live-tag"><span class="live-dot"></span> Live · election night</p>
+    <div id="countdown"><p class="cd-label">Polls close at 8 p.m. in</p><p class="cd-time" id="cd-time">&nbsp;</p></div>
+    <div id="live-results" aria-live="polite"></div>
+    <p id="live-status">The District of Squamish declares unofficial results tonight after polls close. This page checks for them every minute and shows them here as soon as they are out, no need to refresh. Official results are declared on ${esc(R26.official_on)}.${src(R26.plan_source_url, 'District of Squamish')}</p>
     <p>Running in 2026: ${mayors.length} for mayor, ${council.length} for council and ${TR.candidates.length} for school trustee. <a href="/candidates/">See all the candidates</a> · <a href="/trustees/">school trustees</a>.</p>
     <p><b>Haven’t voted yet?</b> <a href="/vote/">Where and when to vote</a>.</p></div>`}
     ${past('2022')}
     ${past('2018')}
     <p class="small">Past results are from the District of Squamish’s signed final determinations. 2026 results come from the District’s declaration; check the <a href="https://squamish.ca/government-and-administration/council/election/" target="_blank" rel="noopener">District election page</a> for the official record.</p>`,
+    scripts: live ? '' : '<script src="/live.js"></script>',
   }));
 }
 // Quick answers
@@ -1205,7 +1208,7 @@ fs.writeFileSync(path.join(ROOT, 'api', '_official.js'),
   ), null, 1) + ';\n');
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'cform.js', 'admin.js', 'lean.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'cform.js', 'admin.js', 'lean.js', 'live.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
 // ---------- sitemap (every indexable page written above; lastmod = build date) ----------

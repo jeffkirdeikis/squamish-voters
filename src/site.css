@@ -751,3 +751,17 @@ summary:hover .more-btn { background: var(--brand); color: #fff; }
 .cmap-car [data-slide] > h2 { margin-top: .2rem; }
 .mc-t { font-weight: 700; color: var(--brand); margin: .4rem 0 0; }
 .mini-compass .lt-hint, .cmap-car .lt-hint { margin: .6rem 0 0; color: var(--muted); }
+
+/* Results page: election-night countdown and live results */
+.live-tag { margin: 0 0 .4rem; font-weight: 700; color: var(--no); text-transform: uppercase; letter-spacing: .04em; font-size: .9rem; }
+.live-dot { display: inline-block; width: .7rem; height: .7rem; border-radius: 50%; background: var(--no); margin-right: .3rem; vertical-align: .05rem; animation: live-pulse 1.6s ease-in-out infinite; }
+@keyframes live-pulse { 50% { opacity: .25; } }
+@media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } }
+.cd-label { margin: 0; font-weight: 600; color: var(--ink-2); }
+.cd-time { margin: .1rem 0 .8rem; font-family: Georgia, serif; font-weight: 700; font-size: clamp(2rem, 8vw, 3.2rem); line-height: 1.1; font-variant-numeric: tabular-nums; color: var(--brand); }
+.lr-row { display: grid; grid-template-columns: 1fr auto; gap: .1rem .8rem; padding: .45rem 0; border-bottom: 1px solid var(--line); }
+.lr-row .lr-bar { grid-column: 1 / -1; height: .5rem; background: var(--surface-2); border-radius: .25rem; overflow: hidden; }
+.lr-row .lr-bar span { display: block; height: 100%; background: var(--neutral); }
+.lr-row.lead .lr-bar span { background: var(--brand); }
+.lr-row .lr-votes { font-variant-numeric: tabular-nums; font-weight: 700; }
+.lr-row.lead .lr-name { font-weight: 700; }
