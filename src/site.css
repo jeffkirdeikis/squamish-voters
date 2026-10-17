@@ -459,6 +459,12 @@ button.gl:hover { background: var(--brand-soft); }
 .hero .btn.big small { font-weight: 600; font-size: .82rem; opacity: .8; }
 .hero-alt { margin: .2rem 0 0; }
 .hero-alt a { color: #fff; font-weight: 600; }
+.visit-count { display: inline-flex; align-items: center; gap: .45rem; margin: .9rem 0 0; padding: .3rem .8rem; border-radius: 999px; background: rgba(255,255,255,.14); color: #fff; font-size: .92rem; }
+.visit-count b { font-variant-numeric: tabular-nums; }
+.vc-dot { flex: none; width: .55rem; height: .55rem; border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 0 rgba(74,222,128,.6); animation: vcpulse 2s infinite; }
+@keyframes vcpulse { 70% { box-shadow: 0 0 0 .45rem rgba(74,222,128,0); } 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); } }
+@media (prefers-reduced-motion: reduce) { .vc-dot { animation: none; } }
+.site-footer [data-visits] b { font-variant-numeric: tabular-nums; }
 a.datebar-link { display: block; text-decoration: none; color: inherit; }
 a.datebar-link:hover .datecard { border-color: var(--brand); }
 a.datebar-link .small { color: var(--link); font-weight: 600; }

@@ -311,7 +311,7 @@ ${body}
 </div></main>
 <footer class="site-footer"><div class="wrap">
   <div class="cols">
-    <div><h2>${SITE.name}</h2><p>An independent, non-partisan voter guide made by <a href="/about/#who">Jeff Kirdeikis</a>, a Squamish resident. Not affiliated with the District of Squamish, any candidate, or any party.</p><p>Last updated ${esc(SITE.updated)}.</p></div>
+    <div><h2>${SITE.name}</h2><p>An independent, non-partisan voter guide made by <a href="/about/#who">Jeff Kirdeikis</a>, a Squamish resident. Not affiliated with the District of Squamish, any candidate, or any party.</p><p>Last updated ${esc(SITE.updated)}.</p><p data-visits hidden><b>0</b> page views so far.</p></div>
     <div><h2>Pages</h2><ul>${[['/', 'Home'], ...MENU, ['/about/', 'About, method &amp; corrections']].map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join('')}</ul></div>
     <div><h2>Official information</h2><ul><li><a href="https://squamish.ca/government-and-administration/council/election/" target="_blank" rel="noopener">District of Squamish election page</a></li><li><a href="https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/" target="_blank" rel="noopener">Official candidate list</a></li><li><a href="https://elections.bc.ca/local-elections/" target="_blank" rel="noopener">Elections BC: local elections</a></li></ul>
     </div>
@@ -573,6 +573,7 @@ write('/', page({
     <p class="lede">In the Squamish election on <b>Saturday, October 17, 2026</b>, we pick 1 mayor and 6 councillors. Here is where all ${all.length} candidates stand, in plain words.</p>
     <div class="btn-row"><a class="btn big" href="/quiz/">Who actually agrees with you? →<small>${QUESTIONS.length} quick questions · about 3 minutes</small></a></div>
     <p class="hero-alt"><a href="/candidates/">Or just show me everyone running →</a></p>
+    <p class="visit-count" data-visits hidden><span class="vc-dot" aria-hidden="true"></span><b>0</b> page views so far</p>
   </div></section>`,
   body: `
   <div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg><div>

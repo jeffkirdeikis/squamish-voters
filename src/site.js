@@ -238,6 +238,30 @@
   function openHash() { var d = location.hash && document.getElementById(location.hash.slice(1)); if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView(); } }
   openHash(); window.addEventListener('hashchange', openHash);
 
+  // ----- live page view counter (Vercel Web Analytics total, via /api/visits/) -----
+  var visitEls = document.querySelectorAll('[data-visits]'), shown = 0;
+  function showVisits(n) {
+    var from = shown, t0 = 0;
+    shown = n;
+    visitEls.forEach(function (el) { el.hidden = false; });
+    // First load shows the number straight away; later increases count up to it.
+    if (!from) { visitEls.forEach(function (el) { el.querySelector('b').textContent = n.toLocaleString('en-CA'); }); return; }
+    function step(t) {
+      if (!t0) t0 = t;
+      var k = Math.min(1, (t - t0) / 1500), v = Math.round(from + (n - from) * (1 - Math.pow(1 - k, 3)));
+      visitEls.forEach(function (el) { el.querySelector('b').textContent = v.toLocaleString('en-CA'); });
+      if (k < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  function loadVisits() {
+    if (document.hidden) return;
+    fetch('/api/visits/').then(function (r) { return r.json(); }).then(function (d) {
+      if (d.ok && d.pageviews > shown) showVisits(d.pageviews);
+    }).catch(function () {});
+  }
+  if (visitEls.length) { loadVisits(); setInterval(loadVisits, 30000); }
+
   window.SV = { getBallot: getBallot, setBallot: setBallot, toggle: toggle, toast: toast, store: store, renderPicks: render, track: track, compassYou: compassYou };
   render();
 })();
