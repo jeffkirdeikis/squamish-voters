@@ -1213,10 +1213,12 @@ fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
 // ---------- sitemap (every indexable page written above; lastmod = build date) ----------
 const today = new Date().toISOString().slice(0, 10);
-const prio = (u) => (u === '/' ? '1.0' : ['/candidates/', '/quiz/', '/vote/', '/mayor/', '/faq/'].includes(u) ? '0.8' : '0.6');
+const prio = (u) => (u === '/' || u === '/results/' ? '1.0' : ['/candidates/', '/quiz/', '/vote/', '/mayor/', '/faq/'].includes(u) ? '0.8' : '0.6');
+// Results change on election night, so that page gets the exact build time.
+const mod = (u) => (u === '/results/' ? new Date().toISOString().slice(0, 19) + 'Z' : today);
 fs.writeFileSync(path.join(DIST, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...new Set(SITEMAP)].map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>${today}</lastmod><priority>${prio(u)}</priority></url>`).join('\n')}
+${[...new Set(SITEMAP)].map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>${mod(u)}</lastmod><priority>${prio(u)}</priority></url>`).join('\n')}
 </urlset>
 `);
 console.log(`Built ${all.length} candidates (${mayors.length} mayor, ${council.length} council) -> dist/`);
