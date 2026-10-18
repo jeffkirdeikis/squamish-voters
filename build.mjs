@@ -574,7 +574,8 @@ const resWinner = (k) => (R26[k] || []).filter((r) => r.elected).map((r) => r.na
 // ---------- HOME (written after Compare because it reuses COMPARE_BLOCK) ----------
 const v = ctx.voting || {};
 write('/', page({
-  url: '/', title: '',
+  url: '/', title: RES_LIVE ? `Squamish election 2026 results are live: ${resWinner('mayor')[0]} elected mayor` : '',
+  desc: RES_LIVE ? `Results are live. ${resWinner('mayor')[0]} is elected mayor of Squamish. New council: ${resWinner('council').join(', ')}. Every candidate's votes, plus our independent guide to all ${all.length} candidates.` : undefined,
   jsonld: [{
     '@context': 'https://schema.org', '@type': 'WebSite', name: 'Squamish Voters', alternateName: 'SquamishVoters.com', url: `${ORIGIN}/`, inLanguage: 'en-CA',
     description: 'Independent, non-partisan voter guide for the October 17, 2026 District of Squamish municipal election.',
@@ -1135,8 +1136,8 @@ write('/mayor/', page({
     <p>${n(r.ballots_cast)} ballots were cast, a turnout of <b>${r.turnout_pct}%</b> of ${n(r.total_eligible_electors)} eligible voters.${src(r.source_url, 'official results')}</p>
     <h3>Mayor</h3>${table(r.mayor)}<h3>Council (6 elected)</h3>${table(r.council)}`; };
   write('/results/', page({
-    url: '/results/', title: live ? `Squamish election results 2026 (${R26.status}): mayor, council and school trustees` : 'Squamish election results 2026 live: mayor, council and school trustees',
-    desc: live ? `${R26.status === 'official' ? 'Official' : 'Unofficial'} results of the October 17, 2026 Squamish election: votes for every mayor, council and school trustee candidate, and turnout.` : `Live results of the October 17, 2026 Squamish election for mayor, council and school trustee. Polls close at 8 p.m.; results update here automatically as the District reports them. Plus 2022 and 2018 results.`,
+    url: '/results/', title: live ? `Squamish election results 2026 are live: ${resWinner('mayor')[0]} elected mayor` : 'Squamish election results 2026 live: mayor, council and school trustees',
+    desc: live ? `Results are live. ${RES_WORD} results: ${resWinner('mayor')[0]} elected mayor of Squamish by ${num(R26.mayor[0].total - R26.mayor[1].total)} votes. Council: ${resWinner('council').join(', ')}. Trustees: ${resWinner('trustees').join(', ')}. Turnout ${R26.turnout_pct}%.` : `Live results of the October 17, 2026 Squamish election for mayor, council and school trustee. Polls close at 8 p.m.; results update here automatically as the District reports them. Plus 2022 and 2018 results.`,
     jsonld: crumbLd([['Home', '/'], ['Election results', '/results/']]),
     body: `<h1>Squamish election results${live ? '' : ' 2026 live'}</h1>
     ${live ? `<p class="lede">${resLede()}</p>
