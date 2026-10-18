@@ -771,3 +771,17 @@ summary:hover .more-btn { background: var(--brand); color: #fff; }
 .lr-row.lead .lr-bar span { background: var(--brand); }
 .lr-row .lr-votes { font-variant-numeric: tabular-nums; font-weight: 700; }
 .lr-row.lead .lr-name { font-weight: 700; }
+/* 2026 results rows (results page + home) */
+.res-list { margin: .4rem 0 1rem; }
+.res-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .15rem .7rem; padding: .55rem 0; border-bottom: 1px solid var(--line); }
+.res-row .avatar { margin: 0; }
+.res-name { font-weight: 600; }
+.res-row.won .res-name { font-weight: 800; }
+.res-votes { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.res-badge { display: inline-block; font-size: .8rem; font-weight: 700; padding: .05rem .5rem; border-radius: 1rem; background: var(--brand); color: #fff; vertical-align: middle; }
+.res-bar { grid-column: 2 / -1; height: .5rem; background: var(--surface-2); border-radius: .25rem; overflow: hidden; }
+.res-bar span { display: block; height: 100%; background: var(--neutral); }
+.res-row.won .res-bar span { background: var(--brand); }
+.res-home h3 { margin-top: 1.2rem; }
+.hero .live-tag { color: #fff; } .hero .live-dot { background: #ffc531; }
+.res-home > h2:first-child { margin-top: 0; }

@@ -556,6 +556,21 @@ write('/compare/', page({
   <a class="card" href="/issues/" style="display:block;margin-top:1.5rem"><h3>The issues explained</h3><p>Plain-language background on what this election is actually about.</p></a>`,
 }));
 
+// ---------- 2026 RESULTS (results page, and the top of home once the District posts numbers) ----------
+const R26 = RES['2026'], RES_LIVE = R26.status !== 'pending' && (R26.mayor || []).length > 0;
+const RES_WORD = R26.status === 'official' ? 'Official' : 'Unofficial';
+const num = (x) => Number(x).toLocaleString('en-CA');
+const candByName = Object.fromEntries(all.map((c) => [c.name, c]));
+// One row per candidate, most votes first: face, name (linked to their profile), votes, bar. pct only for mayor,
+// since the District's council and trustee percentages are shares of all votes, which reads oddly.
+function resRace(rows, { pct = false, only = null } = {}) {
+  const max = rows[0]?.total || 1;
+  return `<div class="res-list">${rows.filter((r) => !only || only(r)).map((r) => { const c = candByName[r.name];
+    return `<div class="res-row${r.elected ? ' won' : ''}">${c ? avatar(c, 'sm') : `<span class="avatar sm" aria-hidden="true">${esc(initials(r))}</span>`}<span class="res-name">${c ? `<a href="/candidates/${c.slug}/">${esc(r.name)}</a>` : esc(r.name)}${r.elected ? ' <span class="res-badge">Elected</span>' : ''}</span><span class="res-votes">${num(r.total)}${pct && r.pct != null ? ` <span class="small">${r.pct}%</span>` : ''}</span><span class="res-bar"><span style="width:${(100 * r.total / max).toFixed(1)}%"></span></span></div>`; }).join('')}</div>`;
+}
+const resLede = () => `<b>${RES_WORD} results</b>${R26.updated ? `, as of ${esc(R26.updated)}` : ''}${/\.$/.test(R26.updated || '') ? '' : '.'} ${num(R26.ballots_cast)} ballots cast, turnout ${R26.turnout_pct}% of ${num(R26.eligible_voters)} eligible voters.${src(R26.source_url, 'District of Squamish')}`;
+const resWinner = (k) => (R26[k] || []).filter((r) => r.elected).map((r) => r.name);
+
 // ---------- HOME (written after Compare because it reuses COMPARE_BLOCK) ----------
 const v = ctx.voting || {};
 write('/', page({
@@ -568,14 +583,28 @@ write('/', page({
     founder: { '@type': 'Person', name: 'Jeff Kirdeikis' }, areaServed: 'Squamish, British Columbia',
     ...(SITE.contact ? { email: SITE.contact } : {}),
   }],
-  hero: `<section class="hero"><div class="wrap">
+  hero: RES_LIVE ? `<section class="hero"><div class="wrap">
+    <p class="live-tag"><span class="live-dot"></span> ${RES_WORD} results · October 17, 2026</p>
+    <h1>${esc(resWinner('mayor')[0])} is Squamish’s next mayor</h1>
+    <p class="lede">With all votes counted, the District of Squamish reports ${esc(resWinner('mayor')[0])} won by ${num(R26.mayor[0].total - R26.mayor[1].total)} votes. ${num(R26.ballots_cast)} people voted, a turnout of ${R26.turnout_pct}%.</p>
+    <div class="btn-row"><a class="btn big" href="/results/">See every candidate’s votes →<small>Mayor, council and school trustees</small></a></div>
+    <p class="visit-count" data-visits hidden><span class="vc-dot" aria-hidden="true"></span><b>0</b> page views so far</p>
+  </div></section>` : `<section class="hero"><div class="wrap">
     <h1>Not sure who to vote for in Squamish?</h1>
     <p class="lede">In the Squamish election on <b>Saturday, October 17, 2026</b>, we pick 1 mayor and 6 councillors. Here is where all ${all.length} candidates stand, in plain words.</p>
     <div class="btn-row"><a class="btn big" href="/quiz/">Who actually agrees with you? →<small>${QUESTIONS.length} quick questions · about 3 minutes</small></a></div>
     <p class="hero-alt"><a href="/candidates/">Or just show me everyone running →</a></p>
     <p class="visit-count" data-visits hidden><span class="vc-dot" aria-hidden="true"></span><b>0</b> page views so far</p>
   </div></section>`,
-  body: `
+  body: `${RES_LIVE ? `
+  <section class="card res-home" id="results"><h2>Election results</h2>
+    <p class="small">${resLede()}</p>
+    <h3>Mayor</h3>${resRace(R26.mayor, { pct: true })}
+    <h3>Council <span class="small">— 6 elected</span></h3>${resRace(R26.council, { only: (r) => r.elected })}
+    ${(R26.trustees || []).length ? `<h3>School trustees <span class="small">— 2 elected</span></h3>${resRace(R26.trustees, { only: (r) => r.elected })}` : ''}
+    <div class="btn-row"><a class="btn block" href="/results/">Full results for all ${R26.mayor.length + R26.council.length + (R26.trustees || []).length} candidates →</a></div>
+    <p class="small">Official results are declared on ${esc(R26.official_on)}. Below is our guide as it stood on election day.</p>
+  </section>` : ''}
   <div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg><div>
     <h2>You can check our work</h2>
     <p>No endorsements. The same questions go to every candidate, every claim links to its source, and the code and scoring formula are public for anyone to inspect.</p>
@@ -1100,8 +1129,7 @@ write('/mayor/', page({
 }
 // Results: live on election night, past elections below so the page is indexed and useful before then
 {
-  const R26 = RES['2026'], live = R26.status !== 'pending' && (R26.mayor || []).length;
-  const n = (x) => Number(x).toLocaleString('en-CA');
+  const live = RES_LIVE, n = num;
   const table = (rows, seats) => `<div class="table-scroll"><table class="issue-table"><thead><tr><th>Candidate</th><th>Votes</th><th></th></tr></thead><tbody>${[...rows].sort((a, b) => b.total - a.total).map((r) => `<tr><td>${r.elected ? '<b>' : ''}${esc(r.name)}${r.elected ? '</b>' : ''}</td><td>${n(r.total)}</td><td>${r.elected ? '<b>Elected</b>' : ''}</td></tr>`).join('')}</tbody></table></div>`;
   const past = (y) => { const r = RES[y]; return `<h2 id="${y}">${y} results</h2>
     <p>${n(r.ballots_cast)} ballots were cast, a turnout of <b>${r.turnout_pct}%</b> of ${n(r.total_eligible_electors)} eligible voters.${src(r.source_url, 'official results')}</p>
@@ -1111,8 +1139,12 @@ write('/mayor/', page({
     desc: live ? `${R26.status === 'official' ? 'Official' : 'Unofficial'} results of the October 17, 2026 Squamish election: votes for every mayor, council and school trustee candidate, and turnout.` : `Live results of the October 17, 2026 Squamish election for mayor, council and school trustee. Polls close at 8 p.m.; results update here automatically as the District reports them. Plus 2022 and 2018 results.`,
     jsonld: crumbLd([['Home', '/'], ['Election results', '/results/']]),
     body: `<h1>Squamish election results${live ? '' : ' 2026 live'}</h1>
-    ${live ? `<p class="lede"><b>${R26.status === 'official' ? 'Official' : 'Unofficial'} results</b>, updated ${esc(R26.updated || '')}.${src(R26.source_url, 'District of Squamish')}${R26.ballots_cast ? ` ${n(R26.ballots_cast)} ballots cast${R26.turnout_pct ? `, turnout ${R26.turnout_pct}%` : ''}.` : ''}</p>
-    <h2>Mayor</h2>${table(R26.mayor)}<h2>Council (6 elected)</h2>${table(R26.council)}${(R26.trustees || []).length ? `<h2>School trustees (2 elected)</h2>${table(R26.trustees)}` : ''}`
+    ${live ? `<p class="lede">${resLede()}</p>
+    <div class="jump"><a class="chip-btn" href="#mayor">Mayor</a><a class="chip-btn" href="#council">Council</a><a class="chip-btn" href="#trustees">School trustees</a><a class="chip-btn" href="#2022">2022</a></div>
+    <h2 id="mayor">Mayor <span class="small">— 1 elected</span></h2>${resRace(R26.mayor, { pct: true })}
+    <h2 id="council">Council <span class="small">— 6 elected</span></h2>${resRace(R26.council)}
+    ${(R26.trustees || []).length ? `<h2 id="trustees">School trustees <span class="small">— 2 elected for Squamish, School District 48</span></h2>${resRace(R26.trustees)}` : ''}
+    <p class="small">${esc(R26.counted || '')}. ${RES_WORD === 'Unofficial' ? `These are the unofficial numbers from the District’s results page. Official results are declared on ${esc(R26.official_on)}; a judicial recount can be requested in a close race.` : ''}</p>`
     : `<div class="card big-answer" id="live"><p class="live-tag"><span class="live-dot"></span> Live · election night</p>
     <div id="countdown"><p class="cd-label">Polls close at 8 p.m. in</p><p class="cd-time" id="cd-time">&nbsp;</p></div>
     <div id="live-results" aria-live="polite"></div>

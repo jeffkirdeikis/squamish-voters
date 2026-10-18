@@ -1,147 +1,4 @@
 {
- "2026": {
-  "status": "pending",
-  "note": "Fill on election night from the District of Squamish declaration of unofficial results. status: pending | unofficial | official.",
-  "updated": null,
-  "source_url": null,
-  "ballots_cast": null,
-  "turnout_pct": null,
-  "mayor": [],
-  "council": [],
-  "trustees": [],
-  "unofficial_on": "Saturday, October 17, 2026, after polls close at 8 p.m.",
-  "official_on": "October 21, 2026",
-  "plan_source_url": "https://squamish.ca/government-and-administration/council/election/"
- },
- "2022": {
-  "source_url": "https://squamish.ca/assets/2022-Election/FINAL-DETERMINATION-October_18_2022.pdf",
-  "news_release_url": "https://squamish.ca/government-and-administration/district-information/news/squamish-2022-general-election-final-determination-of-results/",
-  "general_voting_day": "2022-10-15",
-  "mayor": [
-   {
-    "name": "Armand Victor Hurford",
-    "mail": 29,
-    "advance": 1557,
-    "special": 23,
-    "general_voting_day": 2827,
-    "total": 4436,
-    "elected": true
-   },
-   {
-    "name": "Mike Young (Squamish First)",
-    "mail": 5,
-    "advance": 474,
-    "special": 9,
-    "general_voting_day": 696,
-    "total": 1184,
-    "elected": false
-   },
-   {
-    "name": "Deanna Kalkalilh Lewis",
-    "mail": 4,
-    "advance": 296,
-    "special": 16,
-    "general_voting_day": 728,
-    "total": 1044,
-    "elected": false
-   }
-  ],
-  "council": [
-   {
-    "name": "Jenna Stoner",
-    "mail": 25,
-    "advance": 1407,
-    "special": 24,
-    "general_voting_day": 2638,
-    "total": 4094,
-    "elected": true
-   },
-   {
-    "name": "Eric Andersen",
-    "mail": 25,
-    "advance": 1306,
-    "special": 26,
-    "general_voting_day": 2285,
-    "total": 3642,
-    "elected": true
-   },
-   {
-    "name": "Lauren Greenlaw",
-    "mail": 26,
-    "advance": 1154,
-    "special": 24,
-    "general_voting_day": 2363,
-    "total": 3567,
-    "elected": true
-   },
-   {
-    "name": "Chris Pettingill",
-    "mail": 23,
-    "advance": 1172,
-    "special": 19,
-    "general_voting_day": 2102,
-    "total": 3316,
-    "elected": true
-   },
-   {
-    "name": "Andrew Hamilton",
-    "mail": 24,
-    "advance": 1129,
-    "special": 27,
-    "general_voting_day": 1891,
-    "total": 3071,
-    "elected": true
-   },
-   {
-    "name": "John French",
-    "mail": 18,
-    "advance": 1108,
-    "special": 21,
-    "general_voting_day": 1906,
-    "total": 3053,
-    "elected": true
-   },
-   {
-    "name": "Christina Walsh",
-    "mail": 12,
-    "advance": 817,
-    "special": 16,
-    "general_voting_day": 1687,
-    "total": 2532,
-    "elected": false
-   },
-   {
-    "name": "Gord Addison",
-    "mail": 21,
-    "advance": 791,
-    "special": 17,
-    "general_voting_day": 1581,
-    "total": 2410,
-    "elected": false
-   },
-   {
-    "name": "Rajan Hans (Squamish First)",
-    "mail": 13,
-    "advance": 802,
-    "special": 16,
-    "general_voting_day": 1150,
-    "total": 1981,
-    "elected": false
-   },
-   {
-    "name": "Adrien Byrne (Squamish First)",
-    "mail": 9,
-    "advance": 472,
-    "special": 13,
-    "general_voting_day": 851,
-    "total": 1345,
-    "elected": false
-   }
-  ],
-  "ballots_cast": 6718,
-  "turnout_pct": 39.73,
-  "total_eligible_electors": 16910
- },
  "2018": {
   "source_url": "https://squamish.ca/assets/Uploads/2018-Election-Final-Results.pdf",
   "news_release_url": "https://squamish.ca/government-and-administration/district-information/news/district-of-squamish-official-2018-election-results/",
@@ -369,5 +226,292 @@
   "ballots_cast": 7024,
   "turnout_pct": 47.8,
   "total_eligible_electors": 14695
+ },
+ "2022": {
+  "source_url": "https://squamish.ca/assets/2022-Election/FINAL-DETERMINATION-October_18_2022.pdf",
+  "news_release_url": "https://squamish.ca/government-and-administration/district-information/news/squamish-2022-general-election-final-determination-of-results/",
+  "general_voting_day": "2022-10-15",
+  "mayor": [
+   {
+    "name": "Armand Victor Hurford",
+    "mail": 29,
+    "advance": 1557,
+    "special": 23,
+    "general_voting_day": 2827,
+    "total": 4436,
+    "elected": true
+   },
+   {
+    "name": "Mike Young (Squamish First)",
+    "mail": 5,
+    "advance": 474,
+    "special": 9,
+    "general_voting_day": 696,
+    "total": 1184,
+    "elected": false
+   },
+   {
+    "name": "Deanna Kalkalilh Lewis",
+    "mail": 4,
+    "advance": 296,
+    "special": 16,
+    "general_voting_day": 728,
+    "total": 1044,
+    "elected": false
+   }
+  ],
+  "council": [
+   {
+    "name": "Jenna Stoner",
+    "mail": 25,
+    "advance": 1407,
+    "special": 24,
+    "general_voting_day": 2638,
+    "total": 4094,
+    "elected": true
+   },
+   {
+    "name": "Eric Andersen",
+    "mail": 25,
+    "advance": 1306,
+    "special": 26,
+    "general_voting_day": 2285,
+    "total": 3642,
+    "elected": true
+   },
+   {
+    "name": "Lauren Greenlaw",
+    "mail": 26,
+    "advance": 1154,
+    "special": 24,
+    "general_voting_day": 2363,
+    "total": 3567,
+    "elected": true
+   },
+   {
+    "name": "Chris Pettingill",
+    "mail": 23,
+    "advance": 1172,
+    "special": 19,
+    "general_voting_day": 2102,
+    "total": 3316,
+    "elected": true
+   },
+   {
+    "name": "Andrew Hamilton",
+    "mail": 24,
+    "advance": 1129,
+    "special": 27,
+    "general_voting_day": 1891,
+    "total": 3071,
+    "elected": true
+   },
+   {
+    "name": "John French",
+    "mail": 18,
+    "advance": 1108,
+    "special": 21,
+    "general_voting_day": 1906,
+    "total": 3053,
+    "elected": true
+   },
+   {
+    "name": "Christina Walsh",
+    "mail": 12,
+    "advance": 817,
+    "special": 16,
+    "general_voting_day": 1687,
+    "total": 2532,
+    "elected": false
+   },
+   {
+    "name": "Gord Addison",
+    "mail": 21,
+    "advance": 791,
+    "special": 17,
+    "general_voting_day": 1581,
+    "total": 2410,
+    "elected": false
+   },
+   {
+    "name": "Rajan Hans (Squamish First)",
+    "mail": 13,
+    "advance": 802,
+    "special": 16,
+    "general_voting_day": 1150,
+    "total": 1981,
+    "elected": false
+   },
+   {
+    "name": "Adrien Byrne (Squamish First)",
+    "mail": 9,
+    "advance": 472,
+    "special": 13,
+    "general_voting_day": 851,
+    "total": 1345,
+    "elected": false
+   }
+  ],
+  "ballots_cast": 6718,
+  "turnout_pct": 39.73,
+  "total_eligible_electors": 16910
+ },
+ "2026": {
+  "status": "unofficial",
+  "note": "Fill on election night from the District of Squamish declaration of unofficial results. status: pending | unofficial | official.",
+  "updated": "October 17, 2026 at 9:11 p.m.",
+  "source_url": "https://squamish.ca/public/Squamish2026ENR_Ver1/index.html#at/1/ar/1/ct/000",
+  "ballots_cast": 8881,
+  "turnout_pct": 45.33,
+  "mayor": [
+   {
+    "name": "Sean Easton",
+    "total": 3681,
+    "pct": 41.93,
+    "elected": true
+   },
+   {
+    "name": "Jenna Stoner",
+    "total": 3506,
+    "pct": 39.94,
+    "elected": false
+   },
+   {
+    "name": "Daniel Deal",
+    "total": 1591,
+    "pct": 18.12,
+    "elected": false
+   }
+  ],
+  "council": [
+   {
+    "name": "Sarah Ellis",
+    "total": 4499,
+    "pct": 10.15,
+    "elected": true
+   },
+   {
+    "name": "Eric Andersen",
+    "total": 3851,
+    "pct": 8.69,
+    "elected": true
+   },
+   {
+    "name": "Laura Prosko",
+    "total": 3828,
+    "pct": 8.64,
+    "elected": true
+   },
+   {
+    "name": "Luc Perreault",
+    "total": 3785,
+    "pct": 8.54,
+    "elected": true
+   },
+   {
+    "name": "Shaun Veltkamp",
+    "total": 3754,
+    "pct": 8.47,
+    "elected": true
+   },
+   {
+    "name": "Janice DesJardins",
+    "total": 3688,
+    "pct": 8.32,
+    "elected": true
+   },
+   {
+    "name": "A. John Lowe",
+    "total": 3012,
+    "pct": 6.8,
+    "elected": false
+   },
+   {
+    "name": "Anders Ourom",
+    "total": 2975,
+    "pct": 6.71,
+    "elected": false
+   },
+   {
+    "name": "John French",
+    "total": 2697,
+    "pct": 6.09,
+    "elected": false
+   },
+   {
+    "name": "Ian Brown",
+    "total": 2648,
+    "pct": 5.98,
+    "elected": false
+   },
+   {
+    "name": "Andrew Hamilton",
+    "total": 2607,
+    "pct": 5.88,
+    "elected": false
+   },
+   {
+    "name": "Chris Pettingill",
+    "total": 2460,
+    "pct": 5.55,
+    "elected": false
+   },
+   {
+    "name": "Sean Goodwin",
+    "total": 1802,
+    "pct": 4.07,
+    "elected": false
+   },
+   {
+    "name": "Kieran Brownie",
+    "total": 1632,
+    "pct": 3.68,
+    "elected": false
+   },
+   {
+    "name": "Chris Ryan",
+    "total": 1077,
+    "pct": 2.43,
+    "elected": false
+   }
+  ],
+  "trustees": [
+   {
+    "name": "April Lowe",
+    "total": 2956,
+    "pct": 27.57,
+    "elected": true
+   },
+   {
+    "name": "Leanne Roderick",
+    "total": 2760,
+    "pct": 25.74,
+    "elected": true
+   },
+   {
+    "name": "Lisa Turpin",
+    "total": 2021,
+    "pct": 18.85,
+    "elected": false
+   },
+   {
+    "name": "Dalia Shehata",
+    "total": 1610,
+    "pct": 15.01,
+    "elected": false
+   },
+   {
+    "name": "Robyn Walters",
+    "total": 1376,
+    "pct": 12.83,
+    "elected": false
+   }
+  ],
+  "unofficial_on": "Saturday, October 17, 2026, after polls close at 8 p.m.",
+  "official_on": "October 21, 2026",
+  "plan_source_url": "https://squamish.ca/government-and-administration/council/election/",
+  "eligible_voters": 19591,
+  "counted": "11 of 11 vote counting machines reported",
+  "district_timestamp": "2026-10-17 23:54:51"
  }
 }
