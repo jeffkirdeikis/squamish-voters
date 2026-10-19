@@ -865,3 +865,41 @@ summary:hover .more-btn { background: var(--brand); color: #fff; }
 span.vmark.ps-kept, span.vmark.ps-broken { display: inline-block; }
 .svd-grid td:first-child { min-width: 16rem; text-align: left; }
 .svd-grid td { text-align: center; vertical-align: top; }
+
+/* ---------- Mobile pass (Oct 19): promise rows, score cards, statement cards, compact faces ---------- */
+.promise > summary { flex-direction: column; gap: .35rem; }
+.promise > summary .pstatus { align-self: flex-start; }
+.ptxt { font-weight: 600; color: var(--ink); line-height: 1.4; }
+@media (min-width: 700px) { .promise > summary { flex-direction: row; align-items: flex-start; } .promise > summary .pstatus { min-width: 9.5rem; justify-content: flex-start; } }
+.scards { display: grid; gap: .6rem; margin: .8rem 0 1rem; }
+@media (min-width: 760px) { .scards { grid-template-columns: 1fr 1fr; } }
+.scard { display: flex; gap: .8rem; align-items: flex-start; padding: .9rem 1rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); text-decoration: none; color: inherit; }
+.scard:hover { border-color: var(--brand); }
+.scard .avatar { flex: none; }
+.sbody { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: .35rem; }
+.sname { display: flex; flex-direction: column; }
+.sname b { font-size: 1.05rem; }
+.sline p { margin: 0; }
+.sbar { display: flex; height: .7rem; border-radius: 99px; overflow: hidden; margin: .25rem 0; background: var(--surface-2); }
+.sbar i { display: block; }
+.sbar i.ps-kept { background: var(--yes); } .sbar i.ps-broken { background: var(--no); } .sbar i.ps-progress { background: #d9a400; } .sbar i.ps-notyet { background: var(--surface-2); }
+.chip-row { display: flex; flex-wrap: wrap; gap: .4rem; margin: .6rem 0 1rem; }
+.chip-row .chip-btn { text-decoration: none; font-size: .9rem; }
+.qcard { margin: .6rem 0; padding: 1rem; }
+.qtext { font-weight: 700; margin: 0 0 .7rem; line-height: 1.4; }
+.qwho { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5rem .3rem; }
+@media (min-width: 560px) { .qwho { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
+.qwho a { display: flex; flex-direction: column; align-items: center; gap: .2rem; text-decoration: none; color: var(--ink); text-align: center; }
+.qwho .qname { font-size: .78rem; font-weight: 600; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.qwho .vmark { white-space: normal; text-align: center; line-height: 1.2; }
+@media (max-width: 640px) {
+  .faces-sm { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .45rem; }
+  .faces-sm .face { padding: .55rem .2rem; gap: .25rem; }
+  .faces-sm .face .avatar { width: 3.6rem; height: 3.6rem; }
+  .faces-sm .face b { font-size: .78rem; line-height: 1.2; }
+  .faces-sm .face .small { font-size: .7rem; }
+}
+@media (max-width: 640px) { .chip-row { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: .3rem; margin-right: -1rem; } .chip-row .chip-btn { flex: none; white-space: nowrap; } }
+.scard .go { align-self: center; font-size: 1.6rem; color: var(--muted); }
+.qwho .qname { font-size: .72rem; }
+.keybox { padding: .8rem 1rem; } .keybox .legend { margin: 0 0 .4rem; } .keybox p { margin: 0; }

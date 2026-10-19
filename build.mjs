@@ -251,7 +251,7 @@ const ICON = {
   promise: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg>',
   ballot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 8.500l1.2 1.2 2-2.400M8.5 14.500l1.2 1.2 2-2.400M14 9h2M14 15h2"/></svg>',
 };
-const TABS = [['/', 'Home', 'home'], ['/council/', 'Council', 'people'], ['/meetings/', 'Meetings', 'meet'], ['/promises/', 'Promises', 'promise'], ['/said-vs-did/', 'Said vs did', 'compare'], ['/quiz/', 'Quiz', 'quiz']];
+const TABS = [['/', 'Home', 'home'], ['/council/', 'Council', 'people'], ['/meetings/', 'Meetings', 'meet'], ['/promises/', 'Promises', 'promise'], ['/said-vs-did/', 'Record', 'compare'], ['/quiz/', 'Quiz', 'quiz']];
 // The phone Menu: every page, one per row, with How to vote near the top since it left the bottom bar.
 const MENU_ICON = {
   issues: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/></svg>',
@@ -386,7 +386,7 @@ const PSTATUS = {
   kept: { label: 'Kept', cls: 'ps-kept', icon: '✓' },
   broken: { label: 'Broken', cls: 'ps-broken', icon: '✕' },
   progress: { label: 'In progress', cls: 'ps-progress', icon: '…' },
-  not_yet: { label: 'Nothing to judge yet', cls: 'ps-notyet', icon: '○' },
+  not_yet: { label: 'Not tested yet', cls: 'ps-notyet', icon: '○' },
 };
 const pStatus = (p) => PSTATUS[p.status] || PSTATUS.not_yet;
 const promisesOf = (c) => PROMISES.filter((p) => p.slug === c.slug);
@@ -454,8 +454,22 @@ function votedAnswers(c) {
   }
   return out;
 }
+const ANY_VOTES = DECISIONS.some((d) => d.votes);
+const FIRST_VOTES = (upcoming.find((m) => m.type !== 'inaugural') || {}).date;
+// One member's track record as a card: replaces wide tables that fell apart on phones.
+function scoreCard(c, { promises = true, positions = true } = {}) {
+  const ps = promisesOf(c), pc = pCounts(ps), pr = positionReport(c);
+  const bar = (parts, total) => `<span class="sbar" aria-hidden="true">${parts.filter(([n]) => n).map(([n, cls]) => `<i class="${cls}" style="flex:${n}"></i>`).join('')}${total - parts.reduce((a, [n]) => a + n, 0) > 0 ? `<i class="ps-notyet" style="flex:${total - parts.reduce((a, [n]) => a + n, 0)}"></i>` : ''}</span>`;
+  const line = (label, parts, total, untested) => `<div class="sline"><p><b>${label}</b></p>${bar(parts, total)}<p class="small">${parts.map(([n, , w]) => `${n} ${w}`).join(' · ')} · ${untested} not tested yet</p></div>`;
+  // Before any votes there is nothing to score: one quiet line instead of rows of zeros.
+  if (!ANY_VOTES) return `<a class="scard" href="/council/${c.slug}/#record">${avatar(c, 'sm')}<span class="sbody"><span class="sname"><b>${esc(c.name)}</b><span class="small">${[promises && `${ps.length} promises`, positions && `${pr.rows.length} positions`].filter(Boolean).join(' · ')} tracked</span></span></span><span class="go" aria-hidden="true">›</span></a>`;
+  return `<a class="scard" href="/council/${c.slug}/#record">${avatar(c, 'sm')}<span class="sbody"><span class="sname"><b>${esc(c.name)}</b><span class="small">${c.office === 'mayor' ? 'Mayor' : 'Councillor'}</span></span>
+  ${promises ? line('Promises', [[pc.kept, 'ps-kept', 'kept'], [pc.broken, 'ps-broken', 'broken'], [pc.progress, 'ps-progress', 'in progress']], ps.length, pc.not_yet) : ''}
+  ${positions ? line('Positions', [[pr.inLine, 'ps-kept', 'voted the way they said'], [pr.against, 'ps-broken', 'voted against'], [pr.mixed, 'ps-progress', 'mixed']], pr.rows.length, pr.untested) : ''}</span></a>`;
+}
+const noVotesNote = () => ANY_VOTES ? '' : `<div class="notice info"><b>No votes yet.</b> The new council is sworn in on November 3${FIRST_VOTES ? ` and its first regular meeting is ${esc(fmtLong(FIRST_VOTES))}` : ''}. Every vote after that is checked here automatically.</div>`;
 const posStatus = (checks) => (!checks.length ? 'untested' : checks.every((x) => x.inLine) ? 'in_line' : checks.every((x) => !x.inLine) ? 'against' : 'mixed');
-const POS_STATUS = { in_line: ['✓', 'Voted the way they said', 'ps-kept'], against: ['✕', 'Voted against what they said', 'ps-broken'], mixed: ['~', 'Mixed', 'ps-progress'], untested: ['○', 'No vote on this yet', 'ps-notyet'] };
+const POS_STATUS = { in_line: ['✓', 'Voted the way they said', 'ps-kept'], against: ['✕', 'Voted against what they said', 'ps-broken'], mixed: ['~', 'Mixed', 'ps-progress'], untested: ['○', 'Not tested yet', 'ps-notyet'] };
 const posBadge = (st) => `<span class="pstatus ${POS_STATUS[st][2]}"><span aria-hidden="true">${POS_STATUS[st][0]}</span> ${POS_STATUS[st][1]}</span>`;
 function positionReport(c) {
   const rows = positionsOf(c).map((p) => { const ch = checksFor(c, p); return { p, ch, st: posStatus(ch) }; });
@@ -469,6 +483,14 @@ function profileRecord(c) {
   const f = esc(first(c)), ps = promisesOf(c), pc = pCounts(ps), vs = votesOf(c), pr = positionReport(c);
   const next = upcoming[0];
   const pSum = ps.length ? `${pc.kept} kept · ${pc.broken} broken · ${pc.progress} in progress · ${pc.not_yet} not tested yet` : '';
+  if (!ANY_VOTES) return `<section class="card record" id="record"><h2>${f}’s record on council</h2>
+  <p>Council hasn’t voted yet. We’re tracking <a href="#promises"><b>${ps.length} promises</b></a> and <a href="#said-did"><b>${pr.rows.length} positions</b></a> ${f} took during the campaign.${next ? ` First meeting: <a href="${mUrl(next)}">${esc(fmtLong(next.date))}</a>.` : ''}</p></section>
+  ${ps.length ? `<h2 id="promises">${f}’s promises <span class="small">${ps.length}</span></h2>
+  <p class="small">What ${f} promised during the campaign, in plain words. Tap one for the exact quote and source.</p>
+  <div class="card stack">${ps.map((p) => promiseRow(p)).join('')}</div>` : ''}
+  <h2 id="said-did">Does ${f} vote the way ${f} said?</h2>
+  <p class="small">${pr.rows.length} things ${f} said during the campaign. Each gets a mark once a council vote tests it.</p>
+  <details class="drop"><summary>See all ${pr.rows.length} positions</summary><div class="stack">${pr.rows.map((r) => posRow(c, r)).join('')}</div></details>`;
   return `<section class="card record" id="record"><h2>${f}’s record on council</h2>
   <div class="statrow"><div><b>${ps.length}</b><span>campaign promises we track</span></div><div><b>${vs.filter((d) => ['yes', 'no'].includes(d.votes[c.slug])).length}</b><span>votes cast so far</span></div><div><b>${pc.kept} / ${pc.broken}</b><span>promises kept / broken</span></div><div><b>${pr.inLine} / ${pr.against}</b><span>positions voted in line / against</span></div></div>
   ${vs.length ? '' : `<p class="small">${TODAY < '2026-11-03' ? 'The new council is sworn in on November 3, 2026.' : 'This council was sworn in on November 3, 2026.'} ${next && next.date !== '2026-11-03' ? `The next meeting is <a href="${mUrl(next)}">${esc(fmtDay(next.date))}</a>.` : ''} Votes will appear here after each meeting.</p>`}</section>
@@ -730,7 +752,7 @@ const v = ctx.voting || {};
   </div></section>`,
     body: `
   <h2>Your council <span class="small">elected October 17, 2026</span></h2>
-  <div class="faces">${[...mayors, ...council].map(faceTile).join('')}</div>
+  <div class="faces faces-sm">${[...mayors, ...council].map(faceTile).join('')}</div>
   <p><a href="/council/">What each of them stands for, how they vote, and what they promised →</a></p>
 
   <section class="card nextup"><h2>Coming up</h2>
@@ -744,8 +766,8 @@ const v = ctx.voting || {};
   <a class="btn secondary" href="${mUrl(last)}">Read what they decided →</a></section>` : ''}
 
   <section class="card"><h2>Promise tracker</h2>
-  <p>We wrote down ${PROMISES.length} things the mayor and councillors promised during the campaign. As council votes, we mark each one.</p>
-  <div class="pstats">${Object.entries(PSTATUS).map(([k, P]) => `<span class="pstatus ${P.cls}"><span aria-hidden="true">${P.icon}</span> ${allP[k]} ${esc(P.label.toLowerCase())}</span>`).join('')}</div>
+  <p>We wrote down <b>${PROMISES.length} promises</b> and <b>${all.reduce((a, c) => a + positionsOf(c).length, 0)} positions</b> the mayor and councillors took during the campaign. Every council vote is checked against them.</p>
+  ${ANY_VOTES ? `<div class="pstats">${Object.entries(PSTATUS).map(([k, P]) => `<span class="pstatus ${P.cls}"><span aria-hidden="true">${P.icon}</span> ${allP[k]} ${esc(P.label.toLowerCase())}</span>`).join('')}</div>` : `<p class="small">Nothing to judge until the first votes${FIRST_VOTES ? ` on ${esc(fmtLong(FIRST_VOTES))}` : ''}.</p>`}
   <div class="btn-row"><a class="btn secondary" href="/promises/">See every promise →</a><a class="btn secondary" href="/said-vs-did/">Do they vote the way they said? →</a></div></section>
 
   <div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg><div>
@@ -1024,10 +1046,10 @@ write('/meetings/', page({
   desc: 'Every upcoming Squamish council meeting, Committee of the Whole and public hearing, and a plain-language summary of every past one: what was decided and who voted yes or no.',
   jsonld: crumbLd([['Home', '/'], ['Meetings', '/meetings/']]),
   body: `<h1>Council meetings</h1>
-  <p class="lede">What’s coming up, and what council decided at every meeting since the new council was sworn in. Each one is summed up in plain words. Tap any meeting for more.</p>
-  ${typeLegend()}
+  <p class="lede">What’s coming up, and what council decided. Tap any meeting for more.</p>
   <h2 id="next">Coming up <span class="small">${upcoming.length}</span></h2>
   ${upcoming.length ? `<ul class="mlist">${upcoming.map(meetingRow).join('')}</ul>` : '<p class="muted">No upcoming meetings are posted yet.</p>'}
+  <details class="drop"><summary>What do the colours mean?</summary>${typeLegend()}</details>
   ${MEET_HOW}
   <h2 id="past">Already happened <span class="small">${past.length}</span></h2>
   ${past.length ? `<ul class="mlist">${past.map(meetingRow).join('')}</ul>` : '<p class="muted">The new council hasn’t met yet. After each meeting, a summary appears here within a day or two.</p>'}
@@ -1086,19 +1108,17 @@ for (const m of MEETINGS) {
     jsonld: crumbLd([['Home', '/'], ['Said vs did', '/said-vs-did/']]),
     body: `<h1>Do they vote the way they said?</h1>
     <p class="lede">During the campaign we asked every candidate to agree or disagree with the same ${ALL_QUESTIONS.length} statements. Here is what each of the seven winners said, and, as council votes, whether their votes went the same way.</p>
-    ${anyVotes ? '' : `<div class="notice info"><b>No votes yet.</b> The new council is sworn in on November 3 and holds its first regular meeting on November 17. Until then you can see what each of them said. After every meeting, a mark appears under any answer a vote tested.</div>`}
+    ${noVotesNote()}
     <h2 id="scoreboard">Scoreboard</h2>
-    <div class="table-scroll"><table class="issue-table score"><thead><tr><th></th><th>Voted the way they said</th><th>Voted against what they said</th><th>Not tested yet</th></tr></thead><tbody>
-    ${people.map((c) => { const pr = positionReport(c); return `<tr><td><a href="/council/${c.slug}/#said-did">${esc(c.name)}</a></td><td>${pr.inLine}</td><td>${pr.against}${pr.mixed ? ` <span class="small">(+${pr.mixed} mixed)</span>` : ''}</td><td>${pr.untested} of ${pr.rows.length}</td></tr>`; }).join('')}
-    </tbody></table></div>
-    <p class="small">This counts every position: the agree/disagree answers below plus every “I support” and “I’m against” from their campaign. Tap a name for the full list.</p>
+    <div class="scards">${people.map((c) => scoreCard(c, { promises: false })).join('')}</div>
     <h2 id="grid">Statement by statement</h2>
-    <div class="legend">${BINS.map((b) => `<span><span class="cell ${b[1]}">${b[3]}</span>${b[2]}</span>`).join('')}<span><span class="cell un">?</span>Didn’t say</span></div>
-    <p class="small">The coloured box is what they said during the campaign. Underneath, <span class="vmark ps-kept">✓ voted that way</span> or <span class="vmark ps-broken">✕ voted against</span> appears once a council vote tests it. Scroll sideways on a phone.</p>
-    ${groups.map((g) => { const qs = ALL_QUESTIONS.filter((q) => q.issue === g); const title = (ISSUES.find((i) => i.key === g) || {}).title || TOPIC_NAME[g] || g; return `<h3>${esc(title.charAt(0).toUpperCase() + title.slice(1))}</h3>
-    <div class="table-scroll"><table class="matrix svd-grid"><thead><tr><th>Statement</th>${people.map((c) => `<th><a href="/council/${c.slug}/">${esc(lastName(c))}</a>${c.office === 'mayor' ? '<br><span class="small">mayor</span>' : ''}</th>`).join('')}</tr></thead><tbody>
-    ${qs.map((q) => { const t = tested(q); return `<tr><td>${escGl(q.text)}${t.length ? `<br><span class="small">Tested by: ${t.map((d) => `<a href="${mUrl(d.m)}">${escGl(d.title)}</a>`).join(', ')}</span>` : ''}</td>${people.map((c) => `<td>${cell(c.quiz_answers?.[q.id])}${voteMark(c, q)}</td>`).join('')}</tr>`; }).join('')}
-    </tbody></table></div>`; }).join('')}
+    <div class="card keybox"><div class="legend">${BINS.map((b) => `<span><span class="cell ${b[1]}">${b[3]}</span>${b[2]}</span>`).join('')}<span><span class="cell un">?</span>Didn’t say</span></div>
+    <p class="small">The box is what they said during the campaign. Once a council vote tests it, <span class="vmark ps-kept">✓ voted that way</span> or <span class="vmark ps-broken">✕ voted against</span> appears under it.</p></div>
+    <div class="chip-row no-print">${groups.map((g) => `<a class="chip-btn" href="#t-${g}">${esc(((ISSUES.find((i) => i.key === g) || {}).title || TOPIC_NAME[g] || g).replace(/^./, (x) => x.toUpperCase()))}</a>`).join('')}</div>
+    ${groups.map((g) => { const qs = ALL_QUESTIONS.filter((q) => q.issue === g); const title = (ISSUES.find((i) => i.key === g) || {}).title || TOPIC_NAME[g] || g; return `<h3 id="t-${g}">${esc(title.charAt(0).toUpperCase() + title.slice(1))}</h3>
+    ${qs.map((q) => { const t = tested(q); return `<div class="card qcard"><p class="qtext">“${escGl(q.text)}”</p>
+      <ul class="qwho">${people.map((c) => `<li><a href="/council/${c.slug}/#said-did">${cell(c.quiz_answers?.[q.id])}<span class="qname">${esc(lastName(c))}</span>${voteMark(c, q)}</a></li>`).join('')}</ul>
+      ${t.length ? `<p class="small">Tested by: ${t.map((d) => `<a href="${mUrl(d.m)}">${escGl(d.title)}</a>`).join(', ')}</p>` : ''}</div>`; }).join('')}`; }).join('')}
     <h2 id="compass">On the compass</h2>
     <p>The <a href="/compass/">compass</a> places each member from their campaign answers. Once at least 3 votes test each line of a map, a second diamond-shaped marker shows where their <b>votes</b> put them, joined to the first by a dotted line. A long line means they vote differently from how they campaigned.</p>
     <p class="small"><a href="/promises/#how">How we link votes to statements</a> · <a href="/about/#meetings">How meeting summaries are made</a></p>`,
@@ -1116,13 +1136,11 @@ for (const m of MEETINGS) {
     <p class="lede">What the mayor and councillors said they would do during the 2026 campaign, and whether they’ve done it.</p>
     <div class="notice info"><b>Want the agree/disagree answers side by side with their votes?</b> <a href="/said-vs-did/">See “Do they vote the way they said?”</a></div>
     <h2 id="scoreboard">At a glance</h2>
-    <p class="small"><b>Promises</b> are specific things they said they would do. <b>Positions</b> are everything else they said they stand for: every agree or disagree answer and every “I support” or “I’m against”. We check both against every council vote.</p>
-    <div class="table-scroll"><table class="issue-table score"><thead><tr><th></th><th>Promises kept</th><th>Promises broken</th><th>Votes in line with their positions</th><th>Votes against their positions</th></tr></thead><tbody>
-    ${all.map((c) => { const pc = pCounts(promisesOf(c)), pr = positionReport(c); return `<tr><td><a href="/council/${c.slug}/#said-did">${esc(c.name)}</a></td><td>${pc.kept} of ${promisesOf(c).length}</td><td>${pc.broken}</td><td>${pr.inLine} of ${pr.rows.length}</td><td>${pr.against}${pr.mixed ? ` <span class="small">(+${pr.mixed} mixed)</span>` : ''}</td></tr>`; }).join('')}
-    </tbody></table></div>
-    <p class="small">Tap a name to see every position and the votes that test it.</p>
+    ${noVotesNote()}
+    <div class="scards">${all.map((c) => scoreCard(c)).join('')}</div>
+    <p class="small"><b>Promises</b> are specific things they said they would do. <b>Positions</b> are everything else they said they stand for. <a href="/said-vs-did/">See positions statement by statement</a>.</p>
     <h2 id="list">Every promise</h2>
-    <div class="pstats">${Object.entries(PSTATUS).map(([k, P]) => `<button type="button" class="chip-btn" data-pf="${k}" aria-pressed="false"><span class="pstatus ${P.cls}"><span aria-hidden="true">${P.icon}</span> ${c0[k]}</span> ${esc(P.label)}</button>`).join('')}<button type="button" class="chip-btn" data-pf="" aria-pressed="true">Show all</button></div>
+    ${ANY_VOTES ? '' : '<!--'}<div class="pstats">${Object.entries(PSTATUS).map(([k, P]) => `<button type="button" class="chip-btn" data-pf="${k}" aria-pressed="false"><span class="pstatus ${P.cls}"><span aria-hidden="true">${P.icon}</span> ${c0[k]}</span> ${esc(P.label)}</button>`).join('')}<button type="button" class="chip-btn" data-pf="" aria-pressed="true">Show all</button></div>${ANY_VOTES ? '' : '-->'}
     ${all.map((c) => { const ps = promisesOf(c); return ps.length ? `<h2 id="${c.slug}" class="phead">${avatar(c, 'sm')} <a href="/council/${c.slug}/">${esc(c.name)}</a> <span class="small">${c.office === 'mayor' ? 'Mayor' : 'Councillor'} · ${ps.length} promises</span></h2>
     <div class="card stack">${ps.map((p) => promiseRow(p).replace('<details class="promise"', `<details class="promise" data-ps="${p.status || 'not_yet'}"`)).join('')}</div>` : ''; }).join('')}
     <h2 id="how">How we judge promises</h2>
