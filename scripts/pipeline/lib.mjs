@@ -69,6 +69,13 @@ export function council() {
   return readJson(path.join(ROOT, 'data', 'candidates.json')).filter((c) => won.has(c.name));
 }
 
+// Same ids build.mjs gives each "supports" / "against" line, so a vote can point at the exact position it tests.
+export const posId = (c, kind, text) => `${c.slug}-${kind}-${crypto.createHash('sha256').update(text).digest('hex').slice(0, 6)}`;
+export const positionList = (people) => people.flatMap((c) => [
+  ...(c.supports || []).map((x) => ({ id: posId(c, 's', x.text), who: c.slug, position: `supports: ${x.text}` })),
+  ...(c.opposes || []).map((x) => ({ id: posId(c, 'o', x.text), who: c.slug, position: `against: ${x.text}` })),
+]);
+
 // ---------- Claude ----------
 // One structured call per job. Opus 5.5 at high effort: these summaries are the site's public record.
 let client;

@@ -137,7 +137,8 @@ for r in sorted(RESP, key=lambda r: r['received'], reverse=True):   # newest fir
 # Answers a candidate re-answered by email after submitting (treated as a resubmission; notes kept as sent).
 # Veltkamp (Sept 26): the two Brennan Park borrowing statements, +2 -> 0; his notes say senior government and industry should pay.
 # Hamilton (Sept 27) declined q8, citing legal actions against the District and council: blank our researched reading so the quiz leaves it out.
-REVISED = {'Shaun Veltkamp': {'q12': 0, 'q22': 0}, 'Andrew Hamilton': {'q8': None}}
+# DesJardins (Oct 19, Jeff's call): q2 taller buildings +2 -> -2. Her own note says "Build smaller and lower for awhile", so +2 was a mis-click.
+REVISED = {'Shaun Veltkamp': {'q12': 0, 'q22': 0}, 'Andrew Hamilton': {'q8': None}, 'Janice DesJardins': {'q2': -2}}
 for name, ch in REVISED.items():
     by[name]['quiz_answers'].update(ch)
 

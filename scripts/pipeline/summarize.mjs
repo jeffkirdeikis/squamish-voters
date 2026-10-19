@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { ROOT, RAW_DIR, TRANSCRIPTS, cw, loadMeetings, saveMeeting, readJson, writeJson, council, log, claudeJson, STYLE } from './lib.mjs';
+import { ROOT, RAW_DIR, TRANSCRIPTS, cw, loadMeetings, saveMeeting, readJson, writeJson, council, positionList, log, claudeJson, STYLE } from './lib.mjs';
 
 const only = process.argv[2];
 const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' });
@@ -43,6 +43,7 @@ const roster = people.map((c) => `${c.slug}: ${c.office === 'mayor' ? 'Mayor' : 
 const promises = readJson(path.join(ROOT, 'data', 'promises.json'), []);
 const questions = readJson(path.join(ROOT, 'data', 'questions.json'));
 const slugs = people.map((c) => c.slug);
+const positions = positionList(people);
 const voteProps = Object.fromEntries(slugs.map((s) => [s, { type: 'string', enum: ['yes', 'no', 'absent', 'recused', 'unknown'] }]));
 
 const SCHEMA = {
@@ -60,7 +61,7 @@ const SCHEMA = {
     decisions: {
       type: 'array',
       items: {
-        type: 'object', additionalProperties: false, required: ['title', 'what', 'why_it_matters', 'result', 'votes', 'votes_confidence', 'topic', 'related_q', 'timestamp'],
+        type: 'object', additionalProperties: false, required: ['title', 'what', 'why_it_matters', 'result', 'votes', 'votes_confidence', 'topic', 'related_q', 'positions', 'timestamp'],
         properties: {
           title: { type: 'string', description: 'Plain title, e.g. "Rezoning for 120 rental homes on Pioneer Way".' },
           what: { type: 'string', description: 'One to three plain sentences: what council decided and what it means.' },
@@ -70,6 +71,7 @@ const SCHEMA = {
           votes_confidence: { type: 'string', enum: ['clear', 'likely', 'unclear', 'none'] },
           topic: { type: 'string' },
           related_q: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['q', 'yes_is'], properties: { q: { type: 'string' }, yes_is: { type: 'integer', enum: [1, -1] } } }, description: 'Quiz statements this vote directly tests. yes_is 1 if voting yes agrees with the statement, -1 if it disagrees. Only include clear, direct links.' },
+          positions: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['id', 'yes_is'], properties: { id: { type: 'string' }, yes_is: { type: 'integer', enum: [1, -1] } } }, description: 'Campaign positions (from the POSITIONS list) this vote directly tests. yes_is 1 if voting yes goes the same way as that position, -1 if voting yes goes against it.' },
           timestamp: { type: 'string', description: 'hh:mm:ss in the recording where this item starts, or empty.' },
         },
       },
@@ -117,7 +119,10 @@ Include every motion that was voted on (skip only adopting the agenda and adjour
 CAMPAIGN PROMISES WE TRACK (only update one if a vote here clearly tests it; a member who votes the way they promised has kept it even if the vote failed):
 ${JSON.stringify(promises.map((p) => ({ id: p.id, who: p.slug, promise: p.promise, how_to_check: p.how_to_check })))}
 
-QUIZ STATEMENTS (for related_q; only direct links):
+CAMPAIGN POSITIONS (for "positions"; what each member said they support or are against). Link a vote to every position it directly tests, for any member, even ones not marked as promises. Example: a vote to fund keeping a shelter downtown tests "against: moving Under One Roof" (yes_is 1) and "supports: moving it out" (yes_is -1). Only clear, direct links; leave it empty when nothing fits:
+${JSON.stringify(positions)}
+
+QUIZ STATEMENTS (for related_q; every member's agree/disagree answers are checked against these, so link every statement a vote directly tests):
 ${JSON.stringify(questions.map((q) => ({ id: q.id, text: q.text })))}
 
 AGENDA:
@@ -131,7 +136,8 @@ ${transcript}`,
 
   const t0 = (ts) => { const p = (ts || '').split(':').map(Number); return p.length === 3 && p.every((n) => !isNaN(n)) ? p[0] * 3600 + p[1] * 60 + p[2] : null; };
   m.summary = out.summary;
-  m.decisions = out.decisions.map((d) => ({ ...d, votes: d.votes, video_url: t0(d.timestamp) != null ? `https://www.youtube.com/watch?v=${vids[0]}&t=${t0(d.timestamp)}s` : null, votes_source: 'video' }));
+  const known = new Set(positions.map((x) => x.id));
+  m.decisions = out.decisions.map((d) => ({ ...d, positions: d.positions.filter((x) => known.has(x.id)), votes: d.votes, video_url: t0(d.timestamp) != null ? `https://www.youtube.com/watch?v=${vids[0]}&t=${t0(d.timestamp)}s` : null, votes_source: 'video' }));
   m.video_url = `https://www.youtube.com/watch?v=${vids[0]}`;
   m.transcript = true;
   m.generated = { at: new Date().toISOString(), model: 'claude-opus-5-5', from: parts[0].from === 'YouTube automatic captions' ? 'meeting video’s automatic captions and the agenda' : 'meeting audio and the agenda' };

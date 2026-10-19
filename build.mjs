@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import crypto from 'node:crypto';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.join(ROOT, 'dist');
@@ -422,28 +423,44 @@ function meetingRow(m) {
   ${done && (m.decisions || []).length ? `<span class="small">${m.decisions.filter((d) => d.votes).length} vote${m.decisions.filter((d) => d.votes).length === 1 ? '' : 's'} · tap to read</span>` : m.date >= TODAY ? '<span class="small">Coming up · tap for what’s on the agenda</span>' : '<span class="small">Summary coming soon</span>'}</span>
   <span class="go" aria-hidden="true">›</span></a></li>`;
 }
-// Said vs did: each quiz statement where a member has both a campaign answer and at least one vote that tests it.
-// A decision lists related_q as [{ q, yes_is }]: yes_is 1 means a yes vote agrees with the statement, -1 the opposite.
-function saidVsDid(c) {
-  const rows = [];
-  for (const q of ALL_QUESTIONS) {
-    const said = c.quiz_answers?.[q.id];
-    const tests = votesOf(c).filter((d) => (d.related_q || []).some((r) => r.q === q.id) && ['yes', 'no'].includes(d.votes[c.slug]));
-    if (typeof said !== 'number' || !tests.length) continue;
-    const did = tests.map((d) => { const r = d.related_q.find((x) => x.q === q.id); return (d.votes[c.slug] === 'yes' ? 1 : -1) * (r.yes_is || 1); });
-    const avg = did.reduce((a, b) => a + b, 0) / did.length;
-    const match = said === 0 ? 'mixed' : Math.sign(said) === Math.sign(avg) ? 'match' : avg === 0 ? 'mixed' : 'differs';
-    rows.push({ q, said, tests, match });
-  }
-  return rows;
+// Positions: everything a member said they stand for during the campaign, checked against how they vote.
+// Two kinds: their agree/disagree answers (quiz statements) and each line of their "supports" and "against" lists.
+// A decision links to them with related_q: [{ q, yes_is }] and positions: [{ id, yes_is }], where yes_is 1 means a
+// yes vote goes the same way as the statement or position. The pipeline writes both links (scripts/pipeline/summarize.mjs).
+const posId = (c, kind, text) => `${c.slug}-${kind}-${crypto.createHash('sha256').update(text).digest('hex').slice(0, 6)}`;
+const POS_WORD = { 2: 'Strongly agreed', 1: 'Agreed', '-1': 'Disagreed', '-2': 'Strongly disagreed' };
+function positionsOf(c) {
+  const quiz = ALL_QUESTIONS.filter((q) => typeof c.quiz_answers?.[q.id] === 'number' && c.quiz_answers[q.id] !== 0)
+    .map((q) => ({ id: `${c.slug}-${q.id}`, kind: 'quiz', q, said: c.quiz_answers[q.id], label: `${POS_WORD[c.quiz_answers[q.id]]}: “${q.text}”`, src: `/council/${c.slug}/#questionnaire` }));
+  const list = (key, kind, word) => (c[key] || []).map((x) => ({ id: posId(c, kind, x.text), kind, label: `${word}: ${x.text}`, src: x.source_url }));
+  return [...quiz, ...list('supports', 's', 'Said they support'), ...list('opposes', 'o', 'Said they’re against')];
 }
-const SVD_WORD = { match: '✓ Voted the way they said', differs: '✕ Voted differently from what they said', mixed: '~ Mixed' };
+function checksFor(c, pos) {
+  return votesOf(c).filter((d) => ['yes', 'no'].includes(d.votes[c.slug])).flatMap((d) => {
+    const v = d.votes[c.slug] === 'yes' ? 1 : -1;
+    const link = pos.kind === 'quiz' ? (d.related_q || []).find((r) => r.q === pos.q.id) : (d.positions || []).find((r) => r.id === pos.id);
+    if (!link) return [];
+    const dir = v * (link.yes_is || 1);
+    return [{ d, inLine: pos.kind === 'quiz' ? Math.sign(dir) === Math.sign(pos.said) : dir > 0 }];
+  });
+}
+const posStatus = (checks) => (!checks.length ? 'untested' : checks.every((x) => x.inLine) ? 'in_line' : checks.every((x) => !x.inLine) ? 'against' : 'mixed');
+const POS_STATUS = { in_line: ['✓', 'Voted the way they said', 'ps-kept'], against: ['✕', 'Voted against what they said', 'ps-broken'], mixed: ['~', 'Mixed', 'ps-progress'], untested: ['○', 'No vote on this yet', 'ps-notyet'] };
+const posBadge = (st) => `<span class="pstatus ${POS_STATUS[st][2]}"><span aria-hidden="true">${POS_STATUS[st][0]}</span> ${POS_STATUS[st][1]}</span>`;
+function positionReport(c) {
+  const rows = positionsOf(c).map((p) => { const ch = checksFor(c, p); return { p, ch, st: posStatus(ch) }; });
+  const count = (k) => rows.filter((r) => r.st === k).length;
+  return { rows, tested: rows.filter((r) => r.st !== 'untested'), inLine: count('in_line'), against: count('against'), mixed: count('mixed'), untested: count('untested') };
+}
+const posRow = (c, r) => `<details class="promise"><summary>${posBadge(r.st)}<span class="ptxt">${escGl(r.p.label)}</span></summary><div class="pbody">
+  ${r.ch.length ? `<ul class="small">${r.ch.map((x) => `<li>${x.inLine ? '✓' : '✕'} ${esc(VOTE_WORD[x.d.votes[c.slug]])} on <a href="${mUrl(x.d.m)}">${escGl(x.d.title)}</a> (${esc(fmtLong(x.d.m.date))})</li>`).join('')}</ul>` : '<p class="small muted">Council hasn’t voted on anything that tests this yet.</p>'}
+  ${isUrl(r.p.src) || r.p.src?.startsWith('/') ? `<p class="small"><a href="${esc(r.p.src)}">Where they said it</a></p>` : ''}</div></details>`;
 function profileRecord(c) {
-  const f = esc(first(c)), ps = promisesOf(c), pc = pCounts(ps), vs = votesOf(c), svd = saidVsDid(c);
+  const f = esc(first(c)), ps = promisesOf(c), pc = pCounts(ps), vs = votesOf(c), pr = positionReport(c);
   const next = upcoming[0];
   const pSum = ps.length ? `${pc.kept} kept · ${pc.broken} broken · ${pc.progress} in progress · ${pc.not_yet} not tested yet` : '';
   return `<section class="card record" id="record"><h2>${f}’s record on council</h2>
-  <div class="statrow"><div><b>${ps.length}</b><span>campaign promises we track</span></div><div><b>${vs.filter((d) => ['yes', 'no'].includes(d.votes[c.slug])).length}</b><span>votes cast so far</span></div><div><b>${pc.kept}</b><span>promises kept</span></div><div><b>${pc.broken}</b><span>promises broken</span></div></div>
+  <div class="statrow"><div><b>${ps.length}</b><span>campaign promises we track</span></div><div><b>${vs.filter((d) => ['yes', 'no'].includes(d.votes[c.slug])).length}</b><span>votes cast so far</span></div><div><b>${pc.kept} / ${pc.broken}</b><span>promises kept / broken</span></div><div><b>${pr.inLine} / ${pr.against}</b><span>positions voted in line / against</span></div></div>
   ${vs.length ? '' : `<p class="small">${TODAY < '2026-11-03' ? 'The new council is sworn in on November 3, 2026.' : 'This council was sworn in on November 3, 2026.'} ${next && next.date !== '2026-11-03' ? `The next meeting is <a href="${mUrl(next)}">${esc(fmtDay(next.date))}</a>.` : ''} Votes will appear here after each meeting.</p>`}</section>
   ${ps.length ? `<h2 id="promises">${f}’s promises <span class="small">${pSum}</span></h2>
   <p class="small">What ${f} promised during the campaign, in plain words, with the exact quote and source. Tap any promise to see the details.</p>
@@ -451,8 +468,11 @@ function profileRecord(c) {
   ${vs.length ? `<h2 id="votes">How ${f} has voted</h2>
   <div class="card stack">${vs.slice(0, 8).map((d) => `<div class="vrow"><span class="vme v-${d.votes[c.slug]}">${esc(VOTE_WORD[d.votes[c.slug]] || d.votes[c.slug])}</span><span><a href="${mUrl(d.m)}">${escGl(d.title)}</a><span class="small"> · ${esc(fmtLong(d.m.date))} · ${esc(RESULT_WORD[d.result] || '')}</span></span></div>`).join('')}</div>
   ${vs.length > 8 ? `<details class="drop"><summary>All ${vs.length} votes</summary>${vs.slice(8).map((d) => `<div class="vrow"><span class="vme v-${d.votes[c.slug]}">${esc(VOTE_WORD[d.votes[c.slug]] || d.votes[c.slug])}</span><span><a href="${mUrl(d.m)}">${escGl(d.title)}</a><span class="small"> · ${esc(fmtLong(d.m.date))}</span></span></div>`).join('')}</details>` : ''}` : ''}
-  ${svd.length ? `<h2 id="said-did">What ${f} said vs. how ${f} voted</h2>
-  <div class="card stack">${svd.map((r) => `<div class="svd svd-${r.match}"><p><b>“${escGl(r.q.text)}”</b></p><p class="small">During the campaign: <b>${esc(ANSWER_WORD[String(r.said)])}</b>. On council: ${r.tests.map((d) => `${esc(VOTE_WORD[d.votes[c.slug]])} on <a href="${mUrl(d.m)}">${escGl(d.title)}</a>`).join('; ')}.</p><p class="svd-tag">${SVD_WORD[r.match]}</p></div>`).join('')}</div>` : ''}`;
+  <h2 id="said-did">Does ${f} vote the way ${f} said?</h2>
+  <p class="small">Everything ${f} said they stand for during the campaign (${pr.rows.length} positions), checked against every council vote that tests it.</p>
+  <div class="pstats">${['in_line', 'against', 'mixed', 'untested'].map((k) => `<span class="pstatus ${POS_STATUS[k][2]}"><span aria-hidden="true">${POS_STATUS[k][0]}</span> ${pr[{ in_line: 'inLine', against: 'against', mixed: 'mixed', untested: 'untested' }[k]]} ${esc(POS_STATUS[k][1].toLowerCase())}</span>`).join('')}</div>
+  ${pr.tested.length ? `<div class="card stack">${pr.tested.map((r) => posRow(c, r)).join('')}</div>` : ''}
+  <details class="drop"><summary>${pr.untested} positions council hasn’t voted on yet</summary><div class="stack">${pr.rows.filter((r) => r.st === 'untested').map((r) => posRow(c, r)).join('')}</div></details>`;
 }
 
 // ---------- PROFILES ----------
@@ -1036,6 +1056,13 @@ for (const m of MEETINGS) {
     jsonld: crumbLd([['Home', '/'], ['Promise tracker', '/promises/']]),
     body: `<h1>Promise tracker</h1>
     <p class="lede">What the mayor and councillors said they would do during the 2026 campaign, and whether they’ve done it.</p>
+    <h2 id="scoreboard">At a glance</h2>
+    <p class="small"><b>Promises</b> are specific things they said they would do. <b>Positions</b> are everything else they said they stand for: every agree or disagree answer and every “I support” or “I’m against”. We check both against every council vote.</p>
+    <div class="table-scroll"><table class="issue-table score"><thead><tr><th></th><th>Promises kept</th><th>Promises broken</th><th>Votes in line with their positions</th><th>Votes against their positions</th></tr></thead><tbody>
+    ${all.map((c) => { const pc = pCounts(promisesOf(c)), pr = positionReport(c); return `<tr><td><a href="/council/${c.slug}/#said-did">${esc(c.name)}</a></td><td>${pc.kept} of ${promisesOf(c).length}</td><td>${pc.broken}</td><td>${pr.inLine} of ${pr.rows.length}</td><td>${pr.against}${pr.mixed ? ` <span class="small">(+${pr.mixed} mixed)</span>` : ''}</td></tr>`; }).join('')}
+    </tbody></table></div>
+    <p class="small">Tap a name to see every position and the votes that test it.</p>
+    <h2 id="list">Every promise</h2>
     <div class="pstats">${Object.entries(PSTATUS).map(([k, P]) => `<button type="button" class="chip-btn" data-pf="${k}" aria-pressed="false"><span class="pstatus ${P.cls}"><span aria-hidden="true">${P.icon}</span> ${c0[k]}</span> ${esc(P.label)}</button>`).join('')}<button type="button" class="chip-btn" data-pf="" aria-pressed="true">Show all</button></div>
     ${all.map((c) => { const ps = promisesOf(c); return ps.length ? `<h2 id="${c.slug}" class="phead">${avatar(c, 'sm')} <a href="/council/${c.slug}/">${esc(c.name)}</a> <span class="small">${c.office === 'mayor' ? 'Mayor' : 'Councillor'} · ${ps.length} promises</span></h2>
     <div class="card stack">${ps.map((p) => promiseRow(p).replace('<details class="promise"', `<details class="promise" data-ps="${p.status || 'not_yet'}"`)).join('')}</div>` : ''; }).join('')}
@@ -1045,6 +1072,7 @@ for (const m of MEETINGS) {
       <li><b>Each promise says how we’ll know.</b> We write down in advance what vote or action would show it was kept or broken.</li>
       <li><b>Votes decide it, not opinions.</b> When council votes on something that tests a promise, the promise is updated automatically and links to that vote.</li>
       <li><b>“In progress”</b> means council has taken a step but not finished. <b>“Nothing to judge yet”</b> means council hasn’t voted on it.</li>
+      <li><b>Positions are checked the same way.</b> When a vote directly tests something a member said, like “move the Under One Roof shelter out of downtown”, we note whether their vote went the same way as what they said.</li>
       <li><b>One vote can’t always keep a promise.</b> A councillor can vote the way they promised and still lose. We mark their promise kept if they did what they said, even if the vote failed.</li>
     </ul>
     <p class="small">Think we got one wrong? <a href="mailto:${esc(SITE.contact)}?subject=Promise%20tracker">Tell us</a> and we’ll take another look.</p>`,
