@@ -4,7 +4,7 @@
   var D = window.SV_DATA, Q = D.questions, root = document.getElementById('quiz');
   if (!root) return;
   var SHRINK = 2;
-  var MIN_OVERLAP = 4; // a candidate needs this many comparable answers to get a % match
+  var MIN_OVERLAP = 4; // a council member needs this many comparable answers to get a % match
   // Below this you disagree more than you agree. Such a candidate is never presented as a pick,
   // even when so few candidates are matchable that they'd otherwise fall into the top 6.
   var RECOMMEND = 55;
@@ -57,13 +57,13 @@
   function matchCard(r, top) {
     var c = r.c;
     return '<div id="card-' + c.slug + '" class="match-card' + (top ? ' top' : '') + (r.pct < RECOMMEND ? ' far' : '') + '">' +
-      '<a class="match" href="/candidates/' + c.slug + '/">' + avatar(c) +
+      '<a class="match" href="/council/' + c.slug + '/">' + avatar(c) +
       '<span class="match-txt"><b>' + esc(c.name) + '</b>' + (c.direct ? '<span class="badge direct">✓ Answered us directly</span>' : '') +
       '<span class="meter" aria-hidden="true"><span style="width:' + r.pct + '%"></span></span>' +
       '<span class="pctline"><b class="pct">' + r.pct + '%</b> ' + (r.pct < RECOMMEND ? 'match — you mostly disagree' : 'match') + ' · ' + 'based on ' + (r.n < THIN ? 'only ' : '') + r.n + ' of your ' + answeredCount() + ' answers' + '</span></span>' +
       '<span class="go" aria-hidden="true">\u203a</span></a>' +
       (r.notes ? '<p class="small notes-hint">💬 ' + esc(first(c)) + ' added comments on ' + r.notes + ' of these — open “Why ' + r.pct + '%?” to read them in their own words.</p>' : '') +
-      '<div class="match-foot no-print"><button type="button" class="btn secondary add" aria-label="Add ' + esc(c.name) + ' to my ballot" data-pick="' + c.slug + '" data-office="' + c.office + '" data-name="' + esc(c.name) + '">+ Add</button>' +
+      '<div class="match-foot no-print">' +
       '<details id="why-' + c.slug + '"><summary>Why ' + r.pct + '%? ' + tally(r.rows) + '</summary><p class="small">✓ same answer as you (counts in full) · ~ one step off (counts two-thirds) · ✕ further apart (counts a third or nothing)</p><ul class="agree-list">' +
       r.rows.slice().sort(function (a, b) { return (a.d === null ? 9 : a.d) - (b.d === null ? 9 : b.d); }).map(function (x) {
         var last = esc(c.name.split(' ').slice(-1)[0]), note = c.notes && c.notes[x.q.id];
@@ -84,31 +84,16 @@
     if (far) parts.push('further apart on ' + far);
     return 'Of ' + rows.length + ': ' + parts.join(', ');
   }
-  function good(list) { return list.filter(function (r) { return r.pct >= RECOMMEND; }); }
-  function resultCard(m, c) {
-    var gm = good(m).slice(0, 1), gc = good(c).slice(0, 6), picks = gm.concat(gc);
-    if (!picks.length) return '<div class="result-card"><h2>No strong matches yet</h2><p class="small">None of the candidates we have enough information on agrees with you more than they disagree. Many candidates have said little in public — check their profiles or ask them directly.</p></div>';
-    return '<div class="result-card"><h2>Your Squamish shortlist</h2>' +
-      [['For mayor', gm, 'No clear match for mayor — compare the three below.'], ['For council — ' + gc.length + ' of 6', gc, 'No clear matches for council.']].map(function (g) {
-        return '<p class="rf-h">' + g[0] + '</p>' + (g[1].length ? '<div class="result-faces">' + g[1].map(function (r) {
-          return '<a href="#card-' + r.c.slug + '" data-why="' + r.c.slug + '"><span class="rf">' + avatar(r.c) + '<b>' + esc(r.c.name.split(' ').slice(-1)[0]) + '</b><span>' + r.pct + '%</span></span></a>';
-        }).join('') + '</div>' : '<p class="small">' + g[2] + '</p>');
-      }).join('') +
-      (gc.length && gc.length < 6 ? '<p class="small">We only found ' + gc.length + ' council candidate' + (gc.length === 1 ? '' : 's') + ' who clearly agree' + (gc.length === 1 ? 's' : '') + ' with you. Pick the rest yourself, or vote for fewer — that’s allowed.</p>' : '') +
-      '<p class="small">Tap a face to see why they match.</p>' +
-      '<div class="btn-row no-print"><button type="button" class="btn" id="saveall">Save these to my ballot</button><button type="button" class="btn secondary" id="share">Share</button></div></div>';
-  }
-
-  var ST = D.stats || {};
+  // The council is already chosen, so results are one ranked list of all 7: no shortlist, no ballot.
   var REPO = 'https://github.com/jeffkirdeikis/squamish-voters';
-  function caveat() { return '<b>Not all candidates</b> have answered our questionnaire yet.'; }
+  function caveat() { return 'Matches use what each council member <b>said during the campaign</b>. As council votes on these questions, their voting record is shown next to it on their page.'; }
   // Shown once, between the last answer and the results, so nobody reads a match as a verdict.
   function renderGate() {
     root.innerHTML = '<div class="gate"><h2>Before you see your matches</h2>' +
-      '<p>These results are <b>unbiased, but not yet fully reliable</b>. ' + caveat() + ' For the others we scored their public statements and votes, and some candidates have said very little, so they can’t be matched well or at all yet.</p>' +
-      '<p>Please treat this as a starting point, not an answer. Every candidate has a profile on this site with their positions and sources. Read them before you decide.</p>' +
-      '<p>This quiz has <b>no agenda</b>. Every score comes only from what candidates have said and done in public — their council votes, their websites and interviews, or their own answers to our questionnaire — and each one links to its source. Nothing is guessed. The whole site is <b>open source</b>: anyone can read the code and the data at <a href="' + REPO + '" target="_blank" rel="noopener">github.com/jeffkirdeikis/squamish-voters</a>.</p>' +
-      '<div class="btn-row"><button class="btn big" id="showres" type="button">Show my matches →</button><a class="btn secondary" href="/candidates/">Browse the candidates</a></div></div>';
+      '<p>' + caveat() + '</p>' +
+      '<p>Please treat this as a starting point. Every council member has a page with their answers, their promises and how they have voted.</p>' +
+      '<p>This quiz has <b>no agenda</b>. Every score comes only from what council members said and did in public or told us directly, and each one links to its source. The whole site is <b>open source</b>: <a href="' + REPO + '" target="_blank" rel="noopener">github.com/jeffkirdeikis/squamish-voters</a>.</p>' +
+      '<div class="btn-row"><button class="btn big" id="showres" type="button">Show my matches →</button><a class="btn secondary" href="/council/">Meet the council</a></div></div>';
   }
   function renderResults() {
     var answered = Q.filter(function (q) { return typeof state.answers[q.id] === 'number'; }).length;
@@ -117,31 +102,21 @@
       return;
     }
     var all = D.candidates.map(score);
-    function ranked(office) { return all.filter(function (r) { return r.c.office === office && r.pct !== null; }).sort(function (a, b) { return b.pct - a.pct || b.n - a.n; }); }
-    function thin(office) { return all.filter(function (r) { return r.c.office === office && r.pct === null; }); }
-    var m = ranked('mayor'), c = ranked('council'), html = '';
-    html += '<p class="reminder">Based only on the public record, with a source for every score. ' + caveat() + ' <a href="/candidates/">Browse all candidates</a> · <a href="' + REPO + '" target="_blank" rel="noopener">Open source</a>.</p>';
-    html += resultCard(m, c);
-    html += '<h2>For Mayor <span class="small">(you vote for 1)</span></h2>' + m.map(function (r, i) { return matchCard(r, i === 0 && r.pct >= RECOMMEND); }).join('');
-    html += thinList(thin('mayor'));
-    var top = good(c).slice(0, 6), others = c.filter(function (r) { return top.indexOf(r) < 0; });
-    html += '<h2>For Council <span class="small">(you can vote for up to 6)</span></h2>';
-    html += top.length ? '<h3>Your ' + (top.length === 6 ? '6 ' : '') + 'closest</h3>' + top.map(function (r) { return matchCard(r, true); }).join('') : '<p>None of the council candidates we can match agrees with you more than they disagree.</p>';
-    if (top.length && top.length < 6) html += '<p class="small">Only ' + top.length + ' council candidate' + (top.length === 1 ? '' : 's') + ' we can match agree' + (top.length === 1 ? 's' : '') + ' with you more than they disagree. We don’t fill the rest of your 6 with people you mostly disagree with.</p>';
-    if (others.length) html += '<details class="drop"><summary>See the other ' + others.length + ' council candidates we could match</summary>' + others.map(function (r) { return matchCard(r, false); }).join('') + '</details>';
-    html += thinList(thin('council'));
-        html += '<p class="small">A match is only as good as the public record — some candidates have said very little, so they match on fewer questions. <a href="/about/#quiz">How matching works</a>.</p>';
-    html += '<div class="btn-row no-print"><a class="btn big" href="/my-ballot/">Go to my ballot →</a><a class="btn secondary" href="/compass/">★ See yourself on the full compass</a><button class="btn secondary" id="print" type="button">Print</button><button class="btn secondary" id="restart" type="button">Start again</button></div>';
+    var ranked = all.filter(function (r) { return r.pct !== null; }).sort(function (a, b) { return b.pct - a.pct || b.n - a.n; });
+    var thin = all.filter(function (r) { return r.pct === null; });
+    var html = '<p class="reminder">' + caveat() + '</p>';
+    html += '<h2>Who on council thinks most like you</h2>' + ranked.map(function (r, i) { return matchCard(r, i === 0 && r.pct >= RECOMMEND); }).join('');
+    html += thinList(thin);
+    html += '<p class="small">A match is only as good as the record. <a href="/about/#quiz">How matching works</a>.</p>';
+    html += '<div class="btn-row no-print"><a class="btn big" href="/meetings/">See what council is deciding →</a><a class="btn secondary" href="/compass/">★ See yourself on the compass</a><button class="btn secondary" id="share" type="button">Share</button><button class="btn secondary" id="restart" type="button">Start again</button></div>';
     root.innerHTML = html;
-    // The small compass with ★ You, right under the shortlist
-    var tpl = document.getElementById('tpl-compass'), card = root.querySelector('.result-card');
-    if (tpl && card) { var mc = tpl.content.firstElementChild.cloneNode(true); card.parentNode.insertBefore(mc, card.nextSibling); if (!SV.compassYou(mc)) mc.remove(); } // needs to be on the page to measure labels
-    SV.renderPicks();
+    var tpl = document.getElementById('tpl-compass'), first = root.querySelector('.match-card');
+    if (tpl && first) { var mc = tpl.content.firstElementChild.cloneNode(true); root.insertBefore(mc, root.querySelector('h2')); if (!SV.compassYou(mc)) mc.remove(); }
   }
   function thinList(list) {
     if (!list.length) return '';
-    return '<div class="card" style="margin:.8rem 0"><h3>Not enough public information to match</h3><p class="small">We could not find enough public statements from these candidates on the questions you answered. That is not a mark against them — contact them or read their profile.</p><ul class="namechips">' +
-      list.map(function (r) { return '<li><a href="/candidates/' + r.c.slug + '/">' + esc(r.c.name) + '</a></li>'; }).join('') + '</ul></div>';
+    return '<div class="card" style="margin:.8rem 0"><h3>Not enough public information to match</h3><p class="small">We don’t have enough of their answers on the questions you answered. Read their page to see what they have said.</p><ul class="namechips">' +
+      list.map(function (r) { return '<li><a href="/council/' + r.c.slug + '/">' + esc(r.c.name) + '</a></li>'; }).join('') + '</ul></div>';
   }
 
   function render() {
@@ -175,18 +150,9 @@
       if (state.i > 0) state.i--; save(); render(); focusTop();
     } else if (t.id === 'restart') {
       state = { answers: {}, important: {}, i: 0, done: false }; save(); render(); focusTop();
-    } else if (t.id === 'print') { window.print();
-    } else if (t.id === 'saveall') {
-      var all2 = D.candidates.map(score);
-      var mm = all2.filter(function (r) { return r.c.office === 'mayor' && r.pct !== null; }).sort(function (a, b) { return b.pct - a.pct; });
-      var cc = all2.filter(function (r) { return r.c.office === 'council' && r.pct !== null; }).sort(function (a, b) { return b.pct - a.pct; });
-      mm = good(mm); cc = good(cc);
-      SV.setBallot({ mayor: mm.length ? mm[0].c.slug : null, council: cc.slice(0, 6).map(function (r) { return r.c.slug; }) });
-      SV.toast('Saved — see My ballot');
-      SV.track('Quiz save all');
     } else if (t.id === 'share') {
       SV.track('Quiz share');
-      var txt = 'I found my Squamish 6 — see where every candidate stands before Oct 17.';
+      var txt = 'Which Squamish council member thinks most like you? Take the quiz.';
       if (navigator.share) navigator.share({ title: 'Squamish Voters', text: txt, url: 'https://squamishvoters.com/quiz/' }).catch(function () {});
       else if (navigator.clipboard) navigator.clipboard.writeText(txt + ' https://squamishvoters.com/quiz/').then(function () { SV.toast('Link copied'); });
     }

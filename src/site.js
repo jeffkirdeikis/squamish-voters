@@ -175,7 +175,7 @@
 
   // ----- "back" links follow real history when we came from inside the site -----
   document.querySelectorAll('[data-back]').forEach(function (a) {
-    if (document.referrer && new URL(document.referrer).host === location.host && !document.referrer.endsWith('/candidates/')) {
+    if (document.referrer && new URL(document.referrer).host === location.host && !document.referrer.endsWith('/council/')) {
       a.addEventListener('click', function (e) { e.preventDefault(); history.back(); });
     }
   });
@@ -234,7 +234,7 @@
   }
   compassYou();
 
-  // a link straight to a collapsed section (/candidates/x/#questionnaire) opens it
+  // a link straight to a collapsed section (/council/x/#questionnaire) opens it
   function openHash() { var d = location.hash && document.getElementById(location.hash.slice(1)); if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView(); } }
   openHash(); window.addEventListener('hashchange', openHash);
 

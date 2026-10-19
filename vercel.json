@@ -27,189 +27,319 @@
       "permanent": false
     },
     {
-      "source": "/ask/",
-      "destination": "/",
+      "source": "/candidates/",
+      "destination": "/council/",
+      "permanent": true
+    },
+    {
+      "source": "/candidates/laura-prosko/statement/",
+      "destination": "/council/laura-prosko/statement/",
+      "permanent": true
+    },
+    {
+      "source": "/candidates/a-john-lowe/:rest*",
+      "destination": "/results/",
       "permanent": false
     },
     {
       "source": "/a-john-lowe/answers/",
-      "destination": "/candidates/a-john-lowe/#questionnaire",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/a-john-lowe/",
-      "destination": "/candidates/a-john-lowe/",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/anders-ourom/:rest*",
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/anders-ourom/answers/",
-      "destination": "/candidates/anders-ourom/#questionnaire",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/anders-ourom/",
-      "destination": "/candidates/anders-ourom/",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/andrew-hamilton/:rest*",
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/andrew-hamilton/answers/",
-      "destination": "/candidates/andrew-hamilton/#questionnaire",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/andrew-hamilton/",
-      "destination": "/candidates/andrew-hamilton/",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/chris-pettingill/:rest*",
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/chris-pettingill/answers/",
-      "destination": "/candidates/chris-pettingill/#questionnaire",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/chris-pettingill/",
-      "destination": "/candidates/chris-pettingill/",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/chris-ryan/:rest*",
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/chris-ryan/answers/",
-      "destination": "/candidates/chris-ryan/#questionnaire",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/chris-ryan/",
-      "destination": "/candidates/chris-ryan/",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/daniel-deal/:rest*",
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/daniel-deal/answers/",
-      "destination": "/candidates/daniel-deal/#questionnaire",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/daniel-deal/",
-      "destination": "/candidates/daniel-deal/",
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/eric-andersen/",
+      "destination": "/council/eric-andersen/",
       "permanent": true
     },
     {
       "source": "/eric-andersen/answers/",
-      "destination": "/candidates/eric-andersen/#questionnaire",
+      "destination": "/council/eric-andersen/#questionnaire",
       "permanent": true
     },
     {
       "source": "/eric-andersen/",
-      "destination": "/candidates/eric-andersen/",
+      "destination": "/council/eric-andersen/",
       "permanent": true
+    },
+    {
+      "source": "/candidates/ian-brown/:rest*",
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/ian-brown/answers/",
-      "destination": "/candidates/ian-brown/#questionnaire",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/ian-brown/",
-      "destination": "/candidates/ian-brown/",
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/janice-desjardins/",
+      "destination": "/council/janice-desjardins/",
       "permanent": true
     },
     {
       "source": "/janice-desjardins/answers/",
-      "destination": "/candidates/janice-desjardins/#questionnaire",
+      "destination": "/council/janice-desjardins/#questionnaire",
       "permanent": true
     },
     {
       "source": "/janice-desjardins/",
-      "destination": "/candidates/janice-desjardins/",
+      "destination": "/council/janice-desjardins/",
       "permanent": true
+    },
+    {
+      "source": "/candidates/jenna-stoner/:rest*",
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/jenna-stoner/answers/",
-      "destination": "/candidates/jenna-stoner/#questionnaire",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/jenna-stoner/",
-      "destination": "/candidates/jenna-stoner/",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/john-french/:rest*",
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/john-french/answers/",
-      "destination": "/candidates/john-french/#questionnaire",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/john-french/",
-      "destination": "/candidates/john-french/",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/kieran-brownie/:rest*",
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/kieran-brownie/answers/",
-      "destination": "/candidates/kieran-brownie/#questionnaire",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/kieran-brownie/",
-      "destination": "/candidates/kieran-brownie/",
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/laura-prosko/",
+      "destination": "/council/laura-prosko/",
       "permanent": true
     },
     {
       "source": "/laura-prosko/answers/",
-      "destination": "/candidates/laura-prosko/#questionnaire",
+      "destination": "/council/laura-prosko/#questionnaire",
       "permanent": true
     },
     {
       "source": "/laura-prosko/",
-      "destination": "/candidates/laura-prosko/",
+      "destination": "/council/laura-prosko/",
+      "permanent": true
+    },
+    {
+      "source": "/candidates/luc-perreault/",
+      "destination": "/council/luc-perreault/",
       "permanent": true
     },
     {
       "source": "/luc-perreault/answers/",
-      "destination": "/candidates/luc-perreault/#questionnaire",
+      "destination": "/council/luc-perreault/#questionnaire",
       "permanent": true
     },
     {
       "source": "/luc-perreault/",
-      "destination": "/candidates/luc-perreault/",
+      "destination": "/council/luc-perreault/",
+      "permanent": true
+    },
+    {
+      "source": "/candidates/sarah-ellis/",
+      "destination": "/council/sarah-ellis/",
       "permanent": true
     },
     {
       "source": "/sarah-ellis/answers/",
-      "destination": "/candidates/sarah-ellis/#questionnaire",
+      "destination": "/council/sarah-ellis/#questionnaire",
       "permanent": true
     },
     {
       "source": "/sarah-ellis/",
-      "destination": "/candidates/sarah-ellis/",
+      "destination": "/council/sarah-ellis/",
+      "permanent": true
+    },
+    {
+      "source": "/candidates/sean-easton/",
+      "destination": "/council/sean-easton/",
       "permanent": true
     },
     {
       "source": "/sean-easton/answers/",
-      "destination": "/candidates/sean-easton/#questionnaire",
+      "destination": "/council/sean-easton/#questionnaire",
       "permanent": true
     },
     {
       "source": "/sean-easton/",
-      "destination": "/candidates/sean-easton/",
+      "destination": "/council/sean-easton/",
       "permanent": true
+    },
+    {
+      "source": "/candidates/sean-goodwin/:rest*",
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/sean-goodwin/answers/",
-      "destination": "/candidates/sean-goodwin/#questionnaire",
-      "permanent": true
+      "destination": "/results/",
+      "permanent": false
     },
     {
       "source": "/sean-goodwin/",
-      "destination": "/candidates/sean-goodwin/",
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/shaun-veltkamp/",
+      "destination": "/council/shaun-veltkamp/",
       "permanent": true
     },
     {
       "source": "/shaun-veltkamp/answers/",
-      "destination": "/candidates/shaun-veltkamp/#questionnaire",
+      "destination": "/council/shaun-veltkamp/#questionnaire",
       "permanent": true
     },
     {
       "source": "/shaun-veltkamp/",
-      "destination": "/candidates/shaun-veltkamp/",
+      "destination": "/council/shaun-veltkamp/",
       "permanent": true
+    },
+    {
+      "source": "/vote/",
+      "destination": "/meetings/",
+      "permanent": false
+    },
+    {
+      "source": "/my-ballot/",
+      "destination": "/council/",
+      "permanent": false
+    },
+    {
+      "source": "/mayor/",
+      "destination": "/council/sean-easton/",
+      "permanent": false
+    },
+    {
+      "source": "/trustees/",
+      "destination": "/results/#trustees",
+      "permanent": false
+    },
+    {
+      "source": "/for-candidates/",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/admin/",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/ask/",
+      "destination": "/",
+      "permanent": false
     }
   ]
 }

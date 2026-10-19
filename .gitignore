@@ -13,3 +13,9 @@ candidate-survey.md
 data/candidates.pre-*.json
 scratchpad/
 .warm-token
+
+# local pipeline test runs
+data/meetings/TEST-*
+data/meetings/raw/TEST-*
+data/meetings/raw/.audio/
+public/transcripts/TEST-*

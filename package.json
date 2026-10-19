@@ -7,6 +7,7 @@
     "dev": "node build.mjs && python3 -m http.server 4173 --directory dist"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.135.0",
     "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^2.8.0"
   }

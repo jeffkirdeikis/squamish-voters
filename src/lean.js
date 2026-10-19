@@ -64,7 +64,7 @@
     if (!d) return; e.textContent = '';
     var h = document.createElement('h3'); h.style.marginTop = '0'; h.textContent = d.n;
     var u = document.createElement('ul'); d.d.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; u.append(li); });
-    var a = document.createElement('a'); a.className = 'btn secondary'; a.href = '/candidates/' + g.getAttribute('data-slug') + '/'; a.textContent = 'Read full profile';
+    var a = document.createElement('a'); a.className = 'btn secondary'; a.href = '/council/' + g.getAttribute('data-slug') + '/'; a.textContent = 'Read full profile';
     e.append(h, u, a);
   }
   // the notes under the classic compass only apply to that map; clear old dot details when the map changes
