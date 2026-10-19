@@ -16,11 +16,6 @@
       "permanent": true
     },
     {
-      "source": "/candidates/anders-ourom/positions/",
-      "destination": "/results/",
-      "permanent": false
-    },
-    {
       "source": "/(.*)",
       "has": [
         {
