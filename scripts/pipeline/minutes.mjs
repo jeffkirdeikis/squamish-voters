@@ -16,11 +16,13 @@ for (const host of all.filter((m) => (m.attachments || []).length)) {
     const mm = name.match(/(\d{2})(\d{2}) (Regular|Special|COW) Minutes (\d{4})(?: (10AM|6PM))?/i);
     if (!mm) continue;
     const date = `${mm[4]}-${mm[1]}-${mm[2]}`, type = KIND[mm[3]] || KIND[mm[3].toUpperCase()];
-    const m = all.find((x) => x.date === date && (x.type === type || (x.type === 'inaugural' && type === 'regular')) && x.summary && x.votes_source !== 'minutes');
+    const m = all.find((x) => x.date === date && (x.type === type || (x.type === 'inaugural' && type === 'regular')) && x.votes_source !== 'minutes' && !x.minutes_url);
     if (!m) continue;
     log('minutes for', m.id, 'found in', host.id);
     const text = pdfToText(await cw(new URL(a.url).pathname, { json: false }));
     fs.writeFileSync(path.join(RAW_DIR, `${m.id}-minutes.txt`), text);
+    // Never summarised from video (the Mac was off): save the minutes, and summarize.mjs writes the summary from them.
+    if (!m.summary) { m.minutes_url = a.url; saveMeeting(m); continue; }
     const out = await claudeJson({
       system: STYLE,
       effort: 'high',

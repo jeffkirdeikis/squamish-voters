@@ -1,0 +1,3 @@
+#!/bin/sh
+# faster-whisper in a throwaway uv environment; av 16+ dropped an open() option faster-whisper 1.2 uses
+exec "$HOME/.local/bin/uv" run --quiet --python 3.12 --with faster-whisper --with "av<16" python "$@"

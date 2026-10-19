@@ -89,18 +89,24 @@ for (const m of todo) {
   const ev = await cw(`/api/getevent/${m.civicweb_id}`).catch(() => null);
   const vids = (ev?.Events || []).map((e) => e.eventId).filter(Boolean);
   if (!vids.length && ev?.eventId) vids.push(ev.eventId);
-  if (!vids.length) { log('no video yet'); continue; }
-  // Only once YouTube has finished processing the recording (evening meetings take about 12 hours).
+  // YouTube refuses cloud servers ("Sign in to confirm you're not a bot"), so the GitHub job sets SKIP_VIDEO and only
+  // summarises from the official minutes; Jeff's Mac (scripts/pipeline/mac/run.sh) does the video, usually the next day.
   let parts = [];
-  try {
-    for (const vid of vids) {
-      const info = JSON.parse(ytdlp(['-J', '--skip-download', `https://www.youtube.com/watch?v=${vid}`]));
-      if (info.live_status !== 'was_live' && info.live_status !== 'not_live') throw new Error(`video ${vid} is ${info.live_status}`);
-      parts.push({ vid, dur: info.duration, ...transcribe(vid, info.duration) });
-    }
-  } catch (e) { log('not ready:', e.message.split('\n')[0]); continue; }
+  if (vids.length && !process.env.SKIP_VIDEO) {
+    try {
+      for (const vid of vids) {
+        // Only once YouTube has finished processing the recording (evening meetings take about 12 hours).
+        const info = JSON.parse(ytdlp(['-J', '--skip-download', `https://www.youtube.com/watch?v=${vid}`]));
+        if (info.live_status !== 'was_live' && info.live_status !== 'not_live') throw new Error(`video ${vid} is ${info.live_status}`);
+        parts.push({ vid, dur: info.duration, ...transcribe(vid, info.duration) });
+      }
+    } catch (e) { log('video not usable:', e.message.split('\n')[0]); parts = []; }
+  }
+  const minutesFile = path.join(RAW_DIR, `${m.id}-minutes.txt`);
+  const fromMinutes = !parts.length && fs.existsSync(minutesFile);
+  if (!parts.length && !fromMinutes) { log('nothing to summarise from yet'); continue; }
   const transcript = parts.map((p, i) => (parts.length > 1 ? `=== Recording ${i + 1} of ${parts.length} ===\n` : '') + p.text).join('\n\n');
-  fs.writeFileSync(path.join(TRANSCRIPTS, `${m.id}.txt`), `Transcript of the ${m.civicweb_name}, District of Squamish, ${m.date}.\nMade automatically from the ${parts[0].from}. It will contain mistakes; the official video and minutes are the record.\n\n${transcript}\n`);
+  if (parts.length) fs.writeFileSync(path.join(TRANSCRIPTS, `${m.id}.txt`), `Transcript of the ${m.civicweb_name}, District of Squamish, ${m.date}.\nMade automatically from the ${parts[0].from}. It will contain mistakes; the official video and minutes are the record.\n\n${transcript}\n`);
   const agenda = fs.existsSync(path.join(RAW_DIR, `${m.id}-agenda.txt`)) ? fs.readFileSync(path.join(RAW_DIR, `${m.id}-agenda.txt`), 'utf8') : '(no agenda text saved)';
 
   const out = await claudeJson({
@@ -111,6 +117,8 @@ MEETING: ${m.civicweb_name} (${m.date})
 
 COUNCIL (use these ids in "votes"):
 ${roster}
+
+${fromMinutes ? 'SOURCE: the official draft minutes (no transcript). In the minutes, a motion marked CARRIED or DEFEATED with no names opposed means every member present voted yes; named members "OPPOSED" voted no; members not listed IN ATTENDANCE are "absent"; members who declared a conflict and left are "recused". Leave every timestamp empty.' : ''}
 
 HOW VOTES WORK HERE: the chair calls the question and asks who is opposed. Unless the recording shows someone voting against, leaving the room, declaring a conflict of interest, or being absent, every member present voted yes. Members away for the whole meeting are "absent". A member who declares a conflict and leaves is "recused". If you can't tell from the recording, use "unknown" and set votes_confidence to "unclear"; the official minutes will settle it later.
 
@@ -128,19 +136,20 @@ ${JSON.stringify(questions.map((q) => ({ id: q.id, text: q.text })))}
 AGENDA:
 ${agenda.slice(0, 300000)}
 
-TRANSCRIPT (automatic, with timestamps; names and words may be misheard):
-${transcript}`,
+${fromMinutes ? `OFFICIAL MINUTES:\n${fs.readFileSync(minutesFile, 'utf8')}` : `TRANSCRIPT (automatic, with timestamps; names and words may be misheard):\n${transcript}`}`,
     schema: SCHEMA,
   });
-  if (out.no_video_content) { m.summary = null; m.closed_only = true; m.video_url = `https://www.youtube.com/watch?v=${vids[0]}`; saveMeeting(m); continue; }
+  const vurl = vids.length ? `https://www.youtube.com/watch?v=${vids[0]}` : null;
+  if (out.no_video_content) { m.summary = null; m.closed_only = true; m.video_url = vurl; saveMeeting(m); continue; }
 
   const t0 = (ts) => { const p = (ts || '').split(':').map(Number); return p.length === 3 && p.every((n) => !isNaN(n)) ? p[0] * 3600 + p[1] * 60 + p[2] : null; };
   m.summary = out.summary;
   const known = new Set(positions.map((x) => x.id));
-  m.decisions = out.decisions.map((d) => ({ ...d, positions: d.positions.filter((x) => known.has(x.id)), votes: d.votes, video_url: t0(d.timestamp) != null ? `https://www.youtube.com/watch?v=${vids[0]}&t=${t0(d.timestamp)}s` : null, votes_source: 'video' }));
-  m.video_url = `https://www.youtube.com/watch?v=${vids[0]}`;
-  m.transcript = true;
-  m.generated = { at: new Date().toISOString(), model: 'claude-opus-5-5', from: parts[0].from === 'YouTube automatic captions' ? 'meeting video’s automatic captions and the agenda' : 'meeting audio and the agenda' };
+  m.decisions = out.decisions.map((d) => ({ ...d, positions: d.positions.filter((x) => known.has(x.id)), votes: d.votes, video_url: vurl && t0(d.timestamp) != null ? `${vurl}&t=${t0(d.timestamp)}s` : null, votes_source: fromMinutes ? 'minutes' : 'video', ...(fromMinutes ? { votes_confidence: 'clear' } : {}) }));
+  m.video_url = vurl;
+  m.transcript = !fromMinutes;
+  if (fromMinutes) m.votes_source = 'minutes';
+  m.generated = { at: new Date().toISOString(), model: 'claude-opus-5-5', from: fromMinutes ? 'official minutes and the agenda' : parts[0].from === 'YouTube automatic captions' ? 'meeting video’s automatic captions and the agenda' : 'meeting audio and the agenda' };
   // Promises: newest evidence wins the status, and every piece of evidence is kept.
   m.promise_updates = out.promise_updates.filter((u) => promises.some((p) => p.id === u.id));
   for (const u of m.promise_updates) {

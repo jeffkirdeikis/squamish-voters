@@ -1,6 +1,7 @@
-# Every 2 hours: pick up new meetings and agendas, summarise meetings that have finished (video -> transcript ->
-# plain-language summary and votes), check votes against the official minutes, then commit. The commit to main
-# deploys the site. Needs the ANTHROPIC_API_KEY repository secret.
+# Every 2 hours: pick up new meetings and agendas, check votes against the official minutes, and summarise from
+# the minutes any meeting that hasn't been summarised from video yet. YouTube blocks cloud servers, so the video
+# summaries come from Jeff's Mac (scripts/pipeline/mac/run.sh). The commit to main deploys the site through Vercel.
+# Needs the ANTHROPIC_API_KEY repository secret.
 name: Council meetings
 on:
   schedule:
@@ -24,26 +25,23 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
       - name: Install tools
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg poppler-utils
-          pip install -q --upgrade yt-dlp faster-whisper 'av<16'  # av 16+ dropped an open() option faster-whisper 1.2 uses
+          sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
           npm ci --no-audit --no-fund
       - name: Calendar and agendas
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: node scripts/pipeline/sync.mjs
-      - name: Summarise finished meetings
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: node scripts/pipeline/summarize.mjs ${{ github.event.inputs.meeting }}
       - name: Check votes against the minutes
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: node scripts/pipeline/minutes.mjs
+      - name: Summarise meetings the Mac missed, from their minutes
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SKIP_VIDEO: '1'
+        run: node scripts/pipeline/summarize.mjs ${{ github.event.inputs.meeting }}
       - name: Make sure the site still builds
         run: node build.mjs
       - name: Commit
@@ -53,4 +51,4 @@ jobs:
           git add data/meetings data/promises.json public/transcripts
           if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
           git commit -m "Meetings update $(date -u +%Y-%m-%dT%H:%MZ)"
-          git push
+          git pull --rebase -q && git push
