@@ -279,12 +279,12 @@ function page({ url, title, desc, body, hero = '', scripts = '', noindex = false
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Squamish Voters">
 <meta property="og:url" content="https://squamishvoters.com__PATH__">
-<meta property="og:image" content="https://squamishvoters.com/og.png?v=3">
+<meta property="og:image" content="https://squamishvoters.com/og.png?v=4">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Squamish Voters: an independent, plain-language guide to Squamish council">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://squamishvoters.com/og.png?v=3">
+<meta name="twitter:image" content="https://squamishvoters.com/og.png?v=4">
 <link rel="canonical" href="https://squamishvoters.com__PATH__">
 <meta name="theme-color" content="#0f4c3a">${noindex ? '\n<meta name="robots" content="noindex, nofollow">' : ''}${jsonld ? `\n<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
 <link rel="icon" href="/favicon.ico" sizes="48x48">
