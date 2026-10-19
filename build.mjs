@@ -409,7 +409,7 @@ function voteChips(d) {
 }
 function decisionCard(d, m, { open = false } = {}) {
   const yes = Object.values(d.votes || {}).filter((v) => v === 'yes').length, no = Object.values(d.votes || {}).filter((v) => v === 'no').length;
-  return `<details class="decision r-${esc(d.result || 'info')}"${open ? ' open' : ''}><summary><span class="dres">${esc(RESULT_WORD[d.result] || 'Decided')}${d.result === 'passed' || d.result === 'failed' ? ` <span class="small">${yes}–${no}</span>` : ''}</span><span class="dtitle">${escGl(d.title)}</span></summary>
+  return `<details class="decision r-${esc(d.result || 'info')}"${open ? ' open' : ''}><summary><span class="dres">${esc(RESULT_WORD[d.result] || 'Decided')}${d.result === 'passed' || d.result === 'failed' ? ` <span class="small">${no === 0 && yes > 1 ? 'all agreed' : `${yes}–${no}`}</span>` : ''}</span><span class="dtitle">${escGl(d.title)}</span></summary>
   <div class="dbody"><p>${escGl(d.what)}</p>${d.votes ? voteChips(d) : ''}
   ${d.why_it_matters ? `<p class="small"><b>Why it matters:</b> ${escGl(d.why_it_matters)}</p>` : ''}
   ${isUrl(d.video_url) ? `<p class="small"><a href="${esc(d.video_url)}" target="_blank" rel="noopener">▶ Watch this part of the meeting</a></p>` : ''}</div></details>`;
@@ -1010,7 +1010,8 @@ for (const m of MEETINGS) {
       <p class="lede">${escGl(S.headline)}</p>
       <ul class="keypoints">${(S.key_points || []).map((k) => `<li>${escGl(k)}</li>`).join('')}</ul></section>
     ${votes.length ? `<h2 id="votes">The votes <span class="small">${votes.length}</span></h2><p class="small">Tap any vote to see what it means and who voted which way.</p>
-    <div class="stack">${votes.map((d) => decisionCard(d, m)).join('')}</div>` : '<p class="muted">Council didn’t take any recorded votes at this meeting.</p>'}
+    <div class="stack">${votes.slice(0, 6).map((d) => decisionCard(d, m)).join('')}</div>
+    ${votes.length > 6 ? `<details class="drop"><summary>Show ${votes.length - 6} more votes, mostly routine</summary><div class="stack">${votes.slice(6).map((d) => decisionCard(d, m)).join('')}</div></details>` : ''}` : '<p class="muted">Council didn’t take any recorded votes at this meeting.</p>'}
     ${(m.decisions || []).filter((d) => !d.votes).length ? `<details class="drop"><summary>Also discussed, with no vote (${m.decisions.filter((d) => !d.votes).length})</summary><div class="stack">${m.decisions.filter((d) => !d.votes).map((d) => decisionCard(d, m)).join('')}</div></details>` : ''}
     ${(S.explainer || []).length ? `<details class="drop layer2"><summary>Explain this meeting a bit more</summary>${S.explainer.map((x) => `<p>${escGl(x)}</p>`).join('')}</details>` : ''}
     ${(m.promise_updates || []).length ? `<h2>Promises this meeting tested</h2><div class="card stack">${m.promise_updates.map((u) => { const pr = PROMISES.find((x) => x.id === u.id); return pr ? promiseRow(pr, { who: true }) : ''; }).join('')}</div>` : ''}
