@@ -13,7 +13,15 @@ git pull -q --rebase
 node scripts/pipeline/sync.mjs
 node scripts/pipeline/summarize.mjs
 git add data/meetings data/promises.json public/transcripts
-if git diff --cached --quiet; then echo "$(date) nothing new"; exit 0; fi
-git commit -q -m "Meeting summary from video $(date -u +%Y-%m-%dT%H:%MZ)"
-git pull -q --rebase && git push -q
-echo "$(date) pushed"
+if ! git diff --cached --quiet; then
+  git commit -q -m "Meeting summary from video $(date -u +%Y-%m-%dT%H:%MZ)"
+  git pull -q --rebase && git push -q
+  echo "$(date) pushed"
+fi
+# Publish whatever is newest on main (ours or the GitHub job's), once per commit. The Vercel CLI is signed in on this Mac.
+LAST=.last-deployed
+if [ "$(git rev-parse HEAD)" != "$(cat $LAST 2>/dev/null)" ]; then
+  vercel deploy --prod --yes >/dev/null && git rev-parse HEAD > $LAST && echo "$(date) deployed $(git rev-parse --short HEAD)"
+else
+  echo "$(date) nothing new"
+fi

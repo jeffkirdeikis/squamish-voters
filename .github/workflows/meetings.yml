@@ -52,3 +52,5 @@ jobs:
           if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
           git commit -m "Meetings update $(date -u +%Y-%m-%dT%H:%MZ)"
           git pull --rebase -q && git push
+          # Publish. Works once Vercel's GitHub app can see this repo; until then Jeff's Mac publishes (scripts/pipeline/mac/run.sh).
+          curl -fsS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}" || true
