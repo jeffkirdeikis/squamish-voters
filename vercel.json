@@ -37,7 +37,12 @@
       "permanent": true
     },
     {
-      "source": "/candidates/a-john-lowe/:rest*",
+      "source": "/candidates/a-john-lowe/",
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/a-john-lowe/:rest+",
       "destination": "/results/",
       "permanent": false
     },
@@ -52,7 +57,12 @@
       "permanent": false
     },
     {
-      "source": "/candidates/anders-ourom/:rest*",
+      "source": "/candidates/anders-ourom/",
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/anders-ourom/:rest+",
       "destination": "/results/",
       "permanent": false
     },
@@ -67,7 +77,12 @@
       "permanent": false
     },
     {
-      "source": "/candidates/andrew-hamilton/:rest*",
+      "source": "/candidates/andrew-hamilton/",
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/andrew-hamilton/:rest+",
       "destination": "/results/",
       "permanent": false
     },
@@ -82,7 +97,12 @@
       "permanent": false
     },
     {
-      "source": "/candidates/chris-pettingill/:rest*",
+      "source": "/candidates/chris-pettingill/",
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/chris-pettingill/:rest+",
       "destination": "/results/",
       "permanent": false
     },
@@ -97,7 +117,12 @@
       "permanent": false
     },
     {
-      "source": "/candidates/chris-ryan/:rest*",
+      "source": "/candidates/chris-ryan/",
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/chris-ryan/:rest+",
       "destination": "/results/",
       "permanent": false
     },
@@ -112,7 +137,12 @@
       "permanent": false
     },
     {
-      "source": "/candidates/daniel-deal/:rest*",
+      "source": "/candidates/daniel-deal/",
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/daniel-deal/:rest+",
       "destination": "/results/",
       "permanent": false
     },
@@ -142,7 +172,12 @@
       "permanent": true
     },
     {
-      "source": "/candidates/ian-brown/:rest*",
+      "source": "/candidates/ian-brown/",
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/ian-brown/:rest+",
       "destination": "/results/",
       "permanent": false
     },
@@ -172,7 +207,12 @@
       "permanent": true
     },
     {
-      "source": "/candidates/jenna-stoner/:rest*",
+      "source": "/candidates/jenna-stoner/",
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/jenna-stoner/:rest+",
       "destination": "/results/",
       "permanent": false
     },
@@ -187,7 +227,12 @@
       "permanent": false
     },
     {
-      "source": "/candidates/john-french/:rest*",
+      "source": "/candidates/john-french/",
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/john-french/:rest+",
       "destination": "/results/",
       "permanent": false
     },
@@ -202,7 +247,12 @@
       "permanent": false
     },
     {
-      "source": "/candidates/kieran-brownie/:rest*",
+      "source": "/candidates/kieran-brownie/",
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/kieran-brownie/:rest+",
       "destination": "/results/",
       "permanent": false
     },
@@ -277,7 +327,12 @@
       "permanent": true
     },
     {
-      "source": "/candidates/sean-goodwin/:rest*",
+      "source": "/candidates/sean-goodwin/",
+      "destination": "/results/",
+      "permanent": false
+    },
+    {
+      "source": "/candidates/sean-goodwin/:rest+",
       "destination": "/results/",
       "permanent": false
     },
