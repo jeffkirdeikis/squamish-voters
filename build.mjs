@@ -723,8 +723,8 @@ const v = ctx.voting || {};
       ...(SITE.contact ? { email: SITE.contact } : {}),
     }],
     hero: `<section class="hero"><div class="wrap">
-    <h1>What is Squamish council deciding, and are they keeping their promises?</h1>
-    <p class="lede">Council meetings can run three hours. We watch every one and tell you what happened in a few lines: what they decided, who voted yes and who voted no.</p>
+    <h1>Squamish council made promises. We’re keeping score.</h1>
+    <p class="lede">Every vote by Squamish’s mayor and councillors, checked against what they told voters in 2026.</p>
     <div class="btn-row hero-two"><a class="btn big" href="/meetings/">See what council is deciding →<small>Next meetings and past decisions</small></a><a class="btn big" href="/promises/">Are they keeping their promises? →<small>Promises, and votes against what they said</small></a></div>
     <p class="visit-count" data-visits hidden><span class="vc-dot" aria-hidden="true"></span><b>0</b> page views so far</p>
   </div></section>`,
