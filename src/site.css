@@ -858,3 +858,10 @@ summary:hover .more-btn { background: var(--brand); color: #fff; }
 .nextup h2, .lastup h2 { margin-top: 0; }
 .mtags { display: flex; flex-wrap: wrap; gap: .35rem; }
 .v-unknown .vlab { color: var(--muted); }
+.hero-two { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; max-width: 56rem; }
+.hero-two .btn.big { width: 100%; justify-content: center; text-align: center; }
+@media (max-width: 640px) { .hero-two { grid-template-columns: 1fr; } }
+.vmark { display: block; margin-top: .25rem; font-size: .72rem; font-weight: 800; border-radius: 6px; padding: .05rem .3rem; white-space: nowrap; }
+span.vmark.ps-kept, span.vmark.ps-broken { display: inline-block; }
+.svd-grid td:first-child { min-width: 16rem; text-align: left; }
+.svd-grid td { text-align: center; vertical-align: top; }

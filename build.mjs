@@ -236,7 +236,7 @@ const issueCtx = (key) => (ctx.issues || []).find((i) => i.key === key) || {};
 
 // ---------- layout ----------
 const NAV = [
-  ['/council/', 'Council'], ['/meetings/', 'Meetings'], ['/promises/', 'Promises'], ['/quiz/', 'Quiz'], ['/compare/', 'Compare'],
+  ['/council/', 'Council'], ['/meetings/', 'Meetings'], ['/promises/', 'Promises'], ['/said-vs-did/', 'Said vs did'], ['/quiz/', 'Quiz'], ['/compare/', 'Compare'],
 ];
 // The Menu lists everything; the top bar only has room for the essentials.
 const MENU = [...NAV, ['/compass/', 'Where they lean'], ['/issues/', 'The issues explained'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
@@ -251,7 +251,7 @@ const ICON = {
   promise: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg>',
   ballot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 8.500l1.2 1.2 2-2.400M8.5 14.500l1.2 1.2 2-2.400M14 9h2M14 15h2"/></svg>',
 };
-const TABS = [['/', 'Home', 'home'], ['/council/', 'Council', 'people'], ['/meetings/', 'Meetings', 'meet'], ['/promises/', 'Promises', 'promise'], ['/quiz/', 'Quiz', 'quiz']];
+const TABS = [['/', 'Home', 'home'], ['/council/', 'Council', 'people'], ['/meetings/', 'Meetings', 'meet'], ['/promises/', 'Promises', 'promise'], ['/said-vs-did/', 'Said vs did', 'compare'], ['/quiz/', 'Quiz', 'quiz']];
 // The phone Menu: every page, one per row, with How to vote near the top since it left the bottom bar.
 const MENU_ICON = {
   issues: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/></svg>',
@@ -259,7 +259,7 @@ const MENU_ICON = {
 };
 const MOBILE_MENU = [
   ['/', 'Home', 'home'], ['/council/', 'Your mayor and council', 'people'], ['/meetings/', 'Council meetings: what’s next and what they decided', 'meet'],
-  ['/promises/', 'Promise tracker', 'promise'], ['/quiz/', 'Who on council thinks like you?', 'quiz'], ['/compare/', 'Compare them, issue by issue', 'compare'],
+  ['/promises/', 'Promise tracker', 'promise'], ['/said-vs-did/', 'Do they vote the way they said?', 'compare'], ['/quiz/', 'Who on council thinks like you?', 'quiz'], ['/compare/', 'Compare them, issue by issue', 'compare'],
   ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
   ['/about/', 'About this site &amp; sources', 'about'],
 ];
@@ -443,6 +443,16 @@ function checksFor(c, pos) {
     const dir = v * (link.yes_is || 1);
     return [{ d, inLine: pos.kind === 'quiz' ? Math.sign(dir) === Math.sign(pos.said) : dir > 0 }];
   });
+}
+// What a member's votes say about each quiz statement, on the same -2..+2 scale as their campaign answer:
+// every vote that tests the statement counts +1 (went the statement's way) or -1, averaged, times 2.
+function votedAnswers(c) {
+  const out = {};
+  for (const q of ALL_QUESTIONS) {
+    const dirs = votesOf(c).filter((d) => ['yes', 'no'].includes(d.votes[c.slug])).flatMap((d) => (d.related_q || []).filter((r) => r.q === q.id).map((r) => (d.votes[c.slug] === 'yes' ? 1 : -1) * (r.yes_is || 1)));
+    if (dirs.length) out[q.id] = { v: Math.round((dirs.reduce((a, b) => a + b, 0) / dirs.length) * 2), n: dirs.length };
+  }
+  return out;
 }
 const posStatus = (checks) => (!checks.length ? 'untested' : checks.every((x) => x.inLine) ? 'in_line' : checks.every((x) => !x.inLine) ? 'against' : 'mixed');
 const POS_STATUS = { in_line: ['✓', 'Voted the way they said', 'ps-kept'], against: ['✕', 'Voted against what they said', 'ps-broken'], mixed: ['~', 'Mixed', 'ps-progress'], untested: ['○', 'No vote on this yet', 'ps-notyet'] };
@@ -715,8 +725,7 @@ const v = ctx.voting || {};
     hero: `<section class="hero"><div class="wrap">
     <h1>What is Squamish council deciding, and are they keeping their promises?</h1>
     <p class="lede">Council meetings can run three hours. We watch every one and tell you what happened in a few lines: what they decided, who voted yes and who voted no.</p>
-    <div class="btn-row"><a class="btn big" href="/meetings/">See what council is deciding →<small>Next meetings and past decisions</small></a></div>
-    <p class="hero-alt"><a href="/promises/">Or check the promise tracker →</a></p>
+    <div class="btn-row hero-two"><a class="btn big" href="/meetings/">See what council is deciding →<small>Next meetings and past decisions</small></a><a class="btn big" href="/promises/">Are they keeping their promises? →<small>Promises, and votes against what they said</small></a></div>
     <p class="visit-count" data-visits hidden><span class="vc-dot" aria-hidden="true"></span><b>0</b> page views so far</p>
   </div></section>`,
     body: `
@@ -737,7 +746,7 @@ const v = ctx.voting || {};
   <section class="card"><h2>Promise tracker</h2>
   <p>We wrote down ${PROMISES.length} things the mayor and councillors promised during the campaign. As council votes, we mark each one.</p>
   <div class="pstats">${Object.entries(PSTATUS).map(([k, P]) => `<span class="pstatus ${P.cls}"><span aria-hidden="true">${P.icon}</span> ${allP[k]} ${esc(P.label.toLowerCase())}</span>`).join('')}</div>
-  <a class="btn secondary" href="/promises/">See every promise →</a></section>
+  <div class="btn-row"><a class="btn secondary" href="/promises/">See every promise →</a><a class="btn secondary" href="/said-vs-did/">Do they vote the way they said? →</a></div></section>
 
   <div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg><div>
     <h2>You can check our work</h2>
@@ -772,6 +781,15 @@ function compassSvg({ mini = false, tap = !mini, map: mk = 'classic' } = {}) {
   const FS = mini ? 32 : 18, AFS = mini ? 27 : 18, DR = mini ? 13 : 10, cw = FS * 0.6;
   const px = (v) => P + (v + R) * S, py = (v) => P + (R - v) * S;
   const pts = placed.map((c) => { const p = cmapPos(c, mk); return { c, thin: p.thin, x: px(p.x.v), y: py(p.y.v) }; });
+  // Where their votes put them: needs votes on statements from both lines of this map.
+  // At least 3 votes behind each line, so one vote can't fling someone to a corner.
+  const VOTES_NEEDED = 3;
+  const vpts = all.map((c) => {
+    const vo = votedAnswers(c), nVotes = (qs) => Object.keys(qs).reduce((a, q) => a + (vo[q]?.n || 0), 0);
+    if (nVotes(M.x) < VOTES_NEEDED || nVotes(M.y) < VOTES_NEEDED) return null;
+    const p = cmapPos({ ...c, quiz_answers: Object.fromEntries(Object.entries(vo).map(([q, o]) => [q, o.v])) }, mk);
+    return p ? { c, x: px(p.x.v), y: py(p.y.v) } : null;
+  }).filter(Boolean);
   const near = mini ? 30 : 24;
   // nudge a dot off any earlier one, and keep going until it is clear (one nudge can land it on a third dot)
   pts.forEach((p, i) => { for (let k = 0; k < 8; k++) { const o = pts.slice(0, i).find((o) => Math.hypot(p.x - o.x, p.y - o.y) < near); if (!o) break; p.x += near * 0.83; p.y += near * 0.67; } });
@@ -836,6 +854,7 @@ function compassSvg({ mini = false, tap = !mini, map: mk = 'classic' } = {}) {
   <!-- side titles are rotated -90°, so ▲/▼ glyphs render as ◀/▶ -->
   <text transform="translate(${P - 16} ${H / 2}) rotate(-90)" text-anchor="middle" font-size="${AFS}" font-weight="700" fill="#14211c">${L.left.replace('◀', '▲')}</text>
   <text transform="translate(${W - P + AFS + 12} ${H / 2}) rotate(-90)" text-anchor="middle" font-size="${AFS}" font-weight="700" fill="#14211c">${L.right.replace('▶', '▼')}</text>
+  ${vpts.map((v) => { const o = pts.find((p) => p.c === v.c); return `${o ? `<line x1="${o.x}" y1="${o.y}" x2="${v.x}" y2="${v.y}" stroke="${col(v.c)}" stroke-width="2" stroke-dasharray="5 4"/>` : ''}<rect x="${v.x - DR}" y="${v.y - DR}" width="${DR * 2}" height="${DR * 2}" transform="rotate(45 ${v.x} ${v.y})" fill="#fcfcfb" stroke="${col(v.c)}" stroke-width="3"><title>${esc(v.c.name)}: where their votes put them</title></rect>`; }).join('')}
   ${pts.map((p) => `<g class="cdot"${!tap ? '' : ` tabindex="0" role="button" aria-label="${esc(p.c.name)}"`} data-slug="${p.c.slug}">
     ${!tap ? '' : `<circle cx="${p.x}" cy="${p.y}" r="${DR + 12}" fill="transparent" stroke="none"/>`}
     ${p.lead ? `<line x1="${p.lead[0].toFixed(1)}" y1="${p.lead[1].toFixed(1)}" x2="${p.lead[2].toFixed(1)}" y2="${p.lead[3].toFixed(1)}" stroke="#14211c" stroke-width="${mini ? 2 : 1.5}"/>` : ''}
@@ -914,10 +933,10 @@ write('/compass/', page({
   url: '/compass/', title: 'Where they lean',
   desc: 'Where Squamish mayor and council candidates sit on taxes and spending, growth, and Woodfibre LNG and climate — worked out from their public statements and votes.',
   body: `<h1>Where they lean</h1>
-  <p class="lede">Everyone on a map first — swipe for ${Object.keys(CMAPS).length} different maps — then the five questions that split this election, one at a time.</p>
+  <p class="lede">Everyone on a map first — swipe for ${Object.keys(CMAPS).length} different maps — then the five big questions, one at a time. Placed from their 2026 campaign answers.</p>
   <nav class="chapters no-print" aria-label="Jump to a topic"><a href="#map" data-ch="map"><span aria-hidden="true">🧭</span> Compass</a>${Object.entries(AXES).map(([k, A]) => `<a href="#axis-${k}" data-ch="axis-${k}"><span aria-hidden="true">${A.icon}</span> ${A.short || A.title}</a>`).join('')}</nav>
   <div class="lean-tools no-print">
-    <label for="follow"><b>Follow one candidate:</b></label>
+    <label for="follow"><b>Follow one council member:</b></label>
     <select id="follow"><option value="">— Show everyone —</option>${all.map((c) => `<option value="${c.slug}">${esc(c.name)}${c.office === 'mayor' ? ' (mayor)' : ''}</option>`).join('')}</select>
   </div>
   <section class="spec" id="map">
@@ -934,6 +953,7 @@ write('/compass/', page({
   </div>`; }).join('')}
   <p class="small lt-hint no-print">Use the arrows (or swipe) to see the same candidates mapped ${Object.keys(CMAPS).length} different ways.</p>
   </div>
+  <p class="small"><b>Diamonds</b> (once council has voted at least 3 times on each line): where a member’s <b>votes</b> put them, joined by a dotted line to where their campaign answers put them. <a href="/said-vs-did/">Said vs did, statement by statement</a>.</p>
   <div class="card compass-detail" id="cdetail" aria-live="polite" style="margin-top:1rem"><p class="muted" style="margin:0">Tap any dot above to see the details here.</p></div>
   <div data-cmap-note="classic">
   <p class="small"><b>Left–right</b> is support: more shelter and supportive-housing spaces, and mental-health crisis teams (left), or fewer homeless shelters (right). <b>Up–down</b> is the camps: clear tent encampments and move Under One Roof out of downtown (down), or let the camps stay (up). These aren’t opposites — someone can want more shelter <em>and</em> the camps cleared (bottom-left). Tap a dot for details.</p>
@@ -1047,6 +1067,44 @@ for (const m of MEETINGS) {
   }));
 }
 
+// ---------- SAID VS DID ----------
+// Every agree/disagree statement against every member: their campaign answer, and whether their votes since went the same way.
+{
+  const people = [...mayors, ...council];
+  const voteMark = (c, q) => {
+    const pos = positionsOf(c).find((p) => p.kind === 'quiz' && p.q.id === q.id);
+    if (!pos) return '';
+    const st = posStatus(checksFor(c, pos));
+    return st === 'untested' ? '' : `<span class="vmark ${POS_STATUS[st][2]}" title="${esc(POS_STATUS[st][1])}">${st === 'in_line' ? '✓ voted that way' : st === 'against' ? '✕ voted against' : '~ mixed'}</span>`;
+  };
+  const tested = (q) => DECISIONS.filter((d) => (d.related_q || []).some((r) => r.q === q.id));
+  const groups = [...new Set(ALL_QUESTIONS.map((q) => q.issue))];
+  const anyVotes = DECISIONS.some((d) => (d.related_q || []).length);
+  write('/said-vs-did/', page({
+    url: '/said-vs-did/', title: 'Do Squamish council members vote the way they said?',
+    desc: 'Every Squamish council member’s campaign answers (strongly agree to strongly disagree) side by side with how they have actually voted since, statement by statement.',
+    jsonld: crumbLd([['Home', '/'], ['Said vs did', '/said-vs-did/']]),
+    body: `<h1>Do they vote the way they said?</h1>
+    <p class="lede">During the campaign we asked every candidate to agree or disagree with the same ${ALL_QUESTIONS.length} statements. Here is what each of the seven winners said, and, as council votes, whether their votes went the same way.</p>
+    ${anyVotes ? '' : `<div class="notice info"><b>No votes yet.</b> The new council is sworn in on November 3 and holds its first regular meeting on November 17. Until then you can see what each of them said. After every meeting, a mark appears under any answer a vote tested.</div>`}
+    <h2 id="scoreboard">Scoreboard</h2>
+    <div class="table-scroll"><table class="issue-table score"><thead><tr><th></th><th>Voted the way they said</th><th>Voted against what they said</th><th>Not tested yet</th></tr></thead><tbody>
+    ${people.map((c) => { const pr = positionReport(c); return `<tr><td><a href="/council/${c.slug}/#said-did">${esc(c.name)}</a></td><td>${pr.inLine}</td><td>${pr.against}${pr.mixed ? ` <span class="small">(+${pr.mixed} mixed)</span>` : ''}</td><td>${pr.untested} of ${pr.rows.length}</td></tr>`; }).join('')}
+    </tbody></table></div>
+    <p class="small">This counts every position: the agree/disagree answers below plus every “I support” and “I’m against” from their campaign. Tap a name for the full list.</p>
+    <h2 id="grid">Statement by statement</h2>
+    <div class="legend">${BINS.map((b) => `<span><span class="cell ${b[1]}">${b[3]}</span>${b[2]}</span>`).join('')}<span><span class="cell un">?</span>Didn’t say</span></div>
+    <p class="small">The coloured box is what they said during the campaign. Underneath, <span class="vmark ps-kept">✓ voted that way</span> or <span class="vmark ps-broken">✕ voted against</span> appears once a council vote tests it. Scroll sideways on a phone.</p>
+    ${groups.map((g) => { const qs = ALL_QUESTIONS.filter((q) => q.issue === g); const title = (ISSUES.find((i) => i.key === g) || {}).title || TOPIC_NAME[g] || g; return `<h3>${esc(title.charAt(0).toUpperCase() + title.slice(1))}</h3>
+    <div class="table-scroll"><table class="matrix svd-grid"><thead><tr><th>Statement</th>${people.map((c) => `<th><a href="/council/${c.slug}/">${esc(lastName(c))}</a>${c.office === 'mayor' ? '<br><span class="small">mayor</span>' : ''}</th>`).join('')}</tr></thead><tbody>
+    ${qs.map((q) => { const t = tested(q); return `<tr><td>${escGl(q.text)}${t.length ? `<br><span class="small">Tested by: ${t.map((d) => `<a href="${mUrl(d.m)}">${escGl(d.title)}</a>`).join(', ')}</span>` : ''}</td>${people.map((c) => `<td>${cell(c.quiz_answers?.[q.id])}${voteMark(c, q)}</td>`).join('')}</tr>`; }).join('')}
+    </tbody></table></div>`; }).join('')}
+    <h2 id="compass">On the compass</h2>
+    <p>The <a href="/compass/">compass</a> places each member from their campaign answers. Once at least 3 votes test each line of a map, a second diamond-shaped marker shows where their <b>votes</b> put them, joined to the first by a dotted line. A long line means they vote differently from how they campaigned.</p>
+    <p class="small"><a href="/promises/#how">How we link votes to statements</a> · <a href="/about/#meetings">How meeting summaries are made</a></p>`,
+  }));
+}
+
 // ---------- PROMISES ----------
 {
   const c0 = pCounts(PROMISES);
@@ -1056,6 +1114,7 @@ for (const m of MEETINGS) {
     jsonld: crumbLd([['Home', '/'], ['Promise tracker', '/promises/']]),
     body: `<h1>Promise tracker</h1>
     <p class="lede">What the mayor and councillors said they would do during the 2026 campaign, and whether they’ve done it.</p>
+    <div class="notice info"><b>Want the agree/disagree answers side by side with their votes?</b> <a href="/said-vs-did/">See “Do they vote the way they said?”</a></div>
     <h2 id="scoreboard">At a glance</h2>
     <p class="small"><b>Promises</b> are specific things they said they would do. <b>Positions</b> are everything else they said they stand for: every agree or disagree answer and every “I support” or “I’m against”. We check both against every council vote.</p>
     <div class="table-scroll"><table class="issue-table score"><thead><tr><th></th><th>Promises kept</th><th>Promises broken</th><th>Votes in line with their positions</th><th>Votes against their positions</th></tr></thead><tbody>
