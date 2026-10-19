@@ -20,3 +20,6 @@ data/meetings/raw/TEST-*
 data/meetings/raw/.audio/
 public/transcripts/TEST-*
 .last-deployed
+
+# weekly email previews
+data/digest/

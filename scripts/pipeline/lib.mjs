@@ -76,6 +76,26 @@ export const positionList = (people) => people.flatMap((c) => [
   ...(c.opposes || []).map((x) => ({ id: posId(c, 'o', x.text), who: c.slug, position: `against: ${x.text}` })),
 ]);
 
+// Neighbourhoods and the long-running issues we follow, for tagging decisions (data/participate.json, data/tracked-issues.json).
+export const hoods = () => (readJson(path.join(ROOT, 'data', 'participate.json'), {}).neighbourhoods || []).map((h) => ({ slug: h.slug, name: h.name, also: h.also || [] }));
+export const tracked = () => readJson(path.join(ROOT, 'data', 'tracked-issues.json'), []).map((t) => ({ slug: t.slug, title: t.title, keywords: t.keywords || [], steps: (t.steps || []).map((x) => x.label) }));
+export const TAG_RULES = `"for_you": one plain sentence on what it means for an ordinary resident, ideally in dollars ("About $40 more a year on an average home's property tax") or places ("Affects homes along Government Road"). Use only numbers the agenda, staff reports or recording actually give. Empty string if nothing concrete.
+"areas": neighbourhood slugs it mostly affects, from the NEIGHBOURHOODS list, or ["all"] for the whole town.
+"issues": slugs from the TRACKED ISSUES list this is part of, or [].`;
+
+// Staff reports and other PDFs attached to an agenda, as text, so summaries can quote real costs. Cached per meeting.
+export async function attachmentsText(m, max = 160000) {
+  const f = path.join(RAW_DIR, `${m.id}-attachments.txt`);
+  if (fs.existsSync(f)) return fs.readFileSync(f, 'utf8');
+  let out = '';
+  for (const a of (m.attachments || []).filter((x) => /\.pdf$/i.test(x.url) && !/Minutes/i.test(x.url)).slice(0, 25)) {
+    if (out.length > max) break;
+    try { out += `\n\n=== ${decodeURIComponent(a.url.split('/').pop()).replace(/^[0-9A-F]{20,}-/, '')} ===\n` + pdfToText(await cw(new URL(a.url).pathname, { json: false })).slice(0, 25000); } catch (e) { log('attachment skipped:', e.message); }
+  }
+  fs.writeFileSync(f, out);
+  return out;
+}
+
 // ---------- Claude ----------
 // One structured call per job. Opus 5.5 at high effort: these summaries are the site's public record.
 let client;

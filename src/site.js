@@ -265,3 +265,67 @@
   window.SV = { getBallot: getBallot, setBallot: setBallot, toggle: toggle, toast: toast, store: store, renderPicks: render, track: track, compassYou: compassYou };
   render();
 })();
+
+/* ---------- Council tracker (Oct 2026): "what matters to you", copy and print, weekly email sign-up ---------- */
+(function () {
+  function get(k, d) { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } }
+  function put(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  function esc(s) { return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  // What matters to you: neighbourhood + topics, saved on this device only.
+  var box = document.getElementById('foryou');
+  if (box && window.SV_FEED) {
+    var prefs = get('sv_prefs', { area: '', topics: [] });
+    var sel = box.querySelector('[data-pref="area"]'), feed = box.querySelector('[data-feed]');
+    function draw() {
+      sel.value = prefs.area || '';
+      box.querySelectorAll('[data-topic]').forEach(function (b) { b.setAttribute('aria-pressed', String(prefs.topics.indexOf(b.getAttribute('data-topic')) > -1)); });
+      if (!prefs.area && !prefs.topics.length) { feed.innerHTML = ''; return; }
+      var hits = SV_FEED.filter(function (x) {
+        var a = prefs.area && (x.areas || []).indexOf(prefs.area) > -1, t = prefs.topics.indexOf(x.topic) > -1;
+        return a || t;
+      }).sort(function (a, b) { return (b.date || '0').localeCompare(a.date || '0'); }).slice(0, 8);
+      feed.innerHTML = hits.length ? '<ul class="feed">' + hits.map(function (x) {
+        return '<li><a href="' + x.url + '"><span class="fk">' + esc(x.k) + (x.date ? ' · ' + new Date(x.date + 'T12:00:00').toLocaleDateString('en-CA', { month: 'short', day: 'numeric' }) : '') + '</span><b>' + esc(x.title) + '</b>' + (x.for_you ? '<span class="small">' + esc(x.for_you) + '</span>' : '') + '</a></li>';
+      }).join('') + '</ul>' : '<p class="small">Nothing on these yet. As council meets, anything about them shows up here first.</p>';
+    }
+    sel.addEventListener('change', function () { prefs.area = sel.value; put('sv_prefs', prefs); draw(); });
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-topic]'); if (!b) return;
+      var t = b.getAttribute('data-topic'), i = prefs.topics.indexOf(t);
+      if (i > -1) prefs.topics.splice(i, 1); else prefs.topics.push(t);
+      put('sv_prefs', prefs); draw();
+    });
+    draw();
+  }
+
+  // Copy a ready-made post (for Facebook groups), and print with every section opened.
+  document.addEventListener('click', function (e) {
+    var c = e.target.closest('[data-copy]');
+    if (c) {
+      var t = c.getAttribute('data-copy');
+      (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { if (window.SV && SV.toast) SV.toast('Copied. Paste it into Facebook or a text.'); }, function () { window.prompt('Copy this:', t); });
+      return;
+    }
+    if (e.target.closest('[data-print]')) window.print();
+  });
+  window.addEventListener('beforeprint', function () { document.querySelectorAll('main details').forEach(function (d) { d.setAttribute('open', ''); }); });
+
+  // Weekly email sign-up.
+  document.querySelectorAll('form[data-subscribe]').forEach(function (f) {
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var msg = f.querySelector('[data-msg]'), email = f.email.value.trim();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { msg.textContent = 'Please check your email address.'; return; }
+      if (!f.consent.checked) { msg.textContent = 'Please tick the box so we know you want the email.'; return; }
+      var p = get('sv_prefs', { area: '', topics: [] });
+      f.querySelector('button').disabled = true; msg.textContent = 'Signing you up…';
+      fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, consent: true, from: f.getAttribute('data-subscribe'), area: p.area, topics: p.topics }) })
+        .then(function (r) { return r.json(); })
+        .then(function (r) { msg.textContent = r.ok ? 'Thanks, you’re on the list.' : (r.error || 'Something went wrong. Please try again.'); if (r.ok) f.reset(); })
+        .catch(function () { msg.textContent = 'Something went wrong. Please try again.'; })
+        .then(function () { f.querySelector('button').disabled = false; });
+      if (window.SV && SV.track) SV.track('Email signup', { from: f.getAttribute('data-subscribe') });
+    });
+  });
+})();

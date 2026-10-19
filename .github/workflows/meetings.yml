@@ -42,13 +42,15 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SKIP_VIDEO: '1'
         run: node scripts/pipeline/summarize.mjs ${{ github.event.inputs.meeting }}
+      - name: Share pictures for new summaries
+        run: node scripts/pipeline/share.mjs
       - name: Make sure the site still builds
         run: node build.mjs
       - name: Commit
         run: |
           git config user.name 'squamish-voters-bot'
           git config user.email 'actions@users.noreply.github.com'
-          git add data/meetings data/promises.json public/transcripts
+          git add data/meetings data/promises.json public/transcripts public/share
           if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
           git commit -m "Meetings update $(date -u +%Y-%m-%dT%H:%MZ)"
           git pull --rebase -q && git push

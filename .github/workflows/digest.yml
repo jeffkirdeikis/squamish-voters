@@ -1,0 +1,23 @@
+# The Friday "This week at council" email, 7 a.m. Pacific (8 a.m. in summer). Sends only once RESEND_API_KEY,
+# EMAIL_FROM and POSTGRES_URL secrets exist; until then it just checks the email builds.
+name: Weekly email
+on:
+  schedule:
+    - cron: '0 15 * * 5'
+  workflow_dispatch:
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci --no-audit --no-fund
+      - name: Build and send
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+        run: node scripts/pipeline/digest.mjs --send

@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { ROOT, RAW_DIR, TRANSCRIPTS, cw, loadMeetings, saveMeeting, readJson, writeJson, council, positionList, log, claudeJson, STYLE } from './lib.mjs';
+import { ROOT, RAW_DIR, TRANSCRIPTS, cw, loadMeetings, saveMeeting, readJson, writeJson, council, positionList, hoods, tracked, attachmentsText, TAG_RULES, log, claudeJson, STYLE } from './lib.mjs';
 
 const only = process.argv[2];
 const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' });
@@ -61,11 +61,14 @@ const SCHEMA = {
     decisions: {
       type: 'array',
       items: {
-        type: 'object', additionalProperties: false, required: ['title', 'what', 'why_it_matters', 'result', 'votes', 'votes_confidence', 'topic', 'related_q', 'positions', 'timestamp'],
+        type: 'object', additionalProperties: false, required: ['title', 'what', 'why_it_matters', 'for_you', 'areas', 'issues', 'result', 'votes', 'votes_confidence', 'topic', 'related_q', 'positions', 'timestamp'],
         properties: {
           title: { type: 'string', description: 'Plain title, e.g. "Rezoning for 120 rental homes on Pioneer Way".' },
           what: { type: 'string', description: 'One to three plain sentences: what council decided and what it means.' },
           why_it_matters: { type: 'string', description: 'One plain sentence on why a resident might care. Empty string if routine.' },
+          for_you: { type: 'string' },
+          areas: { type: 'array', items: { type: 'string' } },
+          issues: { type: 'array', items: { type: 'string' } },
           result: { type: 'string', enum: ['passed', 'failed', 'referred', 'info'] },
           votes: { anyOf: [{ type: 'null' }, { type: 'object', additionalProperties: false, required: slugs, properties: voteProps }], description: 'null for items with no vote. Otherwise every member. "unknown" when the recording does not make it clear.' },
           votes_confidence: { type: 'string', enum: ['clear', 'likely', 'unclear', 'none'] },
@@ -130,11 +133,21 @@ ${JSON.stringify(promises.map((p) => ({ id: p.id, who: p.slug, promise: p.promis
 CAMPAIGN POSITIONS (for "positions"; what each member said they support or are against). Link a vote to every position it directly tests, for any member, even ones not marked as promises. Example: a vote to fund keeping a shelter downtown tests "against: moving Under One Roof" (yes_is 1) and "supports: moving it out" (yes_is -1). Only clear, direct links; leave it empty when nothing fits:
 ${JSON.stringify(positions)}
 
+FOR EACH DECISION ALSO SET:
+${TAG_RULES}
+
+NEIGHBOURHOODS: ${JSON.stringify(hoods())}
+
+TRACKED ISSUES: ${JSON.stringify(tracked())}
+
 QUIZ STATEMENTS (for related_q; every member's agree/disagree answers are checked against these, so link every statement a vote directly tests):
 ${JSON.stringify(questions.map((q) => ({ id: q.id, text: q.text })))}
 
 AGENDA:
 ${agenda.slice(0, 300000)}
+
+STAFF REPORTS AND ATTACHMENTS (for costs and details; may be cut short):
+${await attachmentsText(m)}
 
 ${fromMinutes ? `OFFICIAL MINUTES:\n${fs.readFileSync(minutesFile, 'utf8')}` : `TRANSCRIPT (automatic, with timestamps; names and words may be misheard):\n${transcript}`}`,
     schema: SCHEMA,

@@ -12,7 +12,8 @@ git pull -q --rebase
 [ -d node_modules/@anthropic-ai/sdk ] || npm ci --silent --no-audit --no-fund
 node scripts/pipeline/sync.mjs
 node scripts/pipeline/summarize.mjs
-git add data/meetings data/promises.json public/transcripts
+node scripts/pipeline/share.mjs
+git add data/meetings data/promises.json public/transcripts public/share
 if ! git diff --cached --quiet; then
   git commit -q -m "Meeting summary from video $(date -u +%Y-%m-%dT%H:%MZ)"
   git pull -q --rebase && git push -q

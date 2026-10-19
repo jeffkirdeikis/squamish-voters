@@ -903,3 +903,44 @@ span.vmark.ps-kept, span.vmark.ps-broken { display: inline-block; }
 .scard .go { align-self: center; font-size: 1.6rem; color: var(--muted); }
 .qwho .qname { font-size: .72rem; }
 .keybox { padding: .8rem 1rem; } .keybox .legend { margin: 0 0 .4rem; } .keybox p { margin: 0; }
+
+/* ---------- For you, issues, sharing, have your say, email (Oct 19) ---------- */
+.foryou { background: var(--warn-bg); border-radius: 10px; padding: .55rem .75rem; margin: .2rem 0 .6rem; color: var(--warn-ink); }
+.areas { margin: .3rem 0; display: flex; flex-wrap: wrap; gap: .3rem; }
+.area { font-size: .8rem; font-weight: 700; background: var(--surface-2); border-radius: 999px; padding: .1rem .55rem; }
+.sharebar { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
+.sharebar .btn { flex: 1 1 auto; }
+.havesay { margin: 1rem 0; border-left: 6px solid var(--focus); }
+.havesay h2 { margin-top: 0; }
+.signup { margin: 1.5rem 0; background: var(--brand-soft); border-color: #b9d8cb; }
+.signup h2 { margin-top: 0; }
+.signup .fld { display: flex; flex-direction: column; gap: .3rem; font-weight: 700; margin: .6rem 0; }
+.signup input[type="email"] { font: inherit; padding: .8rem; border: 2px solid var(--line); border-radius: 10px; min-height: 3.2rem; }
+.consent { display: flex; gap: .6rem; align-items: flex-start; margin: .4rem 0 .9rem; line-height: 1.4; }
+.consent input { width: 1.5rem; height: 1.5rem; flex: none; margin-top: .1rem; }
+.foryou-box { margin: 1.2rem 0; }
+.foryou-box h2 { margin-top: 0; }
+.foryou-box .fld { display: flex; flex-direction: column; gap: .3rem; font-weight: 700; margin: .6rem 0; }
+.foryou-box select { font: inherit; padding: .7rem; border: 2px solid var(--line); border-radius: 10px; min-height: 3.2rem; background: var(--surface); }
+.topicpick { display: flex; flex-wrap: wrap; gap: .4rem; margin: .5rem 0 .8rem; }
+.topicpick .chip-btn[aria-pressed="true"] { background: var(--brand); color: #fff; border-color: var(--brand); }
+.feed { list-style: none; margin: .5rem 0 0; padding: 0; display: grid; gap: .5rem; }
+.feed a { display: flex; flex-direction: column; gap: .15rem; padding: .7rem .85rem; border: 1px solid var(--line); border-radius: 12px; text-decoration: none; color: var(--ink); background: var(--surface); }
+.feed .fk { font-size: .78rem; font-weight: 800; color: var(--brand); text-transform: uppercase; letter-spacing: .03em; }
+.steps { list-style: none; margin: .5rem 0 1rem; padding: 0; }
+.steps li { display: flex; gap: .7rem; padding: .5rem 0; position: relative; }
+.steps li + li { border-top: 1px dashed var(--line); }
+.sdot { flex: none; width: 1.8rem; height: 1.8rem; border-radius: 50%; display: grid; place-items: center; font-weight: 800; background: var(--surface-2); color: var(--muted); }
+.st-done .sdot { background: var(--yes); color: #fff; }
+.st-current .sdot { background: var(--focus); color: #14211c; box-shadow: 0 0 0 4px rgba(255,183,3,.3); }
+.st-current b { color: var(--ink); }
+.st-upcoming { color: var(--muted); }
+.hist { padding-left: 1.1rem; } .hist li { margin: .4rem 0; }
+@media print {
+  .site-header, .tabbar, .site-footer, .no-print, .totop, .crumbs, .signup, .havesay, .sharebar { display: none !important; }
+  body { background: #fff; font-size: 12pt; }
+  main { padding: 0 !important; }
+  .card, .decision { box-shadow: none !important; break-inside: avoid; }
+  details > summary::after, details > summary .more-btn { display: none !important; }
+  main::after { content: "squamishvoters.com · independent, plain-language summaries of Squamish council"; display: block; margin-top: 1rem; font-size: 10pt; color: #555; }
+}

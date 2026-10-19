@@ -16,6 +16,10 @@ const candidates = read('candidates.json').filter((c) => WON.has(c.name));
 const MEET_DIR = path.join(ROOT, 'data', 'meetings');
 const MEETINGS = fs.existsSync(MEET_DIR) ? fs.readdirSync(MEET_DIR).filter((f) => f.endsWith('.json')).filter((f) => !f.startsWith('TEST-')).map((f) => JSON.parse(fs.readFileSync(path.join(MEET_DIR, f), 'utf8'))).sort((a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || ''))) : [];
 const PROMISES = fs.existsSync(path.join(ROOT, 'data', 'promises.json')) ? read('promises.json') : [];
+// Long-running issues we follow across meetings, and how residents can take part (both researched, with sources).
+const TRACKED = fs.existsSync(path.join(ROOT, 'data', 'tracked-issues.json')) ? read('tracked-issues.json') : [];
+const PART = fs.existsSync(path.join(ROOT, 'data', 'participate.json')) ? read('participate.json') : {};
+const HOODS = PART.neighbourhoods || [];
 const ctx = read('context.json');
 const TR = read('trustees.json');
 // The voter quiz and the comparison pages use only the 12 core statements, so they stay quick.
@@ -239,7 +243,7 @@ const NAV = [
   ['/council/', 'Council'], ['/meetings/', 'Meetings'], ['/promises/', 'Promises'], ['/said-vs-did/', 'Said vs did'], ['/quiz/', 'Quiz'], ['/compare/', 'Compare'],
 ];
 // The Menu lists everything; the top bar only has room for the essentials.
-const MENU = [...NAV, ['/compass/', 'Where they lean'], ['/issues/', 'The issues explained'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
+const MENU = [...NAV, ['/this-week/', 'This week at council'], ['/track/', 'Issues we’re following'], ['/compass/', 'Where they lean'], ['/issues/', 'The issues explained'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
 const ICON = {
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5L12 4l8.5 6.5V20a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1z"/><path d="M9.5 21v-6h5v6"/></svg>',
   people: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.5c2.5.2 4 1.8 4.5 4.5"/></svg>',
@@ -259,12 +263,13 @@ const MENU_ICON = {
 };
 const MOBILE_MENU = [
   ['/', 'Home', 'home'], ['/council/', 'Your mayor and council', 'people'], ['/meetings/', 'Council meetings: what’s next and what they decided', 'meet'],
-  ['/promises/', 'Promise tracker', 'promise'], ['/said-vs-did/', 'Do they vote the way they said?', 'compare'], ['/quiz/', 'Who on council thinks like you?', 'quiz'], ['/compare/', 'Compare them, issue by issue', 'compare'],
+  ['/this-week/', 'This week at council', 'meet'], ['/track/', 'Issues we’re following', 'issues'], ['/promises/', 'Promise tracker', 'promise'], ['/said-vs-did/', 'Do they vote the way they said?', 'compare'], ['/quiz/', 'Who on council thinks like you?', 'quiz'], ['/compare/', 'Compare them, issue by issue', 'compare'],
   ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
   ['/about/', 'About this site &amp; sources', 'about'],
 ];
 
-function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null }) {
+function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null, image = null }) {
+  const img = image || 'https://squamishvoters.com/og.png?v=4';
   const cur = (href) => ((href === '/' ? url === '/' : url.startsWith(href)) ? ' aria-current="page"' : '');
   const full = title ? `${title} — ${SITE.name}` : 'Squamish Voters: what Squamish council is deciding, how each member votes, and whether they keep their promises';
   return `<!doctype html>
@@ -279,12 +284,12 @@ function page({ url, title, desc, body, hero = '', scripts = '', noindex = false
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Squamish Voters">
 <meta property="og:url" content="https://squamishvoters.com__PATH__">
-<meta property="og:image" content="https://squamishvoters.com/og.png?v=4">
+<meta property="og:image" content="${img}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Squamish Voters: an independent, plain-language guide to Squamish council">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://squamishvoters.com/og.png?v=4">
+<meta name="twitter:image" content="${img}">
 <link rel="canonical" href="https://squamishvoters.com__PATH__">
 <meta name="theme-color" content="#0f4c3a">${noindex ? '\n<meta name="robots" content="noindex, nofollow">' : ''}${jsonld ? `\n<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -411,7 +416,8 @@ function voteChips(d) {
 function decisionCard(d, m, { open = false } = {}) {
   const yes = Object.values(d.votes || {}).filter((v) => v === 'yes').length, no = Object.values(d.votes || {}).filter((v) => v === 'no').length;
   return `<details class="decision r-${esc(d.result || 'info')}"${open ? ' open' : ''}><summary><span class="dres">${esc(RESULT_WORD[d.result] || 'Decided')}${d.result === 'passed' || d.result === 'failed' ? ` <span class="small">${no === 0 && yes > 1 ? 'all agreed' : `${yes}–${no}`}</span>` : ''}</span><span class="dtitle">${escGl(d.title)}</span></summary>
-  <div class="dbody"><p>${escGl(d.what)}</p>${d.votes ? voteChips(d) : ''}
+  <div class="dbody">${d.for_you ? `<p class="foryou"><b>What it means for you:</b> ${escGl(d.for_you)}</p>` : ''}<p>${escGl(d.what)}</p>${d.votes ? voteChips(d) : ''}
+  ${areaTags(d.areas)}${(d.issues || []).map((sl) => TRACKED.find((t) => t.slug === sl)).filter(Boolean).map((t) => `<p class="small">Part of: <a href="/track/${t.slug}/">${esc(t.title)}</a></p>`).join('')}
   ${d.why_it_matters ? `<p class="small"><b>Why it matters:</b> ${escGl(d.why_it_matters)}</p>` : ''}
   ${isUrl(d.video_url) ? `<p class="small"><a href="${esc(d.video_url)}" target="_blank" rel="noopener">▶ Watch this part of the meeting</a></p>` : ''}</div></details>`;
 }
@@ -506,6 +512,50 @@ function profileRecord(c) {
   ${pr.tested.length ? `<div class="card stack">${pr.tested.map((r) => posRow(c, r)).join('')}</div>` : ''}
   <details class="drop"><summary>${pr.untested} positions council hasn’t voted on yet</summary><div class="stack">${pr.rows.filter((r) => r.st === 'untested').map((r) => posRow(c, r)).join('')}</div></details>`;
 }
+
+
+// ---------- FOR YOU, SHARING, HAVE YOUR SAY, EMAIL ----------
+const STEP_ICON = { done: '✓', current: '●', upcoming: '○' };
+const issueDecisions = (t) => DECISIONS.filter((d) => (d.issues || []).includes(t.slug));
+const stepNow = (t) => { const i = (t.steps || []).findIndex((x) => x.status === 'current'); return i < 0 ? null : { i, n: t.steps.length, step: t.steps[i] }; };
+const issueRow = (t) => { const now = stepNow(t); return `<li class="mrow"><a href="/track/${t.slug}/"><span class="mtxt"><b class="mhead">${esc(t.question)}</b>${now ? `<span class="small">Step ${now.i + 1} of ${now.n}: ${esc(now.step.label)}</span>` : ''}</span><span class="go" aria-hidden="true">›</span></a></li>`; };
+
+const hoodName = (sl) => (HOODS.find((h) => h.slug === sl) || {}).name || '';
+const areaTags = (areas) => (areas || []).filter((a) => a !== 'all' && hoodName(a)).length ? `<p class="areas">${areas.filter((a) => hoodName(a)).map((a) => `<span class="area">📍 ${esc(hoodName(a))}</span>`).join('')}</p>` : '';
+// One statement with all 7 answers as tiles (Said vs did, issue pages).
+function qCard(q) {
+  const people = [...mayors, ...council];
+  const mark = (c) => { const pos = positionsOf(c).find((p) => p.kind === 'quiz' && p.q.id === q.id); if (!pos) return ''; const st = posStatus(checksFor(c, pos)); return st === 'untested' ? '' : `<span class="vmark ${POS_STATUS[st][2]}">${st === 'in_line' ? '✓ voted that way' : st === 'against' ? '✕ voted against' : '~ mixed'}</span>`; };
+  const t = DECISIONS.filter((d) => (d.related_q || []).some((r) => r.q === q.id));
+  return `<div class="card qcard"><p class="qtext">“${escGl(q.text)}”</p>
+    <ul class="qwho">${people.map((c) => `<li><a href="/council/${c.slug}/#said-did">${cell(c.quiz_answers?.[q.id])}<span class="qname">${esc(lastName(c))}</span>${mark(c)}</a></li>`).join('')}</ul>
+    ${t.length ? `<p class="small">Tested by: ${t.map((d) => `<a href="${mUrl(d.m)}">${escGl(d.title)}</a>`).join(', ')}</p>` : ''}</div>`;
+}
+const signupBox = (where) => `<section class="card signup no-print" id="signup"><h2>Get it by email, once a week</h2>
+  <p>Every Friday morning: what council decided that week and what’s coming up. Plain words, nothing else. Unsubscribe any time.</p>
+  <form data-subscribe="${where}" novalidate>
+    <label class="fld">Your email<input type="email" name="email" autocomplete="email" required placeholder="you@example.com"></label>
+    <label class="consent"><input type="checkbox" name="consent" required> <span>Yes, send me the weekly Squamish Voters email. I can unsubscribe at any time.</span></label>
+    <button class="btn big block" type="submit">Sign me up</button>
+    <p class="small" data-msg role="status"></p>
+  </form>
+  <p class="small muted">Sent by Squamish Voters (Jeff Kirdeikis, Squamish, B.C.). We never share your address. <a href="/this-week/">See this week’s email</a>.</p></section>`;
+// How to take part, from the District's own rules (data/participate.json). Falls back to the plain how-to-watch text.
+function haveSay(m, item) {
+  const W = PART.write_to_council || PART.correspondence || {}, SP = PART.speak_at_meeting || PART.speak || {};
+  const email = W.email || 'council@squamish.ca';
+  const subject = `Comment for council${m ? `, ${fmtLong(m.date)} meeting` : ''}${item ? `: ${item}` : ''}`;
+  return `<section class="card havesay"><h2>Have your say</h2>
+    <p><b>Write to council.</b> ${W.how ? escGl(W.how) : 'Email council before the meeting.'}${W.deadline ? ` <b>${escGl(W.deadline)}</b>` : ''}${src(W.source_url, 'District of Squamish')}</p>
+    <p><a class="btn" href="mailto:${esc(email)}?subject=${encodeURIComponent(subject)}">✉️ Email council about this</a></p>
+    ${SP.how ? `<p><b>Speak at the meeting.</b> ${escGl(SP.how)}${src(SP.source_url, 'District of Squamish')}</p>` : ''}
+    <p><b>Watch.</b> Live and afterward on the <a href="https://www.youtube.com/@DistrictofSquamish/streams" target="_blank" rel="noopener">District’s YouTube channel</a>.</p></section>`;
+}
+const shareText = (m) => `${m.summary.headline}\n\n${(m.summary.key_points || []).slice(0, 4).map((k) => '• ' + k).join('\n')}\n\nWho voted which way, in plain words: ${ORIGIN}${mUrl(m)}`;
+const shareBar = (m) => `<div class="sharebar no-print"><a class="btn secondary" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(ORIGIN + mUrl(m))}" target="_blank" rel="noopener">Share on Facebook</a>
+  <button class="btn secondary" type="button" data-copy="${esc(shareText(m))}">Copy a post to paste</button>
+  <button class="btn secondary" type="button" data-print>🖨 Print one page</button></div>`;
+const shareImg = (m) => (fs.existsSync(path.join(ROOT, 'public', 'share', `${m.id}.png`)) ? `${ORIGIN}/share/${m.id}.png` : null);
 
 // ---------- PROFILES ----------
 // Show the first few points; the rest stay one tap away rather than filling the screen.
@@ -755,6 +805,18 @@ const v = ctx.voting || {};
   <div class="faces faces-sm">${[...mayors, ...council].map(faceTile).join('')}</div>
   <p><a href="/council/">What each of them stands for, how they vote, and what they promised →</a></p>
 
+  <section class="card foryou-box no-print" id="foryou"><h2>What matters to you</h2>
+    <p class="small">Pick your neighbourhood and what you care about. We’ll show those first. It’s saved on this phone only.</p>
+    <label class="fld">Where you live<select data-pref="area"><option value="">Choose your neighbourhood</option>${HOODS.map((h) => `<option value="${esc(h.slug)}">${esc(h.name)}</option>`).join('')}</select></label>
+    <div class="topicpick" role="group" aria-label="Topics you care about">${ISSUES.map((i) => `<button type="button" class="chip-btn" data-topic="${i.key}" aria-pressed="false"><span aria-hidden="true">${i.icon}</span> ${esc(i.title)}</button>`).join('')}</div>
+    <div data-feed></div>
+  </section>
+  <script>window.SV_FEED=${JSON.stringify([
+    ...DECISIONS.filter((d) => d.result !== 'info').slice(0, 60).map((d) => ({ k: 'Decided', date: d.m.date, title: d.title, for_you: d.for_you || '', areas: d.areas || [], topic: d.topic, url: mUrl(d.m) })),
+    ...upcoming.flatMap((m) => (m.agenda_items || []).map((a) => ({ k: 'Coming up', date: m.date, title: a.plain, for_you: a.for_you || '', areas: a.areas || [], topic: a.topic, url: mUrl(m) }))),
+    ...TRACKED.map((t) => ({ k: 'Issue', date: '', title: t.question, for_you: (stepNow(t) || {}).step?.label || '', areas: t.areas || [], topic: t.topic, url: `/track/${t.slug}/` })),
+  ]).replace(/</g, '\u003c')};</script>
+
   <section class="card nextup"><h2>Coming up</h2>
   ${nx.length ? `<ul class="mlist">${nx.map(meetingRow).join('')}</ul><p><a href="/meetings/">All meetings →</a></p>` : '<p class="muted">No meetings are scheduled yet. Check back soon.</p>'}
   </section>
@@ -770,6 +832,8 @@ const v = ctx.voting || {};
   ${ANY_VOTES ? `<div class="pstats">${Object.entries(PSTATUS).map(([k, P]) => `<span class="pstatus ${P.cls}"><span aria-hidden="true">${P.icon}</span> ${allP[k]} ${esc(P.label.toLowerCase())}</span>`).join('')}</div>` : `<p class="small">Nothing to judge until the first votes${FIRST_VOTES ? ` on ${esc(fmtLong(FIRST_VOTES))}` : ''}.</p>`}
   <div class="btn-row"><a class="btn secondary" href="/promises/">See every promise →</a><a class="btn secondary" href="/said-vs-did/">Do they vote the way they said? →</a></div></section>
 
+  ${TRACKED.length ? `<section class="card"><h2>Issues we’re following</h2><p class="small">The big questions that keep coming back to council. Tap one to see where it stands.</p><ul class="mlist">${TRACKED.slice(0, 5).map(issueRow).join('')}</ul><p><a href="/track/">All ${TRACKED.length} issues →</a></p></section>` : ''}
+  ${signupBox('home')}
   <div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg><div>
     <h2>You can check our work</h2>
     <p>No endorsements. Every summary links to the official video, agenda and minutes, and every promise links to where it was said. The code is public.</p>
@@ -1060,7 +1124,7 @@ for (const m of MEETINGS) {
   const votes = (m.decisions || []).filter((d) => d.votes);
   const links = [[m.video_url, '▶ Watch the full meeting video'], [m.agenda_url, 'Official agenda'], [m.minutes_url, 'Official minutes'], [m.transcript ? `/transcripts/${m.id}.txt` : null, 'Full written transcript']].filter(([u]) => u);
   write(mUrl(m), page({
-    url: '/meetings/', title: `${T.label}, ${fmtLong(m.date)}${done ? ': what Squamish council decided' : ''}`,
+    url: '/meetings/', image: done ? shareImg(m) : null, title: `${T.label}, ${fmtLong(m.date)}${done ? ': what Squamish council decided' : ''}`,
     desc: done ? `${S.headline} ${votes.length} vote${votes.length === 1 ? '' : 's'}, in plain words, with how each member voted.` : `Squamish ${T.label.toLowerCase()} on ${fmtDay(m.date)}${m.time ? ' at ' + fmtTime(m.time) : ''}: what’s on the agenda and how to watch.`,
     jsonld: [crumbLd([['Home', '/'], ['Meetings', '/meetings/'], [`${T.label}, ${fmtLong(m.date)}`, mUrl(m)]]), { '@context': 'https://schema.org', '@type': 'Event', name: `Squamish ${T.label}`, startDate: `${m.date}${m.time ? 'T' + m.time + ':00-' + (m.date >= '2026-11-01' && m.date < '2027-03-14' ? '08' : '07') + ':00' : ''}`, eventStatus: m.status === 'cancelled' ? 'https://schema.org/EventCancelled' : 'https://schema.org/EventScheduled', eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode', location: { '@type': 'Place', name: m.place || 'Squamish Municipal Hall', address: '37955 Second Avenue, Squamish, BC' }, organizer: { '@type': 'GovernmentOrganization', name: 'District of Squamish', url: 'https://squamish.ca/' } }],
     body: `<p class="crumbs"><a href="/meetings/">← All meetings</a></p>
@@ -1070,7 +1134,8 @@ for (const m of MEETINGS) {
     ${done ? `
     <section class="card layer1"><h2>What happened, in short</h2>
       <p class="lede">${escGl(S.headline)}</p>
-      <ul class="keypoints">${(S.key_points || []).map((k) => `<li>${escGl(k)}</li>`).join('')}</ul></section>
+      <ul class="keypoints">${(S.key_points || []).map((k) => `<li>${escGl(k)}</li>`).join('')}</ul>
+      ${shareBar(m)}</section>
     ${votes.length ? `<h2 id="votes">The votes <span class="small">${votes.length}</span></h2><p class="small">Tap any vote to see what it means and who voted which way.</p>
     <div class="stack">${votes.slice(0, 6).map((d) => decisionCard(d, m)).join('')}</div>
     ${votes.length > 6 ? `<details class="drop"><summary>Show ${votes.length - 6} more votes, mostly routine</summary><div class="stack">${votes.slice(6).map((d) => decisionCard(d, m)).join('')}</div></details>` : ''}` : '<p class="muted">Council didn’t take any recorded votes at this meeting.</p>'}
@@ -1080,12 +1145,70 @@ for (const m of MEETINGS) {
     ` : `
     <section class="card layer1"><h2>What’s on the agenda</h2>
       ${m.preview ? `<p class="lede">${escGl(m.preview)}</p>` : `<p>${esc(T.plain)}</p>`}
-      ${(m.agenda_items || []).length ? `<ul class="keypoints">${m.agenda_items.map((a) => `<li>${escGl(a.plain || a.title)}</li>`).join('')}</ul>` : `<p class="small muted">The District usually posts the agenda a few days before the meeting. We’ll list the main items here in plain words as soon as it’s out.</p>`}
+      ${(m.agenda_items || []).length ? `<ul class="keypoints">${m.agenda_items.map((a) => `<li>${escGl(a.plain || a.title)}${a.for_you ? `<br><span class="small"><b>For you:</b> ${escGl(a.for_you)}</span>` : ''}${areaTags(a.areas)}</li>`).join('')}</ul>` : `<p class="small muted">The District usually posts the agenda a few days before the meeting. We’ll list the main items here in plain words as soon as it’s out.</p>`}
     </section>
+    ${m.status === 'cancelled' ? '' : haveSay(m)}
     ${MEET_HOW}`}
     ${links.length ? `<details class="drop layer3"${done ? '' : ' open'}><summary>Full details: video, agenda${done ? ', minutes and transcript' : ''}</summary><ul class="linklist">${links.map(([u, l]) => `<li><a href="${esc(u)}"${u.startsWith('/') ? '' : ' target="_blank" rel="noopener"'}>${l}</a></li>`).join('')}</ul>
     ${done && m.generated ? `<p class="small muted">Summary written automatically on ${esc(fmtLong(m.generated.at.slice(0, 10)))} from the ${esc(m.generated.from || 'meeting video and official documents')}. If anything here is wrong, the official minutes are the record. <a href="mailto:${esc(SITE.contact)}?subject=${encodeURIComponent('Meeting summary ' + m.id)}">Tell us</a>.</p>` : ''}</details>` : ''}
-    <div class="btn-row no-print"><a class="btn secondary" href="/meetings/">← All meetings</a><a class="btn secondary" href="/promises/">Promise tracker</a></div>`,
+    <div class="btn-row no-print"><a class="btn secondary" href="/meetings/">← All meetings</a><a class="btn secondary" href="/promises/">Promise tracker</a></div>
+    ${signupBox('meeting')}`,
+  }));
+}
+
+// ---------- ISSUES WE'RE FOLLOWING (/track/) ----------
+if (TRACKED.length) {
+  write('/track/', page({
+    url: '/track/', title: 'What’s happening with Squamish’s big issues',
+    desc: `Where Squamish council is on ${TRACKED.slice(0, 4).map((t) => t.title).join(', ')} and more: each issue step by step, with every vote, in plain words.`,
+    jsonld: crumbLd([['Home', '/'], ['Issues we’re following', '/track/']]),
+    body: `<h1>Issues we’re following</h1>
+    <p class="lede">The big questions that come back to council meeting after meeting. Each one shows where it stands, what happens next, and how every member has voted on it.</p>
+    <ul class="mlist">${TRACKED.map(issueRow).join('')}</ul>${signupBox('track')}`,
+  }));
+  for (const t of TRACKED) {
+    const ds = issueDecisions(t), qs = (t.related_q || []).map((id) => ALL_QUESTIONS.find((q) => q.id === id)).filter(Boolean);
+    const now = stepNow(t);
+    write(`/track/${t.slug}/`, page({
+      url: '/track/', title: `${t.question.replace(/\?$/, '')}? Squamish council, step by step`,
+      desc: `${t.summary.split('. ')[0]}. Where it stands now, what council decides next, and how each member has voted.`,
+      jsonld: crumbLd([['Home', '/'], ['Issues we’re following', '/track/'], [t.title, `/track/${t.slug}/`]]),
+      body: `<p class="crumbs"><a href="/track/">← All issues</a></p>
+      <h1>${esc(t.question)}</h1>
+      <p class="lede">${escGl(t.summary)}</p>
+      ${areaTags(t.areas)}
+      <section class="card"><h2>Where it stands${now ? ` <span class="small">step ${now.i + 1} of ${now.n}</span>` : ''}</h2>
+        <ol class="steps">${(t.steps || []).map((x) => `<li class="st-${esc(x.status)}"><span class="sdot" aria-hidden="true">${STEP_ICON[x.status] || '○'}</span><span><b>${esc(x.label)}</b>${x.date ? ` <span class="small">${esc(fmtLong(x.date))}</span>` : ''}${x.note ? `<br><span class="small">${escGl(x.note)}</span>` : ''}${src(x.source_url)}</span></li>`).join('')}</ol>
+        ${t.what_next ? `<p><b>What happens next:</b> ${escGl(t.what_next)}</p>` : ''}</section>
+      <h2>How this council has voted on it</h2>
+      ${ds.length ? `<div class="stack">${ds.map((d) => decisionCard(d, d.m)).join('')}</div>` : `<p class="muted">The new council hasn’t voted on this yet. Every vote on it will appear here.</p>`}
+      ${qs.length ? `<h2>What each of them said during the campaign</h2>${qs.map(qCard).join('')}` : ''}
+      ${(t.history || []).length ? `<details class="drop"><summary>Earlier history (before this council)</summary><ul class="hist">${t.history.map((h) => `<li><b>${esc(fmtLong(h.date))}:</b> ${escGl(h.what)}${h.votes ? ` <span class="small">(${esc(h.votes)})</span>` : ''}${src(h.source_url)}</li>`).join('')}</ul></details>` : ''}
+      ${haveSay(upcoming[0], t.title)}
+      ${signupBox('issue')}`,
+    }));
+  }
+}
+
+// ---------- THIS WEEK AT COUNCIL (/this-week/ and the Friday email) ----------
+{
+  const back = new Date(Date.now() - 8 * 864e5).toISOString().slice(0, 10), ahead = new Date(Date.now() + 10 * 864e5).toISOString().slice(0, 10);
+  const recent = past.filter((m) => m.summary && m.date >= back), soon = upcoming.filter((m) => m.date <= ahead);
+  const week = { built: TODAY, recent: recent.map((m) => ({ url: ORIGIN + mUrl(m), date: m.date, type: mType(m).label, headline: m.summary.headline, key_points: m.summary.key_points || [], votes: (m.decisions || []).filter((d) => d.votes).slice(0, 5).map((d) => ({ title: d.title, result: RESULT_WORD[d.result] || '', for_you: d.for_you || '', against: all.filter((c) => d.votes[c.slug] === 'no').map((c) => c.name) })) })),
+    soon: soon.map((m) => ({ url: ORIGIN + mUrl(m), date: m.date, time: fmtTime(m.time), type: mType(m).label, preview: m.preview || mType(m).plain, items: (m.agenda_items || []).slice(0, 5).map((a) => a.plain) })),
+    promises: Object.fromEntries(Object.entries(pCounts(PROMISES))) };
+  fs.mkdirSync(DIST, { recursive: true });
+  fs.writeFileSync(path.join(DIST, 'this-week.json'), JSON.stringify(week));
+  write('/this-week/', page({
+    url: '/this-week/', title: 'This week at Squamish council',
+    desc: 'What Squamish council decided this week and what’s coming up next, in plain words. The same summary goes out by email every Friday.',
+    body: `<h1>This week at council</h1>
+    <p class="lede">What council decided in the last week, and what’s coming up. This is what our Friday email says.</p>
+    <h2>Decided</h2>
+    ${recent.length ? recent.map((m) => `<section class="card"><p class="mwhen"><b>${esc(fmtDay(m.date))}</b> ${mBadge(m)}</p><p class="lede">${escGl(m.summary.headline)}</p><ul class="keypoints">${(m.summary.key_points || []).map((k) => `<li>${escGl(k)}</li>`).join('')}</ul><a class="btn secondary" href="${mUrl(m)}">Every vote →</a></section>`).join('') : '<p class="muted">Council didn’t meet in the last week.</p>'}
+    <h2>Coming up</h2>
+    ${soon.length ? `<ul class="mlist">${soon.map(meetingRow).join('')}</ul>` : '<p class="muted">No meetings in the next 10 days.</p>'}
+    ${signupBox('week')}`,
   }));
 }
 
@@ -1116,9 +1239,7 @@ for (const m of MEETINGS) {
     <p class="small">The box is what they said during the campaign. Once a council vote tests it, <span class="vmark ps-kept">✓ voted that way</span> or <span class="vmark ps-broken">✕ voted against</span> appears under it.</p></div>
     <div class="chip-row no-print">${groups.map((g) => `<a class="chip-btn" href="#t-${g}">${esc(((ISSUES.find((i) => i.key === g) || {}).title || TOPIC_NAME[g] || g).replace(/^./, (x) => x.toUpperCase()))}</a>`).join('')}</div>
     ${groups.map((g) => { const qs = ALL_QUESTIONS.filter((q) => q.issue === g); const title = (ISSUES.find((i) => i.key === g) || {}).title || TOPIC_NAME[g] || g; return `<h3 id="t-${g}">${esc(title.charAt(0).toUpperCase() + title.slice(1))}</h3>
-    ${qs.map((q) => { const t = tested(q); return `<div class="card qcard"><p class="qtext">“${escGl(q.text)}”</p>
-      <ul class="qwho">${people.map((c) => `<li><a href="/council/${c.slug}/#said-did">${cell(c.quiz_answers?.[q.id])}<span class="qname">${esc(lastName(c))}</span>${voteMark(c, q)}</a></li>`).join('')}</ul>
-      ${t.length ? `<p class="small">Tested by: ${t.map((d) => `<a href="${mUrl(d.m)}">${escGl(d.title)}</a>`).join(', ')}</p>` : ''}</div>`; }).join('')}`; }).join('')}
+    ${qs.map(qCard).join('')}`; }).join('')}
     <h2 id="compass">On the compass</h2>
     <p>The <a href="/compass/">compass</a> places each member from their campaign answers. Once at least 3 votes test each line of a map, a second diamond-shaped marker shows where their <b>votes</b> put them, joined to the first by a dotted line. A long line means they vote differently from how they campaigned.</p>
     <p class="small"><a href="/promises/#how">How we link votes to statements</a> · <a href="/about/#meetings">How meeting summaries are made</a></p>`,
