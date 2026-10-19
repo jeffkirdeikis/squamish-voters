@@ -39,122 +39,122 @@
     {
       "source": "/candidates/a-john-lowe/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/a-john-lowe/:rest+",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/a-john-lowe/answers/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/a-john-lowe/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/anders-ourom/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/anders-ourom/:rest+",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/anders-ourom/answers/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/anders-ourom/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/andrew-hamilton/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/andrew-hamilton/:rest+",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/andrew-hamilton/answers/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/andrew-hamilton/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/chris-pettingill/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/chris-pettingill/:rest+",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/chris-pettingill/answers/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/chris-pettingill/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/chris-ryan/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/chris-ryan/:rest+",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/chris-ryan/answers/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/chris-ryan/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/daniel-deal/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/daniel-deal/:rest+",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/daniel-deal/answers/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/daniel-deal/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/eric-andersen/",
@@ -174,22 +174,22 @@
     {
       "source": "/candidates/ian-brown/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/ian-brown/:rest+",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/ian-brown/answers/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/ian-brown/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/janice-desjardins/",
@@ -209,62 +209,62 @@
     {
       "source": "/candidates/jenna-stoner/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/jenna-stoner/:rest+",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/jenna-stoner/answers/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/jenna-stoner/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/john-french/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/john-french/:rest+",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/john-french/answers/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/john-french/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/kieran-brownie/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/kieran-brownie/:rest+",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/kieran-brownie/answers/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/kieran-brownie/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/laura-prosko/",
@@ -329,22 +329,22 @@
     {
       "source": "/candidates/sean-goodwin/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/sean-goodwin/:rest+",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/sean-goodwin/answers/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/sean-goodwin/",
       "destination": "/results/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/candidates/shaun-veltkamp/",
@@ -364,37 +364,37 @@
     {
       "source": "/vote/",
       "destination": "/meetings/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/my-ballot/",
       "destination": "/council/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/mayor/",
       "destination": "/council/sean-easton/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/trustees/",
       "destination": "/results/#trustees",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/for-candidates/",
       "destination": "/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/admin/",
       "destination": "/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/ask/",
       "destination": "/",
-      "permanent": false
+      "permanent": true
     }
   ]
 }
