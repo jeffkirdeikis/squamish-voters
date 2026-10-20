@@ -304,7 +304,7 @@ function page({ url, title, desc, body, hero = '', scripts = '', noindex = false
   <div class="wrap">
     <a class="logo" href="/" aria-label="${SITE.name} — home">
       <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="9" fill="#ffb703"/><path d="M5 30 L15 12 L21 22 L26 15 L35 30 Z" fill="#0f4c3a"/><path d="M12.5 25l3.5 3.5 8-9" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>Squamish Voters<small>Your council, in plain words</small></span>
+      <span>Squamish Voters<small>Stay up to date, easily</small></span>
     </a>
     <nav class="top-nav" aria-label="Main">
       ${NAV.map(([h, l]) => `<a href="${h}"${cur(h)}>${l}</a>`).join('')}
