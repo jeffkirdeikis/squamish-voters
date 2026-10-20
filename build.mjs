@@ -1433,7 +1433,8 @@ write('/about/', page({ url: '/about/', title: 'About this site', desc: 'Who mak
 // Two optional questions: up to 3 top issues (each asks which way they lean, or Other with a write-in) and their
 // neighbourhood. Saved to their sign-up; not used to tailor the Friday email yet (Jeff, Oct 19). Each pair of sides is worded so neither sounds like the right answer.
 const SIGNUP_ISSUES = [
-  ...ISSUES,
+  // Climate and the LNG plant are separate here, so picking one doesn't imply a view on the other (Jeff, Oct 19).
+  ...ISSUES.flatMap((i) => i.key === 'environment_lng' ? [{ key: 'environment', title: 'Climate & environment', icon: '🌲' }, { key: 'lng', title: 'Woodfibre LNG plant', icon: '🏭' }] : [i]),
   { key: 'recreation_facilities', title: 'Brennan Park & recreation', icon: '🏊' },
   { key: 'flood_hazards_climate_resilience', title: 'Flood protection', icon: '🌊' },
   { key: 'childcare', title: 'Childcare', icon: '🧸' },
@@ -1444,7 +1445,8 @@ const SIDES = {
   homelessness: ['What should come first?', ['support', 'More shelter, supportive housing and services'], ['enforcement', 'Safety and enforcement in public spaces']],
   policing: ['Where should safety money go?', ['police', 'More RCMP and bylaw officers'], ['outreach', 'More mental health and outreach teams']],
   taxes_spending: ['Taxes or services?', ['low_taxes', 'Keep tax increases low, even if some services are cut'], ['keep_services', 'Keep services and projects, even if taxes rise more']],
-  environment_lng: ['Climate and the LNG plant: what comes first?', ['climate', 'Press harder on climate and local impacts, even if it costs more'], ['costs', 'Keep costs down and work with the LNG plant']],
+  environment: ['How much should climate and the environment drive council’s decisions?', ['climate_first', 'Make them a top priority, even when it adds cost'], ['cost_first', 'Keep costs down, even if climate action moves slower']],
+  lng: ['How should the District deal with Woodfibre LNG?', ['press', 'Press harder on local impacts, even if it means delays or legal fights'], ['work_with', 'Work with the plant and focus on the jobs and taxes it brings']],
   transportation: ['Where should transportation money go?', ['transit', 'Buses, bike lanes and sidewalks'], ['roads', 'Roads and getting around by car']],
   parking: ['Should new buildings have to include parking?', ['more_parking', 'Yes, enough for everyone who lives there, so streets don’t fill up'], ['less_parking', 'Not always: less parking keeps new homes cheaper']],
   economy: ['Land set aside for jobs: what should happen to it?', ['protect_jobs', 'Protect it for industry and jobs'], ['allow_housing', 'Let some of it become housing']],
