@@ -17,7 +17,7 @@ const MEET_DIR = path.join(ROOT, 'data', 'meetings');
 const MEETINGS = fs.existsSync(MEET_DIR) ? fs.readdirSync(MEET_DIR).filter((f) => f.endsWith('.json')).filter((f) => !f.startsWith('TEST-')).map((f) => JSON.parse(fs.readFileSync(path.join(MEET_DIR, f), 'utf8'))).sort((a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || ''))) : [];
 const PROMISES = fs.existsSync(path.join(ROOT, 'data', 'promises.json')) ? read('promises.json') : [];
 // Long-running issues we follow across meetings, and how residents can take part (both researched, with sources).
-const TRACKED = fs.existsSync(path.join(ROOT, 'data', 'tracked-issues.json')) ? read('tracked-issues.json') : [];
+const TRACKED = fs.existsSync(path.join(ROOT, 'data', 'tracked-issues.json')) ? read('tracked-issues.json').issues || [] : [];
 const PART = fs.existsSync(path.join(ROOT, 'data', 'participate.json')) ? read('participate.json') : {};
 const HOODS = PART.neighbourhoods || [];
 const ctx = read('context.json');
@@ -540,15 +540,27 @@ const signupBox = (where) => `<section class="card signup no-print" id="signup">
     <p class="small" data-msg role="status"></p>
   </form>
   <p class="small muted">Sent by Squamish Voters (Jeff Kirdeikis, Squamish, B.C.). We never share your address. <a href="/this-week/">See this week’s email</a>.</p></section>`;
-// How to take part, from the District's own rules (data/participate.json). Falls back to the plain how-to-watch text.
-function haveSay(m, item) {
-  const W = PART.write_to_council || PART.correspondence || {}, SP = PART.speak_at_meeting || PART.speak || {};
-  const email = W.email || 'council@squamish.ca';
+// How to take part, from the District's own rules (data/participate.json). Short first, the fine print one tap away.
+function haveSay(m, item, t) {
+  const W = PART.write_to_council || {}, SP = PART.speak_at_a_meeting || {}, H = PART.public_hearings || {}, D = PART.delegations || {};
+  const budget = t && t.slug === 'budget-2027' && W.budget_feedback_email;
+  const email = budget ? W.budget_feedback_email : W.email || 'council@squamish.ca';
   const subject = `Comment for council${m ? `, ${fmtLong(m.date)} meeting` : ''}${item ? `: ${item}` : ''}`;
+  const hearing = m && m.has_public_hearing && H.email;
+  // Agendas are posted the Thursday before a Tuesday meeting, so that is the practical cut-off for a letter.
+  const cut = m ? new Date(new Date(m.date + 'T12:00:00Z').getTime() - 5 * 864e5).toISOString().slice(0, 10) : null;
   return `<section class="card havesay"><h2>Have your say</h2>
-    <p><b>Write to council.</b> ${W.how ? escGl(W.how) : 'Email council before the meeting.'}${W.deadline ? ` <b>${escGl(W.deadline)}</b>` : ''}${src(W.source_url, 'District of Squamish')}</p>
-    <p><a class="btn" href="mailto:${esc(email)}?subject=${encodeURIComponent(subject)}">✉️ Email council about this</a></p>
-    ${SP.how ? `<p><b>Speak at the meeting.</b> ${escGl(SP.how)}${src(SP.source_url, 'District of Squamish')}</p>` : ''}
+    <p><b>Write to council.</b> One email reaches the mayor and all six councillors.${cut && cut >= TODAY ? ` <b>Send it by ${esc(fmtLong(cut))}</b> to be in the meeting package.` : ''} Include your name: anonymous letters aren’t passed on, and your name is published with your letter.${src(W.source_url, 'District of Squamish')}</p>
+    <p><a class="btn" href="mailto:${esc(email)}?subject=${encodeURIComponent(subject)}">✉️ Email ${budget ? 'budget feedback' : 'council'} about this</a></p>
+    ${hearing ? `<p><b>This meeting has a public hearing.</b> Email <a href="mailto:${esc(H.email)}?subject=${encodeURIComponent(subject)}">${esc(H.email)}</a> by 3 p.m. on the day, or speak in person, by Webex or by phone (three minutes each).${src(H.written_source_url)}</p>` : ''}
+    <p><b>Speak at the meeting.</b> No need to sign up. Near the end of each regular meeting, anyone can ask a question for up to two minutes about what was on the agenda.${src(SP.source_url, 'District of Squamish')}</p>
+    <details class="more"><summary>More ways and the fine print</summary>
+      ${SP.unscheduled_public_attendance ? `<p><b>Something urgent?</b> ${escGl(SP.unscheduled_public_attendance.how_it_works)} ${escGl(SP.unscheduled_public_attendance.limits)}</p>` : ''}
+      ${SP.ways_to_join ? `<p><b>How to join.</b> ${escGl(SP.ways_to_join)}</p>` : ''}
+      ${D.summary ? `<p><b>Book a presentation.</b> ${escGl(D.summary)} ${D.form_url ? `<a href="${esc(D.form_url)}" target="_blank" rel="noopener">Application form (PDF)</a>.` : ''}${D.contact ? ` ${esc(D.contact)}.` : ''}</p>` : ''}
+      ${W.mail ? `<p><b>By mail:</b> ${esc(W.mail)}. <b>Phone:</b> ${esc(W.phone || '')}.</p>` : ''}
+      ${W.what_happens ? `<p class="small">${escGl(W.what_happens)}${src(W.what_happens_source_url)}</p>` : ''}
+    </details>
     <p><b>Watch.</b> Live and afterward on the <a href="https://www.youtube.com/@DistrictofSquamish/streams" target="_blank" rel="noopener">District’s YouTube channel</a>.</p></section>`;
 }
 const shareText = (m) => `${m.summary.headline}\n\n${(m.summary.key_points || []).slice(0, 4).map((k) => '• ' + k).join('\n')}\n\nWho voted which way, in plain words: ${ORIGIN}${mUrl(m)}`;
@@ -1178,13 +1190,13 @@ if (TRACKED.length) {
       <p class="lede">${escGl(t.summary)}</p>
       ${areaTags(t.areas)}
       <section class="card"><h2>Where it stands${now ? ` <span class="small">step ${now.i + 1} of ${now.n}</span>` : ''}</h2>
-        <ol class="steps">${(t.steps || []).map((x) => `<li class="st-${esc(x.status)}"><span class="sdot" aria-hidden="true">${STEP_ICON[x.status] || '○'}</span><span><b>${esc(x.label)}</b>${x.date ? ` <span class="small">${esc(fmtLong(x.date))}</span>` : ''}${x.note ? `<br><span class="small">${escGl(x.note)}</span>` : ''}${src(x.source_url)}</span></li>`).join('')}</ol>
+        <ol class="isteps">${(t.steps || []).map((x) => `<li class="st-${esc(x.status)}"><span class="sdot" aria-hidden="true">${STEP_ICON[x.status] || '○'}</span><span><b>${esc(x.label)}</b>${x.date ? ` <span class="small">${esc(fmtLong(x.date))}</span>` : ''}${x.note ? `<br><span class="small">${escGl(x.note)}</span>` : ''}${src(x.source_url)}</span></li>`).join('')}</ol>
         ${t.what_next ? `<p><b>What happens next:</b> ${escGl(t.what_next)}</p>` : ''}</section>
       <h2>How this council has voted on it</h2>
       ${ds.length ? `<div class="stack">${ds.map((d) => decisionCard(d, d.m)).join('')}</div>` : `<p class="muted">The new council hasn’t voted on this yet. Every vote on it will appear here.</p>`}
       ${qs.length ? `<h2>What each of them said during the campaign</h2>${qs.map(qCard).join('')}` : ''}
       ${(t.history || []).length ? `<details class="drop"><summary>Earlier history (before this council)</summary><ul class="hist">${t.history.map((h) => `<li><b>${esc(fmtLong(h.date))}:</b> ${escGl(h.what)}${h.votes ? ` <span class="small">(${esc(h.votes)})</span>` : ''}${src(h.source_url)}</li>`).join('')}</ul></details>` : ''}
-      ${haveSay(upcoming[0], t.title)}
+      ${haveSay(upcoming[0], t.title, t)}
       ${signupBox('issue')}`,
     }));
   }
