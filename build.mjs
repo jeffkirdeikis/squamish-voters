@@ -1430,8 +1430,8 @@ for (const c of all.filter((x) => x.paper)) {
 }
 write('/about/', page({ url: '/about/', title: 'About this site', desc: 'Who makes Squamish Voters, how meeting summaries and the promise tracker work, and how to send a correction. Independent and not affiliated with the District or any council member.', body: pageFile('about.html').replaceAll('<!--CONTACT-->', SITE.contact ? `<a href="mailto:${esc(SITE.contact)}">${esc(SITE.contact)}</a>` : 'a contact address will be posted here shortly.').replace('{{COUNT}}', String(all.length)).replace('{{UPDATED}}', esc(SITE.updated)) }));
 // ---------- /welcome/: where the email confirm link lands (api/subscribe.js redirects here with ?t=<token>) ----------
-// Two optional questions: up to 3 top issues (each asks which way they lean) and their neighbourhood. Saved to their
-// sign-up so the Friday email can put those first. Each pair of sides is worded so neither sounds like the right answer.
+// Two optional questions: up to 3 top issues (each asks which way they lean, or Other with a write-in) and their
+// neighbourhood. Saved to their sign-up; not used to tailor the Friday email yet (Jeff, Oct 19). Each pair of sides is worded so neither sounds like the right answer.
 const SIGNUP_ISSUES = [
   ...ISSUES,
   { key: 'recreation_facilities', title: 'Brennan Park & recreation', icon: '🏊' },
@@ -1460,7 +1460,7 @@ write('/welcome/', page({ url: '/welcome/', title: 'You’re confirmed', noindex
   <p class="lede" data-wnotok hidden>This page opens from the link in your confirmation email. To get the weekly email, <a href="/#signup">sign up on the home page</a>.</p>
   <section class="card wq" data-wq>
     <h2>Two quick questions</h2>
-    <p class="small">Optional. Your answers let us put what matters to you first in your Friday email. We only ever share totals, never names.</p>
+    <p class="small">Optional. Your answers help us understand what people in Squamish care about. We only ever share totals, never names.</p>
     <h3>1. What are your top issues?</h3>
     <p class="small">Pick up to 3.</p>
     <div class="topicpick" role="group" aria-label="Your top issues">${SIGNUP_ISSUES.map((i) => `<button type="button" class="chip-btn" data-wi="${i.key}" aria-pressed="false"><span aria-hidden="true">${i.icon}</span> ${esc(i.title)}</button>`).join('')}</div>

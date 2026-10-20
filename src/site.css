@@ -941,6 +941,9 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .sides-opts .btn.picked { background: var(--brand); border-color: var(--brand); color: #fff; }
 .sides-more { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .2rem; }
 .sides-more .chip-btn[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: #fff; }
+.sides-other { margin-top: .9rem; }
+.sides-other .fld { margin-bottom: .35rem; }
+.sides-other textarea { width: 100%; font: inherit; padding: .7rem; border: 2px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink); margin-bottom: .6rem; resize: vertical; }
 .sides-x { position: absolute; top: .5rem; right: .5rem; width: 2.75rem; height: 2.75rem; border: 0; border-radius: 50%; background: var(--surface-2); color: var(--ink); font-size: 1.6rem; line-height: 1; cursor: pointer; }
 .feed { list-style: none; margin: .5rem 0 0; padding: 0; display: grid; gap: .5rem; }
 .feed a { display: flex; flex-direction: column; gap: .15rem; padding: .7rem .85rem; border: 1px solid var(--line); border-radius: 12px; text-decoration: none; color: var(--ink); background: var(--surface); }

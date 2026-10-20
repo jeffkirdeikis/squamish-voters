@@ -339,11 +339,12 @@
       wq.hidden = true; document.querySelector('[data-wok]').hidden = true; document.querySelector('[data-wnotok]').hidden = false;
       document.querySelector('[data-wh]').textContent = 'Welcome to Squamish Voters';
     } else {
-      var ans = { topics: [], stances: {}, area: '' }, cur = null, timer, touched = false;
+      var ans = { topics: [], stances: {}, notes: {}, area: '' }, cur = null, timer, touched = false;
       var dlg = document.querySelector('[data-wdlg]'), note = wq.querySelector('[data-wnote]'), saved = wq.querySelector('[data-wsaved]');
-      var MORE = [['mid', 'Somewhere in between'], ['unsure', 'Not sure yet']];
+      var MORE = [['mid', 'Somewhere in between'], ['other', 'Other']]; // Other opens a box to write their own
       var sideLabel = function (k) {
         var v = ans.stances[k], all = SV_SIDES[k].o.concat(MORE);
+        if (v === 'other') return 'Other' + (ans.notes[k] ? ': “' + ans.notes[k] + '”' : '');
         for (var i = 0; i < all.length; i++) if (all[i][0] === v) return all[i][1];
         return '';
       };
@@ -361,7 +362,7 @@
         saved.textContent = 'Saving…';
         clearTimeout(timer);
         timer = setTimeout(function () {
-          fetch('/api/subscribe/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: tok, topics: ans.topics, stances: ans.stances, area: ans.area }) })
+          fetch('/api/subscribe/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: tok, topics: ans.topics, stances: ans.stances, notes: ans.notes, area: ans.area }) })
             .then(function (r) { return r.json(); })
             .then(function (r) { saved.textContent = r.ok ? 'Saved ✓' : (r.error || 'That didn’t save. Please try again.'); })
             .catch(function () { saved.textContent = 'That didn’t save. Check your connection and try again.'; });
@@ -377,13 +378,26 @@
           return '<button type="button" class="btn secondary' + (v === o[0] ? ' picked' : '') + '" data-wv="' + o[0] + '">' + esc(o[1]) + '</button>';
         }).join('') + '<div class="sides-more">' + MORE.map(function (o) {
           return '<button type="button" class="chip-btn" aria-pressed="' + (v === o[0]) + '" data-wv="' + o[0] + '">' + o[1] + '</button>';
-        }).join('') + '</div>';
+        }).join('') + '</div><div class="sides-other" data-wother' + (v === 'other' ? '' : ' hidden') + '><label class="fld" for="wotext">In your own words <span class="small">(optional)</span></label>' +
+          '<textarea id="wotext" data-wotext rows="3" maxlength="280">' + esc(ans.notes[k] || '') + '</textarea><button type="button" class="btn" data-wosave>Save</button></div>';
         if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
       };
       dlg.addEventListener('click', function (e) {
-        var b = e.target.closest('[data-wv]');
-        if (b && cur) { ans.stances[cur] = b.getAttribute('data-wv'); drawW(); save(); closeD(); return; }
-        if (e.target === dlg || e.target.closest('[data-wclose]')) closeD(); // tap outside the box, or the ×
+        var b = e.target.closest('[data-wv]'), v = b && b.getAttribute('data-wv');
+        if (v === 'other') { // show the write-in box; it saves when they tap Save
+          dlg.querySelectorAll('[data-wv]').forEach(function (x) { x.classList.remove('picked'); if (x.hasAttribute('aria-pressed')) x.setAttribute('aria-pressed', String(x === b)); });
+          dlg.querySelector('[data-wother]').hidden = false; dlg.querySelector('[data-wotext]').focus();
+          return;
+        }
+        if (v && cur) { ans.stances[cur] = v; delete ans.notes[cur]; drawW(); save(); closeD(); return; }
+        if (e.target.closest('[data-wosave]') && cur) {
+          var t = dlg.querySelector('[data-wotext]').value.trim();
+          ans.stances[cur] = 'other';
+          if (t) ans.notes[cur] = t; else delete ans.notes[cur];
+          drawW(); save(); closeD(); return;
+        }
+        var r = dlg.getBoundingClientRect(), out = e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+        if ((e.target === dlg && out) || e.target.closest('[data-wclose]')) closeD(); // tap outside the box, or the ×
       });
       wq.addEventListener('click', function (e) {
         var c = e.target.closest('[data-wchange]');
@@ -392,7 +406,7 @@
         if (b) {
           var k = b.getAttribute('data-wi'), i = ans.topics.indexOf(k);
           note.textContent = '';
-          if (i > -1) { ans.topics.splice(i, 1); delete ans.stances[k]; drawW(); save(); return; }
+          if (i > -1) { ans.topics.splice(i, 1); delete ans.stances[k]; delete ans.notes[k]; drawW(); save(); return; }
           if (ans.topics.length >= 3) { note.textContent = 'You’ve picked 3. Tap one of them to remove it first.'; return; }
           ans.topics.push(k); drawW(); save(); ask(k);
           return;
@@ -406,6 +420,7 @@
         ans.area = r.area || '';
         ans.topics = (r.topics || []).filter(function (k) { return SV_SIDES[k]; }).slice(0, 3);
         ans.stances = r.stances || {};
+        ans.notes = r.notes || {};
         drawW();
       }).catch(function () {});
       drawW();
