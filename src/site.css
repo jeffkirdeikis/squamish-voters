@@ -959,5 +959,6 @@ span.vmark.ps-kept, span.vmark.ps-broken { display: inline-block; }
 .hs-row .btn { flex: none; margin: 0; }
 .herosign .consent { display: flex; gap: .5rem; align-items: flex-start; margin-top: .6rem; font-size: .95rem; color: #eef6f2; }
 .herosign .consent input { width: 1.2rem; height: 1.2rem; margin-top: .15rem; flex: none; }
+.herosign .hs-note { margin: .5rem 0 0; font-size: .92rem; color: #dbe9e2; }
 .herosign [data-msg] { margin: .4rem 0 0; color: #ffd36b; font-weight: 600; }
 .herosign [data-msg]:empty { display: none; }

@@ -535,8 +535,8 @@ const signupBox = (where) => `<section class="card signup no-print" id="signup">
   <p>Every Friday morning: what council decided that week and what’s coming up. Plain words, nothing else. Unsubscribe any time.</p>
   <form data-subscribe="${where}" novalidate>
     <label class="fld">Your email<input type="email" name="email" autocomplete="email" required placeholder="you@example.com"></label>
-    <label class="consent"><input type="checkbox" name="consent" required> <span>Yes, send me the weekly Squamish Voters email. I can unsubscribe at any time.</span></label>
-    <button class="btn big block" type="submit">Sign me up</button>
+    <button class="btn big block" type="submit">Send me the weekly email</button>
+    <p class="small">We’ll email you a link to confirm. Unsubscribe any time.</p>
     <p class="small" data-msg role="status"></p>
   </form>
   <p class="small muted">Sent by Squamish Voters (Jeff Kirdeikis, Squamish, B.C.). We never share your address. <a href="/this-week/">See this week’s email</a>.</p></section>`;
@@ -814,7 +814,7 @@ const v = ctx.voting || {};
     <form class="herosign" id="signup" data-subscribe="home-hero" novalidate>
       <label for="hs-email"><b>Get a short email every Friday:</b> what council decided and what’s coming up.</label>
       <div class="hs-row"><input id="hs-email" type="email" name="email" autocomplete="email" required placeholder="Enter your email"><button class="btn" type="submit">Sign up</button></div>
-      <label class="consent"><input type="checkbox" name="consent" required> <span>Yes, send me the weekly email. Unsubscribe any time.</span></label>
+      <p class="hs-note">We’ll email you a link to confirm. Unsubscribe any time.</p>
       <p class="small" data-msg role="status"></p>
     </form>
     <p class="visit-count" data-visits hidden><span class="vc-dot" aria-hidden="true"></span><b>0</b> page views so far</p>

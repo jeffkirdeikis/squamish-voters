@@ -12,7 +12,8 @@ import { mailReady, sendConfirm } from './_mail.js';
 
 const URL = process.env.DATABASE_URL || process.env.POSTGRES_URL;
 const sql = URL ? neon(URL) : null;
-const CONSENT = 'Yes, send me the weekly Squamish Voters email. I can unsubscribe at any time.';
+// What the person saw when they asked; their click on the confirm link is recorded separately as confirmed_at.
+const CONSENT = 'Entered email and pressed the sign-up button for the weekly Squamish Voters email (we email a link to confirm; unsubscribe any time).';
 let ready = null;
 const init = () => (ready ||= sql`CREATE TABLE IF NOT EXISTS sv_subscribers (
   email text PRIMARY KEY, status text NOT NULL DEFAULT 'subscribed', token text NOT NULL,

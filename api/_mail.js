@@ -17,6 +17,7 @@ export function confirmEmail(token) {
 <p>Someone (hopefully you) asked for the weekly Squamish council email at squamishvoters.com. Tap the button to start getting it every Friday morning.</p>
 <p style="margin:26px 0"><a href="${link}" style="background:#0f4c3a;color:#fff;text-decoration:none;font-weight:700;padding:14px 24px;border-radius:10px;display:inline-block">Yes, send me the weekly email</a></p>
 <p>To make sure it reaches your inbox and not spam, add <b>${fromAddress()}</b> to your contacts. In Gmail, if this landed in Promotions or Spam, move it to your Primary inbox.</p>
+<p>One more thing that helps: hit reply and tell us your neighbourhood, or the one council issue you care about most. We read every reply, and it tells your email app you want to hear from us.</p>
 <p style="font-size:14px;color:#5d6661;margin-top:26px">Didn’t ask for this? Ignore it and you won’t hear from us again. Questions? Just reply.</p>
 </div></body></html>`,
     text: `One tap to confirm the weekly Squamish council email from Squamish Voters:\n${link}\n\nTo keep it out of spam, add ${fromAddress()} to your contacts.\nDidn't ask for this? Ignore this email and you won't hear from us again.`,

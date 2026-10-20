@@ -317,7 +317,6 @@
       e.preventDefault();
       var msg = f.querySelector('[data-msg]'), email = f.email.value.trim();
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { msg.textContent = 'Please check your email address.'; return; }
-      if (!f.consent.checked) { msg.textContent = 'Please tick the box so we know you want the email.'; return; }
       var p = get('sv_prefs', { area: '', topics: [] });
       f.querySelector('button').disabled = true; msg.textContent = 'Signing you up…';
       fetch('/api/subscribe/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, consent: true, from: f.getAttribute('data-subscribe'), area: p.area, topics: p.topics }) })
