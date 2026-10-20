@@ -946,3 +946,8 @@ span.vmark.ps-kept, span.vmark.ps-broken { display: inline-block; }
   details > summary::after, details > summary .more-btn { display: none !important; }
   main::after { content: "squamishvoters.com · independent, plain-language summaries of Squamish council"; display: block; margin-top: 1rem; font-size: 10pt; color: #555; }
 }
+/* Facebook group link under the hero buttons: a small picture beside the words */
+.fbgroup { display: flex; align-items: center; gap: .8rem; max-width: 520px; margin: 1rem 0 .25rem; padding: .45rem; border-radius: var(--radius); background: #1877f2; color: #fff; text-decoration: none; box-shadow: 0 2px 10px rgba(0,0,0,.18); }
+.fbgroup img { flex: none; width: 132px; height: auto; border-radius: calc(var(--radius) - 4px); }
+.fbgroup span { font-weight: 700; font-size: 1.02rem; line-height: 1.3; }
+.fbgroup:hover span, .fbgroup:focus-visible span { text-decoration: underline; }
