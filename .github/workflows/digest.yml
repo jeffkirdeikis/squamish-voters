@@ -20,4 +20,6 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
-        run: node scripts/pipeline/digest.mjs --send
+        run: |
+          node scripts/pipeline/confirm-pending.mjs
+          node scripts/pipeline/digest.mjs --send

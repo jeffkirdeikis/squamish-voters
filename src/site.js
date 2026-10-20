@@ -322,7 +322,7 @@
       f.querySelector('button').disabled = true; msg.textContent = 'Signing you up…';
       fetch('/api/subscribe/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, consent: true, from: f.getAttribute('data-subscribe'), area: p.area, topics: p.topics }) })
         .then(function (r) { return r.json(); })
-        .then(function (r) { msg.textContent = r.ok ? 'Thanks, you’re on the list.' : (r.error || 'Something went wrong. Please try again.'); if (r.ok) f.reset(); })
+        .then(function (r) { msg.textContent = r.ok ? (!r.pending ? 'You’re already on the list. Thanks!' : r.sent ? 'Almost done: check your inbox and tap the link to confirm.' : 'Thanks! We’ll email you a link to confirm before the first one goes out.') : (r.error || 'Something went wrong. Please try again.'); if (r.ok) f.reset(); })
         .catch(function () { msg.textContent = 'Something went wrong. Please try again.'; })
         .then(function () { f.querySelector('button').disabled = false; });
       if (window.SV && SV.track) SV.track('Email signup', { from: f.getAttribute('data-subscribe') });

@@ -45,7 +45,7 @@ const subs = await neon(DB)`SELECT email, token FROM sv_subscribers WHERE status
 for (let i = 0; i < subs.length; i += 100) {
   const batch = subs.slice(i, i + 100).map((s) => {
     const unsub = `${ORIGIN}/api/subscribe/?unsubscribe=${s.token}`;
-    return { from: EMAIL_FROM, to: [s.email], subject, html: body(unsub), headers: { 'List-Unsubscribe': `<${unsub}>` } };
+    return { from: EMAIL_FROM, to: [s.email], subject, html: body(unsub), reply_to: 'squamishvoters@gmail.com', headers: { 'List-Unsubscribe': `<${unsub}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } };
   });
   const r = await fetch('https://api.resend.com/emails/batch', { method: 'POST', headers: { Authorization: `Bearer ${RESEND_API_KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify(batch) });
   if (!r.ok) throw new Error(`Resend ${r.status}: ${await r.text()}`);
