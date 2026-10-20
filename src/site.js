@@ -320,7 +320,7 @@
       if (!f.consent.checked) { msg.textContent = 'Please tick the box so we know you want the email.'; return; }
       var p = get('sv_prefs', { area: '', topics: [] });
       f.querySelector('button').disabled = true; msg.textContent = 'Signing you up…';
-      fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, consent: true, from: f.getAttribute('data-subscribe'), area: p.area, topics: p.topics }) })
+      fetch('/api/subscribe/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, consent: true, from: f.getAttribute('data-subscribe'), area: p.area, topics: p.topics }) })
         .then(function (r) { return r.json(); })
         .then(function (r) { msg.textContent = r.ok ? 'Thanks, you’re on the list.' : (r.error || 'Something went wrong. Please try again.'); if (r.ok) f.reset(); })
         .catch(function () { msg.textContent = 'Something went wrong. Please try again.'; })

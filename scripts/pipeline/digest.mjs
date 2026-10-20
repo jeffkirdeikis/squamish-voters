@@ -34,7 +34,7 @@ ${W.soon.map((m) => `<div style="background:#fff;border:1px solid #d9d5c8;border
 ${unsub ? `<a href="${unsub}" style="color:#5d6661">Unsubscribe</a>.` : ''}</p></div></body></html>`;
 
 const dir = path.join(ROOT, 'data', 'digest'); fs.mkdirSync(dir, { recursive: true });
-fs.writeFileSync(path.join(dir, `${W.built}.html`), body(`${ORIGIN}/api/subscribe?unsubscribe=PREVIEW`));
+fs.writeFileSync(path.join(dir, `${W.built}.html`), body(`${ORIGIN}/api/subscribe/?unsubscribe=PREVIEW`));
 log('preview written', `data/digest/${W.built}.html`, '|', subject);
 
 if (!process.argv.includes('--send')) process.exit(0);
@@ -44,7 +44,7 @@ const { neon } = await import('@neondatabase/serverless');
 const subs = await neon(DB)`SELECT email, token FROM sv_subscribers WHERE status = 'subscribed'`;
 for (let i = 0; i < subs.length; i += 100) {
   const batch = subs.slice(i, i + 100).map((s) => {
-    const unsub = `${ORIGIN}/api/subscribe?unsubscribe=${s.token}`;
+    const unsub = `${ORIGIN}/api/subscribe/?unsubscribe=${s.token}`;
     return { from: EMAIL_FROM, to: [s.email], subject, html: body(unsub), headers: { 'List-Unsubscribe': `<${unsub}>` } };
   });
   const r = await fetch('https://api.resend.com/emails/batch', { method: 'POST', headers: { Authorization: `Bearer ${RESEND_API_KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify(batch) });
