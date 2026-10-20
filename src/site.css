@@ -924,6 +924,24 @@ span.vmark.ps-kept, span.vmark.ps-broken { display: inline-block; }
 .foryou-box select { font: inherit; padding: .7rem; border: 2px solid var(--line); border-radius: 10px; min-height: 3.2rem; background: var(--surface); }
 .topicpick { display: flex; flex-wrap: wrap; gap: .4rem; margin: .5rem 0 .8rem; }
 .topicpick .chip-btn[aria-pressed="true"] { background: var(--brand); color: #fff; border-color: var(--brand); }
+/* Welcome page after confirming the weekly email: top issues (each opens a "which way do you lean" popup) + neighbourhood */
+.wq h2 { margin-top: 0; }
+.wq h3 { margin: 1.4rem 0 .2rem; }
+.wq h3 + .small { margin: 0; }
+.wpicks { list-style: none; margin: 0 0 .5rem; padding: 0; display: grid; gap: .5rem; }
+.wpicks li { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .7rem .85rem; border: 1px solid var(--line); border-radius: 12px; background: var(--brand-soft); }
+.wpicks button { flex: none; font: inherit; font-weight: 700; color: var(--link); background: none; border: 0; text-decoration: underline; cursor: pointer; padding: .4rem; }
+.wsaved { min-height: 1.5em; margin: .6rem 0 0; font-weight: 700; color: var(--yes); }
+dialog.sides { width: min(32rem, calc(100% - 2rem)); border: 0; border-radius: var(--radius); padding: 1.4rem 1.2rem 1.2rem; background: var(--surface); color: var(--ink); box-shadow: 0 10px 40px rgba(20,33,28,.3); }
+dialog.sides::backdrop { background: rgba(20,33,28,.55); }
+dialog.sides h2 { margin: .1rem 2rem .9rem 0; }
+dialog.sides .small { margin: 0; font-weight: 700; }
+.sides-opts { display: grid; gap: .6rem; }
+.sides-opts .btn { width: 100%; justify-content: flex-start; text-align: left; }
+.sides-opts .btn.picked { background: var(--brand); border-color: var(--brand); color: #fff; }
+.sides-more { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .2rem; }
+.sides-more .chip-btn[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: #fff; }
+.sides-x { position: absolute; top: .5rem; right: .5rem; width: 2.75rem; height: 2.75rem; border: 0; border-radius: 50%; background: var(--surface-2); color: var(--ink); font-size: 1.6rem; line-height: 1; cursor: pointer; }
 .feed { list-style: none; margin: .5rem 0 0; padding: 0; display: grid; gap: .5rem; }
 .feed a { display: flex; flex-direction: column; gap: .15rem; padding: .7rem .85rem; border: 1px solid var(--line); border-radius: 12px; text-decoration: none; color: var(--ink); background: var(--surface); }
 .feed .fk { font-size: .78rem; font-weight: 800; color: var(--brand); text-transform: uppercase; letter-spacing: .03em; }

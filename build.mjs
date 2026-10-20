@@ -1429,6 +1429,57 @@ for (const c of all.filter((x) => x.paper)) {
   }));
 }
 write('/about/', page({ url: '/about/', title: 'About this site', desc: 'Who makes Squamish Voters, how meeting summaries and the promise tracker work, and how to send a correction. Independent and not affiliated with the District or any council member.', body: pageFile('about.html').replaceAll('<!--CONTACT-->', SITE.contact ? `<a href="mailto:${esc(SITE.contact)}">${esc(SITE.contact)}</a>` : 'a contact address will be posted here shortly.').replace('{{COUNT}}', String(all.length)).replace('{{UPDATED}}', esc(SITE.updated)) }));
+// ---------- /welcome/: where the email confirm link lands (api/subscribe.js redirects here with ?t=<token>) ----------
+// Two optional questions: up to 3 top issues (each asks which way they lean) and their neighbourhood. Saved to their
+// sign-up so the Friday email can put those first. Each pair of sides is worded so neither sounds like the right answer.
+const SIGNUP_ISSUES = [
+  ...ISSUES,
+  { key: 'recreation_facilities', title: 'Brennan Park & recreation', icon: '🏊' },
+  { key: 'flood_hazards_climate_resilience', title: 'Flood protection', icon: '🌊' },
+  { key: 'childcare', title: 'Childcare', icon: '🧸' },
+];
+const SIDES = {
+  growth: ['How fast should Squamish grow?', ['faster', 'Speed it up: approve more homes and projects'], ['slower', 'Slow it down: let roads and services catch up']],
+  housing_affordability: ['What would help housing most?', ['more_homes', 'More homes of every kind, built faster'], ['below_market', 'More below market homes, using District land and money']],
+  homelessness: ['What should come first?', ['support', 'More shelter, supportive housing and services'], ['enforcement', 'Safety and enforcement in public spaces']],
+  policing: ['Where should safety money go?', ['police', 'More RCMP and bylaw officers'], ['outreach', 'More mental health and outreach teams']],
+  taxes_spending: ['Taxes or services?', ['low_taxes', 'Keep tax increases low, even if some services are cut'], ['keep_services', 'Keep services and projects, even if taxes rise more']],
+  environment_lng: ['Climate and the LNG plant: what comes first?', ['climate', 'Press harder on climate and local impacts, even if it costs more'], ['costs', 'Keep costs down and work with the LNG plant']],
+  transportation: ['Where should transportation money go?', ['transit', 'Buses, bike lanes and sidewalks'], ['roads', 'Roads and getting around by car']],
+  parking: ['Should new buildings have to include parking?', ['more_parking', 'Yes, enough for everyone who lives there, so streets don’t fill up'], ['less_parking', 'Not always: less parking keeps new homes cheaper']],
+  economy: ['Land set aside for jobs: what should happen to it?', ['protect_jobs', 'Protect it for industry and jobs'], ['allow_housing', 'Let some of it become housing']],
+  recreation_facilities: ['Brennan Park needs renewing. When?', ['now', 'Now, even if the District has to borrow'], ['save_first', 'Later, once there are savings to pay for it']],
+  flood_hazards_climate_resilience: ['Should Squamish spend more on dikes and flood protection?', ['spend_more', 'Yes, even if taxes go up'], ['hold', 'No, keep spending where it is and hold taxes down']],
+  childcare: ['Should the District help with childcare?', ['district_help', 'Yes, actively expand subsidized spaces'], ['leave_it', 'No, leave it to the Province and private operators']],
+};
+const WELCOME_HOODS = [...HOODS, { slug: 'outside', name: 'Outside Squamish' }];
+write('/welcome/', page({ url: '/welcome/', title: 'You’re confirmed', noindex: true,
+  body: `<div class="welcome">
+  <h1 data-wh>You’re confirmed</h1>
+  <p class="lede" data-wok>Your first email arrives Friday morning. So it doesn’t land in spam, add <b>news@squamishvoters.com</b> to your contacts.</p>
+  <p class="lede" data-wnotok hidden>This page opens from the link in your confirmation email. To get the weekly email, <a href="/#signup">sign up on the home page</a>.</p>
+  <section class="card wq" data-wq>
+    <h2>Two quick questions</h2>
+    <p class="small">Optional. Your answers let us put what matters to you first in your Friday email. We only ever share totals, never names.</p>
+    <h3>1. What are your top issues?</h3>
+    <p class="small">Pick up to 3.</p>
+    <div class="topicpick" role="group" aria-label="Your top issues">${SIGNUP_ISSUES.map((i) => `<button type="button" class="chip-btn" data-wi="${i.key}" aria-pressed="false"><span aria-hidden="true">${i.icon}</span> ${esc(i.title)}</button>`).join('')}</div>
+    <p class="small" data-wnote aria-live="polite"></p>
+    <ul class="wpicks" data-wpicks></ul>
+    <h3>2. Which neighbourhood do you live in?</h3>
+    <div class="topicpick" role="group" aria-label="Your neighbourhood">${WELCOME_HOODS.map((h) => `<button type="button" class="chip-btn" data-wa="${esc(h.slug)}" aria-pressed="false">${esc(h.name)}</button>`).join('')}</div>
+    <p class="wsaved" data-wsaved aria-live="polite"></p>
+  </section>
+  <div class="btn-row"><a class="btn big" href="/">Go to Squamish Voters</a></div>
+  <dialog class="sides" data-wdlg aria-labelledby="wd-q">
+    <button type="button" class="sides-x" data-wclose aria-label="Close">×</button>
+    <p class="small" data-wdt></p>
+    <h2 id="wd-q" data-wdq></h2>
+    <div class="sides-opts" data-wdo></div>
+  </dialog>
+</div>
+<script>window.SV_SIDES=${JSON.stringify(Object.fromEntries(SIGNUP_ISSUES.filter((i) => SIDES[i.key]).map((i) => [i.key, { t: i.title, i: i.icon, q: SIDES[i.key][0], o: [SIDES[i.key][1], SIDES[i.key][2]] }]))).replace(/</g, '\\u003c')};</script>`,
+}));
 write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can’t find that page</h1><p class="lede">Try one of these instead.</p><div class="btn-row"><a class="btn big" href="/">Home</a><a class="btn big secondary" href="/council/">Candidates</a><a class="btn big secondary" href="/quiz/">Take the quiz</a></div>' }));
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 

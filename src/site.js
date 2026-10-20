@@ -327,4 +327,88 @@
       if (window.SV && SV.track) SV.track('Email signup', { from: f.getAttribute('data-subscribe') });
     });
   });
+
+  // Welcome page (after the confirm link): up to 3 top issues, which way they lean on each, and their neighbourhood.
+  // Saved to their sign-up as they go. The token comes in the link once, then lives in this tab only.
+  var wq = document.querySelector('[data-wq]');
+  if (wq && window.SV_SIDES) {
+    var tok = new URLSearchParams(location.search).get('t');
+    try { if (tok) sessionStorage.setItem('sv_wt', tok); else tok = sessionStorage.getItem('sv_wt'); } catch (e) {}
+    if (tok && history.replaceState) history.replaceState(null, '', location.pathname);
+    if (!tok) {
+      wq.hidden = true; document.querySelector('[data-wok]').hidden = true; document.querySelector('[data-wnotok]').hidden = false;
+      document.querySelector('[data-wh]').textContent = 'Welcome to Squamish Voters';
+    } else {
+      var ans = { topics: [], stances: {}, area: '' }, cur = null, timer, touched = false;
+      var dlg = document.querySelector('[data-wdlg]'), note = wq.querySelector('[data-wnote]'), saved = wq.querySelector('[data-wsaved]');
+      var MORE = [['mid', 'Somewhere in between'], ['unsure', 'Not sure yet']];
+      var sideLabel = function (k) {
+        var v = ans.stances[k], all = SV_SIDES[k].o.concat(MORE);
+        for (var i = 0; i < all.length; i++) if (all[i][0] === v) return all[i][1];
+        return '';
+      };
+      var drawW = function () {
+        wq.querySelectorAll('[data-wi]').forEach(function (b) { b.setAttribute('aria-pressed', String(ans.topics.indexOf(b.getAttribute('data-wi')) > -1)); });
+        wq.querySelectorAll('[data-wa]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-wa') === ans.area)); });
+        wq.querySelector('[data-wpicks]').innerHTML = ans.topics.map(function (k) {
+          var s = SV_SIDES[k], l = sideLabel(k);
+          return '<li><span>' + s.i + ' <b>' + esc(s.t) + '</b><br><span class="small">' + (l ? esc(l) : 'Which way do you lean? Tap Answer.') + '</span></span><button type="button" data-wchange="' + k + '">' + (l ? 'Change' : 'Answer') + '</button></li>';
+        }).join('');
+      };
+      var save = function () {
+        touched = true;
+        put('sv_prefs', { area: ans.area === 'outside' ? '' : ans.area, topics: ans.topics.slice() });
+        saved.textContent = 'Saving…';
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          fetch('/api/subscribe/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: tok, topics: ans.topics, stances: ans.stances, area: ans.area }) })
+            .then(function (r) { return r.json(); })
+            .then(function (r) { saved.textContent = r.ok ? 'Saved ✓' : (r.error || 'That didn’t save. Please try again.'); })
+            .catch(function () { saved.textContent = 'That didn’t save. Check your connection and try again.'; });
+        }, 500);
+      };
+      var closeD = function () { cur = null; if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); };
+      var ask = function (k) {
+        var s = SV_SIDES[k], v = ans.stances[k];
+        cur = k;
+        dlg.querySelector('[data-wdt]').textContent = s.i + ' ' + s.t;
+        dlg.querySelector('[data-wdq]').textContent = s.q;
+        dlg.querySelector('[data-wdo]').innerHTML = s.o.map(function (o) {
+          return '<button type="button" class="btn secondary' + (v === o[0] ? ' picked' : '') + '" data-wv="' + o[0] + '">' + esc(o[1]) + '</button>';
+        }).join('') + '<div class="sides-more">' + MORE.map(function (o) {
+          return '<button type="button" class="chip-btn" aria-pressed="' + (v === o[0]) + '" data-wv="' + o[0] + '">' + o[1] + '</button>';
+        }).join('') + '</div>';
+        if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+      };
+      dlg.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-wv]');
+        if (b && cur) { ans.stances[cur] = b.getAttribute('data-wv'); drawW(); save(); closeD(); return; }
+        if (e.target === dlg || e.target.closest('[data-wclose]')) closeD(); // tap outside the box, or the ×
+      });
+      wq.addEventListener('click', function (e) {
+        var c = e.target.closest('[data-wchange]');
+        if (c) { ask(c.getAttribute('data-wchange')); return; }
+        var b = e.target.closest('[data-wi]');
+        if (b) {
+          var k = b.getAttribute('data-wi'), i = ans.topics.indexOf(k);
+          note.textContent = '';
+          if (i > -1) { ans.topics.splice(i, 1); delete ans.stances[k]; drawW(); save(); return; }
+          if (ans.topics.length >= 3) { note.textContent = 'You’ve picked 3. Tap one of them to remove it first.'; return; }
+          ans.topics.push(k); drawW(); save(); ask(k);
+          return;
+        }
+        var a = e.target.closest('[data-wa]');
+        if (a) { ans.area = a.getAttribute('data-wa') === ans.area ? '' : a.getAttribute('data-wa'); drawW(); save(); }
+      });
+      // Start from whatever they already told us (the home page picker sends its choices with the sign-up).
+      fetch('/api/subscribe/?prefs=' + encodeURIComponent(tok)).then(function (r) { return r.json(); }).then(function (r) {
+        if (!r.ok || touched) return;
+        ans.area = r.area || '';
+        ans.topics = (r.topics || []).filter(function (k) { return SV_SIDES[k]; }).slice(0, 3);
+        ans.stances = r.stances || {};
+        drawW();
+      }).catch(function () {});
+      drawW();
+    }
+  }
 })();
