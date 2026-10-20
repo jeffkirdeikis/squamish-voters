@@ -86,7 +86,7 @@
  {
   "id": "q8",
   "issue": "environment_lng",
-  "topic": "Environment",
+  "topic": "Woodfibre LNG",
   "short": "Press Woodfibre on impacts",
   "text": "The District should use its permit powers to press Woodfibre LNG on local impacts, even if that means delays or legal fights.",
   "why": "In 2024 council refused the permit for Woodfibre’s floating worker housing 4–3; the Province overrode it, and Woodfibre is now suing over the delay. The other view: approve permits promptly and work with the company. The tax deal is a separate question.",
@@ -99,8 +99,8 @@
  },
  {
   "id": "q9",
-  "issue": "environment_lng",
-  "topic": "Environment",
+  "issue": "climate",
+  "topic": "Climate",
   "short": "Climate priority",
   "text": "Climate action should be a top council priority, even when it adds cost.",
   "why": "This covers things like building rules, electric vehicle charging, and flood and wildfire protection.",
@@ -260,8 +260,8 @@
  },
  {
   "id": "q24",
-  "issue": "environment_lng",
-  "topic": "Environment",
+  "issue": "climate",
+  "topic": "Climate",
   "short": "Greener new buildings",
   "text": "New buildings should have to meet higher energy standards, even if that raises the cost of building.",
   "why": "Tighter standards cut emissions and bills later, but add to the upfront price of a home.",

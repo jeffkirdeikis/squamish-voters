@@ -47,7 +47,7 @@ for (const m of loadMeetings().filter((x) => x.civicweb_id && !x.summary && x.st
 
 Write a preview for residents deciding whether to watch or attend:
 - "preview": one or two sentences on what the meeting is mostly about.
-- "agenda_items": the items residents would care about, most important first, at most 10. Skip routine items (adopting the agenda, approving minutes, adjourning) unless that is all there is. Each has "plain" (one plain sentence on what council is being asked to do), "kind" (vote, hearing, presentation, discussion or closed), and "topic" (one of: growth, housing_affordability, homelessness, policing, taxes_spending, environment_lng, transportation, parking, economy, recreation_facilities, flood_hazards_climate_resilience, other).
+- "agenda_items": the items residents would care about, most important first, at most 10. Skip routine items (adopting the agenda, approving minutes, adjourning) unless that is all there is. Each has "plain" (one plain sentence on what council is being asked to do), "kind" (vote, hearing, presentation, discussion or closed), and "topic" (one of: growth, housing_affordability, homelessness, policing, taxes_spending, climate, environment_lng (the Woodfibre LNG plant only), transportation, parking, economy, recreation_facilities, flood_hazards_climate_resilience, other).
 - For each agenda item also set:
 ${TAG_RULES}
 - "has_public_hearing": true if the agenda includes a public hearing.

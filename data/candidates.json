@@ -415,8 +415,8 @@
     "confidence": "high"
    },
    "environment_lng": {
-    "position": "Use every tool to protect health, air and water from Woodfibre LNG; climate a priority, but not at residents’ short-term cost",
-    "summary": "In a Sept 14, 2026 op-ed he asked council to reject the proposed 10-year WLNG agreement, saying about $14M a year is not enough to leave a lasting asset, the money should be committed to a community-selected legacy project, and the pre-election timeline shuts out the public. He wants robust environmental monitoring of WLNG. He has not said he opposes the plant itself; no specific positions found on climate policy, the estuary or wildfire.",
+    "position": "Use every tool to protect health, air and water from Woodfibre LNG",
+    "summary": "In a Sept 14, 2026 op-ed he asked council to reject the proposed 10-year WLNG agreement, saying about $14M a year is not enough to leave a lasting asset, the money should be committed to a community-selected legacy project, and the pre-election timeline shuts out the public. He wants robust environmental monitoring of WLNG. He has not said he opposes the plant itself.",
     "quote": "Making such a consequential decision under duress and without meaningful public engagement is irresponsible.",
     "source_url": "https://www.squamishreporter.com/2026/09/14/council-vote-no-woodfibre-lng-agreement-sean-easton/",
     "confidence": "high"
@@ -440,6 +440,13 @@
     "summary": "Sean had said little in public about this before answering our questionnaire. Sean’s own answers are below.",
     "quote": null,
     "source_url": null,
+    "confidence": "none"
+   },
+   "climate": {
+    "position": "Climate a priority, but not at residents’ short-term cost",
+    "summary": "Sean had said little in public about this before answering our questionnaire. Sean’s own answers are below.",
+    "quote": null,
+    "source_url": "https://www.seaneaston.com",
     "confidence": "none"
    }
   },
@@ -1162,8 +1169,8 @@
     "confidence": "medium"
    },
    "environment_lng": {
-    "position": "Pro-permit on Woodfibre LNG; climate action via local jobs, wood construction and adaptation",
-    "summary": "... In 2022 he framed forestry and wood products as 'green tech' and climate action. In the same 2022 My Sea to Sky survey that records his support for Cheema Lands and North Crumpit, he also committed to 14 of the group's 16 climate actions - including advocating that the province let local governments ban new gas hookups, protecting natural assets, a biodiversity conservation strategy and adopting the doughnut-economics model - declining only the fossil fuel non-proliferation treaty and Sue Big Oil.",
+    "position": "Pro-permit on Woodfibre LNG",
+    "summary": "Has supported the permits for Woodfibre LNG’s floating worker housing, and voted for the proposed 10-year Woodfibre tax agreement, which council rejected 5–2 on Sept. 22, 2026.",
     "source_url": "https://www.squamishchief.com/highlights/squamish-councillors-officially-issue-a-tup-for-two-wlng-floatels-11010557",
     "confidence": "high",
     "quote": "I support natural gas as a 'bridging fuel', and I support WLNG's ongoing efforts to protect (and enhance, through extensive site remediation investments) the local marine environment. (2022)"
@@ -1186,6 +1193,13 @@
     "summary": "In April 2026 he voted against sending $210,000 of developer cash-in-lieu to the alternative-transportation fund, saying it should go to the Off-Street Parking Facilities Reserve Fund. He voted against the 2025 bylaw removing parking minimums for six-unit lots near future frequent transit, and told council he did not support cutting parking at University Highlands. In 2022 he said Squamish has 'diverse parking problems' needing 'new facilities and regulations/ enforcement', and proposed wood-built parkades designed so they can be re-purposed. He voted for the paid-parking pilot but against making paid parking a 2025 priority and against studying community-wide paid parking. No 2026 campaign statement found.",
     "quote": "We are overlooking, in our planning for the downtown, the need for off-street parking facilities and here is an example of where we can take advantage of an opportunity to put some dollars into that fund.",
     "source_url": "https://www.squamishchief.com/real-estate-news/squamish-council-gives-final-approval-to-six-storey-mixed-use-project-on-long-vacant-downtown-lot-12125360",
+    "confidence": "high"
+   },
+   "climate": {
+    "position": "Climate action via local jobs, wood construction and adaptation",
+    "summary": "In 2022 he framed forestry and wood products as 'green tech' and climate action. In the same 2022 My Sea to Sky survey that records his support for Cheema Lands and North Crumpit, he also committed to 14 of the group's 16 climate actions - including advocating that the province let local governments ban new gas hookups, protecting natural assets, a biodiversity conservation strategy and adopting the doughnut-economics model - declining only the fossil fuel non-proliferation treaty and Sue Big Oil.",
+    "quote": null,
+    "source_url": "https://myseatosky.org/election-2022/district-of-squamish/",
     "confidence": "high"
    }
   },
@@ -3023,7 +3037,7 @@
    },
    "environment_lng": {
     "position": "Renegotiate the WLNG tax deal for more money; sees WLNG as the town's only economic engine",
-    "summary": "Does not support the Woodfibre LNG 10-Year Agreement in Principle, saying more money could be negotiated and a new council should reset the relationship, while describing WLNG as currently Squamish's one and only economic engine that the town has to work with. Past volunteer on the Squamish Estuary Management Plan. No climate-policy statement found.",
+    "summary": "Does not support the Woodfibre LNG 10-Year Agreement in Principle, saying more money could be negotiated and a new council should reset the relationship, while describing WLNG as currently Squamish's one and only economic engine that the town has to work with.",
     "quote": "This should be done with a new council who does a reset on the relationship with WLNG.",
     "source_url": "https://www.squamishchief.com/2026-civic-election/janice-desjardins-hones-in-on-fiscal-responsibility-in-her-run-for-squamish-council-12781514",
     "confidence": "high"
@@ -3048,6 +3062,13 @@
     "quote": "There are nowhere near enough parking spaces downtown. High-density development has pushed residents with two vehicles onto the street, displacing the spots once used by downtown employees.",
     "source_url": "https://janicedesjardins.com/highlights",
     "confidence": "high"
+   },
+   "climate": {
+    "position": "No public position found",
+    "summary": "Past volunteer on the Squamish Estuary Management Plan. No climate policy statement found.",
+    "quote": null,
+    "source_url": "https://www.squamishchief.com/2026-civic-election/janice-desjardins-hones-in-on-fiscal-responsibility-in-her-run-for-squamish-council-12781514",
+    "confidence": "low"
    }
   },
   "compass": {
@@ -3284,7 +3305,7 @@
     "confidence": "medium"
    },
    "environment_lng": {
-    "position": "Climate a priority; in the middle on Woodfibre LNG, wants a fair tax deal",
+    "position": "In the middle on Woodfibre LNG, wants a fair tax deal",
     "summary": "Sarah had said little in public about this before answering our questionnaire. Sarah’s own answers are below.",
     "source_url": "https://www.sarahellisforsquamish.ca/",
     "confidence": "none",
@@ -3309,6 +3330,13 @@
     "summary": "In her questionnaire answer to Squamish Voters she agreed that parking management is likely in downtown's future, called paid parking 'just one potential solution', and said resident-only permit areas should also be explored. She also said she would like downtown density to come with 'realistic parking requirements', without saying whether that means more or fewer stalls. Her website lists parking among the policies that must keep pace with growth.",
     "quote": "I agree that parking management is likely in Downtown's future, but I think paid parking is just one potential solution. I think resident-only parking areas with permits should also be explored.",
     "source_url": null,
+    "confidence": "high"
+   },
+   "climate": {
+    "position": "Climate a priority; supports the Community Climate Action Plan",
+    "summary": "Says she supports the six Big Moves in the District’s Community Climate Action Plan and would keep voting to carry it out.",
+    "quote": "I support the 6 big moves of the town’s existing Community Climate Action Plan and would continue to vote in support of its implementation.",
+    "source_url": "https://www.sarahellisforsquamish.ca/priorities",
     "confidence": "high"
    }
   },
@@ -4500,7 +4528,7 @@
     "confidence": "medium"
    },
    "environment_lng": {
-    "position": "Strongly for the Woodfibre tax deal and against pressing the plant through permits; core infrastructure before climate action",
+    "position": "Strongly for the Woodfibre tax deal and against pressing the plant through permits",
     "summary": "Luc had said little in public about this before answering our questionnaire. Luc’s own answers are below.",
     "quote": null,
     "source_url": "https://www.lucperreault.ca/",
@@ -4526,6 +4554,13 @@
     "quote": "The next Council must keep regional transit, parking, active transportation, and highway reliability high on the agenda.",
     "source_url": "https://www.lucperreault.ca/",
     "confidence": "low"
+   },
+   "climate": {
+    "position": "Core infrastructure before climate action",
+    "summary": "Luc had said little in public about this before answering our questionnaire. Luc’s own answers are below.",
+    "quote": null,
+    "source_url": "https://www.lucperreault.ca/",
+    "confidence": "none"
    }
   },
   "compass": {
@@ -4816,8 +4851,8 @@
     "confidence": "high"
    },
    "environment_lng": {
-    "position": "Climate action a top priority; wants the Woodfibre deal renegotiated for more money",
-    "summary": "A former Woodfibre LNG stakeholder/Indigenous/government relations lead (2020-May 2025). Wants a stronger 10-year financial agreement, a 40-year operations-long MOU, legacy projects, a Squamish Nation-held liaison role, and says the current tax/community contribution agreement should wait until after the election. Says economic growth and environmental stewardship 'must go hand in hand' with 'strong environmental oversight and accountability'; also pledges stronger emergency and flood preparedness. No specific climate-action or floatel position found.",
+    "position": "Wants the Woodfibre deal renegotiated for more money",
+    "summary": "A former Woodfibre LNG stakeholder/Indigenous/government relations lead (2020-May 2025). Wants a stronger 10-year financial agreement, a 40-year operations-long MOU, legacy projects, a Squamish Nation-held liaison role, and says the current tax/community contribution agreement should wait until after the election. Says economic growth and environmental stewardship 'must go hand in hand' with 'strong environmental oversight and accountability'.",
     "quote": "I believe it needs to be reviewed with fresh perspectives, and we need to hold off and make sure that we have the best deal for Squamish.",
     "source_url": "https://www.squamishchief.com/local-news/laura-prosko-touts-industry-ties-pitches-property-tax-freeze-in-squamish-council-bid-12793364",
     "confidence": "high"
@@ -4842,6 +4877,13 @@
     "quote": "I believe there are some ways in downtown Squamish that we can use land planning differently, like, for example, along Loggers Lane, for enhanced parking, and we need to get back to those basics first and foremost.",
     "source_url": "https://www.squamishchief.com/local-news/laura-prosko-touts-industry-ties-pitches-property-tax-freeze-in-squamish-council-bid-12793364",
     "confidence": "high"
+   },
+   "climate": {
+    "position": "Climate action a top priority",
+    "summary": "Pledges stronger emergency and flood preparedness. We found no specific climate action position in her public statements before she answered our questionnaire; her own answers are below.",
+    "quote": null,
+    "source_url": "https://www.squamishchief.com/local-news/laura-prosko-touts-industry-ties-pitches-property-tax-freeze-in-squamish-council-bid-12793364",
+    "confidence": "low"
    }
   },
   "compass": {
@@ -5438,11 +5480,11 @@
     "confidence": "medium"
    },
    "environment_lng": {
-    "position": "Wants a harder bargain with Woodfibre LNG (“not leave millions on the table”); climate a top priority",
-    "summary": "Says responsible development must protect the natural environment and maintain public access to the outdoors.",
-    "quote": "Our mountains, rivers, and trails are what make Squamish home.",
+    "position": "Wants a harder bargain with Woodfibre LNG (“not leave millions on the table”)",
+    "summary": "Shaun had said little in public about this before answering our questionnaire. Shaun’s own answers are below.",
+    "quote": null,
     "source_url": "https://shaunveltkamp.com/",
-    "confidence": "low"
+    "confidence": "none"
    },
    "transportation": {
     "position": "For bike lanes and sidewalks; lukewarm on paid parking downtown",
@@ -5464,6 +5506,13 @@
     "quote": "A pilot project would be the best option for this... and I believe if we do move forward, we should consider yearly or seasonal parking passes for local residents.",
     "source_url": null,
     "confidence": "high"
+   },
+   "climate": {
+    "position": "Climate a top priority",
+    "summary": "Says responsible development must protect the natural environment and maintain public access to the outdoors.",
+    "quote": "Our mountains, rivers, and trails are what make Squamish home.",
+    "source_url": "https://shaunveltkamp.com/",
+    "confidence": "low"
    }
   },
   "compass": {

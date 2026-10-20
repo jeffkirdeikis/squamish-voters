@@ -227,15 +227,18 @@ const ISSUES = [
   { key: 'homelessness', title: 'Homelessness & supportive housing', icon: '🤝' },
   { key: 'policing', title: 'Policing & community safety', icon: '🚓' },
   { key: 'taxes_spending', title: 'Taxes & spending', icon: '💵' },
-  { key: 'environment_lng', title: 'Climate, environment & the LNG plant', icon: '🌲' },
+  // Climate and the Woodfibre plant were one topic until Oct 19, 2026; split so neither implies a view on the other.
+  // The key environment_lng now means the plant only (kept so old links and data still line up).
+  { key: 'climate', title: 'Climate & environment', icon: '🌲' },
+  { key: 'environment_lng', title: 'Woodfibre LNG plant', icon: '⚡' },
   { key: 'transportation', title: 'Transportation & transit', icon: '🚌' },
   // allq: Compare shows every parking statement, not just the one in the quiz
   { key: 'parking', title: 'Parking', icon: '🅿️', allq: true },
   { key: 'economy', title: 'Jobs & local economy', icon: '💼' },
 ].filter((i) => !i.allq || ALL_QUESTIONS.some((q) => q.issue === i.key)); // a topic with no statements yet stays hidden
 // Each topic's own page at /issues/<slug>/, named the way people search for it.
-const TOPIC_SLUG = { growth: 'growth-and-development', housing_affordability: 'housing', homelessness: 'homelessness', policing: 'policing-and-safety', taxes_spending: 'property-taxes', environment_lng: 'woodfibre-lng-and-climate', transportation: 'transit-and-highway-99', parking: 'parking', economy: 'jobs-and-economy', recreation_facilities: 'brennan-park-and-recreation', flood_hazards_climate_resilience: 'flood-protection', other_campaign_topics: 'childcare-rentals-and-vanlife' };
-const TOPIC_NAME = { growth: 'growth and development', housing_affordability: 'housing', homelessness: 'homelessness and supportive housing', policing: 'policing and community safety', taxes_spending: 'property taxes and spending', environment_lng: 'climate and the Woodfibre LNG plant', transportation: 'transit and Highway 99', parking: 'parking', economy: 'jobs and the local economy', recreation_facilities: 'Brennan Park and recreation', flood_hazards_climate_resilience: 'flood protection', other_campaign_topics: 'childcare, short-term rentals and vanlife' };
+const TOPIC_SLUG = { growth: 'growth-and-development', housing_affordability: 'housing', homelessness: 'homelessness', policing: 'policing-and-safety', taxes_spending: 'property-taxes', climate: 'climate-and-environment', environment_lng: 'woodfibre-lng-and-climate', transportation: 'transit-and-highway-99', parking: 'parking', economy: 'jobs-and-economy', recreation_facilities: 'brennan-park-and-recreation', flood_hazards_climate_resilience: 'flood-protection', other_campaign_topics: 'childcare-rentals-and-vanlife' };
+const TOPIC_NAME = { growth: 'growth and development', housing_affordability: 'housing', homelessness: 'homelessness and supportive housing', policing: 'policing and community safety', taxes_spending: 'property taxes and spending', climate: 'climate and the environment', environment_lng: 'the Woodfibre LNG plant', transportation: 'transit and Highway 99', parking: 'parking', economy: 'jobs and the local economy', recreation_facilities: 'Brennan Park and recreation', flood_hazards_climate_resilience: 'flood protection', other_campaign_topics: 'childcare, short-term rentals and vanlife' };
 const issueCtx = (key) => (ctx.issues || []).find((i) => i.key === key) || {};
 
 // ---------- layout ----------
@@ -1350,7 +1353,7 @@ for (const ic of ctx.issues || []) {
       <p class="lede">On September 22, 2026, council voted 5–2 against a proposed 10-year agreement fixing what Woodfibre LNG pays in place of normal property tax. The next council could negotiate a new one. Here is what it means and where every candidate stands.</p>
       ${DEAL_IF_NO}
       <h2>Where the candidates stand</h2>${spectrum(q23)}
-      <p>For the wider debate about the plant itself, see <a href="/issues/${TOPIC_SLUG.environment_lng}/">climate and the Woodfibre LNG plant</a>. For property taxes generally, see <a href="/issues/${TOPIC_SLUG.taxes_spending}/">property taxes and spending</a>.</p>
+      <p>For the wider debate about the plant itself, see <a href="/issues/${TOPIC_SLUG.environment_lng}/">the Woodfibre LNG plant</a>. For property taxes generally, see <a href="/issues/${TOPIC_SLUG.taxes_spending}/">property taxes and spending</a>.</p>
       <div class="btn-row no-print"><a class="btn" href="/quiz/">Take the quiz →</a><a class="btn secondary" href="/compare/#taxes_spending">Compare everyone on taxes</a></div>`,
     }));
   }
@@ -1433,8 +1436,7 @@ write('/about/', page({ url: '/about/', title: 'About this site', desc: 'Who mak
 // Two optional questions: up to 3 top issues (each asks which way they lean, or Other with a write-in) and their
 // neighbourhood. Saved to their sign-up; not used to tailor the Friday email yet (Jeff, Oct 19). Each pair of sides is worded so neither sounds like the right answer.
 const SIGNUP_ISSUES = [
-  // Climate and the LNG plant are separate here, so picking one doesn't imply a view on the other (Jeff, Oct 19).
-  ...ISSUES.flatMap((i) => i.key === 'environment_lng' ? [{ key: 'environment', title: 'Climate & environment', icon: '🌲' }, { key: 'lng', title: 'Woodfibre LNG plant', icon: '🏭' }] : [i]),
+  ...ISSUES,
   { key: 'recreation_facilities', title: 'Brennan Park & recreation', icon: '🏊' },
   { key: 'flood_hazards_climate_resilience', title: 'Flood protection', icon: '🌊' },
   { key: 'childcare', title: 'Childcare', icon: '🧸' },
@@ -1445,8 +1447,8 @@ const SIDES = {
   homelessness: ['What should come first?', ['support', 'More shelter, supportive housing and services'], ['enforcement', 'Safety and enforcement in public spaces']],
   policing: ['Where should safety money go?', ['police', 'More RCMP and bylaw officers'], ['outreach', 'More mental health and outreach teams']],
   taxes_spending: ['Taxes or services?', ['low_taxes', 'Keep tax increases low, even if some services are cut'], ['keep_services', 'Keep services and projects, even if taxes rise more']],
-  environment: ['How much should climate and the environment drive council’s decisions?', ['climate_first', 'Make them a top priority, even when it adds cost'], ['cost_first', 'Keep costs down, even if climate action moves slower']],
-  lng: ['How should the District deal with Woodfibre LNG?', ['press', 'Press harder on local impacts, even if it means delays or legal fights'], ['work_with', 'Work with the plant and focus on the jobs and taxes it brings']],
+  climate: ['How much should climate and the environment drive council’s decisions?', ['climate_first', 'Make them a top priority, even when it adds cost'], ['cost_first', 'Keep costs down, even if climate action moves slower']],
+  environment_lng: ['How should the District deal with Woodfibre LNG?', ['press', 'Press harder on local impacts, even if it means delays or legal fights'], ['work_with', 'Work with the plant and focus on the jobs and taxes it brings']],
   transportation: ['Where should transportation money go?', ['transit', 'Buses, bike lanes and sidewalks'], ['roads', 'Roads and getting around by car']],
   parking: ['Should new buildings have to include parking?', ['more_parking', 'Yes, enough for everyone who lives there, so streets don’t fill up'], ['less_parking', 'Not always: less parking keeps new homes cheaper']],
   economy: ['Land set aside for jobs: what should happen to it?', ['protect_jobs', 'Protect it for industry and jobs'], ['allow_housing', 'Let some of it become housing']],
