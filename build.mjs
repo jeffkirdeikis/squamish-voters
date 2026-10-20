@@ -811,6 +811,12 @@ const v = ctx.voting || {};
     <p class="lede">Every vote by Squamish’s mayor and councillors, checked against what they told voters in 2026.</p>
     <div class="btn-row hero-two"><a class="btn big" href="/meetings/">See what council is deciding →<small>Next meetings and past decisions</small></a><a class="btn big" href="/promises/">Are they keeping their promises? →<small>Promises, and votes against what they said</small></a></div>
     <a class="fbgroup" href="https://www.facebook.com/groups/1090076830319905" target="_blank" rel="noopener"><img src="/img/facebook-group.jpg" width="400" height="149" alt="Squamish Voters and Politics Facebook group" loading="eager"><span>Join the conversation on Facebook →</span></a>
+    <form class="herosign" id="signup" data-subscribe="home-hero" novalidate>
+      <label for="hs-email"><b>Get a short email every Friday:</b> what council decided and what’s coming up.</label>
+      <div class="hs-row"><input id="hs-email" type="email" name="email" autocomplete="email" required placeholder="Enter your email"><button class="btn" type="submit">Sign up</button></div>
+      <label class="consent"><input type="checkbox" name="consent" required> <span>Yes, send me the weekly email. Unsubscribe any time.</span></label>
+      <p class="small" data-msg role="status"></p>
+    </form>
     <p class="visit-count" data-visits hidden><span class="vc-dot" aria-hidden="true"></span><b>0</b> page views so far</p>
   </div></section>`,
     body: `
@@ -846,7 +852,6 @@ const v = ctx.voting || {};
   <div class="btn-row"><a class="btn secondary" href="/promises/">See every promise →</a><a class="btn secondary" href="/said-vs-did/">Do they vote the way they said? →</a></div></section>
 
   ${TRACKED.length ? `<section class="card"><h2>Issues we’re following</h2><p class="small">The big questions that keep coming back to council. Tap one to see where it stands.</p><ul class="mlist">${TRACKED.slice(0, 5).map(issueRow).join('')}</ul><p><a href="/track/">All ${TRACKED.length} issues →</a></p></section>` : ''}
-  ${signupBox('home')}
   <div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg><div>
     <h2>You can check our work</h2>
     <p>No endorsements. Every summary links to the official video, agenda and minutes, and every promise links to where it was said. The code is public.</p>

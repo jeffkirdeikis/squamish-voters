@@ -951,3 +951,13 @@ span.vmark.ps-kept, span.vmark.ps-broken { display: inline-block; }
 .fbgroup img { flex: none; width: 132px; height: auto; border-radius: calc(var(--radius) - 4px); }
 .fbgroup span { font-weight: 700; font-size: 1.02rem; line-height: 1.3; }
 .fbgroup:hover span, .fbgroup:focus-visible span { text-decoration: underline; }
+/* Weekly email sign-up in the home hero, under the Facebook link */
+.herosign { max-width: 520px; margin: .9rem 0 .25rem; padding: .9rem; border-radius: var(--radius); background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.22); color: #fff; }
+.herosign > label:first-child { display: block; margin-bottom: .55rem; line-height: 1.35; }
+.hs-row { display: flex; gap: .5rem; }
+.hs-row input { flex: 1; min-width: 0; font-size: 1.05rem; padding: .7rem .8rem; border-radius: 10px; border: 0; }
+.hs-row .btn { flex: none; margin: 0; }
+.herosign .consent { display: flex; gap: .5rem; align-items: flex-start; margin-top: .6rem; font-size: .95rem; color: #eef6f2; }
+.herosign .consent input { width: 1.2rem; height: 1.2rem; margin-top: .15rem; flex: none; }
+.herosign [data-msg] { margin: .4rem 0 0; color: #ffd36b; font-weight: 600; }
+.herosign [data-msg]:empty { display: none; }
