@@ -31,19 +31,20 @@
     out.textContent = '';
     var live = rows.filter(function (r) { return r.status !== 'unsubscribed'; });
     var by = function (s) { return rows.filter(function (r) { return r.status === s; }).length; };
-    var answered = live.filter(function (r) { return (r.topics || []).length || r.area; });
+    // Same rule as the public totals (api/priorities.js): confirmed, and picked issues on the welcome page
+    var answered = rows.filter(function (r) { return r.status === 'subscribed' && r.prefs_at && (r.topics || []).length; });
     status.textContent = rows.length + ' sign-ups · ' + by('subscribed') + ' confirmed · ' + by('pending') + ' waiting to confirm · ' + by('unsubscribed') + ' unsubscribed · ' + answered.length + ' answered the questions';
 
     // Top issues, each with how people lean on it
     var sec = el('section', 'card sb-sec');
     sec.append(el('h2', null, 'Top issues'));
     sec.append(el('p', 'small', 'Each person could pick up to 3. Out of ' + answered.length + ' people who answered. Tap an issue to see which way they lean.'));
-    var issues = count([].concat.apply([], live.map(function (r) { return r.topics || []; })));
+    var issues = count([].concat.apply([], answered.map(function (r) { return r.topics || []; })));
     var max = issues.length ? issues[0][1] : 0;
     issues.forEach(function (p) {
       var k = p[0], d = el('details', 'sb-issue');
       var s = el('summary'); s.append(bar(issueName(k), p[1], max, answered.length)); d.append(s);
-      var who = live.filter(function (r) { return (r.topics || []).indexOf(k) > -1; });
+      var who = answered.filter(function (r) { return (r.topics || []).indexOf(k) > -1; });
       var leans = count(who.map(function (r) { return (r.stances || {})[k] || ''; }));
       var ul = el('ul', 'sb-leans');
       leans.forEach(function (x) { ul.append(el('li', null, x[1] + ' × ' + lean(k, x[0]))); });

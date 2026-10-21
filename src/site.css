@@ -983,3 +983,25 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .herosign .hs-note { margin: .5rem 0 0; font-size: .92rem; color: #dbe9e2; }
 .herosign [data-msg] { margin: .4rem 0 0; color: #ffd36b; font-weight: 600; }
 .herosign [data-msg]:empty { display: none; }
+
+/* Readers' top issues (/priorities/ and the home page box). The two sides get two unranked hues so neither reads as the right one. */
+.prio-row { padding: .9rem 0; border-top: 1px solid var(--line); }
+.prio-row:first-child { border-top: 0; padding-top: .2rem; }
+.prio-head { display: flex; justify-content: space-between; align-items: baseline; gap: .8rem; margin: 0 0 .35rem; font-weight: 700; }
+.prio-n { font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--ink-2); font-weight: 600; }
+.prio-track, .prio-split { display: flex; height: .8rem; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+.prio-fill { display: block; background: var(--brand); border-radius: 999px; }
+.prio-split { gap: 2px; }
+.prio-q { margin: .8rem 0 .35rem; }
+.prio-leans { list-style: none; padding: 0; margin: .5rem 0 0; display: grid; gap: .2rem; font-size: .95rem; }
+.prio-leans li { display: flex; gap: .55rem; align-items: baseline; }
+.prio-leans li::before { content: ""; flex: none; width: .8rem; height: .8rem; border-radius: 3px; transform: translateY(.1rem); }
+.prio-leans b { min-width: 1.3rem; text-align: right; font-variant-numeric: tabular-nums; }
+.seg { display: block; min-width: 6px; }
+.seg.lean-a, .prio-leans .lean-a::before { background: var(--series-1); }
+.seg.lean-b, .prio-leans .lean-b::before { background: var(--series-2); }
+.seg.lean-m, .prio-leans .lean-m::before { background: var(--neutral); }
+.seg.lean-o, .prio-leans .lean-o::before { background: #9a9d97; }
+.seg.lean-x, .prio-leans .lean-x::before { background: repeating-linear-gradient(45deg, #b9b5a8 0 2px, #f3f1ea 2px 5px); }
+.prio-box { margin: 1.2rem 0; }
+.prio-box h2 { margin-top: 0; }

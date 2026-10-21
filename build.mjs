@@ -236,6 +236,30 @@ const ISSUES = [
   { key: 'parking', title: 'Parking', icon: '🅿️', allq: true },
   { key: 'economy', title: 'Jobs & local economy', icon: '💼' },
 ].filter((i) => !i.allq || ALL_QUESTIONS.some((q) => q.issue === i.key)); // a topic with no statements yet stays hidden
+// Issues people can pick after confirming the weekly email (/welcome/), and the two sides of each.
+const SIGNUP_ISSUES = [
+  ...ISSUES,
+  { key: 'recreation_facilities', title: 'Brennan Park & recreation', icon: '🏊' },
+  { key: 'flood_hazards_climate_resilience', title: 'Flood protection', icon: '🌊' },
+  { key: 'childcare', title: 'Childcare', icon: '🧸' },
+];
+const SIDES = {
+  growth: ['How fast should Squamish grow?', ['faster', 'Speed it up: approve more homes and projects'], ['slower', 'Slow it down: let roads and services catch up']],
+  housing_affordability: ['What would help housing most?', ['more_homes', 'More homes of every kind, built faster'], ['below_market', 'More below market homes, using District land and money']],
+  homelessness: ['What should come first?', ['support', 'More shelter, supportive housing and services'], ['enforcement', 'Safety and enforcement in public spaces']],
+  policing: ['Where should safety money go?', ['police', 'More RCMP and bylaw officers'], ['outreach', 'More mental health and outreach teams']],
+  taxes_spending: ['Taxes or services?', ['low_taxes', 'Keep tax increases low, even if some services are cut'], ['keep_services', 'Keep services and projects, even if taxes rise more']],
+  climate: ['How much should climate and the environment drive council’s decisions?', ['climate_first', 'Make them a top priority, even when it adds cost'], ['cost_first', 'Keep costs down, even if climate action moves slower']],
+  environment_lng: ['How should the District deal with Woodfibre LNG?', ['press', 'Press harder on local impacts, even if it means delays or legal fights'], ['work_with', 'Work with the plant and focus on the jobs and taxes it brings']],
+  transportation: ['Where should transportation money go?', ['transit', 'Buses, bike lanes and sidewalks'], ['roads', 'Roads and getting around by car']],
+  parking: ['Should new buildings have to include parking?', ['more_parking', 'Yes, enough for everyone who lives there, so streets don’t fill up'], ['less_parking', 'Not always: less parking keeps new homes cheaper']],
+  economy: ['Land set aside for jobs: what should happen to it?', ['protect_jobs', 'Protect it for industry and jobs'], ['allow_housing', 'Let some of it become housing']],
+  recreation_facilities: ['Brennan Park needs renewing. When?', ['now', 'Now, even if the District has to borrow'], ['save_first', 'Later, once there are savings to pay for it']],
+  flood_hazards_climate_resilience: ['Should Squamish spend more on dikes and flood protection?', ['spend_more', 'Yes, even if taxes go up'], ['hold', 'No, keep spending where it is and hold taxes down']],
+  childcare: ['Should the District help with childcare?', ['district_help', 'Yes, actively expand subsidized spaces'], ['leave_it', 'No, leave it to the Province and private operators']],
+};
+// The same labels for every page that shows them: { key: { t: title, i: icon, q: question, o: [[value, side], [value, side]] } }
+const SIDE_LABELS = Object.fromEntries(SIGNUP_ISSUES.filter((i) => SIDES[i.key]).map((i) => [i.key, { t: i.title, i: i.icon, q: SIDES[i.key][0], o: [SIDES[i.key][1], SIDES[i.key][2]] }]));
 // Each topic's own page at /issues/<slug>/, named the way people search for it.
 const TOPIC_SLUG = { growth: 'growth-and-development', housing_affordability: 'housing', homelessness: 'homelessness', policing: 'policing-and-safety', taxes_spending: 'property-taxes', climate: 'climate-and-environment', environment_lng: 'woodfibre-lng-and-climate', transportation: 'transit-and-highway-99', parking: 'parking', economy: 'jobs-and-economy', recreation_facilities: 'brennan-park-and-recreation', flood_hazards_climate_resilience: 'flood-protection', other_campaign_topics: 'childcare-rentals-and-vanlife' };
 const TOPIC_NAME = { growth: 'growth and development', housing_affordability: 'housing', homelessness: 'homelessness and supportive housing', policing: 'policing and community safety', taxes_spending: 'property taxes and spending', climate: 'climate and the environment', environment_lng: 'the Woodfibre LNG plant', transportation: 'transit and Highway 99', parking: 'parking', economy: 'jobs and the local economy', recreation_facilities: 'Brennan Park and recreation', flood_hazards_climate_resilience: 'flood protection', other_campaign_topics: 'childcare, short-term rentals and vanlife' };
@@ -246,7 +270,7 @@ const NAV = [
   ['/council/', 'Council'], ['/meetings/', 'Meetings'], ['/promises/', 'Promises'], ['/said-vs-did/', 'Said vs did'], ['/quiz/', 'Quiz'], ['/compare/', 'Compare'],
 ];
 // The Menu lists everything; the top bar only has room for the essentials.
-const MENU = [...NAV, ['/this-week/', 'This week at council'], ['/track/', 'Issues we’re following'], ['/compass/', 'Where they lean'], ['/issues/', 'The issues explained'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
+const MENU = [...NAV, ['/this-week/', 'This week at council'], ['/track/', 'Issues we’re following'], ['/compass/', 'Where they lean'], ['/issues/', 'The issues explained'], ['/priorities/', 'Readers’ top issues'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
 const ICON = {
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5L12 4l8.5 6.5V20a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1z"/><path d="M9.5 21v-6h5v6"/></svg>',
   people: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.5c2.5.2 4 1.8 4.5 4.5"/></svg>',
@@ -267,7 +291,7 @@ const MENU_ICON = {
 const MOBILE_MENU = [
   ['/', 'Home', 'home'], ['/council/', 'Your mayor and council', 'people'], ['/meetings/', 'Council meetings: what’s next and what they decided', 'meet'],
   ['/this-week/', 'This week at council', 'meet'], ['/track/', 'Issues we’re following', 'issues'], ['/promises/', 'Promise tracker', 'promise'], ['/said-vs-did/', 'Do they vote the way they said?', 'compare'], ['/quiz/', 'Who on council thinks like you?', 'quiz'], ['/compare/', 'Compare them, issue by issue', 'compare'],
-  ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
+  ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
   ['/about/', 'About this site &amp; sources', 'about'],
 ];
 
@@ -838,6 +862,13 @@ const v = ctx.voting || {};
     ...upcoming.flatMap((m) => (m.agenda_items || []).map((a) => ({ k: 'Coming up', date: m.date, title: a.plain, for_you: a.for_you || '', areas: a.areas || [], topic: a.topic, url: mUrl(m) }))),
     ...TRACKED.map((t) => ({ k: 'Issue', date: '', title: t.question, for_you: (stepNow(t) || {}).step?.label || '', areas: t.areas || [], topic: t.topic, url: `/track/${t.slug}/` })),
   ]).replace(/</g, '\u003c')};</script>
+
+  <section class="card prio-box no-print" data-prio-box hidden><h2>What readers say matters most</h2>
+    <p class="small" data-prio-count></p>
+    <div class="prio" data-prio="3"></div>
+    <p><a href="/priorities/">Every issue, and which way readers lean →</a></p>
+  </section>
+  <script>window.SV_SIDES=${JSON.stringify(SIDE_LABELS).replace(/</g, '\\u003c')};</script>
 
   <section class="card nextup"><h2>Coming up</h2>
   ${nx.length ? `<ul class="mlist">${nx.map(meetingRow).join('')}</ul><p><a href="/meetings/">All meetings →</a></p>` : '<p class="muted">No meetings are scheduled yet. Check back soon.</p>'}
@@ -1435,27 +1466,6 @@ write('/about/', page({ url: '/about/', title: 'About this site', desc: 'Who mak
 // ---------- /welcome/: where the email confirm link lands (api/subscribe.js redirects here with ?t=<token>) ----------
 // Two optional questions: up to 3 top issues (each asks which way they lean, or Other with a write-in) and their
 // neighbourhood. Saved to their sign-up; not used to tailor the Friday email yet (Jeff, Oct 19). Each pair of sides is worded so neither sounds like the right answer.
-const SIGNUP_ISSUES = [
-  ...ISSUES,
-  { key: 'recreation_facilities', title: 'Brennan Park & recreation', icon: '🏊' },
-  { key: 'flood_hazards_climate_resilience', title: 'Flood protection', icon: '🌊' },
-  { key: 'childcare', title: 'Childcare', icon: '🧸' },
-];
-const SIDES = {
-  growth: ['How fast should Squamish grow?', ['faster', 'Speed it up: approve more homes and projects'], ['slower', 'Slow it down: let roads and services catch up']],
-  housing_affordability: ['What would help housing most?', ['more_homes', 'More homes of every kind, built faster'], ['below_market', 'More below market homes, using District land and money']],
-  homelessness: ['What should come first?', ['support', 'More shelter, supportive housing and services'], ['enforcement', 'Safety and enforcement in public spaces']],
-  policing: ['Where should safety money go?', ['police', 'More RCMP and bylaw officers'], ['outreach', 'More mental health and outreach teams']],
-  taxes_spending: ['Taxes or services?', ['low_taxes', 'Keep tax increases low, even if some services are cut'], ['keep_services', 'Keep services and projects, even if taxes rise more']],
-  climate: ['How much should climate and the environment drive council’s decisions?', ['climate_first', 'Make them a top priority, even when it adds cost'], ['cost_first', 'Keep costs down, even if climate action moves slower']],
-  environment_lng: ['How should the District deal with Woodfibre LNG?', ['press', 'Press harder on local impacts, even if it means delays or legal fights'], ['work_with', 'Work with the plant and focus on the jobs and taxes it brings']],
-  transportation: ['Where should transportation money go?', ['transit', 'Buses, bike lanes and sidewalks'], ['roads', 'Roads and getting around by car']],
-  parking: ['Should new buildings have to include parking?', ['more_parking', 'Yes, enough for everyone who lives there, so streets don’t fill up'], ['less_parking', 'Not always: less parking keeps new homes cheaper']],
-  economy: ['Land set aside for jobs: what should happen to it?', ['protect_jobs', 'Protect it for industry and jobs'], ['allow_housing', 'Let some of it become housing']],
-  recreation_facilities: ['Brennan Park needs renewing. When?', ['now', 'Now, even if the District has to borrow'], ['save_first', 'Later, once there are savings to pay for it']],
-  flood_hazards_climate_resilience: ['Should Squamish spend more on dikes and flood protection?', ['spend_more', 'Yes, even if taxes go up'], ['hold', 'No, keep spending where it is and hold taxes down']],
-  childcare: ['Should the District help with childcare?', ['district_help', 'Yes, actively expand subsidized spaces'], ['leave_it', 'No, leave it to the Province and private operators']],
-};
 const WELCOME_HOODS = [...HOODS, { slug: 'outside', name: 'Outside Squamish' }];
 write('/welcome/', page({ url: '/welcome/', title: 'You’re confirmed', noindex: true,
   body: `<div class="welcome">
@@ -1474,7 +1484,7 @@ write('/welcome/', page({ url: '/welcome/', title: 'You’re confirmed', noindex
     <div class="topicpick" role="group" aria-label="Your neighbourhood">${WELCOME_HOODS.map((h) => `<button type="button" class="chip-btn" data-wa="${esc(h.slug)}" aria-pressed="false">${esc(h.name)}</button>`).join('')}</div>
     <p class="wsaved" data-wsaved aria-live="polite"></p>
   </section>
-  <div class="btn-row"><a class="btn big" href="/">Go to Squamish Voters</a></div>
+  <div class="btn-row"><a class="btn big" href="/">Go to Squamish Voters</a><a class="btn big secondary" href="/priorities/">See what other readers picked</a></div>
   <dialog class="sides" data-wdlg aria-labelledby="wd-q">
     <button type="button" class="sides-x" data-wclose aria-label="Close">×</button>
     <p class="small" data-wdt></p>
@@ -1482,7 +1492,21 @@ write('/welcome/', page({ url: '/welcome/', title: 'You’re confirmed', noindex
     <div class="sides-opts" data-wdo></div>
   </dialog>
 </div>
-<script>window.SV_SIDES=${JSON.stringify(Object.fromEntries(SIGNUP_ISSUES.filter((i) => SIDES[i.key]).map((i) => [i.key, { t: i.title, i: i.icon, q: SIDES[i.key][0], o: [SIDES[i.key][1], SIDES[i.key][2]] }]))).replace(/</g, '\\u003c')};</script>`,
+<script>window.SV_SIDES=${JSON.stringify(SIDE_LABELS).replace(/</g, '\\u003c')};</script>`,
+}));
+// ---------- /priorities/: totals of what readers picked on the welcome page (api/priorities.js; counts only) ----------
+write('/priorities/', page({ url: '/priorities/', title: 'Readers’ top issues',
+  desc: 'The issues that matter most to people who get the Squamish Voters weekly email, and which way they lean on each. Totals only, never names.',
+  body: `<p class="crumbs"><a href="/">← Home</a></p>
+  <h1>Readers’ top issues</h1>
+  <p class="lede">When someone confirms the weekly email, we ask them to pick up to 3 issues that matter most to them, and which way they lean on each. These are the totals so far.</p>
+  <div class="notice info"><b>This is not a poll of Squamish.</b> It only counts readers who signed up for the weekly email and chose to answer, so it may not match the town as a whole. We show totals only, never names, email addresses or what people wrote in.</div>
+  <p class="small" data-prio-count aria-live="polite">Loading the totals…</p>
+  <div class="prio" data-prio="all"></div>
+  <noscript><p>Turn on JavaScript to see the totals.</p></noscript>
+  <p>Want to add yours? Sign up below. After you confirm, you’ll get the two quick questions.</p>
+  ${signupBox('priorities')}
+  <script>window.SV_SIDES=${JSON.stringify(SIDE_LABELS).replace(/</g, '\\u003c')};</script>`,
 }));
 // ---------- /subscribers/: Jeff's private view of the email sign-ups and their welcome page answers (api/subscribers.js, ADMIN_TOKEN) ----------
 write('/subscribers/', page({ url: '/subscribers/', title: 'Email sign-ups', noindex: true,

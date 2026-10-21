@@ -426,4 +426,44 @@
       drawW();
     }
   }
+  // ----- Readers' top issues (/priorities/, and the top 3 on the home page): totals from /api/priorities/, counts only -----
+  var prio = document.querySelector('[data-prio]');
+  if (prio && window.SV_SIDES) {
+    var pcount = document.querySelector('[data-prio-count]'), pbox = document.querySelector('[data-prio-box]');
+    var mk = function (tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+    fetch('/api/priorities/').then(function (r) { return r.json(); }).then(function (d) {
+      if (!d.ok) throw new Error();
+      var all = prio.getAttribute('data-prio') === 'all', list = d.issues.filter(function (i) { return SV_SIDES[i.key]; });
+      if (!list.length) { pcount.textContent = 'Totals appear here once ' + (d.min || 5) + ' readers have answered.'; return; }
+      pcount.textContent = d.people + ' readers' + (d.areas > 1 ? ' from ' + d.areas + ' neighbourhoods' : '') + ' have answered so far. Each picked up to 3 issues.';
+      var max = list[0].n;
+      (all ? list : list.slice(0, +prio.getAttribute('data-prio'))).forEach(function (i) {
+        var s = SV_SIDES[i.key], row = mk('div', 'prio-row'), head = mk('p', 'prio-head');
+        head.append(mk('span', null, s.i + ' ' + s.t));
+        head.append(mk('span', 'prio-n', i.n + ' of ' + d.people + ' (' + Math.round(100 * i.n / d.people) + '%)'));
+        var track = mk('div', 'prio-track'), fill = mk('span', 'prio-fill');
+        fill.style.width = (100 * i.n / max) + '%';
+        track.append(fill); row.append(head, track);
+        if (all) {
+          // Which way they lean: both sides always, in the order the question puts them, then anything else that was picked
+          var split = mk('div', 'prio-split'), ul = mk('ul', 'prio-leans');
+          [[s.o[0][0], s.o[0][1], 'a'], ['mid', 'Somewhere in between', 'm'], [s.o[1][0], s.o[1][1], 'b'], ['other', 'Other', 'o'], ['none', 'Didn’t pick a side', 'x']].forEach(function (p) {
+            var c = i.leans[p[0]] || 0;
+            if (!c && p[2] !== 'a' && p[2] !== 'b') return;
+            if (c) { var seg = mk('span', 'seg lean-' + p[2]); seg.style.flexGrow = c; split.append(seg); }
+            var li = mk('li', 'lean-' + p[2]);
+            li.append(mk('b', null, String(c)), mk('span', null, p[1]));
+            ul.append(li);
+          });
+          row.append(mk('p', 'small prio-q', s.q), split, ul);
+        }
+        prio.append(row);
+      });
+      if (all) {
+        var none = Object.keys(SV_SIDES).filter(function (k) { return !list.some(function (i) { return i.key === k; }); });
+        if (none.length) prio.append(mk('p', 'small muted', 'Nobody has picked these yet: ' + none.map(function (k) { return SV_SIDES[k].t; }).join(', ') + '.'));
+      }
+      if (pbox) pbox.hidden = false;
+    }).catch(function () { pcount.textContent = 'The totals didn’t load. Try again in a minute.'; });
+  }
 })();
