@@ -995,6 +995,13 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .sb-issue summary::after { content: "+"; flex: none; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--brand-soft); color: var(--brand); display: grid; place-items: center; font-size: 1.2rem; line-height: 1; }
 .sb-issue[open] summary::after { content: "–"; }
 .sb-q { margin: .2rem 0 0; }
+/* Public rows: a labelled pill under the bar instead of the + (readers didn't see that the + opens anything) */
+.sb-public { padding: .6rem 0; }
+.sb-public + .sb-public { border-top: 1px solid var(--line); }
+.sb-public summary { flex-wrap: wrap; }
+.sb-public summary .sb-row { flex: 1 1 100%; }
+.sb-public summary::after { display: none; }
+.sb-public .more-btn { margin-top: .2rem; }
 .sb-leans { margin: .3rem 0 .8rem; padding-left: 1.2rem; }
 .prio-box { margin: 1.2rem 0; }
 .prio-box h2 { margin-top: 0; }

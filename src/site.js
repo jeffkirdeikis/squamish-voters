@@ -439,7 +439,7 @@
       if (!list.length) { pcount.textContent = 'Totals appear here once ' + (d.min || 5) + ' readers have answered.'; return; }
       var counts = d.people >= COUNTS_FROM;
       pcount.textContent = (counts ? d.people + ' readers' + (d.areas > 1 ? ' from ' + d.areas + ' neighbourhoods' : '') + ' have answered so far. ' : '') +
-        'The share of readers who picked each issue. Each picked up to 3, so the total is more than 100%. Tap an issue to see which way they lean.';
+        'The share of readers who picked each issue. Each picked up to 3, so the total is more than 100%.';
       var max = list[0].n;
       (all ? list : list.slice(0, +prio.getAttribute('data-prio'))).forEach(function (i) {
         var s = SV_SIDES[i.key], row = mk('div', 'sb-row'), track = mk('span', 'sb-track'), fill = mk('span', 'sb-fill');
@@ -447,8 +447,10 @@
         track.append(fill);
         row.append(mk('span', 'sb-label', s.i + ' ' + s.t), track, mk('span', 'sb-n', counts ? i.n + ' (' + pct(i.n, d.people) + ')' : pct(i.n, d.people)));
         // Tap to see which way they lean: both sides always, in the order the question puts them, then anything else picked
-        var det = mk('details', 'sb-issue'), sum = mk('summary'), ul = mk('ul', 'sb-leans');
-        sum.append(row);
+        var det = mk('details', 'sb-issue sb-public'), sum = mk('summary'), ul = mk('ul', 'sb-leans'), more = mk('span', 'more-btn');
+        more.setAttribute('aria-hidden', 'true');
+        more.append(mk('span', 'c', 'Click to see which way they lean ▾'), mk('span', 'o', 'Show less ▴'));
+        sum.append(row, more);
         [[s.o[0][0], s.o[0][1]], ['mid', 'Somewhere in between'], [s.o[1][0], s.o[1][1]], ['other', 'Other'], ['none', 'Didn’t pick a side']].forEach(function (p, n) {
           var c = i.leans[p[0]] || 0;
           if (c || n === 0 || n === 2) ul.append(mk('li', null, (counts ? c + ' × ' : pct(c, i.n) + ' ') + p[1]));
