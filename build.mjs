@@ -1484,11 +1484,41 @@ write('/welcome/', page({ url: '/welcome/', title: 'You’re confirmed', noindex
 </div>
 <script>window.SV_SIDES=${JSON.stringify(Object.fromEntries(SIGNUP_ISSUES.filter((i) => SIDES[i.key]).map((i) => [i.key, { t: i.title, i: i.icon, q: SIDES[i.key][0], o: [SIDES[i.key][1], SIDES[i.key][2]] }]))).replace(/</g, '\\u003c')};</script>`,
 }));
+// ---------- /subscribers/: Jeff's private view of the email sign-ups and their welcome page answers (api/subscribers.js, ADMIN_TOKEN) ----------
+write('/subscribers/', page({ url: '/subscribers/', title: 'Email sign-ups', noindex: true,
+  body: `<h1>Email sign-ups</h1>
+<p class="lede" id="s-status" aria-live="polite">Loading…</p>
+<div id="s-out" class="sb"></div>
+<style>
+.sb { display: grid; gap: 1.2rem; }
+.sb-row { display: grid; grid-template-columns: minmax(8rem, 15rem) 1fr auto; gap: .7rem; align-items: center; padding: .25rem 0; }
+.sb-track { height: .9rem; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+.sb-fill { display: block; height: 100%; background: var(--brand); border-radius: 999px; }
+.sb-n { font-weight: 700; font-variant-numeric: tabular-nums; }
+.sb-issue summary { list-style: none; color: var(--ink); gap: .7rem; }
+.sb-issue summary .sb-row { flex: 1; }
+.sb-issue summary::-webkit-details-marker { display: none; }
+.sb-issue summary::after { content: "+"; flex: none; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--brand-soft); color: var(--brand); display: grid; place-items: center; font-size: 1.2rem; line-height: 1; }
+.sb-issue[open] summary::after { content: "–"; }
+.sb-leans { margin: .3rem 0 .8rem; padding-left: 1.2rem; }
+.sb-note { font-style: italic; color: var(--ink-2); }
+.sb-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.sb-person { border-top: 1px solid var(--line); padding: .8rem 0; }
+.sb-person p { margin: 0 0 .2rem; }
+.sb-top { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; overflow-wrap: anywhere; }
+.sb-dim { opacity: .7; }
+.sb-pill { font-size: .8rem; font-weight: 700; border-radius: 999px; padding: .1rem .6rem; border: 1px solid var(--line); background: var(--surface-2); }
+.sb-subscribed { background: var(--brand-soft); }
+@media (max-width: 600px) { .sb-row { grid-template-columns: 1fr auto; } .sb-track { grid-column: 1 / -1; grid-row: 2; } }
+</style>
+<script>window.SV_SUBS=${JSON.stringify({ issues: Object.fromEntries(SIGNUP_ISSUES.map((i) => [i.key, { t: i.title, i: i.icon, o: SIDES[i.key] ? [SIDES[i.key][1], SIDES[i.key][2]] : [] }])), hoods: Object.fromEntries(WELCOME_HOODS.map((h) => [h.slug, h.name])) }).replace(/</g, '\\u003c')};</script>
+<script src="/subscribers.js" defer></script>`,
+}));
 write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can’t find that page</h1><p class="lede">Try one of these instead.</p><div class="btn-row"><a class="btn big" href="/">Home</a><a class="btn big secondary" href="/council/">Candidates</a><a class="btn big secondary" href="/quiz/">Take the quiz</a></div>' }));
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
 // ---------- sitemap (every indexable page written above; lastmod = build date) ----------
