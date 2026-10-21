@@ -865,7 +865,7 @@ const v = ctx.voting || {};
 
   <section class="card prio-box no-print" data-prio-box hidden><h2>What readers say matters most</h2>
     <p class="small" data-prio-count></p>
-    <div class="prio" data-prio="3"></div>
+    <div data-prio="3"></div>
     <p><a href="/priorities/">Every issue, and which way readers lean →</a></p>
   </section>
   <script>window.SV_SIDES=${JSON.stringify(SIDE_LABELS).replace(/</g, '\\u003c')};</script>
@@ -1501,8 +1501,10 @@ write('/priorities/', page({ url: '/priorities/', title: 'Readers’ top issues'
   <h1>Readers’ top issues</h1>
   <p class="lede">When someone confirms the weekly email, we ask them to pick up to 3 issues that matter most to them, and which way they lean on each. These are the totals so far.</p>
   <div class="notice info"><b>This is not a poll of Squamish.</b> It only counts readers who signed up for the weekly email and chose to answer, so it may not match the town as a whole. We show totals only, never names, email addresses or what people wrote in.</div>
-  <p class="small" data-prio-count aria-live="polite">Loading the totals…</p>
-  <div class="prio" data-prio="all"></div>
+  <section class="card prio-box"><h2>Top issues</h2>
+    <p class="small" data-prio-count aria-live="polite">Loading the totals…</p>
+    <div data-prio="all"></div>
+  </section>
   <noscript><p>Turn on JavaScript to see the totals.</p></noscript>
   <p>Want to add yours? Sign up below. After you confirm, you’ll get the two quick questions.</p>
   ${signupBox('priorities')}
@@ -1515,16 +1517,6 @@ write('/subscribers/', page({ url: '/subscribers/', title: 'Email sign-ups', noi
 <div id="s-out" class="sb"></div>
 <style>
 .sb { display: grid; gap: 1.2rem; }
-.sb-row { display: grid; grid-template-columns: minmax(8rem, 15rem) 1fr auto; gap: .7rem; align-items: center; padding: .25rem 0; }
-.sb-track { height: .9rem; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
-.sb-fill { display: block; height: 100%; background: var(--brand); border-radius: 999px; }
-.sb-n { font-weight: 700; font-variant-numeric: tabular-nums; }
-.sb-issue summary { list-style: none; color: var(--ink); gap: .7rem; }
-.sb-issue summary .sb-row { flex: 1; }
-.sb-issue summary::-webkit-details-marker { display: none; }
-.sb-issue summary::after { content: "+"; flex: none; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--brand-soft); color: var(--brand); display: grid; place-items: center; font-size: 1.2rem; line-height: 1; }
-.sb-issue[open] summary::after { content: "–"; }
-.sb-leans { margin: .3rem 0 .8rem; padding-left: 1.2rem; }
 .sb-note { font-style: italic; color: var(--ink-2); }
 .sb-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
 .sb-person { border-top: 1px solid var(--line); padding: .8rem 0; }
@@ -1533,7 +1525,6 @@ write('/subscribers/', page({ url: '/subscribers/', title: 'Email sign-ups', noi
 .sb-dim { opacity: .7; }
 .sb-pill { font-size: .8rem; font-weight: 700; border-radius: 999px; padding: .1rem .6rem; border: 1px solid var(--line); background: var(--surface-2); }
 .sb-subscribed { background: var(--brand-soft); }
-@media (max-width: 600px) { .sb-row { grid-template-columns: 1fr auto; } .sb-track { grid-column: 1 / -1; grid-row: 2; } }
 </style>
 <script>window.SV_SUBS=${JSON.stringify({ issues: Object.fromEntries(SIGNUP_ISSUES.map((i) => [i.key, { t: i.title, i: i.icon, o: SIDES[i.key] ? [SIDES[i.key][1], SIDES[i.key][2]] : [] }])), hoods: Object.fromEntries(WELCOME_HOODS.map((h) => [h.slug, h.name])) }).replace(/</g, '\\u003c')};</script>
 <script src="/subscribers.js" defer></script>`,
