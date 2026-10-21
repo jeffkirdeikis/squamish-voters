@@ -430,24 +430,28 @@
   var prio = document.querySelector('[data-prio]');
   if (prio && window.SV_SIDES) {
     var pcount = document.querySelector('[data-prio-count]'), pbox = document.querySelector('[data-prio-box]');
+    var COUNTS_FROM = 100; // percentages only until this many readers have answered; small raw numbers look thin (Jeff, Oct 20)
+    var pct = function (n, of) { return Math.round(100 * n / of) + '%'; };
     var mk = function (tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
     fetch('/api/priorities/').then(function (r) { return r.json(); }).then(function (d) {
       if (!d.ok) throw new Error();
       var all = prio.getAttribute('data-prio') === 'all', list = d.issues.filter(function (i) { return SV_SIDES[i.key]; });
       if (!list.length) { pcount.textContent = 'Totals appear here once ' + (d.min || 5) + ' readers have answered.'; return; }
-      pcount.textContent = d.people + ' readers' + (d.areas > 1 ? ' from ' + d.areas + ' neighbourhoods' : '') + ' have answered so far. Each picked up to 3 issues. Tap an issue to see which way they lean.';
+      var counts = d.people >= COUNTS_FROM;
+      pcount.textContent = (counts ? d.people + ' readers' + (d.areas > 1 ? ' from ' + d.areas + ' neighbourhoods' : '') + ' have answered so far. ' : '') +
+        'The share of readers who picked each issue. Each picked up to 3, so the total is more than 100%. Tap an issue to see which way they lean.';
       var max = list[0].n;
       (all ? list : list.slice(0, +prio.getAttribute('data-prio'))).forEach(function (i) {
         var s = SV_SIDES[i.key], row = mk('div', 'sb-row'), track = mk('span', 'sb-track'), fill = mk('span', 'sb-fill');
         fill.style.width = (100 * i.n / max) + '%';
         track.append(fill);
-        row.append(mk('span', 'sb-label', s.i + ' ' + s.t), track, mk('span', 'sb-n', i.n + ' (' + Math.round(100 * i.n / d.people) + '%)'));
+        row.append(mk('span', 'sb-label', s.i + ' ' + s.t), track, mk('span', 'sb-n', counts ? i.n + ' (' + pct(i.n, d.people) + ')' : pct(i.n, d.people)));
         // Tap to see which way they lean: both sides always, in the order the question puts them, then anything else picked
         var det = mk('details', 'sb-issue'), sum = mk('summary'), ul = mk('ul', 'sb-leans');
         sum.append(row);
         [[s.o[0][0], s.o[0][1]], ['mid', 'Somewhere in between'], [s.o[1][0], s.o[1][1]], ['other', 'Other'], ['none', 'Didn’t pick a side']].forEach(function (p, n) {
           var c = i.leans[p[0]] || 0;
-          if (c || n === 0 || n === 2) ul.append(mk('li', null, c + ' × ' + p[1]));
+          if (c || n === 0 || n === 2) ul.append(mk('li', null, (counts ? c + ' × ' : pct(c, i.n) + ' ') + p[1]));
         });
         det.append(sum, mk('p', 'small muted sb-q', s.q), ul);
         prio.append(det);
