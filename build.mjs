@@ -285,8 +285,8 @@ const ICON = {
   news: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h10A1.5 1.5 0 0 1 17 5.5V19a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2z"/><path d="M17 9h2.5a.5.5 0 0 1 .5.5V19a2 2 0 0 1-2 2"/><path d="M7.5 8h6M7.5 12h6M7.5 16h4"/></svg>',
   ballot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 8.500l1.2 1.2 2-2.400M8.5 14.500l1.2 1.2 2-2.400M14 9h2M14 15h2"/></svg>',
 };
-// News sits last: council pages come first, news is the extra.
-const TABS = [['/', 'Home', 'home'], ['/council/', 'Council', 'people'], ['/meetings/', 'Meetings', 'meet'], ['/promises/', 'Promises', 'promise'], ['/said-vs-did/', 'Record', 'compare'], ['/news/', 'News', 'news']];
+// Five tabs with News raised in the centre (Jeff, Oct 25). "Said vs did" lives in the Menu and the desktop top bar.
+const TABS = [['/', 'Home', 'home'], ['/council/', 'Council', 'people'], ['/news/', 'News', 'news'], ['/meetings/', 'Meetings', 'meet'], ['/promises/', 'Promises', 'promise']];
 // The phone Menu: every page, one per row, with How to vote near the top since it left the bottom bar.
 const MENU_ICON = {
   issues: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/></svg>',
@@ -362,7 +362,7 @@ ${body}
   </div>
 </div></footer>
 <nav class="tabbar" aria-label="Quick navigation">
-  ${TABS.map(([h, l, i]) => `<a href="${h}"${cur(h)}>${ICON[i] || MENU_ICON[i]}<span>${l}</span></a>`).join('')}
+  ${TABS.map(([h, l, i]) => `<a href="${h}"${cur(h)}${i === 'news' ? ' class="tab-feature"' : ''}>${ICON[i] || MENU_ICON[i]}<span>${l}</span></a>`).join('')}
 </nav>
 <a class="totop no-print" href="#main" id="totop" hidden>↑ Top</a>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>

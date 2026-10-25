@@ -96,7 +96,7 @@ img { max-width: 100%; }
 .menu-panel a[aria-current="page"] { box-shadow: inset 4px 0 0 var(--focus); }
 
 /* ---------- Bottom tab bar (mobile) ---------- */
-.tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; background: var(--surface); border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -2px 12px rgba(0,0,0,.08); max-width: 100vw; }
+.tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; background: var(--surface); border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -2px 12px rgba(0,0,0,.08); max-width: 100vw; }
 .tabbar a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .15rem; min-height: 4rem; text-decoration: none; color: var(--ink-2); font-weight: 600; text-align: center; line-height: 1.1; padding: .3rem .1rem; position: relative; min-width: 0; overflow: hidden; }
 /* fixed px, not rem: the A-A-A text scaler must not be able to widen the bar */
 .tabbar a > span:not(.ballot-count) { font-size: 12px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -1164,3 +1164,10 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .nw-homebox h2 { margin-top: 0; }
 .nw-rail .signup h2 { font-size: 1.35rem; margin-top: 0; }
 @media (min-width: 1000px) { .nw-lead .nw-h { font-size: 2.05rem; } }
+
+/* bottom bar: News raised in the centre */
+.tabbar a.tab-feature { overflow: visible; color: var(--brand); font-weight: 800; }
+.tabbar a.tab-feature svg { width: 30px; height: 30px; box-sizing: content-box; padding: 12px; margin-top: -1.9rem; background: var(--brand); color: #fff; border-radius: 50%; border: 4px solid var(--surface); box-shadow: 0 -3px 12px rgba(20,33,28,.22); }
+.tabbar a.tab-feature[aria-current="page"] { background: transparent; }
+.tabbar a.tab-feature[aria-current="page"] svg { background: var(--focus); color: #14211c; }
+.tabbar a.tab-feature:active svg { transform: scale(.95); }
