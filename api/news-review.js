@@ -42,7 +42,15 @@ export default async function handler(req, res) {
     }
     const d = { ...r.draft, head: one(b.head, 140) || r.draft.head, dek: one(b.dek, 1200) || r.draft.dek, take: one(b.take, 400), visual_big: one(b.visual_big, 24), visual_small: one(b.visual_small, 60) };
     await sql`UPDATE sv_news SET status = 'approved', decided_at = now(), draft = ${JSON.stringify(d)} WHERE id = ${id}`;
-    return res.send(shell('Approved', `<h1>Approved</h1><p>“${esc(d.head)}” goes live on <a href="https://squamishvoters.com/news/">squamishvoters.com/news</a> within about 10 to 15 minutes.</p>`));
+    // Start the publish job now instead of waiting for the next scheduled run (GITHUB_DISPATCH_TOKEN: a key that can only start this repo's jobs).
+    let soon = false;
+    if (process.env.GITHUB_DISPATCH_TOKEN) {
+      const g = await fetch('https://api.github.com/repos/jeffkirdeikis/squamish-voters/actions/workflows/news.yml/dispatches', {
+        method: 'POST', headers: { Authorization: `Bearer ${process.env.GITHUB_DISPATCH_TOKEN}`, Accept: 'application/vnd.github+json', 'User-Agent': 'squamish-voters' }, body: JSON.stringify({ ref: 'main' }),
+      }).catch(() => null);
+      soon = Boolean(g && g.status === 204);
+    }
+    return res.send(shell('Approved', `<h1>Approved</h1><p>“${esc(d.head)}” goes live on <a href="https://squamishvoters.com/news/">squamishvoters.com/news</a> within about ${soon ? '2 minutes' : '10 to 20 minutes'}.</p>`));
   }
 
   const d = r.draft || {}, it = r.item || {};
