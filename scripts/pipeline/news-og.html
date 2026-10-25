@@ -10,7 +10,7 @@ body{background:#f4f3ee;color:#14211c;font-family:"Public Sans",system-ui,sans-s
 .k{font-weight:700;font-size:20px;letter-spacing:3px;text-transform:uppercase}
 h1{font:800 58px/1.08 "Newsreader",Georgia,serif;margin:0;letter-spacing:-.5px;text-wrap:balance}
 .d{margin-top:auto;font-size:20px;color:#5d6661}
-.vis{align-self:center;max-width:420px}.big{font:800 112px/1 "Newsreader",Georgia,serif}.small{font-size:22px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5d6661;margin-top:10px}
+.vis{align-self:center;max-width:420px}.ph{margin:-48px -56px -40px 0;width:520px;height:calc(100% + 88px);background-size:cover;background-position:center}.main.wide{padding-right:56px}.big{font:800 112px/1 "Newsreader",Georgia,serif}.small{font-size:22px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5d6661;margin-top:10px}
 </style></head><body>
 <div class="top"><b>Squamish Voters <i>News</i></b><span>squamishvoters.com</span></div>
 <div class="main"><div class="txt"><div class="k" id="k"></div><h1 id="h"></h1><div class="d" id="d"></div></div><div class="vis" id="v"></div></div>
@@ -21,6 +21,7 @@ const c = COL[st.s] || '#0f4c3a';
 const k = document.getElementById('k'); k.textContent = st.sec; k.style.color = c;
 document.getElementById('h').textContent = st.head;
 document.getElementById('d').textContent = st.date;
-if (st.big) { const v = document.getElementById('v'); v.innerHTML = '<div class="big"></div><div class="small"></div>'; v.firstChild.textContent = st.big; v.firstChild.style.color = c; v.lastChild.textContent = st.small; }
+if (st.photo) { const v = document.getElementById('v'); v.className = 'ph'; v.style.backgroundImage = `url(${st.photo})`; }
+else if (st.big) { const v = document.getElementById('v'); v.innerHTML = '<div class="big"></div><div class="small"></div>'; v.firstChild.textContent = st.big; v.firstChild.style.color = c; v.lastChild.textContent = st.small; }
 if (st.head.length > 70) document.getElementById('h').style.fontSize = '50px';
 </script></body></html>

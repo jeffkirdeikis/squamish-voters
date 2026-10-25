@@ -13,7 +13,7 @@ const today = () => new Date().toLocaleDateString('en-CA', { timeZone: 'America/
 
 const toStory = (r) => {
   const d = r.draft || {}, it = r.item || {};
-  return { slug: d.slug, s: d.section, sec: SEC[d.section] || 'News', date: it.date && it.date <= today() ? it.date : today(), head: d.head, dek: d.dek, take: d.take || '', big: d.visual_big || '', small: d.visual_small || '', src: [it.label, it.url] };
+  return { slug: d.slug, s: d.section, sec: SEC[d.section] || 'News', date: it.date && it.date <= today() ? it.date : today(), head: d.head, dek: d.dek, take: d.take || '', big: d.visual_big || '', small: d.visual_small || '', photo: d.photo || null, src: [it.label, it.url] };
 };
 
 export default async function handler(req, res) {
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
   }
   const url = `/news/${st.slug}/`;
   const body = `<div class="nw-kicker"><span>${esc(st.sec)}</span><time datetime="${st.date}" data-rel>${esc(new Date(st.date + 'T12:00:00').toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' }))}</time></div>
-<h1 class="nw-h">${esc(st.head)}</h1><p class="nw-dek">${esc(st.dek)}</p>
+<h1 class="nw-h">${esc(st.head)}</h1>${st.photo ? `<figure class="nw-photo"><img src="${esc(st.photo.remote)}" alt="${esc(st.photo.alt)}"><figcaption>${esc(st.photo.caption)} <span>Photo: <a href="${esc(st.photo.link)}" target="_blank" rel="noopener">${esc(st.photo.credit)}</a></span></figcaption></figure>` : ''}<p class="nw-dek">${esc(st.dek)}</p>
 ${st.big ? `<div class="nw-big">${esc(st.big)}<small>${esc(st.small)}</small></div>` : ''}
 ${st.take ? `<p class="nw-take"><b>What changes</b>${esc(st.take)}</p>` : ''}
 <div class="nw-foot"><p class="nw-src">Source: <a href="${esc(st.src[1])}" target="_blank" rel="noopener">${esc(st.src[0])}</a></p><button class="nw-share no-print" type="button" data-nw-share="${esc(ORIGIN + url)}" data-title="${esc(st.head)}">Share</button></div>`;

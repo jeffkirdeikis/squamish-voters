@@ -15,6 +15,7 @@ import { ROOT, log, readJson, writeJson, claudeJson } from './lib.mjs';
 
 const NEWS_FILE = path.join(ROOT, 'data', 'news.json');
 const OG_DIR = path.join(ROOT, 'public', 'news', 'og');
+const PHOTO_DIR = path.join(ROOT, 'public', 'news', 'photos');
 const ORIGIN = 'https://squamishvoters.com';
 const UA = 'SquamishVotersNews/1.0 (+https://squamishvoters.com/news/; plain-language local news)';
 const MAX_DRAFTS = 4; // per run, so a burst of releases can't flood the inbox
@@ -110,14 +111,16 @@ Rules:
 - weight: "big" only for something most residents care about (a major closure, an election result, a big decision); "brief" for small notices; otherwise "normal".
 - visual: a key number or date from the source (like "Nov 16" with "Application deadline", or "90 km/h" with "Wind gusts") or null. Never invent one.
 - Skip (publish=false): routine meeting notices, holiday hours, job postings, items not about the Squamish area, items with too little information, and anything already stale.
-- section: one of ${SECTIONS.join(', ')}.`;
+- section: one of ${SECTIONS.join(', ')}.
+- photo_queries: 2 or 3 short searches for an openly licensed photo of the PLACE or TOPIC (not the event itself), most specific first, e.g. "Howe Sound Squamish", "Sea to Sky Highway", "downtown Squamish".`;
 const SCHEMA = {
   type: 'object', additionalProperties: false,
-  required: ['publish', 'reason', 'section', 'weight', 'head', 'dek', 'take', 'visual_big', 'visual_small', 'slug'],
+  required: ['publish', 'reason', 'section', 'weight', 'head', 'dek', 'take', 'visual_big', 'visual_small', 'slug', 'photo_queries'],
   properties: {
     publish: { type: 'boolean' }, reason: { type: 'string' }, section: { type: 'string', enum: SECTIONS }, weight: { type: 'string', enum: ['big', 'normal', 'brief'] },
     head: { type: 'string' }, dek: { type: 'string' }, take: { type: 'string' }, visual_big: { type: 'string' }, visual_small: { type: 'string' },
     slug: { type: 'string', description: 'short url slug, lowercase words joined by hyphens, under 50 characters' },
+    photo_queries: { type: 'array', items: { type: 'string' } },
   },
 };
 const clean = (s) => String(s || '').replace(/\s*[—–]\s*/g, ', ').replace(/\s+,/g, ',').trim();
@@ -134,13 +137,45 @@ async function draft(item) {
   return d;
 }
 
+// ---------- photo: an openly licensed picture of the place or topic, picked by Claude from Wikimedia Commons ----------
+const OK_LICENCE = /^(cc0|public domain|pdm|cc by(-sa)? \d(\.\d)?)$/i;
+async function commonsSearch(q) {
+  const u = 'https://commons.wikimedia.org/w/api.php?' + new URLSearchParams({ action: 'query', format: 'json', generator: 'search', gsrnamespace: '6', gsrlimit: '10', gsrsearch: `${q} filetype:bitmap`, prop: 'imageinfo', iiprop: 'url|size|extmetadata', iiurlwidth: '1200' });
+  const d = await get(u, 'json');
+  return Object.values(d.query?.pages || {}).map((p) => {
+    const ii = p.imageinfo?.[0] || {}, m = ii.extmetadata || {};
+    return { title: p.title.slice(5), thumb: ii.thumburl, w: ii.width, h: ii.height, page: ii.descriptionurl, licence: strip(m.LicenseShortName?.value || ''), artist: strip(m.Artist?.value || '').slice(0, 80) };
+  }).filter((c) => c.thumb && c.w >= 1000 && c.w >= c.h && OK_LICENCE.test(c.licence));
+}
+async function findPhoto(d) {
+  const cands = [];
+  for (const q of (d.photo_queries || []).slice(0, 3)) {
+    try { for (const c of await commonsSearch(q)) if (!cands.some((x) => x.thumb === c.thumb)) cands.push(c); } catch (e) { log('photo search failed', q, e.message); }
+    if (cands.length >= 8) break;
+  }
+  if (!cands.length) return null;
+  const list = cands.slice(0, 8);
+  const pick = await claudeJson({
+    system: 'You pick a photo for a short local news story in Squamish, B.C. Pick one that clearly shows the place or topic and would not mislead (no photo that looks like it shows the actual event, no people who could be mistaken for those in the story, nothing outside the Squamish area unless the story is regional). Prefer well lit, landscape, uncluttered photos. Return -1 if none fit.',
+    schema: { type: 'object', additionalProperties: false, required: ['index', 'alt', 'caption'], properties: { index: { type: 'integer' }, alt: { type: 'string' }, caption: { type: 'string', description: 'short plain caption saying what the photo shows, e.g. "Howe Sound, seen from above Squamish."' } } },
+    effort: 'low', maxTokens: 1000,
+    content: [
+      { type: 'text', text: `Story: ${d.head}\n${d.dek}\n\nPhotos (numbered from 0):` },
+      ...list.flatMap((c, i) => [{ type: 'text', text: `${i}: ${c.title}` }, { type: 'image', source: { type: 'url', url: c.thumb } }]),
+    ],
+  });
+  const c = list[pick.index];
+  if (!c) return null;
+  return { remote: c.thumb, alt: clean(pick.alt), caption: clean(pick.caption), credit: `${c.artist || 'Unknown photographer'}, ${c.licence}`, link: c.page };
+}
+
 // ---------- email Jeff ----------
 async function emailDrafts(rows) {
   const to = process.env.NEWS_REVIEW_TO;
   if (!to || !process.env.RESEND_API_KEY) { log('no NEWS_REVIEW_TO or RESEND_API_KEY; drafts saved but not emailed'); return; }
   const card = (r) => `<div style="border:1px solid #d9d5c8;border-radius:12px;padding:16px;margin:0 0 16px;background:#fff">
 <p style="margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#2457a6">${esc(r.item.label)}</p>
-<h2 style="font-family:Georgia,serif;font-size:21px;line-height:1.25;margin:0 0 8px">${esc(r.draft.head)}</h2>
+${r.draft.photo ? `<img src="${esc(r.draft.photo.remote)}" alt="" width="528" style="width:100%;height:auto;border-radius:8px;margin:0 0 4px;display:block"><p style="margin:0 0 10px;font-size:12px;color:#5d6661">Photo: ${esc(r.draft.photo.credit)}</p>` : ''}<h2 style="font-family:Georgia,serif;font-size:21px;line-height:1.25;margin:0 0 8px">${esc(r.draft.head)}</h2>
 <p style="margin:0 0 8px;color:#3f4b45">${esc(r.draft.dek)}</p>${r.draft.take ? `<p style="margin:0 0 12px;border-left:3px solid #0f4c3a;padding-left:10px">${esc(r.draft.take)}</p>` : ''}
 <p style="margin:14px 0 4px"><a href="${ORIGIN}/api/news-review/?id=${r.id}&amp;t=${r.token}" style="background:#0f4c3a;color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:10px;display:inline-block">Review and approve</a></p>
 <p style="margin:6px 0 0;font-size:13px;color:#5d6661">Source: <a href="${esc(r.item.url)}" style="color:#5d6661">${esc(r.item.title)}</a></p></div>`;
@@ -163,7 +198,7 @@ function ogImage(story) {
   const chrome = ['google-chrome', 'google-chrome-stable', 'chromium', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'].find((c) => { try { execFileSync(c, ['--version'], { stdio: 'ignore' }); return true; } catch { return false; } });
   if (!chrome) { log('no Chrome; skipping share picture'); return null; }
   const tpl = fs.readFileSync(path.join(ROOT, 'scripts', 'pipeline', 'news-og.html'), 'utf8');
-  const data = { head: story.head, sec: SEC_NAME[story.s] || 'News', s: story.s, date: new Date(story.date + 'T12:00:00').toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' }), big: story.visual?.big || '', small: story.visual?.small || '' };
+  const data = { head: story.head, sec: SEC_NAME[story.s] || 'News', s: story.s, date: new Date(story.date + 'T12:00:00').toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' }), big: story.visual?.big || '', small: story.visual?.small || '', photo: story.photo ? `file://${path.join(ROOT, 'public', story.photo.file)}` : '' };
   const tmp = path.join(OG_DIR, `.tmp-${story.slug}.html`);
   fs.writeFileSync(tmp, tpl.replace('__DATA__', JSON.stringify(data).replace(/</g, '\\u003c')));
   const out = path.join(OG_DIR, `${story.slug}.png`);
@@ -185,6 +220,14 @@ for (const r of approved) {
     ...(d.visual_big ? { visual: { type: 'big', big: d.visual_big, small: d.visual_small } } : {}),
     src: [it.label, it.url], auto: true,
   };
+  if (d.photo && d.photo.remote) {
+    try {
+      fs.mkdirSync(PHOTO_DIR, { recursive: true });
+      const buf = Buffer.from(await (await fetch(d.photo.remote, { headers: { 'User-Agent': UA } })).arrayBuffer());
+      fs.writeFileSync(path.join(PHOTO_DIR, `${slug}.jpg`), buf);
+      story.photo = { file: `/news/photos/${slug}.jpg`, alt: d.photo.alt, caption: d.photo.caption, credit: d.photo.credit, link: d.photo.link };
+    } catch (e) { log('photo download failed', e.message); }
+  }
   story.og = ogImage(story) || undefined;
   news.stories.unshift(story);
   await sql`UPDATE sv_news SET status = 'published', published_at = now(), draft = ${JSON.stringify({ ...d, slug })} WHERE id = ${r.id}`;
@@ -223,6 +266,7 @@ for (const i of fresh) {
       log('skipped:', i.title, '|', d.reason);
       continue;
     }
+    try { d.photo = await findPhoto(d); } catch (e) { log('photo pick failed', e.message); d.photo = null; }
     const token = crypto.randomBytes(18).toString('base64url');
     await sql`INSERT INTO sv_news (id, source, source_url, title, status, token, item, draft) VALUES (${id}, ${i.source}, ${i.url}, ${i.title}, 'pending', ${token}, ${JSON.stringify(i)}, ${JSON.stringify(d)})
       ON CONFLICT (id) DO UPDATE SET status = 'pending', token = EXCLUDED.token, draft = EXCLUDED.draft`;

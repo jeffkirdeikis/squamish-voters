@@ -77,7 +77,14 @@
     "https://weather.gc.ca/warnings/index_e.html?prov=bc"
    ],
    "auto": true,
-   "og": "wind-warning-southern-howe-sound.png"
+   "og": "wind-warning-southern-howe-sound.jpg",
+   "photo": {
+    "file": "/news/photos/wind-warning-southern-howe-sound.jpg",
+    "alt": "Howe Sound seen from above Squamish",
+    "caption": "Howe Sound, seen from above Squamish.",
+    "credit": "Shafik Diwan, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Howe_Sound,_Squamish.jpg"
+   }
   },
   {
    "slug": "riding-stays-green",
@@ -117,7 +124,15 @@
    "src": [
     "Elections BC results",
     "https://results.elections.bc.ca/"
-   ]
+   ],
+   "photo": {
+    "file": "/news/photos/riding-stays-green.jpg",
+    "alt": "Sea to Sky Highway curving along Howe Sound at Porteau Road",
+    "caption": "The Sea to Sky Highway along Howe Sound, part of the West Vancouver to Sea to Sky riding.",
+    "credit": "Ruth Hartnup, CC BY 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Sea_to_Sky_Highway_and_Howe_Sound_at_Porteau_Road.jpg"
+   },
+   "og": "riding-stays-green.jpg"
   },
   {
    "slug": "easton-by-175",
@@ -168,7 +183,15 @@
    "src": [
     "District of Squamish news release",
     "https://squamish.ca/government-and-administration/district-information/news/district-receives-government-finance-officers-association-distinguished-budget-presentation-award/"
-   ]
+   ],
+   "photo": {
+    "file": "/news/photos/budget-2027.jpg",
+    "alt": "Aerial view of Squamish with mountains behind",
+    "caption": "Squamish from above.",
+    "credit": "Madhumanti Mandal, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Downtown_Squamish.jpg"
+   },
+   "og": "budget-2027.jpg"
   },
   {
    "slug": "community-grants",
@@ -186,7 +209,15 @@
    "src": [
     "Squamish Community Foundation",
     "https://www.squamishfoundation.com/ceg/"
-   ]
+   ],
+   "photo": {
+    "file": "/news/photos/community-grants.jpg",
+    "alt": "Shops along Cleveland Avenue in downtown Squamish",
+    "caption": "Cleveland Avenue, downtown Squamish.",
+    "credit": "Guerinf, CC0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish_(5).jpg"
+   },
+   "og": "community-grants.jpg"
   },
   {
    "slug": "area-d-de-jong",
@@ -198,7 +229,15 @@
    "src": [
     "Regional district election results",
     "https://www.slrd.bc.ca/inside-slrd/legislative-services/general-local-elections/2026-general-local-election-results"
-   ]
+   ],
+   "photo": {
+    "file": "/news/photos/area-d-de-jong.jpg",
+    "alt": "The Squamish River winding through a forested valley",
+    "caption": "The Squamish River valley, part of Area D.",
+    "credit": "Tim Gage, CC BY-SA 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish_River_Valley_101.jpg"
+   },
+   "og": "area-d-de-jong.jpg"
   },
   {
    "slug": "last-council-meeting",
@@ -211,7 +250,15 @@
     "October 20 council agenda",
     "https://squamish.civicweb.net/Portal/MeetingInformation.aspx?Org=Cal&Id=2115"
    ],
-   "html": true
+   "html": true,
+   "photo": {
+    "file": "/news/photos/last-council-meeting.jpg",
+    "alt": "Downtown Squamish street with the Stawamus Chief behind",
+    "caption": "Downtown Squamish, with the Stawamus Chief behind.",
+    "credit": "Straitgate, CC BY-SA 3.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish_City_Centre.JPG"
+   },
+   "og": "last-council-meeting.jpg"
   },
   {
    "slug": "turnout-up",
@@ -241,7 +288,15 @@
    "src": [
     "District of Squamish news release",
     "https://squamish.ca/government-and-administration/district-information/news/squamish-2026-general-election-unofficial-results/"
-   ]
+   ],
+   "photo": {
+    "file": "/news/photos/turnout-up.jpg",
+    "alt": "Main street in Squamish with snowy peaks behind",
+    "caption": "Downtown Squamish.",
+    "credit": "Damieng (English Wikipedia), CC BY-SA 3.0",
+    "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+   },
+   "og": "turnout-up.jpg"
   },
   {
    "slug": "encampment-closed",
@@ -273,7 +328,15 @@
    "src": [
     "District of Squamish news release",
     "https://squamish.ca/government-and-administration/district-information/news/district-of-squamish-delivers-formal-apology-to-squamish-nation-for-inter-generational-harms/"
-   ]
+   ],
+   "photo": {
+    "file": "/news/photos/apology-squamish-nation.jpg",
+    "alt": "The Stawamus Chief seen from the Chief Overlook trail",
+    "caption": "The Stawamus Chief (Siyám Smánit), seen from the Chief Overlook trail.",
+    "credit": "Daniel Lu (User:dllu), CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Stawamus_Chief_from_Chief_Overlook_Panorama_Trail_Sea_to_Sky_Gondola_Squamish_dllu.jpg"
+   },
+   "og": "apology-squamish-nation.jpg"
   },
   {
    "slug": "corridor-bus",

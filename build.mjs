@@ -338,7 +338,7 @@ function page({ url, title, desc, body, hero = '', scripts = '', noindex = false
       <span>Squamish Voters<small>Stay up to date, easily</small></span>
     </a>
     <nav class="top-nav" aria-label="Main">
-      ${NAV.map(([h, l]) => `<a href="${h}"${cur(h)}>${l}</a>`).join('')}
+      ${NAV.map(([h, l]) => (h === '/news/' ? `<a class="nav-news" href="${h}"${cur(h)}>${ICON.news}<span>${l}</span></a>` : `<a href="${h}"${cur(h)}>${l}</a>`)).join('')}
     </nav>
     <button class="hdr-btn menu-btn" type="button" aria-expanded="false" aria-controls="menu-panel"><span>Menu</span></button>
   </div>
@@ -890,7 +890,7 @@ const v = ctx.voting || {};
   <div class="btn-row"><a class="btn secondary" href="/promises/">See every promise →</a><a class="btn secondary" href="/said-vs-did/">Do they vote the way they said? →</a></div></section>
 
   ${TRACKED.length ? `<section class="card"><h2>Issues we’re following</h2><p class="small">The big questions that keep coming back to council. Tap one to see where it stands.</p><ul class="mlist">${TRACKED.slice(0, 5).map(issueRow).join('')}</ul><p><a href="/track/">All ${TRACKED.length} issues →</a></p></section>` : ''}
-  ${NEWS.stories.length ? `<section class="card nw-homebox"><h2>Squamish news <span class="small">short updates from the public record</span></h2><ul>${NEWS.stories.slice(0, 3).map((st) => `<li><span class="nw-hk" data-s="${st.s}">${esc(Object.fromEntries(NEWS.sections)[st.s])}</span><a href="/news/${st.slug}/">${esc(st.head)}</a></li>`).join('')}</ul><p><a href="/news/">All news →</a></p></section>` : ''}
+  ${NEWS.stories.length ? `<section class="card nw-homebox"><h2>Squamish news <span class="small">short updates from the public record</span></h2><ul>${NEWS.stories.slice(0, 3).map((st) => `<li>${st.photo ? `<img class="nw-thumb" src="${esc(st.photo.file)}" alt="" width="96" height="64" loading="lazy">` : ''}<span class="nw-hk" data-s="${st.s}">${esc(Object.fromEntries(NEWS.sections)[st.s])}</span><a href="/news/${st.slug}/">${esc(st.head)}</a></li>`).join('')}</ul><p><a href="/news/">All news →</a></p></section>` : ''}
   <div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg><div>
     <h2>You can check our work</h2>
     <p>No endorsements. Every summary links to the official video, agenda and minutes, and every promise links to where it was said. The code is public.</p>
@@ -1260,6 +1260,8 @@ if (TRACKED.length) {
     return `${title ? `<h3 class="nw-vtitle">${esc(title)}</h3>` : ''}<div class="nw-bars">${rows.map(([label, n, fill, shown], i) => `<div class="nw-bar${i === 0 ? ' win' : ''}" style="--w:${Math.round((n / top) * 1000) / 10}%${fill ? `;--fill:var(${fill})` : ''}"><div class="nw-lbl"><span>${esc(label)}</span><b>${esc(shown || n.toLocaleString('en-CA'))}</b></div><div class="nw-track"><div class="nw-fill"></div></div></div>`).join('')}</div>${note ? `<p class="nw-note">${esc(note)}</p>` : ''}`;
   };
   const nFaces = () => `<ul class="nw-faces">${[...mayors, ...council].map((c) => `<li><a href="/council/${c.slug}/">${avatar(c)}<b>${esc(c.name)}</b><span>${c.office === 'mayor' ? 'Mayor' : 'Councillor'}</span><em class="${c.incumbent ? '' : 'new'}">${c.incumbent ? 'Returning' : 'New'}</em></a></li>`).join('')}</ul>`;
+  // Openly licensed photos (Wikimedia Commons and similar), always with the photographer and licence.
+  const photo = (st, eager = false) => (st.photo ? `<figure class="nw-photo"><img src="${esc(st.photo.file)}" alt="${esc(st.photo.alt)}" width="1200" height="800"${eager ? '' : ' loading="lazy"'}><figcaption>${esc(st.photo.caption)} <span>Photo: <a href="${esc(st.photo.link)}" target="_blank" rel="noopener">${esc(st.photo.credit)}</a></span></figcaption></figure>` : '');
   const visual = (st) => {
     const v = st.visual; if (!v) return '';
     if (v.type === 'bars') return `<div class="nw-panel">${nBars(v.rows, v.title, v.note)}</div>`;
@@ -1277,11 +1279,11 @@ if (TRACKED.length) {
   const hLink = (st, tag = 'h2') => `<${tag} class="nw-h"><a href="${nUrl(st)}">${esc(st.head)}</a></${tag}>`;
   const attrs = (st, cls) => `class="${cls}" data-s="${st.s}"`;
   const story = (st) => {
-    if (st.tier === 'lead') return `<article ${attrs(st, st.visual && st.visual.type === 'bars' ? 'nw-lead' : 'nw-lead solo')}>${kicker(st)}${hLink(st)}${visual(st)}<p class="nw-dek">${esc(st.dek)}</p>${take(st)}${foot(st)}</article>`;
-    if (st.tier === 'feature') return `<article ${attrs(st, 'nw-feature')}>${kicker(st)}${hLink(st)}<p class="nw-dek">${esc(st.dek)}</p>${visual(st)}${take(st)}${foot(st)}</article>`;
+    if (st.tier === 'lead') return `<article ${attrs(st, st.visual && st.visual.type === 'bars' ? 'nw-lead' : 'nw-lead solo')}>${photo(st, true)}${kicker(st)}${hLink(st)}${visual(st)}<p class="nw-dek">${esc(st.dek)}</p>${take(st)}${foot(st)}</article>`;
+    if (st.tier === 'feature') return `<article ${attrs(st, 'nw-feature')}>${photo(st)}${kicker(st)}${hLink(st)}<p class="nw-dek">${esc(st.dek)}</p>${visual(st)}${take(st)}${foot(st)}</article>`;
     if (st.tier === 'brief') return `<article ${attrs(st, 'nw-brief')}>${kicker(st)}${hLink(st, 'h3')}<p class="nw-dek">${dekHtml(st)}</p>${foot(st)}</article>`;
     const isMap = st.visual && st.visual.type === 'map';
-    return `<article ${attrs(st, 'nw-card')}>${kicker(st)}${isMap ? visual(st) : ''}${hLink(st, 'h3')}${isMap ? '' : visual(st)}<p class="nw-dek">${esc(st.dek)}</p>${take(st)}${foot(st)}</article>`;
+    return `<article ${attrs(st, 'nw-card')}>${isMap ? visual(st) : photo(st)}${kicker(st)}${hLink(st, 'h3')}${isMap ? '' : visual(st)}<p class="nw-dek">${esc(st.dek)}</p>${take(st)}${foot(st)}</article>`;
   };
   const chips = `<div class="nw-chips-wrap no-print"><div class="nw-chips" role="group" aria-label="Show stories about">
     <button type="button" class="nw-chip" aria-pressed="true" data-f="all">All</button>${NEWS.sections.filter(([k]) => NEWS.stories.some((s) => s.s === k)).map(([k, l]) => `<button type="button" class="nw-chip" aria-pressed="false" data-f="${k}" data-s="${k}"><i></i>${esc(l)}</button>`).join('')}</div></div>`;
@@ -1345,8 +1347,8 @@ if (TRACKED.length) {
   S.forEach((st, i) => {
     const others = S.filter((x) => x !== st).slice(0, 4);
     const body = st.tier === 'lead'
-      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1><p class="nw-dek">${esc(st.dek)}</p>${visual(st)}${take(st)}`
-      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${st.visual && st.visual.type === 'map' ? visual(st) : ''}<p class="nw-dek">${dekHtml(st)}</p>${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}`;
+      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p>${visual(st)}${take(st)}`
+      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${st.visual && st.visual.type === 'map' ? visual(st) : photo(st, true)}<p class="nw-dek">${dekHtml(st)}</p>${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}`;
     write(nUrl(st), page({
       url: nUrl(st), title: st.head,
       desc: st.dek.replace(/<[^>]+>/g, ''),
