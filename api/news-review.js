@@ -26,6 +26,9 @@ export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   if (!sql) return res.status(503).send(shell('Not ready', '<h1>The database is not connected.</h1>'));
+  await sql`CREATE TABLE IF NOT EXISTS sv_news (
+    id text PRIMARY KEY, source text NOT NULL, source_url text, title text, found_at timestamptz NOT NULL DEFAULT now(),
+    status text NOT NULL, token text, draft jsonb, item jsonb, decided_at timestamptz, published_at timestamptz)`;
   const b = req.method === 'POST' ? (typeof req.body === 'string' ? Object.fromEntries(new URLSearchParams(req.body)) : req.body || {}) : {};
   const id = String(b.id || req.query.id || ''), t = String(b.t || req.query.t || '');
   const [r] = id && t ? await sql`SELECT * FROM sv_news WHERE id = ${id} AND token = ${t}` : [];
