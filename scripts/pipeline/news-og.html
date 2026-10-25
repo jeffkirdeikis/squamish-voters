@@ -1,27 +1,37 @@
 <!doctype html><html><head><meta charset="utf-8">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,800&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,800&family=Public+Sans:wght@400;600;700;800&display=swap">
 <style>
+/* 1200x630 link preview. Photo fills the frame, headline sits low over a dark fade, brand along the bottom.
+   Corners stay clear because chat apps put buttons there. */
 html,body{margin:0;width:1200px;height:630px;overflow:hidden}
-body{background:#f4f3ee;color:#14211c;font-family:"Public Sans",system-ui,sans-serif;display:grid;grid-template-rows:84px 1fr}
-.top{background:#0f4c3a;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 56px}
-.top b{font:800 38px "Newsreader",Georgia,serif;letter-spacing:-.5px}.top b i{font-weight:500}.top span{font-size:20px;opacity:.85}
-.main{display:grid;grid-template-columns:1fr auto;gap:48px;padding:48px 56px 40px;min-height:0;align-items:start}
-.txt{display:flex;flex-direction:column;gap:18px;min-width:0;height:100%}
-.k{font-weight:700;font-size:20px;letter-spacing:3px;text-transform:uppercase}
-h1{font:800 58px/1.08 "Newsreader",Georgia,serif;margin:0;letter-spacing:-.5px;text-wrap:balance}
-.d{margin-top:auto;font-size:20px;color:#5d6661}
-.vis{align-self:center;max-width:420px}.ph{margin:-48px -56px -40px 0;width:520px;height:calc(100% + 88px);background-size:cover;background-position:center}.main.wide{padding-right:56px}.big{font:800 112px/1 "Newsreader",Georgia,serif}.small{font-size:22px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5d6661;margin-top:10px}
+body{position:relative;background:#0f4c3a;color:#fff;font-family:"Public Sans",system-ui,sans-serif}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,26,20,0) 18%,rgba(8,26,20,.55) 48%,rgba(8,26,20,.94) 100%)}
+.plain .fade{background:radial-gradient(120% 90% at 100% 0%,#17694f 0%,#0f4c3a 55%,#0b3a2c 100%)}
+.wrap{position:absolute;left:64px;right:64px;bottom:48px;display:flex;flex-direction:column;gap:20px}
+.row{display:flex;align-items:flex-end;gap:48px}
+.txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:18px}
+.k{align-self:flex-start;font-weight:800;font-size:21px;letter-spacing:3px;text-transform:uppercase;color:#14211c;background:#ffd84d;padding:8px 14px 7px;border-radius:6px}
+h1{font:800 66px/1.04 "Newsreader",Georgia,serif;margin:0;letter-spacing:-.6px;text-wrap:balance;text-shadow:0 2px 18px rgba(0,0,0,.35)}
+.big{flex:none;text-align:right;padding-bottom:6px}
+.big b{display:block;font:800 120px/0.95 "Newsreader",Georgia,serif;color:#ffd84d;letter-spacing:-2px}
+.big span{display:block;margin-top:8px;font-size:21px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:.85}
+.foot{display:flex;align-items:center;justify-content:space-between;border-top:2px solid rgba(255,255,255,.28);padding-top:16px;font-size:22px}
+.foot b{font:800 30px "Newsreader",Georgia,serif;letter-spacing:-.3px}.foot b i{font-weight:500;color:#ffd84d}
+.foot span{opacity:.85;font-weight:600}
 </style></head><body>
-<div class="top"><b>Squamish Voters <i>News</i></b><span>squamishvoters.com</span></div>
-<div class="main"><div class="txt"><div class="k" id="k"></div><h1 id="h"></h1><div class="d" id="d"></div></div><div class="vis" id="v"></div></div>
+<div class="bg" id="bg"></div><div class="fade"></div>
+<div class="wrap">
+  <div class="row"><div class="txt"><div class="k" id="k"></div><h1 id="h"></h1></div><div class="big" id="v" hidden></div></div>
+  <div class="foot"><b>Squamish Voters <i>News</i></b><span id="d"></span></div>
+</div>
 <script>
 const st = __DATA__;
-const COL = {vote:'#2457a6',council:'#0f6b4f',money:'#a8650a',community:'#8a3f7a',housing:'#b0452f',recon:'#6b5a1e',move:'#0b7489',safety:'#9b2335',weather:'#3b5f8a'};
-const c = COL[st.s] || '#0f4c3a';
-const k = document.getElementById('k'); k.textContent = st.sec; k.style.color = c;
-document.getElementById('h').textContent = st.head;
+document.getElementById('k').textContent = st.sec;
+const h = document.getElementById('h'); h.textContent = st.head;
 document.getElementById('d').textContent = st.date;
-if (st.photo) { const v = document.getElementById('v'); v.className = 'ph'; v.style.backgroundImage = `url(${st.photo})`; }
-else if (st.big) { const v = document.getElementById('v'); v.innerHTML = '<div class="big"></div><div class="small"></div>'; v.firstChild.textContent = st.big; v.firstChild.style.color = c; v.lastChild.textContent = st.small; }
-if (st.head.length > 70) document.getElementById('h').style.fontSize = '50px';
+if (st.photo) document.getElementById('bg').style.backgroundImage = `url("${st.photo}")`;
+else document.body.className = 'plain';
+if (st.big) { const v = document.getElementById('v'); v.hidden = false; v.innerHTML = '<b></b><span></span>'; v.firstChild.textContent = st.big; v.lastChild.textContent = st.small; }
+const n = st.head.length; if (n > 60) h.style.fontSize = '58px'; if (n > 85) h.style.fontSize = '52px';
 </script></body></html>

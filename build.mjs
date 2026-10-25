@@ -302,7 +302,7 @@ const MOBILE_MENU = [
 function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null, image = null }) {
   const img = image || 'https://squamishvoters.com/og.png?v=4';
   const cur = (href) => ((href === '/' ? url === '/' : url.startsWith(href)) ? ' aria-current="page"' : '');
-  const full = title ? `${title} — ${SITE.name}` : 'Squamish Voters: what Squamish council is deciding, how each member votes, and whether they keep their promises';
+  const full = title ? `${title} | ${SITE.name}` : 'Squamish Voters: what Squamish council is deciding, how each member votes, and whether they keep their promises';
   return `<!doctype html>
 <html lang="en-CA">
 <head>
@@ -1272,7 +1272,7 @@ if (TRACKED.length) {
     return '';
   };
   const dekHtml = (st) => (st.html ? st.dek : esc(st.dek)); // hand-written stories may carry links; drafted ones are plain text
-  const ogUrl = (st) => `${ORIGIN}/news/og/${st.og || `${st.slug}.jpg`}`;
+  const ogUrl = (st) => `${ORIGIN}/news/og/${st.og || `${st.slug}.jpg`}?v=2`;
   const take = (st) => (st.take ? `<p class="nw-take"><b>What changes</b>${st.take}</p>` : '');
   const source = (st) => `<p class="nw-src">Source: <a href="${esc(st.src[1])}" target="_blank" rel="noopener">${esc(st.src[0])}</a></p>`;
   const shareBtn = (st) => `<button class="nw-share no-print" type="button" data-nw-share="${esc(ORIGIN + nUrl(st))}" data-title="${esc(st.head)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7.5 7.5L12 3l4.5 4.5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>Share</button>`;
@@ -1303,7 +1303,7 @@ if (TRACKED.length) {
   write('/news/', page({
     url: '/news/', title: 'Squamish news',
     desc: 'Short Squamish news from the public record: District releases, council agendas, election results and local announcements, in plain words with the source for every story.',
-    image: ogUrl(S[0]),
+    image: `${ORIGIN}/news/og/index.jpg?v=2`,
     jsonld: crumbLd([['Home', '/'], ['News', '/news/']]),
     body: `<div class="nw">
   <header class="nw-top"><h1>Squamish news</h1>
