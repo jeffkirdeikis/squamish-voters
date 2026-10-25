@@ -208,7 +208,7 @@ if (firstRun) { // the first run only records what is already out there, so the 
   fresh = [];
 }
 if (process.env.NEWS_DRAFT_ONE === '1' && !fresh.length && found.length) { // test the approval email with one real item
-  const pick = found.find((i) => i.source === 'police') || found[0];
+  const pick = [...found].sort((a, b) => String(b.date).localeCompare(String(a.date)) || (a.source === 'weather' ? -1 : 1))[0]; // the newest item
   await sql`DELETE FROM sv_news WHERE id = ${idOf(pick.key)} AND status = 'skipped'`;
   fresh = [pick];
 }
