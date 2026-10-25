@@ -1460,6 +1460,7 @@ if (TRACKED.length) {
     <li><b>One vote per question</b> from each phone or computer. You can change it until the meeting starts, then voting closes.</li>
     <li><b>The questions come from the official agenda</b>, written as neutral yes or no questions, with what each answer would mean.</li>
     <li><b>No one sees how you voted.</b> We only show totals, and a neighbourhood’s split only once ${20} people from it have voted.</li>
+    <li><b>Comments are public, without names.</b> Each one shows next to the answer its writer picked. Comments are checked before they show: no personal attacks, hate, threats, private details, spam or off-topic posts. Sharp criticism of a decision or a vote is welcome. Readers can report a comment, and three reports hide it.</li>
     <li><b>This is not a scientific poll.</b> It shows what the people who chose to vote think, nothing more.</li>
   </ol></section>
   ${signupBox('have-your-say')}
@@ -1825,6 +1826,9 @@ write('/subscribers/', page({ url: '/subscribers/', title: 'Email sign-ups', noi
   body: `<h1>Email sign-ups</h1>
 <p class="lede" id="s-status" aria-live="polite">Loading…</p>
 <div id="s-out" class="sb"></div>
+<h2>Have your say comments</h2>
+<p class="small">Every comment, newest first. Posted ones are public on /have-your-say/. Hide any you don’t want up, or post one the check held back.</p>
+<div id="c-out" class="sb"><p class="muted">Loading…</p></div>
 <style>
 .sb { display: grid; gap: 1.2rem; }
 .sb-note { font-style: italic; color: var(--ink-2); }

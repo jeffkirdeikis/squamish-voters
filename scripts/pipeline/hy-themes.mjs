@@ -1,9 +1,11 @@
-// Have your say: a neutral summary of what people wrote on each question. Comments are never published; this summary is.
+// Have your say: checks any public comments still waiting (the site checks each one as it's posted; this catches ones
+// where that check couldn't run), then writes a neutral summary of what people wrote on each question.
 // Writes data/hy-themes.json ({ qid: { n, summary, at } }). Redoes a summary once there are 8 comments, then whenever the
 // count grows by a quarter, and one last time after voting closes. Run by .github/workflows/news.yml.
 import path from 'node:path';
 import { neon } from '@neondatabase/serverless';
 import { ROOT, log, readJson, writeJson, claudeJson, STYLE } from './lib.mjs';
+import { COMMENT_RULES } from '../../api/have-your-say.js';
 
 const MIN = 8;
 const FILE = path.join(ROOT, 'data', 'hy-themes.json');
@@ -12,8 +14,21 @@ const questions = (readJson(path.join(ROOT, 'api', '_questions.json')) || {}).qu
 const themes = readJson(FILE) || {};
 let changed = false;
 
+// Comments still waiting for a check.
+const pending = await sql`SELECT qid, voter, comment FROM sv_votes WHERE comment_status = 'pending' AND comment <> '' LIMIT 50`;
+for (const p of pending) {
+  const q = questions.find((x) => x.id === p.qid) || { ask: p.qid };
+  try {
+    const out = await claudeJson({ system: `You check public comments on Squamish Voters, a non-partisan site where residents of Squamish, B.C. vote on questions their council is about to decide.\n${COMMENT_RULES}`, effort: 'low', maxTokens: 1000,
+      content: `QUESTION: ${q.ask}\n\nCOMMENT:\n${p.comment}`,
+      schema: { type: 'object', additionalProperties: false, required: ['publish', 'reason'], properties: { publish: { type: 'boolean' }, reason: { type: 'string' } } } });
+    await sql`UPDATE sv_votes SET comment_status = ${out.publish ? 'ok' : 'hidden'}, comment_note = ${out.publish ? '' : out.reason} WHERE qid = ${p.qid} AND voter = ${p.voter} AND comment = ${p.comment}`;
+    log('comment checked', p.qid, out.publish ? 'posted' : 'held');
+  } catch (e) { log('comment check failed', e.message); }
+}
+
 const ids = questions.map((q) => q.id);
-const rows = ids.length ? await sql`SELECT qid, choice, comment FROM sv_votes WHERE qid = ANY(${ids}) AND comment IS NOT NULL AND comment <> '' ORDER BY updated_at` : [];
+const rows = ids.length ? await sql`SELECT qid, choice, comment FROM sv_votes WHERE qid = ANY(${ids}) AND comment_status = 'ok' AND comment <> '' ORDER BY updated_at` : [];
 for (const q of questions) {
   const cs = rows.filter((r) => r.qid === q.id);
   const was = themes[q.id], isClosed = Date.now() >= Date.parse(q.close);

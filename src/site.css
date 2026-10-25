@@ -1380,3 +1380,15 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .hy-extra textarea { width: 100%; font: inherit; padding: .6rem; border-radius: 10px; border: 1px solid var(--line); }
 .hy-q.detailed .hy-r { grid-template-columns: minmax(0, 1fr) 2.8rem; row-gap: .2rem; }
 .hy-q.detailed .hy-r i { grid-column: 1 / -1; grid-row: 2; }
+.hy-note { margin: .2rem 0 .6rem; padding: .5rem .7rem; border-radius: 8px; background: var(--yes-bg); color: var(--yes); font-size: .9rem; font-weight: 600; }
+.hy-note.wait { background: var(--warn-bg); color: var(--warn-ink); }
+.hy-note.bad { background: var(--no-bg); color: var(--no); }
+.hy-comments ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.hy-comments li { border-left: 3px solid var(--line); padding: .1rem 0 .1rem .8rem; }
+.hy-comments li.me { border-left-color: var(--brand); }
+.hy-comments li p { margin: 0 0 .2rem; overflow-wrap: anywhere; }
+.hy-cmeta { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+.hy-cvote { font-size: .72rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: .1rem .45rem; border-radius: 5px; background: var(--surface-2); color: var(--ink-2); }
+.hy-cvote.v-yes, .hy-cvote.v-yes_changes { background: var(--yes-bg); color: var(--yes); }
+.hy-cvote.v-no, .hy-cvote.v-no_changes { background: var(--no-bg); color: var(--no); }
+.hy-report { background: none; border: 0; padding: 0; color: var(--muted); font: inherit; font-size: .8rem; text-decoration: underline; cursor: pointer; }

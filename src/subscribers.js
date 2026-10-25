@@ -6,6 +6,7 @@
   try { if (token) localStorage.setItem('sv-admin', token); else token = localStorage.getItem('sv-admin') || ''; } catch (e) {}
   var STATUS = { subscribed: 'Confirmed', pending: 'Waiting to confirm', unsubscribed: 'Unsubscribed' };
 
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
   function when(t) { return t ? new Date(t).toLocaleString('en-CA', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : ''; }
   function issueName(k) { var i = L.issues[k]; return i ? i.i + ' ' + i.t : k; }
@@ -108,4 +109,28 @@
     .then(function (r) { if (r.status === 401) throw new Error('That link’s key is wrong.'); return r.json(); })
     .then(function (d) { if (!d.ok) throw new Error(d.error || 'Could not load'); render(d.rows); })
     .catch(function (e) { status.textContent = e.message; });
+
+  // Have your say comments: everything people wrote, with its status, and a button to hide or bring back each one.
+  var cbox = document.getElementById('c-out');
+  var CST = { ok: 'Posted', pending: 'Waiting for check', hidden: 'Held by the check', reported: 'Hidden by reports', removed: 'Removed by you' };
+  function loadComments() {
+    fetch('/api/have-your-say/?admin=1', { headers: { Authorization: 'Bearer ' + token }, cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
+      if (!d.ok) { cbox.textContent = 'Could not load comments.'; return; }
+      if (!d.comments.length) { cbox.innerHTML = '<p class="muted">No comments yet.</p>'; return; }
+      cbox.innerHTML = d.comments.map(function (c) {
+        var showing = c.status === 'ok';
+        return '<div class="sb-person' + (showing ? '' : ' sb-dim') + '"><p class="sb-top"><span class="sb-pill">' + esc(CST[c.status] || c.status) + '</span><span class="small">' + esc(c.choice) + (c.reports ? ' · ' + c.reports + ' report' + (c.reports === 1 ? '' : 's') : '') + (c.at ? ' · ' + esc(new Date(c.at).toLocaleString('en-CA')) : '') + '</span></p>' +
+          '<p class="small muted">' + esc(c.ask) + '</p><p>' + esc(c.text) + '</p>' + (c.note ? '<p class="small sb-note">' + esc(c.note) + '</p>' : '') +
+          '<button type="button" class="btn secondary" data-cmod="' + (showing ? 'hide' : 'show') + '" data-qid="' + esc(c.qid) + '" data-cid="' + esc(c.cid) + '">' + (showing ? 'Hide it' : 'Post it') + '</button></div>';
+      }).join('');
+    }).catch(function () { cbox.textContent = 'Could not load comments.'; });
+  }
+  if (cbox) {
+    loadComments();
+    cbox.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-cmod]'); if (!b) return;
+      b.disabled = true;
+      fetch('/api/have-your-say/', { method: 'POST', headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' }, body: JSON.stringify({ admin: b.getAttribute('data-cmod'), qid: b.getAttribute('data-qid'), cid: b.getAttribute('data-cid') }) }).then(loadComments);
+    });
+  }
 })();

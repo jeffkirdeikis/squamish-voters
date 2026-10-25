@@ -1,8 +1,8 @@
 /* Have your say (/have-your-say/): vote on questions council is about to decide.
    Each question reads top down: the short version, then "Get the full picture" to open (background, both sides, what a
-   yes or no means), then the vote. Big decisions ("detailed") get five answers instead of three, plus an optional
-   "what matters most" pick and a comment. The voter id is a random id kept in this browser so a vote can be changed
-   until the meeting starts. Results show after you vote, and for everyone once voting has closed. */
+   yes or no means), then the vote. Big decisions ("detailed") get five answers instead of three and an optional
+   "what matters most" pick. Anyone who votes can leave a public comment (checked before it shows, and reportable).
+   The voter id is a random id kept in this browser so a vote can be changed until the meeting starts. Results show after you vote, and for everyone once voting has closed. */
 (function () {
   var data = JSON.parse((document.getElementById('hy-data') || {}).textContent || '{"questions":[]}');
   var openEl = document.querySelector('[data-hy-open]'), closedEl = document.querySelector('[data-hy-closed]');
@@ -16,7 +16,7 @@
   var areaSel = document.querySelector('[data-hy-area]');
   if (areaSel) { areaSel.value = prefs.area || ''; areaSel.addEventListener('change', function () { prefs.area = areaSel.value; put('sv_prefs', prefs); }); }
 
-  var now = Date.now(), tallies = {}, mine = {}, opened = {};
+  var now = Date.now(), tallies = {}, mine = {}, opened = {}, comments = {}, showAll = {}, reported = {};
   var byId = {}; data.questions.forEach(function (q) { byId[q.id] = q; });
   var open = data.questions.filter(function (q) { return Date.parse(q.close) > now; });
   var closed = data.questions.filter(function (q) { return Date.parse(q.close) <= now; });
@@ -39,7 +39,8 @@
     out += '<p class="small muted">' + t.total + ' vote' + (t.total === 1 ? '' : 's') + '. Not a scientific poll.</p>';
     var fk = Object.keys(t.factors || {}).sort(function (a, b) { return t.factors[b] - t.factors[a]; });
     if (fk.length) out += '<div class="hy-sub"><h4>What matters most to people who voted</h4>' + fk.map(function (f) { return bar(f, pct(t.factors[f], t.total), false, pct(t.factors[f], t.total) + '%'); }).join('') + '</div>';
-    if (q.themes && q.themes.summary) out += '<div class="hy-sub hy-themes"><h4>What people wrote</h4><p>' + esc(q.themes.summary) + '</p><p class="small muted">A neutral summary of ' + q.themes.n + ' comments. Individual comments are not published.</p></div>';
+    if (q.themes && q.themes.summary) out += '<div class="hy-sub hy-themes"><h4>What people wrote, in short</h4><p>' + esc(q.themes.summary) + '</p><p class="small muted">A neutral summary of ' + q.themes.n + ' posted comments.</p></div>';
+    out += commentList(q);
     var areas = Object.keys(t.areas || {}).filter(function (a) { return data.hoods[a]; }).map(function (a) {
       var x = t.areas[a]; return '<li><span>' + esc(data.hoods[a]) + '</span><i><u style="width:' + pct(yesish(x), x.total) + '%"></u></i><b>' + pct(yesish(x), x.total) + '% yes</b></li>';
     }).join('');
@@ -47,14 +48,33 @@
     return out + '</div>';
   }
 
+  var STATUS = {
+    ok: 'Your comment is posted below.',
+    pending: 'Thanks. Your comment will show after a quick check, usually within ten minutes.',
+    reported: 'Your comment was hidden after readers reported it. You can edit it and save again.',
+    removed: 'Your comment was removed by Squamish Voters. You can edit it and save again.',
+  };
   function extras(q) {
-    if (q.depth !== 'detailed') return '';
-    var m = mine[q.id] || {}, picked = m.factors || [];
-    return '<div class="hy-extra"><h3>Tell council more <span class="small muted">(optional)</span></h3>' +
-      ((q.factors || []).length ? '<p class="small">What matters most to you on this? Pick any.</p><div class="hy-factors">' + q.factors.map(function (f) { return '<button type="button" class="chip-btn" data-f="' + esc(f) + '" aria-pressed="' + (picked.indexOf(f) > -1) + '">' + esc(f) + '</button>'; }).join('') + '</div>' : '') +
-      '<label class="fld">Anything else you’d want council to know?<textarea data-c rows="3" maxlength="600" placeholder="For example, what would change your mind">' + esc(m.comment || '') + '</textarea></label>' +
-      '<p class="small muted">Comments aren’t published word for word. We publish a neutral summary of what people wrote.</p>' +
+    var m = mine[q.id] || {}, picked = m.factors || [], st = m.comment_status;
+    return '<div class="hy-extra"><h3>' + (q.depth === 'detailed' ? 'Tell council more' : 'Add a comment') + ' <span class="small muted">(optional)</span></h3>' +
+      (q.depth === 'detailed' && (q.factors || []).length ? '<p class="small">What matters most to you on this? Pick any.</p><div class="hy-factors">' + q.factors.map(function (f) { return '<button type="button" class="chip-btn" data-f="' + esc(f) + '" aria-pressed="' + (picked.indexOf(f) > -1) + '">' + esc(f) + '</button>'; }).join('') + '</div>' : '') +
+      '<label class="fld">Your comment<textarea data-c rows="3" maxlength="600" placeholder="Why you voted the way you did, or what would change your mind">' + esc(m.comment || '') + '</textarea></label>' +
+      '<p class="small muted">Comments are public and show without your name, next to how you voted. Be respectful: comments that attack people or go off topic aren’t posted.</p>' +
+      (st === 'hidden' ? '<p class="hy-note bad">Not posted yet: ' + esc(m.comment_note || 'it doesn’t fit our comment rules.') + ' Edit it and save again.</p>' : st && STATUS[st] ? '<p class="hy-note' + (st === 'ok' ? '' : ' wait') + '">' + STATUS[st] + '</p>' : '') +
       '<button type="button" class="btn secondary" data-save>Save</button> <span class="small" data-saved role="status"></span></div>';
+  }
+  function ago(t) {
+    var s = (Date.now() - Date.parse(t)) / 1000;
+    return s < 3600 ? Math.max(1, Math.round(s / 60)) + ' min ago' : s < 86400 ? Math.round(s / 3600) + ' h ago' : new Date(t).toLocaleDateString('en-CA', { month: 'short', day: 'numeric' }).replace('.', '');
+  }
+  function commentList(q) {
+    var cs = comments[q.id] || [], my = (mine[q.id] || {}).cid;
+    if (!cs.length) return '';
+    var shown = showAll[q.id] ? cs : cs.slice(0, 5);
+    return '<div class="hy-sub hy-comments"><h4>What people are saying <span class="small muted">(' + cs.length + ')</span></h4><ul>' + shown.map(function (c) {
+      return '<li' + (c.cid === my ? ' class="me"' : '') + '><p class="hy-cmeta"><span class="hy-cvote v-' + esc(c.choice) + '">' + esc(WORD[c.choice] || '') + '</span><span class="small muted">' + (c.cid === my ? 'Your comment · ' : '') + esc(ago(c.at)) + '</span></p><p>' + esc(c.text) + '</p>' +
+        (c.cid === my ? '' : reported[c.cid] ? '<p class="small muted">Thanks, reported.</p>' : '<button type="button" class="hy-report" data-report="' + esc(c.cid) + '">Report</button>') + '</li>';
+    }).join('') + '</ul>' + (cs.length > 5 && !showAll[q.id] ? '<button type="button" class="btn secondary" data-more>Show all ' + cs.length + ' comments</button>' : '') + '</div>';
   }
 
   function card(q, isOpen) {
@@ -88,17 +108,20 @@
     var id = d.closest('[data-q]').getAttribute('data-q'); (opened[id] ||= {})[d.getAttribute('data-step')] = d.open;
   }, true);
   fetch('/api/have-your-say/?voter=' + encodeURIComponent(voter)).then(function (r) { return r.json(); }).then(function (j) {
-    if (j && j.ok) { tallies = j.tallies || {}; mine = j.mine || {}; draw(); }
+    if (j && j.ok) { tallies = j.tallies || {}; mine = j.mine || {}; comments = j.comments || {}; draw(); }
   }).catch(function () {});
 
   function send(art, body, done, fail) {
     fetch('/api/have-your-say/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.assign({ qid: art.getAttribute('data-q'), voter: voter, area: prefs.area || '' }, body)) })
-      .then(function (r) { return r.json(); }).then(function (j) { if (!j.ok) return fail(j.error); var id = art.getAttribute('data-q'); tallies[id] = j.tally; mine[id] = j.mine; done(); })
+      .then(function (r) { return r.json(); }).then(function (j) { if (!j.ok) return fail(j.error); var id = art.getAttribute('data-q'); tallies[id] = j.tally; mine[id] = j.mine; if (j.comments) comments[id] = j.comments; done(); })
       .catch(function () { fail('That didn’t go through. Check your connection and try again.'); });
   }
-  openEl.addEventListener('click', function (e) {
+  function onClick(e) {
     var art = e.target.closest('[data-q]'); if (!art) return;
     var id = art.getAttribute('data-q');
+    if (e.target.closest('[data-more]')) { showAll[id] = true; draw(); return; }
+    var rp = e.target.closest('[data-report]');
+    if (rp) { var cid = rp.getAttribute('data-report'); reported[cid] = true; draw(); fetch('/api/have-your-say/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ qid: id, voter: voter, report: cid }) }).catch(function () {}); return; }
     var b = e.target.closest('.hy-b');
     if (b) {
       var msg = art.querySelector('[data-msg]');
@@ -113,8 +136,10 @@
     if (e.target.closest('[data-save]')) {
       var saved = art.querySelector('[data-saved]');
       var factors = [].map.call(art.querySelectorAll('[data-f][aria-pressed="true"]'), function (x) { return x.getAttribute('data-f'); });
-      send(art, { choice: (mine[id] || {}).choice, factors: factors, comment: art.querySelector('textarea[data-c]').value }, function () { draw(); var s = document.querySelector('[data-q="' + id + '"] [data-saved]'); if (s) s.textContent = 'Saved. Thank you.'; },
+      send(art, { choice: (mine[id] || {}).choice, factors: factors, comment: art.querySelector('textarea[data-c]').value }, function () { draw(); var s = document.querySelector('[data-q="' + id + '"] [data-saved]'); if (s) s.textContent = 'Saved.'; },
         function (err) { saved.textContent = err || 'That didn’t save. Please try again.'; });
     }
-  });
+  }
+  openEl.addEventListener('click', onClick);
+  if (closedEl) closedEl.addEventListener('click', onClick);
 })();
