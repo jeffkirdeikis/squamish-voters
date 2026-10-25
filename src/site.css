@@ -1280,3 +1280,13 @@ dialog.sides .small { margin: 0; font-weight: 700; }
   .hero-cc .cc-sign .hs-note, .hero-cc .cc-sign [data-msg] { grid-column: 2; }
 }
 .hy-steps { padding-left: 1.2rem; display: grid; gap: .6rem; }
+
+/* Facebook group card: right under the home hero, and on the welcome page */
+.fbcard { display: grid; grid-template-columns: minmax(0, 1fr); gap: .9rem; margin: 1.5rem 0 0; padding: .8rem; border-radius: var(--radius); background: #e9f1fe; border: 2px solid #1877f2; color: var(--ink); text-decoration: none; }
+.fbcard img { width: 100%; height: auto; border-radius: calc(var(--radius) - 4px); display: block; }
+.fbc-txt { display: grid; gap: .35rem; align-content: center; }
+.fbc-txt b { font: 700 1.3rem/1.2 Georgia, serif; }
+.fbc-txt > span:not(.fbc-btn) { color: var(--ink-2); font-size: .95rem; }
+.fbc-btn { justify-self: start; margin-top: .35rem; background: #1877f2; color: #fff; font-weight: 700; padding: .65rem 1.1rem; border-radius: 10px; }
+.fbcard:hover .fbc-btn { background: #0f63d1; }
+@media (min-width: 700px) { .fbcard { grid-template-columns: 300px minmax(0, 1fr); gap: 1.4rem; padding: 1rem; } }

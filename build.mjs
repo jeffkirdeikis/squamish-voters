@@ -566,6 +566,7 @@ function qCard(q) {
     <ul class="qwho">${people.map((c) => `<li><a href="/council/${c.slug}/#said-did">${cell(c.quiz_answers?.[q.id])}<span class="qname">${esc(lastName(c))}</span>${mark(c)}</a></li>`).join('')}</ul>
     ${t.length ? `<p class="small">Tested by: ${t.map((d) => `<a href="${mUrl(d.m)}">${escGl(d.title)}</a>`).join(', ')}</p>` : ''}</div>`;
 }
+const FB_CARD = '<a class="fbcard" href="https://www.facebook.com/groups/1090076830319905" target="_blank" rel="noopener"><img src="/img/facebook-group.jpg" width="400" height="149" alt="Squamish Voters and Politics Facebook group" loading="lazy"><span class="fbc-txt"><b>Join the conversation on Facebook</b><span>Talk about council decisions with other people in Squamish in the Squamish Voters and Politics group.</span><span class="fbc-btn">Join the group</span></span></a>';
 const signupBox = (where) => `<section class="card signup no-print" id="signup"><h2>Get it by email, once a week</h2>
   <p>Every Friday morning: what council decided that week and what’s coming up. Plain words, nothing else. Unsubscribe any time.</p>
   <form data-subscribe="${where}" novalidate>
@@ -877,6 +878,7 @@ const v = ctx.voting || {};
   <p class="visit-count" data-visits hidden><span class="vc-dot" aria-hidden="true"></span><b>0</b> page views so far</p>
   </div></section>`,
     body: `
+  ${FB_CARD}
   <h2>Your council <span class="small">elected October 17, 2026</span></h2>
   <div class="faces faces-sm">${[...mayors, ...council].map(faceTile).join('')}</div>
   <p><a href="/council/">What each of them stands for, how they vote, and what they promised →</a></p>
@@ -918,7 +920,6 @@ const v = ctx.voting || {};
 
   ${TRACKED.length ? `<section class="card"><h2>Issues we’re following</h2><p class="small">The big questions that keep coming back to council. Tap one to see where it stands.</p><ul class="mlist">${TRACKED.slice(0, 5).map(issueRow).join('')}</ul><p><a href="/track/">All ${TRACKED.length} issues →</a></p></section>` : ''}
   ${NEWS.stories.length ? `<section class="card nw-homebox"><h2>Squamish news <span class="small">short updates from the public record</span></h2><ul>${NEWS.stories.slice(0, 3).map((st) => `<li>${st.photo ? `<img class="nw-thumb" src="${esc(st.photo.file)}" alt="" width="96" height="64" loading="lazy">` : ''}<span class="nw-hk" data-s="${st.s}">${esc(Object.fromEntries(NEWS.sections)[st.s])}</span><a href="/news/${st.slug}/">${esc(st.head)}</a></li>`).join('')}</ul><p><a href="/news/">All news →</a></p></section>` : ''}
-  <a class="fbgroup" href="https://www.facebook.com/groups/1090076830319905" target="_blank" rel="noopener"><img src="/img/facebook-group.jpg" width="400" height="149" alt="Squamish Voters and Politics Facebook group" loading="lazy"><span>Join the conversation on Facebook →</span></a>
   <div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg><div>
     <h2>You can check our work</h2>
     <p>No endorsements. Every summary links to the official video, agenda and minutes, and every promise links to where it was said. The code is public.</p>
@@ -1737,6 +1738,7 @@ write('/welcome/', page({ url: '/welcome/', title: 'You’re confirmed', noindex
     <div class="topicpick" role="group" aria-label="Your neighbourhood">${WELCOME_HOODS.map((h) => `<button type="button" class="chip-btn" data-wa="${esc(h.slug)}" aria-pressed="false">${esc(h.name)}</button>`).join('')}</div>
     <p class="wsaved" data-wsaved aria-live="polite"></p>
   </section>
+  ${FB_CARD}
   <div class="btn-row"><a class="btn big" href="/">Go to Squamish Voters</a><a class="btn big secondary" href="/priorities/">See what other readers picked</a></div>
   <dialog class="sides" data-wdlg aria-labelledby="wd-q">
     <button type="button" class="sides-x" data-wclose aria-label="Close">×</button>

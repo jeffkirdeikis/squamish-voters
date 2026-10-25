@@ -10,7 +10,7 @@
 //   GET or POST ?unsubscribe=<token>                   -> unsubscribed (POST is the one-click unsubscribe mail apps use)
 import { neon } from '@neondatabase/serverless';
 import { createHash, randomBytes } from 'node:crypto';
-import { mailReady, sendConfirm } from './_mail.js';
+import { mailReady, sendConfirm, sendWelcome } from './_mail.js';
 
 const URL = process.env.DATABASE_URL || process.env.POSTGRES_URL;
 const sql = URL ? neon(URL) : null;
@@ -33,8 +33,11 @@ export default async function handler(req, res) {
     return page('You’re unsubscribed', '<p>You won’t get the Squamish Voters email any more.</p>');
   }
   if (req.method === 'GET' && req.query.confirm) {
-    const rows = await sql`UPDATE sv_subscribers SET status = 'subscribed', confirmed_at = coalesce(confirmed_at, now()) WHERE token = ${String(req.query.confirm)} AND status <> 'unsubscribed' RETURNING token`;
+    const [before] = await sql`SELECT confirmed_at FROM sv_subscribers WHERE token = ${String(req.query.confirm)}`;
+    const rows = await sql`UPDATE sv_subscribers SET status = 'subscribed', confirmed_at = coalesce(confirmed_at, now()) WHERE token = ${String(req.query.confirm)} AND status <> 'unsubscribed' RETURNING token, email`;
     if (!rows.length) return page('That link didn’t work', '<p>It may be old, or you unsubscribed. You can sign up again on the home page.</p>');
+    // Welcome email (with the Facebook group) only the first time; a failed send never blocks confirming.
+    if (before && !before.confirmed_at && mailReady()) await sendWelcome(rows[0].email, rows[0].token).catch((e) => console.error('welcome email', e.message));
     res.statusCode = 303;
     res.setHeader('Location', `/welcome/?t=${encodeURIComponent(rows[0].token)}`);
     return res.end();
