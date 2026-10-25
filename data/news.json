@@ -60,6 +60,26 @@
  ],
  "stories": [
   {
+   "slug": "wind-warning-southern-howe-sound",
+   "s": "weather",
+   "tier": "card",
+   "date": "2026-10-25",
+   "head": "Wind warning for southern Howe Sound with gusts up to 90 km/h this morning",
+   "dek": "Environment Canada has issued a wind warning for southern sections of Howe Sound, including Bowen Island. Northerly winds of 70 km/h gusting to 90 km/h are expected to develop early this morning. Winds should ease late this morning, but will stay blustery into this evening. Local power outages are possible, and flying or falling debris could cause injury.",
+   "take": "Secure loose objects outside and be ready to adjust your driving for changing conditions, and you can report severe weather to BCstorm@ec.gc.ca or with #BCStorm on social media.",
+   "visual": {
+    "type": "big",
+    "big": "90 km/h",
+    "small": "Wind gusts"
+   },
+   "src": [
+    "Environment Canada",
+    "https://weather.gc.ca/warnings/index_e.html?prov=bc"
+   ],
+   "auto": true,
+   "og": "wind-warning-southern-howe-sound.png"
+  },
+  {
    "slug": "riding-stays-green",
    "s": "vote",
    "tier": "lead",
