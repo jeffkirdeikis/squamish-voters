@@ -852,6 +852,26 @@ function heroMeet() {
   return l ? `<a class="cc-meet" href="${mUrl(l)}">${cal(l.date)}<span><b>Last meeting</b>${esc(l.summary.headline)} →</span></a>` : '';
 }
 
+// Home: latest news right under the hero. One highlighted story (the newest lead or feature, else the newest with a
+// picture) shown big, then the next four as rows, then a button to the full page.
+function homeNews() {
+  const S = [...NEWS.stories].sort((a, b) => b.date.localeCompare(a.date)), SEC = Object.fromEntries(NEWS.sections);
+  if (!S.length) return '';
+  // Photo, else the story's map, else its share picture (every story has one).
+  const pic = (st) => st.photo?.file || st.visual?.img || (fs.existsSync(path.join(ROOT, 'public', 'news', 'og', st.og || `${st.slug}.jpg`)) ? `/news/og/${st.og || `${st.slug}.jpg`}` : '');
+  const top = S.slice(0, 4);
+  const lead = top.find((st) => (st.tier === 'lead' || st.tier === 'feature') && pic(st)) || S.find(pic) || S[0];
+  const rest = S.filter((st) => st !== lead).slice(0, 4);
+  const day = (d) => new Date(d + 'T12:00:00').toLocaleDateString('en-CA', { month: 'short', day: 'numeric' }).replace('.', '');
+  const kick = (st) => `<span class="nw-hk" data-s="${st.s}">${esc(SEC[st.s] || 'News')}</span><span class="hn-date">${esc(day(st.date))}</span>`;
+  return `<section class="hn" aria-labelledby="hn-h"><div class="hn-top"><h2 id="hn-h">Squamish news</h2><a class="hn-all" href="/news/">See more news →</a></div>
+  <div class="hn-grid">
+    <a class="hn-lead" href="/news/${lead.slug}/">${pic(lead) ? `<img src="${esc(pic(lead))}" alt="${esc(lead.photo?.alt || lead.visual?.alt || '')}" width="800" height="450" loading="lazy">` : ''}<span class="hn-body"><span class="hn-k">${kick(lead)}</span><b>${esc(lead.head)}</b>${lead.dek ? `<span class="hn-dek">${esc(String(lead.dek).replace(/<[^>]+>/g, ''))}</span>` : ''}</span></a>
+    <ul class="hn-list">${rest.map((st) => `<li><a href="/news/${st.slug}/">${pic(st) ? `<img src="${esc(pic(st))}" alt="" width="120" height="80" loading="lazy">` : '<span class="hn-noimg" aria-hidden="true"></span>'}<span><span class="hn-k">${kick(st)}</span><b>${esc(st.head)}</b></span></a></li>`).join('')}</ul>
+  </div>
+  <a class="btn secondary hn-more" href="/news/">See more Squamish news →</a></section>`;
+}
+
 // ---------- HOME (written after Compare because it reuses COMPARE_BLOCK) ----------
 const v = ctx.voting || {};
 {
@@ -879,7 +899,6 @@ const v = ctx.voting || {};
     <a class="cc-tile" href="/neighbourhoods/"><span class="cc-ico">${ICON.pin}</span><b>Your neighbourhood</b><span>Decisions and building near you</span></a>
     <a class="cc-tile cc-say" href="/have-your-say/"><span class="cc-ico">${ICON.hand}</span><b>Have your say <span class="cc-new">${HAVE_SAY_OPEN ? 'Vote now' : 'New'}</span></b><span>${HAVE_SAY_OPEN ? `${HAVE_SAY_OPEN} question${HAVE_SAY_OPEN === 1 ? '' : 's'} open: vote before council does` : 'Vote on what council votes on'}</span></a>
   </div>
-  ${NEWS.stories.length ? `<p class="cc-news"><span class="cc-tag">News</span><a href="/news/${NEWS.stories[0].slug}/">${esc(NEWS.stories[0].head)}</a></p>` : ''}
   <form class="herosign cc-sign" id="signup" data-subscribe="home-hero" novalidate>
     <label for="hs-email"><b>Get a short email every Friday:</b> what council decided and what’s coming up.</label>
     <div class="hs-row"><input id="hs-email" type="email" name="email" autocomplete="email" required placeholder="Enter your email"><button class="btn" type="submit">Sign up</button></div>
@@ -889,6 +908,7 @@ const v = ctx.voting || {};
   <p class="visit-count" data-visits hidden><span class="vc-dot" aria-hidden="true"></span><b>0</b> page views so far</p>
   </div></section>`,
     body: `
+  ${homeNews()}
   ${FB_CARD}
   <h2>Your council <span class="small">elected October 17, 2026</span></h2>
   <div class="faces faces-sm">${[...mayors, ...council].map(faceTile).join('')}</div>
@@ -930,7 +950,6 @@ const v = ctx.voting || {};
   <div class="btn-row"><a class="btn secondary" href="/promises/">See every promise →</a><a class="btn secondary" href="/said-vs-did/">Do they vote the way they said? →</a></div></section>
 
   ${TRACKED.length ? `<section class="card"><h2>Issues we’re following</h2><p class="small">The big questions that keep coming back to council. Tap one to see where it stands.</p><ul class="mlist">${TRACKED.slice(0, 5).map(issueRow).join('')}</ul><p><a href="/track/">All ${TRACKED.length} issues →</a></p></section>` : ''}
-  ${NEWS.stories.length ? `<section class="card nw-homebox"><h2>Squamish news <span class="small">short updates from the public record</span></h2><ul>${NEWS.stories.slice(0, 3).map((st) => `<li>${st.photo ? `<img class="nw-thumb" src="${esc(st.photo.file)}" alt="" width="96" height="64" loading="lazy">` : ''}<span class="nw-hk" data-s="${st.s}">${esc(Object.fromEntries(NEWS.sections)[st.s])}</span><a href="/news/${st.slug}/">${esc(st.head)}</a></li>`).join('')}</ul><p><a href="/news/">All news →</a></p></section>` : ''}
   <div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg><div>
     <h2>You can check our work</h2>
     <p>No endorsements. Every summary links to the official video, agenda and minutes, and every promise links to where it was said. The code is public.</p>
