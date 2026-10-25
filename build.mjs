@@ -1308,7 +1308,7 @@ if (TRACKED.length) {
   ${chips}
   <div class="nw-layout">
     <div class="nw-main">
-      <section class="nw-group" data-group="latest"><h2 class="nw-sechead">Latest</h2>
+      <section class="nw-group" data-group="latest"><h2 class="nw-sechead">Latest</h2><div class="nw-cards" data-nw-live hidden></div>
         ${lead.map(story).join('')}${feat.map(story).join('')}
         <div class="nw-cards">${latestCards.map(story).join('')}</div>
       </section>
@@ -1325,6 +1325,19 @@ if (TRACKED.length) {
   </div>
   <section class="nw-how"><h2>How we write these</h2>
     <p>We read District news releases, council agendas, regional district notices, Elections BC and local announcements, then write a short story in our own words. Every story names its source. No opinions and no endorsements. Spot a mistake? <a href="/about/">Tell us</a>.</p></section>
+</div>`,
+    scripts: '<script src="/news.js"></script>',
+  }));
+
+  // Template for stories approved but not built yet: api/news-live.js fills it in (so they're live the moment Jeff approves).
+  write('/news/_live/', page({
+    url: '/news/_live/', title: '__LIVE_TITLE__', desc: '__LIVE_DESC__', noindex: true,
+    body: `<div class="nw nw-story-page">
+  <p class="crumbs"><a href="/news/">← All news</a></p>
+  <article class="nw-full" data-s="__LIVE_S__"><!--LIVE_BODY--></article>
+  <section class="nw-next"><h2 class="nw-sechead">More news</h2><ul>${S.slice(0, 4).map((o) => `<li data-s="${o.s}"><span>${esc(SEC[o.s])}</span><a href="${nUrl(o)}">${esc(o.head)}</a></li>`).join('')}</ul>
+  <p class="nw-more"><a href="/news/">All news →</a> · <a href="/meetings/">What council decided →</a></p></section>
+  ${signupBox('news-story')}
 </div>`,
     scripts: '<script src="/news.js"></script>',
   }));

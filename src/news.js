@@ -45,6 +45,27 @@
     row.addEventListener('scroll', edge, { passive: true }); window.addEventListener('resize', edge); edge();
   }
 
+  // Stories Jeff just approved show right away, before the site is rebuilt with them (api/news-live.js).
+  var live = document.querySelector('[data-nw-live]');
+  if (live && window.fetch) {
+    fetch('/api/news-live/').then(function (r) { return r.json(); }).then(function (d) {
+      var have = {};
+      document.querySelectorAll('.nw-h a').forEach(function (a) { have[a.getAttribute('href')] = 1; });
+      var e = function (s) { return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+      (d.stories || []).forEach(function (st) {
+        var url = '/news/' + st.slug + '/';
+        if (have[url]) return;
+        var a = document.createElement('article');
+        a.className = 'nw-card'; a.setAttribute('data-s', st.s);
+        a.innerHTML = '<div class="nw-kicker"><span>' + e(st.sec) + '</span><time>Just now</time></div><h3 class="nw-h"><a href="' + url + '">' + e(st.head) + '</a></h3>' +
+          (st.big ? '<div class="nw-big">' + e(st.big) + '<small>' + e(st.small) + '</small></div>' : '') + '<p class="nw-dek">' + e(st.dek) + '</p>' +
+          (st.take ? '<p class="nw-take"><b>What changes</b>' + e(st.take) + '</p>' : '') +
+          '<div class="nw-foot"><p class="nw-src">Source: <a href="' + e(st.src[1]) + '" target="_blank" rel="noopener">' + e(st.src[0]) + '</a></p><button class="nw-share no-print" type="button" data-nw-share="https://squamishvoters.com' + url + '" data-title="' + e(st.head) + '">Share</button></div>';
+        live.appendChild(a); live.hidden = false;
+      });
+    }).catch(function () {});
+  }
+
   // Share: the phone's own share sheet where there is one, otherwise copy the link.
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-nw-share]');

@@ -396,5 +396,11 @@
       "destination": "/",
       "permanent": true
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/news/:slug",
+      "destination": "/api/news-live/?slug=:slug"
+    }
   ]
 }
