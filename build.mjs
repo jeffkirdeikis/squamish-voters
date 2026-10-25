@@ -1303,7 +1303,7 @@ if (TRACKED.length) {
   write('/news/', page({
     url: '/news/', title: 'Squamish news',
     desc: 'Short Squamish news from the public record: District releases, council agendas, election results and local announcements, in plain words with the source for every story.',
-    image: `${ORIGIN}/news/og/index.jpg?v=2`,
+    image: `${ORIGIN}/news/og/index.jpg?v=3`,
     jsonld: crumbLd([['Home', '/'], ['News', '/news/']]),
     body: `<div class="nw">
   <header class="nw-top"><h1>Squamish news</h1>
