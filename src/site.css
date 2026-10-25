@@ -1171,3 +1171,7 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .tabbar a.tab-feature[aria-current="page"] { background: transparent; }
 .tabbar a.tab-feature[aria-current="page"] svg { background: var(--focus); color: #14211c; }
 .tabbar a.tab-feature:active svg { transform: scale(.95); }
+:root { --nw-safety: #9b2335; --nw-weather: #3b5f8a; }
+.nw [data-s="safety"], [data-s="safety"].nw-hk, .nw-chip[data-s="safety"] { --c: var(--nw-safety); }
+.nw [data-s="weather"], [data-s="weather"].nw-hk, .nw-chip[data-s="weather"] { --c: var(--nw-weather); }
+@media (min-width: 1000px) { .nw-lead.solo { grid-template-columns: minmax(0, 1fr); } .nw-lead.solo .nw-h { font-size: 2.4rem; } }

@@ -1,0 +1,49 @@
+# Every 10 minutes: publish news stories Jeff approved, then check public sources for new ones and email him drafts.
+# Runs on GitHub's servers, so no computer needs to be on. The commit to main deploys the site through Vercel.
+# Needs the ANTHROPIC_API_KEY, POSTGRES_URL, RESEND_API_KEY, EMAIL_FROM and NEWS_REVIEW_TO repository secrets.
+# District of Squamish news: squamish.ca blocks automated readers, and we don't get around that. District news
+# reaches us through its email newsletter (see scripts/pipeline/news.mjs).
+name: Squamish news
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+    inputs:
+      draft_one:
+        description: 'Draft and email one recent item even if it was seen before (to test the approval email)'
+        type: boolean
+        default: false
+concurrency:
+  group: news
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci --no-audit --no-fund
+      - name: Publish approved stories, then look for new ones
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          NEWS_REVIEW_TO: ${{ secrets.NEWS_REVIEW_TO }}
+          NEWS_DRAFT_ONE: ${{ github.event.inputs.draft_one == 'true' && '1' || '' }}
+        run: node scripts/pipeline/news.mjs
+      - name: Make sure the site still builds
+        run: node build.mjs
+      - name: Commit
+        run: |
+          git config user.name 'squamish-voters-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add data/news.json public/news/og
+          if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
+          git commit -m "News update $(date -u +%Y-%m-%dT%H:%MZ)"
+          git pull --rebase -q && git push

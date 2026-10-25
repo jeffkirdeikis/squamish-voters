@@ -1268,6 +1268,8 @@ if (TRACKED.length) {
     if (v.type === 'map') return `<figure class="nw-map"><img src="${esc(v.img)}" alt="${esc(v.alt)}" width="1280" height="800" loading="lazy"><figcaption>${esc(v.cap)} Map data © OpenStreetMap contributors.</figcaption></figure>`;
     return '';
   };
+  const dekHtml = (st) => (st.html ? st.dek : esc(st.dek)); // hand-written stories may carry links; drafted ones are plain text
+  const ogUrl = (st) => `${ORIGIN}/news/og/${st.og || `${st.slug}.jpg`}`;
   const take = (st) => (st.take ? `<p class="nw-take"><b>What changes</b>${st.take}</p>` : '');
   const source = (st) => `<p class="nw-src">Source: <a href="${esc(st.src[1])}" target="_blank" rel="noopener">${esc(st.src[0])}</a></p>`;
   const shareBtn = (st) => `<button class="nw-share no-print" type="button" data-nw-share="${esc(ORIGIN + nUrl(st))}" data-title="${esc(st.head)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7.5 7.5L12 3l4.5 4.5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>Share</button>`;
@@ -1275,9 +1277,9 @@ if (TRACKED.length) {
   const hLink = (st, tag = 'h2') => `<${tag} class="nw-h"><a href="${nUrl(st)}">${esc(st.head)}</a></${tag}>`;
   const attrs = (st, cls) => `class="${cls}" data-s="${st.s}"`;
   const story = (st) => {
-    if (st.tier === 'lead') return `<article ${attrs(st, 'nw-lead')}>${kicker(st)}${hLink(st)}${visual(st)}<p class="nw-dek">${esc(st.dek)}</p>${take(st)}${foot(st)}</article>`;
+    if (st.tier === 'lead') return `<article ${attrs(st, st.visual && st.visual.type === 'bars' ? 'nw-lead' : 'nw-lead solo')}>${kicker(st)}${hLink(st)}${visual(st)}<p class="nw-dek">${esc(st.dek)}</p>${take(st)}${foot(st)}</article>`;
     if (st.tier === 'feature') return `<article ${attrs(st, 'nw-feature')}>${kicker(st)}${hLink(st)}<p class="nw-dek">${esc(st.dek)}</p>${visual(st)}${take(st)}${foot(st)}</article>`;
-    if (st.tier === 'brief') return `<article ${attrs(st, 'nw-brief')}>${kicker(st)}${hLink(st, 'h3')}<p class="nw-dek">${st.dek}</p>${foot(st)}</article>`;
+    if (st.tier === 'brief') return `<article ${attrs(st, 'nw-brief')}>${kicker(st)}${hLink(st, 'h3')}<p class="nw-dek">${dekHtml(st)}</p>${foot(st)}</article>`;
     const isMap = st.visual && st.visual.type === 'map';
     return `<article ${attrs(st, 'nw-card')}>${kicker(st)}${isMap ? visual(st) : ''}${hLink(st, 'h3')}${isMap ? '' : visual(st)}<p class="nw-dek">${esc(st.dek)}</p>${take(st)}${foot(st)}</article>`;
   };
@@ -1285,15 +1287,20 @@ if (TRACKED.length) {
     <button type="button" class="nw-chip" aria-pressed="true" data-f="all">All</button>${NEWS.sections.filter(([k]) => NEWS.stories.some((s) => s.s === k)).map(([k, l]) => `<button type="button" class="nw-chip" aria-pressed="false" data-f="${k}" data-s="${k}"><i></i>${esc(l)}</button>`).join('')}</div></div>`;
   const cal = (d) => { const x = new Date(d + 'T12:00:00'); return `<div class="nw-cal" aria-hidden="true"><span>${x.toLocaleDateString('en-CA', { month: 'short' }).replace('.', '')}</span><b>${x.getDate()}</b></div>`; };
   const coming = `<section class="nw-coming"><h2 class="nw-rail-h">Coming up</h2><ol>${NEWS.coming.map((c) => `<li data-until="${c.date}">${cal(c.date)}<div><a href="${esc(c.url)}"${isUrl(c.url) ? ' target="_blank" rel="noopener"' : ''}>${esc(c.title)}</a><p>${esc(fmtLong(c.date))}. ${esc(c.text)}</p></div></li>`).join('')}</ol><p class="nw-more"><a href="/meetings/">All council meetings →</a></p></section>`;
-  const S = NEWS.stories;
-  const lead = S.filter((s) => s.tier === 'lead'), feat = S.filter((s) => s.tier === 'feature'), briefs = S.filter((s) => s.tier === 'brief');
-  const cards = S.filter((s) => s.tier === 'card');
-  const latestCards = cards.slice(0, 2), earlierCards = cards.slice(2);
+  // Newest first. The lead is the newest big story near the top; the rest fall into Latest and Earlier by date.
+  const S = [...NEWS.stories].sort((a, b) => b.date.localeCompare(a.date));
+  const main = S.filter((s) => s.tier !== 'brief'), briefs = S.filter((s) => s.tier === 'brief').slice(0, 5);
+  const leadSt = main.slice(0, 3).find((s) => s.tier === 'lead') || main[0];
+  const featSt = main.slice(0, 6).find((s) => s !== leadSt && (s.tier === 'feature' || s.tier === 'lead'));
+  const asTier = (st, tier) => (st ? { ...st, tier } : null);
+  const lead = [asTier(leadSt, 'lead')].filter(Boolean), feat = [asTier(featSt, 'feature')].filter(Boolean);
+  const rest = main.filter((s) => s !== leadSt && s !== featSt).map((s) => asTier(s, 'card'));
+  const latestCards = rest.slice(0, feat.length ? 2 : 4), earlierCards = rest.slice(latestCards.length, latestCards.length + 14);
 
   write('/news/', page({
     url: '/news/', title: 'Squamish news',
     desc: 'Short Squamish news from the public record: District releases, council agendas, election results and local announcements, in plain words with the source for every story.',
-    image: `${ORIGIN}/news/og/${S[0].slug}.jpg`,
+    image: ogUrl(S[0]),
     jsonld: crumbLd([['Home', '/'], ['News', '/news/']]),
     body: `<div class="nw">
   <header class="nw-top"><h1>Squamish news</h1>
@@ -1326,12 +1333,12 @@ if (TRACKED.length) {
     const others = S.filter((x) => x !== st).slice(0, 4);
     const body = st.tier === 'lead'
       ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1><p class="nw-dek">${esc(st.dek)}</p>${visual(st)}${take(st)}`
-      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${st.visual && st.visual.type === 'map' ? visual(st) : ''}<p class="nw-dek">${st.tier === 'brief' ? st.dek : esc(st.dek)}</p>${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}`;
+      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${st.visual && st.visual.type === 'map' ? visual(st) : ''}<p class="nw-dek">${dekHtml(st)}</p>${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}`;
     write(nUrl(st), page({
       url: nUrl(st), title: st.head,
       desc: st.dek.replace(/<[^>]+>/g, ''),
-      image: `${ORIGIN}/news/og/${st.slug}.jpg`,
-      jsonld: [crumbLd([['Home', '/'], ['News', '/news/'], [st.head, nUrl(st)]]), { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: st.head, datePublished: st.date, inLanguage: 'en-CA', image: `${ORIGIN}/news/og/${st.slug}.jpg`, publisher: { '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/` }, isBasedOn: st.src[1] }],
+      image: ogUrl(st),
+      jsonld: [crumbLd([['Home', '/'], ['News', '/news/'], [st.head, nUrl(st)]]), { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: st.head, datePublished: st.date, inLanguage: 'en-CA', image: ogUrl(st), publisher: { '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/` }, isBasedOn: st.src[1] }],
       body: `<div class="nw nw-story-page">
   <p class="crumbs"><a href="/news/">← All news</a></p>
   <article class="nw-full" data-s="${st.s}">${body}${foot(st)}</article>

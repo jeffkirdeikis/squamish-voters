@@ -1,0 +1,26 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,800&family=Public+Sans:wght@400;600;700&display=swap">
+<style>
+html,body{margin:0;width:1200px;height:630px;overflow:hidden}
+body{background:#f4f3ee;color:#14211c;font-family:"Public Sans",system-ui,sans-serif;display:grid;grid-template-rows:84px 1fr}
+.top{background:#0f4c3a;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 56px}
+.top b{font:800 38px "Newsreader",Georgia,serif;letter-spacing:-.5px}.top b i{font-weight:500}.top span{font-size:20px;opacity:.85}
+.main{display:grid;grid-template-columns:1fr auto;gap:48px;padding:48px 56px 40px;min-height:0;align-items:start}
+.txt{display:flex;flex-direction:column;gap:18px;min-width:0;height:100%}
+.k{font-weight:700;font-size:20px;letter-spacing:3px;text-transform:uppercase}
+h1{font:800 58px/1.08 "Newsreader",Georgia,serif;margin:0;letter-spacing:-.5px;text-wrap:balance}
+.d{margin-top:auto;font-size:20px;color:#5d6661}
+.vis{align-self:center;max-width:420px}.big{font:800 112px/1 "Newsreader",Georgia,serif}.small{font-size:22px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5d6661;margin-top:10px}
+</style></head><body>
+<div class="top"><b>Squamish Voters <i>News</i></b><span>squamishvoters.com</span></div>
+<div class="main"><div class="txt"><div class="k" id="k"></div><h1 id="h"></h1><div class="d" id="d"></div></div><div class="vis" id="v"></div></div>
+<script>
+const st = __DATA__;
+const COL = {vote:'#2457a6',council:'#0f6b4f',money:'#a8650a',community:'#8a3f7a',housing:'#b0452f',recon:'#6b5a1e',move:'#0b7489',safety:'#9b2335',weather:'#3b5f8a'};
+const c = COL[st.s] || '#0f4c3a';
+const k = document.getElementById('k'); k.textContent = st.sec; k.style.color = c;
+document.getElementById('h').textContent = st.head;
+document.getElementById('d').textContent = st.date;
+if (st.big) { const v = document.getElementById('v'); v.innerHTML = '<div class="big"></div><div class="small"></div>'; v.firstChild.textContent = st.big; v.firstChild.style.color = c; v.lastChild.textContent = st.small; }
+if (st.head.length > 70) document.getElementById('h').style.fontSize = '50px';
+</script></body></html>
