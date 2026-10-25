@@ -51,7 +51,7 @@ export default async function handler(req, res) {
 <p class="src">From <a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.label)}: ${esc(it.title)}</a></p>
 <form method="post" action="/api/news-review/">
 <input type="hidden" name="id" value="${esc(id)}"><input type="hidden" name="t" value="${esc(t)}">
-<label for="head">Headline</label><input id="head" name="head" value="${esc(d.head)}" maxlength="140">
+<label for="head">Headline</label><textarea id="head" name="head" maxlength="140" style="min-height:4.2rem;font-weight:700">${esc(d.head)}</textarea>
 <label for="dek">Story</label><textarea id="dek" name="dek" maxlength="1200">${esc(d.dek)}</textarea>
 <label for="take">What changes (one line, optional)</label><textarea id="take" name="take" maxlength="400" style="min-height:4rem">${esc(d.take)}</textarea>
 <div class="row"><div><label for="vb">Big number or date (optional)</label><input id="vb" name="visual_big" value="${esc(d.visual_big)}" maxlength="24"></div>
