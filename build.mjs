@@ -274,6 +274,10 @@ const NAV = [
 // The Menu lists everything; the top bar only has room for the essentials.
 const MENU = [...NAV, ['/this-week/', 'This week at council'], ['/track/', 'Issues we’re following'], ['/compass/', 'Where they lean'], ['/issues/', 'The issues explained'], ['/priorities/', 'Readers’ top issues'], ['/neighbourhoods/', 'Your neighbourhood'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
 const ICON = {
+  gavel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4l6 6M11 7l6 6M12.5 5.5l-6 6 3 3 6-6M8 13l-5 5 3 3 5-5M4 21h9"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>',
+  pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>',
+  hand: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11V5a1.5 1.5 0 0 1 3 0v5M12 10V4a1.5 1.5 0 0 1 3 0v6M15 10V6a1.5 1.5 0 0 1 3 0v8a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-2.7L3.5 13a1.5 1.5 0 0 1 2.4-1.8L9 14"/></svg>',
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5L12 4l8.5 6.5V20a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1z"/><path d="M9.5 21v-6h5v6"/></svg>',
   people: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.5c2.5.2 4 1.8 4.5 4.5"/></svg>',
   compare: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>',
@@ -293,7 +297,7 @@ const MENU_ICON = {
   about: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.1"/></svg>',
 };
 const MOBILE_MENU = [
-  ['/', 'Home', 'home'], ['/council/', 'Your mayor and council', 'people'], ['/neighbourhoods/', 'Your neighbourhood: decisions, building projects, news', 'compass'], ['/meetings/', 'Council meetings: what’s next and what they decided', 'meet'],
+  ['/', 'Home', 'home'], ['/council/', 'Your mayor and council', 'people'], ['/neighbourhoods/', 'Your neighbourhood: decisions, building projects, news', 'compass'], ['/have-your-say/', 'Have your say: vote on what council votes on', 'ballot'], ['/meetings/', 'Council meetings: what’s next and what they decided', 'meet'],
   ['/this-week/', 'This week at council', 'meet'], ['/track/', 'Issues we’re following', 'issues'], ['/promises/', 'Promise tracker', 'promise'], ['/said-vs-did/', 'Do they vote the way they said?', 'compare'], ['/quiz/', 'Who on council thinks like you?', 'quiz'], ['/compare/', 'Compare them, issue by issue', 'compare'],
   ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/news/', 'Squamish news', 'news'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
   ['/about/', 'About this site &amp; sources', 'about'],
@@ -822,6 +826,20 @@ function resRace(rows, { pct = false, only = null } = {}) {
 const resLede = () => `<b>${RES_WORD} results</b>${R26.updated ? `, as of ${esc(R26.updated)}` : ''}${/\.$/.test(R26.updated || '') ? '' : '.'} ${num(R26.ballots_cast)} ballots cast, turnout ${R26.turnout_pct}% of ${num(R26.eligible_voters)} eligible voters.${src(R26.source_url, 'District of Squamish')}`;
 const resWinner = (k) => (R26[k] || []).filter((r) => r.elected).map((r) => r.name);
 
+// Home hero: the next meeting as a calendar card, or the last one once nothing is scheduled.
+function heroMeet() {
+  const m = upcoming[0], firstVote = upcoming.find((x) => x.type !== 'inaugural' && x !== m);
+  const cal = (d) => { const t = new Date(d + 'T12:00:00'); return `<span class="cc-cal"><span>${t.toLocaleDateString('en-CA', { month: 'short' }).replace('.', '')}</span><b>${t.getDate()}</b></span>`; };
+  if (m) {
+    const day = new Date(m.date + 'T12:00:00').toLocaleDateString('en-CA', { weekday: 'short' }).replace('.', '');
+    const what = m.type === 'inaugural' ? 'New council sworn in' : mType(m).label;
+    const more = m.type === 'inaugural' && firstVote ? `First votes ${fmtLong(firstVote.date).replace(/, \d{4}$/, '')}. See what’s on the agenda →` : 'See what’s on the agenda →';
+    return `<a class="cc-meet" href="${mUrl(m)}">${cal(m.date)}<span><b>${esc(what)}, ${esc(day)}${m.time ? ` ${esc(fmtTime(m.time))}` : ''}</b>${esc(more)}</span></a>`;
+  }
+  const l = past.find((x) => x.summary);
+  return l ? `<a class="cc-meet" href="${mUrl(l)}">${cal(l.date)}<span><b>Last meeting</b>${esc(l.summary.headline)} →</span></a>` : '';
+}
+
 // ---------- HOME (written after Compare because it reuses COMPARE_BLOCK) ----------
 const v = ctx.voting || {};
 {
@@ -837,18 +855,26 @@ const v = ctx.voting || {};
       founder: { '@type': 'Person', name: 'Jeff Kirdeikis' }, areaServed: 'Squamish, British Columbia',
       ...(SITE.contact ? { email: SITE.contact } : {}),
     }],
-    hero: `<section class="hero"><div class="wrap">
+    hero: `<section class="hero hero-cc"><div class="wrap cc">
+  <div class="cc-main">
     <h1>Squamish council made promises. We’re keeping score.</h1>
     <p class="lede">Every vote by Squamish’s mayor and councillors, checked against what they told voters in 2026.</p>
-    <div class="btn-row hero-two"><a class="btn big" href="/meetings/">See what council is deciding →<small>Next meetings and past decisions</small></a><a class="btn big" href="/promises/">Are they keeping their promises? →<small>Promises, and votes against what they said</small></a></div>
-    <a class="fbgroup" href="https://www.facebook.com/groups/1090076830319905" target="_blank" rel="noopener"><img src="/img/facebook-group.jpg" width="400" height="149" alt="Squamish Voters and Politics Facebook group" loading="eager"><span>Join the conversation on Facebook →</span></a>
-    <form class="herosign" id="signup" data-subscribe="home-hero" novalidate>
-      <label for="hs-email"><b>Get a short email every Friday:</b> what council decided and what’s coming up.</label>
-      <div class="hs-row"><input id="hs-email" type="email" name="email" autocomplete="email" required placeholder="Enter your email"><button class="btn" type="submit">Sign up</button></div>
-      <p class="hs-note">We’ll email you a link to confirm. Unsubscribe any time.</p>
-      <p class="small" data-msg role="status"></p>
-    </form>
-    <p class="visit-count" data-visits hidden><span class="vc-dot" aria-hidden="true"></span><b>0</b> page views so far</p>
+    ${heroMeet()}
+  </div>
+  <div class="cc-tiles">
+    <a class="cc-tile" href="/meetings/"><span class="cc-ico">${ICON.gavel}</span><b>What council decided</b><span>Every meeting, in plain words</span></a>
+    <a class="cc-tile" href="/promises/"><span class="cc-ico">${ICON.check}</span><b>Promise tracker</b><span>${PROMISES.length} promises we’re watching</span></a>
+    <a class="cc-tile" href="/neighbourhoods/"><span class="cc-ico">${ICON.pin}</span><b>Your neighbourhood</b><span>Decisions and building near you</span></a>
+    <a class="cc-tile cc-say" href="/have-your-say/"><span class="cc-ico">${ICON.hand}</span><b>Have your say <span class="cc-new">Soon</span></b><span>Vote on what council votes on</span></a>
+  </div>
+  ${NEWS.stories.length ? `<p class="cc-news"><span class="cc-tag">News</span><a href="/news/${NEWS.stories[0].slug}/">${esc(NEWS.stories[0].head)}</a></p>` : ''}
+  <form class="herosign cc-sign" id="signup" data-subscribe="home-hero" novalidate>
+    <label for="hs-email"><b>Get a short email every Friday:</b> what council decided and what’s coming up.</label>
+    <div class="hs-row"><input id="hs-email" type="email" name="email" autocomplete="email" required placeholder="Enter your email"><button class="btn" type="submit">Sign up</button></div>
+    <p class="hs-note">We’ll email you a link to confirm. Unsubscribe any time.</p>
+    <p class="small" data-msg role="status"></p>
+  </form>
+  <p class="visit-count" data-visits hidden><span class="vc-dot" aria-hidden="true"></span><b>0</b> page views so far</p>
   </div></section>`,
     body: `
   <h2>Your council <span class="small">elected October 17, 2026</span></h2>
@@ -892,6 +918,7 @@ const v = ctx.voting || {};
 
   ${TRACKED.length ? `<section class="card"><h2>Issues we’re following</h2><p class="small">The big questions that keep coming back to council. Tap one to see where it stands.</p><ul class="mlist">${TRACKED.slice(0, 5).map(issueRow).join('')}</ul><p><a href="/track/">All ${TRACKED.length} issues →</a></p></section>` : ''}
   ${NEWS.stories.length ? `<section class="card nw-homebox"><h2>Squamish news <span class="small">short updates from the public record</span></h2><ul>${NEWS.stories.slice(0, 3).map((st) => `<li>${st.photo ? `<img class="nw-thumb" src="${esc(st.photo.file)}" alt="" width="96" height="64" loading="lazy">` : ''}<span class="nw-hk" data-s="${st.s}">${esc(Object.fromEntries(NEWS.sections)[st.s])}</span><a href="/news/${st.slug}/">${esc(st.head)}</a></li>`).join('')}</ul><p><a href="/news/">All news →</a></p></section>` : ''}
+  <a class="fbgroup" href="https://www.facebook.com/groups/1090076830319905" target="_blank" rel="noopener"><img src="/img/facebook-group.jpg" width="400" height="149" alt="Squamish Voters and Politics Facebook group" loading="lazy"><span>Join the conversation on Facebook →</span></a>
   <div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg><div>
     <h2>You can check our work</h2>
     <p>No endorsements. Every summary links to the official video, agenda and minutes, and every promise links to where it was said. The code is public.</p>
@@ -1366,6 +1393,25 @@ if (TRACKED.length) {
     }));
   });
 }
+
+// ---------- HAVE YOUR SAY (/have-your-say/) ----------
+// Residents voting on the same questions council votes on. Not built yet: this page explains it and takes sign-ups.
+write('/have-your-say/', page({
+  url: '/have-your-say/', title: 'Have your say: vote on what Squamish council votes on',
+  desc: 'Soon you can vote on the same questions the Squamish mayor and council decide, then see how residents voted next to how council voted.',
+  jsonld: crumbLd([['Home', '/'], ['Have your say', '/have-your-say/']]),
+  body: `<h1>Have your say</h1>
+  <p class="lede">Soon you’ll be able to vote on the same questions the mayor and council decide, before they decide them. After each meeting, you’ll see how residents voted next to how council voted.</p>
+  <section class="card"><h2>How it will work</h2>
+  <ol class="hy-steps">
+    <li><b>Before each meeting</b>, the main items on the agenda appear here in plain words, with what a yes or a no would mean.</li>
+    <li><b>You vote yes, no or not sure</b>, once per question, and can change your mind until the meeting starts.</li>
+    <li><b>After the meeting</b>, you see how residents voted next to how council voted, and by neighbourhood where enough people took part.</li>
+    <li><b>No one sees how you voted.</b> We only show totals. It’s not a scientific poll, and every result says so.</li>
+  </ol></section>
+  ${signupBox('have-your-say')}
+  <p><a href="/meetings/">See what council is deciding next →</a></p>`,
+}));
 
 // ---------- NEIGHBOURHOODS (/neighbourhoods/ and /neighbourhoods/<slug>/) ----------
 // One page per neighbourhood: council decisions tagged with it, District development projects, issues we follow and news,
