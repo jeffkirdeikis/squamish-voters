@@ -1290,3 +1290,32 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .fbc-btn { justify-self: start; margin-top: .35rem; background: #1877f2; color: #fff; font-weight: 700; padding: .65rem 1.1rem; border-radius: 10px; }
 .fbcard:hover .fbc-btn { background: #0f63d1; }
 @media (min-width: 700px) { .fbcard { grid-template-columns: 300px minmax(0, 1fr); gap: 1.4rem; padding: 1rem; } }
+
+/* Have your say */
+.hy { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+.hy > * { margin-top: 0; margin-bottom: 0; }
+.hy-q h2 { margin-top: .2rem; font-size: clamp(1.3rem, 3.4vw, 1.6rem); }
+.hy-meet { margin: 0; font-weight: 600; }
+.hy-means { display: grid; gap: .5rem; margin: 0 0 1rem; }
+.hy-means div { background: var(--surface-2); border-radius: 10px; padding: .6rem .8rem; }
+.hy-means dt { font-weight: 700; font-size: .85rem; }
+.hy-means dd { margin: 0; font-size: .95rem; }
+@media (min-width: 700px) { .hy-means { grid-template-columns: 1fr 1fr; } }
+.hy-opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+.hy-b { font: inherit; font-weight: 700; padding: .8rem .4rem; border-radius: 12px; border: 2px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.hy-b:hover { border-color: var(--brand); }
+.hy-b[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: #fff; }
+.hy-b:disabled { opacity: .6; }
+.hy-res { display: grid; gap: .45rem; margin: .8rem 0 .4rem; }
+.hy-r { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr) 2.8rem; gap: .6rem; align-items: center; font-size: .95rem; }
+.hy-r i, .hy-hoods i { display: block; height: .6rem; border-radius: 4px; background: var(--surface-2); overflow: hidden; }
+.hy-r u, .hy-hoods u { display: block; height: 100%; background: var(--brand); }
+.hy-r.me span { font-weight: 700; }
+.hy-you { display: block; font-size: .72rem; color: var(--brand); text-transform: uppercase; letter-spacing: .06em; }
+.hy-r > b { text-align: right; font-variant-numeric: tabular-nums; }
+.hy-hoods ul { list-style: none; padding: 0; margin: .5rem 0 0; display: grid; gap: .4rem; }
+.hy-hoods li { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr) 4.5rem; gap: .6rem; align-items: center; font-size: .9rem; }
+.hy-hoods li b { text-align: right; }
+.hy-area { padding-block: .8rem; }
+.hy-link { display: inline-flex; gap: .3rem; align-items: center; font-weight: 700; margin-top: .3rem; }
+.hy-link svg { width: 1rem; height: 1rem; }

@@ -48,6 +48,9 @@ for (const m of loadMeetings().filter((x) => x.civicweb_id && !x.summary && x.st
 Write a preview for residents deciding whether to watch or attend:
 - "preview": one or two sentences on what the meeting is mostly about.
 - "agenda_items": the items residents would care about, most important first, at most 10. Skip routine items (adopting the agenda, approving minutes, adjourning) unless that is all there is. Each has "plain" (one plain sentence on what council is being asked to do), "kind" (vote, hearing, presentation, discussion or closed), and "topic" (one of: growth, housing_affordability, homelessness, policing, taxes_spending, climate, environment_lng (the Woodfibre LNG plant only), transportation, parking, economy, recreation_facilities, flood_hazards_climate_resilience, other).
+- For each agenda item also write the resident vote for squamishvoters.com/have-your-say/, where residents vote on the same question before council does:
+  "ask": for items council will actually vote on (kind vote or hearing) where residents could reasonably have a view, one short, neutral yes or no question in plain words, the way council itself would decide it (for example "Should the District rezone 1234 Main Street for 88 apartments?"). No loaded words, nothing that hints at the right answer. Empty string for routine, procedural, closed, presentation or discussion items.
+  "yes_means" and "no_means": one plain sentence each on what happens if council says yes, and if it says no. Empty strings when "ask" is empty.
 - For each agenda item also set:
 ${TAG_RULES}
 - "has_public_hearing": true if the agenda includes a public hearing.
@@ -68,7 +71,7 @@ ${await attachmentsText(m)}`,
         preview: { type: 'string' },
         has_public_hearing: { type: 'boolean' },
         closed_only: { type: 'boolean' },
-        agenda_items: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['plain', 'kind', 'topic', 'for_you', 'areas', 'issues'], properties: { plain: { type: 'string' }, kind: { type: 'string', enum: ['vote', 'hearing', 'presentation', 'discussion', 'closed'] }, topic: { type: 'string' }, for_you: { type: 'string' }, areas: { type: 'array', items: { type: 'string' } }, issues: { type: 'array', items: { type: 'string' } } } } },
+        agenda_items: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['plain', 'kind', 'topic', 'for_you', 'areas', 'issues', 'ask', 'yes_means', 'no_means'], properties: { plain: { type: 'string' }, ask: { type: 'string' }, yes_means: { type: 'string' }, no_means: { type: 'string' }, kind: { type: 'string', enum: ['vote', 'hearing', 'presentation', 'discussion', 'closed'] }, topic: { type: 'string' }, for_you: { type: 'string' }, areas: { type: 'array', items: { type: 'string' } }, issues: { type: 'array', items: { type: 'string' } } } } },
       },
     },
   });

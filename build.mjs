@@ -827,6 +827,17 @@ function resRace(rows, { pct = false, only = null } = {}) {
 const resLede = () => `<b>${RES_WORD} results</b>${R26.updated ? `, as of ${esc(R26.updated)}` : ''}${/\.$/.test(R26.updated || '') ? '' : '.'} ${num(R26.ballots_cast)} ballots cast, turnout ${R26.turnout_pct}% of ${num(R26.eligible_voters)} eligible voters.${src(R26.source_url, 'District of Squamish')}`;
 const resWinner = (k) => (R26[k] || []).filter((r) => r.elected).map((r) => r.name);
 
+// Have your say questions (built here because the home hero counts the open ones; the page is written further down).
+const hyTz = (utcMs) => { const d = new Date(utcMs); return (new Date(d.toLocaleString('en-US', { timeZone: 'America/Vancouver' })) - new Date(d.toLocaleString('en-US', { timeZone: 'UTC' }))) / 60000; };
+const hyClose = (m) => { const [y, mo, d] = m.date.split('-').map(Number), [h, mi] = (m.time || '18:00').split(':').map(Number); const guess = Date.UTC(y, mo - 1, d, h, mi); return new Date(guess - hyTz(guess) * 60000).toISOString(); };
+const hyId = (m, a) => `${m.id}-${crypto.createHash('sha256').update(a.ask).digest('hex').slice(0, 8)}`;
+const HY_SINCE = new Date(Date.now() - 120 * 86400000).toISOString().slice(0, 10);
+const HAVE_Q = MEETINGS.filter((m) => m.date >= HY_SINCE && m.status !== 'cancelled').flatMap((m) => (m.agenda_items || []).filter((a) => a.ask && (a.kind === 'vote' || a.kind === 'hearing')).map((a) => ({
+  id: hyId(m, a), meeting: m.id, date: m.date, close: hyClose(m), url: mUrl(m), mlabel: `${mType(m).label}, ${fmtDay(m.date)}`, decided: !!m.summary,
+  ask: a.ask, plain: a.plain, for_you: a.for_you || '', yes_means: a.yes_means || '', no_means: a.no_means || '', areas: a.areas || [], topic: a.topic,
+})));
+if (process.env.SV_VOTE_TEST === '1') HAVE_Q.unshift({ id: 'test-question-1', meeting: 'test', date: TODAY, close: new Date(Date.now() + 3 * 86400000).toISOString(), url: '/meetings/', mlabel: 'Test meeting (preview only)', decided: false, ask: 'Should the District test this voting page?', plain: 'A test question that only exists on preview deployments.', for_you: '', yes_means: 'The test passes.', no_means: 'We fix it.', areas: ['downtown'], topic: 'other' });
+const HAVE_SAY_OPEN = HAVE_Q.filter((q) => Date.parse(q.close) > Date.now()).length;
 // Home hero: the next meeting as a calendar card, or the last one once nothing is scheduled.
 function heroMeet() {
   const m = upcoming[0], firstVote = upcoming.find((x) => x.type !== 'inaugural' && x !== m);
@@ -866,7 +877,7 @@ const v = ctx.voting || {};
     <a class="cc-tile" href="/meetings/"><span class="cc-ico">${ICON.gavel}</span><b>What council decided</b><span>Every meeting, in plain words</span></a>
     <a class="cc-tile" href="/promises/"><span class="cc-ico">${ICON.check}</span><b>Promise tracker</b><span>${PROMISES.length} promises we’re watching</span></a>
     <a class="cc-tile" href="/neighbourhoods/"><span class="cc-ico">${ICON.pin}</span><b>Your neighbourhood</b><span>Decisions and building near you</span></a>
-    <a class="cc-tile cc-say" href="/have-your-say/"><span class="cc-ico">${ICON.hand}</span><b>Have your say <span class="cc-new">Soon</span></b><span>Vote on what council votes on</span></a>
+    <a class="cc-tile cc-say" href="/have-your-say/"><span class="cc-ico">${ICON.hand}</span><b>Have your say <span class="cc-new">${HAVE_SAY_OPEN ? 'Vote now' : 'New'}</span></b><span>${HAVE_SAY_OPEN ? `${HAVE_SAY_OPEN} question${HAVE_SAY_OPEN === 1 ? '' : 's'} open: vote before council does` : 'Vote on what council votes on'}</span></a>
   </div>
   ${NEWS.stories.length ? `<p class="cc-news"><span class="cc-tag">News</span><a href="/news/${NEWS.stories[0].slug}/">${esc(NEWS.stories[0].head)}</a></p>` : ''}
   <form class="herosign cc-sign" id="signup" data-subscribe="home-hero" novalidate>
@@ -1231,7 +1242,7 @@ for (const m of MEETINGS) {
     ` : `
     <section class="card layer1"><h2>What’s on the agenda</h2>
       ${m.preview ? `<p class="lede">${escGl(m.preview)}</p>` : `<p>${esc(T.plain)}</p>`}
-      ${(m.agenda_items || []).length ? `<ul class="keypoints">${m.agenda_items.map((a) => `<li>${escGl(a.plain || a.title)}${a.for_you ? `<br><span class="small"><b>For you:</b> ${escGl(a.for_you)}</span>` : ''}${areaTags(a.areas)}</li>`).join('')}</ul>` : `<p class="small muted">The District usually posts the agenda a few days before the meeting. We’ll list the main items here in plain words as soon as it’s out.</p>`}
+      ${(m.agenda_items || []).length ? `<ul class="keypoints">${m.agenda_items.map((a) => `<li>${escGl(a.plain || a.title)}${a.for_you ? `<br><span class="small"><b>For you:</b> ${escGl(a.for_you)}</span>` : ''}${areaTags(a.areas)}${a.ask && (a.kind === 'vote' || a.kind === 'hearing') && m.date >= TODAY ? `<br><a class="small hy-link" href="/have-your-say/">${ICON.hand} Have your say: vote on this before council does →</a>` : ''}</li>`).join('')}</ul>` : `<p class="small muted">The District usually posts the agenda a few days before the meeting. We’ll list the main items here in plain words as soon as it’s out.</p>`}
     </section>
     ${m.status === 'cancelled' ? '' : haveSay(m)}
     ${MEET_HOW}`}
@@ -1396,23 +1407,41 @@ if (TRACKED.length) {
 }
 
 // ---------- HAVE YOUR SAY (/have-your-say/) ----------
-// Residents voting on the same questions council votes on. Not built yet: this page explains it and takes sign-ups.
-write('/have-your-say/', page({
-  url: '/have-your-say/', title: 'Have your say: vote on what Squamish council votes on',
-  desc: 'Soon you can vote on the same questions the Squamish mayor and council decide, then see how residents voted next to how council voted.',
-  jsonld: crumbLd([['Home', '/'], ['Have your say', '/have-your-say/']]),
-  body: `<h1>Have your say</h1>
-  <p class="lede">Soon you’ll be able to vote on the same questions the mayor and council decide, before they decide them. After each meeting, you’ll see how residents voted next to how council voted.</p>
-  <section class="card"><h2>How it will work</h2>
+// Residents vote on the same questions council will decide. The agenda pipeline writes "ask", "yes_means" and "no_means"
+// on agenda items council will vote on; each becomes a question here, open until the meeting starts. Votes are stored by
+// api/have-your-say.js, which reads questions.json to know what is open. After the meeting the result stays up, next to
+// a link to how council voted. SV_VOTE_TEST=1 at build time adds a test question (preview deployments only).
+{
+  const Q = HAVE_Q;
+  fs.mkdirSync(path.join(DIST, 'have-your-say'), { recursive: true });
+  const qJson = JSON.stringify({ updated: new Date().toISOString(), questions: Q });
+  fs.writeFileSync(path.join(DIST, 'have-your-say', 'questions.json'), qJson);
+  fs.writeFileSync(path.join(ROOT, 'api', '_questions.json'), JSON.stringify({ questions: Q }) + '\n'); // bundled into api/have-your-say.js (kept in git so the import always resolves)
+  const next = upcoming.find((m) => m.type !== 'inaugural');
+  write('/have-your-say/', page({
+    url: '/have-your-say/', title: 'Have your say: vote on what Squamish council votes on',
+    desc: 'Vote yes or no on the same questions the Squamish mayor and council are about to decide, then see how residents voted next to how council voted.',
+    jsonld: crumbLd([['Home', '/'], ['Have your say', '/have-your-say/']]),
+    body: `<div class="hy">
+  <h1>Have your say</h1>
+  <p class="lede">Vote on the same questions the mayor and council are about to decide. You see the results as soon as you vote, and after the meeting you can compare them with how council voted.</p>
+  <div class="hy-area card"><label class="fld">Your neighbourhood <span class="small muted">(optional, so we can show how each area voted)</span><select data-hy-area><option value="">Choose your neighbourhood</option>${HOODS.map((h) => `<option value="${esc(h.slug)}">${esc(h.name)}</option>`).join('')}<option value="outside">Outside Squamish</option></select></label></div>
+  <div data-hy-open></div>
+  <div data-hy-empty hidden class="card hy-empty"><h2>No questions open right now</h2><p>Questions go up as soon as the District posts a meeting agenda, usually the Thursday before.${next ? ` The next council meeting is <a href="${mUrl(next)}">${esc(fmtDay(next.date))}</a>.` : ''} Get the Friday email and we’ll tell you when there’s something to vote on.</p></div>
+  <section data-hy-closed-wrap hidden><h2>After the meeting</h2><p class="small">How residents voted. Tap through to see how council voted on the same question.</p><div data-hy-closed></div></section>
+  <section class="card"><h2>How it works</h2>
   <ol class="hy-steps">
-    <li><b>Before each meeting</b>, the main items on the agenda appear here in plain words, with what a yes or a no would mean.</li>
-    <li><b>You vote yes, no or not sure</b>, once per question, and can change your mind until the meeting starts.</li>
-    <li><b>After the meeting</b>, you see how residents voted next to how council voted, and by neighbourhood where enough people took part.</li>
-    <li><b>No one sees how you voted.</b> We only show totals. It’s not a scientific poll, and every result says so.</li>
+    <li><b>One vote per question</b> from each phone or computer. You can change it until the meeting starts, then voting closes.</li>
+    <li><b>The questions come from the official agenda</b>, written as neutral yes or no questions, with what each answer would mean.</li>
+    <li><b>No one sees how you voted.</b> We only show totals, and a neighbourhood’s split only once ${20} people from it have voted.</li>
+    <li><b>This is not a scientific poll.</b> It shows what the people who chose to vote think, nothing more.</li>
   </ol></section>
   ${signupBox('have-your-say')}
-  <p><a href="/meetings/">See what council is deciding next →</a></p>`,
-}));
+</div>
+<script type="application/json" id="hy-data">${JSON.stringify({ questions: Q, hoods: Object.fromEntries([...HOODS.map((h) => [h.slug, h.name]), ['outside', 'Outside Squamish']]) }).replace(/</g, '\\u003c')}</script>`,
+    scripts: '<script src="/vote.js" defer></script>',
+  }));
+}
 
 // ---------- NEIGHBOURHOODS (/neighbourhoods/ and /neighbourhoods/<slug>/) ----------
 // One page per neighbourhood: council decisions tagged with it, District development projects, issues we follow and news,
@@ -1788,7 +1817,7 @@ write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can�
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
 // ---------- sitemap (every indexable page written above; lastmod = build date) ----------
