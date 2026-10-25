@@ -39,13 +39,18 @@ jobs:
           NEWS_REVIEW_TO: ${{ secrets.NEWS_REVIEW_TO }}
           NEWS_DRAFT_ONE: ${{ github.event.inputs.draft_one == 'true' && '1' || '' }}
         run: node scripts/pipeline/news.mjs
+      - name: Summarize Have your say comments
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+        run: node scripts/pipeline/hy-themes.mjs || echo 'Comment summaries skipped this run'
       - name: Make sure the site still builds
         run: node build.mjs
       - name: Commit
         run: |
           git config user.name 'squamish-voters-bot'
           git config user.email 'actions@users.noreply.github.com'
-          git add data/news.json data/neighbourhoods.json data/developments.json public/news/og public/news/photos
+          git add data/news.json data/neighbourhoods.json data/developments.json data/hy-themes.json public/news/og public/news/photos
           if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
           git commit -m "News update $(date -u +%Y-%m-%dT%H:%MZ)"
           git pull --rebase -q && git push

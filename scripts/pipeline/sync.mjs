@@ -51,6 +51,12 @@ Write a preview for residents deciding whether to watch or attend:
 - For each agenda item also write the resident vote for squamishvoters.com/have-your-say/, where residents vote on the same question before council does:
   "ask": for items council will actually vote on (kind vote or hearing) where residents could reasonably have a view, one short, neutral yes or no question in plain words, the way council itself would decide it (for example "Should the District rezone 1234 Main Street for 88 apartments?"). No loaded words, nothing that hints at the right answer. Empty string for routine, procedural, closed, presentation or discussion items.
   "yes_means" and "no_means": one plain sentence each on what happens if council says yes, and if it says no. Empty strings when "ask" is empty.
+  "depth": "detailed" for big decisions with real trade-offs, where a plain yes or no hides most of what people think: large developments, community plan changes, the budget and tax rates, major policies or long contracts. "simple" for everything else.
+  For "detailed" items only (empty strings and empty lists otherwise):
+  "context": two or three plain sentences of background: what this is, how big, where, and what stage it is at (for example first reading, public hearing, final adoption) and what comes after.
+  "facts": up to 5 short key facts with numbers from the agenda or staff report (homes, cost, height, timeline, tax effect).
+  "supporters": 2 to 4 short points supporters make, as the staff report or applicants put them. "concerns": 2 to 4 short points about concerns raised or trade-offs. Balanced in number and tone, no loaded words, never your own opinion.
+  "factors": 4 to 6 short things a resident might weigh in deciding (for example "Traffic on Highway 99", "Homes people can afford", "Wildfire and flood risk", "Cost to taxpayers"), specific to this item.
 - For each agenda item also set:
 ${TAG_RULES}
 - "has_public_hearing": true if the agenda includes a public hearing.
@@ -71,7 +77,7 @@ ${await attachmentsText(m)}`,
         preview: { type: 'string' },
         has_public_hearing: { type: 'boolean' },
         closed_only: { type: 'boolean' },
-        agenda_items: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['plain', 'kind', 'topic', 'for_you', 'areas', 'issues', 'ask', 'yes_means', 'no_means'], properties: { plain: { type: 'string' }, ask: { type: 'string' }, yes_means: { type: 'string' }, no_means: { type: 'string' }, kind: { type: 'string', enum: ['vote', 'hearing', 'presentation', 'discussion', 'closed'] }, topic: { type: 'string' }, for_you: { type: 'string' }, areas: { type: 'array', items: { type: 'string' } }, issues: { type: 'array', items: { type: 'string' } } } } },
+        agenda_items: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['plain', 'kind', 'topic', 'for_you', 'areas', 'issues', 'ask', 'yes_means', 'no_means', 'depth', 'context', 'facts', 'supporters', 'concerns', 'factors'], properties: { plain: { type: 'string' }, ask: { type: 'string' }, yes_means: { type: 'string' }, no_means: { type: 'string' }, depth: { type: 'string', enum: ['simple', 'detailed'] }, context: { type: 'string' }, facts: { type: 'array', items: { type: 'string' } }, supporters: { type: 'array', items: { type: 'string' } }, concerns: { type: 'array', items: { type: 'string' } }, factors: { type: 'array', items: { type: 'string' } }, kind: { type: 'string', enum: ['vote', 'hearing', 'presentation', 'discussion', 'closed'] }, topic: { type: 'string' }, for_you: { type: 'string' }, areas: { type: 'array', items: { type: 'string' } }, issues: { type: 'array', items: { type: 'string' } } } } },
       },
     },
   });
