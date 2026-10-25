@@ -20,6 +20,8 @@ const PROMISES = fs.existsSync(path.join(ROOT, 'data', 'promises.json')) ? read(
 const TRACKED = fs.existsSync(path.join(ROOT, 'data', 'tracked-issues.json')) ? read('tracked-issues.json').issues || [] : [];
 const PART = fs.existsSync(path.join(ROOT, 'data', 'participate.json')) ? read('participate.json') : {};
 const HOODS = PART.neighbourhoods || [];
+// Squamish news: short stories from public sources, newest first (a side section; council stays the focus).
+const NEWS = fs.existsSync(path.join(ROOT, 'data', 'news.json')) ? read('news.json') : { sections: [], coming: [], stories: [] };
 const ctx = read('context.json');
 const TR = read('trustees.json');
 // The voter quiz and the comparison pages use only the 12 core statements, so they stay quick.
@@ -267,7 +269,7 @@ const issueCtx = (key) => (ctx.issues || []).find((i) => i.key === key) || {};
 
 // ---------- layout ----------
 const NAV = [
-  ['/council/', 'Council'], ['/meetings/', 'Meetings'], ['/promises/', 'Promises'], ['/said-vs-did/', 'Said vs did'], ['/quiz/', 'Quiz'], ['/compare/', 'Compare'],
+  ['/council/', 'Council'], ['/meetings/', 'Meetings'], ['/promises/', 'Promises'], ['/said-vs-did/', 'Said vs did'], ['/quiz/', 'Quiz'], ['/compare/', 'Compare'], ['/news/', 'News'],
 ];
 // The Menu lists everything; the top bar only has room for the essentials.
 const MENU = [...NAV, ['/this-week/', 'This week at council'], ['/track/', 'Issues we’re following'], ['/compass/', 'Where they lean'], ['/issues/', 'The issues explained'], ['/priorities/', 'Readers’ top issues'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
@@ -280,9 +282,11 @@ const ICON = {
   compass: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>',
   meet: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M3.5 6l1.2 1.2L6.8 5M3.5 12l1.2 1.2 2.1-2.2M3.5 18h3"/></svg>',
   promise: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg>',
+  news: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h10A1.5 1.5 0 0 1 17 5.5V19a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2z"/><path d="M17 9h2.5a.5.5 0 0 1 .5.5V19a2 2 0 0 1-2 2"/><path d="M7.5 8h6M7.5 12h6M7.5 16h4"/></svg>',
   ballot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 8.500l1.2 1.2 2-2.400M8.5 14.500l1.2 1.2 2-2.400M14 9h2M14 15h2"/></svg>',
 };
-const TABS = [['/', 'Home', 'home'], ['/council/', 'Council', 'people'], ['/meetings/', 'Meetings', 'meet'], ['/promises/', 'Promises', 'promise'], ['/said-vs-did/', 'Record', 'compare'], ['/quiz/', 'Quiz', 'quiz']];
+// News sits last: council pages come first, news is the extra.
+const TABS = [['/', 'Home', 'home'], ['/council/', 'Council', 'people'], ['/meetings/', 'Meetings', 'meet'], ['/promises/', 'Promises', 'promise'], ['/said-vs-did/', 'Record', 'compare'], ['/news/', 'News', 'news']];
 // The phone Menu: every page, one per row, with How to vote near the top since it left the bottom bar.
 const MENU_ICON = {
   issues: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/></svg>',
@@ -291,7 +295,7 @@ const MENU_ICON = {
 const MOBILE_MENU = [
   ['/', 'Home', 'home'], ['/council/', 'Your mayor and council', 'people'], ['/meetings/', 'Council meetings: what’s next and what they decided', 'meet'],
   ['/this-week/', 'This week at council', 'meet'], ['/track/', 'Issues we’re following', 'issues'], ['/promises/', 'Promise tracker', 'promise'], ['/said-vs-did/', 'Do they vote the way they said?', 'compare'], ['/quiz/', 'Who on council thinks like you?', 'quiz'], ['/compare/', 'Compare them, issue by issue', 'compare'],
-  ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
+  ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/news/', 'Squamish news', 'news'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
   ['/about/', 'About this site &amp; sources', 'about'],
 ];
 
@@ -886,6 +890,7 @@ const v = ctx.voting || {};
   <div class="btn-row"><a class="btn secondary" href="/promises/">See every promise →</a><a class="btn secondary" href="/said-vs-did/">Do they vote the way they said? →</a></div></section>
 
   ${TRACKED.length ? `<section class="card"><h2>Issues we’re following</h2><p class="small">The big questions that keep coming back to council. Tap one to see where it stands.</p><ul class="mlist">${TRACKED.slice(0, 5).map(issueRow).join('')}</ul><p><a href="/track/">All ${TRACKED.length} issues →</a></p></section>` : ''}
+  ${NEWS.stories.length ? `<section class="card nw-homebox"><h2>Squamish news <span class="small">short updates from the public record</span></h2><ul>${NEWS.stories.slice(0, 3).map((st) => `<li><span class="nw-hk" data-s="${st.s}">${esc(Object.fromEntries(NEWS.sections)[st.s])}</span><a href="/news/${st.slug}/">${esc(st.head)}</a></li>`).join('')}</ul><p><a href="/news/">All news →</a></p></section>` : ''}
   <div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg><div>
     <h2>You can check our work</h2>
     <p>No endorsements. Every summary links to the official video, agenda and minutes, and every promise links to where it was said. The code is public.</p>
@@ -1242,6 +1247,103 @@ if (TRACKED.length) {
   }
 }
 
+// ---------- NEWS (/news/ and /news/<slug>/) ----------
+// A side section: short local stories written from public sources (data/news.json). Council stays the main event,
+// so News sits last in the bottom bar and the top bar, and gets one small box low on the home page.
+{
+  const SEC = Object.fromEntries(NEWS.sections);
+  const nUrl = (st) => `/news/${st.slug}/`;
+  const nDate = (st) => `<time datetime="${st.date}" data-rel>${esc(fmtLong(st.date))}</time>`;
+  const kicker = (st) => `<div class="nw-kicker"><span>${esc(SEC[st.s])}</span>${nDate(st)}</div>`;
+  const nBars = (rows, title = '', note = '') => {
+    const top = Math.max(...rows.map((r) => r[1]));
+    return `${title ? `<h3 class="nw-vtitle">${esc(title)}</h3>` : ''}<div class="nw-bars">${rows.map(([label, n, fill, shown], i) => `<div class="nw-bar${i === 0 ? ' win' : ''}" style="--w:${Math.round((n / top) * 1000) / 10}%${fill ? `;--fill:var(${fill})` : ''}"><div class="nw-lbl"><span>${esc(label)}</span><b>${esc(shown || n.toLocaleString('en-CA'))}</b></div><div class="nw-track"><div class="nw-fill"></div></div></div>`).join('')}</div>${note ? `<p class="nw-note">${esc(note)}</p>` : ''}`;
+  };
+  const nFaces = () => `<ul class="nw-faces">${[...mayors, ...council].map((c) => `<li><a href="/council/${c.slug}/">${avatar(c)}<b>${esc(c.name)}</b><span>${c.office === 'mayor' ? 'Mayor' : 'Councillor'}</span><em class="${c.incumbent ? '' : 'new'}">${c.incumbent ? 'Returning' : 'New'}</em></a></li>`).join('')}</ul>`;
+  const visual = (st) => {
+    const v = st.visual; if (!v) return '';
+    if (v.type === 'bars') return `<div class="nw-panel">${nBars(v.rows, v.title, v.note)}</div>`;
+    if (v.type === 'bars+faces') return nBars(v.rows) + nFaces();
+    if (v.type === 'big') return `<div class="nw-big">${esc(v.big)}<small>${esc(v.small)}</small></div>`;
+    if (v.type === 'map') return `<figure class="nw-map"><img src="${esc(v.img)}" alt="${esc(v.alt)}" width="1280" height="800" loading="lazy"><figcaption>${esc(v.cap)} Map data © OpenStreetMap contributors.</figcaption></figure>`;
+    return '';
+  };
+  const take = (st) => (st.take ? `<p class="nw-take"><b>What changes</b>${st.take}</p>` : '');
+  const source = (st) => `<p class="nw-src">Source: <a href="${esc(st.src[1])}" target="_blank" rel="noopener">${esc(st.src[0])}</a></p>`;
+  const shareBtn = (st) => `<button class="nw-share no-print" type="button" data-nw-share="${esc(ORIGIN + nUrl(st))}" data-title="${esc(st.head)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7.5 7.5L12 3l4.5 4.5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>Share</button>`;
+  const foot = (st) => `<div class="nw-foot">${source(st)}${shareBtn(st)}</div>`;
+  const hLink = (st, tag = 'h2') => `<${tag} class="nw-h"><a href="${nUrl(st)}">${esc(st.head)}</a></${tag}>`;
+  const attrs = (st, cls) => `class="${cls}" data-s="${st.s}"`;
+  const story = (st) => {
+    if (st.tier === 'lead') return `<article ${attrs(st, 'nw-lead')}>${kicker(st)}${hLink(st)}${visual(st)}<p class="nw-dek">${esc(st.dek)}</p>${take(st)}${foot(st)}</article>`;
+    if (st.tier === 'feature') return `<article ${attrs(st, 'nw-feature')}>${kicker(st)}${hLink(st)}<p class="nw-dek">${esc(st.dek)}</p>${visual(st)}${take(st)}${foot(st)}</article>`;
+    if (st.tier === 'brief') return `<article ${attrs(st, 'nw-brief')}>${kicker(st)}${hLink(st, 'h3')}<p class="nw-dek">${st.dek}</p>${foot(st)}</article>`;
+    const isMap = st.visual && st.visual.type === 'map';
+    return `<article ${attrs(st, 'nw-card')}>${kicker(st)}${isMap ? visual(st) : ''}${hLink(st, 'h3')}${isMap ? '' : visual(st)}<p class="nw-dek">${esc(st.dek)}</p>${take(st)}${foot(st)}</article>`;
+  };
+  const chips = `<div class="nw-chips-wrap no-print"><div class="nw-chips" role="group" aria-label="Show stories about">
+    <button type="button" class="nw-chip" aria-pressed="true" data-f="all">All</button>${NEWS.sections.filter(([k]) => NEWS.stories.some((s) => s.s === k)).map(([k, l]) => `<button type="button" class="nw-chip" aria-pressed="false" data-f="${k}" data-s="${k}"><i></i>${esc(l)}</button>`).join('')}</div></div>`;
+  const cal = (d) => { const x = new Date(d + 'T12:00:00'); return `<div class="nw-cal" aria-hidden="true"><span>${x.toLocaleDateString('en-CA', { month: 'short' }).replace('.', '')}</span><b>${x.getDate()}</b></div>`; };
+  const coming = `<section class="nw-coming"><h2 class="nw-rail-h">Coming up</h2><ol>${NEWS.coming.map((c) => `<li data-until="${c.date}">${cal(c.date)}<div><a href="${esc(c.url)}"${isUrl(c.url) ? ' target="_blank" rel="noopener"' : ''}>${esc(c.title)}</a><p>${esc(fmtLong(c.date))}. ${esc(c.text)}</p></div></li>`).join('')}</ol><p class="nw-more"><a href="/meetings/">All council meetings →</a></p></section>`;
+  const S = NEWS.stories;
+  const lead = S.filter((s) => s.tier === 'lead'), feat = S.filter((s) => s.tier === 'feature'), briefs = S.filter((s) => s.tier === 'brief');
+  const cards = S.filter((s) => s.tier === 'card');
+  const latestCards = cards.slice(0, 2), earlierCards = cards.slice(2);
+
+  write('/news/', page({
+    url: '/news/', title: 'Squamish news',
+    desc: 'Short Squamish news from the public record: District releases, council agendas, election results and local announcements, in plain words with the source for every story.',
+    image: `${ORIGIN}/news/og/${S[0].slug}.jpg`,
+    jsonld: crumbLd([['Home', '/'], ['News', '/news/']]),
+    body: `<div class="nw">
+  <header class="nw-top"><h1>Squamish news</h1>
+    <p class="nw-lede">Short updates from the public record, each with its source. For what council decided and how each member voted, see <a href="/meetings/">Meetings</a>.</p></header>
+  ${chips}
+  <div class="nw-layout">
+    <div class="nw-main">
+      <section class="nw-group" data-group="latest"><h2 class="nw-sechead">Latest</h2>
+        ${lead.map(story).join('')}${feat.map(story).join('')}
+        <div class="nw-cards">${latestCards.map(story).join('')}</div>
+      </section>
+      <section class="nw-group" data-group="earlier"><h2 class="nw-sechead">Earlier</h2>
+        <div class="nw-cards">${earlierCards.map(story).join('')}</div>
+      </section>
+      <p class="nw-empty muted" data-nw-empty hidden>No stories in this section yet.</p>
+    </div>
+    <aside class="nw-rail">
+      ${coming}
+      <section class="nw-briefs" data-group="briefs"><h2 class="nw-rail-h">In brief</h2>${briefs.map(story).join('')}</section>
+      ${signupBox('news')}
+    </aside>
+  </div>
+  <section class="nw-how"><h2>How we write these</h2>
+    <p>We read District news releases, council agendas, regional district notices, Elections BC and local announcements, then write a short story in our own words. Every story names its source. No opinions and no endorsements. Spot a mistake? <a href="/about/">Tell us</a>.</p></section>
+</div>`,
+    scripts: '<script src="/news.js"></script>',
+  }));
+
+  S.forEach((st, i) => {
+    const others = S.filter((x) => x !== st).slice(0, 4);
+    const body = st.tier === 'lead'
+      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1><p class="nw-dek">${esc(st.dek)}</p>${visual(st)}${take(st)}`
+      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${st.visual && st.visual.type === 'map' ? visual(st) : ''}<p class="nw-dek">${st.tier === 'brief' ? st.dek : esc(st.dek)}</p>${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}`;
+    write(nUrl(st), page({
+      url: nUrl(st), title: st.head,
+      desc: st.dek.replace(/<[^>]+>/g, ''),
+      image: `${ORIGIN}/news/og/${st.slug}.jpg`,
+      jsonld: [crumbLd([['Home', '/'], ['News', '/news/'], [st.head, nUrl(st)]]), { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: st.head, datePublished: st.date, inLanguage: 'en-CA', image: `${ORIGIN}/news/og/${st.slug}.jpg`, publisher: { '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/` }, isBasedOn: st.src[1] }],
+      body: `<div class="nw nw-story-page">
+  <p class="crumbs"><a href="/news/">← All news</a></p>
+  <article class="nw-full" data-s="${st.s}">${body}${foot(st)}</article>
+  <section class="nw-next"><h2 class="nw-sechead">More news</h2><ul>${others.map((o) => `<li data-s="${o.s}"><span>${esc(SEC[o.s])}</span><a href="${nUrl(o)}">${esc(o.head)}</a></li>`).join('')}</ul>
+  <p class="nw-more"><a href="/news/">All news →</a> · <a href="/meetings/">What council decided →</a></p></section>
+  ${signupBox('news-story')}
+</div>`,
+      scripts: '<script src="/news.js"></script>',
+    }));
+  });
+}
+
 // ---------- THIS WEEK AT COUNCIL (/this-week/ and the Friday email) ----------
 {
   const back = new Date(Date.now() - 8 * 864e5).toISOString().slice(0, 10), ahead = new Date(Date.now() + 10 * 864e5).toISOString().slice(0, 10);
@@ -1533,7 +1635,7 @@ write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can�
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
 // ---------- sitemap (every indexable page written above; lastmod = build date) ----------

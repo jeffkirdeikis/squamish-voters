@@ -1,0 +1,90 @@
+{
+  "_about": "Squamish Voters News. Every story is written in our own words from a public source. 'take' lines state facts only, never opinion. Newest first. tier: lead | feature | card | brief.",
+  "sections": [
+    ["vote", "Elections"], ["council", "Council"], ["money", "Your money"], ["community", "Community"],
+    ["housing", "Housing"], ["recon", "Reconciliation"], ["move", "Getting around"]
+  ],
+  "coming": [
+    { "date": "2026-11-03", "title": "New council sworn in", "text": "Inaugural meeting of the 2026 to 2030 council.", "url": "/meetings/" },
+    { "date": "2026-11-16", "title": "Community grant deadline", "text": "Last day for 2027 Community Enhancement Grant applications.", "url": "/news/community-grants/" },
+    { "date": "2026-11-26", "title": "New regional board takes office", "text": "Inaugural Squamish-Lillooet Regional District board meeting.", "url": "https://www.slrd.bc.ca/inside-slrd/legislative-services/general-local-elections" }
+  ],
+  "stories": [
+    {
+      "slug": "riding-stays-green", "s": "vote", "tier": "lead", "date": "2026-10-24",
+      "head": "Valeriote holds West Vancouver to Sea to Sky as Conservatives win the province",
+      "dek": "Jeremy Valeriote won the riding for the BC Green Party by about 2,000 votes. Across British Columbia the Conservative Party won a majority. Valeriote is one of two Green members elected.",
+      "take": "Your member of the Legislature will sit in opposition to the new Conservative government.",
+      "visual": { "type": "bars", "title": "West Vancouver to Sea to Sky, votes", "note": "All 90 ballot boxes counted. Preliminary until Elections BC declares official results.",
+        "rows": [["Green (Valeriote)", 10503, "--nw-green"], ["Conservative", 8478, "--nw-con"], ["New Democratic", 2283, "--nw-ndp"], ["Others", 818, "--nw-other"]] },
+      "src": ["Elections BC results", "https://results.elections.bc.ca/"]
+    },
+    {
+      "slug": "easton-by-175", "s": "vote", "tier": "feature", "date": "2026-10-21",
+      "head": "Final count: Easton wins mayor by 175 votes, and six of seven seats change hands",
+      "dek": "The official count confirms Sean Easton beat Jenna Stoner 3,681 to 3,506. Eric Andersen is the only councillor returning. Sarah Ellis led the council vote with 4,499. Councillors John French, Andrew Hamilton and Chris Pettingill were not elected.",
+      "take": "Six of the seven members are new to council. What each of them promised is on our <a href=\"/promises/\">promise tracker</a>.",
+      "visual": { "type": "bars+faces", "rows": [["Sean Easton", 3681, ""], ["Jenna Stoner", 3506, "--nw-other"], ["Daniel Deal", 1591, "--nw-other"]] },
+      "src": ["District of Squamish election results", "https://squamish.ca/government-and-administration/council/election/"]
+    },
+    {
+      "slug": "budget-2027", "s": "money", "tier": "card", "date": "2026-10-20",
+      "head": "Proposed 2027 budget is online before council votes on it",
+      "dek": "The District posted its proposed 2027 budget and 10 year financial plan, project by project. The same week it received the Government Finance Officers Association's Distinguished Budget Presentation Award for its 2026 budget document.",
+      "take": "The budget sets property tax and utility rates. Council has not adopted it yet.",
+      "visual": { "type": "big", "big": "10 years", "small": "Length of the District's financial plan" },
+      "src": ["District of Squamish news release", "https://squamish.ca/government-and-administration/district-information/news/district-receives-government-finance-officers-association-distinguished-budget-presentation-award/"]
+    },
+    {
+      "slug": "community-grants", "s": "community", "tier": "card", "date": "2026-10-20",
+      "head": "Community grants open to local nonprofits until November 16",
+      "dek": "The Squamish Community Foundation is taking applications for 2027 Community Enhancement Grants on behalf of the District. Eligible projects include neighbourhood events, youth programs, reconciliation, recreation and climate action. Arts projects apply to Squamish Arts instead, and a group can receive one grant or the other.",
+      "take": "Nonprofits and charities are eligible. Individuals and businesses are not.",
+      "visual": { "type": "big", "big": "Nov 16", "small": "Application deadline" },
+      "src": ["Squamish Community Foundation", "https://www.squamishfoundation.com/ceg/"]
+    },
+    {
+      "slug": "area-d-de-jong", "s": "vote", "tier": "brief", "date": "2026-10-20",
+      "head": "Paula de Jong elected Area D director",
+      "dek": "Area D covers rural land around Squamish, including the Squamish Valley, Upper Squamish, Furry Creek and Britannia Beach. De Jong joins the regional district board November 26.",
+      "src": ["Regional district election results", "https://www.slrd.bc.ca/inside-slrd/legislative-services/general-local-elections/2026-general-local-election-results"]
+    },
+    {
+      "slug": "last-council-meeting", "s": "council", "tier": "brief", "date": "2026-10-20",
+      "head": "Outgoing council's final meeting reviews its strategic plan",
+      "dek": "One agenda item: a summary report on the 2023 to 2026 Strategic Plan. Compare it with recorded votes on our <a href=\"/said-vs-did/\">said versus did page</a>.",
+      "src": ["October 20 council agenda", "https://squamish.civicweb.net/Portal/MeetingInformation.aspx?Org=Cal&Id=2115"]
+    },
+    {
+      "slug": "turnout-up", "s": "vote", "tier": "card", "date": "2026-10-17",
+      "head": "Turnout rises to 45 percent, with 2,163 more voters than 2022",
+      "dek": "8,881 people voted from a list of 19,591 eligible electors. April Lowe and Leanne Roderick were elected school trustees.",
+      "take": "About 55 percent of eligible voters did not vote. Every race is on our <a href=\"/results/\">results page</a>.",
+      "visual": { "type": "bars", "rows": [["2026", 8881, "", "8,881 voters, 45.33%"], ["2022", 6718, "--nw-other", "6,718 voters, 41.1%"]] },
+      "src": ["District of Squamish news release", "https://squamish.ca/government-and-administration/district-information/news/squamish-2026-general-election-unofficial-results/"]
+    },
+    {
+      "slug": "encampment-closed", "s": "housing", "tier": "card", "date": "2026-10-09",
+      "head": "District permanently closes Third and Main encampment site",
+      "dek": "The District reversed its plan to let residents return after a September 18 fire and propane tank ignitions near Under One Roof, which houses supportive housing, an emergency shelter and the food bank. Fire Chief Aaron Foote also cited limited access for emergency crews.",
+      "take": "Under One Roof has 40 residents, 20 shelter users and 70 staff, according to the District.",
+      "visual": { "type": "map", "img": "/news/img/map-encampment.jpg", "alt": "Map of downtown Squamish marking Third Avenue and Main Street", "cap": "The site at Third Avenue and Main Street." },
+      "src": ["District of Squamish news release", "https://squamish.ca/government-and-administration/district-information/news/fire-safety-concerns-have-resulted-in-a-reversal-of-the-decision-on-the-future-of-the-encampment/"]
+    },
+    {
+      "slug": "apology-squamish-nation", "s": "recon", "tier": "card", "date": "2026-09-30",
+      "head": "District of Squamish formally apologizes to the Squamish Nation",
+      "dek": "The District apologized to the Sḵwx̱wú7mesh Úxwumixw for harms caused by District actions over generations, including loss of language, culture and economic opportunity. It was given privately at Totem Hall on September 19 and marked publicly at O'Siyam Pavilion on the National Day for Truth and Reconciliation.",
+      "take": "The apology came from the True Words project (ta wanáxw sníchim) and is one of six shared priorities in the District and Nation's agreement.",
+      "src": ["District of Squamish news release", "https://squamish.ca/government-and-administration/district-information/news/district-of-squamish-delivers-formal-apology-to-squamish-nation-for-inter-generational-harms/"]
+    },
+    {
+      "slug": "corridor-bus", "s": "move", "tier": "card", "date": "2026-09-22",
+      "head": "Province and Sea to Sky communities sign agreement to plan a corridor bus",
+      "dek": "The Sea to Sky Regional Transit Committee and the Province agreed to work on how a bus from Líl̓wat Nation to Metro Vancouver would be governed, funded and run.",
+      "take": "This is a planning agreement. It does not yet fund or schedule any buses.",
+      "visual": { "type": "map", "img": "/news/img/map-corridor.jpg", "alt": "Map of the proposed bus route from Lil'wat Nation through Pemberton, Whistler and Squamish to Vancouver", "cap": "Proposed route, drawn as straight lines between stops." },
+      "src": ["District of Squamish news release", "https://squamish.ca/government-and-administration/district-information/news/memorandum-of-understanding-to-continue-advancing-interregional-transit-signed/"]
+    }
+  ]
+}
