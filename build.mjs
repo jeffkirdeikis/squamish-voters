@@ -272,7 +272,7 @@ const NAV = [
   ['/council/', 'Council'], ['/meetings/', 'Meetings'], ['/promises/', 'Promises'], ['/said-vs-did/', 'Said vs did'], ['/quiz/', 'Quiz'], ['/compare/', 'Compare'], ['/news/', 'News'],
 ];
 // The Menu lists everything; the top bar only has room for the essentials.
-const MENU = [...NAV, ['/this-week/', 'This week at council'], ['/track/', 'Issues we’re following'], ['/compass/', 'Where they lean'], ['/issues/', 'The issues explained'], ['/priorities/', 'Readers’ top issues'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
+const MENU = [...NAV, ['/this-week/', 'This week at council'], ['/track/', 'Issues we’re following'], ['/compass/', 'Where they lean'], ['/issues/', 'The issues explained'], ['/priorities/', 'Readers’ top issues'], ['/neighbourhoods/', 'Your neighbourhood'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
 const ICON = {
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5L12 4l8.5 6.5V20a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1z"/><path d="M9.5 21v-6h5v6"/></svg>',
   people: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.5c2.5.2 4 1.8 4.5 4.5"/></svg>',
@@ -293,7 +293,7 @@ const MENU_ICON = {
   about: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.1"/></svg>',
 };
 const MOBILE_MENU = [
-  ['/', 'Home', 'home'], ['/council/', 'Your mayor and council', 'people'], ['/meetings/', 'Council meetings: what’s next and what they decided', 'meet'],
+  ['/', 'Home', 'home'], ['/council/', 'Your mayor and council', 'people'], ['/neighbourhoods/', 'Your neighbourhood: decisions, building projects, news', 'compass'], ['/meetings/', 'Council meetings: what’s next and what they decided', 'meet'],
   ['/this-week/', 'This week at council', 'meet'], ['/track/', 'Issues we’re following', 'issues'], ['/promises/', 'Promise tracker', 'promise'], ['/said-vs-did/', 'Do they vote the way they said?', 'compare'], ['/quiz/', 'Who on council thinks like you?', 'quiz'], ['/compare/', 'Compare them, issue by issue', 'compare'],
   ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/news/', 'Squamish news', 'news'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
   ['/about/', 'About this site &amp; sources', 'about'],
@@ -857,6 +857,7 @@ const v = ctx.voting || {};
 
   <section class="card foryou-box no-print" id="foryou"><h2>What matters to you</h2>
     <p class="small">Pick your neighbourhood and what you care about. We’ll show those first. It’s saved on this phone only.</p>
+    <p class="small"><a href="/neighbourhoods/">See every neighbourhood: decisions, building projects and news on a map →</a></p>
     <label class="fld">Where you live<select data-pref="area"><option value="">Choose your neighbourhood</option>${HOODS.map((h) => `<option value="${esc(h.slug)}">${esc(h.name)}</option>`).join('')}</select></label>
     <div class="topicpick" role="group" aria-label="Topics you care about">${ISSUES.map((i) => `<button type="button" class="chip-btn" data-topic="${i.key}" aria-pressed="false"><span aria-hidden="true">${i.icon}</span> ${esc(i.title)}</button>`).join('')}</div>
     <div data-feed></div>
@@ -1366,6 +1367,88 @@ if (TRACKED.length) {
   });
 }
 
+// ---------- NEIGHBOURHOODS (/neighbourhoods/ and /neighbourhoods/<slug>/) ----------
+// One page per neighbourhood: council decisions tagged with it, District development projects, issues we follow and news,
+// around a map. Boundaries and projects come from the District's open map data (scripts/pipeline/places.mjs).
+{
+  const NB = fs.existsSync(path.join(ROOT, 'data', 'neighbourhoods.json')) ? read('neighbourhoods.json') : { neighbourhoods: [] };
+  const DV = fs.existsSync(path.join(ROOT, 'data', 'developments.json')) ? read('developments.json') : { developments: [] };
+  const HOODLIST = NB.neighbourhoods;
+  const KEEP_UPPER = new Set(['BCR', 'DPA', 'OCP', 'SFU', 'BC', 'II', 'III', 'IV', 'A', 'B', 'C', 'D', 'E', 'O']);
+  const titleCase = (s) => String(s || '').toLowerCase().replace(/\b([a-z0-9][a-z0-9']*)/g, (w) => (KEEP_UPPER.has(w.toUpperCase()) ? w.toUpperCase() : w[0].toUpperCase() + w.slice(1)));
+  const hUrl = (h) => `/neighbourhoods/${h.slug}/`;
+  const STATUS_CLS = { 'Under review': 'st-review', Approved: 'st-ok', 'Application received': 'st-new' };
+  const devsIn = (slug) => DV.developments.filter((d) => d.area === slug);
+  const decisionsIn = (slug) => DECISIONS.filter((d) => (d.areas || []).includes(slug));
+  const comingIn = (slug) => upcoming.flatMap((m) => (m.agenda_items || []).filter((a) => (a.areas || []).includes(slug)).map((a) => ({ a, m })));
+  const issuesIn = (slug) => TRACKED.filter((t) => (t.areas || []).includes(slug));
+  const newsIn = (slug) => NEWS.stories.filter((s) => (s.areas || []).includes(slug)).sort((a, b) => b.date.localeCompare(a.date));
+  const homes = (n) => n.toLocaleString('en-CA');
+  const devRow = (d) => `<li class="hd-dev" data-dev="${esc(d.name)}"><b>${esc(titleCase(d.name))}</b>
+    <span class="hd-tags"><span class="hd-st ${STATUS_CLS[d.status] || ''}">${esc(d.type)}: ${esc(d.status.toLowerCase())}</span>${d.homes ? `<span class="hd-homes">${homes(d.homes)} home${d.homes === 1 ? '' : 's'} planned</span>` : ''}</span>
+    <span class="small muted">${[d.address ? titleCase(d.address) : '', d.housing.map((h) => h.toLowerCase()).join(', ')].filter(Boolean).map(esc).join(' · ')}</span></li>`;
+  const mapData = (list, devs) => JSON.stringify({
+    hoods: list.map((h) => ({ slug: h.slug, name: h.name, outline: h.outline, centre: h.centre, url: hUrl(h) })),
+    devs: devs.map((d) => ({ name: titleCase(d.name), status: d.status, type: d.type, homes: d.homes, shape: d.shape, centre: d.centre })),
+  }).replace(/</g, '\\u003c');
+  const MAP_ASSETS = '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script><script src="/hoodmap.js"></script>';
+  const SRC_NOTE = `<p class="small muted hd-source">Boundaries and projects: <a href="https://opendata-squamish.hub.arcgis.com" target="_blank" rel="noopener">District of Squamish open data</a> (updated ${esc(fmtLong(DV.updated || NB.updated || TODAY))}). Map © OpenStreetMap contributors.</p>`;
+
+  write('/neighbourhoods/', page({
+    url: '/neighbourhoods/', title: 'Squamish neighbourhoods',
+    desc: 'Pick your Squamish neighbourhood to see council decisions, development projects and news for your area, on one map.',
+    jsonld: crumbLd([['Home', '/'], ['Neighbourhoods', '/neighbourhoods/']]),
+    body: `<div class="hd">
+  <h1>Your neighbourhood</h1>
+  <p class="lede">Tap your area on the map, or pick it from the list, to see what council decided there, what is being built and the news.</p>
+  <div class="hd-map hd-map-all" id="hoodmap" data-mode="all" role="img" aria-label="Map of Squamish neighbourhoods"></div>
+  <script type="application/json" id="hoodmap-data">${mapData(HOODLIST, DV.developments)}</script>
+  ${SRC_NOTE}
+  <ul class="hd-list">${HOODLIST.map((h) => { const dv = devsIn(h.slug), n = dv.reduce((a, d) => a + d.homes, 0), dc = decisionsIn(h.slug).length; return `<li><a href="${hUrl(h)}"><b>${esc(h.name)}</b><span class="small muted">${[dv.length ? `${dv.length} project${dv.length === 1 ? '' : 's'}` : 'No big projects', n ? `${homes(n)} homes planned` : '', dc ? `${dc} decision${dc === 1 ? '' : 's'}` : ''].filter(Boolean).join(' · ')}</span><span class="go" aria-hidden="true">›</span></a></li>`; }).join('')}</ul>
+</div>`,
+    scripts: MAP_ASSETS,
+  }));
+
+  for (const h of HOODLIST) {
+    const dv = devsIn(h.slug), dc = decisionsIn(h.slug), cu = comingIn(h.slug), is = issuesIn(h.slug), nw = newsIn(h.slug);
+    const total = dv.reduce((a, d) => a + d.homes, 0);
+    const others = HOODLIST.filter((x) => x !== h);
+    write(hUrl(h), page({
+      url: hUrl(h), title: `${h.name}, Squamish: council decisions, development and news`,
+      desc: `What Squamish council decided for ${h.name}, development projects planned there (${dv.length}), issues we follow and local news, on one map.`,
+      jsonld: crumbLd([['Home', '/'], ['Neighbourhoods', '/neighbourhoods/'], [h.name, hUrl(h)]]),
+      body: `<div class="hd">
+  <p class="crumbs"><a href="/neighbourhoods/">← All neighbourhoods</a></p>
+  <h1>${esc(h.name)}</h1>
+  <div class="hd-stats">
+    <div><b>${dc.length}</b><span>council decision${dc.length === 1 ? '' : 's'} this term</span></div>
+    <div><b>${dv.length}</b><span>development project${dv.length === 1 ? '' : 's'}</span></div>
+    <div><b>${homes(total)}</b><span>homes planned</span></div>
+  </div>
+  <div class="hd-map" id="hoodmap" data-mode="one" data-slug="${h.slug}" role="img" aria-label="Map of ${esc(h.name)} with development projects"></div>
+  <script type="application/json" id="hoodmap-data">${mapData([h, ...others], dv)}</script>
+  <p class="hd-legend small"><span class="lg st-review"></span>Under review <span class="lg st-ok"></span>Approved <span class="lg st-new"></span>Application received</p>
+
+  <section class="card"><h2>What council decided here</h2>
+  ${dc.length ? dc.slice(0, 12).map((d) => decisionCard(d, d.m)).join('') : `<p class="muted">Nothing yet. The new council’s first meeting is ${esc(fmtLong((MEETINGS.find((m) => m.type === 'inaugural') || {}).date || '2026-11-03'))}, and decisions about ${esc(h.name)} will show up here as they happen.</p>`}
+  ${cu.length ? `<h3>Coming up at council</h3><ul class="mlist">${cu.map(({ a, m }) => `<li class="mrow"><a href="${mUrl(m)}"><span class="mtxt"><b class="mhead">${esc(a.plain)}</b><span class="small">${esc(fmtDay(m.date))}</span></span><span class="go" aria-hidden="true">›</span></a></li>`).join('')}</ul>` : ''}
+  </section>
+
+  <section class="card"><h2>Development projects</h2>
+  ${dv.length ? `<p class="small muted">Rezonings, development permits and community plan changes the District is reviewing or has approved, biggest first.</p><ul class="hd-devs">${dv.map(devRow).join('')}</ul>` : `<p class="muted">The District’s list has no large projects in ${esc(h.name)} right now.</p>`}
+  ${SRC_NOTE}</section>
+
+  ${is.length ? `<section class="card"><h2>Issues we’re following here</h2><ul class="mlist">${is.map(issueRow).join('')}</ul></section>` : ''}
+
+  ${nw.length ? `<section class="card"><h2>News from ${esc(h.name)}</h2><ul class="hd-news">${nw.map((s) => `<li><a href="/news/${s.slug}/">${esc(s.head)}</a><span class="small muted">${esc(fmtLong(s.date))}</span></li>`).join('')}</ul><p><a href="/news/">All Squamish news →</a></p></section>` : ''}
+
+  <section class="hd-others"><h2>Other neighbourhoods</h2><p>${others.map((o) => `<a href="${hUrl(o)}">${esc(o.name)}</a>`).join(' · ')}</p></section>
+</div>`,
+      scripts: MAP_ASSETS,
+    }));
+  }
+}
+
 // ---------- THIS WEEK AT COUNCIL (/this-week/ and the Friday email) ----------
 {
   const back = new Date(Date.now() - 8 * 864e5).toISOString().slice(0, 10), ahead = new Date(Date.now() + 10 * 864e5).toISOString().slice(0, 10);
@@ -1657,7 +1740,7 @@ write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can�
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
 // ---------- sitemap (every indexable page written above; lastmod = build date) ----------

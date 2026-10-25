@@ -97,6 +97,7 @@ const SOURCES = {
 };
 
 // ---------- drafting ----------
+const HOOD_SLUGS = (readJson(path.join(ROOT, 'data', 'neighbourhoods.json'), { neighbourhoods: [] }).neighbourhoods || []).map((h) => h.slug);
 const SECTIONS = ['vote', 'council', 'money', 'community', 'housing', 'recon', 'move', 'safety', 'weather'];
 const SYSTEM = `You write short local news for Squamish Voters, an independent, non-partisan site about Squamish, B.C.
 You get one item from a public source. Decide whether Squamish residents would want to know about it, and if so write a short story in your own words.
@@ -112,15 +113,17 @@ Rules:
 - visual: a key number or date from the source (like "Nov 16" with "Application deadline", or "90 km/h" with "Wind gusts") or null. Never invent one.
 - Skip (publish=false): routine meeting notices, holiday hours, job postings, items not about the Squamish area, items with too little information, and anything already stale.
 - section: one of ${SECTIONS.join(', ')}.
+- areas: the Squamish neighbourhoods the story is about, from this list only: ${HOOD_SLUGS.join(', ')}. Empty if it is town-wide or outside these areas.
 - photo_queries: 2 or 3 short searches for an openly licensed photo of the PLACE or TOPIC (not the event itself), most specific first, e.g. "Howe Sound Squamish", "Sea to Sky Highway", "downtown Squamish".`;
 const SCHEMA = {
   type: 'object', additionalProperties: false,
-  required: ['publish', 'reason', 'section', 'weight', 'head', 'dek', 'take', 'visual_big', 'visual_small', 'slug', 'photo_queries'],
+  required: ['publish', 'reason', 'section', 'weight', 'head', 'dek', 'take', 'visual_big', 'visual_small', 'slug', 'photo_queries', 'areas'],
   properties: {
     publish: { type: 'boolean' }, reason: { type: 'string' }, section: { type: 'string', enum: SECTIONS }, weight: { type: 'string', enum: ['big', 'normal', 'brief'] },
     head: { type: 'string' }, dek: { type: 'string' }, take: { type: 'string' }, visual_big: { type: 'string' }, visual_small: { type: 'string' },
     slug: { type: 'string', description: 'short url slug, lowercase words joined by hyphens, under 50 characters' },
     photo_queries: { type: 'array', items: { type: 'string' } },
+    areas: { type: 'array', items: { type: 'string', enum: HOOD_SLUGS.length ? HOOD_SLUGS : ['downtown'] } },
   },
 };
 const clean = (s) => String(s || '').replace(/\s*[—–]\s*/g, ', ').replace(/\s+,/g, ',').trim();
@@ -218,7 +221,7 @@ for (const r of approved) {
     slug, s: d.section, tier: { big: 'lead', normal: 'card', brief: 'brief' }[d.weight] || 'card', date: it.date && it.date <= today() ? it.date : today(),
     head: d.head, dek: d.dek, ...(d.take ? { take: esc(d.take) } : {}),
     ...(d.visual_big ? { visual: { type: 'big', big: d.visual_big, small: d.visual_small } } : {}),
-    src: [it.label, it.url], auto: true,
+    src: [it.label, it.url], auto: true, ...(d.areas && d.areas.length ? { areas: d.areas } : {}),
   };
   if (d.photo && d.photo.remote) {
     try {

@@ -28,6 +28,8 @@ jobs:
         with:
           node-version: 22
       - run: npm ci --no-audit --no-fund
+      - name: Neighbourhood boundaries and development projects (District open data)
+        run: node scripts/pipeline/places.mjs || echo 'District map data unavailable; keeping the last copy'
       - name: Publish approved stories, then look for new ones
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -43,7 +45,7 @@ jobs:
         run: |
           git config user.name 'squamish-voters-bot'
           git config user.email 'actions@users.noreply.github.com'
-          git add data/news.json public/news/og
+          git add data/news.json data/neighbourhoods.json data/developments.json public/news/og public/news/photos
           if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
           git commit -m "News update $(date -u +%Y-%m-%dT%H:%MZ)"
           git pull --rebase -q && git push
