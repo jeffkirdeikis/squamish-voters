@@ -1522,3 +1522,96 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .wa-area select, .wa-sortrow select { width: auto; min-width: 0; flex: 0 1 auto; margin: 0; }
 .wa-sortrow label { display: flex; align-items: center; gap: .4rem; margin: 0; font-weight: 600; }
 .wa-sortrow select { padding: .3rem .5rem; font-size: .9rem; }
+
+/* ---------- What Squamish Wants, round 2 (Oct 26): compact top, teaser bars, short rows, floating counter, sheet, Top 10, desktop rail ---------- */
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.wa { max-width: 46rem; padding-bottom: 5rem; }
+.wa-head { display: grid; gap: .3rem; margin: .4rem 0 .9rem; }
+.wa-head h1 { font-size: clamp(1.7rem, 6.5vw, 2.6rem); margin: 0; }
+.wa-lede { margin: 0; font-size: 1rem; }
+.wa-people { margin: 0; font-size: .92rem; color: var(--brand); min-height: 1.4em; }
+.wa-people b { font-variant-numeric: tabular-nums; }
+.wa-tabs { position: static; grid-template-columns: repeat(4, auto); justify-content: start; gap: .2rem; margin-bottom: .7rem; }
+.wa-tabs button { padding: .7rem .7rem; font-size: .95rem; white-space: nowrap; }
+@media (max-width: 30em) { .wa-tabs { grid-template-columns: repeat(4, 1fr); } .wa-tabs button { padding: .7rem .2rem; font-size: .88rem; } }
+/* filters: area picker first, swipeable, with a fade on the right so people know there's more */
+.wa-filters { -webkit-mask-image: linear-gradient(to right, #000 85%, transparent); mask-image: linear-gradient(to right, #000 85%, transparent); padding-right: 2rem; align-items: center; }
+.wa-areachip { flex: none; margin: 0; }
+.wa-areachip select { min-height: 2.6rem; border-radius: 999px; border: 2px solid var(--brand); background: var(--brand-soft); color: var(--brand); font: inherit; font-weight: 700; font-size: .9rem; padding: .3rem .8rem; max-width: 13rem; }
+.wa-sortrow { margin: .1rem 0 .6rem; }
+/* shorter rows */
+.wa-row { padding: .8rem .85rem; gap: .55rem; }
+.wa-title { gap: .25rem; }
+.wa-chips { gap: .3rem; }
+.wa-chip { font-size: .68rem; padding: .05rem .5rem; }
+.wa-t { font-size: 1.08rem; }
+.wa-b { min-height: 2.65rem; }
+.wa-b.m[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.wa-hint { margin: -.15rem 0 0; font-size: .82rem; color: var(--muted); }
+/* the closed door: a blurred bar */
+.wa-tease { display: grid; gap: .3rem; background: none; border: 0; padding: 0; text-align: left; cursor: pointer; font: inherit; color: var(--link); }
+.wa-tease-bar { display: flex; height: 14px; border-radius: 99px; overflow: hidden; filter: blur(3px); opacity: .55; }
+.wa-tease-bar i { display: block; height: 100%; }
+.wa-tease-bar i:nth-child(1) { width: 46%; background: var(--yes); }
+.wa-tease-bar i:nth-child(2) { width: 34%; background: #c9c6b9; }
+.wa-tease-bar i:nth-child(3) { width: 20%; background: var(--no); }
+.wa-tease-t { font-weight: 700; font-size: .9rem; }
+.wa-tease:hover .wa-tease-t { text-decoration: underline; }
+.wa-acts { flex-wrap: wrap; gap: .4rem 1.2rem; }
+.wa-detail dd .wa-chip { margin-right: .3rem; }
+.wa-listfoot { margin-top: 1rem; padding: 1rem; border: 2px dashed var(--line); border-radius: var(--radius); display: grid; gap: .6rem; justify-items: start; }
+.wa-listfoot p { margin: 0; }
+/* floating counter and bottom sheet (phones); sits above the bottom tab bar */
+.wa-fixed { position: fixed; left: 0; right: 0; bottom: calc(4.4rem + env(safe-area-inset-bottom, 0px)); z-index: 55; display: grid; justify-items: center; gap: .5rem; padding: 0 max(12px, env(safe-area-inset-right, 0px)) 0 max(12px, env(safe-area-inset-left, 0px)); pointer-events: none; }
+.wa-fixed > * { pointer-events: auto; }
+.wa-float { display: flex; align-items: center; gap: .8rem; background: var(--ink); color: #fff; border-radius: 999px; padding: .45rem .5rem .45rem 1rem; box-shadow: 0 8px 24px rgba(20,33,28,.3); font-size: .92rem; }
+.wa-float b { font-variant-numeric: tabular-nums; }
+.wa-float button { background: #ffd84d; color: #14211c; border: 0; border-radius: 999px; padding: .5rem .9rem; font: inherit; font-weight: 800; font-size: .88rem; cursor: pointer; }
+.wa-sheet { position: relative; width: 100%; max-width: 30rem; background: var(--surface); border: 2px solid var(--brand); border-radius: 16px; padding: 1rem 2.6rem 1rem 1rem; box-shadow: 0 12px 34px rgba(20,33,28,.28); display: grid; gap: .7rem; animation: wa-rise .3s ease-out; }
+.wa-sheet p { margin: 0; }
+.wa-sheet select { font: inherit; padding: .55rem .6rem; border-radius: 10px; border: 2px solid var(--line); background: var(--surface); color: var(--ink); }
+.wa-sheetx { position: absolute; top: .3rem; right: .3rem; width: 2.4rem; height: 2.4rem; border: 0; background: none; font-size: 1.6rem; line-height: 1; color: var(--muted); cursor: pointer; border-radius: 8px; }
+.wa-sheetbtns { display: flex; flex-wrap: wrap; gap: .5rem; }
+.wa-sheetbtns .btn { min-height: 2.8rem; padding: .4rem 1rem; font-size: .98rem; }
+/* Top 10 */
+.wa-locked { text-align: center; justify-items: center; }
+.wa-locked .wa-prog { width: 100%; }
+.wa-lockicon { font-size: 2rem; }
+.wa-board h2 { margin: 1.2rem 0 .2rem; font-size: 1.35rem; }
+.wa-board h2:first-child { margin-top: .2rem; }
+.wa-toplist { list-style: none; margin: .6rem 0 0; padding: 0; display: grid; gap: .5rem; }
+.wa-topline { width: 100%; display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .6rem; align-items: start; background: var(--surface); border: 1.5px solid var(--line); border-radius: 12px; padding: .7rem .8rem; text-align: left; font: inherit; color: var(--ink); cursor: pointer; }
+.wa-topline:hover { border-color: var(--brand); }
+.wa-rank { font: 700 1.3rem/1.2 Georgia, serif; color: var(--brand); text-align: right; font-variant-numeric: tabular-nums; }
+.wa-topbody { display: grid; gap: .35rem; min-width: 0; }
+.wa-topt { font-weight: 700; line-height: 1.3; }
+.wa-keys { margin: 0; font-size: .82rem; color: var(--muted); text-align: center; }
+.wa-keys kbd { font: 700 .78rem system-ui, sans-serif; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: .05rem .35rem; background: var(--surface-2); color: var(--ink); }
+/* rail is desktop only */
+.wa-rail { display: none; }
+.wa-railcard { display: grid; gap: .6rem; padding: 1rem; }
+.wa-railcard h2 { margin: 0; font-size: 1.1rem; }
+.wa-railcard p { margin: 0; }
+.wa-railbig { font-size: 1.05rem; }
+.wa-railbig b { font: 700 1.6rem Georgia, serif; font-variant-numeric: tabular-nums; }
+.wa-railadd .wa-addbox, .wa-railadd [data-wa-add] { border: 0; box-shadow: none; padding: 0; background: none; }
+/* answer buttons beside the title on wider screens */
+@media (min-width: 760px) {
+  .wa-row { grid-template-columns: minmax(0, 1fr) 19rem; column-gap: 1.2rem; align-items: start; }
+  .wa-row > .wa-title { grid-column: 1; }
+  .wa-row > .wa-ans { grid-column: 2; grid-row: 1; align-self: center; }
+  .wa-row > :not(.wa-title):not(.wa-ans) { grid-column: 1 / -1; }
+  .wa-short .wa-row { grid-template-columns: minmax(0, 1fr) 17rem; }
+}
+@media (min-width: 1000px) {
+  .wa { max-width: none; padding-bottom: 0; }
+  .wa-head, .wa-how, .wa > .signup { max-width: 52rem; }
+  .wa-layout { display: grid; grid-template-columns: minmax(0, 1fr) 20rem; gap: 1.6rem; align-items: start; }
+  .wa-rail { display: grid; gap: 1rem; position: sticky; top: 5rem; max-height: calc(100vh - 6rem); overflow-y: auto; }
+  .wa-tab-add, .wa-listfoot, .wa-fixed .wa-float { display: none !important; }
+  .wa-fixed { bottom: 1.2rem; justify-items: end; padding-right: 1.5rem; }
+}
+@media (min-width: 900px) and (max-width: 999.98px) { .wa-fixed { bottom: 1.2rem; } }
+.wa-areachip select { width: auto; flex: none; }
+.wa-sortrow select { max-width: 11rem; }
+@media (min-width: 1000px) { .wa-rail .wa-sheet { max-width: none; box-shadow: none; animation: none; } }

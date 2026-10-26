@@ -2,154 +2,282 @@
   "updated": "2026-10-26",
   "note": "What Squamish Wants: specific asks residents answer yes, no or don't mind. These are the starter asks, each from the public record with a source. Residents add more on the site (stored in the database by api/wants.js). status: none | plan | agenda | done | province. who: council | province. area: a neighbourhood slug from data/neighbourhoods.json, or null for the whole town.",
   "topics": [
-    { "key": "downtown", "label": "Downtown and homelessness" },
-    { "key": "parks", "label": "Parks and recreation" },
-    { "key": "streets", "label": "Streets and traffic" },
-    { "key": "transit", "label": "Transit and parking" },
-    { "key": "money", "label": "Taxes and money" },
-    { "key": "safety", "label": "Safety and flooding" },
-    { "key": "other", "label": "Everything else" }
+    {
+      "key": "downtown",
+      "label": "Downtown and homelessness",
+      "short": "Downtown"
+    },
+    {
+      "key": "parks",
+      "label": "Parks and recreation",
+      "short": "Parks"
+    },
+    {
+      "key": "streets",
+      "label": "Streets and traffic",
+      "short": "Streets"
+    },
+    {
+      "key": "transit",
+      "label": "Transit and parking",
+      "short": "Transit and parking"
+    },
+    {
+      "key": "money",
+      "label": "Taxes and money",
+      "short": "Taxes"
+    },
+    {
+      "key": "safety",
+      "label": "Safety and flooding",
+      "short": "Safety"
+    },
+    {
+      "key": "other",
+      "label": "Everything else",
+      "short": "Other"
+    }
   ],
   "asks": [
     {
-      "id": "clear-encampment", "title": "Clear the encampment behind Under One Roof",
+      "id": "clear-encampment",
+      "title": "Clear the encampment behind Under One Roof",
       "why": "An encampment has grown behind Squamish's only shelter building on Third Avenue. Council and BC Housing are deciding what happens next.",
-      "topic": "downtown", "area": "downtown", "who": "council", "status": "agenda",
+      "topic": "downtown",
+      "area": "downtown",
+      "who": "council",
+      "status": "agenda",
       "other_side": "People camped there have nowhere else to go until temporary housing opens.",
-      "source_url": "/track/under-one-roof/", "source_label": "Issues we follow: Under One Roof"
+      "source_url": "/track/under-one-roof/",
+      "source_label": "Issues we follow: Under One Roof"
     },
     {
-      "id": "keep-until-housing", "title": "Let people stay at Under One Roof until temporary housing opens",
+      "id": "keep-until-housing",
+      "title": "Let people stay at Under One Roof until temporary housing opens",
       "why": "The same decision as clearing the encampment, asked the other way round.",
-      "topic": "downtown", "area": "downtown", "who": "council", "status": "agenda",
+      "topic": "downtown",
+      "area": "downtown",
+      "who": "council",
+      "status": "agenda",
       "other_side": "Neighbours and businesses say the camp has gone on too long and the area needs to be cleared now.",
-      "source_url": "/track/under-one-roof/", "source_label": "Issues we follow: Under One Roof"
+      "source_url": "/track/under-one-roof/",
+      "source_label": "Issues we follow: Under One Roof"
     },
     {
-      "id": "move-modular-shelter", "title": "Put the modular shelter somewhere other than the park near Junction Park",
+      "id": "move-modular-shelter",
+      "title": "Put the modular shelter somewhere other than the park near Junction Park",
       "why": "More than 290 residents signed a petition in April 2026 asking for a different site for the provincial modular housing. They don't oppose the program itself.",
-      "topic": "downtown", "area": "downtown", "who": "province", "status": "province",
+      "topic": "downtown",
+      "area": "downtown",
+      "who": "province",
+      "status": "province",
       "other_side": "Any site will have neighbours, and moving it can delay housing for people who need it now.",
-      "source_url": "https://www.squamishreporter.com/2026/04/20/petition-urges-rethink-of-modular-housing-for-homeless-in-downtown-squamish-park/", "source_label": "Squamish Reporter, April 2026"
+      "source_url": "https://www.squamishreporter.com/2026/04/20/petition-urges-rethink-of-modular-housing-for-homeless-in-downtown-squamish-park/",
+      "source_label": "Squamish Reporter, April 2026"
     },
     {
-      "id": "government-road-housing", "title": "Build the supportive housing at 39900 Government Road as planned",
+      "id": "government-road-housing",
+      "title": "Build the supportive housing at 39900 Government Road as planned",
       "why": "BC Housing plans six storeys with 65 studio homes and support staff around the clock, run by Squamish Helping Hands.",
-      "topic": "downtown", "area": null, "who": "council", "status": "agenda",
+      "topic": "downtown",
+      "area": null,
+      "who": "council",
+      "status": "agenda",
       "other_side": "Some neighbours worry about the location and want more say in how it is run.",
-      "source_url": "/track/government-road-supportive-housing/", "source_label": "Issues we follow: Government Road housing"
+      "source_url": "/track/government-road-supportive-housing/",
+      "source_label": "Issues we follow: Government Road housing"
     },
     {
-      "id": "courtside-defibrillator", "title": "Install the defibrillator at the Brennan Park pickleball and tennis courts this year",
+      "id": "courtside-defibrillator",
+      "title": "Install the defibrillator at the Brennan Park pickleball and tennis courts this year",
       "why": "Pickleball Squamish offered up to $4,000 toward it. A June 2026 staff report scheduled it for 2027.",
-      "topic": "parks", "area": null, "who": "council", "status": "plan",
+      "topic": "parks",
+      "area": null,
+      "who": "council",
+      "status": "plan",
       "other_side": "The cabinet and data plan add yearly costs, and staff time is already planned for other work this year.",
-      "source_url": "https://www.squamishreporter.com/2026/06/09/pickleball-squamish-calls-for-faster-action-on-courtside-aed-at-brennan-park/", "source_label": "Squamish Reporter, June 2026"
+      "source_url": "https://www.squamishreporter.com/2026/06/09/pickleball-squamish-calls-for-faster-action-on-courtside-aed-at-brennan-park/",
+      "source_label": "Squamish Reporter, June 2026"
     },
     {
-      "id": "more-pickleball", "title": "Build more pickleball courts now instead of waiting for the 2027 parks plan",
+      "id": "more-pickleball",
+      "title": "Build more pickleball courts now instead of waiting for the 2027 parks plan",
       "why": "In March 2026 staff asked council to hold off on new courts until the 2027 Parks and Recreation Master Plan looks at racket sports.",
-      "topic": "parks", "area": null, "who": "council", "status": "none",
+      "topic": "parks",
+      "area": null,
+      "who": "council",
+      "status": "none",
       "other_side": "Waiting for the plan means courts go where they are needed most, alongside tennis and other sports.",
-      "source_url": "https://www.squamishreporter.com/2026/03/06/squamish-council-to-review-returning-eaglewind-courts-to-tennis", "source_label": "Squamish Reporter, March 2026"
+      "source_url": "https://www.squamishreporter.com/2026/03/06/squamish-council-to-review-returning-eaglewind-courts-to-tennis",
+      "source_label": "Squamish Reporter, March 2026"
     },
     {
-      "id": "eaglewind-tennis", "title": "Fix up the Eaglewind courts and reopen them for tennis",
+      "id": "eaglewind-tennis",
+      "title": "Fix up the Eaglewind courts and reopen them for tennis",
       "why": "The courts have sat unused since pickleball moved to Brennan Park in 2023 and 2024. Staff recommended fixing them up.",
-      "topic": "parks", "area": null, "who": "council", "status": "agenda",
+      "topic": "parks",
+      "area": null,
+      "who": "council",
+      "status": "agenda",
       "other_side": "The money could go toward courts in a busier spot.",
-      "source_url": "https://www.squamishreporter.com/2026/03/06/squamish-council-to-review-returning-eaglewind-courts-to-tennis", "source_label": "Squamish Reporter, March 2026"
+      "source_url": "https://www.squamishreporter.com/2026/03/06/squamish-council-to-review-returning-eaglewind-courts-to-tennis",
+      "source_label": "Squamish Reporter, March 2026"
     },
     {
-      "id": "second-ice", "title": "Build a second sheet of ice at Brennan Park",
+      "id": "second-ice",
+      "title": "Build a second sheet of ice at Brennan Park",
       "why": "Brennan Park has the town's only arena. A second rink is part of the District's long term vision, with no money set aside yet.",
-      "topic": "parks", "area": null, "who": "council", "status": "none",
+      "topic": "parks",
+      "area": null,
+      "who": "council",
+      "status": "none",
       "other_side": "A second rink costs tens of millions to build and run, which means borrowing or higher taxes.",
-      "source_url": "/track/brennan-park/", "source_label": "Issues we follow: Brennan Park"
+      "source_url": "/track/brennan-park/",
+      "source_label": "Issues we follow: Brennan Park"
     },
     {
-      "id": "second-pool", "title": "Build a second pool at Brennan Park",
+      "id": "second-pool",
+      "title": "Build a second pool at Brennan Park",
       "why": "Brennan Park has the town's only public pool. A second pool is part of the District's long term vision, with no money set aside yet.",
-      "topic": "parks", "area": null, "who": "council", "status": "none",
+      "topic": "parks",
+      "area": null,
+      "who": "council",
+      "status": "none",
       "other_side": "A second pool costs tens of millions to build and run, which means borrowing or higher taxes.",
-      "source_url": "/track/brennan-park/", "source_label": "Issues we follow: Brennan Park"
+      "source_url": "/track/brennan-park/",
+      "source_label": "Issues we follow: Brennan Park"
     },
     {
-      "id": "fence-john-hunter", "title": "Fence the off leash dog area at John Hunter Park",
+      "id": "fence-john-hunter",
+      "title": "Fence the off leash dog area at John Hunter Park",
       "why": "John Hunter Park is one of the off leash pilot sites. The District says it still needs a fence, with no timeline set.",
-      "topic": "parks", "area": "garibaldi-estates", "who": "council", "status": "none",
+      "topic": "parks",
+      "area": "garibaldi-estates",
+      "who": "council",
+      "status": "none",
       "other_side": "Some park users would rather keep the park open and unfenced for everyone.",
-      "source_url": "https://squamish.ca/rec/parks-and-trails/off-leash-pilot/", "source_label": "District of Squamish: off leash pilot"
+      "source_url": "https://squamish.ca/rec/parks-and-trails/off-leash-pilot/",
+      "source_label": "District of Squamish: off leash pilot"
     },
     {
-      "id": "disc-golf", "title": "Upgrade the Brennan Park disc golf course",
+      "id": "disc-golf",
+      "title": "Upgrade the Brennan Park disc golf course",
       "why": "Residents asked for an upgraded disc golf course in the 2021 feedback on the Brennan Park plan.",
-      "topic": "parks", "area": null, "who": "council", "status": "none",
+      "topic": "parks",
+      "area": null,
+      "who": "council",
+      "status": "none",
       "other_side": "Park money is tight and other Brennan Park projects are further along.",
-      "source_url": "https://www.squamishreporter.com/2021/05/26/off-leash-dog-park-planned-at-brennan-park/", "source_label": "Squamish Reporter, May 2021"
+      "source_url": "https://www.squamishreporter.com/2021/05/26/off-leash-dog-park-planned-at-brennan-park/",
+      "source_label": "Squamish Reporter, May 2021"
     },
     {
-      "id": "covered-basketball", "title": "Build covered outdoor basketball courts",
+      "id": "covered-basketball",
+      "title": "Build covered outdoor basketball courts",
       "why": "Residents asked for covered outdoor courts in the 2021 feedback on the Brennan Park plan, so they can be used in the rain.",
-      "topic": "parks", "area": null, "who": "council", "status": "none",
+      "topic": "parks",
+      "area": null,
+      "who": "council",
+      "status": "none",
       "other_side": "A roof adds a lot to the cost of a court.",
-      "source_url": "https://www.squamishreporter.com/2021/05/26/off-leash-dog-park-planned-at-brennan-park/", "source_label": "Squamish Reporter, May 2021"
+      "source_url": "https://www.squamishreporter.com/2021/05/26/off-leash-dog-park-planned-at-brennan-park/",
+      "source_label": "Squamish Reporter, May 2021"
     },
     {
-      "id": "highlands-crosswalk", "title": "Add a crosswalk and a wider bike lane on Highlands Way North, south of Pentland Way",
+      "id": "highlands-crosswalk",
+      "title": "Add a crosswalk and a wider bike lane on Highlands Way North, south of Pentland Way",
       "why": "Speeding in the school zone. It is on the District's 2026 traffic calming list.",
-      "topic": "streets", "area": "garibaldi-highlands", "who": "council", "status": "plan",
+      "topic": "streets",
+      "area": "garibaldi-highlands",
+      "who": "council",
+      "status": "plan",
       "other_side": "Some drivers say the changes slow a main route out of the Highlands.",
-      "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-and-initiatives/project/2026-traffic-calming-measures/", "source_label": "District of Squamish: 2026 traffic calming"
+      "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-and-initiatives/project/2026-traffic-calming-measures/",
+      "source_label": "District of Squamish: 2026 traffic calming"
     },
     {
-      "id": "mamquam-speed-humps", "title": "Put speed humps on Upper Mamquam Road",
+      "id": "mamquam-speed-humps",
+      "title": "Put speed humps on Upper Mamquam Road",
       "why": "Speeding and truck traffic. It is on the District's 2026 traffic calming list.",
-      "topic": "streets", "area": "mamquam", "who": "council", "status": "plan",
+      "topic": "streets",
+      "area": "mamquam",
+      "who": "council",
+      "status": "plan",
       "other_side": "Speed humps slow emergency vehicles and are hard on trucks that need the road.",
-      "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-and-initiatives/project/2026-traffic-calming-measures/", "source_label": "District of Squamish: 2026 traffic calming"
+      "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-and-initiatives/project/2026-traffic-calming-measures/",
+      "source_label": "District of Squamish: 2026 traffic calming"
     },
     {
-      "id": "skyline-crosswalk", "title": "Put a raised crosswalk and new signs on Skyline Drive",
+      "id": "skyline-crosswalk",
+      "title": "Put a raised crosswalk and new signs on Skyline Drive",
       "why": "It is on the District's 2026 traffic calming list.",
-      "topic": "streets", "area": "garibaldi-highlands", "who": "council", "status": "plan",
+      "topic": "streets",
+      "area": "garibaldi-highlands",
+      "who": "council",
+      "status": "plan",
       "other_side": "Raised crosswalks slow everyone, including buses and emergency vehicles.",
-      "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-and-initiatives/project/2026-traffic-calming-measures/", "source_label": "District of Squamish: 2026 traffic calming"
+      "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-and-initiatives/project/2026-traffic-calming-measures/",
+      "source_label": "District of Squamish: 2026 traffic calming"
     },
     {
-      "id": "cleveland-highway", "title": "Make the Highway 99 and Cleveland Avenue intersection safer",
+      "id": "cleveland-highway",
+      "title": "Make the Highway 99 and Cleveland Avenue intersection safer",
       "why": "The District says it has the highest crash rate in town. The Province runs the highway, so council's role is to press for changes.",
-      "topic": "streets", "area": null, "who": "province", "status": "province",
+      "topic": "streets",
+      "area": null,
+      "who": "province",
+      "status": "province",
       "other_side": "The Province added a lane there in 2022 and may not fund more work soon.",
-      "source_url": "https://squamish.ca/yourgovernment/projects-and-initiatives/highway-99-at-cleveland/", "source_label": "District of Squamish: Highway 99 at Cleveland"
+      "source_url": "https://squamish.ca/yourgovernment/projects-and-initiatives/highway-99-at-cleveland/",
+      "source_label": "District of Squamish: Highway 99 at Cleveland"
     },
     {
-      "id": "free-downtown-parking", "title": "Keep downtown parking free",
+      "id": "free-downtown-parking",
+      "title": "Keep downtown parking free",
       "why": "A 2023 study suggested paid parking downtown. Council chose to test it at Darrell Bay only.",
-      "topic": "transit", "area": "downtown", "who": "council", "status": "agenda",
+      "topic": "transit",
+      "area": "downtown",
+      "who": "council",
+      "status": "agenda",
       "other_side": "Paid parking frees up spots for shoppers and raises money without raising taxes.",
-      "source_url": "/track/paid-parking/", "source_label": "Issues we follow: paid parking"
+      "source_url": "/track/paid-parking/",
+      "source_label": "Issues we follow: paid parking"
     },
     {
-      "id": "regional-bus", "title": "Get a public bus running to Vancouver and Whistler",
+      "id": "regional-bus",
+      "title": "Get a public bus running to Vancouver and Whistler",
       "why": "Squamish has local buses but no public bus to Vancouver or Whistler. It has been studied since 2015 and has stalled over who runs and pays for it.",
-      "topic": "transit", "area": null, "who": "province", "status": "province",
+      "topic": "transit",
+      "area": null,
+      "who": "province",
+      "status": "province",
       "other_side": "Squamish would likely have to pay part of the yearly cost through property taxes.",
-      "source_url": "/track/regional-transit/", "source_label": "Issues we follow: regional transit"
+      "source_url": "/track/regional-transit/",
+      "source_label": "Issues we follow: regional transit"
     },
     {
-      "id": "tax-inflation", "title": "Keep the 2027 property tax increase to the rate of inflation",
+      "id": "tax-inflation",
+      "title": "Keep the 2027 property tax increase to the rate of inflation",
       "why": "Property taxes rose 12.8% in 2026. Council is working on the 2027 budget now.",
-      "topic": "money", "area": null, "who": "council", "status": "agenda",
+      "topic": "money",
+      "area": null,
+      "who": "council",
+      "status": "agenda",
       "other_side": "Holding taxes down means cutting or delaying services, repairs and projects.",
-      "source_url": "/track/budget-2027/", "source_label": "Issues we follow: 2027 budget"
+      "source_url": "/track/budget-2027/",
+      "source_label": "Issues we follow: 2027 budget"
     },
     {
-      "id": "faster-dikes", "title": "Speed up dike upgrades, even if it means borrowing more",
+      "id": "faster-dikes",
+      "title": "Speed up dike upgrades, even if it means borrowing more",
       "why": "Much of Squamish sits on a floodplain. The District raises dikes a section at a time, mostly when grants come through.",
-      "topic": "safety", "area": null, "who": "council", "status": "plan",
+      "topic": "safety",
+      "area": null,
+      "who": "council",
+      "status": "plan",
       "other_side": "Borrowing adds interest costs to future tax bills, and waiting for grants is cheaper.",
-      "source_url": "/track/flood-protection/", "source_label": "Issues we follow: flood protection"
+      "source_url": "/track/flood-protection/",
+      "source_label": "Issues we follow: flood protection"
     }
   ]
 }

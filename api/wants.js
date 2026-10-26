@@ -1,6 +1,6 @@
 // What Squamish Wants (/wants/): residents answer yes, no or don't mind on specific asks, and can add their own.
 // Starter asks come from data/wants.json (bundled here as _wants.json by build.mjs). Residents' asks live in sv_wants.
-//   GET  ?voter=<id>                                   -> { ok, asks: [resident asks], tallies, mine: { wid: 'y'|'n'|'m' }, notes: { wid: [...] } }
+//   GET  ?voter=<id>                                   -> { ok, people, asks: [resident asks], tallies, mine: { wid: 'y'|'n'|'m' }, notes: { wid: [...] } }
 //   POST { action: 'vote', wid, choice, voter, area }  -> { ok, tally, choice }   (choice '' takes the answer back)
 //   POST { action: 'check', text, voter }              -> { ok, publish, reason, draft, similar: [{ id, title, how }], sig }
 //        Claude checks the rules, writes a short neutral ask and lists asks already on the list that mean the same thing.
@@ -153,11 +153,12 @@ export default async function handler(req, res) {
 
   if (req.method === 'GET') {
     const voter = voterOk(req.query.voter) ? hash(req.query.voter) : null;
-    const [asks, t, ns, mine] = await Promise.all([
+    const [asks, t, ns, mine, [{ people }]] = await Promise.all([
       residentAsks(), tallies(), notes(),
       voter ? sql`SELECT wid, choice FROM sv_want_votes WHERE voter = ${voter}` : [],
+      sql`SELECT count(DISTINCT voter)::int AS people FROM sv_want_votes`,
     ]);
-    return res.json({ ok: true, asks, tallies: t, notes: ns, mine: Object.fromEntries(mine.map((r) => [r.wid, r.choice])) });
+    return res.json({ ok: true, people, asks, tallies: t, notes: ns, mine: Object.fromEntries(mine.map((r) => [r.wid, r.choice])) });
   }
   if (req.method !== 'POST') return res.status(405).json({ ok: false });
   if (!voterOk(b.voter)) return res.status(400).json({ ok: false, error: 'Please reload the page and try again.' });

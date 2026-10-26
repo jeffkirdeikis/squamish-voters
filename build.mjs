@@ -869,9 +869,12 @@ const HAVE_SAY_OPEN = HAVE_Q.filter((q) => Date.parse(q.close) > Date.now()).len
 const WANTS = read('wants.json');
 const WANT_HOODS = [...(fs.existsSync(path.join(ROOT, 'data', 'neighbourhoods.json')) ? read('neighbourhoods.json').neighbourhoods : HOODS).map((h) => ({ slug: h.slug, name: h.name })), { slug: 'outside', name: 'Outside Squamish' }];
 const WANT_STATUS = {
-  none: { label: 'Nobody working on it', cls: 'none' }, plan: { label: 'Planned or in the budget', cls: 'plan' },
-  agenda: { label: 'Council is deciding', cls: 'agenda' }, done: { label: 'Done', cls: 'done' },
-  province: { label: 'Province decides', cls: 'prov' }, resident: { label: 'Added by a resident', cls: 'res' },
+  none: { label: 'Nobody working on it', cls: 'none', explain: 'Not in any District plan or budget we can find, and not on a council agenda.' },
+  plan: { label: 'Planned or in the budget', cls: 'plan', explain: 'The District has it in a plan or budget, but it hasn’t happened yet. The ask is usually about doing it sooner or differently.' },
+  agenda: { label: 'Council is deciding', cls: 'agenda', explain: 'This is in front of council now, so it could be decided at an upcoming meeting.' },
+  done: { label: 'Done', cls: 'done', explain: 'It has happened. We keep it on the list so you can see how people felt about it.' },
+  province: { label: 'Province decides', cls: 'prov', explain: 'The Province of B.C. controls this. Council can ask for it and push, but can’t do it alone.' },
+  resident: { label: 'Added by a resident', cls: 'res', explain: 'A resident added this. We haven’t checked where it stands yet.' },
 };
 const WANTS_N = WANTS.asks.length;
 const wantsData = (extra = {}) => `<script type="application/json" id="wa-data">${JSON.stringify({
@@ -883,7 +886,7 @@ const wantsStatic = (list) => list.map((a) => `<li class="wa-row"><span class="w
 const wantsShort = (where) => `<section class="card wa-short" data-wants="short" data-count="3" aria-labelledby="wa-short-h-${where}">
   <p class="wa-kicker">New: What Squamish Wants</p>
   <h2 id="wa-short-h-${where}">What should Squamish do?</h2>
-  <p class="small">Say yes, no or don’t mind on specific asks, then see what everyone else said.</p>
+  <p class="small">Say yes, no or don’t mind on specific asks, then see what everyone else said. <span data-wa-people></span></p>
   <ul class="wa-rows" data-wa-rows>${wantsStatic(WANTS.asks.slice(0, 3))}</ul>
   <a class="btn block" href="/wants/">See all the asks and add your own</a>
 </section>`;
@@ -1523,30 +1526,46 @@ if (TRACKED.length) {
   fs.writeFileSync(path.join(ROOT, 'api', '_wants.json'), JSON.stringify({ topics: WANTS.topics, hoods: WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => h.slug), asks: WANTS.asks.map(({ id, title, why }) => ({ id, title, why })) }) + '\n');
   const IMG = `${ORIGIN}/share/wants.png?v=1`;
   const body = (focus) => `<div class="wa" data-wants="page">
-  <p class="crumbs"><a href="/your-say/">← Your say</a></p>
-  <h1>What Squamish Wants</h1>
-  <p class="wa-lede">Say yes, no or don’t mind on what Squamish should do. Tap any ask to see what everyone said.</p>
-  <div class="wa-bar-top">
-    <label class="wa-area"><span>Your area</span> <select data-wa-area><option value="">Choose (optional)</option>${WANT_HOODS.map((h) => `<option value="${esc(h.slug)}">${esc(h.name)}</option>`).join('')}</select></label>
-  </div>
+  <header class="wa-head">
+    <h1>What Squamish Wants</h1>
+    <p class="wa-lede">Say yes, no or don’t mind on what Squamish should do. Tap any ask to see what everyone said.</p>
+    <p class="wa-people" data-wa-people aria-live="polite"></p>
+  </header>
+  <div class="wa-layout">
+  <div class="wa-main">
   <div class="wa-tabs" role="tablist" data-wa-tabs>
     <button type="button" role="tab" data-view="list" aria-selected="true">List</button>
     <button type="button" role="tab" data-view="one" aria-selected="false">One by one</button>
-    <button type="button" role="tab" data-view="add" aria-selected="false">+ Add yours</button>
+    <button type="button" role="tab" data-view="top" aria-selected="false">Top 10<span data-wa-lock> 🔒</span></button>
+    <button type="button" role="tab" class="wa-tab-add" data-view="add" aria-selected="false">+ Add</button>
   </div>
   <div data-pane="list">
     <div class="wa-filters" role="group" aria-label="Show">
+      <label class="wa-areachip"><span class="visually-hidden">Your area</span><select data-wa-area aria-label="Your area"><option value="">📍 Your area</option>${WANT_HOODS.map((h) => `<option value="${esc(h.slug)}">📍 ${esc(h.name)}</option>`).join('')}</select></label>
       <button type="button" class="wa-f" data-topic="all" aria-pressed="true">All</button>
       <button type="button" class="wa-f" data-topic="near" aria-pressed="false">Near you</button>
       <button type="button" class="wa-f" data-topic="todo" aria-pressed="false">Not answered</button>
-      ${WANTS.topics.map((t) => `<button type="button" class="wa-f" data-topic="${t.key}" aria-pressed="false">${esc(t.label)}</button>`).join('')}
+      ${WANTS.topics.map((t) => `<button type="button" class="wa-f" data-topic="${t.key}" aria-pressed="false">${esc(t.short || t.label)}</button>`).join('')}
     </div>
     <div class="wa-sortrow"><span class="small muted" data-wa-count>${WANTS_N} asks</span>
-      <label class="small">Sort <select data-wa-sort><option value="wanted">Most wanted</option><option value="split">Most split</option><option value="voted">Most answered</option><option value="newest">Newest from residents</option></select></label></div>
+      <label class="small">Sort <select data-wa-sort><option value="wanted">Most wanted</option><option value="split">Most split</option><option value="voted">Most answered</option><option value="newest">Newest</option></select></label></div>
     <ul class="wa-rows" data-wa-rows>${wantsStatic(WANTS.asks)}</ul>
+    <div class="wa-listfoot"><p><b>Missing something?</b> Add what you want Squamish to do. We check it against the list first.</p><button type="button" class="btn secondary" data-view="add">Add it</button></div>
   </div>
   <div data-pane="one" hidden><div data-wa-one></div></div>
+  <div data-pane="top" hidden><div data-wa-top></div></div>
   <div data-pane="add" hidden><div class="card wa-addbox" data-wa-add></div></div>
+  </div>
+  <aside class="wa-rail" aria-label="Your progress and adding an ask">
+    <section class="card wa-railcard" data-wa-railprog></section>
+    <section class="card wa-railcard wa-railadd" data-wa-railadd></section>
+    <section class="card wa-railcard"><h2>How the ranking works</h2><p class="small">Most wanted means the highest share of yes among people who said yes or no. “Don’t mind” is shown on every bar but left out of that share, so an ask that matters to one neighbourhood isn’t buried by people it doesn’t affect.</p></section>
+  </aside>
+  </div>
+  <div class="wa-fixed">
+    <div class="wa-sheet" data-wa-sheet hidden role="dialog" aria-live="polite"></div>
+    <div class="wa-float" data-wa-float hidden></div>
+  </div>
   <section class="card wa-how"><h2>How it works</h2>
     <ul>
       <li><b>One answer per ask</b> from each phone or computer. Tap the same answer again to take it back, or pick another to change it.</li>
