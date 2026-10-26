@@ -268,11 +268,18 @@ const TOPIC_NAME = { growth: 'growth and development', housing_affordability: 'h
 const issueCtx = (key) => (ctx.issues || []).find((i) => i.key === key) || {};
 
 // ---------- layout ----------
-const NAV = [
-  ['/council/', 'Council'], ['/meetings/', 'Meetings'], ['/promises/', 'Promises'], ['/said-vs-did/', 'Said vs did'], ['/quiz/', 'Quiz'], ['/compare/', 'Compare'], ['/news/', 'News'],
+// Desktop top bar (layout A, Oct 26): four jobs. Council and Your say open a dropdown; each also has its own hub page.
+const NAV_GROUPS = [
+  { href: '/council/', label: 'Council', items: [['/council/', 'Your mayor and council'], ['/meetings/', 'Council meetings'], ['/this-week/', 'This week at council'], ['/promises/', 'Promise tracker'], ['/said-vs-did/', 'Said vs did'], ['/quiz/', 'Who on council thinks like you?'], ['/compare/', 'Compare them, issue by issue'], ['/compass/', 'Where they lean']] },
+  { href: '/your-say/', label: 'Your say', items: [['/wants/', 'What Squamish Wants'], ['/have-your-say/', 'Before council votes'], ['/priorities/', 'Readers’ top issues']] },
+  { href: '/meetings/', label: 'Meetings' },
+  { href: '/neighbourhoods/', label: 'Neighbourhoods' },
+  { href: '/track/', label: 'Issues', items: [['/track/', 'Issues we’re following'], ['/issues/', 'The issues explained']] },
+  { href: '/news/', label: 'News' },
 ];
+const NAV = [['/council/', 'Council'], ['/your-say/', 'Your say'], ['/wants/', 'What Squamish Wants'], ['/meetings/', 'Meetings'], ['/promises/', 'Promises'], ['/said-vs-did/', 'Said vs did'], ['/quiz/', 'Quiz'], ['/compare/', 'Compare'], ['/news/', 'News']];
 // The Menu lists everything; the top bar only has room for the essentials.
-const MENU = [...NAV, ['/this-week/', 'This week at council'], ['/track/', 'Issues we’re following'], ['/compass/', 'Where they lean'], ['/issues/', 'The issues explained'], ['/priorities/', 'Readers’ top issues'], ['/neighbourhoods/', 'Your neighbourhood'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
+const MENU = [...NAV, ['/have-your-say/', 'Before council votes'], ['/this-week/', 'This week at council'], ['/track/', 'Issues we’re following'], ['/compass/', 'Where they lean'], ['/issues/', 'The issues explained'], ['/priorities/', 'Readers’ top issues'], ['/neighbourhoods/', 'Your neighbourhood'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
 const ICON = {
   gavel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4l6 6M11 7l6 6M12.5 5.5l-6 6 3 3 6-6M8 13l-5 5 3 3 5-5M4 21h9"/></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>',
@@ -289,15 +296,22 @@ const ICON = {
   news: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h10A1.5 1.5 0 0 1 17 5.5V19a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2z"/><path d="M17 9h2.5a.5.5 0 0 1 .5.5V19a2 2 0 0 1-2 2"/><path d="M7.5 8h6M7.5 12h6M7.5 16h4"/></svg>',
   ballot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 8.500l1.2 1.2 2-2.400M8.5 14.500l1.2 1.2 2-2.400M14 9h2M14 15h2"/></svg>',
 };
-// Five tabs with News raised in the centre (Jeff, Oct 25). "Said vs did" lives in the Menu and the desktop top bar.
-const TABS = [['/', 'Home', 'home'], ['/council/', 'Council', 'people'], ['/news/', 'News', 'news'], ['/meetings/', 'Meetings', 'meet'], ['/promises/', 'Promises', 'promise']];
+// Layout A (Jeff, Oct 26): five tabs with Your say raised in the centre; More opens the full menu.
+// Each tab lights up for every page in its group (Meetings, Promises and the rest sit under Council).
+const TABS = [['/', 'Home', 'home'], ['/council/', 'Council', 'people'], ['/your-say/', 'Your say', 'hand'], ['/news/', 'News', 'news'], ['#menu', 'More', 'more']];
+const TAB_GROUP = {
+  '/council/': ['/council/', '/meetings/', '/this-week/', '/promises/', '/said-vs-did/', '/quiz/', '/compare/', '/compass/', '/results/'],
+  '/your-say/': ['/your-say/', '/wants/', '/have-your-say/', '/priorities/', '/welcome/'],
+  '/news/': ['/news/'],
+};
 // The phone Menu: every page, one per row, with How to vote near the top since it left the bottom bar.
 const MENU_ICON = {
+  more: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
   issues: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/></svg>',
   about: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.1"/></svg>',
 };
 const MOBILE_MENU = [
-  ['/', 'Home', 'home'], ['/council/', 'Your mayor and council', 'people'], ['/neighbourhoods/', 'Your neighbourhood: decisions, building projects, news', 'compass'], ['/have-your-say/', 'Have your say: vote on what council votes on', 'ballot'], ['/meetings/', 'Council meetings: what’s next and what they decided', 'meet'],
+  ['/', 'Home', 'home'], ['/wants/', 'What Squamish Wants: say yes or no to local asks', 'hand'], ['/your-say/', 'Your say: everywhere you can weigh in', 'ballot'], ['/council/', 'Your mayor and council', 'people'], ['/neighbourhoods/', 'Your neighbourhood: decisions, building projects, news', 'compass'], ['/have-your-say/', 'Before council votes: vote on what council votes on', 'ballot'], ['/meetings/', 'Council meetings: what’s next and what they decided', 'meet'],
   ['/this-week/', 'This week at council', 'meet'], ['/track/', 'Issues we’re following', 'issues'], ['/promises/', 'Promise tracker', 'promise'], ['/said-vs-did/', 'Do they vote the way they said?', 'compare'], ['/quiz/', 'Who on council thinks like you?', 'quiz'], ['/compare/', 'Compare them, issue by issue', 'compare'],
   ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/news/', 'Squamish news', 'news'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
   ['/about/', 'About this site &amp; sources', 'about'],
@@ -306,6 +320,7 @@ const MOBILE_MENU = [
 function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null, image = null }) {
   const img = image || 'https://squamishvoters.com/og.png?v=4';
   const cur = (href) => ((href === '/' ? url === '/' : url.startsWith(href)) ? ' aria-current="page"' : '');
+  const inGroup = (g) => [g.href, ...g.items.map(([h]) => h)].some((h) => url.startsWith(h));
   const full = title ? `${title} | ${SITE.name}` : 'Squamish Voters: what Squamish council is deciding, how each member votes, and whether they keep their promises';
   return `<!doctype html>
 <html lang="en-CA">
@@ -342,7 +357,9 @@ function page({ url, title, desc, body, hero = '', scripts = '', noindex = false
       <span>Squamish Voters<small>Stay up to date, easily</small></span>
     </a>
     <nav class="top-nav" aria-label="Main">
-      ${NAV.map(([h, l]) => (h === '/news/' ? `<a class="nav-news" href="${h}"${cur(h)}>${ICON.news}<span>${l}</span></a>` : `<a href="${h}"${cur(h)}>${l}</a>`)).join('')}
+      ${NAV_GROUPS.map((g) => g.href === '/news/' ? `<a class="nav-news" href="${g.href}"${cur(g.href)}>${ICON.news}<span>${g.label}</span></a>`
+        : g.items ? `<div class="nav-dd"><a href="${g.href}"${inGroup(g) ? ' aria-current="page"' : ''}>${g.label}</a><button type="button" class="nav-dd-btn" aria-expanded="false" aria-label="More ${g.label.toLowerCase()} pages"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="nav-dd-panel">${g.items.map(([h, l]) => `<a href="${h}"${url === h ? ' aria-current="page"' : ''}>${l}</a>`).join('')}</div></div>`
+        : `<a href="${g.href}"${cur(g.href)}>${g.label}</a>`).join('')}
     </nav>
     <button class="hdr-btn menu-btn" type="button" aria-expanded="false" aria-controls="menu-panel"><span>Menu</span></button>
   </div>
@@ -366,7 +383,8 @@ ${body}
   </div>
 </div></footer>
 <nav class="tabbar" aria-label="Quick navigation">
-  ${TABS.map(([h, l, i]) => `<a href="${h}"${cur(h)}${i === 'news' ? ' class="tab-feature"' : ''}>${ICON[i] || MENU_ICON[i]}<span>${l}</span></a>`).join('')}
+  ${TABS.map(([h, l, i]) => h === '#menu' ? `<button type="button" class="tab-more" data-menu-open aria-controls="menu-panel" aria-expanded="false">${MENU_ICON.more}<span>${l}</span></button>`
+    : `<a href="${h}"${(TAB_GROUP[h] || [h]).some((x) => (x === '/' ? url === '/' : url.startsWith(x))) ? ' aria-current="page"' : ''}${i === 'hand' ? ' class="tab-feature"' : ''}>${ICON[i] || MENU_ICON[i]}<span>${l}</span></a>`).join('')}
 </nav>
 <a class="totop no-print" href="#main" id="totop" hidden>↑ Top</a>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -845,6 +863,30 @@ if (process.env.SV_VOTE_TEST === '1') HAVE_Q.unshift(
   { id: 'test-question-2', meeting: 'test', date: TODAY, close: new Date(Date.now() + 3 * 86400000).toISOString(), url: '/meetings/', mlabel: 'Test meeting (preview only)', decided: false, ask: 'Should council change the community plan to allow about 1,100 homes at North Crumpit?', plain: 'Test example of a detailed question.', for_you: 'A new neighbourhood north of Crumpit Woods, reached from the Mamquam area.', yes_means: 'Planning continues toward a rezoning, with more public hearings before anything is built.', no_means: 'The land stays planned as it is now, and the applicant can come back with a new proposal.', areas: ['crumpit-woods'], topic: 'growth', depth: 'detailed', context: 'Example text for testing. The District is reviewing a community plan change for North Crumpit, a hillside area east of the highway. A plan change is an early step: a rezoning and development permits would still be needed.', facts: ['About 1,130 homes planned', 'Community plan change, not yet a rezoning', 'Under review by District staff'], supporters: ['Adds homes in a town short of housing', 'Planned as a whole neighbourhood rather than piece by piece'], concerns: ['More traffic on roads into the area', 'Building on a forested hillside with wildfire risk'], factors: ['Traffic', 'Homes people can afford', 'Wildfire and flood risk', 'Parks and trails', 'Cost to taxpayers'] },
 );
 const HAVE_SAY_OPEN = HAVE_Q.filter((q) => Date.parse(q.close) > Date.now()).length;
+
+// ---------- WHAT SQUAMISH WANTS: data shared by /wants/, the per-ask pages, /your-say/ and Home ----------
+// Starter asks from data/wants.json; residents' asks come from the database at page load (api/wants.js, src/wants.js).
+const WANTS = read('wants.json');
+const WANT_HOODS = [...(fs.existsSync(path.join(ROOT, 'data', 'neighbourhoods.json')) ? read('neighbourhoods.json').neighbourhoods : HOODS).map((h) => ({ slug: h.slug, name: h.name })), { slug: 'outside', name: 'Outside Squamish' }];
+const WANT_STATUS = {
+  none: { label: 'Nobody working on it', cls: 'none' }, plan: { label: 'Planned or in the budget', cls: 'plan' },
+  agenda: { label: 'Council is deciding', cls: 'agenda' }, done: { label: 'Done', cls: 'done' },
+  province: { label: 'Province decides', cls: 'prov' }, resident: { label: 'Added by a resident', cls: 'res' },
+};
+const WANTS_N = WANTS.asks.length;
+const wantsData = (extra = {}) => `<script type="application/json" id="wa-data">${JSON.stringify({
+  asks: WANTS.asks, topics: WANTS.topics, statuses: WANT_STATUS, hoods: Object.fromEntries(WANT_HOODS.map((h) => [h.slug, h.name])), ...extra,
+}).replace(/</g, '\\u003c')}</script>`;
+// A plain list for search engines and anyone without JavaScript; src/wants.js replaces it with the answerable rows.
+const wantsStatic = (list) => list.map((a) => `<li class="wa-row"><span class="wa-t">${esc(a.title)}</span>${a.why ? `<span class="small muted">${esc(a.why)}</span>` : ''}</li>`).join('');
+// The short version: three asks you can answer on the spot, used on Home and /your-say/.
+const wantsShort = (where) => `<section class="card wa-short" data-wants="short" data-count="3" aria-labelledby="wa-short-h-${where}">
+  <p class="wa-kicker">New: What Squamish Wants</p>
+  <h2 id="wa-short-h-${where}">What should Squamish do?</h2>
+  <p class="small">Say yes, no or don’t mind on specific asks, then see what everyone else said.</p>
+  <ul class="wa-rows" data-wa-rows>${wantsStatic(WANTS.asks.slice(0, 3))}</ul>
+  <a class="btn block" href="/wants/">See all the asks and add your own</a>
+</section>`;
 // Home hero: the next meeting as a calendar card, or the last one once nothing is scheduled.
 function heroMeet() {
   const m = upcoming[0], firstVote = upcoming.find((x) => x.type !== 'inaugural' && x !== m);
@@ -904,7 +946,7 @@ const v = ctx.voting || {};
     <a class="cc-tile" href="/meetings/"><span class="cc-ico">${ICON.gavel}</span><b>What council decided</b><span>Every meeting, in plain words</span></a>
     <a class="cc-tile" href="/promises/"><span class="cc-ico">${ICON.check}</span><b>Promise tracker</b><span>${PROMISES.length} promises we’re watching</span></a>
     <a class="cc-tile" href="/neighbourhoods/"><span class="cc-ico">${ICON.pin}</span><b>Your neighbourhood</b><span>Decisions and building near you</span></a>
-    <a class="cc-tile cc-say" href="/have-your-say/"><span class="cc-ico">${ICON.hand}</span><b>Have your say <span class="cc-new">${HAVE_SAY_OPEN ? 'Vote now' : 'New'}</span></b><span>${HAVE_SAY_OPEN ? `${HAVE_SAY_OPEN} question${HAVE_SAY_OPEN === 1 ? '' : 's'} open: vote before council does` : 'Vote on what council votes on'}</span></a>
+${HAVE_SAY_OPEN ? `    <a class="cc-tile cc-say" href="/have-your-say/"><span class="cc-ico">${ICON.hand}</span><b>Have your say <span class="cc-new">${HAVE_SAY_OPEN ? 'Vote now' : 'New'}</span></b><span>${HAVE_SAY_OPEN ? `${HAVE_SAY_OPEN} question${HAVE_SAY_OPEN === 1 ? '' : 's'} open: vote before council does` : 'Vote on what council votes on'}</span></a>` : `<a class="cc-tile cc-say" href="/wants/"><span class="cc-ico">${ICON.hand}</span><b>What Squamish Wants <span class="cc-new">New</span></b><span>Say yes or no to ${WANTS_N}+ local asks</span></a>`}
   </div>
   <form class="herosign cc-sign" id="signup" data-subscribe="home-hero" novalidate>
     <label for="hs-email"><b>Get a short email every Friday:</b> what council decided and what’s coming up.</label>
@@ -916,6 +958,9 @@ const v = ctx.voting || {};
   </div></section>`,
     body: `
   ${homeNews()}
+  ${wantsShort('home')}
+  ${wantsData()}
+  <script src="/wants.js" defer></script>
   ${FB_CARD}
   <h2>Your council <span class="small">elected October 17, 2026</span></h2>
   <div class="faces faces-sm">${[...mayors, ...council].map(faceTile).join('')}</div>
@@ -1470,6 +1515,80 @@ if (TRACKED.length) {
   }));
 }
 
+// ---------- WHAT SQUAMISH WANTS (/wants/ and /wants/<ask>/) ----------
+// The full list is the front door (answer right on each row; totals open once you answer or tap). Each starter ask also
+// gets its own page, the same list opened on that ask, so it can be shared on Facebook with its own title.
+// Residents' asks are shared as /wants/#<id>. api/_wants.json tells the API which starter ids and neighbourhoods exist.
+{
+  fs.writeFileSync(path.join(ROOT, 'api', '_wants.json'), JSON.stringify({ topics: WANTS.topics, hoods: WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => h.slug), asks: WANTS.asks.map(({ id, title, why }) => ({ id, title, why })) }) + '\n');
+  const IMG = `${ORIGIN}/share/wants.png?v=1`;
+  const body = (focus) => `<div class="wa" data-wants="page">
+  <p class="crumbs"><a href="/your-say/">← Your say</a></p>
+  <h1>What Squamish Wants</h1>
+  <p class="wa-lede">Say yes, no or don’t mind on what Squamish should do. Tap any ask to see what everyone said.</p>
+  <div class="wa-bar-top">
+    <label class="wa-area"><span>Your area</span> <select data-wa-area><option value="">Choose (optional)</option>${WANT_HOODS.map((h) => `<option value="${esc(h.slug)}">${esc(h.name)}</option>`).join('')}</select></label>
+  </div>
+  <div class="wa-tabs" role="tablist" data-wa-tabs>
+    <button type="button" role="tab" data-view="list" aria-selected="true">List</button>
+    <button type="button" role="tab" data-view="one" aria-selected="false">One by one</button>
+    <button type="button" role="tab" data-view="add" aria-selected="false">+ Add yours</button>
+  </div>
+  <div data-pane="list">
+    <div class="wa-filters" role="group" aria-label="Show">
+      <button type="button" class="wa-f" data-topic="all" aria-pressed="true">All</button>
+      <button type="button" class="wa-f" data-topic="near" aria-pressed="false">Near you</button>
+      <button type="button" class="wa-f" data-topic="todo" aria-pressed="false">Not answered</button>
+      ${WANTS.topics.map((t) => `<button type="button" class="wa-f" data-topic="${t.key}" aria-pressed="false">${esc(t.label)}</button>`).join('')}
+    </div>
+    <div class="wa-sortrow"><span class="small muted" data-wa-count>${WANTS_N} asks</span>
+      <label class="small">Sort <select data-wa-sort><option value="wanted">Most wanted</option><option value="split">Most split</option><option value="voted">Most answered</option><option value="newest">Newest from residents</option></select></label></div>
+    <ul class="wa-rows" data-wa-rows>${wantsStatic(WANTS.asks)}</ul>
+  </div>
+  <div data-pane="one" hidden><div data-wa-one></div></div>
+  <div data-pane="add" hidden><div class="card wa-addbox" data-wa-add></div></div>
+  <section class="card wa-how"><h2>How it works</h2>
+    <ul>
+      <li><b>One answer per ask</b> from each phone or computer. Tap the same answer again to take it back, or pick another to change it.</li>
+      <li><b>Most wanted</b> ranks asks by the share of yes among people who said yes or no. “Don’t mind” is counted and shown, but left out of that share, so an ask that matters to one neighbourhood isn’t buried by people it doesn’t affect.</li>
+      <li><b>Starter asks come from the public record</b>, each with a source. Asks added by residents are marked, with the resident’s own words underneath. Before an ask is added we check it against the list so the same idea isn’t added twice.</li>
+      <li><b>No one sees how you answered.</b> We show totals only, and a neighbourhood’s answers only once 5 people from it have answered.</li>
+      <li><b>This is not a scientific poll.</b> It shows what the people who chose to answer think. Nothing here is sent to council; it is public for anyone to see, council included.</li>
+    </ul></section>
+  ${signupBox('wants')}
+</div>
+${wantsData({ focus })}`;
+  write('/wants/', page({
+    url: '/wants/', title: 'What Squamish Wants: say yes or no to local asks', image: IMG,
+    desc: `Pickleball courts, the encampment, speed humps, a bus to Vancouver: ${WANTS_N}+ specific asks. Say yes, no or don’t mind, see what Squamish said, and add your own.`,
+    jsonld: crumbLd([['Home', '/'], ['Your say', '/your-say/'], ['What Squamish Wants', '/wants/']]),
+    body: body(null), scripts: '<script src="/wants.js" defer></script>',
+  }));
+  for (const a of WANTS.asks) write(`/wants/${a.id}/`, page({
+    url: `/wants/${a.id}/`, title: `${a.title}?`, image: IMG,
+    desc: `${a.why} Say yes, no or don’t mind, and see what Squamish said.`,
+    jsonld: crumbLd([['Home', '/'], ['What Squamish Wants', '/wants/'], [a.title, `/wants/${a.id}/`]]),
+    body: body(a.id), scripts: '<script src="/wants.js" defer></script>',
+  }));
+}
+
+// ---------- YOUR SAY (/your-say/): the hub for every place residents weigh in ----------
+write('/your-say/', page({
+  url: '/your-say/', title: 'Your say: tell Squamish council what you think',
+  desc: 'Every way to weigh in on Squamish Voters: say what you want Squamish to do, vote before council votes, and see readers’ top issues.',
+  jsonld: crumbLd([['Home', '/'], ['Your say', '/your-say/']]),
+  body: `<h1>Your say</h1>
+  <p class="lede">Council decides. Here’s where you tell them, and everyone else, what you think.</p>
+  <div class="ys-doors">
+    <a class="ys-door hi" href="/wants/"><span class="cc-ico">${ICON.hand}</span><b>What Squamish Wants <span class="cc-new">New</span></b><span>Say yes, no or don’t mind on ${WANTS_N}+ specific asks, from pickleball courts to the encampment. Add your own.</span></a>
+    <a class="ys-door" href="/have-your-say/"><span class="cc-ico">${ICON.ballot}</span><b>Before council votes${HAVE_SAY_OPEN ? ` <span class="cc-new">${HAVE_SAY_OPEN} open</span>` : ''}</b><span>${HAVE_SAY_OPEN ? `Vote on ${HAVE_SAY_OPEN} question${HAVE_SAY_OPEN === 1 ? '' : 's'} council is about to decide.` : 'Vote on the questions council is about to decide. They open when the agenda comes out.'}</span></a>
+    <a class="ys-door" href="/priorities/"><span class="cc-ico">${ICON.compare}</span><b>Readers’ top issues</b><span>The big topics readers of the Friday email care about most.</span></a>
+  </div>
+  ${wantsShort('hub')}
+  ${wantsData()}`,
+  scripts: '<script src="/wants.js" defer></script>',
+}));
+
 // ---------- NEIGHBOURHOODS (/neighbourhoods/ and /neighbourhoods/<slug>/) ----------
 // One page per neighbourhood: council decisions tagged with it, District development projects, issues we follow and news,
 // around a map. Boundaries and projects come from the District's open map data (scripts/pipeline/places.mjs).
@@ -1829,6 +1948,9 @@ write('/subscribers/', page({ url: '/subscribers/', title: 'Email sign-ups', noi
 <h2>Have your say comments</h2>
 <p class="small">Every comment, newest first. Posted ones are public on /have-your-say/. Hide any you don’t want up, or post one the check held back.</p>
 <div id="c-out" class="sb"><p class="muted">Loading…</p></div>
+<h2>What Squamish Wants: residents’ asks and added words</h2>
+<p class="small">Everything residents added on /wants/, newest first. Posted ones are public. Hide any you don’t want up; three reports from readers hide an ask on their own.</p>
+<div id="w-out" class="sb"><p class="muted">Loading…</p></div>
 <style>
 .sb { display: grid; gap: 1.2rem; }
 .sb-note { font-style: italic; color: var(--ink-2); }
@@ -1847,7 +1969,7 @@ write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can�
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
 // ---------- sitemap (every indexable page written above; lastmod = build date) ----------

@@ -133,4 +133,32 @@
       fetch('/api/have-your-say/', { method: 'POST', headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' }, body: JSON.stringify({ admin: b.getAttribute('data-cmod'), qid: b.getAttribute('data-qid'), cid: b.getAttribute('data-cid') }) }).then(loadComments);
     });
   }
+
+  // What Squamish Wants: residents' asks and the words people added to existing asks, with hide and bring back.
+  var wbox = document.getElementById('w-out');
+  var WST = { ok: 'Posted', pending: 'Waiting for check', reported: 'Hidden by reports', removed: 'Removed by you' };
+  function loadWants() {
+    fetch('/api/wants/?admin=1', { headers: { Authorization: 'Bearer ' + token }, cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
+      if (!d.ok) { wbox.textContent = 'Could not load.'; return; }
+      var items = d.asks.map(function (a) { return { kind: 'ask', wid: a.id, title: a.title, text: a.body, status: a.status, reports: a.reports, at: a.created_at }; })
+        .concat(d.notes.map(function (n) { return { kind: 'words', wid: n.wid, nid: n.nid, title: 'Words added to: ' + n.wid, text: n.text, status: n.status, at: n.at }; }))
+        .sort(function (a, b) { return String(b.at).localeCompare(String(a.at)); });
+      if (!items.length) { wbox.innerHTML = '<p class="muted">Nothing added by residents yet.</p>'; return; }
+      wbox.innerHTML = items.map(function (x) {
+        var showing = x.status === 'ok';
+        return '<div class="sb-person' + (showing ? '' : ' sb-dim') + '"><p class="sb-top"><span class="sb-pill">' + esc(WST[x.status] || x.status) + '</span><span class="small">' + (x.kind === 'ask' ? 'New ask' : 'Added words') + (x.reports ? ' · ' + x.reports + ' report' + (x.reports === 1 ? '' : 's') : '') + (x.at ? ' · ' + esc(new Date(x.at).toLocaleString('en-CA')) : '') + '</span></p>' +
+          '<p><b>' + esc(x.title) + '</b></p><p class="small sb-note">' + esc(x.text || '') + '</p>' +
+          (x.kind === 'ask' && showing ? '<p class="small"><a href="/wants/#' + esc(x.wid) + '">See it on the list</a></p>' : '') +
+          '<button type="button" class="btn secondary" data-wmod="' + (showing ? 'hide' : 'show') + '" data-wid="' + esc(x.wid) + '"' + (x.nid ? ' data-nid="' + esc(x.nid) + '"' : '') + '>' + (showing ? 'Hide it' : 'Post it') + '</button></div>';
+      }).join('');
+    }).catch(function () { wbox.textContent = 'Could not load.'; });
+  }
+  if (wbox) {
+    loadWants();
+    wbox.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-wmod]'); if (!b) return;
+      b.disabled = true;
+      fetch('/api/wants/', { method: 'POST', headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' }, body: JSON.stringify({ admin: b.getAttribute('data-wmod'), wid: b.getAttribute('data-wid'), nid: b.getAttribute('data-nid') || undefined }) }).then(loadWants);
+    });
+  }
 })();

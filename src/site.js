@@ -12,10 +12,32 @@
 
   // ----- menu -----
   var menuBtn = document.querySelector('.menu-btn'), panel = document.getElementById('menu-panel');
-  if (menuBtn && panel) menuBtn.addEventListener('click', function () {
-    var open = panel.classList.toggle('open');
-    menuBtn.setAttribute('aria-expanded', String(open));
-    menuBtn.querySelector('span').textContent = open ? 'Close' : 'Menu';
+  function setMenu(open) {
+    panel.classList.toggle('open', open);
+    if (menuBtn) { menuBtn.setAttribute('aria-expanded', String(open)); menuBtn.querySelector('span').textContent = open ? 'Close' : 'Menu'; }
+    document.querySelectorAll('[data-menu-open]').forEach(function (b) { b.setAttribute('aria-expanded', String(open)); });
+  }
+  if (menuBtn && panel) menuBtn.addEventListener('click', function () { setMenu(!panel.classList.contains('open')); });
+  // The More tab at the bottom opens the same menu and scrolls up to it.
+  document.querySelectorAll('[data-menu-open]').forEach(function (b) {
+    b.addEventListener('click', function () { var open = !panel.classList.contains('open'); setMenu(open); if (open) window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  });
+  // Desktop dropdowns open on hover or focus (CSS); the arrow button opens them by tap or keyboard too.
+  document.querySelectorAll('.nav-dd-btn').forEach(function (b) {
+    b.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var dd = b.closest('.nav-dd'), open = !dd.classList.contains('open');
+      document.querySelectorAll('.nav-dd.open').forEach(function (x) { x.classList.remove('open'); x.querySelector('.nav-dd-btn').setAttribute('aria-expanded', 'false'); });
+      dd.classList.toggle('open', open); b.setAttribute('aria-expanded', String(open));
+    });
+  });
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('.nav-dd')) return;
+    document.querySelectorAll('.nav-dd.open').forEach(function (x) { x.classList.remove('open'); x.querySelector('.nav-dd-btn').setAttribute('aria-expanded', 'false'); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    document.querySelectorAll('.nav-dd.open').forEach(function (x) { x.classList.remove('open'); x.querySelector('.nav-dd-btn').setAttribute('aria-expanded', 'false'); });
   });
 
   // ----- ballot -----
