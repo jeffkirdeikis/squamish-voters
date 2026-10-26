@@ -23,6 +23,9 @@
   var asks = D.asks.slice(), tallies = {}, mine = {}, notes = {}, loaded = false;
   var view = 'list', topic = 'all', sort = 'wanted', openId = null, focusId = D.focus || (location.hash || '').slice(1) || null, deckSkip = {}, deckShown = null;
   var reported = {}, pending = {};
+  // The order is frozen while someone is answering, so rows never jump under their finger. It is worked out again only
+  // when they change the sort, filter or neighbourhood, or come back to the page.
+  var order = null, shortOrder = null, touched = false;
   var STATUS = D.statuses, HOODS = D.hoods, TOPIC = {};
   D.topics.forEach(function (t) { TOPIC[t.key] = t.label; });
   function byId(id) { for (var i = 0; i < asks.length; i++) if (asks[i].id === id) return asks[i]; return null; }
@@ -83,6 +86,7 @@
 
   // ---------- list ----------
   function listed() {
+    if (order) return order.map(byId).filter(Boolean);
     var area = prefs.area;
     var L = asks.filter(function (a) {
       if (topic === 'all') return true;
@@ -98,6 +102,7 @@
     }[sort];
     L.sort(function (p, q) { return key(q) - key(p); });
     if (focusId) { var f = byId(focusId); if (f && L.indexOf(f) > -1) { L.splice(L.indexOf(f), 1); L.unshift(f); } }
+    order = L.map(function (a) { return a.id; });
     return L;
   }
   function drawList() {
@@ -187,10 +192,12 @@
   function drawShort() {
     var el = root.querySelector('[data-wa-rows]'); if (!el) return;
     var area = prefs.area, n = parseInt(root.getAttribute('data-count') || '3', 10);
+    if (shortOrder) { el.innerHTML = shortOrder.map(byId).filter(Boolean).map(row).join(''); return; }
     var L = asks.slice().sort(function (p, q) {
       var mp = mine[p.id] ? 1 : 0, mq = mine[q.id] ? 1 : 0, lp = p.area && p.area === area ? 0 : 1, lq = q.area && q.area === area ? 0 : 1;
       return mp - mq || lp - lq || total(t(q.id)) - total(t(p.id));
     }).slice(0, n);
+    if (touched) shortOrder = L.map(function (a) { return a.id; });
     el.innerHTML = L.map(row).join('');
   }
 
@@ -200,6 +207,7 @@
       if (!j || !j.ok) return;
       (j.asks || []).forEach(function (a) { if (!byId(a.id)) asks.push({ id: a.id, title: a.title, why: a.why, topic: a.topic || 'other', area: a.area, body: a.body, created_at: a.created_at, res: true }); });
       tallies = j.tallies || {}; mine = j.mine || {}; notes = j.notes || {}; loaded = true;
+      if (!touched) { order = null; shortOrder = null; }
       if (focusId && byId(focusId)) { openId = focusId; draw(); var el = document.getElementById('ask-' + focusId); if (el) el.scrollIntoView({ block: 'center' }); }
       else draw();
     }).catch(function () {});
@@ -209,6 +217,7 @@
       .then(function (r) { return r.json(); }).catch(function () { return { ok: false, error: 'That didn’t go through. Check your connection and try again.' }; });
   }
   function answer(id, k) {
+    if (!touched) { touched = true; if (mode === 'short' && !shortOrder) { var cur = [].map.call(root.querySelectorAll('[data-wa-rows] > .wa-row'), function (li) { return li.id.slice(4); }); if (cur.length) shortOrder = cur; } }
     var before = mine[id], x = Object.assign({ y: 0, n: 0, m: 0, areas: {} }, t(id));
     var choice = before === k ? '' : k;
     if (before) x[before] = Math.max(0, x[before] - 1);
@@ -233,7 +242,7 @@
     (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(function () { toast('Link copied. Paste it into Facebook or a text.'); }, function () { window.prompt('Copy this link:', url); });
   }
   function gotoAsk(id) {
-    focusId = id; openId = id; topic = 'all'; view = 'list'; draw();
+    focusId = id; openId = id; topic = 'all'; view = 'list'; order = null; draw();
     var el = document.getElementById('ask-' + id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
@@ -247,7 +256,7 @@
     }
     if ((b = e.target.closest('[data-open]'))) { var oid = b.getAttribute('data-open'); openId = openId === oid ? null : oid; if (openId) track('Wants open'); draw(); return; }
     if ((b = e.target.closest('[data-view]'))) { view = b.getAttribute('data-view'); if (view === 'one') deckShown = null; draw(); var tb = root.querySelector('[data-wa-tabs]'); if (tb && tb.getBoundingClientRect().top < 70 || !b.closest('[data-wa-tabs]')) window.scrollTo({ top: tb.offsetTop - 70, behavior: 'smooth' }); return; }
-    if ((b = e.target.closest('[data-topic]'))) { topic = b.getAttribute('data-topic'); focusId = null; draw(); return; }
+    if ((b = e.target.closest('[data-topic]'))) { topic = b.getAttribute('data-topic'); focusId = null; order = null; draw(); return; }
     if (e.target.closest('[data-next]')) { deckShown = null; drawOne(); return; }
     if ((b = e.target.closest('[data-skip]'))) { deckSkip[b.getAttribute('data-skip')] = true; deckShown = null; drawOne(); return; }
     if ((b = e.target.closest('[data-share]'))) { share(b.getAttribute('data-share')); return; }
@@ -286,7 +295,7 @@
         add.held = j.status !== 'ok';
         if (!add.held) {
           var a = j.ask; asks.push({ id: a.id, title: a.title, why: a.why, topic: a.topic, area: a.area, body: a.body, created_at: a.created_at, res: true });
-          mine[a.id] = 'y'; tallies[a.id] = { y: 1, n: 0, m: 0, areas: {} }; add.newId = a.id;
+          mine[a.id] = 'y'; tallies[a.id] = { y: 1, n: 0, m: 0, areas: {} }; add.newId = a.id; order = null;
         }
         add.stage = 'posted'; drawAdd(); track('Wants post');
       });
@@ -295,8 +304,8 @@
   });
   root.addEventListener('input', function (e) { if (e.target.id === 'wa-text') add.text = e.target.value; });
   root.addEventListener('change', function (e) {
-    if (e.target.matches('[data-wa-area]')) { prefs.area = e.target.value; put('sv_prefs', prefs); draw(); }
-    if (e.target.matches('[data-wa-sort]')) { sort = e.target.value; focusId = null; draw(); }
+    if (e.target.matches('[data-wa-area]')) { prefs.area = e.target.value; put('sv_prefs', prefs); order = null; draw(); }
+    if (e.target.matches('[data-wa-sort]')) { sort = e.target.value; focusId = null; order = null; draw(); }
   });
   var areaSel = root.querySelector('[data-wa-area]'); if (areaSel) areaSel.value = prefs.area || '';
   window.addEventListener('hashchange', function () { var h = location.hash.slice(1); if (byId(h)) gotoAsk(h); });
