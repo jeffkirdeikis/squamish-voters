@@ -1615,3 +1615,38 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .wa-areachip select { width: auto; flex: none; }
 .wa-sortrow select { max-width: 11rem; }
 @media (min-width: 1000px) { .wa-rail .wa-sheet { max-width: none; box-shadow: none; animation: none; } }
+
+/* ---------- What Squamish Wants: multiple choice asks ---------- */
+:root { --wa-o1: #1c5cab; --wa-o2: #c2571c; --wa-o3: #6a4c9c; --wa-o4: #2a7f74; }
+.wa-bar .o1, .wa-optlegend .o1 { background: var(--wa-o1); }
+.wa-bar .o2, .wa-optlegend .o2 { background: var(--wa-o2); }
+.wa-bar .o3, .wa-optlegend .o3 { background: var(--wa-o3); }
+.wa-bar .o4, .wa-optlegend .o4 { background: var(--wa-o4); }
+.wa-ans.choice { grid-template-columns: 1fr; gap: .4rem; }
+.wa-ans.choice .wa-b { text-align: left; padding: .55rem .85rem; min-height: 2.8rem; color: var(--ink); border-color: var(--line); font-weight: 700; line-height: 1.25; }
+.wa-ans.choice .wa-b.opt[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: #fff; }
+.wa-ans.choice .wa-b.m { justify-self: start; min-height: 2.4rem; padding: .3rem .9rem; font-size: .9rem; color: var(--ink-2); }
+.wa-ans.choice .wa-b.m[aria-pressed="true"] { color: #fff; }
+.wa-ans.choice.big .wa-b.opt { min-height: 3.3rem; font-size: 1.05rem; }
+.wa-ans.choice kbd { font: 700 .75rem system-ui, sans-serif; border: 1px solid var(--line); border-radius: 4px; padding: 0 .3rem; margin-right: .3rem; color: var(--muted); background: var(--surface-2); }
+.wa-optlegend { list-style: none; margin: 0; padding: 0; display: grid; gap: .25rem; font-size: .9rem; }
+.wa-optlegend li { display: grid; grid-template-columns: .8rem minmax(0, 1fr) auto; gap: .5rem; align-items: center; }
+.wa-optlegend .dot { width: .8rem; height: .8rem; border-radius: 3px; display: block; }
+.wa-optlegend b { font-variant-numeric: tabular-nums; }
+.wa-means { margin: 0; padding-left: 1.1rem; display: grid; gap: .3rem; }
+.wa-tease.choice .wa-tease-bar i:nth-child(1) { background: var(--wa-o1); }
+.wa-tease.choice .wa-tease-bar i:nth-child(2) { background: var(--wa-o2); }
+.wa-tease.choice .wa-tease-bar i:nth-child(3) { background: var(--wa-o3); }
+/* choice rows keep the answers under the title on wide screens too (labels are long) */
+@media (min-width: 760px) {
+  .wa-row.choice { grid-template-columns: minmax(0, 1fr); }
+  .wa-row.choice > .wa-ans { grid-column: 1; grid-row: auto; }
+  .wa-row.choice .wa-ans.choice { grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); }
+  .wa-row.choice .wa-ans.choice .wa-b.m { grid-column: 1 / -1; }
+}
+@media (min-width: 760px) {
+  .wa-row.choice .wa-ans.choice.n3 { grid-template-columns: repeat(3, 1fr); }
+  .wa-row.choice .wa-ans.choice.n4, .wa-row.choice .wa-ans.choice.n2 { grid-template-columns: repeat(2, 1fr); }
+}
+/* the floating answered counter replaces the site's Top button on this page */
+body:has(.wa-float:not([hidden])) #totop { display: none !important; }

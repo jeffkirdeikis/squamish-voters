@@ -1523,7 +1523,7 @@ if (TRACKED.length) {
 // gets its own page, the same list opened on that ask, so it can be shared on Facebook with its own title.
 // Residents' asks are shared as /wants/#<id>. api/_wants.json tells the API which starter ids and neighbourhoods exist.
 {
-  fs.writeFileSync(path.join(ROOT, 'api', '_wants.json'), JSON.stringify({ topics: WANTS.topics, hoods: WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => h.slug), asks: WANTS.asks.map(({ id, title, why }) => ({ id, title, why })) }) + '\n');
+  fs.writeFileSync(path.join(ROOT, 'api', '_wants.json'), JSON.stringify({ topics: WANTS.topics, hoods: WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => h.slug), asks: WANTS.asks.map(({ id, title, why, options }) => ({ id, title, why, ...(options ? { options: options.map((o) => o.key) } : {}) })) }) + '\n');
   const IMG = `${ORIGIN}/share/wants.png?v=1`;
   const body = (focus) => `<div class="wa" data-wants="page">
   <header class="wa-head">

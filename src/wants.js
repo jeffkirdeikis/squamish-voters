@@ -37,9 +37,21 @@
   D.topics.forEach(function (t) { TOPIC[t.key] = t.label; });
   function byId(id) { for (var i = 0; i < asks.length; i++) if (asks[i].id === id) return asks[i]; return null; }
   function t(id) { return tallies[id] || { y: 0, n: 0, m: 0, areas: {} }; }
-  function total(x) { return x.y + x.n + x.m; }
   function pct(n, d) { return d ? Math.round((100 * n) / d) : 0; }
-  function score(a) { var x = t(a.id), o = x.y + x.n; return o ? x.y / o : -1; }
+  // Yes / no asks have two answers; multiple choice asks ("kind": "choice") have their own options. Everyone can pick
+  // Don't mind (m), which is counted and shown but left out of the shares.
+  var YESNO = [{ key: 'y', label: 'Yes' }, { key: 'n', label: 'No' }];
+  function isChoice(a) { return a.kind === 'choice' && a.options; }
+  function opts(a) { return isChoice(a) ? a.options : YESNO; }
+  function c(x, k) { return (x && x[k]) || 0; }
+  function total(x) { var n = 0; for (var k in x) if (k !== 'areas') n += x[k] || 0; return n; }
+  function opinions(a, x) { return opts(a).reduce(function (s, o) { return s + c(x, o.key); }, 0); }
+  function ranked(a, x) { return opts(a).slice().sort(function (p, q) { return c(x, q.key) - c(x, p.key); }); }
+  function labelOf(a, k) { if (k === 'm') return 'Don’t mind'; var o = opts(a).filter(function (o) { return o.key === k; })[0]; return o ? o.label : k; }
+  // Most wanted: the share of yes among yes and no; for a multiple choice ask, the share of its most picked option.
+  function score(a) { var x = t(a.id), o = opinions(a, x); return o ? (isChoice(a) ? c(x, ranked(a, x)[0].key) : c(x, 'y')) / o : -1; }
+  // How evenly split: 1 means the top two answers are tied.
+  function splitness(a) { var x = t(a.id), o = opinions(a, x), r = ranked(a, x); return o && c(x, r[1].key) ? 1 - (c(x, r[0].key) - c(x, r[1].key)) / o : -1; }
   function done() { return asks.filter(function (a) { return mine[a.id]; }).length; }
   function linkOf(a) { return location.origin + (a.res ? '/wants/#' + a.id : '/wants/' + a.id + '/'); }
 
@@ -48,27 +60,40 @@
     var s = STATUS[a.res ? 'resident' : a.status] || STATUS.none;
     return '<span class="wa-chips"><span class="wa-chip ' + s.cls + '">' + esc(s.label) + '</span>' + (a.area && HOODS[a.area] ? '<span class="wa-chip area">' + esc(HOODS[a.area]) + '</span>' : '') + '</span>';
   }
-  function bar(x) {
+  function bar(a, x) {
     var n = total(x);
     if (!n) return '<p class="wa-first">No answers yet. Yours is the first.</p>';
-    return '<div class="wa-bar" role="img" aria-label="' + pct(x.y, n) + '% yes, ' + pct(x.m, n) + '% don’t mind, ' + pct(x.n, n) + '% no"><i class="y" style="width:' + pct(x.y, n) + '%"></i><i class="m" style="width:' + pct(x.m, n) + '%"></i><i class="n" style="width:' + pct(x.n, n) + '%"></i></div>';
+    var segs = isChoice(a) ? a.options.map(function (o, i) { return ['o' + (i + 1), o.label, c(x, o.key)]; }).concat([['m', 'don’t mind', c(x, 'm')]])
+      : [['y', 'yes', c(x, 'y')], ['m', 'don’t mind', c(x, 'm')], ['n', 'no', c(x, 'n')]];
+    return '<div class="wa-bar" role="img" aria-label="' + esc(segs.map(function (g) { return pct(g[2], n) + '% ' + g[1]; }).join(', ')) + '">' +
+      segs.map(function (g) { return '<i class="' + g[0] + '" style="width:' + pct(g[2], n) + '%"></i>'; }).join('') + '</div>';
+  }
+  function areaLine(a, x) {
+    var ar = a.area || prefs.area, ax = ar && x.areas && x.areas[ar];
+    if (!ax || !HOODS[ar]) return '';
+    var ao = opinions(a, ax), top = ranked(a, ax)[0];
+    return '<p class="wa-local"><b>' + esc(HOODS[ar]) + ':</b> ' + (!ao ? 'no one there has picked an answer yet' : isChoice(a) ? 'most picked “' + esc(top.label) + '” (' + pct(c(ax, top.key), ao) + '%)' : pct(c(ax, 'y'), ao) + '% yes among people there with an opinion') + ' (' + total(ax) + ' answers)</p>';
   }
   function totals(a) {
-    var x = t(a.id), n = total(x), o = x.y + x.n;
-    var out = '<div class="wa-totals">' + bar(x);
-    if (n) out += '<p class="wa-legend"><em>' + (o ? '<b>' + pct(x.y, o) + '% yes</b> of people with an opinion' : '<b>No one has said yes or no yet</b>') + '</em>' +
-      '<span>' + n + ' answer' + (n === 1 ? '' : 's') + '</span><span>' + x.y + ' yes · ' + x.n + ' no · ' + x.m + ' don’t mind</span></p>';
-    var ar = a.area || prefs.area, ax = ar && x.areas && x.areas[ar];
-    if (ax && HOODS[ar]) { var ao = ax.y + ax.n; out += '<p class="wa-local"><b>' + esc(HOODS[ar]) + ':</b> ' + (ao ? pct(ax.y, ao) + '% yes among people there with an opinion' : 'no one there has said yes or no yet') + ' (' + total(ax) + ' answers)</p>'; }
-    return out + '</div>';
+    var x = t(a.id), n = total(x), o = opinions(a, x);
+    var out = '<div class="wa-totals">' + bar(a, x);
+    if (n && isChoice(a)) {
+      out += '<ul class="wa-optlegend">' + a.options.map(function (op, i) { return '<li><i class="dot o' + (i + 1) + '"></i><span>' + esc(op.label) + '</span><b>' + pct(c(x, op.key), o) + '%</b></li>'; }).join('') + '</ul>' +
+        '<p class="wa-legend"><span>' + n + ' answer' + (n === 1 ? '' : 's') + '</span><span>' + c(x, 'm') + ' don’t mind</span><span>Shares leave out don’t mind</span></p>';
+    } else if (n) out += '<p class="wa-legend"><em>' + (o ? '<b>' + pct(c(x, 'y'), o) + '% yes</b> of people with an opinion' : '<b>No one has said yes or no yet</b>') + '</em>' +
+      '<span>' + n + ' answer' + (n === 1 ? '' : 's') + '</span><span>' + c(x, 'y') + ' yes · ' + c(x, 'n') + ' no · ' + c(x, 'm') + ' don’t mind</span></p>';
+    return out + areaLine(a, x) + '</div>';
   }
   // The closed door: a blurred bar that hints there is a result behind it, without giving anything away.
   function tease(a) {
-    return '<button type="button" class="wa-tease" data-open="' + esc(a.id) + '"><span class="wa-tease-bar" aria-hidden="true"><i></i><i></i><i></i></span><span class="wa-tease-t">Answer to see what Squamish said</span></button>';
+    return '<button type="button" class="wa-tease' + (isChoice(a) ? ' choice' : '') + '" data-open="' + esc(a.id) + '"><span class="wa-tease-bar" aria-hidden="true"><i></i><i></i><i></i></span><span class="wa-tease-t">Answer to see what Squamish said</span></button>';
   }
   var WORD = { y: 'Yes', n: 'No', m: 'Don’t mind' };
   function buttons(a, big) {
     var my = mine[a.id];
+    if (isChoice(a)) return '<div class="wa-ans choice n' + a.options.length + (big ? ' big' : '') + '" role="group" aria-label="Your answer">' + a.options.map(function (o, i) {
+      return '<button type="button" class="wa-b opt" data-ans="' + esc(o.key) + '" data-id="' + esc(a.id) + '" aria-pressed="' + (my === o.key) + '">' + (big && desk.matches ? '<kbd>' + (i + 1) + '</kbd> ' : '') + esc(o.label) + '</button>';
+    }).join('') + '<button type="button" class="wa-b m" data-ans="m" data-id="' + esc(a.id) + '" aria-pressed="' + (my === 'm') + '">Don’t mind</button></div>';
     return '<div class="wa-ans' + (big ? ' big' : '') + '" role="group" aria-label="Your answer">' + ['y', 'n', 'm'].map(function (k) {
       return '<button type="button" class="wa-b ' + k + '" data-ans="' + k + '" data-id="' + esc(a.id) + '" aria-pressed="' + (my === k) + '">' + WORD[k] + '</button>';
     }).join('') + '</div>';
@@ -82,6 +107,7 @@
       '<dl><dt>Where it stands</dt><dd><span class="wa-chip ' + s.cls + '">' + esc(s.label) + '</span> ' + esc(s.explain || '') + '</dd>' + who +
       '<dt>Topic</dt><dd>' + esc(TOPIC[a.topic] || 'Everything else') + '</dd>' +
       (a.other_side ? '<dt>The other side</dt><dd>' + esc(a.other_side) + '</dd>' : '') +
+      (isChoice(a) ? '<dt>What each answer means</dt><dd><ul class="wa-means">' + a.options.map(function (o) { return '<li><b>' + esc(o.label) + ':</b> ' + esc(o.means || '') + '</li>'; }).join('') + '</ul></dd>' : '') +
       (a.source_url ? '<dt>Source</dt><dd><a href="' + esc(a.source_url) + '"' + (/^https?:/.test(a.source_url) ? ' target="_blank" rel="noopener"' : '') + '>' + esc(a.source_label || 'Source') + '</a></dd>' : '') + '</dl>' +
       (a.res && a.body ? '<div class="wa-words"><b>In the words of the resident who added it</b><p>' + esc(a.body) + '</p></div>' : '') +
       (ns.length ? '<div class="wa-words"><b>More from residents</b>' + ns.slice(0, 20).map(function (n) { return '<p>' + esc(n.text) + '</p>'; }).join('') + '</div>' : '') +
@@ -92,7 +118,7 @@
   }
   function row(a) {
     var my = mine[a.id], open = openId === a.id, show = my || open;
-    return '<li class="wa-row' + (my ? ' answered' : '') + (open ? ' open' : '') + '" id="ask-' + esc(a.id) + '">' +
+    return '<li class="wa-row' + (isChoice(a) ? ' choice' : '') + (my ? ' answered' : '') + (open ? ' open' : '') + '" id="ask-' + esc(a.id) + '">' +
       '<button type="button" class="wa-title" data-open="' + esc(a.id) + '" aria-expanded="' + open + '">' + chips(a) + '<span class="wa-t">' + esc(a.title) + '</span></button>' +
       buttons(a) + (hintId === a.id ? '<p class="wa-hint">Tap your answer again to undo it.</p>' : '') +
       (show ? totals(a) : tease(a)) + (open ? detail(a) : '') + '</li>';
@@ -109,8 +135,8 @@
       return a.topic === topic;
     });
     var key = {
-      wanted: function (a) { return score(a) * 1e6 + (t(a.id).y + t(a.id).n); },
-      split: function (a) { var x = t(a.id), o = x.y + x.n; return o ? (1 - Math.abs(x.y - x.n) / o) * 1e6 + o : -1; },
+      wanted: function (a) { return score(a) * 1e6 + opinions(a, t(a.id)); },
+      split: function (a) { var sp = splitness(a); return sp < 0 ? -1 : sp * 1e6 + opinions(a, t(a.id)); },
       voted: function (a) { return total(t(a.id)); },
       newest: function (a) { return a.res ? Date.parse(a.created_at) || 0 : -1; },
     }[sort];
@@ -134,6 +160,7 @@
       return lp - lq || total(t(p.id)) - total(t(q.id));
     });
   }
+  var KEYS_CHOICE = '<p class="wa-keys">On a keyboard: <kbd>1</kbd> to <kbd>4</kbd> pick an answer, <kbd>M</kbd> don’t mind, <kbd>→</kbd> skip</p>';
   var KEYS = '<p class="wa-keys">On a keyboard: <kbd>Y</kbd> yes, <kbd>N</kbd> no, <kbd>M</kbd> don’t mind, <kbd>→</kbd> skip</p>';
   function drawOne() {
     var el = $('[data-wa-one]'); if (!el) return;
@@ -142,9 +169,9 @@
     var a = deckShown && byId(deckShown);
     if (a && mine[a.id]) {
       var x = t(a.id), n = total(x), my = mine[a.id];
-      var same = my === 'y' ? x.y : my === 'n' ? x.n : x.m;
+      var same = c(x, my);
       el.innerHTML = prog + '<div class="wa-card">' + chips(a) + '<h2>' + esc(a.title) + '</h2><p class="wa-you">' +
-        (n > 1 ? 'You and ' + pct(same, n) + '% of people ' + (my === 'y' ? 'said yes.' : my === 'n' ? 'said no.' : 'don’t mind either way.') : 'You’re the first to answer this one.') + '</p>' +
+        (n > 1 ? 'You and ' + pct(same, n) + '% of people ' + (my === 'm' ? 'don’t mind either way.' : isChoice(a) ? 'picked “' + esc(labelOf(a, my)) + '”.' : my === 'y' ? 'said yes.' : 'said no.') : 'You’re the first to answer this one.') + '</p>' +
         totals(a) + '<button type="button" class="btn block" data-next>Next ask</button>' + (desk.matches ? '<p class="wa-keys">Press <kbd>Enter</kbd> for the next ask</p>' : '') + '</div>';
       return;
     }
@@ -152,7 +179,7 @@
     if (!a) { el.innerHTML = prog + '<div class="wa-card wa-done"><h2>That’s every ask for now.</h2><p>New ones go up as residents add them.</p><button type="button" class="btn block" data-view="top">See the Top 10</button><button type="button" class="btn secondary block" data-view="add">Missing something? Add it</button></div>'; return; }
     deckShown = a.id;
     el.innerHTML = prog + '<div class="wa-card">' + chips(a) + '<h2>' + esc(a.title) + '</h2>' + (a.why ? '<p>' + esc(a.why) + '</p>' : '') + buttons(a, true) +
-      '<button type="button" class="wa-link center" data-skip="' + esc(a.id) + '">Skip this one</button>' + (desk.matches ? KEYS : '') + '</div>';
+      '<button type="button" class="wa-link center" data-skip="' + esc(a.id) + '">Skip this one</button>' + (desk.matches ? (isChoice(a) ? KEYS_CHOICE : KEYS) : '') + '</div>';
   }
 
   // ---------- top 10 (opens after 5 answers) ----------
@@ -163,17 +190,16 @@
       el.innerHTML = '<div class="wa-card wa-locked"><p class="wa-lockicon" aria-hidden="true">🔒</p><h2>Answer ' + (UNLOCK - d) + ' more to open the Top 10</h2><p>The results board shows the most wanted and most split asks in Squamish. It opens once you’ve answered ' + UNLOCK + ', so everyone answers before they look.</p><div class="wa-prog" aria-hidden="true"><i style="width:' + pct(d, UNLOCK) + '%"></i></div><button type="button" class="btn block" data-view="list">Keep answering</button></div>';
       return;
     }
-    var withAns = asks.filter(function (a) { var x = t(a.id); return x.y + x.n > 0; });
-    var top = withAns.slice().sort(function (p, q) { return (score(q) - score(p)) || ((t(q.id).y + t(q.id).n) - (t(p.id).y + t(p.id).n)); }).slice(0, 10);
-    var split = withAns.filter(function (a) { var x = t(a.id); return x.y && x.n; }).sort(function (p, q) {
-      var a = t(p.id), b = t(q.id); return Math.abs(a.y - a.n) / (a.y + a.n) - Math.abs(b.y - b.n) / (b.y + b.n) || (b.y + b.n) - (a.y + a.n);
-    }).slice(0, 3);
+    var withAns = asks.filter(function (a) { return opinions(a, t(a.id)) > 0; });
+    var top = withAns.slice().sort(function (p, q) { return (score(q) - score(p)) || (opinions(q, t(q.id)) - opinions(p, t(p.id))); }).slice(0, 10);
+    var split = withAns.filter(function (a) { return splitness(a) >= 0; }).sort(function (p, q) { return (splitness(q) - splitness(p)) || (opinions(q, t(q.id)) - opinions(p, t(p.id))); }).slice(0, 3);
     function line(a, i) {
-      var x = t(a.id), o = x.y + x.n;
-      return '<li><button type="button" class="wa-topline" data-goto="' + esc(a.id) + '"><span class="wa-rank">' + (i + 1) + '</span><span class="wa-topbody"><span class="wa-topt">' + esc(a.title) + '</span>' + bar(x) +
-        '<span class="wa-legend"><em><b>' + pct(x.y, o) + '% yes</b></em><span>' + total(x) + ' answer' + (total(x) === 1 ? '' : 's') + '</span>' + (mine[a.id] ? '<span>You said ' + WORD[mine[a.id]].toLowerCase() + '</span>' : '') + '</span></span></button></li>';
+      var x = t(a.id), o = opinions(a, x), lead = ranked(a, x)[0], my = mine[a.id];
+      return '<li><button type="button" class="wa-topline" data-goto="' + esc(a.id) + '"><span class="wa-rank">' + (i + 1) + '</span><span class="wa-topbody"><span class="wa-topt">' + esc(a.title) + '</span>' + bar(a, x) +
+        '<span class="wa-legend"><em>' + (isChoice(a) ? 'Most picked: <b>' + esc(lead.label) + '</b> (' + pct(c(x, lead.key), o) + '%)' : '<b>' + pct(c(x, 'y'), o) + '% yes</b>') + '</em><span>' + total(x) + ' answer' + (total(x) === 1 ? '' : 's') + '</span>' +
+        (my ? '<span>' + (my === 'm' ? 'You don’t mind' : isChoice(a) ? 'You picked “' + esc(labelOf(a, my)) + '”' : 'You said ' + WORD[my].toLowerCase()) + '</span>' : '') + '</span></span></button></li>';
     }
-    el.innerHTML = '<div class="wa-board"><h2>Most wanted</h2><p class="small muted">Ranked by the share of yes among people who said yes or no. Tap one to answer or see more.</p><ol class="wa-toplist">' + (top.length ? top.map(line).join('') : '<li class="wa-empty">No answers yet.</li>') + '</ol>' +
+    el.innerHTML = '<div class="wa-board"><h2>Most wanted</h2><p class="small muted">Ranked by the share of yes among people who said yes or no (for questions with several answers, the share of the most picked one). Tap one to answer or see more.</p><ol class="wa-toplist">' + (top.length ? top.map(line).join('') : '<li class="wa-empty">No answers yet.</li>') + '</ol>' +
       (split.length ? '<h2>Most split</h2><p class="small muted">Closest to an even yes and no.</p><ol class="wa-toplist">' + split.map(line).join('') + '</ol>' : '') +
       '<p class="small muted">Not a scientific poll. ' + people + ' people have answered so far.</p></div>';
   }
@@ -315,8 +341,8 @@
     var before = mine[id], x = Object.assign({ y: 0, n: 0, m: 0, areas: {} }, t(id));
     var choice = before === k ? '' : k;
     if (!done() && choice) people += 1; // their first answer anywhere on the list
-    if (before) x[before] = Math.max(0, x[before] - 1);
-    if (choice) x[choice] += 1;
+    if (before) x[before] = Math.max(0, c(x, before) - 1);
+    if (choice) x[choice] = c(x, choice) + 1;
     tallies[id] = x;
     if (choice) mine[id] = choice; else delete mine[id];
     // Show "tap again to undo" once, on the first ask they answer.
@@ -425,7 +451,8 @@
     var k = e.key.toLowerCase(), a = deckShown && byId(deckShown);
     if (!a) return;
     if (mine[a.id]) { if (k === 'enter' || k === 'arrowright') { e.preventDefault(); deckShown = null; drawOne(); drawProgress(); } return; }
-    if (k === 'y' || k === 'n' || k === 'm') { e.preventDefault(); answer(a.id, k); }
+    if (isChoice(a) && /^[1-9]$/.test(k) && a.options[+k - 1]) { e.preventDefault(); answer(a.id, a.options[+k - 1].key); }
+    else if (k === 'm' || (!isChoice(a) && (k === 'y' || k === 'n'))) { e.preventDefault(); answer(a.id, k); }
     else if (k === 'arrowright') { e.preventDefault(); deckSkip[a.id] = true; deckShown = null; drawOne(); }
   });
   var areaSel = $('[data-wa-area]'); if (areaSel) areaSel.value = prefs.area || '';

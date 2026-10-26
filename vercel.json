@@ -395,6 +395,56 @@
       "source": "/ask/",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/wants/tax-inflation/",
+      "destination": "/wants/tax-2027/",
+      "permanent": true
+    },
+    {
+      "source": "/wants/clear-encampment/",
+      "destination": "/wants/encampment/",
+      "permanent": true
+    },
+    {
+      "source": "/wants/keep-until-housing/",
+      "destination": "/wants/encampment/",
+      "permanent": true
+    },
+    {
+      "source": "/wants/free-downtown-parking/",
+      "destination": "/wants/downtown-parking/",
+      "permanent": true
+    },
+    {
+      "source": "/wants/second-ice/",
+      "destination": "/wants/brennan-next/",
+      "permanent": true
+    },
+    {
+      "source": "/wants/second-pool/",
+      "destination": "/wants/brennan-next/",
+      "permanent": true
+    },
+    {
+      "source": "/wants/more-pickleball/",
+      "destination": "/wants/pickleball-when/",
+      "permanent": true
+    },
+    {
+      "source": "/wants/faster-dikes/",
+      "destination": "/wants/dikes-how/",
+      "permanent": true
+    },
+    {
+      "source": "/wants/government-road-housing/",
+      "destination": "/wants/government-road/",
+      "permanent": true
+    },
+    {
+      "source": "/wants/regional-bus/",
+      "destination": "/wants/regional-bus-pay/",
+      "permanent": true
     }
   ],
   "rewrites": [

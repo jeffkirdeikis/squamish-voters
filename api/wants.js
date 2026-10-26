@@ -53,10 +53,10 @@ async function tallies() {
   const out = {};
   for (const r of rows) {
     const t = (out[r.wid] ||= { y: 0, n: 0, m: 0, areas: {} });
-    t[r.choice] += r.n;
-    if (r.area) { const a = (t.areas[r.area] ||= { y: 0, n: 0, m: 0 }); a[r.choice] += r.n; }
+    t[r.choice] = (t[r.choice] || 0) + r.n; // y / n / m, or an option key on a multiple choice ask
+    if (r.area) { const a = (t.areas[r.area] ||= { y: 0, n: 0, m: 0 }); a[r.choice] = (a[r.choice] || 0) + r.n; }
   }
-  for (const t of Object.values(out)) for (const [k, a] of Object.entries(t.areas)) if (a.y + a.n + a.m < AREA_MIN) delete t.areas[k];
+  for (const t of Object.values(out)) for (const [k, a] of Object.entries(t.areas)) if (Object.values(a).reduce((x, y) => x + y, 0) < AREA_MIN) delete t.areas[k];
   return out;
 }
 async function notes() {
@@ -170,7 +170,9 @@ export default async function handler(req, res) {
     if (!(await exists(wid))) return res.status(404).json({ ok: false, error: 'That ask isn’t on the list any more.' });
     if (b.choice === '') await sql`DELETE FROM sv_want_votes WHERE wid = ${wid} AND voter = ${voter}`;
     else {
-      if (!CHOICES.includes(b.choice)) return res.status(400).json({ ok: false, error: 'Please pick yes, no or don’t mind.' });
+      const seed = SEEDS.find((x) => x.id === wid);
+      const allowed = seed?.options ? [...seed.options, 'm'] : CHOICES;
+      if (!allowed.includes(b.choice)) return res.status(400).json({ ok: false, error: 'Please pick one of the answers.' });
       const [before] = await sql`SELECT 1 FROM sv_want_votes WHERE wid = ${wid} AND voter = ${voter}`;
       if (!before) {
         const [{ n }] = await sql`SELECT count(*)::int AS n FROM sv_want_votes WHERE wid = ${wid} AND net = ${net}`;
