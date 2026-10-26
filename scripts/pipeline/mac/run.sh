@@ -3,6 +3,8 @@
 # Pulls, summarises any finished meeting from its video, commits and pushes; the push deploys the site.
 # Runs in its own clone (~/.squamish-voters-bot) so it never touches the working copy you edit.
 # Install or remove: scripts/pipeline/mac/install.sh [remove]. Log: ~/Library/Logs/squamish-voters.log
+# Stay awake until the run finishes, even after a scheduled wake (sudo pmset repeat wakeorpoweron MTWRFSU 23:00:00).
+[ -z "$SV_AWAKE" ] && SV_AWAKE=1 exec /usr/bin/caffeinate -is /bin/zsh "$0" "$@"
 set -e
 cd "$(dirname "$0")/../../.."
 export PATH="$PWD/scripts/pipeline/mac/bin:$HOME/.local/node/bin:$HOME/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
