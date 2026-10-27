@@ -314,7 +314,7 @@
   }
   // Under a closed, answered row: a thin results bar, where you stand, Share and More info.
   function answeredLine(a) {
-    return '<div class="wa-res">' + bar(a, t(a.id)) + '<div class="wa-resrow"><p class="wa-verdict">' + verdict(a) + '</p>' +
+    return '<div class="wa-res">' + bar(a, t(a.id)) + '<div class="wa-resrow"><p class="wa-verdict">' + verdict(a) + '<span class="wa-n">' + total(t(a.id)).toLocaleString('en-CA') + (total(t(a.id)) === 1 ? ' person' : ' people') + ' answered</span></p>' +
       '<span class="wa-resacts">' + (only ? '' : infoLink(a)) + '<button type="button" class="wa-sharego small" data-share="' + esc(a.id) + '">' + SHARE_ICON + 'Share</button></span></div></div>' + areaBox(a);
   }
   function row(a) {
