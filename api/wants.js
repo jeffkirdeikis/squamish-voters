@@ -214,12 +214,14 @@ export default async function handler(req, res) {
   if (req.query.admin || b.admin) {
     if (!isAdmin(req)) return res.status(401).json({ ok: false, error: 'unauthorized' });
     if (req.method === 'GET') {
-      const [asks, ns, os] = await Promise.all([
+      const [asks, ns, os, vs] = await Promise.all([
         sql`SELECT id, title, why, topic, area, body, status, reports, created_at FROM sv_wants ORDER BY created_at DESC LIMIT 1000`,
         sql`SELECT wid, voter, body, status, created_at FROM sv_want_notes ORDER BY created_at DESC LIMIT 1000`,
         sql`SELECT wid, key, label, body, status, reports, created_at FROM sv_want_options ORDER BY created_at DESC LIMIT 1000`,
+        sql`SELECT wid, count(*)::int AS n FROM sv_want_votes GROUP BY wid`,
       ]);
-      return res.json({ ok: true, asks, notes: ns.map((n) => ({ wid: n.wid, nid: hash(`n|${n.wid}|${n.voter}`).slice(0, 12), text: n.body, status: n.status, at: n.created_at })),
+      // Starter question titles and answer counts, so the admin page can group everything under its question.
+      return res.json({ ok: true, asks, titles: Object.fromEntries(SEEDS.map((s) => [s.id, s.title])), answers: Object.fromEntries(vs.map((v) => [v.wid, v.n])), notes: ns.map((n) => ({ wid: n.wid, nid: hash(`n|${n.wid}|${n.voter}`).slice(0, 12), text: n.body, status: n.status, at: n.created_at })),
         options: os.map((o) => {
           const seed = SEEDS.find((s) => s.id === o.wid);
           const base = seed?.options ? seed.options.map((k, i) => ({ key: k, label: seed.labels?.[i] || k })) : [{ key: 'y', label: 'Yes' }, { key: 'n', label: 'No' }];

@@ -2085,16 +2085,21 @@ write('/priorities/', page({ url: '/priorities/', jsonld: crumbLd([['Home', '/']
   <script>window.SV_SIDES=${JSON.stringify(SIDE_LABELS).replace(/</g, '\\u003c')};</script>`,
 }));
 // ---------- /subscribers/: Jeff's private view of the email sign-ups and their welcome page answers (api/subscribers.js, ADMIN_TOKEN) ----------
-write('/subscribers/', page({ url: '/subscribers/', title: 'Email sign-ups', noindex: true,
-  body: `<h1>Email sign-ups</h1>
-<p class="lede" id="s-status" aria-live="polite">Loading…</p>
-<div id="s-out" class="sb"></div>
-<h2>Have your say comments</h2>
-<p class="small">Every comment, newest first. Posted ones are public on /have-your-say/. Hide any you don’t want up, or post one the check held back.</p>
-<div id="c-out" class="sb"><p class="muted">Loading…</p></div>
-<h2>What Squamish Wants: residents’ asks and added words</h2>
-<p class="small">Everything residents added on /wants/, newest first. Posted ones are public. Hide any you don’t want up; three reports from readers hide an ask on their own.</p>
-<div id="w-out" class="sb"><p class="muted">Loading…</p></div>
+write('/subscribers/', page({ url: '/subscribers/', title: 'Admin', noindex: true,
+  body: `<div id="ad-main" class="ad">
+<h1>Admin</h1>
+<p class="lede" id="a-sum" aria-live="polite">Loading…</p>
+<nav class="ad-tabs" role="tablist" aria-label="Admin sections">
+<button type="button" role="tab" data-tab="review">To review <span class="ad-n" hidden></span></button>
+<button type="button" role="tab" data-tab="wants"><span class="ad-long">What Squamish </span>Wants <span class="ad-n"></span></button>
+<button type="button" role="tab" data-tab="comments">Comments <span class="ad-n"></span></button>
+<button type="button" role="tab" data-tab="signups">Sign-ups <span class="ad-n"></span></button>
+</nav>
+<section id="tab-review"><p class="small muted">Only what needs you: things the automatic check held back, things readers reported, and anything that went up unchecked.</p><div id="r-out" class="ad-list"><p class="muted">Loading…</p></div></section>
+<section id="tab-wants" hidden><p class="small muted">Everything residents added on /wants/, grouped under its question. Newest activity first. Three reader reports hide an item on their own.</p><div id="w-out" class="ad-list"><p class="muted">Loading…</p></div></section>
+<section id="tab-comments" hidden><p class="small muted">Comments on Have your say questions.</p><div id="c-out" class="ad-list"><p class="muted">Loading…</p></div></section>
+<section id="tab-signups" hidden><p class="small" id="s-status" aria-live="polite">Loading…</p><div id="s-out" class="sb"></div></section>
+</div>
 <style>
 .sb { display: grid; gap: 1.2rem; }
 .sb-note { font-style: italic; color: var(--ink-2); }
@@ -2105,6 +2110,50 @@ write('/subscribers/', page({ url: '/subscribers/', title: 'Email sign-ups', noi
 .sb-dim { opacity: .7; }
 .sb-pill { font-size: .8rem; font-weight: 700; border-radius: 999px; padding: .1rem .6rem; border: 1px solid var(--line); background: var(--surface-2); }
 .sb-subscribed { background: var(--brand-soft); }
+.ad h1 { margin-bottom: .2rem; }
+.ad-tabs { display: flex; gap: .3rem; border-bottom: 2px solid var(--line); margin: 1rem 0 1rem; overflow-x: auto; scrollbar-width: none; }
+.ad-tabs button { font: inherit; font-weight: 700; background: none; border: 0; border-bottom: 3px solid transparent; margin-bottom: -2px; padding: .6rem .8rem; color: var(--ink-2); cursor: pointer; white-space: nowrap; display: flex; gap: .4rem; align-items: center; }
+.ad-tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--brand); }
+.ad-n { font-size: .75rem; min-width: 1.4rem; padding: .05rem .4rem; border-radius: 999px; background: var(--surface-2); color: var(--ink-2); text-align: center; }
+.ad-n.ad-alert { background: #b3261e; color: #fff; }
+.ad-list { display: grid; gap: .7rem; }
+.ad-chips { display: inline-flex; flex: none; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; margin-right: .5rem; vertical-align: middle; }
+.ad-chips button { font: inherit; font-size: .9rem; background: none; border: 0; padding: .35rem .9rem; cursor: pointer; color: var(--ink-2); }
+.ad-chips button[aria-pressed="true"] { background: var(--brand); color: #fff; font-weight: 700; }
+.ad-search { font: inherit; padding: .4rem .7rem; border: 1px solid var(--line); border-radius: 999px; min-width: 0; width: min(20rem, 100%); vertical-align: middle; margin: .3rem 0; background: var(--surface); color: var(--ink); }
+.ad-count { margin: .2rem 0 0; }
+.ad-item { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: .8rem 1rem; }
+.ad-item p { margin: 0; }
+.ad-dim .ad-body { opacity: .6; }
+.ad-bar { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
+.ad-group.ad-solo { padding: 0; border: 0; background: none; }
+@media (max-width: 600px) { .ad-long { display: none; } .ad-tabs button { padding: .6rem .5rem; } }
+.ad-meta { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; font-size: .85rem; color: var(--ink-2); }
+.ad-pill { font-size: .75rem; font-weight: 700; border-radius: 999px; padding: .1rem .55rem; }
+.ad-live { background: var(--brand-soft); color: var(--brand); }
+.ad-warn { background: #fff1c2; color: #6b4e00; }
+.ad-bad { background: #fde2e0; color: #8c1d18; }
+.ad-off { background: var(--surface-2); color: var(--ink-2); }
+.ad-ctx { font-size: .85rem; color: var(--ink-2); margin-top: .35rem !important; }
+.ad-title { font-weight: 700; font-size: 1.05rem; margin: .3rem 0 !important; overflow-wrap: anywhere; }
+.ad-why { font-size: .9rem; background: var(--surface-2); border-radius: 8px; padding: .4rem .6rem; margin: .3rem 0 !important; }
+.ad-orig { margin: 0; }
+.ad-orig summary { display: inline-block; padding: 0; min-height: 0; font-size: .85rem; font-weight: 600; color: var(--ink-2); cursor: pointer; background: none; border: 0; }
+.ad-orig p { white-space: pre-wrap; font-size: .9rem; font-style: italic; color: var(--ink-2); padding: .3rem 0 0 .8rem; border-left: 3px solid var(--line); margin-top: .3rem; }
+.ad-acts { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .5rem; }
+.ad-btn { font: inherit; font-size: .9rem; font-weight: 600; padding: .35rem .8rem; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; text-decoration: none; }
+.ad-btn:hover { border-color: var(--ink-2); }
+.ad-primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+.ad-panel { display: grid; gap: .5rem; margin-top: .6rem; padding: .7rem; background: var(--surface-2); border-radius: 8px; }
+.ad-panel label { display: grid; gap: .2rem; font-size: .9rem; font-weight: 600; }
+.ad-panel input, .ad-panel select { font: inherit; font-weight: 400; padding: .4rem .5rem; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); }
+.ad-group { border: 1px solid var(--line); border-radius: 14px; padding: .8rem; background: var(--surface-2); display: grid; gap: .5rem; }
+.ad-group header h3 { margin: .1rem 0 0; font-size: 1.05rem; }
+.ad-group header h3 a { color: var(--ink); }
+.ad-gk { margin: 0; font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-2); }
+.ad-kids { display: grid; gap: .5rem; padding-left: .8rem; border-left: 3px solid var(--line); }
+.ad-empty { text-align: center; padding: 2rem 1rem; border: 1px dashed var(--line); border-radius: 12px; }
+.ad-empty p { margin: .2rem 0; }
 </style>
 <script>window.SV_SUBS=${JSON.stringify({ issues: Object.fromEntries(SIGNUP_ISSUES.map((i) => [i.key, { t: i.title, i: i.icon, o: SIDES[i.key] ? [SIDES[i.key][1], SIDES[i.key][2]] : [] }])), hoods: Object.fromEntries(WELCOME_HOODS.map((h) => [h.slug, h.name])) }).replace(/</g, '\\u003c')};</script>
 <script src="/subscribers.js" defer></script>`,
