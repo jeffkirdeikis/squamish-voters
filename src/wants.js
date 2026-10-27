@@ -103,7 +103,13 @@
     } else if (n) out += '<p class="wa-legend"><em>' + (o ? '<b>' + pct(c(x, 'y'), o) + '% yes</b> of people with an opinion' : '<b>No one has said yes or no yet</b>') + '</em>' +
       '<span>' + n + ' answer' + (n === 1 ? '' : 's') + '</span><span>' + c(x, 'y') + ' yes · ' + c(x, 'n') + ' no · ' + c(x, 'm') + ' don’t mind</span></p>';
     // Share sits under the results once someone has answered; an opened ask has it in its detail instead.
-    return out + areaLine(a, x) + (openId !== a.id ? '<button type="button" class="wa-link wa-sharelink" data-share="' + esc(a.id) + '">Share this question</button>' : '') + '</div>';
+    return out + areaLine(a, x) + (openId !== a.id ? '<button type="button" class="wa-link wa-sharelink" data-share="' + esc(a.id) + '">Share this question</button>' : '') + areaBox(a) + '</div>';
+  }
+  // After the first answer: which part of Squamish, asked inside that ask (under its results) so nothing covers the list.
+  var areaAsk = null;
+  function areaBox(a) {
+    if (areaAsk !== a.id || prefs.area) return '';
+    return '<div class="wa-areaq"><button type="button" class="wa-sheetx" data-areax aria-label="Close">×</button><p><b>Which part of Squamish do you live in?</b> We’ll show how your area answered. Optional, and saved on this phone only.</p><select data-wa-sheetarea><option value="">Choose your area</option>' + Object.keys(HOODS).map(function (k) { return '<option value="' + esc(k) + '">' + esc(HOODS[k]) + '</option>'; }).join('') + '</select></div>';
   }
   function canAdd(a) { return opts(a).length < MAX_OPTIONS; }
   // "Other": write in an answer that isn't there. Opens right under the answer buttons.
@@ -159,7 +165,7 @@
   }
   function row(a) {
     var my = mine[a.id], open = openId === a.id, show = my || open;
-    return '<li class="wa-row' + (multi(a) ? ' choice' : '') + (my ? ' answered' : '') + (open ? ' open' : '') + '" id="ask-' + esc(a.id) + '">' +
+    return '<li class="wa-row' + (multi(a) ? ' choice' : '') + (my ? ' answered' : '') + (open ? ' open' : '') + (focusId === a.id ? ' arrived' : '') + '" id="ask-' + esc(a.id) + '">' +
       '<button type="button" class="wa-title" data-open="' + esc(a.id) + '" aria-expanded="' + open + '">' + chips(a) + '<span class="wa-t">' + esc(a.title) + '</span></button>' +
       buttons(a) + sugBox(a) + (hintId === a.id ? '<p class="wa-hint">Tap your answer again to undo it.</p>' : '') +
       (show ? totals(a) + (a.info && !open && !only ? '<p class="wa-under">' + infoLink(a) + '</p>' : '') : '<div class="wa-under">' + tease(a) + (only ? '' : infoLink(a)) + '</div>') + (open ? detail(a) : '') + '</li>';
@@ -316,7 +322,6 @@
     var ms = get('sv_wa_ms', {}); ms[kind] = 1; put('sv_wa_ms', ms);
     sheet = kind;
     var h = '';
-    if (kind === 'area') h = '<p><b>Which part of Squamish do you live in?</b> We’ll show how your area answered. Optional, and saved on this phone only.</p><select data-wa-sheetarea><option value="">Choose your area</option>' + Object.keys(HOODS).map(function (k) { return '<option value="' + esc(k) + '">' + esc(HOODS[k]) + '</option>'; }).join('') + '</select>';
     if (kind === 'five') h = '<p><b>Nice, that’s ' + UNLOCK + '.</b> The Top 10 is open. Share this so your neighbours can weigh in too.</p><div class="wa-sheetbtns"><button type="button" class="btn" data-view="top">See the Top 10</button><button type="button" class="btn secondary" data-sharepage>Share</button></div>';
     if (kind === 'ten') h = '<p><b>10 answered. Thank you.</b> Want to know when council acts on any of these? Get a short email every Friday.</p><div class="wa-sheetbtns"><button type="button" class="btn" data-gosignup>Get the Friday email</button></div>';
     el.innerHTML = '<button type="button" class="wa-sheetx" data-sheetx aria-label="Close">×</button>' + h;
@@ -324,11 +329,11 @@
     drawProgress();
   }
   function closeSheet() { var el = $('[data-wa-sheet]'); if (el) el.hidden = true; sheet = null; drawProgress(); }
-  function milestones() {
+  function milestones(id) {
     if (mode !== 'page') return;
     var d = done(), ms = get('sv_wa_ms', {});
-    if (d >= 1 && !prefs.area && !ms.area) showSheet('area');
-    else if (d >= UNLOCK && !ms.five && sheet !== 'area') showSheet('five');
+    if (d >= 1 && !prefs.area && !ms.area) { ms.area = 1; put('sv_wa_ms', ms); areaAsk = id; draw(); }
+    else if (d >= UNLOCK && !ms.five) showSheet('five');
     else if (d >= 10 && !ms.ten && !sheet) showSheet('ten');
   }
   function nextUnanswered() {
@@ -375,7 +380,8 @@
         a.extra = ((j.extras || {})[a.id] || []).slice().sort(function (p, q) { return c(x, q.key) - c(x, p.key); });
       });
       if (!touched) { order = null; shortOrder = null; }
-      if (focusId && byId(focusId)) { openId = focusId; draw(); var el = document.getElementById('ask-' + focusId); if (el) el.scrollIntoView({ block: 'center' }); }
+      // A shared link puts its ask first and scrolls to it, but leaves it closed: the results stay hidden until they answer.
+      if (focusId && byId(focusId)) { draw(); var el = document.getElementById('ask-' + focusId); if (el) el.scrollIntoView({ block: 'center' }); }
       else draw();
     }).catch(function () {});
   }
@@ -395,7 +401,7 @@
     // Show "tap again to undo" once, on the first ask they answer.
     if (choice && !hinted) { hinted = true; hintId = id; } // it stays put after that: removing it would shift the rows below
     draw();
-    if (choice) milestones();
+    if (choice) milestones(id);
     if (pending[id]) return;
     pending[id] = true;
     post({ action: 'vote', wid: id, choice: choice, area: prefs.area || '' }).then(function (j) {
@@ -423,7 +429,7 @@
           if (!done()) people += 1;
           (a.extra = a.extra || []).push(j.option); tallies[id] = j.tally; mine[id] = j.option.key;
           toast('Added. Your answer is now “' + j.option.label + '”.');
-          milestones();
+          milestones(id);
         }
       }
       draw();
@@ -455,6 +461,7 @@
     if ((b = e.target.closest('[data-topic]'))) { topic = b.getAttribute('data-topic'); focusId = null; order = null; draw(); return; }
     if (e.target.closest('[data-nextq]')) { nextUnanswered(); return; }
     if (e.target.closest('[data-sheetx]')) { closeSheet(); return; }
+    if (e.target.closest('[data-areax]')) { areaAsk = null; draw(); return; }
     if (e.target.closest('[data-sharepage]')) { shareUrl(location.origin + '/wants/', 'What Squamish Wants', 'What should Squamish do? Say yes, no or don’t mind and see what everyone said.'); closeSheet(); return; }
     if (e.target.closest('[data-gosignup]')) { closeSheet(); var s = document.getElementById('signup'); if (s) { s.scrollIntoView({ behavior: 'smooth', block: 'center' }); var inp = s.querySelector('input[type=email]'); if (inp) setTimeout(function () { inp.focus({ preventScroll: true }); }, 400); } return; }
     if (e.target.closest('[data-next]')) { deckShown = null; drawOne(); drawProgress(); return; }
@@ -517,7 +524,7 @@
     if (areaPick) {
       prefs.area = e.target.value; put('sv_prefs', prefs);
       var main = $('[data-wa-area]'); if (main) main.value = prefs.area;
-      if (e.target.matches('[data-wa-sheetarea]')) { closeSheet(); if (topic === 'near') order = null; draw(); }
+      if (e.target.matches('[data-wa-sheetarea]')) { areaAsk = null; if (topic === 'near') order = null; draw(); }
       else { order = null; draw(); }
     }
     if (e.target.matches('[data-wa-sort]')) { sort = e.target.value; focusId = null; order = null; draw(); }

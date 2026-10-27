@@ -1569,6 +1569,11 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .wa-float button { background: #ffd84d; color: #14211c; border: 0; border-radius: 999px; padding: .5rem .9rem; font: inherit; font-weight: 800; font-size: .88rem; cursor: pointer; }
 .wa-sheet { position: relative; width: 100%; max-width: 30rem; background: var(--surface); border: 2px solid var(--brand); border-radius: 16px; padding: 1rem 2.6rem 1rem 1rem; box-shadow: 0 12px 34px rgba(20,33,28,.28); display: grid; gap: .7rem; animation: wa-rise .3s ease-out; }
 .wa-sheet p { margin: 0; }
+.wa-areaq { position: relative; margin-top: .7rem; padding: .8rem 2.6rem .8rem .8rem; border: 2px solid var(--brand); border-radius: 12px; background: var(--brand-soft); display: grid; gap: .55rem; }
+.wa-areaq p { margin: 0; font-size: .92rem; }
+.wa-areaq select { font: inherit; padding: .55rem .6rem; border-radius: 10px; border: 2px solid var(--line); background: var(--surface); color: var(--ink); }
+.wa-areaq .wa-sheetx { top: .35rem; right: .35rem; }
+.wa-row.arrived:not(.answered) { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft); }
 .wa-sheet select { font: inherit; padding: .55rem .6rem; border-radius: 10px; border: 2px solid var(--line); background: var(--surface); color: var(--ink); }
 .wa-sheetx { position: absolute; top: .3rem; right: .3rem; width: 2.4rem; height: 2.4rem; border: 0; background: none; font-size: 1.6rem; line-height: 1; color: var(--muted); cursor: pointer; border-radius: 8px; }
 .wa-sheetbtns { display: flex; flex-wrap: wrap; gap: .5rem; }
