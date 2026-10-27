@@ -1888,3 +1888,4 @@ body:has(.wa-ringtab) #totop { display: none !important; }
 .wa-bn small { display: none; }
 @media (max-width: 899.98px) { [data-wa-one] > .wa-prog, [data-wa-one] > .wa-prog + p { display: none; } }
 @media (max-width: 47.99em) { .wa-people a { display: none; } .wa-live { margin-top: 0; } }
+.wa-head > *, .wa-live { min-width: 0; max-width: 100%; }

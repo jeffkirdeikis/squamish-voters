@@ -24,7 +24,7 @@ async function describe(q) {
     return {
       shell: '/wants/', focus: null, said: null, url: `${ORIGIN}/wants/me/?a=${spec}${tail}`, canonical: `${ORIGIN}/wants/`,
       title: `I agree with Squamish on ${m.agree} of ${m.of} | What Squamish Wants`, alt: `My Squamish: I agree with Squamish on ${m.agree} of ${m.of}`,
-      desc: `${m.bold ? `My boldest take: ${m.bold.label === 'Yes' || m.bold.label === 'No' ? `${m.bold.label} to “${m.bold.title}”` : `“${m.bold.label}”`} (only ${m.bold.share}% agree). ` : ''}Took 2 minutes. Where do you land?`,
+      desc: `${m.bold ? `My boldest take: ${m.bold.yn ? `${m.bold.label} to “${m.bold.title}”` : `“${m.bold.label}”`} (only ${m.bold.share}% agree). ` : ''}Took 2 minutes. Where do you land?`,
       img: `${ORIGIN}/api/og/?me=${spec}&v=1${tail}`,
     };
   }

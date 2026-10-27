@@ -121,7 +121,7 @@
       if (!my || my === 'm' || !o) return;
       var top = c(x, ranked(a, x)[0].key), share = pct(c(x, my), o);
       of++; if (c(x, my) >= top) agree++;
-      if (share < 50 && (!bold || share < bold.share)) bold = { a: a, share: share };
+      if (share < 50 && c(x, my) < top && (!bold || share < bold.share)) bold = { a: a, share: share };
       Object.keys(x.areas || {}).forEach(function (h) {
         if (h === 'outside') return;
         var ar = x.areas[h], best = opts(a).slice().sort(function (p, q) { return c(ar, q.key) - c(ar, p.key); })[0];
@@ -136,7 +136,7 @@
   function meCard() {
     var m = meStats(); if (!m.of) return '';
     return '<div class="wa-me"><span class="wa-me-k">My Squamish</span><p class="wa-me-big">I agree with Squamish on <b>' + m.agree + ' of ' + m.of + '</b></p>' +
-      (m.bold ? '<p class="wa-me-row"><span>Boldest take</span><b>' + (multi(m.bold.a) ? esc(m.bold.a.title) + ' “' + esc(labelOf(m.bold.a, mine[m.bold.a.id])) + '”' : esc(labelOf(m.bold.a, mine[m.bold.a.id])) + ': ' + esc(m.bold.a.title)) + ' <em>only ' + m.bold.share + '% agree</em></b></p>' : '') +
+      (m.bold ? '<p class="wa-me-row"><span>Boldest take</span><b>' + (mine[m.bold.a.id] !== 'y' && mine[m.bold.a.id] !== 'n' ? esc(m.bold.a.title) + ' “' + esc(labelOf(m.bold.a, mine[m.bold.a.id])) + '”' : esc(labelOf(m.bold.a, mine[m.bold.a.id])) + ': ' + esc(m.bold.a.title)) + ' <em>only ' + m.bold.share + '% agree</em></b></p>' : '') +
       (m.hood ? '<p class="wa-me-row"><span>Answers most like</span><b>' + esc(HOODS[m.hood]) + '</b></p>' : '') + '</div>';
   }
   function allAnswers() { return asks.reduce(function (s, a) { return s + total(t(a.id)); }, 0); }

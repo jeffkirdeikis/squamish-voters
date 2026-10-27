@@ -96,7 +96,7 @@ function mePicture(m, hood) {
     h('div', { fontFamily: 'Serif', fontSize: 74, lineHeight: 1.05, marginTop: 14 }, 'I agree with Squamish on'),
     h('div', { fontFamily: 'Serif', fontSize: 74, lineHeight: 1.05, color: YELLOW }, `${m.agree} of ${m.of}`),
     h('div', { marginTop: 34, marginRight: -18 },
-      m.bold ? box('BOLDEST TAKE', cut(m.bold.label === 'Yes' || m.bold.label === 'No' ? `${m.bold.label}: ${m.bold.title}` : `${/[?.!]$/.test(m.bold.title) ? m.bold.title : `${m.bold.title}?`} “${m.bold.label}”`, 80), `Only ${m.bold.share}% agree`) : box('BOLDEST TAKE', 'With the crowd on every one', null),
+      m.bold ? box('BOLDEST TAKE', cut(m.bold.yn ? `${m.bold.label}: ${m.bold.title}` : `${/[?.!]$/.test(m.bold.title) ? m.bold.title : `${m.bold.title}?`} “${m.bold.label}”`, 80), `Only ${m.bold.share}% agree`) : box('BOLDEST TAKE', 'With the crowd on every one', null),
       hood ? box('ANSWERS MOST LIKE', hood, null) : null),
     footer('What Squamish Wants. Where do you land?'));
 }
