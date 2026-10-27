@@ -8,7 +8,7 @@ const sql = URL ? neon(URL) : null;
 
 export async function findAsk(id) {
   const s = SEED.asks.find((a) => a.id === id);
-  if (s) return { title: s.title, labels: s.labels || null, keys: s.options || null };
+  if (s) return { title: s.title, labels: s.labels || null, keys: s.options || null, done: s.status === 'done' };
   if (!sql || !/^r-[a-z0-9]{4,20}$/.test(id)) return null;
   const [r] = await sql`SELECT title FROM sv_wants WHERE id = ${id} AND status = 'ok'`.catch(() => []);
   return r ? { title: r.title, labels: null, keys: null } : null;
@@ -49,7 +49,8 @@ export function standing(r) {
 }
 
 // The most wanted yes / no asks right now, for the main page's share picture: the highest share of yes among people who
-// said yes or no, counting only asks at least `min` people took a side on, so two early yeses can't top the list.
+// said yes or no, counting only asks at least `min` people took a side on, so two early yeses can't top the list. Asks the
+// District has already done are left out.
 export async function topAsks(limit = 3, min = 20) {
   if (!sql) return [];
   const [rows, extra] = await Promise.all([
@@ -66,7 +67,7 @@ export async function topAsks(limit = 3, min = 20) {
   for (const s of scored) {
     if (out.length >= limit) break;
     const ask = await findAsk(s.id);
-    if (ask && !ask.keys) out.push({ ...s, title: ask.title, pct: Math.round(100 * s.yes) });
+    if (ask && !ask.keys && !ask.done) out.push({ ...s, title: ask.title, pct: Math.round(100 * s.yes) });
   }
   return out;
 }

@@ -115,7 +115,7 @@ function picture({ title, labels }) {
 function topPicture(rows) {
   const line = (r) => h('div', { flexDirection: 'column', marginBottom: 22 },
     h('div', { justifyContent: 'space-between', alignItems: 'flex-end' },
-      h('div', { fontSize: 31, fontWeight: 600, lineHeight: 1.2, flex: 1, marginRight: 24 }, cut(r.title, 70)),
+      h('div', { fontSize: 31, fontWeight: 600, lineHeight: 1.2, flex: 1, marginRight: 24 }, cut(r.title, 92)),
       h('div', { fontSize: 36, fontWeight: 800, color: YELLOW, flexShrink: 0 }, `${r.pct}% yes`)),
     h('div', { height: 14, borderRadius: 7, background: 'rgba(255,255,255,.18)', marginTop: 10, overflow: 'hidden' },
       h('div', { width: `${r.pct}%`, height: '100%', background: '#3fb36b' })));
