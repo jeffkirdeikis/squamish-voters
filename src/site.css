@@ -1650,3 +1650,23 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 }
 /* the floating answered counter replaces the site's Top button on this page */
 body:has(.wa-float:not([hidden])) #totop { display: none !important; }
+/* ---------- What Squamish Wants: answers added by residents ---------- */
+:root { --wa-o5: #8a6d1f; --wa-o6: #b03a63; --wa-o7: #3f7d2e; --wa-o8: #4d5b6b; }
+.wa-bar .o5, .wa-optlegend .o5 { background: var(--wa-o5); }
+.wa-bar .o6, .wa-optlegend .o6 { background: var(--wa-o6); }
+.wa-bar .o7, .wa-optlegend .o7 { background: var(--wa-o7); }
+.wa-bar .o8, .wa-optlegend .o8 { background: var(--wa-o8); }
+.wa-added { color: var(--muted); font-weight: 400; font-size: .78rem; white-space: nowrap; }
+.wa-ans.choice .wa-more { grid-column: 1 / -1; justify-self: start; background: none; border: 1px dashed var(--line); border-radius: 8px; padding: .45rem .85rem; font: inherit; font-size: .9rem; font-weight: 700; color: var(--brand); cursor: pointer; min-height: 2.4rem; }
+.wa-sugopen { margin-top: .35rem; }
+.wa-sug { margin-top: .6rem; padding: .75rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); display: grid; gap: .5rem; }
+.wa-sug .fld { margin: 0; }
+.wa-sugrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .5rem; }
+.wa-sugrow input { min-width: 0; font: inherit; font-size: 1rem; padding: .55rem .7rem; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); }
+.wa-sug .wa-msg { margin: 0; }
+.wa-sug [data-sugx] { justify-self: start; }
+@media (min-width: 760px) {
+  .wa-row.choice .wa-ans.choice.n5, .wa-row.choice .wa-ans.choice.n6, .wa-row.choice .wa-ans.choice.n7, .wa-row.choice .wa-ans.choice.n8,
+  .wa-row.choice .wa-ans.choice.n9, .wa-row.choice .wa-ans.choice.n10, .wa-row.choice .wa-ans.choice.n11, .wa-row.choice .wa-ans.choice.n12 { grid-template-columns: repeat(2, 1fr); }
+}
+.wa-sug .fld .small { display: block; font-weight: 400; margin-top: .15rem; }

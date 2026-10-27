@@ -7,7 +7,11 @@
 //   POST { action: 'post', text, draft, area, sig, voter }   -> { ok, ask }   (sig proves the draft came from 'check')
 //   POST { action: 'add-words', wid, text, sig, voter }      -> { ok }        (adds the writer's words to an existing ask)
 //   POST { action: 'report', wid, voter }              -> { ok }   (three reports from different people hide a resident's ask)
-//   GET  ?admin=1, POST { admin: 'hide' | 'show', wid }, both with Authorization: Bearer <ADMIN_TOKEN>
+//   POST { action: 'add-option', wid, text, voter }    -> { ok, option, tally } | { ok, same: key } | { ok, rejected: reason }
+//        On a multiple choice ask, a resident can add an answer that's missing. Claude checks the rules, writes a short
+//        label and says if it means the same as an answer already there. The writer's answer moves to the new option.
+//   POST { action: 'report', wid, okey, voter }        -> { ok }   (three reports hide a resident's answer)
+//   GET  ?admin=1, POST { admin: 'hide' | 'show', wid [, nid | okey] }, both with Authorization: Bearer <ADMIN_TOKEN>
 import { neon } from '@neondatabase/serverless';
 import { createHash, createHmac, randomBytes } from 'node:crypto';
 import SEED from './_wants.json' with { type: 'json' };
@@ -21,6 +25,8 @@ const AREA_MIN = 5; // a neighbourhood's answers show once this many people from
 const REPORTS_TO_HIDE = 3;
 const POSTS_PER_DAY = 5; // new asks from one internet connection in 24 hours
 const CHECKS_PER_HOUR = 20; // suggestion checks from one internet connection in an hour (each one is a Claude call)
+const OPTIONS_PER_DAY = 5; // answers added by one internet connection in 24 hours
+const MAX_OPTIONS = 12; // answers on one question, starter ones included
 
 let ready = null;
 const init = () => (ready ||= sql`CREATE TABLE IF NOT EXISTS sv_wants (
@@ -32,6 +38,8 @@ const init = () => (ready ||= sql`CREATE TABLE IF NOT EXISTS sv_wants (
     created_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY (wid, voter))`)
   .then(() => sql`CREATE TABLE IF NOT EXISTS sv_want_reports (wid text NOT NULL, voter text NOT NULL, at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY (wid, voter))`)
   .then(() => sql`CREATE TABLE IF NOT EXISTS sv_want_checks (net text NOT NULL, at timestamptz NOT NULL DEFAULT now())`)
+  .then(() => sql`CREATE TABLE IF NOT EXISTS sv_want_options (wid text NOT NULL, key text NOT NULL, label text NOT NULL, means text, body text,
+    status text NOT NULL DEFAULT 'ok', voter text, net text, reports int NOT NULL DEFAULT 0, created_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY (wid, key))`)
   .catch((e) => { ready = null; throw e; }));
 
 const SEEDS = SEED.asks || [];
@@ -57,6 +65,12 @@ async function tallies() {
     if (r.area) { const a = (t.areas[r.area] ||= { y: 0, n: 0, m: 0 }); a[r.choice] = (a[r.choice] || 0) + r.n; }
   }
   for (const t of Object.values(out)) for (const [k, a] of Object.entries(t.areas)) if (Object.values(a).reduce((x, y) => x + y, 0) < AREA_MIN) delete t.areas[k];
+  return out;
+}
+async function extraOptions(status = 'ok') {
+  const rows = await sql`SELECT wid, key, label, means FROM sv_want_options WHERE status = ${status} ORDER BY created_at LIMIT 2000`;
+  const out = {};
+  for (const r of rows) (out[r.wid] ||= []).push({ key: r.key, label: r.label, means: r.means || '' });
   return out;
 }
 async function notes() {
@@ -127,6 +141,47 @@ ${listText}`,
   }
 }
 
+// Claude reads a suggested answer: does it fit the rules, what is its short label, and is it already one of the answers?
+async function checkOption(text, seed, current) {
+  const fallback = { publish: true, held: true, reason: '', label: clean(text, 60), means: '', same: '' };
+  if (!process.env.ANTHROPIC_API_KEY) return fallback;
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST', signal: AbortSignal.timeout(25000),
+      headers: { 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-haiku-5-5', max_tokens: 400,
+        output_config: { format: { type: 'json_schema', schema: { type: 'object', additionalProperties: false,
+          required: ['publish', 'reason', 'label', 'means', 'same'],
+          properties: { publish: { type: 'boolean' }, reason: { type: 'string' }, label: { type: 'string' }, means: { type: 'string' }, same: { type: 'string', enum: ['', ...current.map((o) => o.key)] } } } } },
+        system: `You review answers that residents add to a multiple choice question on "What Squamish Wants", a public list on Squamish Voters (a non-partisan site about Squamish, B.C.).
+
+THE QUESTION: ${seed.title}
+${seed.why ? `BACKGROUND: ${seed.why}\n` : ''}THE ANSWERS ALREADY THERE:
+${current.map((o) => `${o.key}: ${o.label}`).join('\n')}
+
+1. publish: should this answer be added? Use these rules:
+${COMMENT_RULES.replace('It has to be about the question or the decision behind it.', 'It has to be a real answer to the question above, something the town or the Province could actually do.')}
+If it breaks a rule, publish is false and "reason" is one short, friendly sentence telling the writer what to change. Otherwise reason is "".
+
+2. same: if it means the same as one of the answers already there (or is clearly covered by it), that answer's key. Otherwise "". A real difference in what would happen counts as different.
+
+3. label: the answer as a short button label in the same style as the others, under 45 characters. Keep the writer's meaning and side. Plain words, no em dashes, no hyphenated compound words.
+
+4. means: one neutral sentence on what would happen if this answer won, using only what the writer said and the background. "" if unsure.`,
+        messages: [{ role: 'user', content: `SUGGESTED ANSWER:\n${text}` }],
+      }),
+    });
+    if (!r.ok) throw new Error(`${r.status} ${(await r.text()).slice(0, 200)}`);
+    const j = await r.json();
+    const o = JSON.parse(j.content.filter((x) => x.type === 'text').map((x) => x.text).join(''));
+    return { publish: !!o.publish, held: false, reason: clean(o.reason, 300), label: clean(o.label, 60) || fallback.label, means: clean(o.means, 300), same: current.some((c) => c.key === o.same) ? o.same : '' };
+  } catch (e) {
+    console.error('wants option check', e.message);
+    return fallback;
+  }
+}
+
 export default async function handler(req, res) {
   if (!sql) return res.status(503).json({ ok: false, error: 'This isn’t open yet.' });
   await init();
@@ -136,14 +191,17 @@ export default async function handler(req, res) {
   if (req.query.admin || b.admin) {
     if (!isAdmin(req)) return res.status(401).json({ ok: false, error: 'unauthorized' });
     if (req.method === 'GET') {
-      const [asks, ns] = await Promise.all([
+      const [asks, ns, os] = await Promise.all([
         sql`SELECT id, title, why, topic, area, body, status, reports, created_at FROM sv_wants ORDER BY created_at DESC LIMIT 1000`,
         sql`SELECT wid, voter, body, status, created_at FROM sv_want_notes ORDER BY created_at DESC LIMIT 1000`,
+        sql`SELECT wid, key, label, body, status, reports, created_at FROM sv_want_options ORDER BY created_at DESC LIMIT 1000`,
       ]);
-      return res.json({ ok: true, asks, notes: ns.map((n) => ({ wid: n.wid, nid: hash(`n|${n.wid}|${n.voter}`).slice(0, 12), text: n.body, status: n.status, at: n.created_at })) });
+      return res.json({ ok: true, asks, notes: ns.map((n) => ({ wid: n.wid, nid: hash(`n|${n.wid}|${n.voter}`).slice(0, 12), text: n.body, status: n.status, at: n.created_at })),
+        options: os.map((o) => ({ wid: o.wid, okey: o.key, label: o.label, text: o.body, status: o.status, reports: o.reports, at: o.created_at, question: SEEDS.find((s) => s.id === o.wid)?.title || o.wid })) });
     }
     const st = b.admin === 'show' ? 'ok' : 'removed';
-    if (b.nid) {
+    if (b.okey) await sql`UPDATE sv_want_options SET status = ${st} WHERE wid = ${String(b.wid || '')} AND key = ${String(b.okey)}`;
+    else if (b.nid) {
       const [n] = (await sql`SELECT wid, voter FROM sv_want_notes WHERE wid = ${String(b.wid || '')}`).filter((r) => hash(`n|${r.wid}|${r.voter}`).slice(0, 12) === b.nid);
       if (!n) return res.status(404).json({ ok: false });
       await sql`UPDATE sv_want_notes SET status = ${st} WHERE wid = ${n.wid} AND voter = ${n.voter}`;
@@ -153,12 +211,12 @@ export default async function handler(req, res) {
 
   if (req.method === 'GET') {
     const voter = voterOk(req.query.voter) ? hash(req.query.voter) : null;
-    const [asks, t, ns, mine, [{ people }]] = await Promise.all([
-      residentAsks(), tallies(), notes(),
+    const [asks, t, ns, extras, mine, [{ people }]] = await Promise.all([
+      residentAsks(), tallies(), notes(), extraOptions(),
       voter ? sql`SELECT wid, choice FROM sv_want_votes WHERE voter = ${voter}` : [],
       sql`SELECT count(DISTINCT voter)::int AS people FROM sv_want_votes`,
     ]);
-    return res.json({ ok: true, people, asks, tallies: t, notes: ns, mine: Object.fromEntries(mine.map((r) => [r.wid, r.choice])) });
+    return res.json({ ok: true, people, asks, tallies: t, notes: ns, extras, mine: Object.fromEntries(mine.map((r) => [r.wid, r.choice])) });
   }
   if (req.method !== 'POST') return res.status(405).json({ ok: false });
   if (!voterOk(b.voter)) return res.status(400).json({ ok: false, error: 'Please reload the page and try again.' });
@@ -171,7 +229,7 @@ export default async function handler(req, res) {
     if (b.choice === '') await sql`DELETE FROM sv_want_votes WHERE wid = ${wid} AND voter = ${voter}`;
     else {
       const seed = SEEDS.find((x) => x.id === wid);
-      const allowed = seed?.options ? [...seed.options, 'm'] : CHOICES;
+      const allowed = seed?.options ? [...seed.options, ...(await sql`SELECT key FROM sv_want_options WHERE wid = ${wid} AND status = 'ok'`).map((r) => r.key), 'm'] : CHOICES;
       if (!allowed.includes(b.choice)) return res.status(400).json({ ok: false, error: 'Please pick one of the answers.' });
       const [before] = await sql`SELECT 1 FROM sv_want_votes WHERE wid = ${wid} AND voter = ${voter}`;
       if (!before) {
@@ -217,6 +275,43 @@ export default async function handler(req, res) {
     // The writer has answered yes to their own ask.
     await sql`INSERT INTO sv_want_votes (wid, voter, choice, area, net) VALUES (${id}, ${voter}, 'y', ${areaOk(b.myArea)}, ${net}) ON CONFLICT DO NOTHING`;
     return res.json({ ok: true, status, ask: { id, title: signed.title, why: signed.why, topic: signed.topic, area, body: text, created_at: new Date().toISOString() } });
+  }
+
+  if (b.action === 'add-option') {
+    const wid = String(b.wid || ''), text = clean(b.text, 300);
+    const seed = SEEDS.find((x) => x.id === wid && x.options);
+    if (!seed) return res.status(400).json({ ok: false, error: 'Only questions with several answers take new ones.' });
+    if (text.length < 3) return res.status(400).json({ ok: false, error: 'Write the answer you’d like to see.' });
+    const extra = await sql`SELECT key, label, status, net, created_at FROM sv_want_options WHERE wid = ${wid}`;
+    const live = extra.filter((o) => o.status !== 'removed' && o.status !== 'reported');
+    if (seed.options.length + live.length >= MAX_OPTIONS) return res.status(400).json({ ok: false, error: 'This question has plenty of answers already. Pick the closest one, or add the idea as its own ask.' });
+    const [{ n: checks }] = await sql`SELECT count(*)::int AS n FROM sv_want_checks WHERE net = ${net} AND at > now() - interval '1 hour'`;
+    if (checks >= CHECKS_PER_HOUR) return res.status(429).json({ ok: false, error: 'That’s a lot of suggestions from your connection in the last hour. Please try again a bit later.' });
+    const [{ n: today }] = await sql`SELECT count(*)::int AS n FROM sv_want_options WHERE net = ${net} AND created_at > now() - interval '1 day'`;
+    if (today >= OPTIONS_PER_DAY) return res.status(429).json({ ok: false, error: 'Your connection has added a few answers today already. Please come back tomorrow.' });
+    await sql`INSERT INTO sv_want_checks (net) VALUES (${net})`;
+    const current = [...seed.options.map((k, i) => ({ key: k, label: seed.labels?.[i] || k })), ...extra.filter((o) => o.status === 'ok').map((o) => ({ key: o.key, label: o.label }))];
+    const c = await checkOption(text, seed, current);
+    if (!c.publish) return res.json({ ok: true, rejected: c.reason || 'It doesn’t fit the rules yet.' });
+    if (c.same) return res.json({ ok: true, same: c.same });
+    const dupe = current.find((o) => o.label.toLowerCase() === c.label.toLowerCase());
+    if (dupe) return res.json({ ok: true, same: dupe.key });
+    const key = `x${randomBytes(3).toString('hex')}`, status = c.held ? 'pending' : 'ok';
+    await sql`INSERT INTO sv_want_options (wid, key, label, means, body, status, voter, net) VALUES (${wid}, ${key}, ${c.label}, ${c.means}, ${text}, ${status}, ${voter}, ${net})`;
+    if (status === 'ok') await sql`INSERT INTO sv_want_votes (wid, voter, choice, area, net) VALUES (${wid}, ${voter}, ${key}, ${areaOk(b.area)}, ${net})
+      ON CONFLICT (wid, voter) DO UPDATE SET choice = EXCLUDED.choice, area = coalesce(EXCLUDED.area, sv_want_votes.area), updated_at = now()`;
+    const t = await tallies();
+    return res.json({ ok: true, status, option: { key, label: c.label, means: c.means }, tally: t[wid] || { y: 0, n: 0, m: 0, areas: {} } });
+  }
+
+  if (b.action === 'report' && b.okey) {
+    const wid = String(b.wid || ''), okey = String(b.okey), rid = `${wid}#${okey}`;
+    const [row] = await sql`SELECT voter FROM sv_want_options WHERE wid = ${wid} AND key = ${okey} AND status = 'ok'`;
+    if (!row || row.voter === voter) return res.json({ ok: true });
+    await sql`INSERT INTO sv_want_reports (wid, voter) VALUES (${rid}, ${voter}) ON CONFLICT DO NOTHING`;
+    const [{ n }] = await sql`SELECT count(*)::int AS n FROM sv_want_reports WHERE wid = ${rid}`;
+    await sql`UPDATE sv_want_options SET reports = ${n}, status = CASE WHEN ${n} >= ${REPORTS_TO_HIDE} THEN 'reported' ELSE status END WHERE wid = ${wid} AND key = ${okey}`;
+    return res.json({ ok: true });
   }
 
   if (b.action === 'report') {

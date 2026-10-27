@@ -8,7 +8,10 @@
    first answer) and the 5 and 10 answer milestones. Desktop (1000px and up): a side rail with progress and the add box.
    The Top 10 board opens after 5 answers. One by one takes Y, N, M and the right arrow on a keyboard.
    Adding an ask: Claude checks the rules, writes a short neutral ask, and lists asks already on the list that look the
-   same, so the writer can answer that one or add their words to it instead of posting a copy. */
+   same, so the writer can answer that one or add their words to it instead of posting a copy.
+   Multiple choice asks: residents can add a missing answer (Claude checks it isn't already there). Starter answers keep
+   their order; added ones follow, ranked by popularity when the page loads. Past 6 answers the rest fold behind
+   "Show more". */
 (function () {
   var root = document.querySelector('[data-wants]');
   var dataEl = document.getElementById('wa-data');
@@ -29,6 +32,8 @@
   var asks = D.asks.slice(), tallies = {}, mine = {}, notes = {}, people = 0, loaded = false;
   var view = 'list', topic = 'all', sort = 'wanted', openId = null, focusId = D.focus || (location.hash || '').slice(1) || null, deckSkip = {}, deckShown = null;
   var reported = {}, pending = {}, hintId = null, hinted = false;
+  var expanded = {}, sug = { id: null, text: '', busy: false, msg: '', same: '' };
+  var SHOW = 6, MAX_OPTIONS = 12; // answers shown before "Show more"; most answers a question can have
   // The order is frozen while someone is answering, so rows never jump under their finger. It is worked out again only
   // when they change the sort, filter or neighbourhood, or come back to the page.
   var order = null, shortOrder = null, touched = false;
@@ -42,7 +47,16 @@
   // Don't mind (m), which is counted and shown but left out of the shares.
   var YESNO = [{ key: 'y', label: 'Yes' }, { key: 'n', label: 'No' }];
   function isChoice(a) { return a.kind === 'choice' && a.options; }
-  function opts(a) { return isChoice(a) ? a.options : YESNO; }
+  function opts(a) { return isChoice(a) ? a.options.concat(a.extra || []) : YESNO; }
+  // The answers on screen: all of them up to 6, then the first 6 unless the list is open (or your pick is further down).
+  function shown(a) {
+    var o = opts(a);
+    if (o.length <= SHOW || expanded[a.id]) return o;
+    var my = mine[a.id], v = o.slice(0, SHOW);
+    return my && my !== 'm' && !v.some(function (x) { return x.key === my; }) ? o : v;
+  }
+  function col(a, k) { var o = opts(a); for (var i = 0; i < o.length; i++) if (o[i].key === k) return 'o' + ((i % 8) + 1); return 'm'; }
+  function isExtra(a, o) { return a.options.indexOf(o) < 0; }
   function c(x, k) { return (x && x[k]) || 0; }
   function total(x) { var n = 0; for (var k in x) if (k !== 'areas') n += x[k] || 0; return n; }
   function opinions(a, x) { return opts(a).reduce(function (s, o) { return s + c(x, o.key); }, 0); }
@@ -63,7 +77,7 @@
   function bar(a, x) {
     var n = total(x);
     if (!n) return '<p class="wa-first">No answers yet. Yours is the first.</p>';
-    var segs = isChoice(a) ? a.options.map(function (o, i) { return ['o' + (i + 1), o.label, c(x, o.key)]; }).concat([['m', 'don’t mind', c(x, 'm')]])
+    var segs = isChoice(a) ? opts(a).map(function (o) { return [col(a, o.key), o.label, c(x, o.key)]; }).concat([['m', 'don’t mind', c(x, 'm')]])
       : [['y', 'yes', c(x, 'y')], ['m', 'don’t mind', c(x, 'm')], ['n', 'no', c(x, 'n')]];
     return '<div class="wa-bar" role="img" aria-label="' + esc(segs.map(function (g) { return pct(g[2], n) + '% ' + g[1]; }).join(', ')) + '">' +
       segs.map(function (g) { return '<i class="' + g[0] + '" style="width:' + pct(g[2], n) + '%"></i>'; }).join('') + '</div>';
@@ -78,11 +92,24 @@
     var x = t(a.id), n = total(x), o = opinions(a, x);
     var out = '<div class="wa-totals">' + bar(a, x);
     if (n && isChoice(a)) {
-      out += '<ul class="wa-optlegend">' + a.options.map(function (op, i) { return '<li><i class="dot o' + (i + 1) + '"></i><span>' + esc(op.label) + '</span><b>' + pct(c(x, op.key), o) + '%</b></li>'; }).join('') + '</ul>' +
+      var sh = shown(a), more = opts(a).length - sh.length;
+      out += '<ul class="wa-optlegend">' + sh.map(function (op) { return '<li><i class="dot ' + col(a, op.key) + '"></i><span>' + esc(op.label) + (isExtra(a, op) ? ' <small class="wa-added">added by a resident</small>' : '') + '</span><b>' + pct(c(x, op.key), o) + '%</b></li>'; }).join('') + '</ul>' +
+        (more ? '<button type="button" class="wa-link" data-more="' + esc(a.id) + '">Show ' + more + ' more answer' + (more === 1 ? '' : 's') + '</button>' : '') +
         '<p class="wa-legend"><span>' + n + ' answer' + (n === 1 ? '' : 's') + '</span><span>' + c(x, 'm') + ' don’t mind</span><span>Shares leave out don’t mind</span></p>';
     } else if (n) out += '<p class="wa-legend"><em>' + (o ? '<b>' + pct(c(x, 'y'), o) + '% yes</b> of people with an opinion' : '<b>No one has said yes or no yet</b>') + '</em>' +
       '<span>' + n + ' answer' + (n === 1 ? '' : 's') + '</span><span>' + c(x, 'y') + ' yes · ' + c(x, 'n') + ' no · ' + c(x, 'm') + ' don’t mind</span></p>';
-    return out + areaLine(a, x) + '</div>';
+    return out + areaLine(a, x) + sugBox(a) + '</div>';
+  }
+  // "Missing an answer?" on multiple choice asks: a one line box under the results.
+  function sugBox(a) {
+    if (!isChoice(a) || opts(a).length >= MAX_OPTIONS) return '';
+    if (sug.id !== a.id) return '<button type="button" class="wa-link wa-sugopen" data-sug="' + esc(a.id) + '">Missing an answer? Add it</button>';
+    var same = sug.same && labelOf(a, sug.same);
+    return '<div class="wa-sug"><label class="fld" for="wa-sug">What answer is missing?<span class="small">A short answer to this question. We check it isn’t already one of the answers, and your answer moves to it.</span></label>' +
+      '<div class="wa-sugrow"><input id="wa-sug" type="text" maxlength="300" autocomplete="off" value="' + esc(sug.text) + '" placeholder="For example: Up by half of inflation"><button type="button" class="btn" data-sugsend' + (sug.busy ? ' disabled' : '') + '>' + (sug.busy ? 'Checking…' : 'Add') + '</button></div>' +
+      (same ? '<p class="wa-msg">That’s already an answer: <b>' + esc(same) + '</b>. <button type="button" class="wa-link" data-ans="' + esc(sug.same) + '" data-id="' + esc(a.id) + '">Pick that one</button></p>' : '') +
+      (sug.msg ? '<p class="wa-msg bad">' + esc(sug.msg) + '</p>' : '') +
+      '<button type="button" class="wa-link" data-sugx>Cancel</button></div>';
   }
   // The closed door: a blurred bar that hints there is a result behind it, without giving anything away.
   function tease(a) {
@@ -91,9 +118,13 @@
   var WORD = { y: 'Yes', n: 'No', m: 'Don’t mind' };
   function buttons(a, big) {
     var my = mine[a.id];
-    if (isChoice(a)) return '<div class="wa-ans choice n' + a.options.length + (big ? ' big' : '') + '" role="group" aria-label="Your answer">' + a.options.map(function (o, i) {
-      return '<button type="button" class="wa-b opt" data-ans="' + esc(o.key) + '" data-id="' + esc(a.id) + '" aria-pressed="' + (my === o.key) + '">' + (big && desk.matches ? '<kbd>' + (i + 1) + '</kbd> ' : '') + esc(o.label) + '</button>';
-    }).join('') + '<button type="button" class="wa-b m" data-ans="m" data-id="' + esc(a.id) + '" aria-pressed="' + (my === 'm') + '">Don’t mind</button></div>';
+    if (isChoice(a)) {
+      var sh = shown(a), more = opts(a).length - sh.length;
+      return '<div class="wa-ans choice n' + sh.length + (big ? ' big' : '') + '" role="group" aria-label="Your answer">' + sh.map(function (o, i) {
+        return '<button type="button" class="wa-b opt" data-ans="' + esc(o.key) + '" data-id="' + esc(a.id) + '" aria-pressed="' + (my === o.key) + '">' + (big && desk.matches && i < 9 ? '<kbd>' + (i + 1) + '</kbd> ' : '') + esc(o.label) + '</button>';
+      }).join('') + (more ? '<button type="button" class="wa-more" data-more="' + esc(a.id) + '">Show ' + more + ' more answer' + (more === 1 ? '' : 's') + ', most picked first</button>' : '') +
+        '<button type="button" class="wa-b m" data-ans="m" data-id="' + esc(a.id) + '" aria-pressed="' + (my === 'm') + '">Don’t mind</button></div>';
+    }
     return '<div class="wa-ans' + (big ? ' big' : '') + '" role="group" aria-label="Your answer">' + ['y', 'n', 'm'].map(function (k) {
       return '<button type="button" class="wa-b ' + k + '" data-ans="' + k + '" data-id="' + esc(a.id) + '" aria-pressed="' + (my === k) + '">' + WORD[k] + '</button>';
     }).join('') + '</div>';
@@ -107,7 +138,10 @@
       '<dl><dt>Where it stands</dt><dd><span class="wa-chip ' + s.cls + '">' + esc(s.label) + '</span> ' + esc(s.explain || '') + '</dd>' + who +
       '<dt>Topic</dt><dd>' + esc(TOPIC[a.topic] || 'Everything else') + '</dd>' +
       (a.other_side ? '<dt>The other side</dt><dd>' + esc(a.other_side) + '</dd>' : '') +
-      (isChoice(a) ? '<dt>What each answer means</dt><dd><ul class="wa-means">' + a.options.map(function (o) { return '<li><b>' + esc(o.label) + ':</b> ' + esc(o.means || '') + '</li>'; }).join('') + '</ul></dd>' : '') +
+      (isChoice(a) ? '<dt>What each answer means</dt><dd><ul class="wa-means">' + opts(a).map(function (o) {
+        var rk = a.id + '#' + o.key;
+        return '<li><b>' + esc(o.label) + ':</b> ' + esc(o.means || '') + (isExtra(a, o) ? ' <span class="small muted">Added by a resident.</span> ' + (reported[rk] ? '<span class="small muted">Thanks, reported.</span>' : '<button type="button" class="wa-link muted" data-optreport="' + esc(rk) + '">Report</button>') : '') + '</li>';
+      }).join('') + '</ul></dd>' : '') +
       (a.source_url ? '<dt>Source</dt><dd><a href="' + esc(a.source_url) + '"' + (/^https?:/.test(a.source_url) ? ' target="_blank" rel="noopener"' : '') + '>' + esc(a.source_label || 'Source') + '</a></dd>' : '') + '</dl>' +
       (a.res && a.body ? '<div class="wa-words"><b>In the words of the resident who added it</b><p>' + esc(a.body) + '</p></div>' : '') +
       (ns.length ? '<div class="wa-words"><b>More from residents</b>' + ns.slice(0, 20).map(function (n) { return '<p>' + esc(n.text) + '</p>'; }).join('') + '</div>' : '') +
@@ -327,6 +361,12 @@
       if (!j || !j.ok) return;
       (j.asks || []).forEach(function (a) { if (!byId(a.id)) asks.push({ id: a.id, title: a.title, why: a.why, topic: a.topic || 'other', area: a.area, body: a.body, created_at: a.created_at, res: true }); });
       tallies = j.tallies || {}; mine = j.mine || {}; notes = j.notes || {}; people = j.people || 0; loaded = true;
+      // Added answers, most picked first. Worked out once per load so buttons don't move while someone answers.
+      asks.forEach(function (a) {
+        if (!isChoice(a)) return;
+        var x = t(a.id);
+        a.extra = ((j.extras || {})[a.id] || []).slice().sort(function (p, q) { return c(x, q.key) - c(x, p.key); });
+      });
       if (!touched) { order = null; shortOrder = null; }
       if (focusId && byId(focusId)) { openId = focusId; draw(); var el = document.getElementById('ask-' + focusId); if (el) el.scrollIntoView({ block: 'center' }); }
       else draw();
@@ -358,6 +398,30 @@
     });
     if (choice) track('Wants answer', { on: mode === 'short' ? location.pathname : view });
   }
+  function sendSug() {
+    var id = sug.id, a = id && byId(id), inp = $('#wa-sug');
+    if (!a || sug.busy) return;
+    sug.text = inp ? inp.value.trim() : sug.text.trim();
+    if (sug.text.length < 3) { sug.msg = 'Write the answer you’d like to see.'; draw(); return; }
+    sug.busy = true; sug.msg = ''; sug.same = ''; draw(); track('Wants add answer');
+    post({ action: 'add-option', wid: id, text: sug.text, area: prefs.area || '' }).then(function (j) {
+      sug.busy = false;
+      if (!j.ok) sug.msg = j.error || 'That didn’t work. Please try again.';
+      else if (j.rejected) sug.msg = j.rejected;
+      else if (j.same) sug.same = j.same;
+      else {
+        sug = { id: null, text: '', busy: false, msg: '', same: '' };
+        if (j.status !== 'ok') toast('Thanks. Your answer will show after a quick check.');
+        else {
+          if (!done()) people += 1;
+          (a.extra = a.extra || []).push(j.option); tallies[id] = j.tally; mine[id] = j.option.key;
+          toast('Added. Your answer is now “' + j.option.label + '”.');
+          milestones();
+        }
+      }
+      draw();
+    });
+  }
   function shareUrl(url, title, text) {
     track('Wants share');
     if (navigator.share) { navigator.share({ title: title, text: text, url: url }).catch(function () {}); return; }
@@ -378,7 +442,7 @@
   // ---------- events ----------
   root.addEventListener('click', function (e) {
     var b;
-    if ((b = e.target.closest('[data-ans]'))) { answer(b.getAttribute('data-id'), b.getAttribute('data-ans')); return; }
+    if ((b = e.target.closest('[data-ans]'))) { if (b.closest('.wa-sug')) sug = { id: null, text: '', busy: false, msg: '', same: '' }; answer(b.getAttribute('data-id'), b.getAttribute('data-ans')); return; }
     if ((b = e.target.closest('[data-open]'))) { var oid = b.getAttribute('data-open'); openId = openId === oid ? null : oid; if (openId) track('Wants open'); draw(); return; }
     if ((b = e.target.closest('[data-view]'))) { if (b.closest('[data-wa-sheet]')) closeSheet(); setView(b.getAttribute('data-view'), !!b.closest('[data-wa-tabs]')); return; }
     if ((b = e.target.closest('[data-topic]'))) { topic = b.getAttribute('data-topic'); focusId = null; order = null; draw(); return; }
@@ -389,6 +453,11 @@
     if (e.target.closest('[data-next]')) { deckShown = null; drawOne(); drawProgress(); return; }
     if ((b = e.target.closest('[data-skip]'))) { deckSkip[b.getAttribute('data-skip')] = true; deckShown = null; drawOne(); return; }
     if ((b = e.target.closest('[data-share]'))) { share(b.getAttribute('data-share')); return; }
+    if ((b = e.target.closest('[data-more]'))) { var mid = b.getAttribute('data-more'); expanded[mid] = true; draw(); return; }
+    if ((b = e.target.closest('[data-sug]'))) { sug = { id: b.getAttribute('data-sug'), text: '', busy: false, msg: '', same: '' }; draw(); var si = $('#wa-sug'); if (si) si.focus({ preventScroll: true }); return; }
+    if (e.target.closest('[data-sugx]')) { sug = { id: null, text: '', busy: false, msg: '', same: '' }; draw(); return; }
+    if (e.target.closest('[data-sugsend]')) { sendSug(); return; }
+    if ((b = e.target.closest('[data-optreport]'))) { var rk = b.getAttribute('data-optreport'), cut = rk.indexOf('#'); reported[rk] = true; draw(); post({ action: 'report', wid: rk.slice(0, cut), okey: rk.slice(cut + 1) }); return; }
     if ((b = e.target.closest('[data-report]'))) { var rid = b.getAttribute('data-report'); reported[rid] = true; draw(); post({ action: 'report', wid: rid }); return; }
     if ((b = e.target.closest('[data-goto]'))) { gotoAsk(b.getAttribute('data-goto')); return; }
     if (e.target.closest('[data-check]')) {
@@ -433,7 +502,8 @@
       return;
     }
   });
-  root.addEventListener('input', function (e) { if (e.target.id === 'wa-text') add.text = e.target.value; });
+  root.addEventListener('input', function (e) { if (e.target.id === 'wa-text') add.text = e.target.value; if (e.target.id === 'wa-sug') sug.text = e.target.value; });
+  root.addEventListener('keydown', function (e) { if (e.target.id === 'wa-sug' && e.key === 'Enter') { e.preventDefault(); sendSug(); } });
   root.addEventListener('change', function (e) {
     var areaPick = e.target.matches('[data-wa-area]') || e.target.matches('[data-wa-sheetarea]');
     if (areaPick) {
@@ -451,7 +521,7 @@
     var k = e.key.toLowerCase(), a = deckShown && byId(deckShown);
     if (!a) return;
     if (mine[a.id]) { if (k === 'enter' || k === 'arrowright') { e.preventDefault(); deckShown = null; drawOne(); drawProgress(); } return; }
-    if (isChoice(a) && /^[1-9]$/.test(k) && a.options[+k - 1]) { e.preventDefault(); answer(a.id, a.options[+k - 1].key); }
+    if (isChoice(a) && /^[1-9]$/.test(k) && shown(a)[+k - 1]) { e.preventDefault(); answer(a.id, shown(a)[+k - 1].key); }
     else if (k === 'm' || (!isChoice(a) && (k === 'y' || k === 'n'))) { e.preventDefault(); answer(a.id, k); }
     else if (k === 'arrowright') { e.preventDefault(); deckSkip[a.id] = true; deckShown = null; drawOne(); }
   });
