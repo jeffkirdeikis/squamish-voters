@@ -317,11 +317,14 @@ const MOBILE_MENU = [
   ['/about/', 'About this site &amp; sources', 'about'],
 ];
 
+// Search results cut a description at about 160 characters; end it on a whole word instead of mid word.
+const clip = (s, n) => (!s || s.length <= n ? s : `${s.slice(0, n - 1).replace(/[\s,;:]+\S*$/, '')}…`);
 function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null, image = null, imageAlt = null }) {
   const img = image || 'https://squamishvoters.com/og.png?v=4';
   const cur = (href) => ((href === '/' ? url === '/' : url.startsWith(href)) ? ' aria-current="page"' : '');
   const inGroup = (g) => [g.href, ...g.items.map(([h]) => h)].some((h) => url.startsWith(h));
-  const full = title ? `${title} | ${SITE.name}` : 'Squamish Voters: what Squamish council is deciding, how each member votes, and whether they keep their promises';
+  const full = title ? (title.length > 52 ? title : `${title} | ${SITE.name}`) : 'Squamish Voters: what Squamish council is deciding, how each member votes, and whether they keep their promises';
+  desc = clip(desc, 158);
   return `<!doctype html>
 <html lang="en-CA">
 <head>
@@ -394,6 +397,7 @@ ${scripts}${noindex ? '' : '\n<script>window.va=window.va||function(){(window.va
 }
 
 const SITEMAP = []; // every indexable page, built into sitemap.xml at the end
+const LASTMOD = {}; // pages whose structured data carries a real date use it as the sitemap lastmod
 // Our own scripts and the stylesheet are linked with a short fingerprint of their contents (/wants.js?v=1a2b3c4d), so
 // browsers fetch the new copy as soon as it changes instead of running one they kept from an earlier visit.
 const ASSET_V = {};
@@ -408,6 +412,8 @@ const versioned = (html) => html.replace(/(src|href)="\/([a-z]+\.(?:js|css))"/g,
 function write(url, html) {
   html = versioned(html);
   if (!/name="robots" content="noindex/.test(html) && url !== '/404/') SITEMAP.push(url);
+  const dated = html.match(/"dateModified":"(\d{4}-\d\d-\d\d)/) || html.match(/"datePublished":"(\d{4}-\d\d-\d\d)/);
+  if (dated) LASTMOD[url] = dated[1];
   const out = path.join(DIST, url, 'index.html');
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, html.replaceAll('__PATH__', url)); // each page's own address, for sharing and search engines
@@ -833,7 +839,7 @@ const COMPARE_BLOCK = `<div class="cmp-wrap"><div class="picker no-print" data-p
   <ol class="small" style="margin-top:1rem">${QUESTIONS.map((q) => `<li><b>${esc(q.short)}:</b> “${esc(q.text)}”</li>`).join('')}</ol></section>
   <nav class="panel-nav no-print" data-panel-nav="cmp" aria-label="Move between topics"></nav></div>`;
 write('/compare/', page({
-  url: '/compare/', title: 'Compare the Squamish candidates on every issue',
+  url: '/compare/', jsonld: crumbLd([['Home', '/'], ['Compare them', '/compare/']]), title: 'Compare the Squamish candidates on every issue',
   desc: 'See where every Squamish mayor and council candidate stands on housing, growth, taxes, Woodfibre LNG and more, side by side, issue by issue.',
   body: `<h1>Compare the candidates</h1>
   <p class="lede">Pick an issue to see where everyone stands, side by side. Candidates for mayor are marked in yellow.</p>
@@ -896,7 +902,7 @@ const wantsData = (extra = {}) => `<script type="application/json" id="wa-data">
   asks: WANTS.asks.map((a) => (WANT_INFO[a.id] ? { ...a, info: true } : a)), topics: WANTS.topics, statuses: WANT_STATUS, hoods: Object.fromEntries(WANT_HOODS.map((h) => [h.slug, h.name])), ...extra,
 }).replace(/</g, '\\u003c')}</script>`;
 // A plain list for search engines and anyone without JavaScript; src/wants.js replaces it with the answerable rows.
-const wantsStatic = (list) => list.map((a) => `<li class="wa-row"><span class="wa-t">${esc(a.title)}</span>${a.why ? `<span class="small muted">${esc(a.why)}</span>` : ''}</li>`).join('');
+const wantsStatic = (list) => list.map((a) => `<li class="wa-row"><span class="wa-t">${WANT_INFO[a.id] ? `<a href="/wants/${a.id}/info/">${esc(a.title)}</a>` : esc(a.title)}</span>${a.why ? `<span class="small muted">${esc(a.why)}</span>` : ''}</li>`).join('');
 // The short version: three asks you can answer on the spot, used on Home and /your-say/.
 const wantsShort = (where) => `<section class="card wa-short" data-wants="short" data-count="3" aria-labelledby="wa-short-h-${where}">
   <p class="wa-kicker">New: What Squamish Wants</p>
@@ -1031,7 +1037,7 @@ ${HAVE_SAY_OPEN ? `    <a class="cc-tile cc-say" href="/have-your-say/"><span cl
 
 // ---------- COUNCIL (list page; written after Compare because it reuses COMPARE_BLOCK) ----------
 write('/council/', page({
-  url: '/council/', title: 'Squamish mayor and council 2026 to 2030',
+  url: '/council/', jsonld: crumbLd([['Home', '/'], ['Mayor and council', '/council/']]), title: 'Squamish mayor and council 2026 to 2030',
   desc: `${mayors[0]?.name} is mayor of Squamish. Councillors: ${council.map((c) => c.name).join(', ')}. What each stands for, how they vote and which promises they keep.`,
   body: `<h1>Your mayor and council</h1>
   <p class="lede">Seven people elected on October 17, 2026, to run Squamish until 2030. Tap anyone to see what they promised, how they vote, and every answer they gave during the campaign.</p>
@@ -1202,7 +1208,7 @@ const cmapWords = (c, mk) => { const M = CMAPS[mk], p = cmapPos(c, mk); if (!p) 
   return [`${M.xt}: ${w(p.x.v, ...M.xw)} (${p.x.n} statement${p.x.n > 1 ? 's' : ''})`, `${M.yt}: ${w(p.y.v, ...M.yw)} (${p.y.n} statement${p.y.n > 1 ? 's' : ''})`]; };
 const compassDetailAxes = (c) => Object.keys(AXES).map((k) => { const s = axisScore(c, k); return `${AXES[k].title}: ${axisWords(k, s)}${s ? ` (${s.n} statement${s.n > 1 ? 's' : ''})` : ''}`; });
 write('/compass/', page({
-  url: '/compass/', title: 'Where they lean',
+  url: '/compass/', jsonld: crumbLd([['Home', '/'], ['Where they lean', '/compass/']]), title: 'Where they lean',
   desc: 'Where Squamish mayor and council candidates sit on taxes and spending, growth, and Woodfibre LNG and climate — worked out from their public statements and votes.',
   body: `<h1>Where they lean</h1>
   <p class="lede">Everyone on a map first — swipe for ${Object.keys(CMAPS).length} different maps — then the five big questions, one at a time. Placed from their 2026 campaign answers.</p>
@@ -1251,7 +1257,7 @@ var AX=${JSON.stringify(Object.fromEntries(Object.entries(AXES).map(([k, A]) => 
 
 // ---------- ISSUES ----------
 write('/issues/', page({
-  url: '/issues/', title: 'Squamish election issues, explained',
+  url: '/issues/', jsonld: crumbLd([['Home', '/'], ['The issues', '/issues/']]), title: 'Squamish election issues, explained',
   desc: 'The big questions in the 2026 Squamish election — housing, growth, taxes, Woodfibre LNG, homelessness, policing, parking — explained in plain language with sources.',
   body: `<h1>The issues, explained</h1>
   <p class="lede">A plain-language primer on what this election is about. Tap any topic to open it.</p>
@@ -1275,7 +1281,7 @@ const clientData = {
 fs.mkdirSync(DIST, { recursive: true });
 fs.writeFileSync(path.join(DIST, 'data.js'), 'window.SV_DATA=' + JSON.stringify(clientData) + ';');
 write('/quiz/', page({
-  url: '/quiz/', title: 'Squamish election quiz: who should I vote for?',
+  url: '/quiz/', jsonld: crumbLd([['Home', '/'], ['Quiz', '/quiz/']]), title: 'Squamish election quiz: who should I vote for?',
   desc: `Answer ${QUESTIONS.length} plain-language questions and see which Squamish mayor and council candidates match your views.`,
   body: `<div class="quiz-shell"><div id="quiz-intro"><h1>Who should I vote for?</h1>
   <p class="lede">${QUESTIONS.length} statements. Tell us if you agree or disagree. It takes about three minutes, and your answers never leave your device.</p></div>
@@ -1356,7 +1362,7 @@ if (TRACKED.length) {
     const ds = issueDecisions(t), qs = (t.related_q || []).map((id) => ALL_QUESTIONS.find((q) => q.id === id)).filter(Boolean);
     const now = stepNow(t);
     write(`/track/${t.slug}/`, page({
-      url: '/track/', title: `${t.question.replace(/\?$/, '')}? Squamish council, step by step`,
+      url: '/track/', title: `${t.title}: Squamish council, step by step`,
       desc: `${t.summary.split('. ')[0]}. Where it stands now, what council decides next, and how each member has voted.`,
       jsonld: crumbLd([['Home', '/'], ['Issues we’re following', '/track/'], [t.title, `/track/${t.slug}/`]]),
       body: `<p class="crumbs"><a href="/track/">← All issues</a></p>
@@ -1587,6 +1593,7 @@ if (TRACKED.length) {
     <div class="wa-sheet" data-wa-sheet hidden role="dialog" aria-live="polite"></div>
     <div class="wa-float" data-wa-float hidden></div>
   </div>
+  ${focus && WANT_INFO[focus] ? (() => { const a = WANTS.asks.find((x) => x.id === focus), inf = WANT_INFO[focus]; return `<section class="card wi-sec wa-about"><h2>About this question</h2><p><b>${esc(a.title)}</b></p>${(inf.intro || []).slice(0, 2).map((x) => `<p>${esc(x)}</p>`).join('')}<p><a href="/wants/${a.id}/info/">The full background: key facts, the case for each answer, and sources ›</a></p></section>`; })() : ''}
   <section class="card wa-how" id="wa-how"><h2>How it works</h2>
     <ul>
       <li><b>One answer per ask</b> from each phone or computer. Tap the same answer again to take it back, or pick another to change it.</li>
@@ -1620,9 +1627,14 @@ ${wantsData({ focus, said: null })}`;
     const sides = answers.map((lab) => ({ lab, s: (inf.sides || []).find((x) => x.answer.toLowerCase() === lab.toLowerCase()) })).filter((x) => x.s && x.s.points?.length);
     const checked = inf.checked ? new Date(inf.checked + 'T12:00:00').toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' }) : '';
     write(`/wants/${a.id}/info/`, page({
-      url: `/wants/${a.id}/info/`, title: `${a.title.replace(/\?$/, '')}: the background`, ...askImg(a),
-      desc: `${(inf.intro || [])[0] || a.why || ''}`.slice(0, 200),
-      jsonld: crumbLd([['Home', '/'], ['What Squamish Wants', '/wants/'], [a.title, `/wants/${a.id}/`], ['More info', `/wants/${a.id}/info/`]]),
+      url: `/wants/${a.id}/info/`, title: `${a.title.replace(/\?$/, '')}${/squamish/i.test(a.title) ? '' : ' in Squamish'}: the background`, ...askImg(a),
+      desc: `${(inf.intro || [])[0] || a.why || ''}`,
+      jsonld: [crumbLd([['Home', '/'], ['What Squamish Wants', '/wants/'], [a.title, `/wants/${a.id}/`], ['More info', `/wants/${a.id}/info/`]]),
+        { '@context': 'https://schema.org', '@type': 'Article', headline: a.title, description: (inf.intro || [])[0] || a.why || '', image: askImg(a).image,
+          ...(inf.checked ? { datePublished: inf.published || inf.checked, dateModified: inf.checked } : {}), inLanguage: 'en-CA', about: { '@type': 'Place', name: hood ? `${hood.name}, Squamish, BC` : 'Squamish, BC' },
+          author: { '@type': 'Organization', name: SITE.name, url: ORIGIN }, publisher: { '@type': 'Organization', name: SITE.name, url: ORIGIN, logo: { '@type': 'ImageObject', url: `${ORIGIN}/icon-512.png` } },
+          mainEntityOfPage: `${ORIGIN}/wants/${a.id}/info/`, citation: (inf.sources || []).map((x) => x.url) },
+        ...(inf.questions?.length ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: inf.questions.map((q) => ({ '@type': 'Question', name: q.q, acceptedAnswer: { '@type': 'Answer', text: q.a } })) }] : [])],
       body: `<article class="wi">
   <p class="wi-crumb"><a href="/wants/">What Squamish Wants</a> › More info</p>
   <p class="wa-chips"><span class="wa-chip ${st.cls}">${esc(st.label)}</span>${hood ? `<span class="wa-chip area">${esc(hood.name)}</span>` : ''}</p>
@@ -1640,6 +1652,7 @@ ${wantsData({ focus, said: null })}`;
     <div class="card wa-short" data-wants="short" data-only="${esc(a.id)}"><p class="wa-kicker">Ready to decide?</p><h2>Your answer</h2><p class="small">Tap to answer, then see what Squamish said. Tap your answer again to take it back.</p><ul class="wa-rows" data-wa-rows>${wantsStatic([a])}</ul>
     <a class="btn secondary block" href="/wants/">See all ${WANTS_N} asks</a></div>
   </section>
+  <section class="wi-sec wi-more"><h2>More background</h2><ul>${WANTS.asks.filter((x) => x.id !== a.id && WANT_INFO[x.id]).map((x) => `<li><a href="/wants/${x.id}/info/">${esc(x.title)}</a></li>`).join('')}</ul></section>
   ${inf.sources?.length ? `<section class="wi-sec wi-srcs"><h2>Sources</h2><ol>${inf.sources.map((x, i) => `<li id="src-${i + 1}"><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a></li>`).join('')}</ol><p class="small muted">Spot something wrong or out of date? Email <a href="mailto:${SITE.contact}">${SITE.contact}</a>.</p></section>` : ''}
 </article>
 ${wantsData()}`,
@@ -1740,6 +1753,8 @@ write('/your-say/', page({
 
   ${nw.length ? `<section class="card"><h2>News from ${esc(h.name)}</h2><ul class="hd-news">${nw.map((s) => `<li><a href="/news/${s.slug}/">${esc(s.head)}</a><span class="small muted">${esc(fmtLong(s.date))}</span></li>`).join('')}</ul><p><a href="/news/">All Squamish news →</a></p></section>` : ''}
 
+  ${(() => { const as = WANTS.asks.filter((a) => a.area === h.slug); return as.length ? `<section class="card"><h2>What people want for ${esc(h.name)}</h2><ul class="hd-news">${as.map((a) => `<li><a href="${WANT_INFO[a.id] ? `/wants/${a.id}/info/` : `/wants/${a.id}/`}">${esc(a.title)}</a><span class="small muted">The background, and say yes or no</span></li>`).join('')}</ul></section>` : ''; })()}
+
   <section class="hd-others"><h2>Other neighbourhoods</h2><p>${others.map((o) => `<a href="${hUrl(o)}">${esc(o.name)}</a>`).join(' · ')}</p></section>
 </div>`,
       scripts: MAP_ASSETS,
@@ -1757,7 +1772,7 @@ write('/your-say/', page({
   fs.mkdirSync(DIST, { recursive: true });
   fs.writeFileSync(path.join(DIST, 'this-week.json'), JSON.stringify(week));
   write('/this-week/', page({
-    url: '/this-week/', title: 'This week at Squamish council',
+    url: '/this-week/', jsonld: crumbLd([['Home', '/'], ['This week at council', '/this-week/']]), title: 'This week at Squamish council',
     desc: 'What Squamish council decided this week and what’s coming up next, in plain words. The same summary goes out by email every Friday.',
     body: `<h1>This week at council</h1>
     <p class="lede">What council decided in the last week, and what’s coming up. This is what our Friday email says.</p>
@@ -1857,8 +1872,8 @@ for (const ic of ctx.issues || []) {
   const paras = ic.explainer.split(/(?<=[.!?])\s+/), mid = Math.ceil(paras.length / 2);
   const url = `/issues/${slug}/`;
   write(url, page({
-    url: '/issues/', title: `Where Squamish candidates stand on ${name} (2026 election)`,
-    desc: `${iss ? `${withS.length} of ${all.length} Squamish mayor and council candidates have a public position on ${name}. ` : ''}What each one has said, with sources, plus plain-language background for the October 17, 2026 election.`,
+    url: '/issues/', title: `Squamish council on ${name}: where each member stands`,
+    desc: `${iss ? `${withS.length} of ${all.length} Squamish council members have a public position on ${name}. ` : ''}What each one has said, with sources, plus plain language background.`,
     jsonld: crumbLd([['Home', '/'], ['The issues', '/issues/'], [ic.title, url]]),
     body: `<p class="crumbs"><a href="/issues/">← All the issues</a></p>
     <h1>Where the candidates stand on ${esc(name)}</h1>
@@ -1967,7 +1982,7 @@ for (const c of all.filter((x) => x.paper)) {
     <div class="btn-row"><a class="btn secondary" href="/council/${c.slug}/">← Back to ${f}’s profile</a></div>`,
   }));
 }
-write('/about/', page({ url: '/about/', title: 'About this site', desc: 'Who makes Squamish Voters, how meeting summaries and the promise tracker work, and how to send a correction. Independent and not affiliated with the District or any council member.', body: pageFile('about.html').replaceAll('<!--CONTACT-->', SITE.contact ? `<a href="mailto:${esc(SITE.contact)}">${esc(SITE.contact)}</a>` : 'a contact address will be posted here shortly.').replace('{{COUNT}}', String(all.length)).replace('{{UPDATED}}', esc(SITE.updated)) }));
+write('/about/', page({ url: '/about/', jsonld: crumbLd([['Home', '/'], ['About', '/about/']]), title: 'About this site', desc: 'Who makes Squamish Voters, how meeting summaries and the promise tracker work, and how to send a correction. Independent and not affiliated with the District or any council member.', body: pageFile('about.html').replaceAll('<!--CONTACT-->', SITE.contact ? `<a href="mailto:${esc(SITE.contact)}">${esc(SITE.contact)}</a>` : 'a contact address will be posted here shortly.').replace('{{COUNT}}', String(all.length)).replace('{{UPDATED}}', esc(SITE.updated)) }));
 // ---------- /welcome/: where the email confirm link lands (api/subscribe.js redirects here with ?t=<token>) ----------
 // Two optional questions: up to 3 top issues (each asks which way they lean, or Other with a write-in) and their
 // neighbourhood. Saved to their sign-up; not used to tailor the Friday email yet (Jeff, Oct 19). Each pair of sides is worded so neither sounds like the right answer.
@@ -2001,7 +2016,7 @@ write('/welcome/', page({ url: '/welcome/', title: 'You’re confirmed', noindex
 <script>window.SV_SIDES=${JSON.stringify(SIDE_LABELS).replace(/</g, '\\u003c')};</script>`,
 }));
 // ---------- /priorities/: totals of what readers picked on the welcome page (api/priorities.js; counts only) ----------
-write('/priorities/', page({ url: '/priorities/', title: 'Readers’ top issues',
+write('/priorities/', page({ url: '/priorities/', jsonld: crumbLd([['Home', '/'], ['Readers’ top issues', '/priorities/']]), title: 'Readers’ top issues',
   desc: 'The issues that matter most to people who get the Squamish Voters weekly email, and which way they lean on each. Totals only, never names.',
   body: `<p class="crumbs"><a href="/">← Home</a></p>
   <h1>Readers’ top issues</h1>
@@ -2049,10 +2064,10 @@ for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 
 fs.writeFileSync(path.join(DIST, 'botid.js'), `(function(){${BOTID_JS}})();`);
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
-// ---------- sitemap (every indexable page written above; lastmod = build date) ----------
+// ---------- sitemap (every indexable page written above; lastmod = the page's own date, else build date) ----------
 const today = new Date().toISOString().slice(0, 10);
 const prio = (u) => (u === '/' || u === '/meetings/' ? '1.0' : ['/council/', '/promises/', '/quiz/', '/faq/'].includes(u) || u.startsWith('/meetings/') ? '0.8' : '0.6');
-const mod = () => today;
+const mod = (u) => LASTMOD[u] || today;
 fs.writeFileSync(path.join(DIST, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${[...new Set(SITEMAP)].map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>${mod(u)}</lastmod><priority>${prio(u)}</priority></url>`).join('\n')}
