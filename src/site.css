@@ -1770,3 +1770,121 @@ p.wa-under { justify-content: flex-end; margin-top: .25rem; }
 .wa-ans .wa-otherline[aria-expanded="true"] { color: var(--brand); }
 .wa-optlegend .y { background: var(--yes); } .wa-optlegend .n { background: var(--no); }
 .wa-topsort { margin: .5rem 0 .2rem; -webkit-mask-image: none; mask-image: none; padding-right: 0; flex-wrap: wrap; }
+
+/* ---------- What Squamish Wants, Oct 27 2026 round: slim rows, One by one reveal, progress ring, My Squamish, live board ---------- */
+/* Phones: one line under the title, and One by one is the first tab. */
+.wa-people a { color: var(--link); font-weight: 600; margin-left: .2rem; }
+@media (max-width: 47.99em) {
+  .wa-head { gap: .15rem; margin: .1rem 0 .5rem; }
+  .wa-head h1 { font-size: 1.55rem; }
+  .wa-head .wa-lede { display: none; }
+  .wa-tabs button[data-view="one"] { order: -1; }
+}
+.wa-live { margin: .15rem 0 0; display: flex; align-items: center; gap: .5rem; font-size: .88rem; font-weight: 700; color: var(--brand); min-height: 1.4em; }
+.wa-livet { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; animation: wa-in .4s ease; }
+.wa-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: #2fb36a; box-shadow: 0 0 0 0 rgba(47,179,106,.6); animation: wa-pulse 1.8s infinite; }
+@keyframes wa-pulse { 70% { box-shadow: 0 0 0 7px rgba(47,179,106,0); } 100% { box-shadow: 0 0 0 0 rgba(47,179,106,0); } }
+@keyframes wa-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* Slim rows */
+.wa-row { gap: .5rem; padding: .75rem .85rem; }
+.wa-ans:not(.choice) > .wa-b { white-space: nowrap; }
+.wa-badge { font-size: .68rem; font-weight: 800; border-radius: 999px; padding: .05rem .5rem; line-height: 1.45; }
+.wa-badge.hot { background: #ffe3d6; color: #a33a0a; }
+.wa-badge.new { background: #e3ecfb; color: #1c4f95; }
+.wa-count { display: inline-flex; align-items: center; gap: .35rem; background: none; border: 0; padding: .25rem 0; font: inherit; font-size: .86rem; font-weight: 600; color: var(--muted); cursor: pointer; text-align: left; }
+.wa-count:hover { color: var(--ink-2); text-decoration: underline; }
+.wa-under { min-height: 0; }
+.wa-res { display: grid; gap: .4rem; }
+.wa-res .wa-bar { height: 8px; }
+.wa-resrow { display: flex; align-items: center; justify-content: space-between; gap: .5rem .75rem; flex-wrap: wrap; }
+.wa-verdict { margin: 0; font-size: .95rem; color: var(--ink-2); }
+.wa-verdict b { color: var(--ink); }
+.wa-resacts { display: inline-flex; align-items: center; gap: .9rem; margin-left: auto; }
+.wa-sharego.small { min-height: 2.3rem; padding: 0 .9rem; font-size: .88rem; gap: .35rem; }
+.wa-sharego.small svg { width: 15px; height: 15px; }
+
+/* One by one: the results card after answering */
+.wa-bigverdict { margin: 0; font: 700 1.35rem/1.25 Georgia, serif; }
+.wa-bigverdict b { background: linear-gradient(transparent 60%, #ffe48a 60%); }
+.wa-bars { display: grid; gap: .55rem; }
+.wa-brow { display: grid; gap: .2rem; }
+.wa-blab { display: flex; justify-content: space-between; gap: .75rem; font-size: .95rem; font-weight: 600; }
+.wa-blab b { font-variant-numeric: tabular-nums; }
+.wa-blab em { font-style: normal; font-size: .75rem; font-weight: 800; color: #fff; background: var(--brand); border-radius: 99px; padding: .05rem .45rem; margin-left: .3rem; vertical-align: 1px; }
+.wa-btrack { display: block; height: 12px; border-radius: 99px; background: var(--surface-2); overflow: hidden; }
+.wa-fill { display: block; height: 100%; border-radius: 99px; background: #9fb9ad; transition: width .9s cubic-bezier(.2,.8,.2,1); }
+.wa-brow.mine .wa-fill { background: var(--brand); }
+.wa-timer { height: 3px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.wa-timer i { display: block; height: 100%; width: 0; background: var(--brand); }
+.wa-card.auto .wa-timer i { animation-name: wa-tick; animation-timing-function: linear; animation-fill-mode: forwards; }
+.wa-card:not(.auto) .wa-timer { visibility: hidden; }
+@keyframes wa-tick { to { width: 100%; } }
+.wa-nextrow { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.wa-nextrow .btn { margin-left: auto; min-height: 3rem; padding: .5rem 1.3rem; }
+.wa-revealed .wa-shareline { justify-content: flex-start; }
+@media (max-width: 30em) { .wa-ans.big .wa-b { font-size: 1rem; } }
+
+/* My Squamish card */
+.wa-me { background: var(--brand); color: #fff; border-radius: 16px; padding: 1rem 1.1rem; display: grid; gap: .45rem; }
+.wa-me-k { font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; opacity: .75; }
+.wa-me-big { margin: 0; font: 700 1.4rem/1.2 Georgia, serif; }
+.wa-me-big b { color: #ffd84d; }
+.wa-me-row { margin: 0; display: grid; grid-template-columns: 8.5rem 1fr; gap: .5rem; font-size: .9rem; }
+.wa-me-row span { opacity: .75; }
+.wa-me-row em { font-style: normal; color: #ffd84d; font-weight: 700; white-space: nowrap; }
+@media (max-width: 30em) { .wa-me-row { grid-template-columns: 1fr; gap: 0; } }
+.wa-sheet .wa-me { margin: .6rem 0; }
+.wa-done .wa-sharego { justify-self: start; }
+
+/* Progress ring in the bottom bar (phones), replacing the floating counter */
+.tabbar a.wa-ringtab > svg { display: none; }
+.tabbar a.wa-ringtab { overflow: visible; }
+.wa-ring { position: relative; width: 58px; height: 58px; margin-top: -1.9rem; border-radius: 50%; background: var(--focus); border: 4px solid var(--surface); box-sizing: content-box; box-shadow: 0 -3px 12px rgba(20,33,28,.22); display: grid; place-items: center; color: #14211c; }
+.wa-ringc { position: absolute; inset: -4px; display: grid; place-items: center; }
+.wa-ringc svg { transform: rotate(-90deg); }
+.wa-ringsvg .bg { fill: none; stroke: rgba(15,76,58,.16); stroke-width: 3; }
+.wa-ringsvg .fg { fill: none; stroke: var(--brand); stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset .7s cubic-bezier(.2,.8,.2,1); }
+.wa-ringn { position: relative; display: grid; justify-items: center; line-height: 1; }
+.wa-ringn b { font-size: 1.05rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.wa-ringn small { font-size: .6rem; font-weight: 700; opacity: .75; margin-top: 1px; }
+.tabbar a.wa-ringtab.bump .wa-ring { animation: wa-bump .5s; }
+@keyframes wa-bump { 40% { transform: scale(1.14); } }
+@media (max-width: 899.98px) { .wa-fixed .wa-float { display: none !important; } }
+body:has(.wa-ringtab) #totop { display: none !important; }
+
+/* Desktop: ring in the rail, live board, add box under the list, filters wrap */
+.wa-addfoot { display: none; }
+.wa-railring { display: flex; align-items: center; gap: .8rem; }
+.wa-railring svg { transform: rotate(-90deg); flex: none; }
+.wa-railring .wa-railbig { margin: 0; display: grid; gap: .1rem; }
+.wa-railcard .wa-twobtn { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+.wa-railcard .wa-twobtn .btn { display: inline-flex; align-items: center; justify-content: center; gap: .35rem; padding: .45rem .5rem; font-size: .92rem; }
+.wa-board { list-style: none; margin: 0; padding: 0; display: grid; gap: .25rem; }
+.wa-board li { border-radius: 10px; }
+.wa-board li.up { background: #fff6cf; }
+.wa-board button { width: 100%; display: grid; grid-template-columns: 1.3rem 1fr auto; gap: .5rem; align-items: center; background: none; border: 0; padding: .45rem .4rem; font: inherit; text-align: left; cursor: pointer; color: var(--ink); border-radius: 10px; }
+.wa-board button:hover { background: var(--surface-2); }
+.wa-rk { font-weight: 800; color: var(--muted); font-variant-numeric: tabular-nums; }
+.wa-bn { font-size: .9rem; font-weight: 600; line-height: 1.25; min-width: 0; }
+.wa-bn small { display: block; font-weight: 600; color: var(--brand); font-size: .76rem; margin-top: .1rem; }
+.wa-board b { color: var(--yes); font-variant-numeric: tabular-nums; }
+.wa-board.locked li { display: grid; grid-template-columns: 1.3rem 1fr; gap: .5rem; align-items: center; padding: .55rem .4rem; }
+.wa-board.locked .wa-bt { height: 10px; border-radius: 99px; background: var(--surface-2); filter: blur(1.5px); }
+.wa-why summary { cursor: pointer; font-size: .86rem; font-weight: 700; color: var(--link); }
+.wa-why p { margin: .4rem 0 0; }
+@media (min-width: 1000px) {
+  .wa-addfoot { display: block; margin-top: 1rem; }
+  .wa-filters { flex-wrap: wrap; overflow: visible; -webkit-mask-image: none; mask-image: none; padding-right: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .wa-dot, .wa-livet, .tabbar a.wa-ringtab.bump .wa-ring { animation: none; } .wa-fill, .wa-ringsvg .fg { transition: none; } }
+.wa-addfoot .wa-addbox, .wa-addfoot [data-wa-add] { border: 0; box-shadow: none; padding: 0; background: none; }
+.tabbar a.wa-ringtab > span.wa-ring { font-size: inherit; max-width: none; overflow: visible; white-space: normal; }
+.tabbar .wa-ringc svg { width: 66px; height: 66px; }
+.tabbar a.wa-ringtab .wa-ringc svg, .tabbar a.wa-ringtab[aria-current="page"] .wa-ringc svg { width: 66px; height: 66px; padding: 0; margin: 0; border: 0; border-radius: 0; background: none; box-shadow: none; box-sizing: border-box; }
+.wa-railring .wa-railbig > span:first-child { font-size: 1.05rem; }
+.wa-railring .wa-railbig b { font-size: 1.6rem; }
+.wa-bn { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.wa-bn small { display: none; }
+@media (max-width: 899.98px) { [data-wa-one] > .wa-prog, [data-wa-one] > .wa-prog + p { display: none; } }
+@media (max-width: 47.99em) { .wa-people a { display: none; } .wa-live { margin-top: 0; } }

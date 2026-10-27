@@ -4,11 +4,13 @@
 //   GET ?top=1  -> the main /wants/ page: the 3 most wanted asks right now, each with its share of yes.
 //   GET ?id=<ask id>&live=1  -> the question and the live results only (the sharer switched "Show my answer" off), from /wants/<id>/live/.
 //   GET ?my=<id>.<key>,<id>.<key>  -> "My picks for Squamish": up to 5 of one person's answers and how many agree, from /wants/my/.
+//   GET ?me=<id>.<key>,...&hd=<area>  -> "My Squamish": how many of their answers match the most picked one, their boldest take and
+//                                     the neighbourhood that answers most like them, from /wants/me/.
 // &n=<answers so far> only makes a new address (and so a fresh picture) each time the count moves; Facebook keeps a copy per address.
 // Starter asks come from _wants.json; residents' asks (r-...) from sv_wants. An unknown or hidden id gets the general picture.
 import { ImageResponse } from '@vercel/og';
 import fs from 'node:fs';
-import { findAsk, answerLabel, results, pctOf, topAsks } from './_wants-ask.js';
+import { findAsk, answerLabel, results, pctOf, topAsks, meSummary, HOOD_NAMES } from './_wants-ask.js';
 
 const font = (f) => fs.readFileSync(new globalThis.URL(`./_fonts/${f}`, import.meta.url));
 const FONTS = [
@@ -83,6 +85,22 @@ function picksPicture(rows) {
     footer('What do you want? Answer and see the results'));
 }
 
+// My Squamish: "I agree with Squamish on 17 of 22", then the boldest take and the neighbourhood most like them.
+function mePicture(m, hood) {
+  const box = (k, v, sub) => h('div', { flexDirection: 'column', flex: 1, background: 'rgba(255,255,255,.1)', borderRadius: 18, padding: '20px 24px', marginRight: 18 },
+    h('div', { fontSize: 20, fontWeight: 800, letterSpacing: 2, color: 'rgba(255,255,255,.7)' }, k),
+    h('div', { fontSize: v.length > 40 ? 26 : 31, fontWeight: 800, lineHeight: 1.2, marginTop: 8 }, v),
+    sub ? h('div', { fontSize: 22, fontWeight: 600, color: YELLOW, marginTop: 8 }, sub) : null);
+  return h('div', { width: '100%', height: '100%', flexDirection: 'column', background: GREEN, padding: '44px 64px 40px', color: '#fff', fontFamily: 'Sans' },
+    h('div', { fontSize: 22, fontWeight: 800, color: YELLOW, letterSpacing: 3 }, 'MY SQUAMISH'),
+    h('div', { fontFamily: 'Serif', fontSize: 74, lineHeight: 1.05, marginTop: 14 }, 'I agree with Squamish on'),
+    h('div', { fontFamily: 'Serif', fontSize: 74, lineHeight: 1.05, color: YELLOW }, `${m.agree} of ${m.of}`),
+    h('div', { marginTop: 34, marginRight: -18 },
+      m.bold ? box('BOLDEST TAKE', cut(`${m.bold.label === 'Yes' || m.bold.label === 'No' ? `${m.bold.label}: ` : `${m.bold.label}. `}${m.bold.title}`, 70), `Only ${m.bold.share}% agree`) : box('BOLDEST TAKE', 'With the crowd on every one', null),
+      hood ? box('ANSWERS MOST LIKE', hood, null) : null),
+    footer('What Squamish Wants. Where do you land?'));
+}
+
 async function picks(spec) {
   const pairs = String(spec).split(',').slice(0, 5).map((p) => p.split('.')).filter(([id, k]) => /^[a-z0-9-]{2,40}$/.test(id || '') && /^[a-z0-9]{1,12}$/.test(k || ''));
   const rows = await Promise.all(pairs.map(async ([id, key]) => {
@@ -137,6 +155,7 @@ export default async function handler(req, res) {
   const id = String(req.query.id || '').replace(/\/$/, ''), said = String(req.query.said || '');
   let el = null;
   if (req.query.top) { const rows = await topAsks(3).catch(() => []); if (rows.length) el = topPicture(rows); }
+  else if (req.query.me) { const m = await meSummary(req.query.me).catch(() => null); if (m) el = mePicture(m, HOOD_NAMES[String(req.query.hd || '')] || null); }
   else if (req.query.my) { const rows = await picks(req.query.my); if (rows.length) el = picksPicture(rows); }
   else {
     const ask = id && (await findAsk(id));
@@ -150,7 +169,7 @@ export default async function handler(req, res) {
   res.setHeader('Content-Type', 'image/png');
   // Pictures with results change as people answer: an address with &n= is one moment's count and can stay a day at the edge;
   // without it, ten minutes. The plain question picture has no numbers and keeps a day.
-  const live = said || req.query.my || req.query.live || req.query.top;
+  const live = said || req.query.my || req.query.me || req.query.live || req.query.top;
   res.setHeader('Cache-Control', live && !req.query.n ? 'public, max-age=300, s-maxage=600' : 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800');
   return res.send(Buffer.from(await img.arrayBuffer()));
 }

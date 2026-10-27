@@ -1,7 +1,8 @@
 // What Squamish Wants (/wants/): residents answer yes, no or don't mind on specific asks, and can add their own.
 // Starter asks come from data/wants.json (bundled here as _wants.json by build.mjs). Residents' asks live in sv_wants.
 //   GET  ?where=1                                     -> { ok, km, city }   (where Vercel places this connection)
-//   GET  ?voter=<id>                                   -> { ok, people, asks: [resident asks], tallies, mine: { wid: 'y'|'n'|'m' }, notes: { wid: [...] } }
+//   GET  ?voter=<id>                                   -> { ok, people, asks: [resident asks], tallies, mine: { wid: 'y'|'n'|'m' }, notes: { wid: [...] },
+//                                                         live: { hour, day, today: { wid: answers in the last day } } }
 //   POST { action: 'vote', wid, choice, voter, dev, area }  -> { ok, tally, choice }   (choice '' takes the answer back; dev = the page's device summary)
 //   POST { action: 'check', text, voter }              -> { ok, publish, reason, draft, similar: [{ id, title, how }], sig }
 //        Claude checks the rules, writes a short neutral ask and lists asks already on the list that mean the same thing.
@@ -249,12 +250,17 @@ export default async function handler(req, res) {
   if (req.method === 'GET') {
     if (req.query.where) return res.json({ ok: true, ...whereOf(req) });
     const voter = voterOk(req.query.voter) ? hash(req.query.voter) : null;
-    const [asks, t, ns, extras, mine, [{ people }]] = await Promise.all([
+    const [asks, t, ns, extras, mine, [{ people }], recent] = await Promise.all([
       residentAsks(), tallies(), notes(), extraOptions(),
       voter ? sql`SELECT wid, choice FROM sv_want_votes WHERE voter = ${voter}` : [],
       sql`SELECT count(DISTINCT voter)::int AS people FROM sv_want_votes`,
+      // Activity for the live line and the Trending labels: answers given or changed in the last hour and the last day.
+      sql`SELECT wid, count(*) FILTER (WHERE updated_at > now() - interval '1 hour')::int AS h, count(*)::int AS d
+        FROM sv_want_votes WHERE updated_at > now() - interval '1 day' GROUP BY wid`.catch(() => []),
     ]);
-    return res.json({ ok: true, people, asks, tallies: t, notes: ns, extras, mine: Object.fromEntries(mine.map((r) => [r.wid, r.choice])) });
+    const live = { hour: 0, day: 0, today: {} };
+    for (const r of recent) { live.hour += r.h; live.day += r.d; live.today[r.wid] = r.d; }
+    return res.json({ ok: true, people, asks, tallies: t, notes: ns, extras, live, mine: Object.fromEntries(mine.map((r) => [r.wid, r.choice])) });
   }
   if (req.method !== 'POST') return res.status(405).json({ ok: false });
   if (!voterOk(b.voter)) return res.status(400).json({ ok: false, error: 'Please reload the page and try again.' });

@@ -4,8 +4,14 @@
    Ranking: share of yes among yes and no ("don't mind" stays out of the percentage so a local ask isn't buried by people
    it doesn't affect), ties broken by how many answered. Ranked from the first answer.
    The order is frozen while someone answers, so rows never jump under their finger.
-   Phones: a floating counter with "Next unanswered", and a bottom sheet for the neighbourhood question (asked after the
-   first answer) and the 5 and 10 answer milestones. Desktop (1000px and up): a side rail with progress and the add box.
+   Rows stay slim: the title, the answer buttons, and one line under them (how many answered and More info before you
+   answer; where you stand, Share and More info after). Tapping the title opens the rest.
+   Phones open on One by one: answer, the card turns into the results with a line on where you stand, then moves on by
+   itself after a few seconds. The raised Your say button in the bottom bar becomes a progress ring; tapping it goes to
+   the next unanswered ask. At 5 answers a "My Squamish" card offers a share picture (/wants/me/).
+   Desktop (1000px and up): a side rail with a progress ring and a live Most wanted board (locked until 5 answers, like
+   the Top 10); the add box sits under the list. A live line under the title says how many answered in the last hour,
+   and asks gaining answers fastest today get a Trending label.
    The Top 10 board opens after 5 answers. One by one takes Y, N, M and the right arrow on a keyboard.
    Adding an ask: Claude checks the rules, writes a short neutral ask, and lists asks already on the list that look the
    same, so the writer can answer that one or add their words to it instead of posting a copy.
@@ -43,8 +49,11 @@
   var desk = window.matchMedia ? window.matchMedia('(min-width: 1000px)') : { matches: false };
 
   var asks = D.asks.slice(), tallies = {}, mine = {}, notes = {}, people = 0, loaded = false;
-  var view = 'list', topic = 'all', sort = 'wanted', topSort = 'votes', openId = null, focusId = D.focus || (location.hash || '').slice(1) || null, deckSkip = {}, deckShown = null;
+  var arriving = D.focus || (location.hash || '').slice(1);
+  var view = mode === 'page' && !only && !desk.matches && !arriving ? 'one' : 'list', topic = 'all', sort = 'wanted', topSort = 'votes', openId = null, focusId = D.focus || (location.hash || '').slice(1) || null, deckSkip = {}, deckShown = null;
   var reported = {}, pending = {}, hintId = null, hinted = false;
+  var live = { hour: 0, day: 0, today: {} }, trending = {}, advT = null, autoId = null, autoAt = 0, grown = {};
+  var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var expanded = {}, sug = { id: null, text: '', busy: false, msg: '', same: '' };
   var SHOW = 6, MAX_OPTIONS = 12; // answers shown before "Show more"; most answers a question can have
   // The order is frozen while someone is answering, so rows never jump under their finger. It is worked out again only
@@ -94,6 +103,42 @@
     var b = asks.filter(function (x) { return mine[x.id] === 'n'; });
     return a.concat(b).slice(0, 5);
   }
+  // Where your answer stands, in a few words: with the most picked answer, outnumbered, or first.
+  function verdict(a) {
+    var my = mine[a.id], x = t(a.id), o = opinions(a, x);
+    if (!my) return '';
+    if (my === 'm') { var st = standing(a); return st ? 'Most took a side: ' + esc(st) : 'No one has taken a side yet'; }
+    if (o <= 1) return 'You’re the first to answer this one';
+    var p = pct(c(x, my), o), top = c(x, ranked(a, x)[0].key);
+    return c(x, my) >= top ? 'You’re with <b>' + p + '% of Squamish</b>' : 'Only <b>' + p + '% agree</b> with you';
+  }
+  // My Squamish: how many answers match the most picked one, the boldest take, and the neighbourhood that answers most
+  // like you (only neighbourhoods with 5 or more answers on an ask are in the totals, and at least 3 asks must compare).
+  function meStats() {
+    var agree = 0, of = 0, bold = null, hoods = {};
+    asks.forEach(function (a) {
+      var my = mine[a.id], x = t(a.id), o = opinions(a, x);
+      if (!my || my === 'm' || !o) return;
+      var top = c(x, ranked(a, x)[0].key), share = pct(c(x, my), o);
+      of++; if (c(x, my) >= top) agree++;
+      if (share < 50 && (!bold || share < bold.share)) bold = { a: a, share: share };
+      Object.keys(x.areas || {}).forEach(function (h) {
+        if (h === 'outside') return;
+        var ar = x.areas[h], best = opts(a).slice().sort(function (p, q) { return c(ar, q.key) - c(ar, p.key); })[0];
+        if (!best || !c(ar, best.key)) return;
+        var hs = hoods[h] || (hoods[h] = { same: 0, n: 0 }); hs.n++; if (c(ar, my) >= c(ar, best.key)) hs.same++;
+      });
+    });
+    var hood = Object.keys(hoods).filter(function (h) { return hoods[h].n >= 3 && HOODS[h]; }).sort(function (p, q) { return hoods[q].same / hoods[q].n - hoods[p].same / hoods[p].n || hoods[q].n - hoods[p].n; })[0] || '';
+    return { agree: agree, of: of, bold: bold, hood: hood };
+  }
+  function meSpec() { return asks.filter(function (a) { return mine[a.id] && mine[a.id] !== 'm'; }).map(function (a) { return a.id + '.' + mine[a.id]; }).join(','); }
+  function meCard() {
+    var m = meStats(); if (!m.of) return '';
+    return '<div class="wa-me"><span class="wa-me-k">My Squamish</span><p class="wa-me-big">I agree with Squamish on <b>' + m.agree + ' of ' + m.of + '</b></p>' +
+      (m.bold ? '<p class="wa-me-row"><span>Boldest take</span><b>' + esc(labelOf(m.bold.a, mine[m.bold.a.id])) + (multi(m.bold.a) ? '' : ': ' + esc(m.bold.a.title)) + ' <em>only ' + m.bold.share + '% agree</em></b></p>' : '') +
+      (m.hood ? '<p class="wa-me-row"><span>Answers most like</span><b>' + esc(HOODS[m.hood]) + '</b></p>' : '') + '</div>';
+  }
   function allAnswers() { return asks.reduce(function (s, a) { return s + total(t(a.id)); }, 0); }
   var NATIVE = !!navigator.share;
   // Before sharing, an answered ask stays calm: a single Share button. Everything else (the picture, the switch, the
@@ -115,6 +160,11 @@
   // the live results instead of reusing an old one. Facebook never updates a picture after posting.
   var shareSt = null, NATIVE_LABEL = 'Text or other apps';
   function shareInfo(st) {
+    if (st.id === '@me') {
+      var ms = meStats(), sp = meSpec(), nn = allAnswers(), tail = (ms.hood ? '&hd=' + ms.hood : '') + '&n=' + nn;
+      return { title: 'Share My Squamish', img: '/api/og/?me=' + encodeURIComponent(sp) + '&v=1' + tail, url: location.origin + '/wants/me/?a=' + sp + tail,
+        text: 'I agree with Squamish on ' + ms.agree + ' of ' + ms.of + '.' + (ms.bold ? ' My boldest take: only ' + ms.bold.share + '% agree with me on “' + ms.bold.a.title.replace(/[?.!]$/, '') + '”.' : '') + ' Took 2 minutes. Where do you land?', what: 'me' };
+    }
     if (st.id === '@my') {
       var spec = picks().map(function (x) { return x.id + '.' + mine[x.id]; }).join(','), n = allAnswers();
       var url = location.origin + '/wants/my/?a=' + spec + '&n=' + n;
@@ -154,7 +204,7 @@
   }
   var FB = '<span class="wa-fbf" aria-hidden="true">f</span>';
   function openShare(id) {
-    shareSt = { id: id, show: true, stage: 'pick' }; drawShare(); track('Wants share open', { what: id === '@my' ? 'picks' : 'ask' });
+    stopAuto(); shareSt = { id: id, show: true, stage: 'pick' }; drawShare(); track('Wants share open', { what: id === '@my' ? 'picks' : id === '@me' ? 'me' : 'ask' });
     var x = el$('.wa-panel button'); if (x) x.focus({ preventScroll: true });
     // Fresh totals first, so the caption's numbers match the picture Facebook draws a moment later.
     fetch('/api/wants/?voter=' + encodeURIComponent(voter)).then(function (r) { return r.json(); }).then(function (j) {
@@ -224,7 +274,7 @@
     }
     return '<div class="wa-ans' + (big ? ' big' : '') + '" role="group" aria-label="Your answer">' + ['y', 'n', 'm'].map(function (k) {
       return '<button type="button" class="wa-b ' + k + '" data-ans="' + k + '" data-id="' + esc(a.id) + '" aria-pressed="' + (my === k) + '">' + WORD[k] + '</button>';
-    }).join('') + (canAdd(a) ? '<button type="button" class="wa-otherline" data-sug="' + esc(a.id) + '" aria-expanded="' + (sug.id === a.id) + '">Other answer…</button>' : '') + '</div>';
+    }).join('') + (canAdd(a) && (big || openId === a.id) ? '<button type="button" class="wa-otherline" data-sug="' + esc(a.id) + '" aria-expanded="' + (sug.id === a.id) + '">Other answer…</button>' : '') + '</div>';
   }
   function detail(a) {
     var s = STATUS[a.res ? 'resident' : a.status] || STATUS.none;
@@ -248,13 +298,32 @@
       '<button type="button" class="wa-link" data-open="' + esc(a.id) + '">Close</button></p>' +
       '</div>';
   }
+  // Small labels on a closed row: New (a resident added it in the last 3 days), Trending (most answers today), Done.
+  function badges(a) {
+    var b = '';
+    if (a.status === 'done') b += '<span class="wa-chip done">Done</span>';
+    if (trending[a.id]) b += '<span class="wa-badge hot">Trending</span>';
+    if (a.res && Date.now() - (Date.parse(a.created_at) || 0) < 3 * 864e5) b += '<span class="wa-badge new">New</span>';
+    return b ? '<span class="wa-chips">' + b + '</span>' : '';
+  }
+  var LOCK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+  // Under a closed, unanswered row: how many answered (tap to open it) and More info.
+  function closedLine(a) {
+    var n = total(t(a.id));
+    return '<div class="wa-under"><button type="button" class="wa-count" data-open="' + esc(a.id) + '">' + LOCK + (loaded ? (n ? n + ' answered' : 'Be the first to answer') : 'Answer to see results') + '<span class="visually-hidden">. Answer to see the results</span></button>' + (only ? '' : infoLink(a)) + '</div>';
+  }
+  // Under a closed, answered row: a thin results bar, where you stand, Share and More info.
+  function answeredLine(a) {
+    return '<div class="wa-res">' + bar(a, t(a.id)) + '<div class="wa-resrow"><p class="wa-verdict">' + verdict(a) + '</p>' +
+      '<span class="wa-resacts">' + (only ? '' : infoLink(a)) + '<button type="button" class="wa-sharego small" data-share="' + esc(a.id) + '">' + SHARE_ICON + 'Share</button></span></div></div>' + areaBox(a);
+  }
   function row(a) {
     var my = mine[a.id], open = openId === a.id, show = my || open;
     return '<li class="wa-row' + (multi(a) ? ' choice' : '') + (my ? ' answered' : '') + (open ? ' open' : '') + (focusId === a.id ? ' arrived' : '') + '" id="ask-' + esc(a.id) + '">' +
-      '<button type="button" class="wa-title" data-open="' + esc(a.id) + '" aria-expanded="' + open + '">' + chips(a) + '<span class="wa-t">' + esc(a.title) + '</span></button>' +
+      '<button type="button" class="wa-title" data-open="' + esc(a.id) + '" aria-expanded="' + open + '">' + (open ? chips(a) : badges(a)) + '<span class="wa-t">' + esc(a.title) + '</span></button>' +
       (D.said && D.said.id === a.id ? '<p class="wa-saidby">A neighbour shared this' + (D.said.label ? '. They said <b>' + esc(D.said.label) + '</b>' : ' question') + '.' + (loaded && total(t(a.id)) ? ' <b>' + total(t(a.id)) + ' people</b> have answered so far.' : '') + ' What do you say?</p>' : '') +
-      buttons(a) + sugBox(a) + (hintId === a.id ? '<p class="wa-hint">Tap your answer again to undo it.</p>' : '') +
-      (show ? totals(a) + (a.info && !open && !only ? '<p class="wa-under">' + infoLink(a) + '</p>' : '') : '<div class="wa-under">' + tease(a) + (only ? '' : infoLink(a)) + '</div>') + (open ? detail(a) : '') + '</li>';
+      buttons(a) + sugBox(a) + (hintId === a.id && mine[a.id] ? '<p class="wa-hint">Tap your answer again to undo it.</p>' : '') +
+      (open ? totals(a) + detail(a) : my ? answeredLine(a) : closedLine(a)) + '</li>';
   }
 
   // ---------- list ----------
@@ -293,6 +362,21 @@
       return lp - lq || total(t(p.id)) - total(t(q.id));
     });
   }
+  // One by one, after answering: where you stand, then a bar per answer (yours marked), biggest first.
+  function reveal(a) {
+    var x = t(a.id), n = total(x), o = opinions(a, x), my = mine[a.id];
+    var rows = ranked(a, x).filter(function (op) { return c(x, op.key) || op.key === my; }).slice(0, 6);
+    return '<p class="wa-bigverdict">' + verdict(a) + '</p><div class="wa-bars">' + rows.map(function (op) {
+      var p = pct(c(x, op.key), o);
+      return '<div class="wa-brow' + (op.key === my ? ' mine' : '') + '"><span class="wa-blab"><span>' + esc(op.label) + (op.key === my ? ' <em>you</em>' : '') + '</span><b>' + p + '%</b></span><span class="wa-btrack"><i class="wa-fill" data-w="' + p + '" style="width:' + (REDUCED || grown[a.id] ? p : 0) + '%"></i></span></div>';
+    }).join('') + '</div><p class="wa-legend"><span>' + n + ' answer' + (n === 1 ? '' : 's') + '</span><span>' + c(x, 'm') + ' don’t mind' + (my === 'm' ? ', you too' : '') + '</span></p>' +
+      shareBar(a) + areaBox(a);
+  }
+  // After an answer in One by one, the next card comes up by itself unless they touch the card, open Share, or a
+  // question about their area is waiting.
+  var AUTO_MS = 3200;
+  function startAuto(id) { stopAuto(); autoId = id; autoAt = Date.now(); advT = setTimeout(function () { advT = null; autoId = null; if (view === 'one' && !shareSt && !sheet) { deckShown = null; drawOne(); drawProgress(); } }, AUTO_MS); }
+  function stopAuto() { if (advT) clearTimeout(advT); advT = null; autoId = null; var cd = root.querySelector('.wa-card.auto'); if (cd) cd.classList.remove('auto'); }
   var KEYS_CHOICE = '<p class="wa-keys">On a keyboard: <kbd>1</kbd> to <kbd>4</kbd> pick an answer, <kbd>M</kbd> don’t mind, <kbd>→</kbd> skip</p>';
   var KEYS = '<p class="wa-keys">On a keyboard: <kbd>Y</kbd> yes, <kbd>N</kbd> no, <kbd>M</kbd> don’t mind, <kbd>→</kbd> skip</p>';
   function drawOne() {
@@ -301,11 +385,16 @@
     var prog = '<div class="wa-prog" aria-hidden="true"><i style="width:' + pct(d, asks.length) + '%"></i></div><p class="small muted">' + d + ' of ' + asks.length + ' answered</p>';
     var a = deckShown && byId(deckShown);
     if (a && mine[a.id]) {
-      el.innerHTML = prog + '<div class="wa-card">' + chips(a) + '<h2>' + esc(a.title) + '</h2>' + totals(a) + '<button type="button" class="btn block" data-next>Next ask</button>' + (desk.matches ? '<p class="wa-keys">Press <kbd>Enter</kbd> for the next ask</p>' : '') + '</div>';
+      el.innerHTML = prog + '<div class="wa-card wa-revealed' + (autoId === a.id ? ' auto' : '') + '">' + chips(a) + '<h2>' + esc(a.title) + '</h2>' + reveal(a) +
+        '<div class="wa-timer" aria-hidden="true"><i style="animation-duration:' + AUTO_MS + 'ms;animation-delay:-' + (autoId === a.id ? Date.now() - autoAt : 0) + 'ms"></i></div><div class="wa-nextrow">' + (a.info ? infoLink(a) : '') + '<button type="button" class="btn" data-next>Next question <span aria-hidden="true">→</span></button></div>' +
+        (desk.matches ? '<p class="wa-keys">Press <kbd>Enter</kbd> for the next ask</p>' : '') + '</div>';
+      // The bars grow from zero once they're on screen.
+      grown[a.id] = true;
+      requestAnimationFrame(function () { requestAnimationFrame(function () { el.querySelectorAll('.wa-fill[data-w]').forEach(function (f) { f.style.width = f.getAttribute('data-w') + '%'; }); }); });
       return;
     }
     var L = deck(); a = L[0];
-    if (!a) { el.innerHTML = prog + '<div class="wa-card wa-done"><h2>That’s every ask for now.</h2><p>New ones go up as residents add them.</p>' + picksBar() + '<button type="button" class="btn block" data-view="top">See the Top 10</button><button type="button" class="btn secondary block" data-view="add">Missing something? Add it</button></div>'; return; }
+    if (!a) { el.innerHTML = prog + '<div class="wa-card wa-done"><h2>That’s every ask for now.</h2><p>New ones go up as residents add them.</p>' + meCard() + (meStats().of ? '<button type="button" class="wa-sharego" data-share="@me">' + SHARE_ICON + 'Share My Squamish</button>' : '') + '<button type="button" class="btn block" data-view="top">See the Top 10</button><button type="button" class="btn secondary block" data-view="add">Missing something? Add it</button></div>'; return; }
     deckShown = a.id;
     el.innerHTML = prog + '<div class="wa-card">' + chips(a) + '<h2>' + esc(a.title) + '</h2>' + (a.why ? '<p>' + esc(a.why) + '</p>' : '') + (a.info ? '<p class="wa-onelink">' + infoLink(a) + '</p>' : '') + buttons(a, true) + sugBox(a) +
       '<button type="button" class="wa-link center" data-skip="' + esc(a.id) + '">Skip this one</button>' + (desk.matches ? (multi(a) ? KEYS_CHOICE : KEYS) : '') + '</div>';
@@ -383,7 +472,7 @@
   }
   // Phones show the add box in its own tab; desktop keeps it in the side rail, always open.
   function placeAdd() {
-    var box = $('[data-wa-add]'), target = desk.matches ? $('[data-wa-railadd]') : $('[data-pane="add"]');
+    var box = $('[data-wa-add]'), target = desk.matches ? $('[data-wa-addfoot]') : $('[data-pane="add"]');
     if (box && target && box.parentNode !== target) target.appendChild(box);
     var sh = $('[data-wa-sheet]'), st = desk.matches ? $('.wa-rail') : $('.wa-fixed');
     if (sh && st && sh.parentNode !== st) st.insertBefore(sh, st.firstChild);
@@ -394,11 +483,12 @@
   function drawProgress() {
     var d = done(), n = asks.length;
     var pe = $('[data-wa-people]');
-    if (pe && loaded) pe.innerHTML = people ? '<b>' + people.toLocaleString('en-CA') + '</b> ' + (people === 1 ? 'person has' : 'people have') + ' answered so far' : 'Be one of the first to answer';
+    if (pe && loaded) pe.innerHTML = (people ? '<b>' + people.toLocaleString('en-CA') + ' neighbour' + (people === 1 ? '' : 's') + '</b> ' + (people === 1 ? 'has' : 'have') + ' answered. ' + (d ? 'Keep going.' : 'Your turn.') : 'Be one of the first to answer.') + ' <a href="#wa-how">How it works</a>';
     var rp = $('[data-wa-railprog]');
-    if (rp) rp.innerHTML = '<p class="wa-railbig"><b>' + d + '</b> of ' + n + ' answered</p><div class="wa-prog" aria-hidden="true"><i style="width:' + pct(d, n) + '%"></i></div>' +
-      (d < UNLOCK ? '<p class="small muted">The Top 10 opens after ' + UNLOCK + ' answers (' + (UNLOCK - d) + ' to go).</p>' : '<button type="button" class="btn secondary block" data-view="top">See the Top 10</button>') +
-      (d < n ? '<button type="button" class="btn block" data-nextq>Next unanswered</button>' : '');
+    if (rp) rp.innerHTML = '<div class="wa-railring">' + ringSvg(d, n, 64) + '<p class="wa-railbig"><span><b>' + d + '</b> of ' + n + ' answered</span><span class="small muted">' + (d < UNLOCK ? 'The Top 10 opens after ' + UNLOCK + ' (' + (UNLOCK - d) + ' to go)' : d < n ? (n - d) + ' to go' : 'All done. Thank you') + '</span></p></div>' +
+      (d < n ? '<button type="button" class="btn block" data-nextq>Next unanswered</button>' : '') +
+      (d >= UNLOCK ? '<div class="wa-twobtn"><button type="button" class="btn secondary" data-view="top">Top 10</button><button type="button" class="btn secondary" data-share="@me">' + SHARE_ICON + 'My Squamish</button></div>' : '');
+    drawRing(d, n); drawBoard(d);
     var lk = $('[data-wa-lock]'); if (lk) lk.textContent = d < UNLOCK ? ' 🔒' : '';
     var fl = $('[data-wa-float]');
     if (fl) {
@@ -406,12 +496,81 @@
       fl.innerHTML = '<span><b>' + d + '</b> of ' + n + ' answered</span>' + (d < n ? '<button type="button" data-nextq>Next unanswered <span aria-hidden="true">↓</span></button>' : '<button type="button" data-view="top">See the Top 10</button>');
     }
   }
+  // ---------- progress ring, live board, live line ----------
+  function ringSvg(d, n, size) {
+    var r = 15.5, len = 2 * Math.PI * r;
+    return '<svg class="wa-ringsvg" width="' + size + '" height="' + size + '" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="' + r + '" class="bg"/><circle cx="18" cy="18" r="' + r + '" class="fg" stroke-dasharray="' + len.toFixed(1) + '" stroke-dashoffset="' + (len * (1 - (n ? d / n : 0))).toFixed(1) + '"/></svg>';
+  }
+  // Phones: the raised Your say button in the bottom bar turns into this page's progress ring. Tapping it goes to the
+  // next unanswered ask (in One by one, back up to the card).
+  var ringA = mode === 'page' && !only ? document.querySelector('.tabbar a.tab-feature') : null;
+  if (ringA) {
+    ringA.classList.add('wa-ringtab');
+    ringA.insertAdjacentHTML('afterbegin', '<span class="wa-ring" aria-hidden="true"><span class="wa-ringc"></span><span class="wa-ringn"><b>0</b><small>of 0</small></span></span>');
+    ringA.addEventListener('click', function (e) {
+      e.preventDefault(); stopAuto();
+      if (done() >= asks.length) { setView('top'); return; }
+      if (view === 'one') { var tb = $('[data-wa-tabs]'); if (tb) window.scrollTo({ top: window.scrollY + tb.getBoundingClientRect().top - 80, behavior: 'smooth' }); return; }
+      nextUnanswered();
+    });
+  }
+  function drawRing(d, n) {
+    if (!ringA) return;
+    ringA.querySelector('.wa-ringc').innerHTML = ringSvg(d, n, 66);
+    ringA.querySelector('.wa-ringn').innerHTML = '<b>' + d + '</b><small>of ' + n + '</small>';
+    ringA.setAttribute('aria-label', d + ' of ' + n + ' answered. ' + (d < n ? 'Go to the next unanswered ask' : 'See the Top 10'));
+  }
+  function bumpRing() { if (!ringA || REDUCED) return; ringA.classList.remove('bump'); void ringA.offsetWidth; ringA.classList.add('bump'); }
+  // Desktop rail: the most wanted yes or no asks right now, moving as answers come in. Locked until 5 answers, like the
+  // Top 10, so people answer before they look. Needs 10 people with a side; asks already done are left out.
+  var boardPos = {};
+  function drawBoard(d) {
+    var el = $('[data-wa-board]'); if (!el || !desk.matches) return;
+    var WHY = '<details class="wa-why"><summary>How is this ranked?</summary><p class="small">The share of yes among people who said yes or no. “Don’t mind” is counted but left out of the share, so an ask that matters to one neighbourhood isn’t buried by people it doesn’t affect. Asks need 10 people with a side to show here.</p></details>';
+    if (d < UNLOCK) {
+      el.innerHTML = '<h2>Most wanted, live</h2><ol class="wa-board locked" aria-hidden="true">' + [80, 64, 72, 56, 68].map(function (w, i) { return '<li><span class="wa-rk">' + (i + 1) + '</span><span class="wa-bt" style="width:' + w + '%"></span></li>'; }).join('') + '</ol><p class="small"><b>Answer ' + (UNLOCK - d) + ' more to see it.</b> It updates as you answer.</p>' + WHY;
+      boardPos = {}; return;
+    }
+    var L = asks.filter(function (a) { return !multi(a) && a.status !== 'done' && opinions(a, t(a.id)) >= 10; }).sort(function (p, q) { return score(q) - score(p) || opinions(q, t(q.id)) - opinions(p, t(p.id)); }).slice(0, 5);
+    var old = {};
+    el.querySelectorAll('[data-bid]').forEach(function (li) { old[li.getAttribute('data-bid')] = li.getBoundingClientRect().top; });
+    el.innerHTML = '<h2>Most wanted, live</h2><ol class="wa-board">' + L.map(function (a, i) {
+      var up = boardPos[a.id] != null && boardPos[a.id] > i, x = t(a.id);
+      return '<li data-bid="' + esc(a.id) + '"' + (up ? ' class="up"' : '') + '><button type="button" data-goto="' + esc(a.id) + '"><span class="wa-rk">' + (i + 1) + '</span><span class="wa-bn">' + esc(a.title) + (mine[a.id] ? '<small>You said ' + WORD[mine[a.id]].toLowerCase() + '</small>' : '') + '</span><b>' + pct(c(x, 'y'), opinions(a, x)) + '%</b></button></li>';
+    }).join('') + '</ol>' + (L.length ? '<p class="small muted">Share of yes. Moves as people answer.</p>' : '<p class="small muted">Not enough answers yet.</p>') + WHY;
+    // Rows that moved slide to their new place.
+    if (!REDUCED) el.querySelectorAll('[data-bid]').forEach(function (li) {
+      var was = old[li.getAttribute('data-bid')]; if (was == null) return;
+      var dy = was - li.getBoundingClientRect().top; if (!dy) return;
+      li.style.transform = 'translateY(' + dy + 'px)'; li.style.transition = 'none';
+      requestAnimationFrame(function () { li.style.transition = 'transform .5s cubic-bezier(.2,.8,.2,1)'; li.style.transform = ''; });
+    });
+    boardPos = {}; L.forEach(function (a, i) { boardPos[a.id] = i; });
+  }
+  // Under the title: a line that rolls through what's happening (answers in the last hour, today, the newest ask).
+  var liveT = null;
+  function drawLive() {
+    var el = $('[data-wa-live]'); if (!el) return;
+    var msgs = [];
+    if (live.hour >= 3) msgs.push(live.hour + ' answers in the last hour');
+    if (live.day >= 5) msgs.push(live.day + ' answers today');
+    var nw = asks.filter(function (a) { return a.res && Date.now() - (Date.parse(a.created_at) || 0) < 7 * 864e5; }).sort(function (p, q) { return Date.parse(q.created_at) - Date.parse(p.created_at); })[0];
+    if (nw) msgs.push('Newest: ' + nw.title);
+    if (!msgs.length) { el.hidden = true; return; }
+    el.hidden = false;
+    var i = 0;
+    function show() { el.innerHTML = '<span class="wa-dot" aria-hidden="true"></span><span class="wa-livet">' + esc(msgs[i % msgs.length]) + '</span>'; i++; }
+    show();
+    if (liveT) clearInterval(liveT);
+    if (msgs.length > 1 && !REDUCED) liveT = setInterval(show, 4000);
+  }
   var sheet = null;
   function showSheet(kind) {
     var el = $('[data-wa-sheet]'); if (!el) return;
     var ms = get('sv_wa_ms', {}); ms[kind] = 1; put('sv_wa_ms', ms);
     sheet = kind;
     var h = '';
+    if (kind === 'me5') h = '<p><b>That’s ' + UNLOCK + '. Here’s where you stand.</b> The Top 10 is open too.</p>' + meCard() + '<div class="wa-sheetbtns"><button type="button" class="btn" data-share="@me">' + SHARE_ICON + 'Share my card</button><button type="button" class="btn secondary" data-view="top">See the Top 10</button></div>';
     if (kind === 'five') h = '<p><b>Nice, that’s ' + UNLOCK + '.</b> The Top 10 is open. Share your picks so your neighbours can weigh in too.</p><div class="wa-sheetbtns"><button type="button" class="btn" data-view="top">See the Top 10</button><button type="button" class="btn secondary" data-share="@my">Share my picks</button></div>';
     if (kind === 'ten') h = '<p><b>10 answered. Thank you.</b> Want to know when council acts on any of these? Get a short email every Friday.</p><div class="wa-sheetbtns"><button type="button" class="btn" data-gosignup>Get the Friday email</button></div>';
     el.innerHTML = '<button type="button" class="wa-sheetx" data-sheetx aria-label="Close">×</button>' + h;
@@ -423,7 +582,7 @@
     if (mode !== 'page') return;
     var d = done(), ms = get('sv_wa_ms', {});
     if (d >= 1 && !prefs.area && !ms.area) { ms.area = 1; put('sv_wa_ms', ms); areaAsk = id; draw(); }
-    else if (d >= UNLOCK && !ms.five) showSheet('five');
+    else if (d >= UNLOCK && !ms.me5 && meStats().of) { stopAuto(); showSheet('me5'); }
     else if (d >= 10 && !ms.ten && !sheet) showSheet('ten');
   }
   function nextUnanswered() {
@@ -464,12 +623,16 @@
       if (!j || !j.ok) return;
       (j.asks || []).forEach(function (a) { if (!byId(a.id)) asks.push({ id: a.id, title: a.title, why: a.why, topic: a.topic || 'other', area: a.area, body: a.body, created_at: a.created_at, res: true }); });
       tallies = j.tallies || {}; mine = j.mine || {}; notes = j.notes || {}; people = j.people || 0; loaded = true;
+      live = j.live || live; trending = {};
+      // Trending: the 3 asks with the most answers today, if at least 5 each.
+      Object.keys(live.today || {}).filter(function (k) { return live.today[k] >= 5; }).sort(function (p, q) { return live.today[q] - live.today[p]; }).slice(0, 3).forEach(function (k) { trending[k] = true; });
       // Added answers, most picked first. Worked out once per load so buttons don't move while someone answers.
       asks.forEach(function (a) {
         var x = t(a.id);
         a.extra = ((j.extras || {})[a.id] || []).slice().sort(function (p, q) { return c(x, q.key) - c(x, p.key); });
       });
       if (!touched) { order = null; shortOrder = null; }
+      if (mode === 'page') drawLive();
       // A shared link puts its ask first and scrolls to it, but leaves it closed: the results stay hidden until they answer.
       if (focusId && byId(focusId)) { draw(); var el = document.getElementById('ask-' + focusId); if (el) el.scrollIntoView({ block: 'center' }); }
       else draw();
@@ -479,6 +642,7 @@
     return fetch('/api/wants/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.assign({ voter: voter, dev: dev }, body)) })
       .then(function (r) { return r.json(); }).catch(function () { return { ok: false, error: 'That didn’t go through. Check your connection and try again.' }; });
   }
+  function sameCounts(p, q) { var k = {}, z; for (z in p || {}) k[z] = 1; for (z in q || {}) k[z] = 1; delete k.areas; return Object.keys(k).every(function (z) { return c(p, z) === c(q, z); }); }
   function answer(id, k) {
     if (!touched) { touched = true; if (mode === 'short' && !shortOrder) { var cur = [].map.call(root.querySelectorAll('[data-wa-rows] > .wa-row'), function (li) { return li.id.slice(4); }); if (cur.length) shortOrder = cur; } }
     var before = mine[id], x = Object.assign({ y: 0, n: 0, m: 0, areas: {} }, t(id));
@@ -490,13 +654,18 @@
     if (choice) mine[id] = choice; else delete mine[id];
     // Show "tap again to undo" once, on the first ask they answer.
     if (choice && !hinted) { hinted = true; hintId = id; } // it stays put after that: removing it would shift the rows below
+    if (choice && navigator.vibrate) try { navigator.vibrate(10); } catch (e) {}
+    if (view === 'one') grown[id] = false;
     draw();
     if (choice) milestones(id);
+    if (choice && view === 'one' && mode === 'page' && !sheet && areaAsk !== id) { startAuto(id); var cd = root.querySelector('.wa-card.wa-revealed'); if (cd) cd.classList.add('auto'); }
+    bumpRing();
     if (pending[id]) return;
     pending[id] = true;
     post({ action: 'vote', wid: id, choice: choice, area: prefs.area || '' }).then(function (j) {
       pending[id] = false;
-      if (j.ok) { tallies[id] = j.tally; if (j.choice !== (mine[id] || '')) { post({ action: 'vote', wid: id, choice: mine[id] || '', area: prefs.area || '' }).then(function (k) { if (k.ok) { tallies[id] = k.tally; draw(); } }); } draw(); }
+      // Unchanged numbers don't redraw, so the bars on the results card keep growing smoothly.
+      if (j.ok) { var same = sameCounts(j.tally, tallies[id]) && j.choice === (mine[id] || ''); tallies[id] = j.tally; if (same) return; if (j.choice !== (mine[id] || '')) { post({ action: 'vote', wid: id, choice: mine[id] || '', area: prefs.area || '' }).then(function (k) { if (k.ok) { tallies[id] = k.tally; draw(); } }); } draw(); }
       else { if (before) mine[id] = before; else delete mine[id]; toast(j.error || 'That didn’t count. Please try again.'); load(); }
     });
     if (choice) track('Wants answer', { on: mode === 'short' ? location.pathname : view });
@@ -530,6 +699,7 @@
     var el = document.getElementById('ask-' + id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
   function setView(v, fromTabs) {
+    stopAuto();
     if (v === 'add' && desk.matches) { view = 'list'; draw(); var ta = $('#wa-text'); if (ta) { ta.scrollIntoView({ behavior: 'smooth', block: 'center' }); ta.focus({ preventScroll: true }); } return; }
     view = v; if (v === 'one') deckShown = null; draw();
     var tb = $('[data-wa-tabs]');
@@ -548,7 +718,7 @@
     if (e.target.closest('[data-sheetx]')) { closeSheet(); return; }
     if (e.target.closest('[data-areax]')) { areaAsk = null; draw(); return; }
     if (e.target.closest('[data-gosignup]')) { closeSheet(); var s = document.getElementById('signup'); if (s) { s.scrollIntoView({ behavior: 'smooth', block: 'center' }); var inp = s.querySelector('input[type=email]'); if (inp) setTimeout(function () { inp.focus({ preventScroll: true }); }, 400); } return; }
-    if (e.target.closest('[data-next]')) { deckShown = null; drawOne(); drawProgress(); return; }
+    if (e.target.closest('[data-next]')) { stopAuto(); deckShown = null; drawOne(); drawProgress(); return; }
     if ((b = e.target.closest('[data-skip]'))) { deckSkip[b.getAttribute('data-skip')] = true; deckShown = null; drawOne(); return; }
     if ((b = e.target.closest('[data-share]'))) { if (b.closest('[data-wa-sheet]')) closeSheet(); openShare(b.getAttribute('data-share')); return; }
     if (e.target.closest('[data-sharex]')) { shareSt = null; drawShare(); return; }
@@ -616,6 +786,9 @@
       return;
     }
   });
+  // Touching the results card (to read, scroll a bar, pick an area) stops it moving on by itself.
+  root.addEventListener('pointerdown', function (e) { if (advT && e.target.closest('.wa-card.wa-revealed') && !e.target.closest('[data-next]')) stopAuto(); });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) stopAuto(); });
   root.addEventListener('input', function (e) { if (e.target.id === 'wa-text') add.text = e.target.value; if (e.target.id === 'wa-sug') sug.text = e.target.value; });
   root.addEventListener('keydown', function (e) { if (e.target.id === 'wa-sug' && e.key === 'Enter') { e.preventDefault(); sendSug(); } });
   document.addEventListener('keydown', function (e) { if (shareSt && e.key === 'Escape') { shareSt = null; drawShare(); } });
@@ -635,7 +808,7 @@
     if (/^(INPUT|TEXTAREA|SELECT)$/.test((e.target.tagName || ''))) return;
     var k = e.key.toLowerCase(), a = deckShown && byId(deckShown);
     if (!a) return;
-    if (mine[a.id]) { if (k === 'enter' || k === 'arrowright') { e.preventDefault(); deckShown = null; drawOne(); drawProgress(); } return; }
+    if (mine[a.id]) { if (k === 'enter' || k === 'arrowright') { e.preventDefault(); stopAuto(); deckShown = null; drawOne(); drawProgress(); } return; }
     if (multi(a) && /^[1-9]$/.test(k) && shown(a)[+k - 1]) { e.preventDefault(); answer(a.id, shown(a)[+k - 1].key); }
     else if (k === 'm' || (!multi(a) && (k === 'y' || k === 'n'))) { e.preventDefault(); answer(a.id, k); }
     else if (k === 'arrowright') { e.preventDefault(); deckSkip[a.id] = true; deckShown = null; drawOne(); }

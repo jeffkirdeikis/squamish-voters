@@ -71,3 +71,22 @@ export async function topAsks(limit = 3, min = 20) {
   }
   return out;
 }
+
+// "My Squamish": how one person's answers line up with everyone's, for /wants/me/ and its picture. spec = id.key,id.key,...
+// (every ask they answered). Agree = their answer is the one most people picked. Boldest take = the answer the smallest
+// share of people share. Don't mind answers and asks no one has taken a side on are left out of both.
+export async function meSummary(spec) {
+  const pairs = String(spec || '').split(',').slice(0, 60).map((p) => p.split('.'))
+    .filter(([id, k]) => /^[a-z0-9-]{2,40}$/.test(id || '') && /^[a-z0-9]{1,12}$/.test(k || '') && k !== 'm');
+  const rows = (await Promise.all(pairs.map(async ([id, key]) => {
+    const ask = await findAsk(id), r = ask && (await results(id, ask).catch(() => null));
+    const own = r && r.opinions && r.options.find((o) => o.key === key);
+    if (!own) return null;
+    const top = Math.max(...r.options.map((o) => o.n));
+    return { id, title: ask.title, label: own.label, share: pctOf(own.n, r.opinions), agree: own.n === top };
+  }))).filter(Boolean);
+  if (!rows.length) return null;
+  const bold = [...rows].sort((a, b) => a.share - b.share)[0];
+  return { agree: rows.filter((r) => r.agree).length, of: rows.length, bold: bold.share < 50 ? bold : null };
+}
+export const HOOD_NAMES = SEED.hoodNames || {};

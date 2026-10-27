@@ -457,6 +457,10 @@
       "destination": "https://api.vercel.com/bot-protection/v1/proxy/:path*"
     },
     {
+      "source": "/wants/me/",
+      "destination": "/api/wants-page/?me=1"
+    },
+    {
       "source": "/wants/my/",
       "destination": "/api/wants-page/?mine=1"
     },

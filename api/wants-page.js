@@ -4,9 +4,10 @@
 // A shared link carries ?n=<answers so far>, so each share is a new address and Facebook fetches today's results for it.
 //   GET ?id=<id>&live=1          -> /wants/<id>/live/: the live results without the sharer's answer, opened on it.
 //   GET ?mine=1&a=<id>.<key>,... -> /wants/my/?a=...: "My picks for Squamish", up to 5 answers, opened on the full list.
+//   GET ?me=1&a=<id>.<key>,...&hd=<area> -> /wants/me/?a=...: "My Squamish", how one person's answers line up with everyone's.
 // All of them are the static /wants/ page (or the ask's own page) with the title, description, share picture and the
 // page data's focus swapped in. Hidden or unknown -> /wants/.
-import { findAsk, answerLabel, results, standing } from './_wants-ask.js';
+import { findAsk, answerLabel, results, standing, meSummary, HOOD_NAMES } from './_wants-ask.js';
 
 const ORIGIN = 'https://squamishvoters.com';
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -14,6 +15,19 @@ const ask = (title) => (/[?.!]$/.test(title) ? title : `${title}?`);
 
 async function describe(q) {
   const n = /^\d{1,7}$/.test(String(q.n || '')) ? `${q.n}` : '';
+  if (q.me) {
+    const spec = String(q.a || '').split(',').slice(0, 60).filter((p) => /^[a-z0-9-]{2,40}\.[a-z0-9]{1,12}$/.test(p)).join(',');
+    const m = spec && (await meSummary(spec).catch(() => null));
+    if (!m) return null;
+    const hd = HOOD_NAMES[String(q.hd || '')] ? String(q.hd) : '';
+    const tail = `${hd && `&hd=${hd}`}${n && `&n=${n}`}`;
+    return {
+      shell: '/wants/', focus: null, said: null, url: `${ORIGIN}/wants/me/?a=${spec}${tail}`, canonical: `${ORIGIN}/wants/`,
+      title: `I agree with Squamish on ${m.agree} of ${m.of} | What Squamish Wants`, alt: `My Squamish: I agree with Squamish on ${m.agree} of ${m.of}`,
+      desc: `${m.bold ? `My boldest take: ${m.bold.label === 'Yes' || m.bold.label === 'No' ? `${m.bold.label} to “${m.bold.title}”` : `“${m.bold.label}”`} (only ${m.bold.share}% agree). ` : ''}Took 2 minutes. Where do you land?`,
+      img: `${ORIGIN}/api/og/?me=${spec}&v=1${tail}`,
+    };
+  }
   if (q.mine) {
     const spec = String(q.a || '').split(',').slice(0, 5).filter((p) => /^[a-z0-9-]{2,40}\.[a-z0-9]{1,12}$/.test(p)).join(',');
     if (!spec) return null;

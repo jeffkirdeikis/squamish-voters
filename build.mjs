@@ -1540,7 +1540,7 @@ if (TRACKED.length) {
 // with that ask's title and picture. Each ask's share picture is drawn by api/og.js (the question and its answer buttons).
 // api/_wants.json tells the API which starter ids and neighbourhoods exist.
 {
-  fs.writeFileSync(path.join(ROOT, 'api', '_wants.json'), JSON.stringify({ topics: WANTS.topics, hoods: WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => h.slug), asks: WANTS.asks.map(({ id, title, why, options, status }) => ({ id, title, why, ...(status === 'done' ? { status } : {}), ...(options ? { options: options.map((o) => o.key), labels: options.map((o) => o.label) } : {}) })) }) + '\n');
+  fs.writeFileSync(path.join(ROOT, 'api', '_wants.json'), JSON.stringify({ topics: WANTS.topics, hoods: WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => h.slug), hoodNames: Object.fromEntries(WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => [h.slug, h.name])), asks: WANTS.asks.map(({ id, title, why, options, status }) => ({ id, title, why, ...(status === 'done' ? { status } : {}), ...(options ? { options: options.map((o) => o.key), labels: options.map((o) => o.label) } : {}) })) }) + '\n');
   // Live pictures: the main page shows the 3 most wanted asks, a question's page shows its results (api/og.js). Facebook keeps
   // its own copy per address, so these refresh when it re-reads the page; a share from the site's buttons is always fresh.
   const IMG = `${ORIGIN}/api/og/?top=1&v=2`;
@@ -1550,6 +1550,7 @@ if (TRACKED.length) {
     <h1>What Squamish Wants</h1>
     <p class="wa-lede">Say yes, no or don’t mind on what Squamish should do. Tap any ask to see what everyone said.</p>
     <p class="wa-people" data-wa-people aria-live="polite"></p>
+    <p class="wa-live" data-wa-live hidden></p>
   </header>
   <div class="wa-layout">
   <div class="wa-main">
@@ -1571,22 +1572,22 @@ if (TRACKED.length) {
       <label class="small">Sort <select data-wa-sort><option value="wanted">Most wanted</option><option value="split">Most split</option><option value="voted">Most answered</option><option value="newest">Newest</option></select></label></div>
     <ul class="wa-rows" data-wa-rows>${wantsStatic(WANTS.asks)}</ul>
     <div class="wa-listfoot"><p><b>Missing something?</b> Add what you want Squamish to do. We check it against the list first.</p><button type="button" class="btn secondary" data-view="add">Add it</button></div>
+    <section class="card wa-addfoot" data-wa-addfoot aria-label="Add an ask"></section>
   </div>
   <div data-pane="one" hidden><div data-wa-one></div></div>
   <div data-pane="top" hidden><div data-wa-top></div></div>
   <div data-pane="add" hidden><div class="card wa-addbox" data-wa-add></div></div>
   </div>
-  <aside class="wa-rail" aria-label="Your progress and adding an ask">
+  <aside class="wa-rail" aria-label="Your progress and the most wanted asks">
     <section class="card wa-railcard" data-wa-railprog></section>
-    <section class="card wa-railcard wa-railadd" data-wa-railadd></section>
-    <section class="card wa-railcard"><h2>How the ranking works</h2><p class="small">The Top 10 sorts three ways. Most votes: the asks the most people answered. Most unanimous: the biggest share for the leading answer, yes or no alike. Most split: closest to even between the top two answers. “Don’t mind” is shown on every bar but left out of those shares, so an ask that matters to one neighbourhood isn’t buried by people it doesn’t affect.</p></section>
+    <section class="card wa-railcard" data-wa-board aria-live="polite"></section>
   </aside>
   </div>
   <div class="wa-fixed">
     <div class="wa-sheet" data-wa-sheet hidden role="dialog" aria-live="polite"></div>
     <div class="wa-float" data-wa-float hidden></div>
   </div>
-  <section class="card wa-how"><h2>How it works</h2>
+  <section class="card wa-how" id="wa-how"><h2>How it works</h2>
     <ul>
       <li><b>One answer per ask</b> from each phone or computer. Tap the same answer again to take it back, or pick another to change it.</li>
       <li><b>Answering twice doesn’t work.</b> No sign up, so here is how repeats are stopped: answers sent by a script instead of a real browser are turned away; a private window or cleared browser on the same phone or computer is recognised and not counted again; and each internet connection can add only 8 answers to any one ask, enough for a busy household. Someone determined could still answer from a second device, so treat close results with care.</li>
