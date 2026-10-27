@@ -1,5 +1,6 @@
 // What Squamish Wants (/wants/): residents answer yes, no or don't mind on specific asks, and can add their own.
 // Starter asks come from data/wants.json (bundled here as _wants.json by build.mjs). Residents' asks live in sv_wants.
+//   GET  ?where=1                                     -> { ok, km, city }   (where Vercel places this connection)
 //   GET  ?voter=<id>                                   -> { ok, people, asks: [resident asks], tallies, mine: { wid: 'y'|'n'|'m' }, notes: { wid: [...] } }
 //   POST { action: 'vote', wid, choice, voter, dev, area }  -> { ok, tally, choice }   (choice '' takes the answer back; dev = the page's device summary)
 //   POST { action: 'check', text, voter }              -> { ok, publish, reason, draft, similar: [{ id, title, how }], sig }
@@ -38,6 +39,7 @@ const init = () => (ready ||= sql`CREATE TABLE IF NOT EXISTS sv_wants (
   .then(() => sql`CREATE TABLE IF NOT EXISTS sv_want_votes (wid text NOT NULL, voter text NOT NULL, choice text NOT NULL, area text, net text,
     created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY (wid, voter))`)
   .then(() => sql`ALTER TABLE sv_want_votes ADD COLUMN IF NOT EXISTS dev text`)
+  .then(() => sql`ALTER TABLE sv_want_votes ADD COLUMN IF NOT EXISTS km int`)
   .then(() => sql`CREATE TABLE IF NOT EXISTS sv_want_notes (wid text NOT NULL, voter text NOT NULL, body text NOT NULL, status text NOT NULL DEFAULT 'ok',
     created_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY (wid, voter))`)
   .then(() => sql`CREATE TABLE IF NOT EXISTS sv_want_reports (wid text NOT NULL, voter text NOT NULL, at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY (wid, voter))`)
@@ -54,6 +56,14 @@ const voterOk = (v) => /^[a-zA-Z0-9-]{16,64}$/.test(String(v || ''));
 const devOf = (v) => (/^[a-z0-9]{2,16}$/.test(String(v || '')) ? hash(`dev|${v}`) : null); // the page's summary of the screen, browser and settings
 // Vercel BotID: /botid.js on the page proves a real browser sent the post; scripts posting straight to the API get turned away.
 // If the check itself fails we let the answer through (and log it) rather than block real people.
+// Where Vercel places the connection (from the IP address; often the carrier's hub, not the home). km = distance to Squamish.
+const SQUAMISH = [49.7016, -123.1558];
+const whereOf = (req) => {
+  const h = req.headers, lat = parseFloat(h['x-vercel-ip-latitude']), lon = parseFloat(h['x-vercel-ip-longitude']);
+  if (!Number.isFinite(lat) || !Number.isFinite(lon)) return { km: null, city: '' };
+  const r = Math.PI / 180, a = Math.sin((lat - SQUAMISH[0]) * r / 2) ** 2 + Math.cos(lat * r) * Math.cos(SQUAMISH[0] * r) * Math.sin((lon - SQUAMISH[1]) * r / 2) ** 2;
+  return { km: Math.round(12742 * Math.asin(Math.sqrt(a))), city: decodeURIComponent(h['x-vercel-ip-city'] || '') };
+};
 const isBot = async (req) => {
   try { return (await checkBotId({ advancedOptions: { headers: req.headers } })).isBot; } catch (e) { console.error('botid', e.message); return false; }
 };
@@ -237,6 +247,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'GET') {
+    if (req.query.where) return res.json({ ok: true, ...whereOf(req) });
     const voter = voterOk(req.query.voter) ? hash(req.query.voter) : null;
     const [asks, t, ns, extras, mine, [{ people }]] = await Promise.all([
       residentAsks(), tallies(), notes(), extraOptions(),
@@ -248,7 +259,7 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ ok: false });
   if (!voterOk(b.voter)) return res.status(400).json({ ok: false, error: 'Please reload the page and try again.' });
   if (await isBot(req)) return res.status(403).json({ ok: false, error: 'We couldn’t tell this came from a person. Reload the page and try again.' });
-  const voter = hash(b.voter), net = netOf(req), dev = devOf(b.dev);
+  const voter = hash(b.voter), net = netOf(req), dev = devOf(b.dev), { km } = whereOf(req);
   const exists = async (wid) => SEEDS.some((s) => s.id === wid) || (await sql`SELECT 1 FROM sv_wants WHERE id = ${wid} AND status = 'ok'`).length > 0;
 
   if (b.action === 'vote') {
@@ -268,8 +279,8 @@ export default async function handler(req, res) {
           if (d >= PER_DEVICE) return res.status(429).json({ ok: false, error: 'This phone or computer has already answered this one (maybe in a private window), so we can’t count it again.' });
         }
       }
-      await sql`INSERT INTO sv_want_votes (wid, voter, choice, area, net, dev) VALUES (${wid}, ${voter}, ${b.choice}, ${areaOk(b.area)}, ${net}, ${dev})
-        ON CONFLICT (wid, voter) DO UPDATE SET choice = EXCLUDED.choice, area = coalesce(EXCLUDED.area, sv_want_votes.area), dev = coalesce(sv_want_votes.dev, EXCLUDED.dev), updated_at = now()`;
+      await sql`INSERT INTO sv_want_votes (wid, voter, choice, area, net, dev, km) VALUES (${wid}, ${voter}, ${b.choice}, ${areaOk(b.area)}, ${net}, ${dev}, ${km})
+        ON CONFLICT (wid, voter) DO UPDATE SET choice = EXCLUDED.choice, area = coalesce(EXCLUDED.area, sv_want_votes.area), dev = coalesce(sv_want_votes.dev, EXCLUDED.dev), km = EXCLUDED.km, updated_at = now()`;
     }
     const t = await tallies();
     return res.json({ ok: true, tally: t[wid] || { y: 0, n: 0, m: 0, areas: {} }, choice: b.choice || '' });
