@@ -101,15 +101,15 @@
     } else if (n) out += '<p class="wa-legend"><em>' + (o ? '<b>' + pct(c(x, 'y'), o) + '% yes</b> of people with an opinion' : '<b>No one has said yes or no yet</b>') + '</em>' +
       '<span>' + n + ' answer' + (n === 1 ? '' : 's') + '</span><span>' + c(x, 'y') + ' yes · ' + c(x, 'n') + ' no · ' + c(x, 'm') + ' don’t mind</span></p>';
     // Share sits under the results once someone has answered; an opened ask has it in its detail instead.
-    return out + areaLine(a, x) + sugBox(a) + (openId !== a.id ? '<button type="button" class="wa-link wa-sharelink" data-share="' + esc(a.id) + '">Share this question</button>' : '') + '</div>';
+    return out + areaLine(a, x) + (openId !== a.id ? '<button type="button" class="wa-link wa-sharelink" data-share="' + esc(a.id) + '">Share this question</button>' : '') + '</div>';
   }
-  // "Missing an answer?" on multiple choice asks: a one line box under the results.
+  function canAdd(a) { return isChoice(a) && opts(a).length < MAX_OPTIONS; }
+  // "Other": write in an answer that isn't there. Opens right under the answer buttons.
   function sugBox(a) {
-    if (!isChoice(a) || opts(a).length >= MAX_OPTIONS) return '';
-    if (sug.id !== a.id) return '<button type="button" class="wa-link wa-sugopen" data-sug="' + esc(a.id) + '">Missing an answer? Add it</button>';
+    if (!canAdd(a) || sug.id !== a.id) return '';
     var same = sug.same && labelOf(a, sug.same);
-    return '<div class="wa-sug"><label class="fld" for="wa-sug">What answer is missing?<span class="small">A short answer to this question. We check it isn’t already one of the answers, and your answer moves to it.</span></label>' +
-      '<div class="wa-sugrow"><input id="wa-sug" type="text" maxlength="300" autocomplete="off" value="' + esc(sug.text) + '" placeholder="For example: Up by half of inflation"><button type="button" class="btn" data-sugsend' + (sug.busy ? ' disabled' : '') + '>' + (sug.busy ? 'Checking…' : 'Add') + '</button></div>' +
+    return '<div class="wa-sug"><label class="fld" for="wa-sug">What’s your answer?<span class="small">Write it in a few words. If it’s new, it’s added for everyone and counted as your answer. If it means the same as one already there, we’ll point you to it.</span></label>' +
+      '<div class="wa-sugrow"><input id="wa-sug" type="text" maxlength="300" autocomplete="off" value="' + esc(sug.text) + '" placeholder="Your answer"><button type="button" class="btn" data-sugsend' + (sug.busy ? ' disabled' : '') + '>' + (sug.busy ? 'Checking…' : 'Add') + '</button></div>' +
       (same ? '<p class="wa-msg">That’s already an answer: <b>' + esc(same) + '</b>. <button type="button" class="wa-link" data-ans="' + esc(sug.same) + '" data-id="' + esc(a.id) + '">Pick that one</button></p>' : '') +
       (sug.msg ? '<p class="wa-msg bad">' + esc(sug.msg) + '</p>' : '') +
       '<button type="button" class="wa-link" data-sugx>Cancel</button></div>';
@@ -126,7 +126,8 @@
       return '<div class="wa-ans choice n' + sh.length + (big ? ' big' : '') + '" role="group" aria-label="Your answer">' + sh.map(function (o, i) {
         return '<button type="button" class="wa-b opt" data-ans="' + esc(o.key) + '" data-id="' + esc(a.id) + '" aria-pressed="' + (my === o.key) + '">' + (big && desk.matches && i < 9 ? '<kbd>' + (i + 1) + '</kbd> ' : '') + esc(o.label) + '</button>';
       }).join('') + (more ? '<button type="button" class="wa-more" data-more="' + esc(a.id) + '">Show ' + more + ' more answer' + (more === 1 ? '' : 's') + ', most picked first</button>' : '') +
-        '<button type="button" class="wa-b m" data-ans="m" data-id="' + esc(a.id) + '" aria-pressed="' + (my === 'm') + '">Don’t mind</button></div>';
+        '<div class="wa-ans-extra"><button type="button" class="wa-b m" data-ans="m" data-id="' + esc(a.id) + '" aria-pressed="' + (my === 'm') + '">Don’t mind</button>' +
+        (canAdd(a) ? '<button type="button" class="wa-b other" data-sug="' + esc(a.id) + '" aria-expanded="' + (sug.id === a.id) + '">Other…</button>' : '') + '</div></div>';
     }
     return '<div class="wa-ans' + (big ? ' big' : '') + '" role="group" aria-label="Your answer">' + ['y', 'n', 'm'].map(function (k) {
       return '<button type="button" class="wa-b ' + k + '" data-ans="' + k + '" data-id="' + esc(a.id) + '" aria-pressed="' + (my === k) + '">' + WORD[k] + '</button>';
@@ -158,7 +159,7 @@
     var my = mine[a.id], open = openId === a.id, show = my || open;
     return '<li class="wa-row' + (isChoice(a) ? ' choice' : '') + (my ? ' answered' : '') + (open ? ' open' : '') + '" id="ask-' + esc(a.id) + '">' +
       '<button type="button" class="wa-title" data-open="' + esc(a.id) + '" aria-expanded="' + open + '">' + chips(a) + '<span class="wa-t">' + esc(a.title) + '</span></button>' +
-      buttons(a) + (hintId === a.id ? '<p class="wa-hint">Tap your answer again to undo it.</p>' : '') +
+      buttons(a) + sugBox(a) + (hintId === a.id ? '<p class="wa-hint">Tap your answer again to undo it.</p>' : '') +
       (show ? totals(a) + (a.info && !open && !only ? '<p class="wa-under">' + infoLink(a) + '</p>' : '') : '<div class="wa-under">' + tease(a) + (only ? '' : infoLink(a)) + '</div>') + (open ? detail(a) : '') + '</li>';
   }
 
@@ -216,7 +217,7 @@
     var L = deck(); a = L[0];
     if (!a) { el.innerHTML = prog + '<div class="wa-card wa-done"><h2>That’s every ask for now.</h2><p>New ones go up as residents add them.</p><button type="button" class="btn block" data-view="top">See the Top 10</button><button type="button" class="btn secondary block" data-view="add">Missing something? Add it</button></div>'; return; }
     deckShown = a.id;
-    el.innerHTML = prog + '<div class="wa-card">' + chips(a) + '<h2>' + esc(a.title) + '</h2>' + (a.why ? '<p>' + esc(a.why) + '</p>' : '') + (a.info ? '<p class="wa-onelink">' + infoLink(a) + '</p>' : '') + buttons(a, true) +
+    el.innerHTML = prog + '<div class="wa-card">' + chips(a) + '<h2>' + esc(a.title) + '</h2>' + (a.why ? '<p>' + esc(a.why) + '</p>' : '') + (a.info ? '<p class="wa-onelink">' + infoLink(a) + '</p>' : '') + buttons(a, true) + sugBox(a) +
       '<button type="button" class="wa-link center" data-skip="' + esc(a.id) + '">Skip this one</button>' + (desk.matches ? (isChoice(a) ? KEYS_CHOICE : KEYS) : '') + '</div>';
   }
 
@@ -459,7 +460,8 @@
     if ((b = e.target.closest('[data-skip]'))) { deckSkip[b.getAttribute('data-skip')] = true; deckShown = null; drawOne(); return; }
     if ((b = e.target.closest('[data-share]'))) { share(b.getAttribute('data-share')); return; }
     if ((b = e.target.closest('[data-more]'))) { var mid = b.getAttribute('data-more'); expanded[mid] = true; draw(); return; }
-    if ((b = e.target.closest('[data-sug]'))) { sug = { id: b.getAttribute('data-sug'), text: '', busy: false, msg: '', same: '' }; draw(); var si = $('#wa-sug'); if (si) si.focus({ preventScroll: true }); return; }
+    if ((b = e.target.closest('[data-sug]')) && sug.id === b.getAttribute('data-sug')) { sug = { id: null, text: '', busy: false, msg: '', same: '' }; draw(); return; }
+    if (b) { sug = { id: b.getAttribute('data-sug'), text: '', busy: false, msg: '', same: '' }; draw(); var si = $('#wa-sug'); if (si) si.focus({ preventScroll: true }); return; }
     if (e.target.closest('[data-sugx]')) { sug = { id: null, text: '', busy: false, msg: '', same: '' }; draw(); return; }
     if (e.target.closest('[data-sugsend]')) { sendSug(); return; }
     if ((b = e.target.closest('[data-optreport]'))) { var rk = b.getAttribute('data-optreport'), cut = rk.indexOf('#'); reported[rk] = true; draw(); post({ action: 'report', wid: rk.slice(0, cut), okey: rk.slice(cut + 1) }); return; }

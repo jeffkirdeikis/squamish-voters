@@ -1717,3 +1717,8 @@ p.wa-under { justify-content: flex-end; margin-top: .25rem; }
 .wi-answer { margin: 1.5rem 0; scroll-margin-top: 90px; }
 .wi-srcs ol { padding-left: 1.3rem; display: grid; gap: .35rem; font-size: .92rem; word-break: break-word; }
 .wi-srcs li:target { background: var(--surface-2); border-radius: 4px; }
+/* "Don't mind" and "Other…" share one line under the answers */
+.wa-ans.choice .wa-ans-extra { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: .4rem; }
+.wa-ans.choice .wa-b.other { min-height: 2.4rem; padding: .3rem .9rem; font-size: .9rem; color: var(--ink-2); border-style: dashed; font-weight: 700; }
+.wa-ans.choice .wa-b.other[aria-expanded="true"] { border-style: solid; border-color: var(--brand); color: var(--brand); }
+.wa-row > .wa-sug, .wa-card > .wa-sug { margin: .1rem 0 .6rem; }
