@@ -38,7 +38,7 @@ async function describe(q) {
       title: `${key === 'm' ? 'I don’t mind' : `I said “${label}”`}: ${ask(a.title)}`,
       alt: `What Squamish Wants: ${a.title}. I said ${label}.${now ? ` So far ${now}.` : ''}`,
       desc: now ? `So far ${now} (${tot} answer${tot === 1 ? '' : 's'}). What do you say?` : 'What do you say? Answer, then see what Squamish said.',
-      img: `${ORIGIN}/api/og/?id=${id}&said=${key}&v=2&n=${stamp}`,
+      img: `${ORIGIN}/api/og/?id=${id}&said=${key}&v=3&n=${stamp}`,
     };
   }
   if (q.live) {
@@ -48,7 +48,7 @@ async function describe(q) {
       title: `${now ? `${now[0].toUpperCase()}${now.slice(1)}: ` : ''}${ask(a.title)}`,
       alt: `What Squamish Wants: ${a.title}.${now ? ` So far ${now}.` : ''}`,
       desc: now ? `So far ${now} (${tot} answer${tot === 1 ? '' : 's'}). Where do you stand?` : 'Where do you stand? Answer, then see what Squamish said.',
-      img: `${ORIGIN}/api/og/?id=${id}&live=1&v=2&n=${tot || n}`,
+      img: `${ORIGIN}/api/og/?id=${id}&live=1&v=3&n=${tot || n}`,
     };
   }
   if (!id.startsWith('r-')) return null;

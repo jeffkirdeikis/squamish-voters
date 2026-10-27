@@ -129,7 +129,7 @@
     var show = st.show, base = linkOf(a) + (show ? 'said/' + encodeURIComponent(my) + '/' : 'live/') + '?n=' + n;
     var mineTxt = !show ? '' : my === 'm' ? ' I don’t mind either way.' : ' I said “' + labelOf(a, my) + '”.';
     return { title: 'Share this question', url: base, what: show ? 'answer' : 'results', toggle: true, my: my,
-      img: '/api/og/?id=' + encodeURIComponent(a.id) + (show ? '&said=' + encodeURIComponent(my) : '&live=1') + '&v=2&n=' + n,
+      img: '/api/og/?id=' + encodeURIComponent(a.id) + (show ? '&said=' + encodeURIComponent(my) : '&live=1') + '&v=3&n=' + n,
       text: q + (now ? ' So far ' + now + ' (' + n + ' answer' + (n === 1 ? '' : 's') + ').' : '') + mineTxt + ' Where do you stand?' };
   }
   function drawShare() {
