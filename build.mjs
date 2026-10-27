@@ -741,7 +741,7 @@ for (const c of all) {
   const prev = peers[(idx - 1 + peers.length) % peers.length], next = peers[(idx + 1) % peers.length];
   write(`/council/${c.slug}/`, page({
     url: '/council/', title: `${c.name}, ${c.office === 'mayor' ? 'Mayor of Squamish' : 'Squamish councillor'}: votes, promises and positions`,
-    desc: `How ${c.name} votes on Squamish council, which campaign promises they have kept, and every answer they gave during the 2026 election, with sources.`,
+    desc: raceRow(c) ? `${c.name} was elected ${c.office === 'mayor' ? 'mayor of Squamish' : 'to Squamish council'} on October 17, 2026 with ${Number(raceRow(c).total).toLocaleString('en-CA')} votes. How ${first(c)} votes, promises kept and broken, and every campaign answer.` : `How ${c.name} votes on Squamish council, which campaign promises they have kept, and every answer they gave during the 2026 election, with sources.`,
     jsonld: [{
       '@context': 'https://schema.org', '@type': 'Person', name: c.name,
       url: `${ORIGIN}/council/${c.slug}/`,
@@ -757,7 +757,7 @@ for (const c of all) {
         { '@type': 'ListItem', position: 2, name: 'Council', item: `${ORIGIN}/council/` },
         { '@type': 'ListItem', position: 3, name: c.name, item: `${ORIGIN}/council/${c.slug}/` },
       ],
-    }],
+    }, memberFaq(c).ld],
     body: `<p class="crumbs"><a href="/council/" data-back>← The whole council</a></p>
     <div class="profile">
     <aside class="profile-side">
@@ -770,6 +770,7 @@ for (const c of all) {
     </aside>
     <div class="profile-main">
     ${whoIs(c)}
+    ${memberFacts(c)}
     ${profileRecord(c)}
     <h2 id="campaign" class="campaign-h">What ${esc(first(c))} said during the 2026 campaign</h2>
     ${directNotice(c)}${paperNotice(c)}
@@ -785,6 +786,7 @@ for (const c of all) {
     ${(c.top_priorities || []).length ? `<details class="drop"><summary>${esc(first(c))}’s own priority list</summary><ol class="ol">${c.top_priorities.map((p) => `<li>${escGl(p)}</li>`).join('')}</ol></details>` : ''}
     ${emailedAnswers(c)}
     ${directAnswers(c)}
+    ${memberFaq(c).html}
     <details class="drop"><summary>About ${esc(first(c))}</summary><p>${escGl(c.occupation_background)}</p></details>
     <details class="drop"><summary>Where ${esc(first(c))} leans on money, growth and LNG</summary>${Object.keys(AXES).map((k) => miniSlider(c, k)).join('')}<p class="small">Worked out from ${esc(first(c))}’s public statements and votes — not a label they chose. <a href="/compass/">See everyone side by side</a>.</p></details>
     <details class="drop"><summary>Sources we used (${(c.sources || []).filter((s) => isUrl(s.url)).length})</summary><ul class="small">${(c.sources || []).filter((s) => isUrl(s.url)).map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title || s.url)}</a></li>`).join('')}</ul></details>
@@ -805,6 +807,38 @@ function whoIs(c) {
     : ` with ${num(row.total)} votes, ${i === 0 ? 'the most' : ord(i + 1)} of ${race.length} council candidates`;
   const bg = String(c.occupation_background || '').split(/(?<=\.)\s/)[0];
   return `<p class="lede who">${esc(c.name)} is ${c.office === 'mayor' ? 'the Mayor of Squamish' : 'a Squamish councillor'}, ${c.incumbent ? 're-elected' : 'elected'} on October 17, 2026${how}, for a term to 2030.${bg ? ` <span class="who-bg"><b>Background:</b> ${escGl(bg)}</span>` : ''}</p>`;
+}
+
+// Under the opening line: when they take office, what the role pays and what we track. Election facts stay in whoIs.
+// Function declarations, not consts: the member pages are built above this point.
+function raceRow(c) { return (RES['2026'][c.office === 'mayor' ? 'mayor' : 'council'] || []).find((r) => r.name === c.name); }
+function castVotes(c) { return votesOf(c).filter((d) => ['yes', 'no'].includes(d.votes[c.slug])); }
+function inaugural() { return MEETINGS.find((m) => m.type === 'inaugural'); }
+function memberFacts(c) {
+  const mayor = c.office === 'mayor', pay = ctx.pay?.[mayor ? 'mayor' : 'councillor'], ps = promisesOf(c), vs = castVotes(c), INAUGURAL = inaugural();
+  const items = [
+    INAUGURAL && [TODAY < INAUGURAL.date ? 'Takes office' : 'Took office', `<a href="${mUrl(INAUGURAL)}">${esc(fmtLong(INAUGURAL.date))}</a>, at the inaugural council meeting`],
+    pay && ['Pay', `$${pay.toLocaleString('en-CA')} a year (${mayor ? 'the mayor’s' : 'each councillor’s'} pay in ${ctx.pay.year}, before expenses and benefits)${src(ctx.pay.source_url, 'District of Squamish')}`],
+    ['Record', [ps.length && `<a href="#promises">${ps.length} campaign promises</a> tracked`, `<a href="#${vs.length ? 'votes' : 'record'}">${vs.length} council vote${vs.length === 1 ? '' : 's'}</a> so far`].filter(Boolean).join(' · ')],
+  ].filter(Boolean);
+  return `<dl class="who-facts">${items.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
+}
+// The questions people type about a member, answered in plain text from the same data. Also sent as FAQPage data.
+function memberFaq(c) {
+  const mayor = c.office === 'mayor', f = first(c), row = raceRow(c), n = (x) => Number(x).toLocaleString('en-CA');
+  const pay = ctx.pay?.[mayor ? 'mayor' : 'councillor'], ps = promisesOf(c), vs = castVotes(c), next = upcoming.find((m) => m.type !== 'inaugural'), INAUGURAL = inaugural();
+  const qs = [
+    mayor ? ['Who is the mayor of Squamish?', `${c.name} is the mayor of Squamish, elected on October 17, 2026${row ? ` with ${n(row.total)} votes${row.pct != null ? ` (${Number(row.pct).toFixed(1)}%)` : ''}` : ''}. The term runs to the October 2030 election.`]
+      : [`Is ${c.name} on Squamish council?`, `Yes. ${c.name} was ${c.incumbent ? 're-elected' : 'elected'} to Squamish council on October 17, 2026${row ? ` with ${n(row.total)} votes` : ''}, one of six councillors serving with Mayor ${mayors[0].name} until 2030.`],
+    INAUGURAL && [`When does ${c.name} take office?`, TODAY < INAUGURAL.date ? `${c.name} is sworn in with the new council at the inaugural meeting on ${fmtLong(INAUGURAL.date)} at 6 p.m. at Municipal Hall.` : `${c.name} was sworn in with the new council at the inaugural meeting on ${fmtLong(INAUGURAL.date)}.`],
+    ps.length && [`What did ${c.name} promise?`, `We track ${ps.length} promise${ps.length === 1 ? '' : 's'} ${f} made during the 2026 campaign, including: ${ps.slice(0, 3).map((p) => p.promise.replace(/\.$/, '')).join('; ')}. Each one is marked kept or broken when council votes on something that tests it.`],
+    [`How has ${c.name} voted on council?`, vs.length ? `${f} has voted on ${vs.length} council decision${vs.length === 1 ? '' : 's'} so far: ${vs.filter((d) => d.votes[c.slug] === 'yes').length} for and ${vs.filter((d) => d.votes[c.slug] === 'no').length} against. Every vote is listed on this page with a link to the meeting.` : `Council hasn’t voted yet.${next ? ` The first regular meeting is ${fmtLong(next.date)}.` : ''} Every vote ${f} casts will be listed on this page.`],
+    pay && [mayor ? 'How much is the mayor of Squamish paid?' : 'How much is a Squamish councillor paid?', `In ${ctx.pay.year} the ${mayor ? 'mayor' : 'each councillor'} was paid $${pay.toLocaleString('en-CA')}, not counting expenses and benefits, according to the District of Squamish financial statement.`],
+  ].filter(Boolean);
+  return {
+    html: `<h2 id="questions">Questions about ${esc(c.name)}</h2><div class="card"><ul class="qa">${qs.map(([q, a]) => `<li><b>${esc(q)}</b><p>${esc(a)}</p></li>`).join('')}</ul></div>`,
+    ld: { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: qs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
+  };
 }
 
 // ---------- COMPARE ----------

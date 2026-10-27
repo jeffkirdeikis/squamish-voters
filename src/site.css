@@ -1922,3 +1922,9 @@ body:has(.wa-ringtab) #totop { display: none !important; }
 .res-how th, .res-how td { padding: .4rem .2rem; border-bottom: 1px solid var(--line, #ddd); text-align: right; white-space: nowrap; }
 .res-how th:first-child, .res-how td:first-child { text-align: left; white-space: normal; }
 .res-how th { font-size: .72rem; text-transform: uppercase; letter-spacing: .02em; white-space: normal; }
+/* Member pages: short facts under the opening line */
+.who-facts { display: grid; gap: .35rem; margin: .2rem 0 1rem; padding: .7rem .9rem; background: var(--surface-2); border-radius: 10px; }
+.who-facts div { display: grid; grid-template-columns: 7.5rem 1fr; gap: .6rem; }
+.who-facts dt { font-weight: 700; color: var(--ink-2); }
+.who-facts dd { margin: 0; min-width: 0; }
+@media (max-width: 420px) { .who-facts div { grid-template-columns: 1fr; gap: 0; } }
