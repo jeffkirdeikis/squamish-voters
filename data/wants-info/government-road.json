@@ -1,0 +1,139 @@
+{
+ "id": "government-road",
+ "intro": [
+  "BC Housing plans a six storey building with 65 studio homes at 39900 Government Road, near Centennial Way. It is supportive housing for single adults 19 and older who are homeless or at risk of homelessness, including seniors and people with disabilities. Squamish Helping Hands would run it, with staff on site around the clock.",
+  "Residents apply, sign program agreements and pay rent. Unlike Under One Roof, there would be no drop in services; only people who live there can use it. A second six storey building with 85 to 100 affordable rental homes, run by Housing Squamish, is planned on the same site, but its funding is not confirmed.",
+  "The land is owned by the District of Squamish, which approved a 60 year lease to the Province's rental housing corporation in July 2026. The site is already zoned for this use, so no rezoning hearing is needed. BC Housing expects construction to start in summer 2027 and the building to open in summer 2029. Some neighbours have asked for clear accountability, reporting and a way to raise problems."
+ ],
+ "facts": [
+  {
+   "label": "Homes",
+   "value": "65 studio homes in a six storey building",
+   "src": 1
+  },
+  {
+   "label": "Operator",
+   "value": "Squamish Helping Hands, with staff on site around the clock",
+   "src": 1
+  },
+  {
+   "label": "Construction start",
+   "value": "Summer 2027 (BC Housing estimate)",
+   "src": 1
+  },
+  {
+   "label": "Opening",
+   "value": "Summer 2029 (BC Housing estimate)",
+   "src": 1
+  },
+  {
+   "label": "District support",
+   "value": "Fees and frontage works waived, plus a $500,000 federal Housing Accelerator Fund grant (2025)",
+   "src": 2
+  },
+  {
+   "label": "Second building",
+   "value": "85 to 100 affordable rentals; funding not confirmed, no timeline",
+   "src": 1
+  }
+ ],
+ "timeline": [
+  {
+   "when": "June 2025",
+   "what": "Project announced; BC Housing held information sessions and wrote to neighbours.",
+   "src": 1
+  },
+  {
+   "when": "July 8, 2025",
+   "what": "Council waived frontage works and fees and gave a $500,000 capital grant. One councillor opposed.",
+   "src": 2
+  },
+  {
+   "when": "March 2026",
+   "what": "Site preparation started.",
+   "src": 1
+  },
+  {
+   "when": "June 16, 2026",
+   "what": "Council announced $190,000 in federal Housing Accelerator Fund money for site servicing.",
+   "src": 3
+  },
+  {
+   "when": "July 21, 2026",
+   "what": "Council endorsed a 60 year lease of the south part of the site to the Provincial Rental Housing Corporation.",
+   "src": 4
+  }
+ ],
+ "sides": [
+  {
+   "answer": "Build it as planned",
+   "points": [
+    "It adds 65 homes with support for people leaving homelessness, and the approvals and site work are already done.",
+    "It is designed to be different from Under One Roof: no drop in services, controlled access and staff around the clock."
+   ]
+  },
+  {
+   "answer": "Build it, with changes",
+   "points": [
+    "Neighbours want clear accountability, public reporting and a way to escalate problems written into how the building runs.",
+    "Changes such as stronger neighbour commitments could build trust without stopping the project."
+   ]
+  },
+  {
+   "answer": "Build it somewhere else",
+   "points": [
+    "Some residents worry about the distance from services and the closeness to family homes.",
+    "A new site would likely mean a new lease, new studies and a delay of years for the homes."
+   ]
+  }
+ ],
+ "questions": [
+  {
+   "q": "Who can live there?",
+   "a": "Single adults 19 and older who are homeless or at risk of it, including seniors and people with disabilities. They apply, sign program agreements and pay rent.",
+   "src": 1
+  },
+  {
+   "q": "How is it different from Under One Roof?",
+   "a": "The District says it will have no drop in services and will be open to rent paying residents only, with lessons from Under One Roof shaping its design and operations.",
+   "src": 5
+  },
+  {
+   "q": "What safety measures are planned?",
+   "a": "A 2025 engagement report proposed fencing, fob access, a reception desk staffed around the clock, cameras, lighting, a direct phone line for neighbours and regular walkabouts.",
+   "src": 6
+  },
+  {
+   "q": "Will neighbours have a say once it opens?",
+   "a": "BC Housing says it will set up a Neighbourhood Inclusion Table with Squamish Helping Hands, the District, Vancouver Coastal Health and the police, meeting regularly in the first year.",
+   "src": 1
+  }
+ ],
+ "sources": [
+  {
+   "label": "BC Housing: Squamish, 39900 Government Road",
+   "url": "https://www.bchousing.org/projects-partners/projects/squamish-39900-government-road"
+  },
+  {
+   "label": "District of Squamish: Special Business Meeting minutes, July 8, 2025",
+   "url": "https://squamish.civicweb.net/FileStorage/58312853A55142B8960B9D549660FE23-0708%20Special%20Minutes%202025.pdf"
+  },
+  {
+   "label": "District of Squamish: Regular Business Meeting minutes, June 16, 2026",
+   "url": "https://squamish.civicweb.net/FileStorage/613581026B834480B4C21B4DAED4F5C1-0616%20Regular%20Minutes%202026.pdf"
+  },
+  {
+   "label": "District of Squamish: Regular Business Meeting minutes, July 21, 2026",
+   "url": "https://squamish.civicweb.net/FileStorage/04BD58FEBEE6438FA63490C256D954BA-0721%20Regular%20Minutes%202026.pdf"
+  },
+  {
+   "label": "Squamish Reporter: Government Road facility will be different than Under One Roof (November 4, 2025)",
+   "url": "https://www.squamishreporter.com/2025/11/04/government-road-facility-will-be-different-than-under-one-roof-dos-official/"
+  },
+  {
+   "label": "Squamish Reporter: Construction planned for BC Housing project in Squamish next year (November 4, 2025)",
+   "url": "https://www.squamishreporter.com/2025/11/04/construction-planned-for-bc-housing-project-in-squamish-next-year/"
+  }
+ ],
+ "checked": "2026-10-26"
+}

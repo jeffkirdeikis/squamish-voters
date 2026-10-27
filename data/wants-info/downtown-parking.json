@@ -1,0 +1,141 @@
+{
+  "id": "downtown-parking",
+  "intro": [
+    "Street parking in downtown Squamish is free today, with time limits on many blocks. A 2023 Downtown Parking Study found demand had grown since 2017 and recommended paid parking and other tools.",
+    "In 2024 the District of Squamish planned paid parking on Cleveland Avenue and Second Avenue. After a survey with over 2,600 responses, council chose instead to test paid parking only at Darrell Bay, a tourism parking lot on the west side of Highway 99, as a pilot to the end of 2026.",
+    "Staff are to report back to council in early 2027 with an evaluation and next steps. Possible later phases include paid parking downtown and at other tourism spots. So the new council will likely decide this in 2027 (as of October 2026)."
+  ],
+  "facts": [
+    {
+      "label": "Downtown today",
+      "value": "No paid street parking; paid parking only at Darrell Bay",
+      "src": 2
+    },
+    {
+      "label": "Darrell Bay rates",
+      "value": "$3 an hour, up to $10 a day June to September; $1 an hour, up to $5 a day October to May",
+      "src": 2
+    },
+    {
+      "label": "Survey",
+      "value": "Over 2,600 responses to the District's parking survey",
+      "src": 1
+    },
+    {
+      "label": "2023 study, weekday",
+      "value": "About 60% of cars in downtown two hour zones stayed 30 minutes or less",
+      "src": 1
+    },
+    {
+      "label": "Earlier downtown plan",
+      "value": "$600,000 to set up; District aimed for $865,000 in revenue in 2026 (2024 budget figures)",
+      "src": 5
+    },
+    {
+      "label": "Next decision",
+      "value": "Staff evaluation to council in early 2027",
+      "src": 4
+    }
+  ],
+  "timeline": [
+    {
+      "when": "2023",
+      "what": "The Downtown Parking Study recommended paid parking, and council directed staff to work on it.",
+      "src": 5
+    },
+    {
+      "when": "October 2024",
+      "what": "The District planned paid parking on Cleveland Avenue and Second Avenue with a resident permit program.",
+      "src": 5
+    },
+    {
+      "when": "March 11, 2025",
+      "what": "In committee, council removed a proposed resident pass from the Darrell Bay pilot, so residents pay too. Mayor Hurford and Councillor Greenlaw opposed removing it.",
+      "src": 3
+    },
+    {
+      "when": "April 1, 2025",
+      "what": "Council approved the Darrell Bay pilot to the end of 2026 and an evaluation in early 2027. Councillor Pettingill opposed.",
+      "src": 4
+    },
+    {
+      "when": "Summer 2025",
+      "what": "Paid parking began at Darrell Bay.",
+      "src": 1
+    },
+    {
+      "when": "Early 2027",
+      "what": "Staff are due to bring the evaluation and next steps to council.",
+      "src": 4
+    }
+  ],
+  "sides": [
+    {
+      "answer": "Keep it all free",
+      "points": [
+        "Free parking keeps downtown easy and cheap to visit for residents and shoppers, which can help local businesses.",
+        "In the survey, people worried paid parking would affect how they reach businesses and recreation sites.",
+        "Most downtown visits are already short, so time limits may be enough."
+      ]
+    },
+    {
+      "answer": "Paid only in the busiest spots",
+      "points": [
+        "Charging only where spaces are hardest to find frees up those spots without charging everyone.",
+        "Short free time limits elsewhere keep quick errands cheap while still moving cars along."
+      ]
+    },
+    {
+      "answer": "Paid parking across downtown",
+      "points": [
+        "Paid parking makes drivers move along, so more people can find a spot, and it can encourage walking, cycling and transit.",
+        "It raises money for the District without raising property taxes, and the 2024 plan expected hundreds of thousands of dollars a year."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "q": "Is paid parking coming downtown?",
+      "a": "Not yet. Council chose to test it at Darrell Bay first and will decide on next steps after the evaluation in early 2027.",
+      "src": 4
+    },
+    {
+      "q": "Do residents get free parking at Darrell Bay?",
+      "a": "No. Council removed the resident pass from the pilot in March 2025.",
+      "src": 3
+    },
+    {
+      "q": "Will the Darrell Bay pilot end in December 2026?",
+      "a": "It is scheduled to run to the end of 2026, but the District says it is expected to continue at least until council discusses paid parking again in 2027.",
+      "src": 1
+    },
+    {
+      "q": "Would a parkade be cheaper?",
+      "a": "A 2020 District study estimated a downtown parkade at $10 million to $25 million in 2020 dollars.",
+      "src": 1
+    }
+  ],
+  "sources": [
+    {
+      "label": "Let's Talk Squamish (District of Squamish): Parking Management",
+      "url": "https://letstalksquamish.ca/parking-management"
+    },
+    {
+      "label": "District of Squamish: Parking Regulations",
+      "url": "https://squamish.ca/transportation-parking-and-mobility/parking/parking-regulations/"
+    },
+    {
+      "label": "District of Squamish: Committee of the Whole minutes, March 11, 2025",
+      "url": "https://squamish.civicweb.net/FileStorage/0E5BC8EA21D64F3AAF8C54BD423FA168-0311%20COW%20Minutes%202025.pdf"
+    },
+    {
+      "label": "District of Squamish: Regular Business Meeting minutes, April 1, 2025",
+      "url": "https://squamish.civicweb.net/FileStorage/3B4B622C4FA2444E923A082BCF4FBB52-0401%20Regular%20Minutes%202025.pdf"
+    },
+    {
+      "label": "Squamish Reporter: Paid parking coming to downtown Squamish next year (October 25, 2024)",
+      "url": "https://squamishreporter.com/2024/10/25/paid-parking-coming-to-downtown-squamish-next-year"
+    }
+  ],
+  "checked": "2026-10-26"
+}

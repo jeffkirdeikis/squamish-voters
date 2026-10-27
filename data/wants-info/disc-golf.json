@@ -1,0 +1,102 @@
+{
+  "id": "disc-golf",
+  "intro": [
+    "Disc golf is like golf, played by throwing flying discs at metal baskets.",
+    "In 2021, when the District of Squamish was finishing its Brennan Park Fields and Lands Master Plan, residents asked for an upgraded disc golf course. The final plan does not include a disc golf project.",
+    "Squamish's listed course is the Legacy course on Raven Drive, an 18 hole course on forest land shared with the Sea to Sky Nordic Club. That course appears to sit on the Legacy Lands between Centennial Way and Raven Drive. The Brennan Park plan says those lands are \"not part of the District\" and mentions them only because of ongoing work between groups, so an upgrade may depend on the landholders and clubs, not only the District.",
+    "Facts on this one are thin. We could not find any District report or budget item about disc golf as of October 2026."
+  ],
+  "facts": [
+    {
+      "label": "Existing course",
+      "value": "Legacy course, 18 holes, par 55, free to play, dawn to dusk",
+      "src": 4
+    },
+    {
+      "label": "Opened",
+      "value": "2016",
+      "src": 3
+    },
+    {
+      "label": "Location",
+      "value": "1046 Raven Drive, on forest land shared with the Sea to Sky Nordic Club",
+      "src": 3
+    },
+    {
+      "label": "Local club",
+      "value": "Squamish Disc Golf Club, a nonprofit founded in 2021, runs leagues there",
+      "src": 4
+    },
+    {
+      "label": "In the Brennan Park plan?",
+      "value": "No disc golf project is listed. The plan says the nearby Legacy Lands are \"not part of the District.\"",
+      "src": 2
+    }
+  ],
+  "timeline": [
+    {
+      "when": "2016",
+      "what": "The Legacy disc golf course opens.",
+      "src": 3
+    },
+    {
+      "when": "May 2021",
+      "what": "Residents ask for an upgraded disc golf course in feedback on the draft Brennan Park plan.",
+      "src": 1
+    },
+    {
+      "when": "December 2021",
+      "what": "The final Brennan Park Fields and Lands Master Plan goes to council without a disc golf project.",
+      "src": 2
+    }
+  ],
+  "sides": [
+    {
+      "answer": "Yes",
+      "points": [
+        "Disc golf is cheap to build compared with most sports facilities, and free for players.",
+        "The sport has a local club and regular leagues, so an upgrade would get heavy use.",
+        "Better tees, signs and paths could make the course easier to reach for people with limited mobility."
+      ]
+    },
+    {
+      "answer": "No",
+      "points": [
+        "Park money is tight, and other Brennan Park projects are further along.",
+        "The course sits on land shared with other groups, so changes could affect Nordic training and other uses.",
+        "The club and volunteers may be better placed to fundraise for upgrades than taxpayers."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "q": "Is there a disc golf course at Brennan Park itself?",
+      "a": "We could not confirm one. The listed course is the Legacy course on Raven Drive, which the Brennan Park plan treats as separate land.",
+      "src": 2
+    },
+    {
+      "q": "What could an upgrade include?",
+      "a": "Course notes mention no tee signs, holes in hilly terrain that are hard to reach for people with limited mobility, and areas players must avoid. Those are the kinds of things an upgrade could address.",
+      "src": 3
+    }
+  ],
+  "sources": [
+    {
+      "label": "Squamish Reporter: Off leash dog park planned at Brennan Park (May 26, 2021)",
+      "url": "https://www.squamishreporter.com/2021/05/26/off-leash-dog-park-planned-at-brennan-park/"
+    },
+    {
+      "label": "District of Squamish: Brennan Park Fields and Lands Master Plan (2021)",
+      "url": "https://squamish.ca/assets/Master-Plans/Brennan-Park-Fields-and-Lands-Master-Plan.pdf"
+    },
+    {
+      "label": "Professional Disc Golf Association: Squamish, Legacy Disc Golf Course",
+      "url": "https://www.pdga.com/node/28276"
+    },
+    {
+      "label": "Squamish Disc Golf Club: Squamish Legacy course page",
+      "url": "https://www.seatoskydiscgolf.com/squamish-legacy"
+    }
+  ],
+  "checked": "2026-10-26"
+}

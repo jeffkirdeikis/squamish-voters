@@ -1,0 +1,126 @@
+{
+  "id": "fence-john-hunter",
+  "intro": [
+    "In 2021 the District of Squamish picked four places to try out off leash dog areas as a pilot. One of them is John Hunter Park in Valleycliffe. The plan was for the Valleycliffe site to be fully fenced.",
+    "Three of the four sites are now open: Merrill Park in the Garibaldi Highlands, the Brennan Park dog run, and the Powerline Service Road in Brackendale. John Hunter Park is the one still waiting.",
+    "The District says the park needs money spent on fencing before it can open, and it has not set a timeline. The District's newest public update on this is from fall 2024, so the details may have changed since (checked October 2026)."
+  ],
+  "facts": [
+    {
+      "label": "Location",
+      "value": "John Hunter Park, Valleycliffe",
+      "src": 1
+    },
+    {
+      "label": "Planned design",
+      "value": "A fully fenced off leash area",
+      "src": 4
+    },
+    {
+      "label": "Status",
+      "value": "Not open. Needs fencing; no timeline set (District update, fall 2024)",
+      "src": 1
+    },
+    {
+      "label": "Other pilot sites",
+      "value": "Merrill Park (opened 2022), Brennan Park (opened spring 2024), Powerline Service Road in Brackendale",
+      "src": 1
+    },
+    {
+      "label": "Rules at pilot sites",
+      "value": "Carry a visible leash, valid dog licence, put waste in a garbage bin",
+      "src": 1
+    },
+    {
+      "label": "Who decides",
+      "value": "Council, through the District budget",
+      "src": 1
+    }
+  ],
+  "timeline": [
+    {
+      "when": "September to October 2021",
+      "what": "The District surveyed the public on proposed off leash locations. About 860 people commented.",
+      "src": 2
+    },
+    {
+      "when": "November 9, 2021",
+      "what": "Council voted 4 to 2 to endorse four pilot sites, including John Hunter Park.",
+      "src": 2
+    },
+    {
+      "when": "2021",
+      "what": "The District said sites needing fencing would go forward through the 2023 budget process.",
+      "src": 1
+    },
+    {
+      "when": "Summer 2022",
+      "what": "Merrill Park opened as the first off leash pilot area.",
+      "src": 1
+    },
+    {
+      "when": "February 2024",
+      "what": "The District told the Squamish Chief that John Hunter Park needs fencing and has no opening date because of the added cost.",
+      "src": 3
+    },
+    {
+      "when": "Fall 2024",
+      "what": "Brennan Park was open, Brackendale was coming soon, and John Hunter Park still had no timeline.",
+      "src": 1
+    }
+  ],
+  "sides": [
+    {
+      "answer": "Yes",
+      "points": [
+        "Valleycliffe is the only part of the pilot plan without a working off leash area. Fencing would finish what council endorsed in 2021.",
+        "A fence keeps dogs away from the road and from people who don't want contact with dogs, which can make the park easier to share.",
+        "A nearby spot means Valleycliffe dog owners don't need to drive across town to let their dog run."
+      ]
+    },
+    {
+      "answer": "No",
+      "points": [
+        "Fencing costs money that could go to other parks or services, and the District has not shown it in a budget.",
+        "Fencing off part of the park takes that space away from people who use it for other things.",
+        "Some would rather see how the three open sites work before spending more on a fourth."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "q": "Can I let my dog off leash at John Hunter Park now?",
+      "a": "No. As of the District's latest update, John Hunter Park has not opened as an off leash area because the fencing has not been built.",
+      "src": 1
+    },
+    {
+      "q": "How much would the fence cost?",
+      "a": "The District has not published a cost for John Hunter Park. For comparison, staff estimated about $30,000 to fence the Brennan Park dog run in 2021.",
+      "src": 2
+    },
+    {
+      "q": "Why was it not built with the others?",
+      "a": "The District says this site needs an investment in fencing, and it has not set a timeline.",
+      "src": 3
+    }
+  ],
+  "sources": [
+    {
+      "label": "District of Squamish: Off Leash Dogs Pilot Project",
+      "url": "https://squamish.ca/rec/parks-and-trails/off-leash-pilot/"
+    },
+    {
+      "label": "Squamish Chief: Pilot off leash dog parks on the way (November 15, 2021)",
+      "url": "https://www.squamishchief.com/local-news/off-leash-dog-pilot-areas-on-the-way-4761412"
+    },
+    {
+      "label": "Squamish Chief: Two more off leash dog areas expected this year (February 22, 2024)",
+      "url": "https://www.squamishchief.com/local-news/have-a-ball-two-more-off-leash-dog-areas-expected-this-year-says-dos-8345202"
+    },
+    {
+      "label": "Squamish Reporter: Two fenced off leash dog areas proposed in Valleycliffe, Brennan Park (September 27, 2021)",
+      "url": "https://www.squamishreporter.com/2021/09/27/two-fenced-off-leash-dog-areas-proposed-in-valleycliffe-brennan-park/"
+    }
+  ],
+  "checked": "2026-10-26"
+}

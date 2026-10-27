@@ -1,0 +1,130 @@
+{
+  "id": "cleveland-highway",
+  "intro": [
+    "Cleveland Avenue meets Highway 99, the Sea to Sky Highway, at the main entrance to downtown Squamish. Loggers Lane is on the other side.",
+    "The District of Squamish says this intersection has the most crashes of any intersection in town. A 2016 safety review found almost three times as many crashes there as at the next worst site, Highway 99 and Mamquam Road.",
+    "The highway belongs to the Province of British Columbia, so the Ministry of Transportation and Transit decides on changes to the intersection. The District's role is to ask for changes and improve the streets, trails and crossings around it.",
+    "The Province built a new southbound acceleration lane from Cleveland Avenue in 2022. An October 2026 District report still lists Cleveland Avenue and Highway 99 as the top collision location."
+  ],
+  "facts": [
+    {
+      "label": "Who decides",
+      "value": "The Province (Ministry of Transportation and Transit), not the District",
+      "src": 1
+    },
+    {
+      "label": "Crashes in 2016 review",
+      "value": "Almost three times the next highest crash site in Squamish",
+      "src": 2
+    },
+    {
+      "label": "Crashes 2014 to 2019",
+      "value": "256 crashes, 107 with injuries or deaths (Insurance Corporation of British Columbia data)",
+      "src": 3
+    },
+    {
+      "label": "More recent count",
+      "value": "49 crashes, up to 16 with injuries or deaths, in Insurance Corporation of British Columbia data reported July 2023",
+      "src": 4
+    },
+    {
+      "label": "Last big change",
+      "value": "Southbound acceleration lane from Cleveland Avenue, built starting summer 2022",
+      "src": 1
+    },
+    {
+      "label": "Ranking, October 2026",
+      "value": "Still the top collision location; Mamquam Road is second",
+      "src": 5
+    }
+  ],
+  "timeline": [
+    {
+      "when": "2016",
+      "what": "The District, the Insurance Corporation of British Columbia and the Province jointly paid for a safety review of the intersection.",
+      "src": 2
+    },
+    {
+      "when": "November 15, 2016",
+      "what": "The review went to council with near term and long term fixes. Council was asked to write to the Province and others for support.",
+      "src": 2
+    },
+    {
+      "when": "January 2022",
+      "what": "The Province tendered a project to add a southbound acceleration lane from Cleveland Avenue.",
+      "src": 3
+    },
+    {
+      "when": "Summer 2022",
+      "what": "Construction of the acceleration lane began.",
+      "src": 1
+    },
+    {
+      "when": "October 6, 2026",
+      "what": "A District report called Highway 99 and Mamquam Road the second highest collision location, behind Cleveland Avenue.",
+      "src": 5
+    }
+  ],
+  "sides": [
+    {
+      "answer": "Yes",
+      "points": [
+        "It has been Squamish's worst crash site for years, even after the 2022 lane, so more work could prevent injuries.",
+        "It is the main way into downtown for drivers, buses, trucks, people walking and people cycling, so safety here affects nearly everyone.",
+        "Council pressing the Province, and offering to share costs, can help move a project up the Province's list."
+      ]
+    },
+    {
+      "answer": "No",
+      "points": [
+        "The Province already added a lane in 2022, and the District has other provincial asks, such as Mamquam Road, competing for attention.",
+        "If the District offers to share costs, that money comes from local taxpayers for a road the Province owns.",
+        "Some say the 2022 changes should have more time before pushing for more."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "q": "Why can't council just fix it?",
+      "a": "Highway 99 is a provincial highway. The District does not control the intersection design or decide whether to build changes.",
+      "src": 2
+    },
+    {
+      "q": "What did the District do itself?",
+      "a": "It upgraded the Rose Park and Corridor Trail route to the highway underpass, added countdown timers to crossing signals with outside funding, cleared sightlines on the right turn lane, and filled a missing piece of sidewalk.",
+      "src": 1
+    },
+    {
+      "q": "Can the District use its traffic calming program on the highway?",
+      "a": "No. The District's traffic calming list marks Highway 99 as ineligible because it is an arterial road.",
+      "src": 6
+    }
+  ],
+  "sources": [
+    {
+      "label": "District of Squamish: Highway 99 intersection at Cleveland Avenue project",
+      "url": "https://squamish.ca/projects-plans-and-initiatives/completed-projects/2022-completed-projects/highway-99-at-cleveland/"
+    },
+    {
+      "label": "District of Squamish: Report to Council, Sea to Sky Highway at Cleveland Avenue Traffic Operational Safety Review (November 15, 2016)",
+      "url": "https://squamish.civicweb.net/FileStorage/F860A4B5A73E49E4B8341945F15728A2-1115%20RTC%20S2S%20Highway%20at%20Cleveland%20Ave%20Traffic%20Oper.pdf"
+    },
+    {
+      "label": "Squamish Reporter: Province to add new lane onto the highway from Cleveland Avenue (January 25, 2022)",
+      "url": "https://www.squamishreporter.com/2022/01/25/moti-to-add-new-lane-onto-the-highway-from-cleveland-ave/"
+    },
+    {
+      "label": "Squamish Reporter: ICBC report reveals most dangerous intersections in Squamish (July 19, 2023)",
+      "url": "https://www.squamishreporter.com/2023/07/19/icbc-report-reveals-most-dangerous-intersections-in-squamish"
+    },
+    {
+      "label": "Squamish Reporter: No provincial commitment to improve Mamquam and Highway 99 intersection (October 6, 2026)",
+      "url": "https://www.squamishreporter.com/2026/10/06/no-provincial-commitment-to-improve-mamquam-highway-99-intersection-dos-report/"
+    },
+    {
+      "label": "District of Squamish: Traffic calming requests and priorities (list as of October 31, 2025)",
+      "url": "https://squamish.ca/assets/Traffic-Calming/Traffic-Calming-Requests-Priorities-New-Policy-2025-12-08.pdf"
+    }
+  ],
+  "checked": "2026-10-26"
+}

@@ -1,0 +1,115 @@
+{
+  "id": "highlands-crosswalk",
+  "intro": [
+    "Highlands Way North runs through the Garibaldi Highlands past a school. Residents raised concerns about speeding, especially in the school zone.",
+    "The District of Squamish put the stretch between Portree Way and Greenwood Way on its list of top traffic calming priorities for 2026.",
+    "The District says the changes were made in August 2026. The multi use lane was widened, a buffer was added between it and the travel lane, and the centre line was removed to make the road feel narrower while keeping two way traffic. A new crosswalk went in south of Pentland Way for safer trail access, and a bus stop was moved slightly south.",
+    "Because the work is already done, this question is really about whether residents support keeping these changes (as of October 2026)."
+  ],
+  "facts": [
+    {
+      "label": "Section",
+      "value": "Highlands Way North, Portree Way to Greenwood Way",
+      "src": 1
+    },
+    {
+      "label": "Concern",
+      "value": "Speeding, especially in the school zone",
+      "src": 1
+    },
+    {
+      "label": "Status",
+      "value": "Built in August 2026",
+      "src": 1
+    },
+    {
+      "label": "What changed",
+      "value": "Wider multi use lane with a buffer, no centre line, new crosswalk south of Pentland Way, bus stop moved slightly south",
+      "src": 1
+    },
+    {
+      "label": "Road type",
+      "value": "Local road, eligible under the District's Traffic Calming Policy",
+      "src": 3
+    }
+  ],
+  "timeline": [
+    {
+      "when": "October 2021",
+      "what": "The District planned three speed tables on Highlands Way North between The Boulevard and Portree Way. In a survey, 45% supported speed tables.",
+      "src": 4
+    },
+    {
+      "when": "March 2025",
+      "what": "Council endorsed a new Traffic Calming Policy for Squamish.",
+      "src": 2
+    },
+    {
+      "when": "May 1, 2025",
+      "what": "A traffic calming request was logged for Highlands Way North, Portree Way to Pentland Way.",
+      "src": 3
+    },
+    {
+      "when": "December 2025",
+      "what": "The stretch appeared on the District's list of eligible traffic calming locations.",
+      "src": 3
+    },
+    {
+      "when": "August 2026",
+      "what": "The changes were installed.",
+      "src": 1
+    }
+  ],
+  "sides": [
+    {
+      "answer": "Yes",
+      "points": [
+        "A narrower looking road tends to slow drivers, which matters most near a school.",
+        "The wider lane and buffer give people walking and cycling more room, and the new crosswalk gives a safer way to reach the trail."
+      ]
+    },
+    {
+      "answer": "No",
+      "points": [
+        "Some drivers feel the changes slow a main route in and out of the Highlands.",
+        "Removing the centre line can feel less clear to some drivers, and some would prefer a different fix, such as enforcement."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "q": "Is this still a plan or already done?",
+      "a": "Done. The District says the changes were implemented in August 2026.",
+      "src": 1
+    },
+    {
+      "q": "Is this a bike lane?",
+      "a": "The District calls it a multi use lane, so it is shared by people walking and cycling. It was widened and given a buffer from traffic.",
+      "src": 1
+    },
+    {
+      "q": "How does the District choose streets for traffic calming?",
+      "a": "It looks at resident requests, then checks speed, traffic volume, collision history, the road type and emergency access. Eligible streets are ranked and the top ones are costed each year.",
+      "src": 2
+    }
+  ],
+  "sources": [
+    {
+      "label": "District of Squamish: 2026 Traffic Calming Measures",
+      "url": "https://squamish.ca/projects-plans-and-initiatives/projects-and-initiatives/project/2026-traffic-calming-measures/"
+    },
+    {
+      "label": "District of Squamish: Traffic Calming",
+      "url": "https://squamish.ca/transportation-parking-and-mobility/safer-streets/traffic-calming/"
+    },
+    {
+      "label": "District of Squamish: Traffic calming requests and priorities (list as of October 31, 2025)",
+      "url": "https://squamish.ca/assets/Traffic-Calming/Traffic-Calming-Requests-Priorities-New-Policy-2025-12-08.pdf"
+    },
+    {
+      "label": "Squamish Reporter: District plans to add speed tables on Highlands Way North (October 21, 2021)",
+      "url": "https://www.squamishreporter.com/2021/10/21/district-plans-to-add-speed-tables-on-highlands-way-north/"
+    }
+  ],
+  "checked": "2026-10-26"
+}

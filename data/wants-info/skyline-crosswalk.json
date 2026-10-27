@@ -1,0 +1,115 @@
+{
+  "id": "skyline-crosswalk",
+  "intro": [
+    "Skyline Drive is a residential street in the Garibaldi Highlands. Residents raised concerns about speeding.",
+    "The District of Squamish put Skyline Drive, from Garibaldi Way to The Boulevard, on its 2026 traffic calming list. The plan is one raised crosswalk and updated signs. A raised crosswalk is a crosswalk built up like a wide, flat speed bump.",
+    "The District says the contractor expects to build it on October 29 and 30, 2026, weather permitting. The District is also looking at other changes for Skyline Drive in a future year (as of October 2026)."
+  ],
+  "facts": [
+    {
+      "label": "Section",
+      "value": "Skyline Drive, Garibaldi Way to The Boulevard",
+      "src": 1
+    },
+    {
+      "label": "Concern",
+      "value": "Speeding",
+      "src": 1
+    },
+    {
+      "label": "Plan",
+      "value": "One raised crosswalk and updated signs",
+      "src": 1
+    },
+    {
+      "label": "Expected build dates",
+      "value": "October 29 and 30, 2026, weather permitting",
+      "src": 1
+    },
+    {
+      "label": "Road type",
+      "value": "Minor collector, eligible for traffic calming",
+      "src": 3
+    },
+    {
+      "label": "Oldest request on file",
+      "value": "August 20, 2019 (Braemar Drive to The Boulevard)",
+      "src": 3
+    }
+  ],
+  "timeline": [
+    {
+      "when": "August 20, 2019",
+      "what": "A traffic calming request was logged for Skyline Drive, Braemar Drive to The Boulevard.",
+      "src": 3
+    },
+    {
+      "when": "January 30, 2025",
+      "what": "Another request was logged for Skyline Drive, Garibaldi Way to Braemar Drive.",
+      "src": 3
+    },
+    {
+      "when": "March 2025",
+      "what": "Council endorsed a new Traffic Calming Policy for Squamish.",
+      "src": 2
+    },
+    {
+      "when": "December 2025",
+      "what": "Both Skyline Drive sections appeared on the District's list of eligible locations, with the Braemar to The Boulevard section ranked second.",
+      "src": 3
+    },
+    {
+      "when": "October 22, 2026",
+      "what": "The District said the raised crosswalk would be built October 29 and 30.",
+      "src": 1
+    }
+  ],
+  "sides": [
+    {
+      "answer": "Yes",
+      "points": [
+        "A raised crosswalk slows drivers right where people cross, and the request has been on file since 2019.",
+        "Updated signs make the speed limit and the crossing clearer to drivers."
+      ]
+    },
+    {
+      "answer": "No",
+      "points": [
+        "Raised crosswalks slow everyone, including buses and emergency vehicles.",
+        "Some would prefer enforcement or signs alone, without changing the road."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "q": "Is this happening?",
+      "a": "Yes, as of late October 2026. The District expects the work on October 29 and 30, weather permitting.",
+      "src": 1
+    },
+    {
+      "q": "Will there be more changes on Skyline Drive?",
+      "a": "The District says it is working to identify other possible improvements for a future year.",
+      "src": 1
+    },
+    {
+      "q": "How does the District decide where traffic calming goes?",
+      "a": "It reviews resident requests against speed and volume data, road type, collision history and emergency routes, then ranks the eligible sites.",
+      "src": 2
+    }
+  ],
+  "sources": [
+    {
+      "label": "District of Squamish: 2026 Traffic Calming Measures",
+      "url": "https://squamish.ca/projects-plans-and-initiatives/projects-and-initiatives/project/2026-traffic-calming-measures/"
+    },
+    {
+      "label": "District of Squamish: Traffic Calming",
+      "url": "https://squamish.ca/transportation-parking-and-mobility/safer-streets/traffic-calming/"
+    },
+    {
+      "label": "District of Squamish: Traffic calming requests and priorities (list as of October 31, 2025)",
+      "url": "https://squamish.ca/assets/Traffic-Calming/Traffic-Calming-Requests-Priorities-New-Policy-2025-12-08.pdf"
+    }
+  ],
+  "checked": "2026-10-26"
+}

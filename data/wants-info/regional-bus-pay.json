@@ -1,0 +1,107 @@
+{
+ "id": "regional-bus-pay",
+ "intro": [
+  "Squamish has local buses, but no public bus to Vancouver or Whistler. Private coach companies have run the route. A public service along Highway 99 was first proposed in the 2015 Sea to Sky Transit Future Plan and studied again in 2017.",
+  "The 2017 study's first phase called for eight buses and six weekday round trips between Vancouver and Whistler, costing about $3.3 million a year. Local governments together would have paid about $1.9 million and the Province about $1.4 million. Those are 2017 estimates and would be higher today.",
+  "The idea has stalled over who runs it and who pays. A regional transit commission and a small local fuel tax were proposed but have not moved forward. In September 2026 the Sea to Sky Regional Transit Committee, which includes the District of Squamish, signed a memorandum with the Province to keep planning governance, funding and service. No cost share for Squamish has been set as of October 2026."
+ ],
+ "facts": [
+  {
+   "label": "First proposed",
+   "value": "2015 Sea to Sky Transit Future Plan",
+   "src": 2
+  },
+  {
+   "label": "2017 study first phase",
+   "value": "8 buses, six weekday and four weekend round trips Vancouver to Whistler",
+   "src": 3
+  },
+  {
+   "label": "2017 cost estimate",
+   "value": "About $3.3 million a year: $1.9 million local, $1.4 million provincial",
+   "src": 3
+  },
+  {
+   "label": "Funding ideas",
+   "value": "Regional commission and a local fuel tax proposed; neither adopted",
+   "src": 2
+  },
+  {
+   "label": "Latest step",
+   "value": "Memorandum with the Province signed September 2026",
+   "src": 1
+  }
+ ],
+ "timeline": [
+  {
+   "when": "2015",
+   "what": "BC Transit's Sea to Sky Transit Future Plan first proposed a bus between corridor communities.",
+   "src": 2
+  },
+  {
+   "when": "2017",
+   "what": "The Regional Transit Study set out options and led to the Sea to Sky Regional Transit Committee.",
+   "src": 2
+  },
+  {
+   "when": "September 2026",
+   "what": "The committee and the Province signed a memorandum to plan governance, funding and a service model together.",
+   "src": 1
+  }
+ ],
+ "sides": [
+  {
+   "answer": "Yes, even with a small tax increase",
+   "points": [
+    "Local money shows the Province that corridor communities are serious, and the bus can't start until local partners commit their share.",
+    "It gives people without a car, and commuters, a cheaper option than private coaches."
+   ]
+  },
+  {
+   "answer": "Only if the Province pays",
+   "points": [
+    "Highway 99 is a provincial road, and Squamish taxpayers already face big increases for local needs.",
+    "A provincial service could be built on a corridor wide funding model instead of town by town budgets."
+   ]
+  },
+  {
+   "answer": "No",
+   "points": [
+    "Private coach companies already run the route, and town money is better spent on local buses and basics.",
+    "The yearly cost would be permanent and would likely grow."
+   ]
+  }
+ ],
+ "questions": [
+  {
+   "q": "How much would Squamish pay?",
+   "a": "No share has been set. In 2017 the estimate for all local governments together was about $1.9 million a year.",
+   "src": 3
+  },
+  {
+   "q": "Who are the partners?",
+   "a": "The Lil'wat Nation, Village of Pemberton, Squamish Lillooet Regional District, Resort Municipality of Whistler, District of Squamish and the Squamish Nation, working with the Province.",
+   "src": 1
+  },
+  {
+   "q": "When could a bus start?",
+   "a": "No date has been set. The current memorandum is for planning only.",
+   "src": 1
+  }
+ ],
+ "sources": [
+  {
+   "label": "Squamish Lillooet Regional District: Memorandum of understanding to continue advancing interregional transit signed (September 22, 2026)",
+   "url": "https://www.slrd.bc.ca/inside-slrd/news-notices/memorandum-understanding-continue-advancing-interregional-transit-signed"
+  },
+  {
+   "label": "Squamish Lillooet Regional District: Sea to Sky regional transit",
+   "url": "https://www.slrd.bc.ca/node/6548"
+  },
+  {
+   "label": "Daily Hive: New calls for real public transit linking Vancouver, Squamish and Whistler (January 18, 2023)",
+   "url": "https://dailyhive.com/vancouver/sea-to-sky-highway-bc-transit-vancouver-squamish-whistler"
+  }
+ ],
+ "checked": "2026-10-26"
+}

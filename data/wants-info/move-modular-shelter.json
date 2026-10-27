@@ -1,0 +1,113 @@
+{
+ "id": "move-modular-shelter",
+ "intro": [
+  "Under the provincial HEART and HEARTH program, BC Housing and the District of Squamish are looking for a site for temporary, staffed housing for people leaving encampments. In spring 2026 the site being studied was Xwu'nekw Park at 37956 Loggers Lane, across from Junction Park and next to the new pedestrian bridge over the Mamquam Blind Channel.",
+  "A petition started in April 2026 asked for a different site. It said the park was picked without enough public input and raised safety worries for families and children using the area. It did not oppose the program itself. Downtown business groups also wrote to council asking for consultation before any site was chosen.",
+  "On June 16, 2026, council announced it had removed the Xwu'nekw Park site from consideration. BC Housing says the site was dropped because of site viability issues. As of October 2026 no new site has been confirmed, so this ask is now mostly about where the housing should go next and how much say neighbours get."
+ ],
+ "facts": [
+  {
+   "label": "Site that was studied",
+   "value": "Xwu'nekw Park, 37956 Loggers Lane, across from Junction Park",
+   "src": 2
+  },
+  {
+   "label": "Early petition support",
+   "value": "More than 290 signatures by April 20, 2026",
+   "src": 1
+  },
+  {
+   "label": "Later petition support",
+   "value": "964 signatures by April 27, 2026",
+   "src": 2
+  },
+  {
+   "label": "Current status",
+   "value": "Park site removed from consideration (announced June 16, 2026)",
+   "src": 3
+  },
+  {
+   "label": "New site",
+   "value": "Not confirmed as of October 2026; District and non District land both being considered",
+   "src": 4
+  },
+  {
+   "label": "Expected opening",
+   "value": "Winter 2027/28, BC Housing estimate",
+   "src": 4
+  }
+ ],
+ "timeline": [
+  {
+   "when": "March 2026",
+   "what": "Council announced it backed the HEART and HEARTH designation and told staff to find a site with BC Housing.",
+   "src": 5
+  },
+  {
+   "when": "April 2026",
+   "what": "A residents' petition and a letter from downtown business groups asked for consultation and a rethink of the park site.",
+   "src": 2
+  },
+  {
+   "when": "June 16, 2026",
+   "what": "Council announced it had told staff to remove the Xwu'nekw Park site from consideration.",
+   "src": 3
+  }
+ ],
+ "sides": [
+  {
+   "answer": "Yes",
+   "points": [
+    "Parks near a school walking route and busy family areas are a poor fit for this kind of housing, and a site outside the busiest downtown areas could still have transit links to services.",
+    "Neighbours and businesses should be heard before a site is picked, not after."
+   ]
+  },
+  {
+   "answer": "No",
+   "points": [
+    "Any site will have neighbours, and every move restarts the search and can push back housing for people sleeping outside now.",
+    "Sites close to services, health care and transit work best for residents and staff."
+   ]
+  }
+ ],
+ "questions": [
+  {
+   "q": "Is the park still being considered?",
+   "a": "No. Council announced on June 16, 2026 that 37956 Loggers Lane, Xwu'nekw Park, was removed from consideration.",
+   "src": 3
+  },
+  {
+   "q": "Did the petition oppose the housing program?",
+   "a": "No. It questioned the site and the lack of consultation, not the program.",
+   "src": 1
+  },
+  {
+   "q": "Will neighbours be told about the next site?",
+   "a": "BC Housing says once a site is confirmed it will contact nearby residents directly and set up meetings with the project team.",
+   "src": 4
+  }
+ ],
+ "sources": [
+  {
+   "label": "Squamish Reporter: Petition urges rethink of modular housing for homeless in Downtown Squamish park (April 20, 2026)",
+   "url": "https://www.squamishreporter.com/2026/04/20/petition-urges-rethink-of-modular-housing-for-homeless-in-downtown-squamish-park/"
+  },
+  {
+   "label": "Squamish Reporter: Squamish businesses call for consultation on downtown homeless housing proposal (April 27, 2026)",
+   "url": "https://www.squamishreporter.com/2026/04/27/squamish-businesses-call-for-consultation-on-downtown-homeless-housing-proposal/"
+  },
+  {
+   "label": "District of Squamish: Regular Business Meeting minutes, June 16, 2026",
+   "url": "https://squamish.civicweb.net/FileStorage/613581026B834480B4C21B4DAED4F5C1-0616%20Regular%20Minutes%202026.pdf"
+  },
+  {
+   "label": "BC Housing: Squamish temporary transitional housing (HEART and HEARTH)",
+   "url": "https://www.bchousing.org/projects-partners/projects/squamish-temporary-housing"
+  },
+  {
+   "label": "District of Squamish: Regular Business Meeting minutes, March 3, 2026",
+   "url": "https://squamish.civicweb.net/FileStorage/70E85B72E8F848E7AAE3DA6C85198DC8-0303%20Regular%20Minutes%202026.pdf"
+  }
+ ],
+ "checked": "2026-10-26"
+}

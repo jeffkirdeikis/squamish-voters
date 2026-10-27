@@ -1,0 +1,111 @@
+{
+  "id": "mamquam-speed-humps",
+  "intro": [
+    "Upper Mamquam Road runs east past Coast Mountain Academy toward the Mamquam area. Residents raised concerns about speeding and a high number of trucks.",
+    "The District of Squamish ranked this stretch as its top traffic calming priority. It is on the 2026 traffic calming list.",
+    "The plan has changed from speed humps. As of October 2026, the District plans two raised crosswalks and new signs on Mamquam Road east of Aristotle Drive. A raised crosswalk is a crosswalk built up like a wide, flat speed bump.",
+    "The District says the contractor expects to build the raised crosswalks on October 29 and 30, 2026, weather permitting, with single lane alternating traffic during the work."
+  ],
+  "facts": [
+    {
+      "label": "Section",
+      "value": "Mamquam Road east of Aristotle Drive",
+      "src": 1
+    },
+    {
+      "label": "Concern",
+      "value": "Speeding and a high volume of truck traffic",
+      "src": 1
+    },
+    {
+      "label": "Current plan",
+      "value": "Two raised crosswalks and updated signs (not speed humps)",
+      "src": 1
+    },
+    {
+      "label": "Expected build dates",
+      "value": "October 29 and 30, 2026, weather permitting",
+      "src": 1
+    },
+    {
+      "label": "Priority rank",
+      "value": "Top ranked on the District's list (as of October 31, 2025)",
+      "src": 3
+    },
+    {
+      "label": "Road type",
+      "value": "Minor collector, eligible for traffic calming",
+      "src": 3
+    }
+  ],
+  "timeline": [
+    {
+      "when": "March 2025",
+      "what": "Council endorsed a new Traffic Calming Policy for Squamish.",
+      "src": 2
+    },
+    {
+      "when": "July 28, 2025",
+      "what": "A traffic calming request was logged for Mamquam Road east of Village Drive, near Coast Mountain Academy.",
+      "src": 3
+    },
+    {
+      "when": "December 2025",
+      "what": "The District ranked it the top priority on its traffic calming list.",
+      "src": 3
+    },
+    {
+      "when": "October 22, 2026",
+      "what": "The District said the raised crosswalks would be built October 29 and 30.",
+      "src": 1
+    }
+  ],
+  "sides": [
+    {
+      "answer": "Yes",
+      "points": [
+        "Physical changes like raised crossings slow traffic every day, not only when police are present.",
+        "Students and neighbours get safer places to cross on a road with many trucks."
+      ]
+    },
+    {
+      "answer": "No",
+      "points": [
+        "Raised crossings and humps slow emergency vehicles and are hard on heavy trucks that need this road.",
+        "Some would prefer signs, enforcement or other measures that don't change the road surface."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "q": "Is the District installing speed humps?",
+      "a": "No. The current plan is two raised crosswalks and updated signs.",
+      "src": 1
+    },
+    {
+      "q": "Will there be delays during the work?",
+      "a": "Yes. Expect single lane alternating traffic and minor delays on the build days.",
+      "src": 1
+    },
+    {
+      "q": "Can the District add more later?",
+      "a": "The District says sites will be monitored and more changes made if needed.",
+      "src": 2
+    }
+  ],
+  "sources": [
+    {
+      "label": "District of Squamish: 2026 Traffic Calming Measures",
+      "url": "https://squamish.ca/projects-plans-and-initiatives/projects-and-initiatives/project/2026-traffic-calming-measures/"
+    },
+    {
+      "label": "District of Squamish: Traffic Calming",
+      "url": "https://squamish.ca/transportation-parking-and-mobility/safer-streets/traffic-calming/"
+    },
+    {
+      "label": "District of Squamish: Traffic calming requests and priorities (list as of October 31, 2025)",
+      "url": "https://squamish.ca/assets/Traffic-Calming/Traffic-Calming-Requests-Priorities-New-Policy-2025-12-08.pdf"
+    }
+  ],
+  "checked": "2026-10-26"
+}

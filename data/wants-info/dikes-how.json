@@ -1,0 +1,120 @@
+{
+ "id": "dikes-how",
+ "intro": [
+  "Much of Squamish is on a floodplain between rivers and Howe Sound. The District of Squamish raises dikes one project at a time from a list of flood priorities. It often relies on federal and provincial grants for the big projects, with the District paying the rest from taxes and borrowing.",
+  "The most recent finished project raised and widened about 900 metres of the Squamish River dike at Jimmy Jimmy (Judd) Slough, protecting Brackendale, Garibaldi Estates and Squamish Nation land. It was first identified in 2017 and work began in 2019. Most of the money came from the federal and provincial governments.",
+  "Borrowing is already part of the mix. Council gave three readings in June 2026 to a bylaw to borrow for yearly flood upgrades, and staff expect debt payments for dike and bridge projects to add 1.8% to taxes in 2027 and 2.8% in 2028. The question is whether to lean harder on borrowing, on taxes, or keep pacing the work to grants."
+ ],
+ "facts": [
+  {
+   "label": "Latest project",
+   "value": "About 900 metres of Squamish River dike raised at Judd Slough, finished by July 2026",
+   "src": 1
+  },
+  {
+   "label": "Who paid",
+   "value": "Federal over $3.6 million, Province over $2.1 million, District over $1.4 million",
+   "src": 1
+  },
+  {
+   "label": "Debt payments in taxes",
+   "value": "1.8% in 2027 and 2.8% in 2028, mainly for the bridge deck, downtown sea dike and Squamish River dike",
+   "src": 5
+  },
+  {
+   "label": "Example loan",
+   "value": "2025 flood bylaw: up to $2,020,202 over a term of up to 30 years",
+   "src": 4
+  },
+  {
+   "label": "Plan update",
+   "value": "$400,000 update of the flood plan planned for 2027",
+   "src": 5
+  }
+ ],
+ "timeline": [
+  {
+   "when": "2017",
+   "what": "The Judd Slough dike was identified as a top priority in the District's flood plan.",
+   "src": 2
+  },
+  {
+   "when": "2019",
+   "what": "Work on the Judd Slough dike began.",
+   "src": 2
+  },
+  {
+   "when": "June 16, 2026",
+   "what": "Council gave three readings to the Annual Flood Protection Upgrades Loan Authorization Bylaw No. 3251.",
+   "src": 3
+  },
+  {
+   "when": "July 30, 2026",
+   "what": "The Province announced the Judd Slough dike work complete.",
+   "src": 1
+  },
+  {
+   "when": "September 29, 2026",
+   "what": "Staff's draft budget showed debt payments for dike and bridge borrowing starting in 2027.",
+   "src": 5
+  }
+ ],
+ "sides": [
+  {
+   "answer": "Borrow to go faster",
+   "points": [
+    "Protection gets built sooner, and the people who benefit over the dike's long life share the cost.",
+    "Interest adds to the total bill, and debt payments already push up taxes in 2027 and 2028."
+   ]
+  },
+  {
+   "answer": "Raise taxes to go faster",
+   "points": [
+    "Paying as you go avoids interest and keeps future budgets free of new debt payments.",
+    "It means bigger tax bills now, on top of a draft 2027 increase that already starts at 10.4%."
+   ]
+  },
+  {
+   "answer": "Keep waiting for grants",
+   "points": [
+    "Grants paid for most of the Judd Slough project, so waiting can save local taxpayers a lot.",
+    "Grant timing is out of Squamish's control, and the flood risk stays until the work is done."
+   ]
+  }
+ ],
+ "questions": [
+  {
+   "q": "Does Squamish already borrow for dikes?",
+   "a": "Yes. For example, a 2025 bylaw allowed borrowing up to $2,020,202 for flood protection, and a 2026 bylaw for yearly flood upgrades got three readings in June 2026.",
+   "src": 4
+  },
+  {
+   "q": "How much did grants cover on the last big project?",
+   "a": "At Judd Slough, the federal and provincial governments together put in more than $5.7 million, and the District more than $1.4 million.",
+   "src": 1
+  }
+ ],
+ "sources": [
+  {
+   "label": "B.C. Government News: Squamish flood mitigation projects complete (July 30, 2026)",
+   "url": "https://news.gov.bc.ca/releases/2026EMCR0033-000896"
+  },
+  {
+   "label": "Squamish Reporter: Squamish River dike upgrades complete, boosting flood protection (August 3, 2026)",
+   "url": "https://www.squamishreporter.com/2026/08/03/squamish-river-dike-upgrades-complete-boosting-flood-protection/"
+  },
+  {
+   "label": "District of Squamish: Regular Business Meeting minutes, June 16, 2026",
+   "url": "https://squamish.civicweb.net/FileStorage/613581026B834480B4C21B4DAED4F5C1-0616%20Regular%20Minutes%202026.pdf"
+  },
+  {
+   "label": "District of Squamish: Flood Protection Loan Authorization Bylaw No. 3160, 2025",
+   "url": "https://squamish.ca/assets/AAP/District-of-Squamish-Flood-Protection-Loan-Authorization-Bylaw-No.-3160-2025.pdf"
+  },
+  {
+   "label": "District of Squamish: 2027 to 2036 Financial Plan, General Fund Operating staff report (September 29, 2026)",
+   "url": "https://squamish.civicweb.net/FileStorage/464F28A678254CD3BECE0240DCCE0208-2027-2036%20Financial%20Plan%20%E2%80%93%20General%20Fund%20Operating%20.pdf"
+  }
+ ],
+ "checked": "2026-10-26"
+}

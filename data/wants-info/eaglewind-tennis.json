@@ -1,0 +1,126 @@
+{
+  "id": "eaglewind-tennis",
+  "intro": [
+    "The Eaglewind courts are an outdoor court site in the District of Squamish. They were tennis courts until 2021, when the District turned them into six pickleball courts. Noise from pickleball bothered neighbours, so pickleball moved to new courts at Brennan Park in 2023 and 2024. Since then, the Eaglewind courts have been closed.",
+    "A 2025 assessment found the courts in poor condition. Holes drilled for pickleball nets and fences let water in and damaged the base, and the east end has sunk. Staff recommended fixing them up and reopening them for tennis.",
+    "Council did not take that advice. In March 2026 the committee voted instead to explore other interim uses for the courts, excluding pickleball, and council approved that in April 2026. As of October 2026, the courts remain closed and the tennis option is not the direction council chose."
+  ],
+  "facts": [
+    {
+      "label": "Cost to fix for tennis",
+      "value": "About $575,000, including a 25% contingency",
+      "src": 1
+    },
+    {
+      "label": "Money available",
+      "value": "$488,000 carried forward for tennis court work at Eaglewind, Brennan Park and Boulevard",
+      "src": 1
+    },
+    {
+      "label": "Condition",
+      "value": "Surface and fence in poor condition, water damage, uneven east end. Spot repairs were not advised.",
+      "src": 1
+    },
+    {
+      "label": "Use today",
+      "value": "Closed, with signs of unauthorized use such as ball hockey",
+      "src": 1
+    },
+    {
+      "label": "Council's direction",
+      "value": "Explore interim alternative uses for the courts, with no pickleball (April 7, 2026)",
+      "src": 4
+    }
+  ],
+  "timeline": [
+    {
+      "when": "2021",
+      "what": "The Eaglewind tennis courts are converted into six pickleball courts.",
+      "src": 1
+    },
+    {
+      "when": "September 2022",
+      "what": "Council adds $50,000 to the financial plan to return the Eaglewind courts to tennis.",
+      "src": 1
+    },
+    {
+      "when": "2023 and 2024",
+      "what": "Pickleball moves to new courts at Brennan Park. Eaglewind sits unused.",
+      "src": 1
+    },
+    {
+      "when": "2025",
+      "what": "A consultant assesses the courts. Council approves a $498,000 budget for tennis court work.",
+      "src": 1
+    },
+    {
+      "when": "March 10, 2026",
+      "what": "Staff recommend fixing Eaglewind for tennis. The committee instead votes 4 to 3 to explore interim uses, excluding pickleball.",
+      "src": 3
+    },
+    {
+      "when": "April 7, 2026",
+      "what": "Council approves the committee's recommendation.",
+      "src": 4
+    }
+  ],
+  "sides": [
+    {
+      "answer": "Yes",
+      "points": [
+        "The courts are a public asset sitting empty, and people are already using them without permission.",
+        "Most of the money is already in the budget, and staff said some features could be trimmed to fit it.",
+        "Staff heard clear demand for tennis, and tennis is quieter than pickleball, which was the source of the noise complaints."
+      ]
+    },
+    {
+      "answer": "No",
+      "points": [
+        "The repair costs more than the budget, and the money could build courts at Brennan Park, where other courts, parking and washrooms already are.",
+        "The 2027 parks plan will look at all racket sport needs, so it may make sense to decide then.",
+        "Council has chosen to look at other uses for the site first, which might serve more people."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "q": "How did council vote?",
+      "a": "At the March 10, 2026 committee, Mayor Hurford moved to explore interim uses, excluding pickleball. It carried, with Councillors French, Andersen and Greenlaw opposed. An amendment to give the public access to the courts during planning failed.",
+      "src": 3
+    },
+    {
+      "q": "Why not just patch the courts?",
+      "a": "The consultant said spot repairs to the base would not save money and would not last as long as a full rebuild.",
+      "src": 1
+    },
+    {
+      "q": "What would interim uses involve?",
+      "a": "Staff said any interim use would need careful thought about noise and safety, would need community engagement, and would cost money.",
+      "src": 1
+    },
+    {
+      "q": "Is tennis off the table?",
+      "a": "Not permanently. Staff said racket sport needs will be reviewed in the 2027 Parks and Recreation Master Plan update.",
+      "src": 2
+    }
+  ],
+  "sources": [
+    {
+      "label": "District of Squamish: Tennis Courts, report to Committee of the Whole (March 10, 2026)",
+      "url": "https://squamish.civicweb.net/FileStorage/39B7A55A23BB4FC2B54437A76EB42B62-Tennis%20Courts%20-%20Report%20to%20Council.pdf"
+    },
+    {
+      "label": "Squamish Reporter: Squamish council to review returning Eaglewind courts to tennis (March 6, 2026)",
+      "url": "https://www.squamishreporter.com/2026/03/06/squamish-council-to-review-returning-eaglewind-courts-to-tennis"
+    },
+    {
+      "label": "District of Squamish: Committee of the Whole minutes (March 10, 2026)",
+      "url": "https://squamish.civicweb.net/FileStorage/79473B06EFEA42E29418C4EED45BD31A-0310%20COW%20Minutes%202026.pdf"
+    },
+    {
+      "label": "District of Squamish: Regular Business Meeting minutes (April 7, 2026)",
+      "url": "https://squamish.civicweb.net/FileStorage/AA664411E9B34CA498FC41889892D53F-0407%20Regular%20Minutes%202026.pdf"
+    }
+  ],
+  "checked": "2026-10-26"
+}

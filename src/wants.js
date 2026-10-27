@@ -18,6 +18,7 @@
   if (!root || !dataEl) return;
   var D = JSON.parse(dataEl.textContent);
   var mode = root.getAttribute('data-wants') || 'page'; // page | short
+  var only = root.getAttribute('data-only'); // a More info page: just that ask
   function get(k, d) { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } }
   function put(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
@@ -67,6 +68,7 @@
   // How evenly split: 1 means the top two answers are tied.
   function splitness(a) { var x = t(a.id), o = opinions(a, x), r = ranked(a, x); return o && c(x, r[1].key) ? 1 - (c(x, r[0].key) - c(x, r[1].key)) / o : -1; }
   function done() { return asks.filter(function (a) { return mine[a.id]; }).length; }
+  function infoLink(a, cls) { return a.info ? '<a class="' + (cls || 'wa-info') + '" href="/wants/' + esc(a.id) + '/info/">More info <span aria-hidden="true">›</span></a>' : ''; }
   function linkOf(a) { return location.origin + (a.res ? '/wants/#' + a.id : '/wants/' + a.id + '/'); }
 
   // ---------- pieces ----------
@@ -145,6 +147,7 @@
       (a.source_url ? '<dt>Source</dt><dd><a href="' + esc(a.source_url) + '"' + (/^https?:/.test(a.source_url) ? ' target="_blank" rel="noopener"' : '') + '>' + esc(a.source_label || 'Source') + '</a></dd>' : '') + '</dl>' +
       (a.res && a.body ? '<div class="wa-words"><b>In the words of the resident who added it</b><p>' + esc(a.body) + '</p></div>' : '') +
       (ns.length ? '<div class="wa-words"><b>More from residents</b>' + ns.slice(0, 20).map(function (n) { return '<p>' + esc(n.text) + '</p>'; }).join('') + '</div>' : '') +
+      (a.info && !only ? '<p class="wa-infobig">' + infoLink(a, 'btn secondary') + '<span class="small muted">The facts, the timeline and the case for each answer.</span></p>' : '') +
       '<p class="wa-acts"><button type="button" class="wa-link" data-share="' + esc(a.id) + '">Share this ask</button>' +
       (a.res ? (reported[a.id] ? '<span class="small muted">Thanks, reported.</span>' : '<button type="button" class="wa-link muted" data-report="' + esc(a.id) + '">Report</button>') : '') +
       '<button type="button" class="wa-link" data-open="' + esc(a.id) + '">Close</button></p>' +
@@ -155,7 +158,7 @@
     return '<li class="wa-row' + (isChoice(a) ? ' choice' : '') + (my ? ' answered' : '') + (open ? ' open' : '') + '" id="ask-' + esc(a.id) + '">' +
       '<button type="button" class="wa-title" data-open="' + esc(a.id) + '" aria-expanded="' + open + '">' + chips(a) + '<span class="wa-t">' + esc(a.title) + '</span></button>' +
       buttons(a) + (hintId === a.id ? '<p class="wa-hint">Tap your answer again to undo it.</p>' : '') +
-      (show ? totals(a) : tease(a)) + (open ? detail(a) : '') + '</li>';
+      (show ? totals(a) + (a.info && !open && !only ? '<p class="wa-under">' + infoLink(a) + '</p>' : '') : '<div class="wa-under">' + tease(a) + (only ? '' : infoLink(a)) + '</div>') + (open ? detail(a) : '') + '</li>';
   }
 
   // ---------- list ----------
@@ -212,7 +215,7 @@
     var L = deck(); a = L[0];
     if (!a) { el.innerHTML = prog + '<div class="wa-card wa-done"><h2>That’s every ask for now.</h2><p>New ones go up as residents add them.</p><button type="button" class="btn block" data-view="top">See the Top 10</button><button type="button" class="btn secondary block" data-view="add">Missing something? Add it</button></div>'; return; }
     deckShown = a.id;
-    el.innerHTML = prog + '<div class="wa-card">' + chips(a) + '<h2>' + esc(a.title) + '</h2>' + (a.why ? '<p>' + esc(a.why) + '</p>' : '') + buttons(a, true) +
+    el.innerHTML = prog + '<div class="wa-card">' + chips(a) + '<h2>' + esc(a.title) + '</h2>' + (a.why ? '<p>' + esc(a.why) + '</p>' : '') + (a.info ? '<p class="wa-onelink">' + infoLink(a) + '</p>' : '') + buttons(a, true) +
       '<button type="button" class="wa-link center" data-skip="' + esc(a.id) + '">Skip this one</button>' + (desk.matches ? (isChoice(a) ? KEYS_CHOICE : KEYS) : '') + '</div>';
   }
 
@@ -346,6 +349,7 @@
     var el = $('[data-wa-rows]'); if (!el) return;
     var pe = $('[data-wa-people]'); if (pe && loaded && people) pe.textContent = people.toLocaleString('en-CA') + (people === 1 ? ' person has' : ' people have') + ' answered so far.';
     var area = prefs.area, n = parseInt(root.getAttribute('data-count') || '3', 10);
+    if (only) { var oa = byId(only); el.innerHTML = oa ? row(oa) : ''; return; }
     if (shortOrder) { el.innerHTML = shortOrder.map(byId).filter(Boolean).map(row).join(''); return; }
     var L = asks.slice().sort(function (p, q) {
       var mp = mine[p.id] ? 1 : 0, mq = mine[q.id] ? 1 : 0, lp = p.area && p.area === area ? 0 : 1, lq = q.area && q.area === area ? 0 : 1;

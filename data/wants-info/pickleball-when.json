@@ -1,0 +1,141 @@
+{
+  "id": "pickleball-when",
+  "intro": [
+    "Pickleball is a paddle sport played on a court smaller than a tennis court. It has grown fast in Squamish. The District of Squamish built six outdoor pickleball courts at Brennan Park in 2023 and 2024, after moving the game away from the Eaglewind courts because of noise for neighbours.",
+    "In March 2026, staff told council there is clear demand for both pickleball and tennis courts. They suggested waiting to build more courts anywhere until the Parks and Recreation Master Plan is updated in 2027. That update would include a full look at racket sport needs.",
+    "There is still room at Brennan Park for more courts, south of the new tennis courts. The question is when to build more pickleball courts, or whether Squamish already has enough."
+  ],
+  "facts": [
+    {
+      "label": "Outdoor pickleball courts now",
+      "value": "Six at Brennan Park, built in 2023 and 2024",
+      "src": 1
+    },
+    {
+      "label": "Room to grow",
+      "value": "Space south of the Brennan Park tennis courts is set aside for more racket courts",
+      "src": 1
+    },
+    {
+      "label": "Rough cost",
+      "value": "Staff said new courts there would cost about the same as fixing the Eaglewind courts, roughly $575,000 with a 25% contingency",
+      "src": 1
+    },
+    {
+      "label": "Current master plan",
+      "value": "The 2012 Parks and Recreation Master Plan was written before pickleball became popular. Its update is scheduled for 2027.",
+      "src": 1
+    },
+    {
+      "label": "Eaglewind",
+      "value": "Council ruled out pickleball for any interim use of the old Eaglewind courts",
+      "src": 4
+    },
+    {
+      "label": "Indoor play",
+      "value": "Pickleball is also played indoors at Brennan Park Recreation Centre in fall and winter",
+      "src": 6
+    }
+  ],
+  "timeline": [
+    {
+      "when": "2021",
+      "what": "The District converts the Eaglewind tennis courts into six pickleball courts.",
+      "src": 1
+    },
+    {
+      "when": "December 2021",
+      "what": "Staff bring the Brennan Park Fields and Lands Master Plan to council for endorsement. It asks tennis and pickleball groups to fundraise to expand courts near the existing ones.",
+      "src": 5
+    },
+    {
+      "when": "2023 and 2024",
+      "what": "After noise complaints at Eaglewind, six new pickleball courts open at Brennan Park.",
+      "src": 1
+    },
+    {
+      "when": "2025",
+      "what": "Staff meet tennis and pickleball groups and hear clear demand for more courts of both kinds.",
+      "src": 1
+    },
+    {
+      "when": "March 10, 2026",
+      "what": "Staff recommend waiting for the 2027 master plan before building more courts. The committee instead votes to explore interim uses for Eaglewind, with no pickleball.",
+      "src": 3
+    },
+    {
+      "when": "2027",
+      "what": "The Parks and Recreation Master Plan update is scheduled, including a review of racket sport needs.",
+      "src": 2
+    }
+  ],
+  "sides": [
+    {
+      "answer": "Now",
+      "points": [
+        "Players and staff both say demand is clear today. Waiting for a plan, then a budget, then construction could mean years before new courts open.",
+        "Staff themselves noted that waiting could cause more community frustration about the lack of court space.",
+        "The space at Brennan Park is already set aside for courts, so there is less to decide."
+      ]
+    },
+    {
+      "answer": "After the 2027 parks plan",
+      "points": [
+        "The 2027 plan will look at tennis and pickleball together, so courts can go where they are needed most.",
+        "Space at Brennan Park is limited. Staff said every square metre should be used for its best purpose, and the plan will help decide that.",
+        "Waiting avoids building something that later turns out to be in the wrong place or the wrong mix."
+      ]
+    },
+    {
+      "answer": "We have enough courts",
+      "points": [
+        "Squamish opened six new outdoor pickleball courts only a few years ago, and there is indoor play in winter.",
+        "Courts cost hundreds of thousands of dollars. That money could go to other parks and recreation needs that have waited longer."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "q": "Did council agree to wait until 2027?",
+      "a": "Not in a formal vote. At the March 10, 2026 committee meeting, council passed a different motion about the Eaglewind courts and did not vote on the staff advice to wait. No money for new pickleball courts has been set aside.",
+      "src": 3
+    },
+    {
+      "q": "Why not put pickleball back at Eaglewind?",
+      "a": "Pickleball there caused noise problems for neighbours, which is why it moved to Brennan Park. In April 2026 council excluded pickleball from any interim use of those courts.",
+      "src": 4
+    },
+    {
+      "q": "Where would new courts go?",
+      "a": "The 2021 Brennan Park plan says new courts should be near the existing ones, with about half shared between sports. It says pickleball siting should take sound into account.",
+      "src": 5
+    }
+  ],
+  "sources": [
+    {
+      "label": "District of Squamish: Tennis Courts, report to Committee of the Whole (March 10, 2026)",
+      "url": "https://squamish.civicweb.net/FileStorage/39B7A55A23BB4FC2B54437A76EB42B62-Tennis%20Courts%20-%20Report%20to%20Council.pdf"
+    },
+    {
+      "label": "Squamish Reporter: Squamish council to review returning Eaglewind courts to tennis (March 6, 2026)",
+      "url": "https://www.squamishreporter.com/2026/03/06/squamish-council-to-review-returning-eaglewind-courts-to-tennis"
+    },
+    {
+      "label": "District of Squamish: Committee of the Whole minutes (March 10, 2026)",
+      "url": "https://squamish.civicweb.net/FileStorage/79473B06EFEA42E29418C4EED45BD31A-0310%20COW%20Minutes%202026.pdf"
+    },
+    {
+      "label": "District of Squamish: Regular Business Meeting minutes (April 7, 2026)",
+      "url": "https://squamish.civicweb.net/FileStorage/AA664411E9B34CA498FC41889892D53F-0407%20Regular%20Minutes%202026.pdf"
+    },
+    {
+      "label": "District of Squamish: Brennan Park Fields and Lands Master Plan (2021)",
+      "url": "https://squamish.ca/assets/Master-Plans/Brennan-Park-Fields-and-Lands-Master-Plan.pdf"
+    },
+    {
+      "label": "Pickleball Squamish: Home and where to play",
+      "url": "https://www.pickleballsquamish.ca/home"
+    }
+  ],
+  "checked": "2026-10-26"
+}

@@ -1,0 +1,97 @@
+{
+  "id": "covered-basketball",
+  "intro": [
+    "A roof over outdoor basketball courts would let people play in the rain.",
+    "In 2021, residents asked for covered outdoor basketball courts in feedback on the District of Squamish's Brennan Park Fields and Lands Master Plan. The final plan encourages the basketball community to raise money for courts near the existing tennis courts at Brennan Park. It does not include a roof over them.",
+    "As of October 2026, we could not find any District budget item for outdoor basketball courts, covered or not."
+  ],
+  "facts": [
+    {
+      "label": "Plan position",
+      "value": "The basketball community is encouraged to fundraise for courts at Brennan Park near the tennis courts",
+      "src": 2
+    },
+    {
+      "label": "Timing in the plan",
+      "value": "Courts are a medium term goal, 5 or more years out",
+      "src": 2
+    },
+    {
+      "label": "Plan estimate",
+      "value": "About $50,000 per court, plus or minus 25%, without a roof",
+      "src": 2
+    },
+    {
+      "label": "Other covered space",
+      "value": "The plan suggests a covered program area in a play zone north of the recreation centre",
+      "src": 2
+    },
+    {
+      "label": "Paying for it",
+      "value": "The plan says recreation upgrades cannot be paid for by taxes alone and will need grants, fees, fundraising and sponsors",
+      "src": 2
+    }
+  ],
+  "timeline": [
+    {
+      "when": "May 2021",
+      "what": "Residents ask for covered outdoor basketball courts in feedback on the draft Brennan Park plan.",
+      "src": 1
+    },
+    {
+      "when": "December 2021",
+      "what": "The final plan goes to council. It lists courts for basketball, tennis, pickleball and lacrosse as a medium term goal.",
+      "src": 2
+    },
+    {
+      "when": "July 2026",
+      "what": "The Recreation Centre Task Force lists the Squamish Hustle Basketball Club among potential users to interview about indoor needs at Brennan Park.",
+      "src": 3
+    }
+  ],
+  "sides": [
+    {
+      "answer": "Yes",
+      "points": [
+        "Squamish gets a lot of rain. A roof turns a court that sits empty half the year into one used all year.",
+        "Free outdoor courts give teens and adults a place to play without booking gym time.",
+        "A covered court can double as shelter for events and programs."
+      ]
+    },
+    {
+      "answer": "No",
+      "points": [
+        "A roof adds a lot to the cost of a court, and the plan's estimate is for open courts only.",
+        "The plan expects the basketball community to fundraise, and the District has many unfunded recreation needs ahead of this.",
+        "Indoor gym space, which the recreation centre study is already looking at, may serve basketball players better."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "q": "Where would the courts go?",
+      "a": "The 2021 plan suggests near the existing tennis courts at Brennan Park, away from wind and close to washrooms, parking and picnic areas.",
+      "src": 2
+    },
+    {
+      "q": "Who would pay?",
+      "a": "The plan says the basketball community is encouraged to fundraise, and that new recreation projects will need grants, fees, fundraising and sponsors, not just taxes.",
+      "src": 2
+    }
+  ],
+  "sources": [
+    {
+      "label": "Squamish Reporter: Off leash dog park planned at Brennan Park (May 26, 2021)",
+      "url": "https://www.squamishreporter.com/2021/05/26/off-leash-dog-park-planned-at-brennan-park/"
+    },
+    {
+      "label": "District of Squamish: Brennan Park Fields and Lands Master Plan (2021)",
+      "url": "https://squamish.ca/assets/Master-Plans/Brennan-Park-Fields-and-Lands-Master-Plan.pdf"
+    },
+    {
+      "label": "District of Squamish: Recreation Centre Task Force Engagement Plan, report to Committee of the Whole (July 14, 2026)",
+      "url": "https://squamish.civicweb.net/FileStorage/5A350ABB7A0241D4AD98244D33F0FD44-Recreation%20Centre%20Task%20Force%20(RCTF)%20Engagement%20Pla.pdf"
+    }
+  ],
+  "checked": "2026-10-26"
+}

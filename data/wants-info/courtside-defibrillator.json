@@ -1,0 +1,136 @@
+{
+  "id": "courtside-defibrillator",
+  "intro": [
+    "A defibrillator is a portable device used to restart the heart during a cardiac arrest. This ask is about putting one outside, at the pickleball and tennis courts beside Brennan Park Recreation Centre.",
+    "In January 2026, Pickleball Squamish asked the District of Squamish to install one at the courts and offered up to $4,000 toward buying it. Right now the nearest defibrillators are inside the recreation centre.",
+    "In June 2026, council agreed to put a District run device in the 2027 budget. In the meantime, council told staff to make space for Pickleball Squamish to install its own device, if the group wants to, as long as the District has reasonable liability protection. As of October 2026, we could not confirm whether the group has installed one.",
+    "So the question is whether a courtside device should be in place this year, or whether the 2027 plan is soon enough."
+  ],
+  "facts": [
+    {
+      "label": "Group's offer",
+      "value": "Up to $4,000 toward buying the device, some of it grant money",
+      "src": 1
+    },
+    {
+      "label": "District's first year cost",
+      "value": "$2,000 in 2027 for the cabinet, installation and data plan",
+      "src": 1
+    },
+    {
+      "label": "Upkeep after that",
+      "value": "About $4,450 more from 2029 to 2035 for pads, batteries, the data plan and maintenance",
+      "src": 1
+    },
+    {
+      "label": "Nearest device today",
+      "value": "Inside Brennan Park Recreation Centre, next to the courts. Staff are adding signs that point to it.",
+      "src": 1
+    },
+    {
+      "label": "Is one required?",
+      "value": "No. No provincial or federal law requires defibrillators at sports facilities, and the District has no defibrillator policy.",
+      "src": 1
+    },
+    {
+      "label": "In the draft 2027 budget",
+      "value": "Listed at $2,000 among \"previously endorsed and critical\" changes (as of September 2026)",
+      "src": 4
+    }
+  ],
+  "timeline": [
+    {
+      "when": "January 2026",
+      "what": "Pickleball Squamish asks for a defibrillator at the Brennan Park courts and offers up to $4,000.",
+      "src": 1
+    },
+    {
+      "when": "April 7, 2026",
+      "what": "Council sends a resident's letter about defibrillators at Brennan Park to a Committee of the Whole meeting.",
+      "src": 1
+    },
+    {
+      "when": "June 9, 2026",
+      "what": "Staff propose a pilot starting in 2027. The committee votes to budget it for 2027 and let Pickleball Squamish install its own device in the meantime.",
+      "src": 2
+    },
+    {
+      "when": "June 16, 2026",
+      "what": "Council approves that recommendation.",
+      "src": 3
+    },
+    {
+      "when": "September 29, 2026",
+      "what": "Staff list the $2,000 courtside defibrillator in the draft 2027 to 2036 Financial Plan.",
+      "src": 4
+    },
+    {
+      "when": "2027",
+      "what": "The District pilot is planned to begin, if the budget is approved.",
+      "src": 1
+    }
+  ],
+  "sides": [
+    {
+      "answer": "Yes",
+      "points": [
+        "In a cardiac arrest, every minute counts, and many people play hard on these courts.",
+        "The local club has already offered most of the cost of the device, so the District's added cost is small.",
+        "A device right at the courts saves the time it takes to run inside the building and back."
+      ]
+    },
+    {
+      "answer": "No",
+      "points": [
+        "A device already exists inside the recreation centre next door, and new signs point players to it.",
+        "Staff had not planned this work for 2026. Doing it now pulls time from other planned work, and the cabinet and data plan add costs every few years.",
+        "Council already lets Pickleball Squamish install its own device now, so the District does not need to rush its own."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "q": "Can Pickleball Squamish put one in now?",
+      "a": "Yes. In June 2026 council told staff to give the group space to install its own device at the courts, as long as the District has reasonable liability protection.",
+      "src": 3
+    },
+    {
+      "q": "Why does it cost more than the device itself?",
+      "a": "An outdoor unit needs a weatherproof cabinet, a data plan, and new pads and batteries every few years. Staff estimated about $6,450 in total from 2027 to 2035.",
+      "src": 1
+    },
+    {
+      "q": "Will other parks get one?",
+      "a": "Staff said that if the pilot works, and if resources allow, they may consider other outdoor locations in future years.",
+      "src": 1
+    },
+    {
+      "q": "How did this reach council?",
+      "a": "The request went to a Committee of the Whole after a motion at the April 7, 2026 council meeting. Pickleball Squamish then urged council to speed it up instead of waiting until 2027.",
+      "src": 5
+    }
+  ],
+  "sources": [
+    {
+      "label": "District of Squamish: Pickleball Automatic External Defibrillator Request, staff memo to Committee of the Whole (June 9, 2026)",
+      "url": "https://squamish.civicweb.net/FileStorage/47070E4F35464E139A18CD754A13C4CF-Pickleball%20Automatic%20External%20Defibrillator%20(AED)%20.pdf"
+    },
+    {
+      "label": "District of Squamish: Committee of the Whole minutes (June 9, 2026)",
+      "url": "https://squamish.civicweb.net/FileStorage/B8910B764F304D7F84E6905C48EF2508-0609%20COW%20Minutes%202026.pdf"
+    },
+    {
+      "label": "District of Squamish: Regular Business Meeting minutes (June 16, 2026)",
+      "url": "https://squamish.civicweb.net/FileStorage/613581026B834480B4C21B4DAED4F5C1-0616%20Regular%20Minutes%202026.pdf"
+    },
+    {
+      "label": "District of Squamish: 2027 to 2036 Financial Plan, General Fund Operating report (September 29, 2026)",
+      "url": "https://squamish.civicweb.net/FileStorage/464F28A678254CD3BECE0240DCCE0208-2027-2036%20Financial%20Plan%20%E2%80%93%20General%20Fund%20Operating%20.pdf"
+    },
+    {
+      "label": "Squamish Reporter: Pickleball Squamish calls for faster action on courtside AED at Brennan Park (June 9, 2026)",
+      "url": "https://www.squamishreporter.com/2026/06/09/pickleball-squamish-calls-for-faster-action-on-courtside-aed-at-brennan-park/"
+    }
+  ],
+  "checked": "2026-10-26"
+}

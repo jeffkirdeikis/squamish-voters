@@ -877,8 +877,11 @@ const WANT_STATUS = {
   resident: { label: 'Added by a resident', cls: 'res', explain: 'A resident added this. We haven’t checked where it stands yet.' },
 };
 const WANTS_N = WANTS.asks.length;
+// "More info" explainers, one per starter ask: data/wants-info/<id>.json (facts, timeline, the case for each answer, sources).
+const WANT_INFO = Object.fromEntries((fs.existsSync(path.join(ROOT, 'data', 'wants-info')) ? fs.readdirSync(path.join(ROOT, 'data', 'wants-info')) : [])
+  .filter((f) => f.endsWith('.json')).map((f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'wants-info', f), 'utf8'))).filter((x) => WANTS.asks.some((a) => a.id === x.id)).map((x) => [x.id, x]));
 const wantsData = (extra = {}) => `<script type="application/json" id="wa-data">${JSON.stringify({
-  asks: WANTS.asks, topics: WANTS.topics, statuses: WANT_STATUS, hoods: Object.fromEntries(WANT_HOODS.map((h) => [h.slug, h.name])), ...extra,
+  asks: WANTS.asks.map((a) => (WANT_INFO[a.id] ? { ...a, info: true } : a)), topics: WANTS.topics, statuses: WANT_STATUS, hoods: Object.fromEntries(WANT_HOODS.map((h) => [h.slug, h.name])), ...extra,
 }).replace(/</g, '\\u003c')}</script>`;
 // A plain list for search engines and anyone without JavaScript; src/wants.js replaces it with the answerable rows.
 const wantsStatic = (list) => list.map((a) => `<li class="wa-row"><span class="wa-t">${esc(a.title)}</span>${a.why ? `<span class="small muted">${esc(a.why)}</span>` : ''}</li>`).join('');
@@ -1584,11 +1587,46 @@ ${wantsData({ focus })}`;
     body: body(null), scripts: '<script src="/wants.js" defer></script>',
   }));
   for (const a of WANTS.asks) write(`/wants/${a.id}/`, page({
-    url: `/wants/${a.id}/`, title: `${a.title}?`, image: IMG,
+    url: `/wants/${a.id}/`, title: a.title.endsWith('?') ? a.title : `${a.title}?`, image: IMG,
     desc: `${a.why} Say yes, no or don’t mind, and see what Squamish said.`,
     jsonld: crumbLd([['Home', '/'], ['What Squamish Wants', '/wants/'], [a.title, `/wants/${a.id}/`]]),
     body: body(a.id), scripts: '<script src="/wants.js" defer></script>',
   }));
+  // More info: /wants/<id>/info/, the background on one ask, with the answer buttons at the bottom.
+  const sup = (inf, n) => (n && inf.sources[n - 1] ? `<sup><a href="#src-${n}" aria-label="Source ${n}">${n}</a></sup>` : '');
+  for (const a of WANTS.asks) {
+    const inf = WANT_INFO[a.id]; if (!inf) continue;
+    const st = WANT_STATUS[a.status] || WANT_STATUS.none, hood = WANT_HOODS.find((h) => h.slug === a.area);
+    const answers = a.options ? a.options.map((o) => o.label) : ['Yes', 'No'];
+    const sides = answers.map((lab) => ({ lab, s: (inf.sides || []).find((x) => x.answer.toLowerCase() === lab.toLowerCase()) })).filter((x) => x.s && x.s.points?.length);
+    const checked = inf.checked ? new Date(inf.checked + 'T12:00:00').toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' }) : '';
+    write(`/wants/${a.id}/info/`, page({
+      url: `/wants/${a.id}/info/`, title: `${a.title.replace(/\?$/, '')}: the background`, image: IMG,
+      desc: `${(inf.intro || [])[0] || a.why || ''}`.slice(0, 200),
+      jsonld: crumbLd([['Home', '/'], ['What Squamish Wants', '/wants/'], [a.title, `/wants/${a.id}/`], ['More info', `/wants/${a.id}/info/`]]),
+      body: `<article class="wi">
+  <p class="wi-crumb"><a href="/wants/">What Squamish Wants</a> › More info</p>
+  <p class="wa-chips"><span class="wa-chip ${st.cls}">${esc(st.label)}</span>${hood ? `<span class="wa-chip area">${esc(hood.name)}</span>` : ''}</p>
+  <h1>${esc(a.title)}</h1>
+  <p class="wi-meta small muted">The background, so you can decide for yourself.${checked ? ` Facts checked ${esc(checked)}.` : ''}</p>
+  <a class="btn wi-jump" href="#answer">Skip to answering</a>
+  <div class="wi-intro">${(inf.intro || []).map((p) => `<p>${esc(p)}</p>`).join('')}</div>
+  ${inf.facts?.length ? `<section class="card wi-sec"><h2>Key facts</h2><dl class="wi-facts">${inf.facts.map((f) => `<div><dt>${esc(f.label)}</dt><dd>${esc(f.value)}${sup(inf, f.src)}</dd></div>`).join('')}</dl></section>` : ''}
+  <section class="card wi-sec"><h2>Where it stands</h2><p><span class="wa-chip ${st.cls}">${esc(st.label)}</span> ${esc(st.explain)}</p><p><b>Who decides:</b> ${a.who === 'province' ? 'The Province. Council can press for it.' : 'Squamish council.'}</p></section>
+  ${a.options ? `<section class="card wi-sec"><h2>What each answer would mean</h2><ul class="wi-means">${a.options.map((o, i) => `<li><i class="dot o${i + 1}"></i><span><b>${esc(o.label)}</b>${esc(o.means || '')}</span></li>`).join('')}</ul></section>` : ''}
+  ${sides.length ? `<section class="wi-sec"><h2>The case for each answer</h2><p class="small muted">The strongest honest case for each side, as people who hold it would put it.</p><div class="wi-sides n${sides.length}">${sides.map((x) => `<div class="card wi-side"><h3>${esc(x.lab)}</h3><ul>${x.s.points.map((p) => `<li>${esc(p)}</li>`).join('')}</ul></div>`).join('')}</div></section>` : ''}
+  ${inf.timeline?.length ? `<section class="card wi-sec"><h2>How we got here</h2><ol class="wi-time">${inf.timeline.map((t) => `<li><b>${esc(t.when)}</b><span>${esc(t.what)}${sup(inf, t.src)}</span></li>`).join('')}</ol></section>` : ''}
+  ${inf.questions?.length ? `<section class="card wi-sec"><h2>Questions people ask</h2>${inf.questions.map((q) => `<details class="wi-q"><summary>${esc(q.q)}</summary><p>${esc(q.a)}${sup(inf, q.src)}</p></details>`).join('')}</section>` : ''}
+  <section class="wi-answer" id="answer">
+    <div class="card wa-short" data-wants="short" data-only="${esc(a.id)}"><p class="wa-kicker">Ready to decide?</p><h2>Your answer</h2><p class="small">Tap to answer, then see what Squamish said. Tap your answer again to take it back.</p><ul class="wa-rows" data-wa-rows>${wantsStatic([a])}</ul>
+    <a class="btn secondary block" href="/wants/">See all ${WANTS_N} asks</a></div>
+  </section>
+  ${inf.sources?.length ? `<section class="wi-sec wi-srcs"><h2>Sources</h2><ol>${inf.sources.map((x, i) => `<li id="src-${i + 1}"><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a></li>`).join('')}</ol><p class="small muted">Spot something wrong or out of date? Email <a href="mailto:${SITE.contact}">${SITE.contact}</a>.</p></section>` : ''}
+</article>
+${wantsData()}`,
+      scripts: '<script src="/wants.js" defer></script>',
+    }));
+  }
 }
 
 // ---------- YOUR SAY (/your-say/): the hub for every place residents weigh in ----------

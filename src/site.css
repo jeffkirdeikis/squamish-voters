@@ -1670,3 +1670,47 @@ body:has(.wa-float:not([hidden])) #totop { display: none !important; }
   .wa-row.choice .wa-ans.choice.n9, .wa-row.choice .wa-ans.choice.n10, .wa-row.choice .wa-ans.choice.n11, .wa-row.choice .wa-ans.choice.n12 { grid-template-columns: repeat(2, 1fr); }
 }
 .wa-sug .fld .small { display: block; font-weight: 400; margin-top: .15rem; }
+/* ---------- What Squamish Wants: More info links and pages (/wants/<id>/info/) ---------- */
+.wa-under { display: flex; align-items: center; justify-content: space-between; gap: .75rem; margin: 0; }
+.wa-under .wa-tease { flex: 1 1 auto; min-width: 0; }
+.wa-info { flex: none; font-size: .9rem; font-weight: 700; color: var(--brand); text-decoration: none; white-space: nowrap; padding: .35rem 0; }
+.wa-info:hover { text-decoration: underline; }
+p.wa-under { justify-content: flex-end; margin-top: .25rem; }
+.wa-infobig { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .8rem; margin: .8rem 0 .2rem; }
+.wa-onelink { margin: -.3rem 0 .6rem; }
+.wi { max-width: 760px; margin: 0 auto; }
+.wi-crumb { font-size: .9rem; margin: 0 0 .6rem; }
+.wi-crumb a { color: var(--brand); }
+.wi h1 { margin: .4rem 0 .3rem; line-height: 1.15; }
+.wi-meta { margin: 0 0 .8rem; }
+.wi-jump { margin-bottom: 1rem; }
+.wi-intro p { font-size: 1.08rem; line-height: 1.6; }
+.wi-sec { margin: 1.2rem 0; }
+.wi-sec h2 { margin-top: 0; }
+.wi-facts { display: grid; gap: .1rem; margin: 0; }
+.wi-facts > div { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr); gap: .3rem 1rem; padding: .55rem 0; border-top: 1px solid var(--line); }
+.wi-facts > div:first-child { border-top: 0; }
+.wi-facts dt { font-weight: 700; color: var(--ink-2); }
+.wi-facts dd { margin: 0; }
+@media (max-width: 560px) { .wi-facts > div { grid-template-columns: 1fr; } }
+.wi sup a { font-size: .72rem; font-weight: 700; color: var(--brand); text-decoration: none; padding: 0 .15rem; }
+.wi-means { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
+.wi-means li { display: grid; grid-template-columns: .8rem minmax(0, 1fr); gap: .6rem; align-items: start; }
+.wi-means .dot { width: .8rem; height: .8rem; border-radius: 3px; margin-top: .35rem; }
+.wi-means b { display: block; }
+.wi-means .o1 { background: var(--wa-o1); } .wi-means .o2 { background: var(--wa-o2); } .wi-means .o3 { background: var(--wa-o3); } .wi-means .o4 { background: var(--wa-o4); }
+.wi-sides { display: grid; gap: .8rem; }
+@media (min-width: 700px) { .wi-sides.n2, .wi-sides.n4 { grid-template-columns: repeat(2, 1fr); } .wi-sides.n3 { grid-template-columns: repeat(3, 1fr); } }
+.wi-side { margin: 0; }
+.wi-side h3 { margin: 0 0 .4rem; font-size: 1.05rem; }
+.wi-side ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .4rem; }
+.wi-time { list-style: none; margin: 0; padding: 0 0 0 1rem; border-left: 3px solid var(--line); display: grid; gap: .8rem; }
+.wi-time li { display: grid; gap: .1rem; position: relative; }
+.wi-time li::before { content: ""; position: absolute; left: calc(-1rem - 7.5px); top: .35rem; width: 12px; height: 12px; border-radius: 50%; background: var(--brand); }
+.wi-q { border-top: 1px solid var(--line); padding: .6rem 0; }
+.wi-q:first-of-type { border-top: 0; }
+.wi-q summary { font-weight: 700; cursor: pointer; }
+.wi-q p { margin: .5rem 0 0; }
+.wi-answer { margin: 1.5rem 0; scroll-margin-top: 90px; }
+.wi-srcs ol { padding-left: 1.3rem; display: grid; gap: .35rem; font-size: .92rem; word-break: break-word; }
+.wi-srcs li:target { background: var(--surface-2); border-radius: 4px; }

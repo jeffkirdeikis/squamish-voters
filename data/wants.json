@@ -41,25 +41,25 @@
   "asks": [
     {
       "id": "encampment",
-      "title": "What should happen with the encampment behind Under One Roof?",
-      "why": "An encampment has grown behind Squamish’s only shelter building on Third Avenue. Council and BC Housing are deciding what happens next.",
+      "title": "What should happen with people still camping downtown?",
+      "why": "The District closed the camp behind Under One Roof for good on October 9, 2026, after a fire in September. Some people moved near Vancouver Street and Loggers Lane. The Province’s temporary housing has no site yet.",
       "topic": "downtown",
       "area": "downtown",
       "who": "council",
-      "status": "agenda",
+      "status": "none",
       "source_url": "/track/under-one-roof/",
       "source_label": "Issues we follow: Under One Roof",
       "kind": "choice",
       "options": [
         {
           "key": "now",
-          "label": "Clear it now",
-          "means": "Neighbours and businesses get the area back; people camped there may have nowhere to go yet."
+          "label": "Move camps on now",
+          "means": "Neighbours and businesses get the area back; people camping may have nowhere to go yet."
         },
         {
           "key": "housing",
-          "label": "Clear it once temporary housing opens",
-          "means": "People have somewhere to move to, but the camp stays until then."
+          "label": "Wait until temporary housing opens",
+          "means": "People have somewhere to move to, but camping continues until then (BC Housing estimates winter 2027/28)."
         },
         {
           "key": "stay",
@@ -71,11 +71,11 @@
     {
       "id": "move-modular-shelter",
       "title": "Put the modular shelter somewhere other than the park near Junction Park",
-      "why": "More than 290 residents signed a petition in April 2026 asking for a different site for the provincial modular housing. They don't oppose the program itself.",
+      "why": "Residents petitioned in April 2026 for a different site than Xwu’nekw Park on Loggers Lane. Council took the park off the list in June 2026.",
       "topic": "downtown",
       "area": "downtown",
-      "who": "province",
-      "status": "province",
+      "who": "council",
+      "status": "done",
       "other_side": "Any site will have neighbours, and moving it can delay housing for people who need it now.",
       "source_url": "https://www.squamishreporter.com/2026/04/20/petition-urges-rethink-of-modular-housing-for-homeless-in-downtown-squamish-park/",
       "source_label": "Squamish Reporter, April 2026"
@@ -83,11 +83,11 @@
     {
       "id": "government-road",
       "title": "What should happen with the supportive housing planned at 39900 Government Road?",
-      "why": "BC Housing plans six storeys with 65 studio homes and support staff around the clock, run by Squamish Helping Hands.",
+      "why": "BC Housing plans six storeys with 65 studio homes and support staff around the clock, run by Squamish Helping Hands. Construction is set to start in summer 2027.",
       "topic": "downtown",
-      "area": null,
+      "area": "north-yards",
       "who": "council",
-      "status": "agenda",
+      "status": "plan",
       "source_url": "/track/government-road-supportive-housing/",
       "source_label": "Issues we follow: Government Road housing",
       "kind": "choice",
@@ -153,11 +153,11 @@
     {
       "id": "eaglewind-tennis",
       "title": "Fix up the Eaglewind courts and reopen them for tennis",
-      "why": "The courts have sat unused since pickleball moved to Brennan Park in 2023 and 2024. Staff recommended fixing them up.",
+      "why": "The courts have sat unused since pickleball moved to Brennan Park. Staff recommended fixing them up for tennis, but in April 2026 council chose to explore other interim uses instead, not including pickleball.",
       "topic": "parks",
       "area": null,
       "who": "council",
-      "status": "agenda",
+      "status": "none",
       "other_side": "The money could go toward courts in a busier spot.",
       "source_url": "https://www.squamishreporter.com/2026/03/06/squamish-council-to-review-returning-eaglewind-courts-to-tennis",
       "source_label": "Squamish Reporter, March 2026"
@@ -165,7 +165,7 @@
     {
       "id": "brennan-next",
       "title": "What should Brennan Park add next?",
-      "why": "Brennan Park has the town’s only arena and only public pool. A second rink and a second pool are both in the District’s long term vision, with no money set aside yet.",
+      "why": "A second rink and a second pool are both in the District’s long term vision, with no money set aside yet. A task force report is due in 2027.",
       "topic": "parks",
       "area": null,
       "who": "council",
@@ -187,7 +187,7 @@
         {
           "key": "both",
           "label": "Both, even if taxes go up",
-          "means": "Tens of millions to build and run, which means borrowing or higher taxes."
+          "means": "Big new buildings to build and run, which likely means borrowing or higher taxes."
         },
         {
           "key": "neither",
@@ -201,7 +201,7 @@
       "title": "Fence the off leash dog area at John Hunter Park",
       "why": "John Hunter Park is one of the off leash pilot sites. The District says it still needs a fence, with no timeline set.",
       "topic": "parks",
-      "area": "garibaldi-estates",
+      "area": "valleycliffe",
       "who": "council",
       "status": "none",
       "other_side": "Some park users would rather keep the park open and unfenced for everyone.",
@@ -210,13 +210,13 @@
     },
     {
       "id": "disc-golf",
-      "title": "Upgrade the Brennan Park disc golf course",
-      "why": "Residents asked for an upgraded disc golf course in the 2021 feedback on the Brennan Park plan.",
+      "title": "Upgrade the Legacy disc golf course on Raven Drive",
+      "why": "Residents asked for an upgraded disc golf course in 2021 feedback on the Brennan Park plan. The only course in town is the Legacy course on Raven Drive, on land shared with the Sea to Sky Nordic Club.",
       "topic": "parks",
       "area": null,
       "who": "council",
       "status": "none",
-      "other_side": "Park money is tight and other Brennan Park projects are further along.",
+      "other_side": "Park money is tight, and the course sits on land the District doesn’t fully control.",
       "source_url": "https://www.squamishreporter.com/2021/05/26/off-leash-dog-park-planned-at-brennan-park/",
       "source_label": "Squamish Reporter, May 2021"
     },
@@ -234,25 +234,25 @@
     },
     {
       "id": "highlands-crosswalk",
-      "title": "Add a crosswalk and a wider bike lane on Highlands Way North, south of Pentland Way",
-      "why": "Speeding in the school zone. It is on the District's 2026 traffic calming list.",
+      "title": "Keep the new crosswalk and wider multi use lane on Highlands Way North",
+      "why": "Done in August 2026 after concerns about speeding in the school zone: a wider multi use lane with a buffer, no centre line, and a new crosswalk south of Pentland Way.",
       "topic": "streets",
       "area": "garibaldi-highlands",
       "who": "council",
-      "status": "plan",
+      "status": "done",
       "other_side": "Some drivers say the changes slow a main route out of the Highlands.",
       "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-and-initiatives/project/2026-traffic-calming-measures/",
       "source_label": "District of Squamish: 2026 traffic calming"
     },
     {
       "id": "mamquam-speed-humps",
-      "title": "Put speed humps on Upper Mamquam Road",
-      "why": "Speeding and truck traffic. It is on the District's 2026 traffic calming list.",
+      "title": "Put raised crosswalks and new signs on Upper Mamquam Road",
+      "why": "Speeding and truck traffic. It is the District’s top ranked traffic calming site, and two raised crosswalks east of Aristotle Drive are set to be built in late October 2026.",
       "topic": "streets",
       "area": "mamquam",
       "who": "council",
       "status": "plan",
-      "other_side": "Speed humps slow emergency vehicles and are hard on trucks that need the road.",
+      "other_side": "Raised crosswalks slow emergency vehicles and are hard on trucks that need the road.",
       "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-and-initiatives/project/2026-traffic-calming-measures/",
       "source_label": "District of Squamish: 2026 traffic calming"
     },
@@ -271,13 +271,13 @@
     {
       "id": "cleveland-highway",
       "title": "Make the Highway 99 and Cleveland Avenue intersection safer",
-      "why": "The District says it has the highest crash rate in town. The Province runs the highway, so council's role is to press for changes.",
+      "why": "The District says it has the most crashes of any intersection in town. The Province runs the highway, so council's role is to press for changes.",
       "topic": "streets",
       "area": null,
       "who": "province",
       "status": "province",
       "other_side": "The Province added a lane there in 2022 and may not fund more work soon.",
-      "source_url": "https://squamish.ca/yourgovernment/projects-and-initiatives/highway-99-at-cleveland/",
+      "source_url": "https://squamish.ca/projects-plans-and-initiatives/completed-projects/2022-completed-projects/highway-99-at-cleveland/",
       "source_label": "District of Squamish: Highway 99 at Cleveland"
     },
     {
@@ -287,7 +287,7 @@
       "topic": "transit",
       "area": "downtown",
       "who": "council",
-      "status": "agenda",
+      "status": "plan",
       "source_url": "/track/paid-parking/",
       "source_label": "Issues we follow: paid parking",
       "kind": "choice",
@@ -341,7 +341,7 @@
     {
       "id": "tax-2027",
       "title": "How much should property taxes go up in 2027?",
-      "why": "Property taxes rose 12.8% in 2026. Council is working on the 2027 budget now.",
+      "why": "Property taxes rose 12.8% in 2026. The draft 2027 budget starts at a 10.4% increase, and the new council adopts it in December 2026.",
       "topic": "money",
       "area": null,
       "who": "council",

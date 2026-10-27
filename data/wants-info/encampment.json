@@ -1,0 +1,120 @@
+{
+  "id": "encampment",
+  "intro": [
+    "Under One Roof at Third Avenue and Main Street in downtown Squamish is the town's only building with supportive housing, an emergency shelter and a food bank. It is run by Squamish Helping Hands. For several years people camped on the land behind it.",
+    "On September 18, 2026, a fire with propane tank ignitions broke out at the camp. About 15 people were living there and were first told they could come back later. On October 9, 2026, the District of Squamish reversed that and said the site is closed for good, citing fire safety for campers and for the people living and working in Under One Roof.",
+    "Some people moved into housing. Others moved to a spot near Vancouver Street and Loggers Lane. The Province's planned temporary housing for people leaving encampments still has no site, and BC Housing estimates it will open in winter 2027/28. So the question now is mostly about people still camping downtown: move them on now, wait until the temporary housing opens, or let them stay with more support. As of October 2026, this may change quickly."
+  ],
+  "facts": [
+    {
+      "label": "People living at the camp",
+      "value": "About 15 before the September 18, 2026 fire",
+      "src": 2
+    },
+    {
+      "label": "Who uses Under One Roof",
+      "value": "40 residents, 20 shelter users and 70 staff",
+      "src": 1
+    },
+    {
+      "label": "Site status",
+      "value": "Closed for good as of October 9, 2026; people told they cannot return",
+      "src": 1
+    },
+    {
+      "label": "Help offered",
+      "value": "Outreach workers, short stays at Under One Roof, tents and tarps",
+      "src": 1
+    },
+    {
+      "label": "Temporary housing",
+      "value": "No site confirmed; BC Housing estimates opening in winter 2027/28",
+      "src": 3
+    }
+  ],
+  "timeline": [
+    {
+      "when": "March 2026",
+      "what": "Council announced it backed the Province naming Squamish a HEART and HEARTH community and told staff to find a temporary housing site with BC Housing.",
+      "src": 4
+    },
+    {
+      "when": "June 2026",
+      "what": "Council removed the Xwu'nekw Park site on Loggers Lane from the list of possible temporary housing sites.",
+      "src": 5
+    },
+    {
+      "when": "September 18, 2026",
+      "what": "Fire and propane tank ignitions at the camp behind Under One Roof, on the day cleanup and tree removal were set to start.",
+      "src": 2
+    },
+    {
+      "when": "October 9, 2026",
+      "what": "The District said the camp site is closed for good. Some people moved near Vancouver Street and Loggers Lane, where the District planned a portable toilet and bear proof garbage bin.",
+      "src": 1
+    }
+  ],
+  "sides": [
+    {
+      "answer": "Move camps on now",
+      "points": [
+        "Fire and emergency access at camps put campers, neighbours and the people in Under One Roof at risk, and the District has already said safety comes first.",
+        "Neighbours and downtown businesses get public spaces back sooner instead of waiting more than a year for temporary housing."
+      ]
+    },
+    {
+      "answer": "Wait until temporary housing opens",
+      "points": [
+        "People would have a real place to go, so moving them is less likely to just shift the camp to another block.",
+        "It lines up with the Province's plan, which is built around moving people from encampments into staffed temporary housing."
+      ]
+    },
+    {
+      "answer": "Let people stay with more support",
+      "points": [
+        "Moving people again without housing can break their contact with outreach and health workers.",
+        "Squamish Helping Hands has said closing a site does not solve the underlying problems; it only changes where people are."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "q": "Did council vote to close the camp?",
+      "a": "The October 9, 2026 announcement came from the District, with the Fire Chief and Mayor Armand Hurford explaining the fire safety reasons. The reporting does not describe a council vote.",
+      "src": 2
+    },
+    {
+      "q": "When will the temporary housing open?",
+      "a": "BC Housing estimates winter 2027/28. No site has been confirmed, and BC Housing will pick a non profit operator to run it.",
+      "src": 3
+    },
+    {
+      "q": "Where did people go?",
+      "a": "Some moved into housing. Others moved near Vancouver Street and Loggers Lane.",
+      "src": 2
+    }
+  ],
+  "sources": [
+    {
+      "label": "Squamish Reporter: District permanently closes Downtown Squamish encampment site (October 9, 2026)",
+      "url": "https://www.squamishreporter.com/2026/10/09/district-to-permanently-closes-downtown-squamish-encampment-site/"
+    },
+    {
+      "label": "CBC News via Yahoo News Canada: After fire, Squamish moves to permanently shutter encampment",
+      "url": "https://ca.news.yahoo.com/fire-squamish-moves-permanently-shutter-120000544.html"
+    },
+    {
+      "label": "BC Housing: Squamish temporary transitional housing (HEART and HEARTH)",
+      "url": "https://www.bchousing.org/projects-partners/projects/squamish-temporary-housing"
+    },
+    {
+      "label": "District of Squamish: Regular Business Meeting minutes, March 3, 2026",
+      "url": "https://squamish.civicweb.net/FileStorage/70E85B72E8F848E7AAE3DA6C85198DC8-0303%20Regular%20Minutes%202026.pdf"
+    },
+    {
+      "label": "District of Squamish: Regular Business Meeting minutes, June 16, 2026",
+      "url": "https://squamish.civicweb.net/FileStorage/613581026B834480B4C21B4DAED4F5C1-0616%20Regular%20Minutes%202026.pdf"
+    }
+  ],
+  "checked": "2026-10-26"
+}
