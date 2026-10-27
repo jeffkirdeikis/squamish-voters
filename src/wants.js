@@ -105,11 +105,12 @@
   }
   // Where your answer stands, in a few words: with the most picked answer, outnumbered, or first.
   function verdict(a) {
-    var my = mine[a.id], x = t(a.id), o = opinions(a, x);
+    // Shares here are of everyone who answered, don't mind included, so a yes is never inflated by leaving them out.
+    var my = mine[a.id], x = t(a.id), n = total(x);
     if (!my) return '';
-    if (my === 'm') { var st = standing(a); return st ? 'Most took a side: ' + esc(st) : 'No one has taken a side yet'; }
-    if (o <= 1) return 'You’re the first to answer this one';
-    var p = pct(c(x, my), o), top = c(x, ranked(a, x)[0].key);
+    if (n <= 1) return 'You’re the first to answer this one';
+    if (my === 'm') return 'You and <b>' + pct(c(x, 'm'), n) + '% of Squamish</b> don’t mind';
+    var p = pct(c(x, my), n), top = c(x, ranked(a, x)[0].key);
     return c(x, my) >= top ? 'You’re with <b>' + p + '% of Squamish</b>' : 'Only <b>' + p + '% agree</b> with you';
   }
   // My Squamish: how many answers match the most picked one, the boldest take, and the neighbourhood that answers most
@@ -119,7 +120,7 @@
     asks.forEach(function (a) {
       var my = mine[a.id], x = t(a.id), o = opinions(a, x);
       if (!my || my === 'm' || !o) return;
-      var top = c(x, ranked(a, x)[0].key), share = pct(c(x, my), o);
+      var top = c(x, ranked(a, x)[0].key), share = pct(c(x, my), total(x));
       of++; if (c(x, my) >= top) agree++;
       if (share < 50 && c(x, my) < top && (!bold || share < bold.share)) bold = { a: a, share: share };
       Object.keys(x.areas || {}).forEach(function (h) {
@@ -262,18 +263,27 @@
     return '<button type="button" class="wa-tease' + (multi(a) ? ' choice' : '') + '" data-open="' + esc(a.id) + '"><span class="wa-tease-bar" aria-hidden="true"><i></i><i></i><i></i></span><span class="wa-tease-t">Answer to see what Squamish said</span></button>';
   }
   var WORD = { y: 'Yes', n: 'No', m: 'Don’t mind' };
+  // Once answered, every button carries its share of everyone who answered (don't mind included) and a light fill that
+  // size, so the results read right on the answers. Before answering, nothing shows (answer first).
+  function pctOf(a, k) {
+    if (!mine[a.id] || !loaded) return '';
+    var n = total(t(a.id)), p = pct(c(t(a.id), k), n);
+    return n ? ' style="--p:' + p + '%" data-p="1"><span class="wa-pl">' : '><span class="wa-pl">';
+  }
+  function pctTail(a, k) { if (!mine[a.id] || !loaded || !total(t(a.id))) return ''; return '</span><span class="wa-pp">' + pct(c(t(a.id), k), total(t(a.id))) + '%</span>'; }
+  function lab(a, k, text) { var o = pctOf(a, k); return o ? o + text + (pctTail(a, k) || '</span>') : '>' + text; }
   function buttons(a, big) {
     var my = mine[a.id];
     if (multi(a)) {
       var sh = shown(a), more = opts(a).length - sh.length;
       return '<div class="wa-ans choice n' + sh.length + (big ? ' big' : '') + '" role="group" aria-label="Your answer">' + sh.map(function (o, i) {
-        return '<button type="button" class="wa-b opt" data-ans="' + esc(o.key) + '" data-id="' + esc(a.id) + '" aria-pressed="' + (my === o.key) + '">' + (big && desk.matches && i < 9 ? '<kbd>' + (i + 1) + '</kbd> ' : '') + esc(o.label) + '</button>';
+        return '<button type="button" class="wa-b opt" data-ans="' + esc(o.key) + '" data-id="' + esc(a.id) + '" aria-pressed="' + (my === o.key) + '"' + lab(a, o.key, (big && desk.matches && i < 9 ? '<kbd>' + (i + 1) + '</kbd> ' : '') + esc(o.label)) + '</button>';
       }).join('') + (more ? '<button type="button" class="wa-more" data-more="' + esc(a.id) + '">Show ' + more + ' more answer' + (more === 1 ? '' : 's') + ', most picked first</button>' : '') +
-        '<div class="wa-ans-extra"><button type="button" class="wa-b m" data-ans="m" data-id="' + esc(a.id) + '" aria-pressed="' + (my === 'm') + '">Don’t mind</button>' +
+        '<div class="wa-ans-extra"><button type="button" class="wa-b m" data-ans="m" data-id="' + esc(a.id) + '" aria-pressed="' + (my === 'm') + '"' + lab(a, 'm', 'Don’t mind') + '</button>' +
         (canAdd(a) ? '<button type="button" class="wa-b other" data-sug="' + esc(a.id) + '" aria-expanded="' + (sug.id === a.id) + '">Other…</button>' : '') + '</div></div>';
     }
     return '<div class="wa-ans' + (big ? ' big' : '') + '" role="group" aria-label="Your answer">' + ['y', 'n', 'm'].map(function (k) {
-      return '<button type="button" class="wa-b ' + k + '" data-ans="' + k + '" data-id="' + esc(a.id) + '" aria-pressed="' + (my === k) + '">' + WORD[k] + '</button>';
+      return '<button type="button" class="wa-b ' + k + '" data-ans="' + k + '" data-id="' + esc(a.id) + '" aria-pressed="' + (my === k) + '"' + lab(a, k, WORD[k]) + '</button>';
     }).join('') + (canAdd(a) && (big || openId === a.id) ? '<button type="button" class="wa-otherline" data-sug="' + esc(a.id) + '" aria-expanded="' + (sug.id === a.id) + '">Other answer…</button>' : '') + '</div>';
   }
   function detail(a) {
@@ -314,7 +324,7 @@
   }
   // Under a closed, answered row: a thin results bar, where you stand, Share and More info.
   function answeredLine(a) {
-    return '<div class="wa-res">' + bar(a, t(a.id)) + '<div class="wa-resrow"><p class="wa-verdict">' + verdict(a) + '<span class="wa-n">' + total(t(a.id)).toLocaleString('en-CA') + (total(t(a.id)) === 1 ? ' person' : ' people') + ' answered</span></p>' +
+    return '<div class="wa-res"><div class="wa-resrow"><p class="wa-verdict">' + verdict(a) + '<span class="wa-n">' + total(t(a.id)).toLocaleString('en-CA') + (total(t(a.id)) === 1 ? ' person' : ' people') + ' answered</span></p>' +
       '<span class="wa-resacts">' + (only ? '' : infoLink(a)) + '<button type="button" class="wa-sharego small" data-share="' + esc(a.id) + '">' + SHARE_ICON + 'Share</button></span></div></div>' + areaBox(a);
   }
   function row(a) {
@@ -365,11 +375,11 @@
   // One by one, after answering: where you stand, then a bar per answer (yours marked), biggest first.
   function reveal(a) {
     var x = t(a.id), n = total(x), o = opinions(a, x), my = mine[a.id];
-    var rows = ranked(a, x).filter(function (op) { return c(x, op.key) || op.key === my; }).slice(0, 6);
+    var rows = ranked(a, x).filter(function (op) { return c(x, op.key) || op.key === my; }).slice(0, 6).concat([{ key: 'm', label: 'Don’t mind' }]);
     return '<p class="wa-bigverdict">' + verdict(a) + '</p><div class="wa-bars">' + rows.map(function (op) {
-      var p = pct(c(x, op.key), o);
+      var p = pct(c(x, op.key), n);
       return '<div class="wa-brow' + (op.key === my ? ' mine' : '') + '"><span class="wa-blab"><span>' + esc(op.label) + (op.key === my ? ' <em>you</em>' : '') + '</span><b>' + p + '%</b></span><span class="wa-btrack"><i class="wa-fill" data-w="' + p + '" style="width:' + (REDUCED || grown[a.id] ? p : 0) + '%"></i></span></div>';
-    }).join('') + '</div><p class="wa-legend"><span>' + n + ' answer' + (n === 1 ? '' : 's') + '</span><span>' + c(x, 'm') + ' don’t mind' + (my === 'm' ? ', you too' : '') + '</span></p>' +
+    }).join('') + '</div><p class="wa-legend"><span>' + n + (n === 1 ? ' person' : ' people') + ' answered</span></p>' +
       shareBar(a) + areaBox(a);
   }
   // After an answer in One by one, the next card comes up by itself unless they touch the card, open Share, or a

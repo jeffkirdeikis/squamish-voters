@@ -83,7 +83,7 @@ export async function meSummary(spec) {
     const own = r && r.opinions && r.options.find((o) => o.key === key);
     if (!own) return null;
     const top = Math.max(...r.options.map((o) => o.n));
-    return { id, title: ask.title, label: own.label, yn: key === 'y' || key === 'n', share: pctOf(own.n, r.opinions), agree: own.n === top };
+    return { id, title: ask.title, label: own.label, yn: key === 'y' || key === 'n', share: pctOf(own.n, r.total), agree: own.n === top };
   }))).filter(Boolean);
   if (!rows.length) return null;
   const bold = rows.filter((r) => !r.agree && r.share < 50).sort((a, b) => a.share - b.share)[0] || null;

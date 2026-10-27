@@ -1898,3 +1898,18 @@ body:has(.wa-ringtab) #totop { display: none !important; }
 @media (max-width: 30em) { .wa-selects select { max-width: 8.6rem; font-size: .86rem; padding: .4rem .45rem; } }
 @media (max-width: 30em) { .wa-selects { gap: .35rem; } .wa-selects select { max-width: calc((100vw - 2.5rem - 4.6rem) / 2); } }
 .wa-verdict .wa-n { display: block; font-size: .85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.wa-brow:last-child .wa-fill { background: #c9c6b9; }
+.wa-brow.mine:last-child .wa-fill { background: var(--brand); }
+/* Results on the answer buttons once answered */
+.wa-b[data-p] { background: linear-gradient(90deg, var(--wa-fill, var(--surface-2)) var(--p), var(--surface) var(--p)); }
+.wa-b.y[data-p] { --wa-fill: var(--yes-bg); }
+.wa-b.n[data-p] { --wa-fill: var(--no-bg); }
+.wa-b[data-p][aria-pressed="true"] { background: var(--brand); }
+.wa-b.y[data-p][aria-pressed="true"] { background: var(--yes); }
+.wa-b.n[data-p][aria-pressed="true"] { background: var(--no); }
+.wa-b.m[data-p][aria-pressed="true"] { background: var(--ink); }
+.wa-ans:not(.choice) > .wa-b[data-p] { display: grid; justify-items: center; align-content: center; line-height: 1.15; gap: .1rem; padding: .35rem .3rem; }
+.wa-ans:not(.choice) > .wa-b[data-p] .wa-pp { font-size: .82rem; font-weight: 800; opacity: .85; font-variant-numeric: tabular-nums; }
+.wa-ans.choice .wa-b[data-p] { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.wa-ans.choice .wa-b[data-p] .wa-pp { flex: none; font-weight: 800; font-variant-numeric: tabular-nums; }
+.wa-ans-extra .wa-b.m[data-p] { display: inline-flex; gap: .5rem; }
