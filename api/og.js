@@ -1,11 +1,12 @@
 // Share picture for one What Squamish Wants question (1200 x 630), so a link to /wants/<id>/ on Facebook shows that question.
 //   GET ?id=<ask id>  -> PNG: the question and its answer buttons. No results on it, since people answer before they see the crowd.
-//   GET ?id=<ask id>&said=<answer key>  -> "I said Yes" over the question: one person's answer, shared from /wants/<id>/said/<key>/.
-//   GET ?my=<id>.<key>,<id>.<key>  -> "My picks for Squamish": up to 5 of one person's answers, shared from /wants/my/.
+//   GET ?id=<ask id>&said=<answer key>  -> the question, "I said Yes", and the live results, shared from /wants/<id>/said/<key>/.
+//   GET ?my=<id>.<key>,<id>.<key>  -> "My picks for Squamish": up to 5 of one person's answers and how many agree, from /wants/my/.
+// &n=<answers so far> only makes a new address (and so a fresh picture) each time the count moves; Facebook keeps a copy per address.
 // Starter asks come from _wants.json; residents' asks (r-...) from sv_wants. An unknown or hidden id gets the general picture.
 import { ImageResponse } from '@vercel/og';
 import fs from 'node:fs';
-import { findAsk, answerLabel } from './_wants-ask.js';
+import { findAsk, answerLabel, results, pctOf, standing } from './_wants-ask.js';
 
 const font = (f) => fs.readFileSync(new globalThis.URL(`./_fonts/${f}`, import.meta.url));
 const FONTS = [
@@ -24,17 +25,38 @@ const kindOf = (key, ask) => (key === 'm' ? 'm' : !ask.keys && !key.startsWith('
 const footer = (left) => h('div', { marginTop: 'auto', justifyContent: 'space-between', alignItems: 'flex-end', fontSize: 26, fontWeight: 600 },
   h('div', { color: 'rgba(255,255,255,.8)', flex: 1, marginRight: 24 }, left), h('div', { fontWeight: 800, flexShrink: 0 }, 'squamishvoters.com/wants'));
 
-// One person's answer: "I said" and their answer big, then the question, then an invitation to answer it too.
-function saidPicture(ask, label, kind) {
+// Bar colours: the site's yes / no / don't mind, and its eight option colours (--wa-o1 to --wa-o8) for several answers.
+const SEG = { y: '#0b6b2e', n: '#a32020', m: '#c9c6b9' }, OPT = ['#1c5cab', '#c2571c', '#6a4c9c', '#2a7f74', '#8a6d1f', '#b03a63', '#3f7d2e', '#4d5b6b'];
+
+// The live results on a white panel: where Squamish stands, the bar, and the counts behind it.
+function resultsPanel(r) {
+  const segs = r.multi ? r.options.map((o, i) => ({ ...o, color: OPT[i % 8] })) : [{ ...r.options[0], color: SEG.y }, { key: 'm', n: 0, color: SEG.m }, { ...r.options[1], color: SEG.n }];
+  if (!r.multi) segs[1].n = r.m; else segs.push({ key: 'm', label: 'Don’t mind', n: r.m, color: SEG.m });
+  const legend = r.multi
+    ? [...segs].filter((g) => g.key !== 'm' && g.n).sort((a, b) => b.n - a.n).slice(0, 3).map((g) => h('div', { alignItems: 'center', marginRight: 28, whiteSpace: 'nowrap' },
+      h('div', { width: 16, height: 16, borderRadius: 8, background: g.color, marginRight: 8, flexShrink: 0 }), `${pctOf(g.n, r.opinions)}% ${cut(g.label, 20)}`))
+    : [h('div', {}, `${r.options[0].n} yes · ${r.options[1].n} no · ${r.m} don’t mind`)];
+  return h('div', { flexDirection: 'column', background: '#fff', color: '#1a1a1a', borderRadius: 20, padding: '22px 30px 20px', marginTop: 24 },
+    h('div', { justifyContent: 'space-between', alignItems: 'baseline' },
+      h('div', { fontFamily: 'Serif', fontSize: 40, color: GREEN }, cut(standing(r) || 'No one has picked a side yet', 52)),
+      h('div', { fontSize: 24, fontWeight: 600, color: '#666', flexShrink: 0, marginLeft: 20 }, `${r.total} answer${r.total === 1 ? '' : 's'}`)),
+    h('div', { height: 26, borderRadius: 13, overflow: 'hidden', background: '#ece9df', marginTop: 12 },
+      segs.filter((g) => g.n).map((g) => h('div', { width: `${(100 * g.n) / r.total}%`, height: '100%', background: g.color }))),
+    h('div', { fontSize: 22, fontWeight: 600, color: '#555', marginTop: 12 }, legend));
+}
+
+// One person's answer: the question, "I said" and their answer, then how Squamish has answered so far.
+function saidPicture(ask, label, kind, r) {
   const q = /[?.!]$/.test(ask.title) ? ask.title : `${ask.title}?`;
-  const size = q.length <= 45 ? 72 : q.length <= 75 ? 62 : q.length <= 105 ? 52 : 44;
-  return h('div', { width: '100%', height: '100%', flexDirection: 'column', background: GREEN, padding: '56px 72px', color: '#fff', fontFamily: 'Sans' },
-    h('div', { fontSize: 24, fontWeight: 800, color: YELLOW, letterSpacing: 3 }, 'WHAT SQUAMISH WANTS'),
-    h('div', { fontFamily: 'Serif', fontSize: size, lineHeight: 1.12, marginTop: 30, maxWidth: 1050 }, q),
-    h('div', { alignItems: 'center', marginTop: 34 },
-      h('div', { fontSize: 30, fontWeight: 800, color: 'rgba(255,255,255,.8)', marginRight: 18 }, 'I said'),
-      h('div', { alignItems: 'center', padding: '14px 34px', borderRadius: 14, fontWeight: 800, fontSize: label.length > 24 ? 30 : 40, ...ANS[kind] }, cut(label, 44))),
-    footer('What do you say? Answer, then see the results'));
+  const size = r ? (q.length <= 45 ? 56 : q.length <= 75 ? 48 : q.length <= 105 ? 41 : 35) : (q.length <= 45 ? 72 : q.length <= 75 ? 62 : q.length <= 105 ? 52 : 44);
+  return h('div', { width: '100%', height: '100%', flexDirection: 'column', background: GREEN, padding: r ? '44px 64px 40px' : '56px 72px', color: '#fff', fontFamily: 'Sans' },
+    h('div', { fontSize: 22, fontWeight: 800, color: YELLOW, letterSpacing: 3 }, 'WHAT SQUAMISH WANTS'),
+    h('div', { fontFamily: 'Serif', fontSize: size, lineHeight: 1.12, marginTop: r ? 16 : 30, maxWidth: 1072 }, q),
+    h('div', { alignItems: 'center', marginTop: r ? 22 : 34 },
+      h('div', { fontSize: 28, fontWeight: 800, color: 'rgba(255,255,255,.8)', marginRight: 16 }, 'I said'),
+      h('div', { alignItems: 'center', padding: r ? '10px 28px' : '14px 34px', borderRadius: 14, fontWeight: 800, fontSize: label.length > 24 ? 28 : r ? 34 : 40, ...ANS[kind] }, cut(label, 44))),
+    r ? resultsPanel(r) : null,
+    footer(r ? 'What do you say? Answer and see the latest' : 'What do you say? Answer, then see the results'));
 }
 
 // Up to 5 of one person's answers, each as a coloured answer and the question beside it.
@@ -42,7 +64,9 @@ function picksPicture(rows) {
   const big = rows.length <= 3;
   const line = (r) => h('div', { alignItems: 'center', marginBottom: big ? 20 : 11 },
     h('div', { width: 270, flexShrink: 0, justifyContent: 'center', textAlign: 'center', padding: '7px 12px', borderRadius: 10, fontWeight: 800, fontSize: r.label.length > 16 ? 19 : 25, lineHeight: 1.15, marginRight: 22, ...ANS[r.kind] }, cut(r.label, 40)),
-    h('div', { fontSize: big ? 32 : 27, fontWeight: 600, lineHeight: 1.2, flex: 1 }, cut(/[?.!]$/.test(r.title) ? r.title : `${r.title}?`, big ? 90 : 64)));
+    h('div', { fontSize: big ? 32 : 27, fontWeight: 600, lineHeight: 1.2, flex: 1 }, cut(/[?.!]$/.test(r.title) ? r.title : `${r.title}?`, big ? 90 : 64)),
+    r.agree === null ? null : h('div', { flexShrink: 0, marginLeft: 20, flexDirection: 'column', alignItems: 'flex-end', lineHeight: 1 },
+      h('div', { fontSize: big ? 36 : 30, fontWeight: 800, color: YELLOW }, `${r.agree}%`), h('div', { fontSize: 17, fontWeight: 600, color: 'rgba(255,255,255,.75)', marginTop: 4 }, 'agree')));
   return h('div', { width: '100%', height: '100%', flexDirection: 'column', background: GREEN, padding: '44px 64px 46px', color: '#fff', fontFamily: 'Sans' },
     h('div', { fontSize: 22, fontWeight: 800, color: YELLOW, letterSpacing: 3 }, 'WHAT SQUAMISH WANTS'),
     h('div', { fontFamily: 'Serif', fontSize: 50, marginTop: 8, marginBottom: big ? 30 : 18 }, 'My picks for Squamish'),
@@ -54,7 +78,9 @@ async function picks(spec) {
   const pairs = String(spec).split(',').slice(0, 5).map((p) => p.split('.')).filter(([id, k]) => /^[a-z0-9-]{2,40}$/.test(id || '') && /^[a-z0-9]{1,12}$/.test(k || ''));
   const rows = await Promise.all(pairs.map(async ([id, key]) => {
     const ask = await findAsk(id), label = ask && (await answerLabel(id, ask, key));
-    return label ? { title: ask.title, label, kind: kindOf(key, ask) } : null;
+    if (!label) return null;
+    const r = await results(id, ask), same = r && (r.options.find((o) => o.key === key) || { n: 0 }).n;
+    return { title: ask.title, label, kind: kindOf(key, ask), agree: r && r.opinions && key !== 'm' ? pctOf(same, r.opinions) : null };
   }));
   return rows.filter(Boolean);
 }
@@ -90,12 +116,14 @@ export default async function handler(req, res) {
   else {
     const ask = id && (await findAsk(id));
     const label = ask && said && /^[a-z0-9]{1,12}$/.test(said) && (await answerLabel(id, ask, said));
-    if (ask) el = label ? saidPicture(ask, label, kindOf(said, ask)) : picture(ask);
+    if (ask) el = label ? saidPicture(ask, label, kindOf(said, ask), await results(id, ask).catch(() => null)) : picture(ask);
   }
   if (!el) { res.setHeader('Cache-Control', 'public, max-age=3600'); return res.redirect(302, '/share/wants.png?v=1'); }
   const img = new ImageResponse(el, { width: 1200, height: 630, fonts: FONTS });
   res.setHeader('Content-Type', 'image/png');
-  // Facebook keeps its own copy anyway; a day at the edge keeps a busy share cheap, and a corrected title shows by tomorrow.
-  res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800');
+  // Pictures with results change as people answer: an address with &n= is one moment's count and can stay a day at the edge;
+  // without it, ten minutes. The plain question picture has no numbers and keeps a day.
+  const live = said || req.query.my;
+  res.setHeader('Cache-Control', live && !req.query.n ? 'public, max-age=300, s-maxage=600' : 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800');
   return res.send(Buffer.from(await img.arrayBuffer()));
 }

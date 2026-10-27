@@ -10,8 +10,8 @@
    Adding an ask: Claude checks the rules, writes a short neutral ask, and lists asks already on the list that look the
    same, so the writer can answer that one or add their words to it instead of posting a copy.
    Sharing: every answered ask has a share bar (Facebook, Copy link, and the phone's own share sheet). The link carries the
-   answer (/wants/<id>/said/<key>/), so the Facebook picture says "I said Yes" over the question; no crowd numbers on it,
-   so people still answer before they see the results. "Share my picks" sends up to 5 answers as one picture (/wants/my/).
+   answer (/wants/<id>/said/<key>/?n=<answers>), so the Facebook picture says "I said Yes" over the question with the live
+   results under it (Jeff's call, Oct 26 2026). The plain question link still has no numbers. "Share my picks" sends up to 5 answers as one picture (/wants/my/).
    Multiple choice asks: residents can add a missing answer (Claude checks it isn't already there). Starter answers keep
    their order; added ones follow, ranked by popularity when the page loads. Past 6 answers the rest fold behind
    "Show more". */
@@ -79,20 +79,24 @@
   function labelOf(a, k) { if (k === 'm') return 'Don’t mind'; var o = opts(a).filter(function (o) { return o.key === k; })[0]; return o ? o.label : k; }
   // Most wanted: the share of yes among yes and no; for a multiple choice ask, the share of its most picked option.
   function score(a) { var x = t(a.id), o = opinions(a, x); return o ? (isChoice(a) ? c(x, ranked(a, x)[0].key) : c(x, 'y')) / o : -1; }
+  // Where Squamish stands, in words for a share: "87% say yes" or "“Freeze it” leads with 62%" (same as api/_wants-ask.js).
+  function standing(a) { var x = t(a.id), o = opinions(a, x); if (!o) return ''; if (!multi(a)) return pct(c(x, 'y'), o) + '% say yes'; var top = ranked(a, x)[0]; return '“' + top.label + '” leads with ' + pct(c(x, top.key), o) + '%'; }
   // How evenly split: 1 means the top two answers are tied.
   function splitness(a) { var x = t(a.id), o = opinions(a, x), r = ranked(a, x); return o && c(x, r[1].key) ? 1 - (c(x, r[0].key) - c(x, r[1].key)) / o : -1; }
   function done() { return asks.filter(function (a) { return mine[a.id]; }).length; }
   function infoLink(a, cls) { return a.info ? '<a class="' + (cls || 'wa-info') + '" href="/wants/' + esc(a.id) + '/info/">More info <span aria-hidden="true">›</span></a>' : ''; }
   function linkOf(a) { return location.origin + '/wants/' + a.id + '/'; }
-  // The link for what someone shares: their own answer on one ask (not Don't mind, which makes a dull picture), or their picks.
-  function saidLink(a) { var my = mine[a.id]; return my && my !== 'm' ? linkOf(a) + 'said/' + encodeURIComponent(my) + '/' : linkOf(a); }
+  // The link for what someone shares: their own answer on one ask (Don't mind too), or their picks. ?n= is the answer count
+  // right now, so each share is a new address and Facebook fetches a picture with today's results instead of an old copy.
+  function saidLink(a) { var my = mine[a.id]; return my ? linkOf(a) + 'said/' + encodeURIComponent(my) + '/?n=' + total(t(a.id)) : linkOf(a); }
+  function allAnswers() { return asks.reduce(function (s, a) { return s + total(t(a.id)); }, 0); }
   // Up to 5 answers for "My picks": the things they want first (yes, or a pick on a multiple choice ask), then their nos.
   function picks() {
     var a = asks.filter(function (x) { var k = mine[x.id]; return k && k !== 'm' && k !== 'n'; });
     var b = asks.filter(function (x) { return mine[x.id] === 'n'; });
     return a.concat(b).slice(0, 5);
   }
-  function picksLink() { return location.origin + '/wants/my/?a=' + picks().map(function (x) { return x.id + '.' + mine[x.id]; }).join(','); }
+  function picksLink() { return location.origin + '/wants/my/?a=' + picks().map(function (x) { return x.id + '.' + mine[x.id]; }).join(',') + '&n=' + allAnswers(); }
   var NATIVE = !!navigator.share;
   // Facebook, Copy link (for pasting into a group post), and the phone's own share sheet where there is one.
   function shareBtns(target) {
@@ -103,7 +107,7 @@
   // Under the results once someone has answered: where they stand, then the share buttons. It stays on every answered
   // ask (never only the latest), so rows don't change height as someone works down the list.
   // The picture Facebook will show for this share (api/og.js), so people see exactly what they'd post.
-  function cardImg(a) { var my = mine[a.id]; return '/api/og/?id=' + encodeURIComponent(a.id) + (my && my !== 'm' ? '&said=' + encodeURIComponent(my) : '') + '&v=1'; }
+  function cardImg(a) { var my = mine[a.id]; return '/api/og/?id=' + encodeURIComponent(a.id) + (my ? '&said=' + encodeURIComponent(my) : '') + '&v=2&n=' + total(t(a.id)); }
   // Under the results once someone has answered: a preview of their share picture, a line that depends on how their answer
   // compares, and the buttons. It stays on every answered ask (never only the latest), so rows don't change height as
   // someone works down the list.
@@ -122,7 +126,7 @@
   function picksBar() {
     if (!picks().length) return '';
     var spec = picks().map(function (x) { return x.id + '.' + mine[x.id]; }).join(',');
-    return '<div class="wa-sharebar wa-picksbar"><img class="wa-sharepic" src="/api/og/?my=' + encodeURIComponent(spec) + '&v=1" alt="" loading="lazy" width="1200" height="630">' +
+    return '<div class="wa-sharebar wa-picksbar"><img class="wa-sharepic" src="/api/og/?my=' + encodeURIComponent(spec) + '&v=2&n=' + allAnswers() + '" alt="" loading="lazy" width="1200" height="630">' +
       '<div class="wa-sharetxt"><p class="wa-you">Show Squamish what you want.</p><p class="wa-sub">Your top answers in one picture, made for a Facebook group or a group chat.</p></div>' + shareBtns('@my') + '</div>';
   }
 
@@ -500,9 +504,10 @@
   function target(id) {
     if (id === '@my') return { url: picksLink(), title: 'My picks for Squamish', text: 'Here’s what I want for Squamish. What do you want?', what: 'picks' };
     var a = byId(id); if (!a) return null;
-    var my = mine[a.id], q = a.title.replace(/[?.!]?$/, '?');
-    return { url: saidLink(a), title: a.title, what: my && my !== 'm' ? 'answer' : 'question',
-      text: my && my !== 'm' ? 'I said “' + labelOf(a, my) + '” to: ' + q + ' What do you say?' : q + (isChoice(a) ? ' Pick your answer' : ' Say yes, no or don’t mind') + ' on What Squamish Wants.' };
+    var my = mine[a.id], q = a.title.replace(/[?.!]?$/, '?'), now = standing(a);
+    return { url: saidLink(a), title: a.title, what: my ? 'answer' : 'question',
+      text: my ? (my === 'm' ? 'I don’t mind either way on: ' : 'I said “' + labelOf(a, my) + '” to: ') + q + (now ? ' So far ' + now + ' (' + total(t(a.id)) + ' answers).' : '') + ' What do you say?'
+        : q + (isChoice(a) ? ' Pick your answer' : ' Say yes, no or don’t mind') + ' on What Squamish Wants.' };
   }
   function share(id) { var x = target(id); if (x) shareUrl(x.url, x.title, x.text); }
   function gotoAsk(id) {

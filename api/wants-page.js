@@ -1,10 +1,11 @@
 // What Squamish Wants pages that need the database or a person's answers, so a Facebook share shows the right title and picture.
 //   GET ?id=<r-id>               -> a resident's ask at /wants/<r-id>/ (starter asks have static pages built by build.mjs).
-//   GET ?id=<id>&said=<key>      -> /wants/<id>/said/<key>/: "I said Yes" on one question, opened on that question.
+//   GET ?id=<id>&said=<key>      -> /wants/<id>/said/<key>/: "I said Yes" and the live results on one question, opened on it.
+// A shared link carries ?n=<answers so far>, so each share is a new address and Facebook fetches today's results for it.
 //   GET ?mine=1&a=<id>.<key>,... -> /wants/my/?a=...: "My picks for Squamish", up to 5 answers, opened on the full list.
 // All of them are the static /wants/ page (or the ask's own page) with the title, description, share picture and the
 // page data's focus swapped in. Hidden or unknown -> /wants/.
-import { findAsk, answerLabel } from './_wants-ask.js';
+import { findAsk, answerLabel, results, standing } from './_wants-ask.js';
 
 const ORIGIN = 'https://squamishvoters.com';
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -15,23 +16,30 @@ async function describe(q) {
     const spec = String(q.a || '').split(',').slice(0, 5).filter((p) => /^[a-z0-9-]{2,40}\.[a-z0-9]{1,12}$/.test(p)).join(',');
     if (!spec) return null;
     return {
-      shell: '/wants/', focus: null, said: null, url: `${ORIGIN}/wants/my/?a=${spec}`, canonical: `${ORIGIN}/wants/`,
+      shell: '/wants/', focus: null, said: null, url: `${ORIGIN}/wants/my/?a=${spec}${n && `&n=${n}`}`, canonical: `${ORIGIN}/wants/`,
       title: 'My picks for Squamish | What Squamish Wants', alt: 'My picks for Squamish',
       desc: 'Here’s what I want for Squamish. Say yes, no or don’t mind to the same questions and see what everyone said.',
-      img: `${ORIGIN}/api/og/?my=${spec}&v=1`,
+      img: `${ORIGIN}/api/og/?my=${spec}&v=2${n && `&n=${n}`}`,
     };
   }
+  const n = /^\d{1,7}$/.test(String(q.n || '')) ? `${q.n}` : '';
   const id = String(q.id || '').replace(/\/$/, ''), key = String(q.said || '');
   if (!/^[a-z0-9-]{2,40}$/.test(id)) return null;
   const a = await findAsk(id);
   if (!a || (!key && !id.startsWith('r-'))) return null;
   const label = key && /^[a-z0-9]{1,12}$/.test(key) ? await answerLabel(id, a, key) : null;
   const shell = id.startsWith('r-') ? '/wants/' : `/wants/${id}/`;
-  if (label) return {
-    shell, focus: id, said: { id, label }, url: `${ORIGIN}/wants/${id}/said/${key}/`, canonical: `${ORIGIN}/wants/${id}/`,
-    title: `I said “${label}”: ${ask(a.title)}`, alt: `What Squamish Wants: ${a.title}. I said ${label}.`,
-    desc: 'What do you say? Answer, then see what Squamish said.', img: `${ORIGIN}/api/og/?id=${id}&said=${key}&v=1`,
-  };
+  if (label) {
+    const r = await results(id, a).catch(() => null), now = standing(r), tot = r ? r.total : 0;
+    const stamp = `${tot || n}`;
+    return {
+      shell, focus: id, said: { id, label }, url: `${ORIGIN}/wants/${id}/said/${key}/${n ? `?n=${n}` : ''}`, canonical: `${ORIGIN}/wants/${id}/`,
+      title: `${key === 'm' ? 'I don’t mind' : `I said “${label}”`}: ${ask(a.title)}`,
+      alt: `What Squamish Wants: ${a.title}. I said ${label}.${now ? ` So far ${now}.` : ''}`,
+      desc: now ? `So far ${now} (${tot} answer${tot === 1 ? '' : 's'}). What do you say?` : 'What do you say? Answer, then see what Squamish said.',
+      img: `${ORIGIN}/api/og/?id=${id}&said=${key}&v=2&n=${stamp}`,
+    };
+  }
   if (!id.startsWith('r-')) return null;
   return {
     shell, focus: id, said: null, url: `${ORIGIN}/wants/${id}/`, canonical: `${ORIGIN}/wants/${id}/`,

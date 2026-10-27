@@ -23,3 +23,27 @@ export async function answerLabel(id, ask, key) {
   const [o] = await sql`SELECT label FROM sv_want_options WHERE wid = ${id} AND key = ${key} AND status = 'ok'`.catch(() => []);
   return o ? o.label : null;
 }
+
+// Live results for one ask, for the share pictures and the words under a shared link. The answers are listed in the
+// site's order (Yes / No, or the starter options, then answers residents added); Don't mind is counted apart.
+export async function results(id, ask) {
+  if (!sql) return null;
+  const [votes, extra] = await Promise.all([
+    sql`SELECT choice, count(*)::int AS n FROM sv_want_votes WHERE wid = ${id} GROUP BY choice`.catch(() => null),
+    sql`SELECT key, label FROM sv_want_options WHERE wid = ${id} AND status = 'ok' ORDER BY created_at`.catch(() => []),
+  ]);
+  if (!votes) return null;
+  const n = Object.fromEntries(votes.map((r) => [r.choice, r.n]));
+  const base = ask.keys ? ask.keys.map((k, i) => ({ key: k, label: ask.labels[i] })) : [{ key: 'y', label: 'Yes' }, { key: 'n', label: 'No' }];
+  const options = [...base, ...extra].map((o) => ({ ...o, n: n[o.key] || 0 }));
+  const opinions = options.reduce((s, o) => s + o.n, 0), m = n.m || 0;
+  return { options, opinions, m, total: opinions + m, multi: !!ask.keys || extra.length > 0 };
+}
+export const pctOf = (n, d) => (d ? Math.round((100 * n) / d) : 0);
+// One line on where Squamish stands, e.g. "87% say yes" or "“Freeze it” leads with 62%". Null before anyone has picked a side.
+export function standing(r) {
+  if (!r || !r.opinions) return null;
+  if (!r.multi) return `${pctOf(r.options[0].n, r.opinions)}% say yes`;
+  const top = [...r.options].sort((a, b) => b.n - a.n)[0];
+  return `“${top.label}” leads with ${pctOf(top.n, r.opinions)}%`;
+}
