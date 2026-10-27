@@ -394,7 +394,13 @@ ${scripts}${noindex ? '' : '\n<script>window.va=window.va||function(){(window.va
 }
 
 const SITEMAP = []; // every indexable page, built into sitemap.xml at the end
+// Our own scripts and the stylesheet are linked with a short fingerprint of their contents (/wants.js?v=1a2b3c4d), so
+// browsers fetch the new copy as soon as it changes instead of running one they kept from an earlier visit.
+const ASSET_V = {};
+const assetV = (f) => (ASSET_V[f] ||= (fs.existsSync(path.join(ROOT, 'src', f)) ? crypto.createHash('sha1').update(fs.readFileSync(path.join(ROOT, 'src', f))).digest('hex').slice(0, 8) : ''));
+const versioned = (html) => html.replace(/(src|href)="\/([a-z]+\.(?:js|css))"/g, (m, attr, f) => (assetV(f) ? `${attr}="/${f}?v=${assetV(f)}"` : m));
 function write(url, html) {
+  html = versioned(html);
   if (!/name="robots" content="noindex/.test(html) && url !== '/404/') SITEMAP.push(url);
   const out = path.join(DIST, url, 'index.html');
   fs.mkdirSync(path.dirname(out), { recursive: true });
