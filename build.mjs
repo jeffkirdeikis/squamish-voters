@@ -1577,7 +1577,7 @@ if (TRACKED.length) {
   <aside class="wa-rail" aria-label="Your progress and adding an ask">
     <section class="card wa-railcard" data-wa-railprog></section>
     <section class="card wa-railcard wa-railadd" data-wa-railadd></section>
-    <section class="card wa-railcard"><h2>How the ranking works</h2><p class="small">Most wanted means the highest share of yes among people who said yes or no. “Don’t mind” is shown on every bar but left out of that share, so an ask that matters to one neighbourhood isn’t buried by people it doesn’t affect.</p></section>
+    <section class="card wa-railcard"><h2>How the ranking works</h2><p class="small">The Top 10 sorts three ways. Most votes: the asks the most people answered. Most unanimous: the biggest share for the leading answer, yes or no alike. Most split: closest to even between the top two answers. “Don’t mind” is shown on every bar but left out of those shares, so an ask that matters to one neighbourhood isn’t buried by people it doesn’t affect.</p></section>
   </aside>
   </div>
   <div class="wa-fixed">

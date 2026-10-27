@@ -43,7 +43,7 @@
   var desk = window.matchMedia ? window.matchMedia('(min-width: 1000px)') : { matches: false };
 
   var asks = D.asks.slice(), tallies = {}, mine = {}, notes = {}, people = 0, loaded = false;
-  var view = 'list', topic = 'all', sort = 'wanted', openId = null, focusId = D.focus || (location.hash || '').slice(1) || null, deckSkip = {}, deckShown = null;
+  var view = 'list', topic = 'all', sort = 'wanted', topSort = 'votes', openId = null, focusId = D.focus || (location.hash || '').slice(1) || null, deckSkip = {}, deckShown = null;
   var reported = {}, pending = {}, hintId = null, hinted = false;
   var expanded = {}, sug = { id: null, text: '', busy: false, msg: '', same: '' };
   var SHOW = 6, MAX_OPTIONS = 12; // answers shown before "Show more"; most answers a question can have
@@ -82,6 +82,8 @@
   // Where Squamish stands, in words for a share: "87% say yes" or "“Freeze it” leads with 62%" (same as api/_wants-ask.js).
   function standing(a) { var x = t(a.id), o = opinions(a, x); if (!o) return ''; if (!multi(a)) return pct(c(x, 'y'), o) + '% say yes'; var top = ranked(a, x)[0]; return '“' + top.label + '” leads with ' + pct(c(x, top.key), o) + '%'; }
   // How evenly split: 1 means the top two answers are tied.
+  // How close to everyone agreeing: the share of the leading answer (yes or no alike), left out don't mind.
+  function agreement(a) { var x = t(a.id), o = opinions(a, x); return o ? c(x, ranked(a, x)[0].key) / o : -1; }
   function splitness(a) { var x = t(a.id), o = opinions(a, x), r = ranked(a, x); return o && c(x, r[1].key) ? 1 - (c(x, r[0].key) - c(x, r[1].key)) / o : -1; }
   function done() { return asks.filter(function (a) { return mine[a.id]; }).length; }
   function infoLink(a, cls) { return a.info ? '<a class="' + (cls || 'wa-info') + '" href="/wants/' + esc(a.id) + '/info/">More info <span aria-hidden="true">›</span></a>' : ''; }
@@ -288,20 +290,28 @@
     var el = $('[data-wa-top]'); if (!el) return;
     var d = done();
     if (d < UNLOCK) {
-      el.innerHTML = '<div class="wa-card wa-locked"><p class="wa-lockicon" aria-hidden="true">🔒</p><h2>Answer ' + (UNLOCK - d) + ' more to open the Top 10</h2><p>The results board shows the most wanted and most split asks in Squamish. It opens once you’ve answered ' + UNLOCK + ', so everyone answers before they look.</p><div class="wa-prog" aria-hidden="true"><i style="width:' + pct(d, UNLOCK) + '%"></i></div><button type="button" class="btn block" data-view="list">Keep answering</button></div>';
+      el.innerHTML = '<div class="wa-card wa-locked"><p class="wa-lockicon" aria-hidden="true">🔒</p><h2>Answer ' + (UNLOCK - d) + ' more to open the Top 10</h2><p>The results board shows the most answered, most unanimous and most split asks in Squamish. It opens once you’ve answered ' + UNLOCK + ', so everyone answers before they look.</p><div class="wa-prog" aria-hidden="true"><i style="width:' + pct(d, UNLOCK) + '%"></i></div><button type="button" class="btn block" data-view="list">Keep answering</button></div>';
       return;
     }
     var withAns = asks.filter(function (a) { return opinions(a, t(a.id)) > 0; });
-    var top = withAns.slice().sort(function (p, q) { return (score(q) - score(p)) || (opinions(q, t(q.id)) - opinions(p, t(p.id))); }).slice(0, 10);
-    var split = withAns.filter(function (a) { return splitness(a) >= 0; }).sort(function (p, q) { return (splitness(q) - splitness(p)) || (opinions(q, t(q.id)) - opinions(p, t(p.id))); }).slice(0, 3);
+    // Most votes by default; ties go to the ask with more yes or no answers.
+    var by = { votes: function (a) { return total(t(a.id)); }, unanimous: agreement, split: splitness }[topSort];
+    var top = withAns.filter(function (a) { return by(a) >= 0; }).sort(function (p, q) { return (by(q) - by(p)) || (opinions(q, t(q.id)) - opinions(p, t(p.id))); }).slice(0, 10);
+    var NOTE = {
+      votes: 'The asks the most people have answered. Tap one to answer or see more.',
+      unanimous: 'Where people agree most: the share of the leading answer among people who took a side, yes or no alike. Tap one to answer or see more.',
+      split: 'Closest to an even split between the top two answers. Tap one to answer or see more.',
+    };
     function line(a, i) {
       var x = t(a.id), o = opinions(a, x), lead = ranked(a, x)[0], my = mine[a.id];
       return '<li><button type="button" class="wa-topline" data-goto="' + esc(a.id) + '"><span class="wa-rank">' + (i + 1) + '</span><span class="wa-topbody"><span class="wa-topt">' + esc(a.title) + '</span>' + bar(a, x) +
-        '<span class="wa-legend"><em>' + (isChoice(a) ? 'Most picked: <b>' + esc(lead.label) + '</b> (' + pct(c(x, lead.key), o) + '%)' : '<b>' + pct(c(x, 'y'), o) + '% yes</b>') + '</em><span>' + total(x) + ' answer' + (total(x) === 1 ? '' : 's') + '</span>' +
+        '<span class="wa-legend"><em>' + (isChoice(a) ? 'Most picked: <b>' + esc(lead.label) + '</b> (' + pct(c(x, lead.key), o) + '%)' : (c(x, 'n') > c(x, 'y') ? '<b>' + pct(c(x, 'n'), o) + '% no</b>' : '<b>' + pct(c(x, 'y'), o) + '% yes</b>')) + '</em><span>' + total(x) + ' answer' + (total(x) === 1 ? '' : 's') + '</span>' +
         (my ? '<span>' + (my === 'm' ? 'You don’t mind' : multi(a) ? 'You picked “' + esc(labelOf(a, my)) + '”' : 'You said ' + WORD[my].toLowerCase()) + '</span>' : '') + '</span></span></button></li>';
     }
-    el.innerHTML = picksBar() + '<div class="wa-board"><h2>Most wanted</h2><p class="small muted">Ranked by the share of yes among people who said yes or no (for questions with several answers, the share of the most picked one). Tap one to answer or see more.</p><ol class="wa-toplist">' + (top.length ? top.map(line).join('') : '<li class="wa-empty">No answers yet.</li>') + '</ol>' +
-      (split.length ? '<h2>Most split</h2><p class="small muted">Closest to an even yes and no.</p><ol class="wa-toplist">' + split.map(line).join('') + '</ol>' : '') +
+    var sortBtns = '<div class="wa-filters wa-topsort" role="group" aria-label="Sort the Top 10">' + [['votes', 'Most votes'], ['unanimous', 'Most unanimous'], ['split', 'Most split']].map(function (o) {
+      return '<button type="button" class="wa-f" data-wa-topsort="' + o[0] + '" aria-pressed="' + (topSort === o[0]) + '">' + o[1] + '</button>';
+    }).join('') + '</div>';
+    el.innerHTML = picksBar() + '<div class="wa-board"><h2>Top 10</h2>' + sortBtns + '<p class="small muted">' + NOTE[topSort] + '</p><ol class="wa-toplist">' + (top.length ? top.map(line).join('') : '<li class="wa-empty">' + (topSort === 'split' ? 'No ask has answers on both sides yet.' : 'No answers yet.') + '</li>') + '</ol>' +
       '<p class="small muted">Not a scientific poll. ' + people + ' people have answered so far.</p></div>';
   }
 
@@ -527,6 +537,7 @@
     if ((b = e.target.closest('[data-ans]'))) { if (b.closest('.wa-sug')) sug = { id: null, text: '', busy: false, msg: '', same: '' }; answer(b.getAttribute('data-id'), b.getAttribute('data-ans')); return; }
     if ((b = e.target.closest('[data-open]'))) { var oid = b.getAttribute('data-open'); openId = openId === oid ? null : oid; if (openId) track('Wants open'); draw(); return; }
     if ((b = e.target.closest('[data-view]'))) { if (b.closest('[data-wa-sheet]')) closeSheet(); setView(b.getAttribute('data-view'), !!b.closest('[data-wa-tabs]')); return; }
+    if ((b = e.target.closest('[data-wa-topsort]'))) { topSort = b.getAttribute('data-wa-topsort'); drawTop(); return; }
     if ((b = e.target.closest('[data-topic]'))) { topic = b.getAttribute('data-topic'); focusId = null; order = null; draw(); return; }
     if (e.target.closest('[data-nextq]')) { nextUnanswered(); return; }
     if (e.target.closest('[data-sheetx]')) { closeSheet(); return; }

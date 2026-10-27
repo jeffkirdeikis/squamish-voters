@@ -1751,3 +1751,4 @@ p.wa-under { justify-content: flex-end; margin-top: .25rem; }
 .wa-ans .wa-otherline { grid-column: 1 / -1; justify-self: start; background: none; border: 0; padding: .15rem 0; font: inherit; font-size: .85rem; font-weight: 700; color: var(--muted); cursor: pointer; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; }
 .wa-ans .wa-otherline[aria-expanded="true"] { color: var(--brand); }
 .wa-optlegend .y { background: var(--yes); } .wa-optlegend .n { background: var(--no); }
+.wa-topsort { margin: .5rem 0 .2rem; -webkit-mask-image: none; mask-image: none; padding-right: 0; flex-wrap: wrap; }
