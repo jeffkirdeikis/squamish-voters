@@ -1664,9 +1664,18 @@ body:has(.wa-float:not([hidden])) #totop { display: none !important; }
 .wa-added { color: var(--muted); font-weight: 400; font-size: .78rem; white-space: nowrap; }
 .wa-ans.choice .wa-more { grid-column: 1 / -1; justify-self: start; background: none; border: 1px dashed var(--line); border-radius: 8px; padding: .45rem .85rem; font: inherit; font-size: .9rem; font-weight: 700; color: var(--brand); cursor: pointer; min-height: 2.4rem; }
 .wa-sugopen { margin-top: .35rem; }
-.wa-sharelink { margin-top: .35rem; }
-.wa-sugopen + .wa-sharelink { margin-left: .9rem; }
-.wa-sharelink::before { content: "↗ "; }
+.wa-sharebar { margin-top: .3rem; padding: .6rem .7rem; border-radius: 10px; background: var(--brand-soft); display: grid; gap: .45rem; }
+.wa-sharebar p { margin: 0; }
+.wa-sharebar .wa-you { font-weight: 600; font-size: .95rem; }
+.wa-askn { font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--brand); }
+.wa-sharebtns { display: flex; flex-wrap: wrap; gap: .45rem; }
+.wa-sb { min-height: 2.5rem; padding: .4rem .95rem; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--brand) 35%, var(--line)); background: var(--surface); color: var(--brand); font: inherit; font-weight: 700; font-size: .92rem; cursor: pointer; }
+.wa-sb:hover { background: var(--surface-2); }
+.wa-sb.fb { background: #1877f2; border-color: #1877f2; color: #fff; }
+.wa-sb.fb:hover { background: #0f63d1; }
+.wa-sb.fb::before { content: "f"; display: inline-block; font-family: Arial, sans-serif; font-weight: 900; margin-right: .45rem; }
+.wa-picksbar { margin-bottom: 1rem; }
+.wa-saidby { margin: 0 0 .5rem; font-size: .95rem; padding: .45rem .7rem; border-radius: 10px; background: var(--warn-bg); color: var(--warn-ink); }
 .wa-sug { margin-top: .6rem; padding: .75rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); display: grid; gap: .5rem; }
 .wa-sug .fld { margin: 0; }
 .wa-sugrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .5rem; }

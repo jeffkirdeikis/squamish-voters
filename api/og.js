@@ -1,13 +1,12 @@
 // Share picture for one What Squamish Wants question (1200 x 630), so a link to /wants/<id>/ on Facebook shows that question.
 //   GET ?id=<ask id>  -> PNG: the question and its answer buttons. No results on it, since people answer before they see the crowd.
+//   GET ?id=<ask id>&said=<answer key>  -> "I said Yes" over the question: one person's answer, shared from /wants/<id>/said/<key>/.
+//   GET ?my=<id>.<key>,<id>.<key>  -> "My picks for Squamish": up to 5 of one person's answers, shared from /wants/my/.
 // Starter asks come from _wants.json; residents' asks (r-...) from sv_wants. An unknown or hidden id gets the general picture.
 import { ImageResponse } from '@vercel/og';
-import { neon } from '@neondatabase/serverless';
 import fs from 'node:fs';
-import SEED from './_wants.json' with { type: 'json' };
+import { findAsk, answerLabel } from './_wants-ask.js';
 
-const URL = process.env.DATABASE_URL || process.env.POSTGRES_URL;
-const sql = URL ? neon(URL) : null;
 const font = (f) => fs.readFileSync(new globalThis.URL(`./_fonts/${f}`, import.meta.url));
 const FONTS = [
   { name: 'Serif', data: font('Gelasio-Bold.ttf'), weight: 700, style: 'normal' },
@@ -19,12 +18,45 @@ const GREEN = '#0f4c3a', YELLOW = '#f5b800';
 // Tiny element helper: satori takes React-shaped objects, so no JSX build step is needed.
 const h = (type, style, ...children) => ({ type, props: { style: { display: 'flex', ...style }, children: children.flat().filter((c) => c !== null && c !== '') } });
 
-async function findAsk(id) {
-  const s = SEED.asks.find((a) => a.id === id);
-  if (s) return { title: s.title, labels: s.labels || null };
-  if (!sql || !/^r-[a-z0-9]{4,20}$/.test(id)) return null;
-  const [r] = await sql`SELECT title FROM sv_wants WHERE id = ${id} AND status = 'ok'`.catch(() => []);
-  return r ? { title: r.title, labels: null } : null;
+const cut = (s, n) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s);
+const ANS = { y: { background: '#0b6b34', color: '#fff', border: '3px solid #0b6b34' }, n: { background: '#fff', color: '#a61b1b', border: '3px solid #e5b3b3' }, o: { background: YELLOW, color: '#1a1a1a', border: `3px solid ${YELLOW}` }, m: { background: '#fff', color: '#4a4a4a', border: '3px solid #d6d2c8' } };
+const kindOf = (key, ask) => (key === 'm' ? 'm' : !ask.keys && !key.startsWith('x') ? key : 'o');
+const footer = (left) => h('div', { marginTop: 'auto', justifyContent: 'space-between', alignItems: 'flex-end', fontSize: 26, fontWeight: 600 },
+  h('div', { color: 'rgba(255,255,255,.8)', flex: 1, marginRight: 24 }, left), h('div', { fontWeight: 800, flexShrink: 0 }, 'squamishvoters.com/wants'));
+
+// One person's answer: "I said" and their answer big, then the question, then an invitation to answer it too.
+function saidPicture(ask, label, kind) {
+  const q = /[?.!]$/.test(ask.title) ? ask.title : `${ask.title}?`;
+  const size = q.length <= 45 ? 72 : q.length <= 75 ? 62 : q.length <= 105 ? 52 : 44;
+  return h('div', { width: '100%', height: '100%', flexDirection: 'column', background: GREEN, padding: '56px 72px', color: '#fff', fontFamily: 'Sans' },
+    h('div', { fontSize: 24, fontWeight: 800, color: YELLOW, letterSpacing: 3 }, 'WHAT SQUAMISH WANTS'),
+    h('div', { fontFamily: 'Serif', fontSize: size, lineHeight: 1.12, marginTop: 30, maxWidth: 1050 }, q),
+    h('div', { alignItems: 'center', marginTop: 34 },
+      h('div', { fontSize: 30, fontWeight: 800, color: 'rgba(255,255,255,.8)', marginRight: 18 }, 'I said'),
+      h('div', { alignItems: 'center', padding: '14px 34px', borderRadius: 14, fontWeight: 800, fontSize: label.length > 24 ? 30 : 40, ...ANS[kind] }, cut(label, 44))),
+    footer('What do you say? Answer, then see the results'));
+}
+
+// Up to 5 of one person's answers, each as a coloured answer and the question beside it.
+function picksPicture(rows) {
+  const big = rows.length <= 3;
+  const line = (r) => h('div', { alignItems: 'center', marginBottom: big ? 20 : 11 },
+    h('div', { width: 270, flexShrink: 0, justifyContent: 'center', textAlign: 'center', padding: '7px 12px', borderRadius: 10, fontWeight: 800, fontSize: r.label.length > 16 ? 19 : 25, lineHeight: 1.15, marginRight: 22, ...ANS[r.kind] }, cut(r.label, 40)),
+    h('div', { fontSize: big ? 32 : 27, fontWeight: 600, lineHeight: 1.2, flex: 1 }, cut(/[?.!]$/.test(r.title) ? r.title : `${r.title}?`, big ? 90 : 64)));
+  return h('div', { width: '100%', height: '100%', flexDirection: 'column', background: GREEN, padding: '44px 64px 46px', color: '#fff', fontFamily: 'Sans' },
+    h('div', { fontSize: 22, fontWeight: 800, color: YELLOW, letterSpacing: 3 }, 'WHAT SQUAMISH WANTS'),
+    h('div', { fontFamily: 'Serif', fontSize: 50, marginTop: 8, marginBottom: big ? 30 : 18 }, 'My picks for Squamish'),
+    h('div', { flexDirection: 'column' }, rows.map(line)),
+    footer('What do you want? Answer and see the results'));
+}
+
+async function picks(spec) {
+  const pairs = String(spec).split(',').slice(0, 5).map((p) => p.split('.')).filter(([id, k]) => /^[a-z0-9-]{2,40}$/.test(id || '') && /^[a-z0-9]{1,12}$/.test(k || ''));
+  const rows = await Promise.all(pairs.map(async ([id, key]) => {
+    const ask = await findAsk(id), label = ask && (await answerLabel(id, ask, key));
+    return label ? { title: ask.title, label, kind: kindOf(key, ask) } : null;
+  }));
+  return rows.filter(Boolean);
 }
 
 function picture({ title, labels }) {
@@ -52,10 +84,16 @@ function picture({ title, labels }) {
 }
 
 export default async function handler(req, res) {
-  const id = String(req.query.id || '').replace(/\/$/, '');
-  const ask = id && (await findAsk(id));
-  if (!ask) { res.setHeader('Cache-Control', 'public, max-age=3600'); return res.redirect(302, '/share/wants.png?v=1'); }
-  const img = new ImageResponse(picture(ask), { width: 1200, height: 630, fonts: FONTS });
+  const id = String(req.query.id || '').replace(/\/$/, ''), said = String(req.query.said || '');
+  let el = null;
+  if (req.query.my) { const rows = await picks(req.query.my); if (rows.length) el = picksPicture(rows); }
+  else {
+    const ask = id && (await findAsk(id));
+    const label = ask && said && /^[a-z0-9]{1,12}$/.test(said) && (await answerLabel(id, ask, said));
+    if (ask) el = label ? saidPicture(ask, label, kindOf(said, ask)) : picture(ask);
+  }
+  if (!el) { res.setHeader('Cache-Control', 'public, max-age=3600'); return res.redirect(302, '/share/wants.png?v=1'); }
+  const img = new ImageResponse(el, { width: 1200, height: 630, fonts: FONTS });
   res.setHeader('Content-Type', 'image/png');
   // Facebook keeps its own copy anyway; a day at the edge keeps a busy share cheap, and a corrected title shows by tomorrow.
   res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800');

@@ -97,7 +97,7 @@
   // Facebook, Copy link (for pasting into a group post), and the phone's own share sheet where there is one.
   function shareBtns(target) {
     var t = esc(target);
-    return '<span class="wa-sharebtns"><button type="button" class="wa-sb fb" data-fb="' + t + '">Facebook</button><button type="button" class="wa-sb" data-copy="' + t + '">Copy link</button>' +
+    return '<span class="wa-sharebtns"><button type="button" class="wa-sb fb" data-wafb="' + t + '">Facebook</button><button type="button" class="wa-sb" data-wacopy="' + t + '">Copy link</button>' +
       (NATIVE ? '<button type="button" class="wa-sb" data-share="' + t + '">More…</button>' : '') + '</span>';
   }
   // Under the results once someone has answered: where they stand, then the share buttons. It stays on every answered
@@ -360,7 +360,7 @@
     var ms = get('sv_wa_ms', {}); ms[kind] = 1; put('sv_wa_ms', ms);
     sheet = kind;
     var h = '';
-    if (kind === 'five') h = '<p><b>Nice, that’s ' + UNLOCK + '.</b> The Top 10 is open. Share your picks so your neighbours can weigh in too.</p><div class="wa-sheetbtns"><button type="button" class="btn" data-view="top">See the Top 10</button><button type="button" class="btn secondary" data-fb="@my">Share on Facebook</button><button type="button" class="btn secondary" data-copy="@my">Copy link</button></div>';
+    if (kind === 'five') h = '<p><b>Nice, that’s ' + UNLOCK + '.</b> The Top 10 is open. Share your picks so your neighbours can weigh in too.</p><div class="wa-sheetbtns"><button type="button" class="btn" data-view="top">See the Top 10</button><button type="button" class="btn secondary" data-wafb="@my">Share on Facebook</button><button type="button" class="btn secondary" data-wacopy="@my">Copy link</button></div>';
     if (kind === 'ten') h = '<p><b>10 answered. Thank you.</b> Want to know when council acts on any of these? Get a short email every Friday.</p><div class="wa-sheetbtns"><button type="button" class="btn" data-gosignup>Get the Friday email</button></div>';
     el.innerHTML = '<button type="button" class="wa-sheetx" data-sheetx aria-label="Close">×</button>' + h;
     el.hidden = false;
@@ -518,14 +518,14 @@
     if (e.target.closest('[data-next]')) { deckShown = null; drawOne(); drawProgress(); return; }
     if ((b = e.target.closest('[data-skip]'))) { deckSkip[b.getAttribute('data-skip')] = true; deckShown = null; drawOne(); return; }
     if ((b = e.target.closest('[data-share]'))) { share(b.getAttribute('data-share')); return; }
-    if ((b = e.target.closest('[data-fb]'))) {
-      var fx = target(b.getAttribute('data-fb')); if (!fx) return;
+    if ((b = e.target.closest('[data-wafb]'))) {
+      var fx = target(b.getAttribute('data-wafb')); if (!fx) return;
       track('Wants share', { how: 'facebook', what: fx.what });
       window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(fx.url), 'fbshare', 'width=640,height=640,noopener');
       if (b.closest('[data-wa-sheet]')) closeSheet();
       return;
     }
-    if ((b = e.target.closest('[data-copy]'))) { var cx = target(b.getAttribute('data-copy')); if (cx) { track('Wants share', { how: 'copy', what: cx.what }); copyUrl(cx.url, b); } return; }
+    if ((b = e.target.closest('[data-wacopy]'))) { var cx = target(b.getAttribute('data-wacopy')); if (cx) { track('Wants share', { how: 'copy', what: cx.what }); copyUrl(cx.url, b); } return; }
     if ((b = e.target.closest('[data-more]'))) { var mid = b.getAttribute('data-more'); expanded[mid] = true; draw(); return; }
     if ((b = e.target.closest('[data-sug]')) && sug.id === b.getAttribute('data-sug')) { sug = { id: null, text: '', busy: false, msg: '', same: '' }; draw(); return; }
     if (b) { sug = { id: b.getAttribute('data-sug'), text: '', busy: false, msg: '', same: '' }; draw(); var si = $('#wa-sug'); if (si) si.focus({ preventScroll: true }); return; }
