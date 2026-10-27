@@ -461,6 +461,10 @@
       "destination": "/api/wants-page/?mine=1"
     },
     {
+      "source": "/wants/:id/live/",
+      "destination": "/api/wants-page/?id=:id&live=1"
+    },
+    {
       "source": "/wants/:id/said/:said/",
       "destination": "/api/wants-page/?id=:id&said=:said"
     },

@@ -2,6 +2,7 @@
 //   GET ?id=<r-id>               -> a resident's ask at /wants/<r-id>/ (starter asks have static pages built by build.mjs).
 //   GET ?id=<id>&said=<key>      -> /wants/<id>/said/<key>/: "I said Yes" and the live results on one question, opened on it.
 // A shared link carries ?n=<answers so far>, so each share is a new address and Facebook fetches today's results for it.
+//   GET ?id=<id>&live=1          -> /wants/<id>/live/: the live results without the sharer's answer, opened on it.
 //   GET ?mine=1&a=<id>.<key>,... -> /wants/my/?a=...: "My picks for Squamish", up to 5 answers, opened on the full list.
 // All of them are the static /wants/ page (or the ask's own page) with the title, description, share picture and the
 // page data's focus swapped in. Hidden or unknown -> /wants/.
@@ -12,6 +13,7 @@ const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<
 const ask = (title) => (/[?.!]$/.test(title) ? title : `${title}?`);
 
 async function describe(q) {
+  const n = /^\d{1,7}$/.test(String(q.n || '')) ? `${q.n}` : '';
   if (q.mine) {
     const spec = String(q.a || '').split(',').slice(0, 5).filter((p) => /^[a-z0-9-]{2,40}\.[a-z0-9]{1,12}$/.test(p)).join(',');
     if (!spec) return null;
@@ -22,11 +24,10 @@ async function describe(q) {
       img: `${ORIGIN}/api/og/?my=${spec}&v=2${n && `&n=${n}`}`,
     };
   }
-  const n = /^\d{1,7}$/.test(String(q.n || '')) ? `${q.n}` : '';
   const id = String(q.id || '').replace(/\/$/, ''), key = String(q.said || '');
   if (!/^[a-z0-9-]{2,40}$/.test(id)) return null;
   const a = await findAsk(id);
-  if (!a || (!key && !id.startsWith('r-'))) return null;
+  if (!a || (!key && !q.live && !id.startsWith('r-'))) return null;
   const label = key && /^[a-z0-9]{1,12}$/.test(key) ? await answerLabel(id, a, key) : null;
   const shell = id.startsWith('r-') ? '/wants/' : `/wants/${id}/`;
   if (label) {
@@ -38,6 +39,16 @@ async function describe(q) {
       alt: `What Squamish Wants: ${a.title}. I said ${label}.${now ? ` So far ${now}.` : ''}`,
       desc: now ? `So far ${now} (${tot} answer${tot === 1 ? '' : 's'}). What do you say?` : 'What do you say? Answer, then see what Squamish said.',
       img: `${ORIGIN}/api/og/?id=${id}&said=${key}&v=2&n=${stamp}`,
+    };
+  }
+  if (q.live) {
+    const r = await results(id, a).catch(() => null), now = standing(r), tot = r ? r.total : 0;
+    return {
+      shell, focus: id, said: { id, label: null }, url: `${ORIGIN}/wants/${id}/live/${n ? `?n=${n}` : ''}`, canonical: `${ORIGIN}/wants/${id}/`,
+      title: `${now ? `${now[0].toUpperCase()}${now.slice(1)}: ` : ''}${ask(a.title)}`,
+      alt: `What Squamish Wants: ${a.title}.${now ? ` So far ${now}.` : ''}`,
+      desc: now ? `So far ${now} (${tot} answer${tot === 1 ? '' : 's'}). Where do you stand?` : 'Where do you stand? Answer, then see what Squamish said.',
+      img: `${ORIGIN}/api/og/?id=${id}&live=1&v=2&n=${tot || n}`,
     };
   }
   if (!id.startsWith('r-')) return null;

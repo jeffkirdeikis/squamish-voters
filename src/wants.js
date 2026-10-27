@@ -88,49 +88,84 @@
   function done() { return asks.filter(function (a) { return mine[a.id]; }).length; }
   function infoLink(a, cls) { return a.info ? '<a class="' + (cls || 'wa-info') + '" href="/wants/' + esc(a.id) + '/info/">More info <span aria-hidden="true">›</span></a>' : ''; }
   function linkOf(a) { return location.origin + '/wants/' + a.id + '/'; }
-  // The link for what someone shares: their own answer on one ask (Don't mind too), or their picks. ?n= is the answer count
-  // right now, so each share is a new address and Facebook fetches a picture with today's results instead of an old copy.
-  function saidLink(a) { var my = mine[a.id]; return my ? linkOf(a) + 'said/' + encodeURIComponent(my) + '/?n=' + total(t(a.id)) : linkOf(a); }
-  function allAnswers() { return asks.reduce(function (s, a) { return s + total(t(a.id)); }, 0); }
   // Up to 5 answers for "My picks": the things they want first (yes, or a pick on a multiple choice ask), then their nos.
   function picks() {
     var a = asks.filter(function (x) { var k = mine[x.id]; return k && k !== 'm' && k !== 'n'; });
     var b = asks.filter(function (x) { return mine[x.id] === 'n'; });
     return a.concat(b).slice(0, 5);
   }
-  function picksLink() { return location.origin + '/wants/my/?a=' + picks().map(function (x) { return x.id + '.' + mine[x.id]; }).join(',') + '&n=' + allAnswers(); }
+  function allAnswers() { return asks.reduce(function (s, a) { return s + total(t(a.id)); }, 0); }
   var NATIVE = !!navigator.share;
-  // Facebook, Copy link (for pasting into a group post), and the phone's own share sheet where there is one.
-  function shareBtns(target) {
-    var t = esc(target);
-    return '<span class="wa-sharebtns"><button type="button" class="wa-sb fb" data-wafb="' + t + '">Post on Facebook</button><button type="button" class="wa-sb" data-wacopy="' + t + '">Copy link</button>' +
-      (NATIVE ? '<button type="button" class="wa-sb" data-share="' + t + '">More…</button>' : '') + '</span>';
-  }
-  // Under the results once someone has answered: where they stand, then the share buttons. It stays on every answered
-  // ask (never only the latest), so rows don't change height as someone works down the list.
-  // The picture Facebook will show for this share (api/og.js), so people see exactly what they'd post.
-  function cardImg(a) { var my = mine[a.id]; return '/api/og/?id=' + encodeURIComponent(a.id) + (my ? '&said=' + encodeURIComponent(my) : '') + '&v=2&n=' + total(t(a.id)); }
-  // Under the results once someone has answered: a preview of their share picture, a line that depends on how their answer
-  // compares, and the buttons. It stays on every answered ask (never only the latest), so rows don't change height as
-  // someone works down the list.
+  // Before sharing, an answered ask stays calm: one line on where they stand and a single Share button. Everything else
+  // (the picture, the switch, the buttons) is in the share panel that opens from it.
   function shareBar(a) {
-    var my = mine[a.id], x = t(a.id), o = opinions(a, x), same = c(x, my), p = pct(same, o), head, sub;
-    if (my === 'm') {
-      var lead = ranked(a, x)[0];
-      head = !o ? 'No one has taken a side yet.' : multi(a) ? 'Most picked so far: “' + esc(lead.label) + '” (' + pct(c(x, lead.key), o) + '%).' : pct(c(x, 'y'), o) + '% of Squamish wants this.';
-      sub = 'Ask your neighbours where they stand.';
-    } else if (same <= 1) { head = 'You’re the first to ' + (multi(a) ? 'pick this.' : 'say ' + WORD[my].toLowerCase() + '.'); sub = 'Share it and get your neighbours talking.'; }
-    else if (p >= 50) { head = 'You’re with ' + p + '% of Squamish.'; sub = 'Post it and see if your neighbours agree.'; }
-    else { head = 'Only ' + p + '% of Squamish agree with you.'; sub = 'Get your side heard. Share it with your neighbours.'; }
-    return '<div class="wa-sharebar"><img class="wa-sharepic" src="' + cardImg(a) + '" alt="" loading="lazy" width="1200" height="630">' +
-      '<div class="wa-sharetxt"><p class="wa-you">' + head + '</p><p class="wa-sub">' + sub + '</p></div>' + shareBtns(a.id) + '</div>';
+    var my = mine[a.id], x = t(a.id), o = opinions(a, x), same = c(x, my), p = pct(same, o);
+    var you = my === 'm' ? 'You don’t mind either way.' : same <= 1 ? 'You’re the first to ' + (multi(a) ? 'pick this.' : 'say ' + WORD[my].toLowerCase() + '.')
+      : p > 50 ? 'You’re with the majority (' + p + '%).' : p === 50 ? 'It’s an even split.' : 'You’re in the minority (' + p + '%).';
+    return '<div class="wa-shareline"><p>' + you + '</p><button type="button" class="wa-sharego" data-share="' + esc(a.id) + '">' + SHARE_ICON + 'Share</button></div>';
   }
   function picksBar() {
     if (!picks().length) return '';
-    var spec = picks().map(function (x) { return x.id + '.' + mine[x.id]; }).join(',');
-    return '<div class="wa-sharebar wa-picksbar"><img class="wa-sharepic" src="/api/og/?my=' + encodeURIComponent(spec) + '&v=2&n=' + allAnswers() + '" alt="" loading="lazy" width="1200" height="630">' +
-      '<div class="wa-sharetxt"><p class="wa-you">Show Squamish what you want.</p><p class="wa-sub">Your top answers in one picture, made for a Facebook group or a group chat.</p></div>' + shareBtns('@my') + '</div>';
+    return '<div class="wa-shareline wa-picksline"><p><b>Your picks in one picture</b>, with how many agree on each.</p><button type="button" class="wa-sharego" data-share="@my">' + SHARE_ICON + 'Share my picks</button></div>';
   }
+  var SHARE_ICON = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>';
+
+  // ---------- share panel ----------
+  // Opens from Share: a preview of the exact picture Facebook will show (the same address, so the sharer sees what gets
+  // posted), a "Show my answer" switch, then Post in a Facebook group. Facebook won't let a site fill in a post, so that
+  // copies a ready caption with the numbers plus the link, and the panel says to paste it in the group.
+  // Each link carries ?n= (the answer count right now), a new address per moment, so Facebook draws a fresh picture with
+  // the live results instead of reusing an old one. Facebook never updates a picture after posting.
+  var shareSt = null, NATIVE_LABEL = 'Text or other apps';
+  function shareInfo(st) {
+    if (st.id === '@my') {
+      var spec = picks().map(function (x) { return x.id + '.' + mine[x.id]; }).join(','), n = allAnswers();
+      var url = location.origin + '/wants/my/?a=' + spec + '&n=' + n;
+      return { title: 'Share your picks', img: '/api/og/?my=' + encodeURIComponent(spec) + '&v=2&n=' + n, url: url, text: 'Here’s what I want for Squamish. What do you want?', what: 'picks' };
+    }
+    var a = byId(st.id); if (!a) return null;
+    var my = mine[a.id], x = t(a.id), n = total(x), q = a.title.replace(/[?.!]?$/, '?'), now = standing(a);
+    if (!my) return { title: 'Share this question', img: '/api/og/?id=' + encodeURIComponent(a.id) + '&v=1', url: linkOf(a), text: q + (isChoice(a) ? ' Pick your answer' : ' Say yes, no or don’t mind') + ' on What Squamish Wants.', what: 'question' };
+    var show = st.show, base = linkOf(a) + (show ? 'said/' + encodeURIComponent(my) + '/' : 'live/') + '?n=' + n;
+    var mineTxt = !show ? '' : my === 'm' ? ' I don’t mind either way.' : ' I said “' + labelOf(a, my) + '”.';
+    return { title: 'Share this question', url: base, what: show ? 'answer' : 'results', toggle: true, my: my,
+      img: '/api/og/?id=' + encodeURIComponent(a.id) + (show ? '&said=' + encodeURIComponent(my) : '&live=1') + '&v=2&n=' + n,
+      text: q + (now ? ' So far ' + now + ' (' + n + ' answer' + (n === 1 ? '' : 's') + ').' : '') + mineTxt + ' Where do you stand?' };
+  }
+  function drawShare() {
+    var el = $('[data-wa-share]');
+    if (!el) { el = document.createElement('div'); el.className = 'wa-modal'; el.setAttribute('data-wa-share', ''); root.appendChild(el); }
+    if (!shareSt) { el.hidden = true; el.innerHTML = ''; document.documentElement.classList.remove('wa-noscroll'); return; }
+    var x = shareInfo(shareSt); if (!x) { shareSt = null; return drawShare(); }
+    var h;
+    if (shareSt.stage === 'copied') {
+      h = '<div class="wa-done"><span class="wa-tick" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span><h2 id="wa-share-h">' + (shareSt.copied ? 'Copied. Now paste it in your group.' : 'Copy this, then paste it in your group.') + '</h2></div>' +
+        '<label class="wa-capl" for="wa-cap">' + (shareSt.copied ? 'On your clipboard' : 'Your post') + '</label><textarea id="wa-cap" class="wa-cap" rows="5" readonly>' + esc(x.text + '\n' + x.url) + '</textarea>' +
+        '<ol class="wa-steps"><li>Open your Squamish group on Facebook</li><li>Tap “Write something” and paste</li><li>The picture with the results fills in by itself</li></ol>' +
+        '<a class="wa-big fb" href="https://www.facebook.com/groups/feed/" target="_blank" rel="noopener">' + FB + 'Open Facebook</a>' +
+        '<button type="button" class="wa-big ghost" data-sharex>Done</button>' +
+        '<button type="button" class="wa-link center" data-sharefb>Or use Facebook’s own share window</button>';
+    } else {
+      h = '<div class="wa-modalhead"><h2 id="wa-share-h">' + x.title + '</h2><button type="button" class="wa-x" data-sharex aria-label="Close">×</button></div>' +
+        '<div class="wa-preview"><img src="' + esc(x.img) + '" alt="The picture your post will show" width="1200" height="630"></div>' +
+        (x.toggle ? '<button type="button" class="wa-toggle" data-sharetoggle role="switch" aria-checked="' + shareSt.show + '"><span><b>Show my answer</b><small>' + (shareSt.show ? 'The picture says what you answered' : 'Only the results show') + '</small></span><i aria-hidden="true"></i></button>' : '') +
+        '<button type="button" class="wa-big fb" data-sharepost>' + FB + 'Post in a Facebook group</button>' +
+        '<div class="wa-twobtn"><button type="button" class="wa-big ghost" data-sharecopy>Copy link</button>' + (NATIVE ? '<button type="button" class="wa-big ghost" data-sharenative>' + NATIVE_LABEL + '</button>' : '') + '</div>';
+    }
+    el.innerHTML = '<div class="wa-backdrop" data-sharex></div><div class="wa-panel" role="dialog" aria-modal="true" aria-labelledby="wa-share-h">' + h + '</div>';
+    el.hidden = false; document.documentElement.classList.add('wa-noscroll');
+  }
+  var FB = '<span class="wa-fbf" aria-hidden="true">f</span>';
+  function openShare(id) {
+    shareSt = { id: id, show: true, stage: 'pick' }; drawShare(); track('Wants share open', { what: id === '@my' ? 'picks' : 'ask' });
+    var x = el$('.wa-panel button'); if (x) x.focus({ preventScroll: true });
+    // Fresh totals first, so the caption's numbers match the picture Facebook draws a moment later.
+    fetch('/api/wants/?voter=' + encodeURIComponent(voter)).then(function (r) { return r.json(); }).then(function (j) {
+      if (j && j.ok && j.tallies && shareSt && shareSt.stage === 'pick') { Object.keys(j.tallies).forEach(function (k) { tallies[k] = j.tallies[k]; }); drawShare(); }
+    }).catch(function () {});
+  }
+  function el$(sel) { return root.querySelector('[data-wa-share] ' + sel); }
+  function copyText(text) { return navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject(); }
 
   // ---------- pieces ----------
   function chips(a) {
@@ -227,7 +262,7 @@
     var my = mine[a.id], open = openId === a.id, show = my || open;
     return '<li class="wa-row' + (multi(a) ? ' choice' : '') + (my ? ' answered' : '') + (open ? ' open' : '') + (focusId === a.id ? ' arrived' : '') + '" id="ask-' + esc(a.id) + '">' +
       '<button type="button" class="wa-title" data-open="' + esc(a.id) + '" aria-expanded="' + open + '">' + chips(a) + '<span class="wa-t">' + esc(a.title) + '</span></button>' +
-      (D.said && D.said.id === a.id ? '<p class="wa-saidby">A neighbour shared this. They said <b>' + esc(D.said.label) + '</b>. What do you say?</p>' : '') +
+      (D.said && D.said.id === a.id ? '<p class="wa-saidby">A neighbour shared this' + (D.said.label ? '. They said <b>' + esc(D.said.label) + '</b>' : ' question') + '.' + (loaded && total(t(a.id)) ? ' <b>' + total(t(a.id)) + ' people</b> have answered so far.' : '') + ' What do you say?</p>' : '') +
       buttons(a) + sugBox(a) + (hintId === a.id ? '<p class="wa-hint">Tap your answer again to undo it.</p>' : '') +
       (show ? totals(a) + (a.info && !open && !only ? '<p class="wa-under">' + infoLink(a) + '</p>' : '') : '<div class="wa-under">' + tease(a) + (only ? '' : infoLink(a)) + '</div>') + (open ? detail(a) : '') + '</li>';
   }
@@ -387,7 +422,7 @@
     var ms = get('sv_wa_ms', {}); ms[kind] = 1; put('sv_wa_ms', ms);
     sheet = kind;
     var h = '';
-    if (kind === 'five') h = '<p><b>Nice, that’s ' + UNLOCK + '.</b> The Top 10 is open. Share your picks so your neighbours can weigh in too.</p><div class="wa-sheetbtns"><button type="button" class="btn" data-view="top">See the Top 10</button><button type="button" class="btn secondary" data-wafb="@my">Share on Facebook</button><button type="button" class="btn secondary" data-wacopy="@my">Copy link</button></div>';
+    if (kind === 'five') h = '<p><b>Nice, that’s ' + UNLOCK + '.</b> The Top 10 is open. Share your picks so your neighbours can weigh in too.</p><div class="wa-sheetbtns"><button type="button" class="btn" data-view="top">See the Top 10</button><button type="button" class="btn secondary" data-share="@my">Share my picks</button></div>';
     if (kind === 'ten') h = '<p><b>10 answered. Thank you.</b> Want to know when council acts on any of these? Get a short email every Friday.</p><div class="wa-sheetbtns"><button type="button" class="btn" data-gosignup>Get the Friday email</button></div>';
     el.innerHTML = '<button type="button" class="wa-sheetx" data-sheetx aria-label="Close">×</button>' + h;
     el.hidden = false;
@@ -500,27 +535,6 @@
       draw();
     });
   }
-  function copyUrl(url, btn) {
-    (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(function () {
-      toast('Link copied. Paste it into a Facebook group post or a text.');
-      if (btn) { btn.textContent = 'Copied ✓'; setTimeout(function () { btn.textContent = 'Copy link'; }, 2500); }
-    }, function () { window.prompt('Copy this link:', url); });
-  }
-  function shareUrl(url, title, text) {
-    track('Wants share', { how: 'native' });
-    if (navigator.share) { navigator.share({ title: title, text: text, url: url }).catch(function () {}); return; }
-    copyUrl(url);
-  }
-  // What a share button points at: '@my' for their picks, otherwise one ask (with their answer once they've answered).
-  function target(id) {
-    if (id === '@my') return { url: picksLink(), title: 'My picks for Squamish', text: 'Here’s what I want for Squamish. What do you want?', what: 'picks' };
-    var a = byId(id); if (!a) return null;
-    var my = mine[a.id], q = a.title.replace(/[?.!]?$/, '?'), now = standing(a);
-    return { url: saidLink(a), title: a.title, what: my ? 'answer' : 'question',
-      text: my ? (my === 'm' ? 'I don’t mind either way on: ' : 'I said “' + labelOf(a, my) + '” to: ') + q + (now ? ' So far ' + now + ' (' + total(t(a.id)) + ' answers).' : '') + ' What do you say?'
-        : q + (isChoice(a) ? ' Pick your answer' : ' Say yes, no or don’t mind') + ' on What Squamish Wants.' };
-  }
-  function share(id) { var x = target(id); if (x) shareUrl(x.url, x.title, x.text); }
   function gotoAsk(id) {
     focusId = id; openId = id; topic = 'all'; view = 'list'; order = null; draw();
     var el = document.getElementById('ask-' + id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -546,15 +560,22 @@
     if (e.target.closest('[data-gosignup]')) { closeSheet(); var s = document.getElementById('signup'); if (s) { s.scrollIntoView({ behavior: 'smooth', block: 'center' }); var inp = s.querySelector('input[type=email]'); if (inp) setTimeout(function () { inp.focus({ preventScroll: true }); }, 400); } return; }
     if (e.target.closest('[data-next]')) { deckShown = null; drawOne(); drawProgress(); return; }
     if ((b = e.target.closest('[data-skip]'))) { deckSkip[b.getAttribute('data-skip')] = true; deckShown = null; drawOne(); return; }
-    if ((b = e.target.closest('[data-share]'))) { share(b.getAttribute('data-share')); return; }
-    if ((b = e.target.closest('[data-wafb]'))) {
-      var fx = target(b.getAttribute('data-wafb')); if (!fx) return;
-      track('Wants share', { how: 'facebook', what: fx.what });
-      window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(fx.url), 'fbshare', 'width=640,height=640,noopener');
-      if (b.closest('[data-wa-sheet]')) closeSheet();
+    if ((b = e.target.closest('[data-share]'))) { if (b.closest('[data-wa-sheet]')) closeSheet(); openShare(b.getAttribute('data-share')); return; }
+    if (e.target.closest('[data-sharex]')) { shareSt = null; drawShare(); return; }
+    if (e.target.closest('[data-sharetoggle]')) { shareSt.show = !shareSt.show; drawShare(); var tg = el$('[data-sharetoggle]'); if (tg) tg.focus({ preventScroll: true }); return; }
+    var sx = shareSt && shareInfo(shareSt);
+    if (sx && e.target.closest('[data-sharepost]')) {
+      track('Wants share', { how: 'group', what: sx.what });
+      copyText(sx.text + '\n' + sx.url).then(function () { shareSt.copied = true; }, function () { shareSt.copied = false; }).then(function () { shareSt.stage = 'copied'; drawShare(); var ta = el$('#wa-cap'); if (ta && !shareSt.copied) ta.select(); });
       return;
     }
-    if ((b = e.target.closest('[data-wacopy]'))) { var cx = target(b.getAttribute('data-wacopy')); if (cx) { track('Wants share', { how: 'copy', what: cx.what }); copyUrl(cx.url, b); } return; }
+    if (sx && (b = e.target.closest('[data-sharecopy]'))) {
+      track('Wants share', { how: 'copy', what: sx.what });
+      copyText(sx.url).then(function () { b.textContent = 'Copied ✓'; toast('Link copied. Paste it into a group post or a text.'); }, function () { window.prompt('Copy this link:', sx.url); });
+      return;
+    }
+    if (sx && e.target.closest('[data-sharenative]')) { track('Wants share', { how: 'native', what: sx.what }); navigator.share({ title: 'What Squamish Wants', text: sx.text, url: sx.url }).catch(function () {}); return; }
+    if (sx && e.target.closest('[data-sharefb]')) { track('Wants share', { how: 'facebook', what: sx.what }); window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(sx.url), 'fbshare', 'width=640,height=640,noopener'); return; }
     if ((b = e.target.closest('[data-more]'))) { var mid = b.getAttribute('data-more'); expanded[mid] = true; draw(); return; }
     if ((b = e.target.closest('[data-sug]')) && sug.id === b.getAttribute('data-sug')) { sug = { id: null, text: '', busy: false, msg: '', same: '' }; draw(); return; }
     if (b) { sug = { id: b.getAttribute('data-sug'), text: '', busy: false, msg: '', same: '' }; draw(); var si = $('#wa-sug'); if (si) si.focus({ preventScroll: true }); return; }
@@ -607,6 +628,7 @@
   });
   root.addEventListener('input', function (e) { if (e.target.id === 'wa-text') add.text = e.target.value; if (e.target.id === 'wa-sug') sug.text = e.target.value; });
   root.addEventListener('keydown', function (e) { if (e.target.id === 'wa-sug' && e.key === 'Enter') { e.preventDefault(); sendSug(); } });
+  document.addEventListener('keydown', function (e) { if (shareSt && e.key === 'Escape') { shareSt = null; drawShare(); } });
   root.addEventListener('change', function (e) {
     var areaPick = e.target.matches('[data-wa-area]') || e.target.matches('[data-wa-sheetarea]');
     if (areaPick) {

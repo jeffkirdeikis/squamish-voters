@@ -1,6 +1,7 @@
 // Share picture for one What Squamish Wants question (1200 x 630), so a link to /wants/<id>/ on Facebook shows that question.
 //   GET ?id=<ask id>  -> PNG: the question and its answer buttons. No results on it, since people answer before they see the crowd.
 //   GET ?id=<ask id>&said=<answer key>  -> the question, "I said Yes", and the live results, shared from /wants/<id>/said/<key>/.
+//   GET ?id=<ask id>&live=1  -> the question and the live results only (the sharer switched "Show my answer" off), from /wants/<id>/live/.
 //   GET ?my=<id>.<key>,<id>.<key>  -> "My picks for Squamish": up to 5 of one person's answers and how many agree, from /wants/my/.
 // &n=<answers so far> only makes a new address (and so a fresh picture) each time the count moves; Facebook keeps a copy per address.
 // Starter asks come from _wants.json; residents' asks (r-...) from sv_wants. An unknown or hidden id gets the general picture.
@@ -52,11 +53,11 @@ function saidPicture(ask, label, kind, r) {
   return h('div', { width: '100%', height: '100%', flexDirection: 'column', background: GREEN, padding: r ? '44px 64px 40px' : '56px 72px', color: '#fff', fontFamily: 'Sans' },
     h('div', { fontSize: 22, fontWeight: 800, color: YELLOW, letterSpacing: 3 }, 'WHAT SQUAMISH WANTS'),
     h('div', { fontFamily: 'Serif', fontSize: size, lineHeight: 1.12, marginTop: r ? 16 : 30, maxWidth: 1072 }, q),
-    h('div', { alignItems: 'center', marginTop: r ? 22 : 34 },
+    label ? h('div', { alignItems: 'center', marginTop: r ? 22 : 34 },
       h('div', { fontSize: 28, fontWeight: 800, color: 'rgba(255,255,255,.8)', marginRight: 16 }, 'I said'),
-      h('div', { alignItems: 'center', padding: r ? '10px 28px' : '14px 34px', borderRadius: 14, fontWeight: 800, fontSize: label.length > 24 ? 28 : r ? 34 : 40, ...ANS[kind] }, cut(label, 44))),
+      h('div', { alignItems: 'center', padding: r ? '10px 28px' : '14px 34px', borderRadius: 14, fontWeight: 800, fontSize: label.length > 24 ? 28 : r ? 34 : 40, ...ANS[kind] }, cut(label, 44))) : null,
     r ? resultsPanel(r) : null,
-    footer(r ? 'What do you say? Answer and see the latest' : 'What do you say? Answer, then see the results'));
+    footer(!label ? 'Where do you stand? Answer and see the latest' : r ? 'What do you say? Answer and see the latest' : 'What do you say? Answer, then see the results'));
 }
 
 // Up to 5 of one person's answers, each as a coloured answer and the question beside it.
@@ -116,14 +117,16 @@ export default async function handler(req, res) {
   else {
     const ask = id && (await findAsk(id));
     const label = ask && said && /^[a-z0-9]{1,12}$/.test(said) && (await answerLabel(id, ask, said));
-    if (ask) el = label ? saidPicture(ask, label, kindOf(said, ask), await results(id, ask).catch(() => null)) : picture(ask);
+    const r = ask && (label || req.query.live) ? await results(id, ask).catch(() => null) : null;
+    // Results only: the same picture without "I said", when the sharer keeps their answer to themselves.
+    if (ask) el = label ? saidPicture(ask, label, kindOf(said, ask), r) : r ? saidPicture(ask, null, null, r) : picture(ask);
   }
   if (!el) { res.setHeader('Cache-Control', 'public, max-age=3600'); return res.redirect(302, '/share/wants.png?v=1'); }
   const img = new ImageResponse(el, { width: 1200, height: 630, fonts: FONTS });
   res.setHeader('Content-Type', 'image/png');
   // Pictures with results change as people answer: an address with &n= is one moment's count and can stay a day at the edge;
   // without it, ten minutes. The plain question picture has no numbers and keeps a day.
-  const live = said || req.query.my;
+  const live = said || req.query.my || req.query.live;
   res.setHeader('Cache-Control', live && !req.query.n ? 'public, max-age=300, s-maxage=600' : 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800');
   return res.send(Buffer.from(await img.arrayBuffer()));
 }
