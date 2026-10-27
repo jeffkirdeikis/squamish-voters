@@ -1566,10 +1566,10 @@ if (TRACKED.length) {
       <button type="button" class="wa-f" data-topic="all" aria-pressed="true">All</button>
       <button type="button" class="wa-f" data-topic="near" aria-pressed="false">Near you</button>
       <button type="button" class="wa-f" data-topic="todo" aria-pressed="false">Not answered</button>
-      ${WANTS.topics.map((t) => `<button type="button" class="wa-f" data-topic="${t.key}" aria-pressed="false">${esc(t.short || t.label)}</button>`).join('')}
     </div>
     <div class="wa-sortrow"><span class="small muted" data-wa-count>${WANTS_N} asks</span>
-      <label class="small">Sort <select data-wa-sort><option value="wanted">Most wanted</option><option value="split">Most split</option><option value="voted">Most answered</option><option value="newest">Newest</option></select></label></div>
+      <span class="wa-selects"><label class="small"><span class="visually-hidden">Topic</span><select data-wa-topic aria-label="Topic"><option value="all">All topics</option>${WANTS.topics.map((t) => `<option value="${t.key}">${esc(t.short || t.label)}</option>`).join('')}</select></label>
+      <label class="small"><span class="visually-hidden">Sort</span><select data-wa-sort aria-label="Sort"><option value="wanted">Most wanted</option><option value="split">Most split</option><option value="voted">Most answered</option><option value="newest">Newest</option></select></label></span></div>
     <ul class="wa-rows" data-wa-rows>${wantsStatic(WANTS.asks)}</ul>
     <div class="wa-listfoot"><p><b>Missing something?</b> Add what you want Squamish to do. We check it against the list first.</p><button type="button" class="btn secondary" data-view="add">Add it</button></div>
     <section class="card wa-addfoot" data-wa-addfoot aria-label="Add an ask"></section>

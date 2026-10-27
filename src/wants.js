@@ -427,7 +427,9 @@
       return '<button type="button" class="wa-f" data-wa-topsort="' + o[0] + '" aria-pressed="' + (topSort === o[0]) + '">' + o[1] + '</button>';
     }).join('') + '</div>';
     el.innerHTML = '<div class="wa-board"><h2>Top 10</h2>' + sortBtns + '<p class="small muted">' + NOTE[topSort] + '</p><ol class="wa-toplist">' + (top.length ? top.map(line).join('') : '<li class="wa-empty">' + (topSort === 'split' ? 'No ask has answers on both sides yet.' : 'No answers yet.') + '</li>') + '</ol>' +
-      '<p class="small muted">Not a scientific poll. ' + people + ' people have answered so far.</p></div>';
+      '<p class="small muted">Not a scientific poll. ' + people + ' people have answered so far.</p>' +
+      // My Squamish only shows when they ask for it (Jeff: no popup), here and in the desktop rail.
+      (meStats().of ? '<div class="wa-shareline wa-picksline"><p><b>My Squamish:</b> how your answers line up with everyone’s, as a picture.</p><button type="button" class="wa-sharego" data-share="@me">' + SHARE_ICON + 'Share</button></div>' : '') + '</div>';
   }
 
   // ---------- add ----------
@@ -582,7 +584,6 @@
     if (mode !== 'page') return;
     var d = done(), ms = get('sv_wa_ms', {});
     if (d >= 1 && !prefs.area && !ms.area) { ms.area = 1; put('sv_wa_ms', ms); areaAsk = id; draw(); }
-    else if (d >= UNLOCK && !ms.me5 && meStats().of) { stopAuto(); showSheet('me5'); }
     else if (d >= 10 && !ms.ten && !sheet) showSheet('ten');
   }
   function nextUnanswered() {
@@ -600,6 +601,7 @@
     root.querySelectorAll('[data-wa-tabs] [data-view]').forEach(function (b) { b.setAttribute('aria-selected', String(b.getAttribute('data-view') === view)); });
     root.querySelectorAll('[data-pane]').forEach(function (p) { p.hidden = p.getAttribute('data-pane') !== view; });
     root.querySelectorAll('[data-topic]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-topic') === topic)); });
+    var ts = $('[data-wa-topic]'); if (ts) ts.value = TOPIC[topic] ? topic : 'all';
     if (view === 'list') drawList(); else if (view === 'one') drawOne(); else if (view === 'top') drawTop(); else drawAdd();
     drawProgress();
   }
@@ -800,6 +802,7 @@
       if (e.target.matches('[data-wa-sheetarea]')) { areaAsk = null; if (topic === 'near') order = null; draw(); }
       else { order = null; draw(); }
     }
+    if (e.target.matches('[data-wa-topic]')) { topic = e.target.value; focusId = null; order = null; draw(); }
     if (e.target.matches('[data-wa-sort]')) { sort = e.target.value; focusId = null; order = null; draw(); }
   });
   // One by one on a keyboard: Y, N, M to answer, the right arrow to skip, Enter for the next ask.
