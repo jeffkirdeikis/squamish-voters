@@ -97,21 +97,33 @@
   // Facebook, Copy link (for pasting into a group post), and the phone's own share sheet where there is one.
   function shareBtns(target) {
     var t = esc(target);
-    return '<span class="wa-sharebtns"><button type="button" class="wa-sb fb" data-wafb="' + t + '">Facebook</button><button type="button" class="wa-sb" data-wacopy="' + t + '">Copy link</button>' +
+    return '<span class="wa-sharebtns"><button type="button" class="wa-sb fb" data-wafb="' + t + '">Post on Facebook</button><button type="button" class="wa-sb" data-wacopy="' + t + '">Copy link</button>' +
       (NATIVE ? '<button type="button" class="wa-sb" data-share="' + t + '">More…</button>' : '') + '</span>';
   }
   // Under the results once someone has answered: where they stand, then the share buttons. It stays on every answered
   // ask (never only the latest), so rows don't change height as someone works down the list.
+  // The picture Facebook will show for this share (api/og.js), so people see exactly what they'd post.
+  function cardImg(a) { var my = mine[a.id]; return '/api/og/?id=' + encodeURIComponent(a.id) + (my && my !== 'm' ? '&said=' + encodeURIComponent(my) : '') + '&v=1'; }
+  // Under the results once someone has answered: a preview of their share picture, a line that depends on how their answer
+  // compares, and the buttons. It stays on every answered ask (never only the latest), so rows don't change height as
+  // someone works down the list.
   function shareBar(a) {
-    var my = mine[a.id], x = t(a.id), n = total(x), o = opinions(a, x), same = c(x, my);
-    var you = my === 'm' ? (n > 1 ? 'You and <b>' + pct(same, n) + '%</b> of people don’t mind either way.' : 'You’re the first to answer.')
-      : same <= 1 ? 'You’re the first to ' + (multi(a) ? 'pick “' + esc(labelOf(a, my)) + '”.' : 'say ' + WORD[my].toLowerCase() + '.')
-      : 'You’re with <b>' + pct(same, o) + '%</b> of Squamish' + (multi(a) ? ' on “' + esc(labelOf(a, my)) + '”.' : '.');
-    return '<div class="wa-sharebar"><p class="wa-you">' + you + '</p><p class="wa-askn">' + (my === 'm' ? 'Ask your neighbours' : 'Share your answer') + '</p>' + shareBtns(a.id) + '</div>';
+    var my = mine[a.id], x = t(a.id), o = opinions(a, x), same = c(x, my), p = pct(same, o), head, sub;
+    if (my === 'm') {
+      var lead = ranked(a, x)[0];
+      head = !o ? 'No one has taken a side yet.' : multi(a) ? 'Most picked so far: “' + esc(lead.label) + '” (' + pct(c(x, lead.key), o) + '%).' : pct(c(x, 'y'), o) + '% of Squamish wants this.';
+      sub = 'Ask your neighbours where they stand.';
+    } else if (same <= 1) { head = 'You’re the first to ' + (multi(a) ? 'pick this.' : 'say ' + WORD[my].toLowerCase() + '.'); sub = 'Share it and get your neighbours talking.'; }
+    else if (p >= 50) { head = 'You’re with ' + p + '% of Squamish.'; sub = 'Post it and see if your neighbours agree.'; }
+    else { head = 'Only ' + p + '% of Squamish agree with you.'; sub = 'Get your side heard. Share it with your neighbours.'; }
+    return '<div class="wa-sharebar"><img class="wa-sharepic" src="' + cardImg(a) + '" alt="" loading="lazy" width="1200" height="630">' +
+      '<div class="wa-sharetxt"><p class="wa-you">' + head + '</p><p class="wa-sub">' + sub + '</p></div>' + shareBtns(a.id) + '</div>';
   }
   function picksBar() {
     if (!picks().length) return '';
-    return '<div class="wa-sharebar wa-picksbar"><p class="wa-you"><b>Share your picks.</b> A picture of up to 5 of your answers, made for a Facebook group or a group chat.</p>' + shareBtns('@my') + '</div>';
+    var spec = picks().map(function (x) { return x.id + '.' + mine[x.id]; }).join(',');
+    return '<div class="wa-sharebar wa-picksbar"><img class="wa-sharepic" src="/api/og/?my=' + encodeURIComponent(spec) + '&v=1" alt="" loading="lazy" width="1200" height="630">' +
+      '<div class="wa-sharetxt"><p class="wa-you">Show Squamish what you want.</p><p class="wa-sub">Your top answers in one picture, made for a Facebook group or a group chat.</p></div>' + shareBtns('@my') + '</div>';
   }
 
   // ---------- pieces ----------

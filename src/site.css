@@ -1664,16 +1664,24 @@ body:has(.wa-float:not([hidden])) #totop { display: none !important; }
 .wa-added { color: var(--muted); font-weight: 400; font-size: .78rem; white-space: nowrap; }
 .wa-ans.choice .wa-more { grid-column: 1 / -1; justify-self: start; background: none; border: 1px dashed var(--line); border-radius: 8px; padding: .45rem .85rem; font: inherit; font-size: .9rem; font-weight: 700; color: var(--brand); cursor: pointer; min-height: 2.4rem; }
 .wa-sugopen { margin-top: .35rem; }
-.wa-sharebar { margin-top: .3rem; padding: .6rem .7rem; border-radius: 10px; background: var(--brand-soft); display: grid; gap: .45rem; }
+.wa-sharebar { margin-top: .4rem; padding: .85rem; border-radius: 14px; background: linear-gradient(135deg, #0f4c3a, #17634c); color: #fff;
+  display: grid; grid-template-columns: 10.5rem minmax(0, 1fr); grid-template-areas: "pic txt" "pic btns"; gap: .6rem .9rem; align-items: center; box-shadow: 0 6px 18px rgba(15,76,58,.22); }
 .wa-sharebar p { margin: 0; }
-.wa-sharebar .wa-you { font-weight: 600; font-size: .95rem; }
-.wa-askn { font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--brand); }
-.wa-sharebtns { display: flex; flex-wrap: wrap; gap: .45rem; }
-.wa-sb { min-height: 2.5rem; padding: .4rem .95rem; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--brand) 35%, var(--line)); background: var(--surface); color: var(--brand); font: inherit; font-weight: 700; font-size: .92rem; cursor: pointer; }
-.wa-sb:hover { background: var(--surface-2); }
-.wa-sb.fb { background: #1877f2; border-color: #1877f2; color: #fff; }
-.wa-sb.fb:hover { background: #0f63d1; }
-.wa-sb.fb::before { content: "f"; display: inline-block; font-family: Arial, sans-serif; font-weight: 900; margin-right: .45rem; }
+.wa-sharepic { grid-area: pic; width: 100%; height: auto; aspect-ratio: 1200 / 630; border-radius: 8px; background: #0c3e2f; box-shadow: 0 2px 8px rgba(0,0,0,.3); transform: rotate(-2deg); }
+.wa-sharetxt { grid-area: txt; display: grid; gap: .15rem; }
+.wa-sharebar .wa-you { font-family: var(--serif, Georgia, serif); font-weight: 700; font-size: 1.2rem; line-height: 1.2; color: #fff; }
+.wa-sub { font-size: .9rem; color: rgba(255,255,255,.82); }
+.wa-sharebtns { grid-area: btns; display: flex; flex-wrap: wrap; gap: .45rem; }
+.wa-sb { min-height: 2.5rem; padding: .4rem .95rem; border-radius: 99px; border: 1.5px solid rgba(255,255,255,.55); background: transparent; color: #fff; font: inherit; font-weight: 700; font-size: .92rem; cursor: pointer; }
+.wa-sb:hover { background: rgba(255,255,255,.12); }
+.wa-sb.fb { background: #f5b800; border-color: #f5b800; color: #14211c; }
+.wa-sb.fb:hover { background: #ffc91f; }
+.wa-sb.fb::before { content: "f"; display: inline-grid; place-items: center; width: 1.2rem; height: 1.2rem; border-radius: 50%; background: #1877f2; color: #fff; font-family: Arial, sans-serif; font-weight: 900; font-size: .8rem; margin-right: .45rem; vertical-align: -.15rem; }
+@media (max-width: 520px) {
+  .wa-sharebar { grid-template-columns: 6.5rem minmax(0, 1fr); grid-template-areas: "pic txt" "btns btns"; }
+  .wa-sharebar .wa-you { font-size: 1.05rem; }
+  .wa-sb { flex: 1 1 auto; }
+}
 .wa-picksbar { margin-bottom: 1rem; }
 .wa-saidby { margin: 0 0 .5rem; font-size: .95rem; padding: .45rem .7rem; border-radius: 10px; background: var(--warn-bg); color: var(--warn-ink); }
 .wa-sug { margin-top: .6rem; padding: .75rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); display: grid; gap: .5rem; }
