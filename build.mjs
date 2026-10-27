@@ -748,6 +748,7 @@ for (const c of all) {
       description: `${c.office === 'mayor' ? 'Mayor' : 'Councillor'}, District of Squamish, elected October 17, 2026.${c.tagline ? ' ' + c.tagline : ''}`,
       ...(hasPhoto(c) ? { image: `${ORIGIN}/${c.photo}` } : {}),
       jobTitle: c.office === 'mayor' ? 'Mayor, District of Squamish' : 'Councillor, District of Squamish',
+      worksFor: { '@type': 'GovernmentOrganization', name: 'District of Squamish', url: 'https://squamish.ca/' },
       homeLocation: { '@type': 'Place', name: 'Squamish, British Columbia' },
       sameAs: Object.values(c.links || {}).filter(isUrl),
     }, {
@@ -768,6 +769,7 @@ for (const c of all) {
       ${hasPhoto(c) ? `<p class="small muted">Photo: ${esc(c.photo_credit || 'candidate’s campaign')}.</p>` : ''}
     </aside>
     <div class="profile-main">
+    ${whoIs(c)}
     ${profileRecord(c)}
     <h2 id="campaign" class="campaign-h">What ${esc(first(c))} said during the 2026 campaign</h2>
     ${directNotice(c)}${paperNotice(c)}
@@ -791,6 +793,18 @@ for (const c of all) {
     <div class="btn-row no-print"><a class="btn secondary" href="/council/${prev.slug}/">← ${esc(prev.name)}</a><a class="btn secondary" href="/council/${next.slug}/">${esc(next.name)} →</a></div>
     </div></div>`,
   }));
+}
+
+// The opening lines of a member's page: who they are, how they were elected, what they did before. Answers name searches.
+function whoIs(c) {
+  const num = (x) => Number(x).toLocaleString('en-CA'), r26 = RES['2026']; // the council pages are built before R26 and num below
+  const race = c.office === 'mayor' ? r26.mayor : r26.council, i = (race || []).findIndex((r) => r.name === c.name), row = race?.[i];
+  const ord = (n) => n + (['th', 'st', 'nd', 'rd'][(n % 100 > 10 && n % 100 < 14) ? 0 : n % 10] || 'th');
+  const how = !row ? '' : c.office === 'mayor'
+    ? ` with ${num(row.total)} votes, ${num(row.total - race[1].total)} more than ${esc(race[1].name)}`
+    : ` with ${num(row.total)} votes, ${i === 0 ? 'the most' : ord(i + 1)} of ${race.length} council candidates`;
+  const bg = String(c.occupation_background || '').split(/(?<=\.)\s/)[0];
+  return `<p class="lede who">${esc(c.name)} is ${c.office === 'mayor' ? 'the Mayor of Squamish' : 'a Squamish councillor'}, ${c.incumbent ? 're-elected' : 'elected'} on October 17, 2026${how}, for a term to 2030.${bg ? ` <span class="who-bg"><b>Background:</b> ${escGl(bg)}</span>` : ''}</p>`;
 }
 
 // ---------- COMPARE ----------
@@ -1316,7 +1330,7 @@ for (const m of MEETINGS) {
   const votes = (m.decisions || []).filter((d) => d.votes);
   const links = [[m.video_url, '▶ Watch the full meeting video'], [m.agenda_url, 'Official agenda'], [m.minutes_url, 'Official minutes'], [m.transcript ? `/transcripts/${m.id}.txt` : null, 'Full written transcript']].filter(([u]) => u);
   write(mUrl(m), page({
-    url: '/meetings/', image: done ? shareImg(m) : null, title: `${T.label}, ${fmtLong(m.date)}${done ? ': what Squamish council decided' : ''}`,
+    url: '/meetings/', image: done ? shareImg(m) : null, title: `Squamish ${T.label.charAt(0).toLowerCase() + T.label.slice(1)}, ${fmtLong(m.date)}: ${done ? 'what council decided' : 'agenda and how to watch'}`,
     desc: done ? `${S.headline} ${votes.length} vote${votes.length === 1 ? '' : 's'}, in plain words, with how each member voted.` : `Squamish ${T.label.toLowerCase()} on ${fmtDay(m.date)}${m.time ? ' at ' + fmtTime(m.time) : ''}: what’s on the agenda and how to watch.`,
     jsonld: [crumbLd([['Home', '/'], ['Meetings', '/meetings/'], [`${T.label}, ${fmtLong(m.date)}`, mUrl(m)]]), { '@context': 'https://schema.org', '@type': 'Event', name: `Squamish ${T.label}`, startDate: `${m.date}${m.time ? 'T' + m.time + ':00-' + (m.date >= '2026-11-01' && m.date < '2027-03-14' ? '08' : '07') + ':00' : ''}`, eventStatus: m.status === 'cancelled' ? 'https://schema.org/EventCancelled' : 'https://schema.org/EventScheduled', eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode', location: { '@type': 'Place', name: m.place || 'Squamish Municipal Hall', address: '37955 Second Avenue, Squamish, BC' }, organizer: { '@type': 'GovernmentOrganization', name: 'District of Squamish', url: 'https://squamish.ca/' } }],
     body: `<p class="crumbs"><a href="/meetings/">← All meetings</a></p>
@@ -1488,7 +1502,7 @@ if (TRACKED.length) {
       url: nUrl(st), title: st.head,
       desc: st.dek.replace(/<[^>]+>/g, ''),
       image: ogUrl(st),
-      jsonld: [crumbLd([['Home', '/'], ['News', '/news/'], [st.head, nUrl(st)]]), { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: st.head, datePublished: st.date, inLanguage: 'en-CA', image: ogUrl(st), publisher: { '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/` }, isBasedOn: st.src[1] }],
+      jsonld: [crumbLd([['Home', '/'], ['News', '/news/'], [st.head, nUrl(st)]]), { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: st.head, datePublished: st.date, inLanguage: 'en-CA', image: ogUrl(st), author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/` }, publisher: { '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/` }, isBasedOn: st.src[1] }],
       body: `<div class="nw nw-story-page">
   <p class="crumbs"><a href="/news/">← All news</a></p>
   <article class="nw-full" data-s="${st.s}">${body}${foot(st)}</article>
@@ -1632,7 +1646,7 @@ ${wantsData({ focus, said: null })}`;
       jsonld: [crumbLd([['Home', '/'], ['What Squamish Wants', '/wants/'], [a.title, `/wants/${a.id}/`], ['More info', `/wants/${a.id}/info/`]]),
         { '@context': 'https://schema.org', '@type': 'Article', headline: a.title, description: (inf.intro || [])[0] || a.why || '', image: askImg(a).image,
           ...(inf.checked ? { datePublished: inf.published || inf.checked, dateModified: inf.checked } : {}), inLanguage: 'en-CA', about: { '@type': 'Place', name: hood ? `${hood.name}, Squamish, BC` : 'Squamish, BC' },
-          author: { '@type': 'Organization', name: SITE.name, url: ORIGIN }, publisher: { '@type': 'Organization', name: SITE.name, url: ORIGIN, logo: { '@type': 'ImageObject', url: `${ORIGIN}/icon-512.png` } },
+          author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/` }, publisher: { '@type': 'Organization', name: SITE.name, url: ORIGIN, logo: { '@type': 'ImageObject', url: `${ORIGIN}/icon-512.png` } },
           mainEntityOfPage: `${ORIGIN}/wants/${a.id}/info/`, citation: (inf.sources || []).map((x) => x.url) },
         ...(inf.questions?.length ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: inf.questions.map((q) => ({ '@type': 'Question', name: q.q, acceptedAnswer: { '@type': 'Answer', text: q.a } })) }] : [])],
       body: `<article class="wi">
@@ -1917,15 +1931,20 @@ for (const ic of ctx.issues || []) {
     <p>${n(r.ballots_cast)} ballots were cast, a turnout of <b>${r.turnout_pct}%</b> of ${n(r.total_eligible_electors)} eligible voters.${src(r.source_url, 'official results')}</p>
     <h3>Mayor</h3>${table(r.mayor)}<h3>Council (6 elected)</h3>${table(r.council)}`; };
   write('/results/', page({
-    url: '/results/', title: `Squamish election results 2026: ${resWinner('mayor')[0]} elected mayor`,
-    desc: `${resWinner('mayor')[0]} was elected mayor of Squamish on October 17, 2026 by ${num(R26.mayor[0].total - R26.mayor[1].total)} votes. Council: ${resWinner('council').join(', ')}. Every candidate's votes, turnout ${R26.turnout_pct}%, plus 2022 and 2018.`,
-    jsonld: crumbLd([['Home', '/'], ['Election results', '/results/']]),
+    url: '/results/', title: `Squamish election results 2026${R26.status === 'official' ? ' (official)' : ''}: ${resWinner('mayor')[0]} elected mayor`,
+    desc: `${R26.status === 'official' ? 'Official results. ' : ''}${resWinner('mayor')[0]} was elected mayor of Squamish on October 17, 2026 by ${num(R26.mayor[0].total - R26.mayor[1].total)} votes. Council: ${resWinner('council').join(', ')}. Every candidate's votes, turnout ${R26.turnout_pct}%, plus 2022 and 2018.`,
+    jsonld: [crumbLd([['Home', '/'], ['Election results', '/results/']]),
+      { '@context': 'https://schema.org', '@type': 'WebPage', name: 'Squamish election results 2026', url: `${ORIGIN}/results/`, ...(R26.status === 'official' ? { dateModified: '2026-10-21' } : {}), about: { '@type': 'Event', name: 'District of Squamish general local election 2026', startDate: '2026-10-17', location: { '@type': 'Place', name: 'Squamish, British Columbia' } } }],
     body: `<h1>Squamish election results 2026</h1>
+    ${R26.status === 'official' ? `<p class="res-official"><b>Official results.</b> Declared by the District’s Chief Election Officer on ${esc(R26.updated.replace(/\.$/, ''))}.</p>` : ''}
     <p class="lede">${num(R26.ballots_cast)} people voted on October 17, 2026, a turnout of ${R26.turnout_pct}% of ${num(R26.eligible_voters)} eligible voters.${src(R26.source_url, 'District of Squamish')}</p>
     <div class="jump"><a class="chip-btn" href="#mayor">Mayor</a><a class="chip-btn" href="#council">Council</a><a class="chip-btn" href="#trustees">School trustees</a><a class="chip-btn" href="#2022">2022</a></div>
     <h2 id="mayor">Mayor <span class="small">1 elected</span></h2>${resRace(R26.mayor, { pct: true })}
     <h2 id="council">Council <span class="small">6 elected</span></h2>${resRace(R26.council)}
     ${(R26.trustees || []).length ? `<h2 id="trustees">School trustees <span class="small">2 elected for Squamish, School District 48</span></h2>${resRace(R26.trustees)}` : ''}
+    ${R26.mayor[0]?.advance != null ? `<h2 id="how">How people voted: mail, advance and election day</h2>
+    <p>${num(['special', 'advance', 'general_voting_day'].reduce((t, k) => t + R26.mayor.reduce((a, r) => a + r[k], 0), 0))} votes for mayor: ${num(R26.mayor.reduce((a, r) => a + r.advance, 0))} at advance voting, ${num(R26.mayor.reduce((a, r) => a + r.general_voting_day, 0))} on election day and ${num(R26.mayor.reduce((a, r) => a + r.special, 0))} by mail or special voting.</p>
+    ${[['Mayor', R26.mayor], ['Council', R26.council]].map(([h, rows]) => `<h3>${h}</h3><div class="table-scroll"><table class="res-how"><thead><tr><th>Candidate</th><th>Mail</th><th>Advance</th><th>Voting day</th><th>Total</th></tr></thead><tbody>${rows.map((r) => `<tr><td>${r.elected ? `<b>${esc(r.name)}</b>` : esc(r.name)}</td><td>${num(r.special)}</td><td>${num(r.advance)}</td><td>${num(r.general_voting_day)}</td><td><b>${num(r.total)}</b></td></tr>`).join('')}</tbody></table></div>`).join('')}` : ''}
     <div class="btn-row"><a class="btn" href="/council/">Meet the new council →</a></div>
     ${pastRes('2022')}
     ${pastRes('2018')}

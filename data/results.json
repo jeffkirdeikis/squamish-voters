@@ -357,27 +357,36 @@
   "total_eligible_electors": 16910
  },
  "2026": {
-  "status": "unofficial",
-  "note": "Fill on election night from the District of Squamish declaration of unofficial results. status: pending | unofficial | official.",
-  "updated": "October 17, 2026 at 9:11 p.m.",
-  "source_url": "https://squamish.ca/public/Squamish2026ENR_Ver1/index.html#at/1/ar/1/ct/000",
+  "status": "official",
+  "note": "Official: the Chief Election Officer’s signed final determination, October 21, 2026. status: pending | unofficial | official.",
+  "updated": "October 21, 2026 at 2:30 p.m.",
+  "source_url": "https://squamish.ca/assets/elections/2026/2026.10.21.Final-Determination-of-Election-Results.2026.Signed.pdf",
   "ballots_cast": 8881,
   "turnout_pct": 45.33,
   "mayor": [
    {
     "name": "Sean Easton",
+    "advance": 1169,
+    "special": 52,
+    "general_voting_day": 2460,
     "total": 3681,
     "pct": 41.93,
     "elected": true
    },
    {
     "name": "Jenna Stoner",
+    "advance": 1237,
+    "special": 53,
+    "general_voting_day": 2216,
     "total": 3506,
     "pct": 39.94,
     "elected": false
    },
    {
     "name": "Daniel Deal",
+    "advance": 488,
+    "special": 20,
+    "general_voting_day": 1083,
     "total": 1591,
     "pct": 18.12,
     "elected": false
@@ -386,90 +395,135 @@
   "council": [
    {
     "name": "Sarah Ellis",
+    "advance": 1615,
+    "special": 80,
+    "general_voting_day": 2804,
     "total": 4499,
     "pct": 10.15,
     "elected": true
    },
    {
     "name": "Eric Andersen",
+    "advance": 1360,
+    "special": 49,
+    "general_voting_day": 2442,
     "total": 3851,
     "pct": 8.69,
     "elected": true
    },
    {
     "name": "Laura Prosko",
+    "advance": 1270,
+    "special": 41,
+    "general_voting_day": 2517,
     "total": 3828,
     "pct": 8.64,
     "elected": true
    },
    {
     "name": "Luc Perreault",
+    "advance": 1279,
+    "special": 47,
+    "general_voting_day": 2459,
     "total": 3785,
     "pct": 8.54,
     "elected": true
    },
    {
     "name": "Shaun Veltkamp",
+    "advance": 1348,
+    "special": 45,
+    "general_voting_day": 2361,
     "total": 3754,
     "pct": 8.47,
     "elected": true
    },
    {
     "name": "Janice DesJardins",
+    "advance": 1211,
+    "special": 37,
+    "general_voting_day": 2440,
     "total": 3688,
     "pct": 8.32,
     "elected": true
    },
    {
     "name": "A. John Lowe",
+    "advance": 867,
+    "special": 28,
+    "general_voting_day": 2117,
     "total": 3012,
     "pct": 6.8,
     "elected": false
    },
    {
     "name": "Anders Ourom",
+    "advance": 934,
+    "special": 39,
+    "general_voting_day": 2002,
     "total": 2975,
     "pct": 6.71,
     "elected": false
    },
    {
     "name": "John French",
+    "advance": 937,
+    "special": 41,
+    "general_voting_day": 1719,
     "total": 2697,
     "pct": 6.09,
     "elected": false
    },
    {
     "name": "Ian Brown",
+    "advance": 972,
+    "special": 55,
+    "general_voting_day": 1621,
     "total": 2648,
     "pct": 5.98,
     "elected": false
    },
    {
     "name": "Andrew Hamilton",
+    "advance": 994,
+    "special": 49,
+    "general_voting_day": 1564,
     "total": 2607,
     "pct": 5.88,
     "elected": false
    },
    {
     "name": "Chris Pettingill",
+    "advance": 900,
+    "special": 53,
+    "general_voting_day": 1507,
     "total": 2460,
     "pct": 5.55,
     "elected": false
    },
    {
     "name": "Sean Goodwin",
+    "advance": 588,
+    "special": 15,
+    "general_voting_day": 1199,
     "total": 1802,
     "pct": 4.07,
     "elected": false
    },
    {
     "name": "Kieran Brownie",
+    "advance": 500,
+    "special": 28,
+    "general_voting_day": 1104,
     "total": 1632,
     "pct": 3.68,
     "elected": false
    },
    {
     "name": "Chris Ryan",
+    "advance": 286,
+    "special": 24,
+    "general_voting_day": 767,
     "total": 1077,
     "pct": 2.43,
     "elected": false
@@ -478,30 +532,45 @@
   "trustees": [
    {
     "name": "April Lowe",
+    "advance": 976,
+    "special": 42,
+    "general_voting_day": 1938,
     "total": 2956,
     "pct": 27.57,
     "elected": true
    },
    {
     "name": "Leanne Roderick",
+    "advance": 933,
+    "special": 44,
+    "general_voting_day": 1783,
     "total": 2760,
     "pct": 25.74,
     "elected": true
    },
    {
     "name": "Lisa Turpin",
+    "advance": 693,
+    "special": 27,
+    "general_voting_day": 1301,
     "total": 2021,
     "pct": 18.85,
     "elected": false
    },
    {
     "name": "Dalia Shehata",
+    "advance": 597,
+    "special": 27,
+    "general_voting_day": 986,
     "total": 1610,
     "pct": 15.01,
     "elected": false
    },
    {
     "name": "Robyn Walters",
+    "advance": 434,
+    "special": 19,
+    "general_voting_day": 923,
     "total": 1376,
     "pct": 12.83,
     "elected": false
@@ -510,8 +579,6 @@
   "unofficial_on": "Saturday, October 17, 2026, after polls close at 8 p.m.",
   "official_on": "October 21, 2026",
   "plan_source_url": "https://squamish.ca/government-and-administration/council/election/",
-  "eligible_voters": 19591,
-  "counted": "11 of 11 vote counting machines reported",
-  "district_timestamp": "2026-10-17 23:54:51"
+  "eligible_voters": 19591
  }
 }

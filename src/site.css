@@ -1917,3 +1917,8 @@ body:has(.wa-ringtab) #totop { display: none !important; }
 .wa-t a { color: inherit; text-decoration: none; }
 .wi-more ul { padding-left: 1.2em; }
 .wi-more li { margin: .35em 0; }
+/* Results: votes by how people voted. Stays a real table on phones (scrolls sideways inside its box if it must) */
+.res-how { width: 100%; border-collapse: collapse; font-size: .88rem; font-variant-numeric: tabular-nums; }
+.res-how th, .res-how td { padding: .4rem .2rem; border-bottom: 1px solid var(--line, #ddd); text-align: right; white-space: nowrap; }
+.res-how th:first-child, .res-how td:first-child { text-align: left; white-space: normal; }
+.res-how th { font-size: .72rem; text-transform: uppercase; letter-spacing: .02em; white-space: normal; }
