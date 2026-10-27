@@ -47,3 +47,26 @@ export function standing(r) {
   const top = [...r.options].sort((a, b) => b.n - a.n)[0];
   return `“${top.label}” leads with ${pctOf(top.n, r.opinions)}%`;
 }
+
+// The most wanted yes / no asks right now, for the main page's share picture: the highest share of yes among people who
+// said yes or no, counting only asks at least `min` people took a side on, so two early yeses can't top the list.
+export async function topAsks(limit = 3, min = 20) {
+  if (!sql) return [];
+  const [rows, extra] = await Promise.all([
+    sql`SELECT wid, choice, count(*)::int AS n FROM sv_want_votes GROUP BY wid, choice`.catch(() => []),
+    sql`SELECT DISTINCT wid FROM sv_want_options WHERE status = 'ok'`.catch(() => []),
+  ]);
+  const t = {};
+  for (const r of rows) (t[r.wid] ||= { y: 0, n: 0, m: 0 })[r.choice] = r.n;
+  const multi = new Set(extra.map((r) => r.wid));
+  const scored = Object.entries(t).filter(([id, x]) => x.y + x.n >= min && !multi.has(id))
+    .map(([id, x]) => ({ id, yes: x.y / (x.y + x.n), opinions: x.y + x.n, total: x.y + x.n + x.m }))
+    .sort((a, b) => b.yes - a.yes || b.opinions - a.opinions);
+  const out = [];
+  for (const s of scored) {
+    if (out.length >= limit) break;
+    const ask = await findAsk(s.id);
+    if (ask && !ask.keys) out.push({ ...s, title: ask.title, pct: Math.round(100 * s.yes) });
+  }
+  return out;
+}

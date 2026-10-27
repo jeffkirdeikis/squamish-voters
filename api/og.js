@@ -1,13 +1,14 @@
 // Share picture for one What Squamish Wants question (1200 x 630), so a link to /wants/<id>/ on Facebook shows that question.
 //   GET ?id=<ask id>  -> PNG: the question and its answer buttons. No results on it, since people answer before they see the crowd.
 //   GET ?id=<ask id>&said=<answer key>  -> the question, "I said Yes", and the live results, shared from /wants/<id>/said/<key>/.
+//   GET ?top=1  -> the main /wants/ page: the 3 most wanted asks right now, each with its share of yes.
 //   GET ?id=<ask id>&live=1  -> the question and the live results only (the sharer switched "Show my answer" off), from /wants/<id>/live/.
 //   GET ?my=<id>.<key>,<id>.<key>  -> "My picks for Squamish": up to 5 of one person's answers and how many agree, from /wants/my/.
 // &n=<answers so far> only makes a new address (and so a fresh picture) each time the count moves; Facebook keeps a copy per address.
 // Starter asks come from _wants.json; residents' asks (r-...) from sv_wants. An unknown or hidden id gets the general picture.
 import { ImageResponse } from '@vercel/og';
 import fs from 'node:fs';
-import { findAsk, answerLabel, results, pctOf, standing } from './_wants-ask.js';
+import { findAsk, answerLabel, results, pctOf, standing, topAsks } from './_wants-ask.js';
 
 const font = (f) => fs.readFileSync(new globalThis.URL(`./_fonts/${f}`, import.meta.url));
 const FONTS = [
@@ -110,23 +111,39 @@ function picture({ title, labels }) {
       h('div', { fontWeight: 800 }, 'squamishvoters.com/wants')));
 }
 
+// The main page: what Squamish wants most right now, three asks with their share of yes as a bar.
+function topPicture(rows) {
+  const line = (r) => h('div', { flexDirection: 'column', marginBottom: 22 },
+    h('div', { justifyContent: 'space-between', alignItems: 'flex-end' },
+      h('div', { fontSize: 31, fontWeight: 600, lineHeight: 1.2, flex: 1, marginRight: 24 }, cut(r.title, 70)),
+      h('div', { fontSize: 36, fontWeight: 800, color: YELLOW, flexShrink: 0 }, `${r.pct}% yes`)),
+    h('div', { height: 14, borderRadius: 7, background: 'rgba(255,255,255,.18)', marginTop: 10, overflow: 'hidden' },
+      h('div', { width: `${r.pct}%`, height: '100%', background: '#3fb36b' })));
+  return h('div', { width: '100%', height: '100%', flexDirection: 'column', background: GREEN, padding: '44px 64px 40px', color: '#fff', fontFamily: 'Sans' },
+    h('div', { fontSize: 22, fontWeight: 800, color: YELLOW, letterSpacing: 3 }, 'WHAT SQUAMISH WANTS'),
+    h('div', { fontFamily: 'Serif', fontSize: 50, marginTop: 8, marginBottom: 28 }, 'Most wanted right now'),
+    h('div', { flexDirection: 'column' }, rows.map(line)),
+    footer('Say yes, no or don’t mind, and add your own'));
+}
+
 export default async function handler(req, res) {
   const id = String(req.query.id || '').replace(/\/$/, ''), said = String(req.query.said || '');
   let el = null;
-  if (req.query.my) { const rows = await picks(req.query.my); if (rows.length) el = picksPicture(rows); }
+  if (req.query.top) { const rows = await topAsks(3).catch(() => []); if (rows.length) el = topPicture(rows); }
+  else if (req.query.my) { const rows = await picks(req.query.my); if (rows.length) el = picksPicture(rows); }
   else {
     const ask = id && (await findAsk(id));
     const label = ask && said && /^[a-z0-9]{1,12}$/.test(said) && (await answerLabel(id, ask, said));
     const r = ask && (label || req.query.live) ? await results(id, ask).catch(() => null) : null;
     // Results only: the same picture without "I said", when the sharer keeps their answer to themselves.
-    if (ask) el = label ? saidPicture(ask, label, kindOf(said, ask), r) : r ? saidPicture(ask, null, null, r) : picture(ask);
+    if (ask) el = label ? saidPicture(ask, label, kindOf(said, ask), r) : r && r.total ? saidPicture(ask, null, null, r) : picture(ask);
   }
   if (!el) { res.setHeader('Cache-Control', 'public, max-age=3600'); return res.redirect(302, '/share/wants.png?v=1'); }
   const img = new ImageResponse(el, { width: 1200, height: 630, fonts: FONTS });
   res.setHeader('Content-Type', 'image/png');
   // Pictures with results change as people answer: an address with &n= is one moment's count and can stay a day at the edge;
   // without it, ten minutes. The plain question picture has no numbers and keeps a day.
-  const live = said || req.query.my || req.query.live;
+  const live = said || req.query.my || req.query.live || req.query.top;
   res.setHeader('Cache-Control', live && !req.query.n ? 'public, max-age=300, s-maxage=600' : 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800');
   return res.send(Buffer.from(await img.arrayBuffer()));
 }
