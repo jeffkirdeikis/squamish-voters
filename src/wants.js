@@ -139,12 +139,12 @@
     var x = shareInfo(shareSt); if (!x) { shareSt = null; return drawShare(); }
     var h;
     if (shareSt.stage === 'copied') {
-      h = '<div class="wa-done"><span class="wa-tick" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span><h2 id="wa-share-h">' + (shareSt.copied ? 'Copied. Now paste it in your group.' : 'Copy this, then paste it in your group.') + '</h2></div>' +
-        '<label class="wa-capl" for="wa-cap">' + (shareSt.copied ? 'On your clipboard' : 'Your post') + '</label><textarea id="wa-cap" class="wa-cap" rows="5" readonly>' + esc(x.text + '\n' + x.url) + '</textarea>' +
-        '<ol class="wa-steps"><li>Open your Squamish group on Facebook</li><li>Tap “Write something” and paste</li><li>The picture with the results fills in by itself</li></ol>' +
+      h = '<div class="wa-done"><span class="wa-tick" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span><h2 id="wa-share-h">' + (shareSt.copied ? 'Copied. Paste it in your Facebook group.' : 'Copy this, then paste it in your Facebook group.') + '</h2></div>' +
+        // A look at the post they're about to paste: the caption, then the link card Facebook draws from the link.
+        '<div class="wa-post">' + (shareSt.copied ? '<p class="wa-posttext">' + esc(x.text) + '</p>' : '<textarea id="wa-cap" class="wa-cap" rows="4" readonly aria-label="Your post">' + esc(x.text + '\n' + x.url) + '</textarea>') +
+        '<div class="wa-postcard"><img src="' + esc(x.img) + '" alt="The picture your post will show" width="1200" height="630"><small>squamishvoters.com</small></div></div>' +
         '<a class="wa-big fb" href="https://www.facebook.com/groups/feed/" target="_blank" rel="noopener">' + FB + 'Open Facebook</a>' +
-        '<button type="button" class="wa-big ghost" data-sharex>Done</button>' +
-        '<button type="button" class="wa-link center" data-sharefb>Or use Facebook’s own share window</button>';
+        '<p class="wa-postlinks"><button type="button" class="wa-link" data-sharex>Done</button><span aria-hidden="true">·</span><button type="button" class="wa-link" data-sharefb>Use Facebook’s share window</button></p>';
     } else {
       h = '<div class="wa-modalhead"><h2 id="wa-share-h">' + x.title + '</h2><button type="button" class="wa-x" data-sharex aria-label="Close">×</button></div>' +
         '<div class="wa-preview"><img src="' + esc(x.img) + '" alt="The picture your post will show" width="1200" height="630"></div>' +

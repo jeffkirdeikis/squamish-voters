@@ -1696,11 +1696,12 @@ html.wa-noscroll { overflow: hidden; }
 .wa-fbf { display: inline-grid; place-items: center; width: 1.35rem; height: 1.35rem; border-radius: 50%; background: #fff; color: #1877f2; font: 900 .95rem/1 Arial, sans-serif; }
 .wa-done { display: flex; align-items: center; gap: .8rem; padding-top: .3rem; }
 .wa-tick { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; flex-shrink: 0; border-radius: 50%; background: var(--yes-bg); color: var(--yes); }
-.wa-capl { font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); }
-.wa-cap { width: 100%; box-sizing: border-box; font: .95rem/1.45 system-ui, sans-serif; color: var(--ink); background: var(--surface-2); border: 0; border-radius: 12px; padding: .8rem; resize: none; margin-top: -.5rem; }
-.wa-steps { margin: 0; padding: 0; list-style: none; counter-reset: st; display: grid; gap: .55rem; }
-.wa-steps li { counter-increment: st; display: flex; align-items: center; gap: .7rem; font-size: .95rem; }
-.wa-steps li::before { content: counter(st); display: grid; place-items: center; width: 1.75rem; height: 1.75rem; flex-shrink: 0; border-radius: 50%; background: var(--brand); color: #fff; font-weight: 800; font-size: .85rem; }
+.wa-cap { width: 100%; box-sizing: border-box; font: .95rem/1.45 system-ui, sans-serif; color: var(--ink); background: transparent; border: 0; padding: .8rem .9rem .2rem; resize: none; display: block; }
+.wa-post { border: 1px solid var(--line); border-radius: 12px; background: var(--surface-2); overflow: hidden; }
+.wa-posttext { margin: 0; padding: .8rem .9rem .7rem; font: .95rem/1.45 system-ui, sans-serif; color: var(--ink); }
+.wa-postcard img { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 630; background: var(--brand); }
+.wa-postcard small { display: block; padding: .45rem .9rem .55rem; font-size: .72rem; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.wa-postlinks { margin: 0; display: flex; justify-content: center; align-items: center; gap: .6rem; font-size: .92rem; }
 .wa-saidby { margin: 0 0 .5rem; font-size: .95rem; padding: .45rem .7rem; border-radius: 10px; background: var(--warn-bg); color: var(--warn-ink); }
 .wa-sug { margin-top: .6rem; padding: .75rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); display: grid; gap: .5rem; }
 .wa-sug .fld { margin: 0; }
