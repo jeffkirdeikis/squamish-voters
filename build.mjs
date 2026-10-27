@@ -1540,7 +1540,7 @@ if (TRACKED.length) {
 // with that ask's title and picture. Each ask's share picture is drawn by api/og.js (the question and its answer buttons).
 // api/_wants.json tells the API which starter ids and neighbourhoods exist.
 {
-  fs.writeFileSync(path.join(ROOT, 'api', '_wants.json'), JSON.stringify({ topics: WANTS.topics, hoods: WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => h.slug), asks: WANTS.asks.map(({ id, title, why, options }) => ({ id, title, why, ...(options ? { options: options.map((o) => o.key), labels: options.map((o) => o.label) } : {}) })) }) + '\n');
+  fs.writeFileSync(path.join(ROOT, 'api', '_wants.json'), JSON.stringify({ topics: WANTS.topics, hoods: WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => h.slug), asks: WANTS.asks.map(({ id, title, why, options, status }) => ({ id, title, why, ...(status === 'done' ? { status } : {}), ...(options ? { options: options.map((o) => o.key), labels: options.map((o) => o.label) } : {}) })) }) + '\n');
   // Live pictures: the main page shows the 3 most wanted asks, a question's page shows its results (api/og.js). Facebook keeps
   // its own copy per address, so these refresh when it re-reads the page; a share from the site's buttons is always fresh.
   const IMG = `${ORIGIN}/api/og/?top=1&v=2`;
