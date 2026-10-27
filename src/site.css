@@ -1722,3 +1722,10 @@ p.wa-under { justify-content: flex-end; margin-top: .25rem; }
 .wa-ans.choice .wa-b.other { min-height: 2.4rem; padding: .3rem .9rem; font-size: .9rem; color: var(--ink-2); border-style: dashed; font-weight: 700; }
 .wa-ans.choice .wa-b.other[aria-expanded="true"] { border-style: solid; border-color: var(--brand); color: var(--brand); }
 .wa-row > .wa-sug, .wa-card > .wa-sug { margin: .1rem 0 .6rem; }
+.sb-merge { display: grid; gap: .4rem; margin: .5rem 0; padding: .6rem; border: 1px dashed var(--line); border-radius: 8px; }
+.sb-merge label { display: grid; gap: .2rem; }
+.sb-merge select, .sb-merge input { font: inherit; padding: .4rem .5rem; border: 1px solid var(--line); border-radius: 6px; }
+/* "Other answer…" under Yes / No / Don't mind */
+.wa-ans .wa-otherline { grid-column: 1 / -1; justify-self: start; background: none; border: 0; padding: .15rem 0; font: inherit; font-size: .85rem; font-weight: 700; color: var(--muted); cursor: pointer; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; }
+.wa-ans .wa-otherline[aria-expanded="true"] { color: var(--brand); }
+.wa-optlegend .y { background: var(--yes); } .wa-optlegend .n { background: var(--no); }

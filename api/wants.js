@@ -8,10 +8,11 @@
 //   POST { action: 'add-words', wid, text, sig, voter }      -> { ok }        (adds the writer's words to an existing ask)
 //   POST { action: 'report', wid, voter }              -> { ok }   (three reports from different people hide a resident's ask)
 //   POST { action: 'add-option', wid, text, voter }    -> { ok, option, tally } | { ok, same: key } | { ok, rejected: reason }
-//        On a multiple choice ask, a resident can add an answer that's missing. Claude checks the rules, writes a short
+//        On any ask, a resident can add an answer that's missing ("Other"). Claude checks the rules, writes a short
 //        label and says if it means the same as an answer already there. The writer's answer moves to the new option.
 //   POST { action: 'report', wid, okey, voter }        -> { ok }   (three reports hide a resident's answer)
 //   GET  ?admin=1, POST { admin: 'hide' | 'show', wid [, nid | okey] }, both with Authorization: Bearer <ADMIN_TOKEN>
+//   POST { admin: 'merge', wid, from, into, label? }  moves every vote from one added answer to another (and can rename it)
 import { neon } from '@neondatabase/serverless';
 import { createHash, createHmac, randomBytes } from 'node:crypto';
 import SEED from './_wants.json' with { type: 'json' };
@@ -154,7 +155,7 @@ async function checkOption(text, seed, current) {
         output_config: { format: { type: 'json_schema', schema: { type: 'object', additionalProperties: false,
           required: ['publish', 'reason', 'label', 'means', 'same'],
           properties: { publish: { type: 'boolean' }, reason: { type: 'string' }, label: { type: 'string' }, means: { type: 'string' }, same: { type: 'string', enum: ['', ...current.map((o) => o.key)] } } } } },
-        system: `You review answers that residents add to a multiple choice question on "What Squamish Wants", a public list on Squamish Voters (a non-partisan site about Squamish, B.C.).
+        system: `You review answers that residents add to a question on "What Squamish Wants", a public list on Squamish Voters (a non-partisan site about Squamish, B.C.).
 
 THE QUESTION: ${seed.title}
 ${seed.why ? `BACKGROUND: ${seed.why}\n` : ''}THE ANSWERS ALREADY THERE:
@@ -197,9 +198,26 @@ export default async function handler(req, res) {
         sql`SELECT wid, key, label, body, status, reports, created_at FROM sv_want_options ORDER BY created_at DESC LIMIT 1000`,
       ]);
       return res.json({ ok: true, asks, notes: ns.map((n) => ({ wid: n.wid, nid: hash(`n|${n.wid}|${n.voter}`).slice(0, 12), text: n.body, status: n.status, at: n.created_at })),
-        options: os.map((o) => ({ wid: o.wid, okey: o.key, label: o.label, text: o.body, status: o.status, reports: o.reports, at: o.created_at, question: SEEDS.find((s) => s.id === o.wid)?.title || o.wid })) });
+        options: os.map((o) => {
+          const seed = SEEDS.find((s) => s.id === o.wid);
+          const base = seed?.options ? seed.options.map((k, i) => ({ key: k, label: seed.labels?.[i] || k })) : [{ key: 'y', label: 'Yes' }, { key: 'n', label: 'No' }];
+          const others = [...base, ...os.filter((x) => x.wid === o.wid && x.key !== o.key && x.status === 'ok').map((x) => ({ key: x.key, label: x.label }))];
+          return { wid: o.wid, okey: o.key, label: o.label, text: o.body, status: o.status, reports: o.reports, at: o.created_at, question: seed?.title || o.wid, others };
+        }) });
     }
     const st = b.admin === 'show' ? 'ok' : 'removed';
+    if (b.admin === 'merge') {
+      // Two answers that mean the same thing: move every vote from one to the other and retire the first.
+      const wid = String(b.wid || ''), from = String(b.from || ''), into = String(b.into || ''), label = clean(b.label, 60);
+      const [f] = await sql`SELECT key FROM sv_want_options WHERE wid = ${wid} AND key = ${from}`;
+      const seed = SEEDS.find((x) => x.id === wid);
+      const intoOk = (seed?.options || ['y', 'n']).includes(into) || (await sql`SELECT 1 FROM sv_want_options WHERE wid = ${wid} AND key = ${into} AND status = 'ok'`).length > 0;
+      if (!f || !intoOk || from === into) return res.status(400).json({ ok: false, error: 'Pick two different answers on the same question.' });
+      await sql`UPDATE sv_want_votes SET choice = ${into}, updated_at = now() WHERE wid = ${wid} AND choice = ${from}`;
+      await sql`UPDATE sv_want_options SET status = 'merged' WHERE wid = ${wid} AND key = ${from}`;
+      if (label && into.startsWith('x')) await sql`UPDATE sv_want_options SET label = ${label} WHERE wid = ${wid} AND key = ${into}`;
+      return res.json({ ok: true });
+    }
     if (b.okey) await sql`UPDATE sv_want_options SET status = ${st} WHERE wid = ${String(b.wid || '')} AND key = ${String(b.okey)}`;
     else if (b.nid) {
       const [n] = (await sql`SELECT wid, voter FROM sv_want_notes WHERE wid = ${String(b.wid || '')}`).filter((r) => hash(`n|${r.wid}|${r.voter}`).slice(0, 12) === b.nid);
@@ -229,7 +247,7 @@ export default async function handler(req, res) {
     if (b.choice === '') await sql`DELETE FROM sv_want_votes WHERE wid = ${wid} AND voter = ${voter}`;
     else {
       const seed = SEEDS.find((x) => x.id === wid);
-      const allowed = seed?.options ? [...seed.options, ...(await sql`SELECT key FROM sv_want_options WHERE wid = ${wid} AND status = 'ok'`).map((r) => r.key), 'm'] : CHOICES;
+      const allowed = [...(seed?.options ? [...seed.options, 'm'] : CHOICES), ...(await sql`SELECT key FROM sv_want_options WHERE wid = ${wid} AND status = 'ok'`).map((r) => r.key)];
       if (!allowed.includes(b.choice)) return res.status(400).json({ ok: false, error: 'Please pick one of the answers.' });
       const [before] = await sql`SELECT 1 FROM sv_want_votes WHERE wid = ${wid} AND voter = ${voter}`;
       if (!before) {
@@ -279,18 +297,19 @@ export default async function handler(req, res) {
 
   if (b.action === 'add-option') {
     const wid = String(b.wid || ''), text = clean(b.text, 300);
-    const seed = SEEDS.find((x) => x.id === wid && x.options);
-    if (!seed) return res.status(400).json({ ok: false, error: 'Only questions with several answers take new ones.' });
+    const seed = SEEDS.find((x) => x.id === wid) || (await sql`SELECT id, title, why FROM sv_wants WHERE id = ${wid} AND status = 'ok'`)[0];
+    if (!seed) return res.status(404).json({ ok: false, error: 'That ask isn’t on the list any more.' });
+    const base = seed.options ? seed.options.map((k, i) => ({ key: k, label: seed.labels?.[i] || k })) : [{ key: 'y', label: 'Yes' }, { key: 'n', label: 'No' }];
     if (text.length < 3) return res.status(400).json({ ok: false, error: 'Write the answer you’d like to see.' });
     const extra = await sql`SELECT key, label, status, net, created_at FROM sv_want_options WHERE wid = ${wid}`;
-    const live = extra.filter((o) => o.status !== 'removed' && o.status !== 'reported');
-    if (seed.options.length + live.length >= MAX_OPTIONS) return res.status(400).json({ ok: false, error: 'This question has plenty of answers already. Pick the closest one, or add the idea as its own ask.' });
+    const live = extra.filter((o) => o.status === 'ok' || o.status === 'pending');
+    if (base.length + live.length >= MAX_OPTIONS) return res.status(400).json({ ok: false, error: 'This question has plenty of answers already. Pick the closest one, or add the idea as its own ask.' });
     const [{ n: checks }] = await sql`SELECT count(*)::int AS n FROM sv_want_checks WHERE net = ${net} AND at > now() - interval '1 hour'`;
     if (checks >= CHECKS_PER_HOUR) return res.status(429).json({ ok: false, error: 'That’s a lot of suggestions from your connection in the last hour. Please try again a bit later.' });
     const [{ n: today }] = await sql`SELECT count(*)::int AS n FROM sv_want_options WHERE net = ${net} AND created_at > now() - interval '1 day'`;
     if (today >= OPTIONS_PER_DAY) return res.status(429).json({ ok: false, error: 'Your connection has added a few answers today already. Please come back tomorrow.' });
     await sql`INSERT INTO sv_want_checks (net) VALUES (${net})`;
-    const current = [...seed.options.map((k, i) => ({ key: k, label: seed.labels?.[i] || k })), ...extra.filter((o) => o.status === 'ok').map((o) => ({ key: o.key, label: o.label }))];
+    const current = [...base, ...extra.filter((o) => o.status === 'ok').map((o) => ({ key: o.key, label: o.label }))];
     const c = await checkOption(text, seed, current);
     if (!c.publish) return res.json({ ok: true, rejected: c.reason || 'It doesn’t fit the rules yet.' });
     if (c.same) return res.json({ ok: true, same: c.same });

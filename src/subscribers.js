@@ -136,13 +136,13 @@
 
   // What Squamish Wants: residents' asks and the words people added to existing asks, with hide and bring back.
   var wbox = document.getElementById('w-out');
-  var WST = { ok: 'Posted', pending: 'Waiting for check', reported: 'Hidden by reports', removed: 'Removed by you' };
+  var WST = { merged: 'Merged into another answer', ok: 'Posted', pending: 'Waiting for check', reported: 'Hidden by reports', removed: 'Removed by you' };
   function loadWants() {
     fetch('/api/wants/?admin=1', { headers: { Authorization: 'Bearer ' + token }, cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
       if (!d.ok) { wbox.textContent = 'Could not load.'; return; }
       var items = d.asks.map(function (a) { return { kind: 'ask', wid: a.id, title: a.title, text: a.body, status: a.status, reports: a.reports, at: a.created_at }; })
         .concat(d.notes.map(function (n) { return { kind: 'words', wid: n.wid, nid: n.nid, title: 'Words added to: ' + n.wid, text: n.text, status: n.status, at: n.at }; }))
-        .concat((d.options || []).map(function (o) { return { kind: 'answer', wid: o.wid, okey: o.okey, title: o.label + ' (answer added to: ' + o.question + ')', text: o.text, status: o.status, reports: o.reports, at: o.at }; }))
+        .concat((d.options || []).map(function (o) { return { kind: 'answer', wid: o.wid, okey: o.okey, title: o.label + ' (answer added to: ' + o.question + ')', text: o.text, status: o.status, reports: o.reports, at: o.at, others: o.others, label: o.label }; }))
         .sort(function (a, b) { return String(b.at).localeCompare(String(a.at)); });
       if (!items.length) { wbox.innerHTML = '<p class="muted">Nothing added by residents yet.</p>'; return; }
       wbox.innerHTML = items.map(function (x) {
@@ -150,6 +150,9 @@
         return '<div class="sb-person' + (showing ? '' : ' sb-dim') + '"><p class="sb-top"><span class="sb-pill">' + esc(WST[x.status] || x.status) + '</span><span class="small">' + ({ ask: 'New ask', words: 'Added words', answer: 'Added answer' }[x.kind]) + (x.reports ? ' · ' + x.reports + ' report' + (x.reports === 1 ? '' : 's') : '') + (x.at ? ' · ' + esc(new Date(x.at).toLocaleString('en-CA')) : '') + '</span></p>' +
           '<p><b>' + esc(x.title) + '</b></p><p class="small sb-note">' + esc(x.text || '') + '</p>' +
           (x.kind === 'ask' && showing ? '<p class="small"><a href="/wants/#' + esc(x.wid) + '">See it on the list</a></p>' : '') +
+          (x.kind === 'answer' && showing && x.others && x.others.length ? '<div class="sb-merge"><label class="small">Same as another answer? Merge it, votes and all:<select data-minto>' + x.others.map(function (o) { return '<option value="' + esc(o.key) + '">' + esc(o.label) + '</option>'; }).join('') + '</select></label>' +
+            '<label class="small">Name to show after merging (optional)<input type="text" data-mlabel maxlength="60" placeholder="Keep the current name"></label>' +
+            '<button type="button" class="btn secondary" data-merge data-wid="' + esc(x.wid) + '" data-from="' + esc(x.okey) + '">Merge into that answer</button></div>' : '') +
           '<button type="button" class="btn secondary" data-wmod="' + (showing ? 'hide' : 'show') + '" data-wid="' + esc(x.wid) + '"' + (x.nid ? ' data-nid="' + esc(x.nid) + '"' : '') + (x.okey ? ' data-okey="' + esc(x.okey) + '"' : '') + '>' + (showing ? 'Hide it' : 'Post it') + '</button></div>';
       }).join('');
     }).catch(function () { wbox.textContent = 'Could not load.'; });
@@ -157,6 +160,14 @@
   if (wbox) {
     loadWants();
     wbox.addEventListener('click', function (e) {
+      var mb = e.target.closest('[data-merge]');
+      if (mb) {
+        var box = mb.closest('.sb-merge'), into = box.querySelector('[data-minto]').value, lab = box.querySelector('[data-mlabel]').value.trim();
+        mb.disabled = true;
+        fetch('/api/wants/', { method: 'POST', headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' }, body: JSON.stringify({ admin: 'merge', wid: mb.getAttribute('data-wid'), from: mb.getAttribute('data-from'), into: into, label: lab || undefined }) })
+          .then(function (r) { return r.json(); }).then(function (j) { if (!j.ok) { mb.disabled = false; mb.textContent = j.error || 'Could not merge'; return; } loadWants(); });
+        return;
+      }
       var b = e.target.closest('[data-wmod]'); if (!b) return;
       b.disabled = true;
       fetch('/api/wants/', { method: 'POST', headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' }, body: JSON.stringify({ admin: b.getAttribute('data-wmod'), wid: b.getAttribute('data-wid'), nid: b.getAttribute('data-nid') || undefined, okey: b.getAttribute('data-okey') || undefined }) }).then(loadWants);

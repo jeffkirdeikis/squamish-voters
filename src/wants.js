@@ -48,7 +48,9 @@
   // Don't mind (m), which is counted and shown but left out of the shares.
   var YESNO = [{ key: 'y', label: 'Yes' }, { key: 'n', label: 'No' }];
   function isChoice(a) { return a.kind === 'choice' && a.options; }
-  function opts(a) { return isChoice(a) ? a.options.concat(a.extra || []) : YESNO; }
+  function opts(a) { return (isChoice(a) ? a.options : YESNO).concat(a.extra || []); }
+  // A yes / no ask that residents have added answers to is shown like a multiple choice one.
+  function multi(a) { return isChoice(a) || !!(a.extra && a.extra.length); }
   // The answers on screen: all of them up to 6, then the first 6 unless the list is open (or your pick is further down).
   function shown(a) {
     var o = opts(a);
@@ -56,8 +58,8 @@
     var my = mine[a.id], v = o.slice(0, SHOW);
     return my && my !== 'm' && !v.some(function (x) { return x.key === my; }) ? o : v;
   }
-  function col(a, k) { var o = opts(a); for (var i = 0; i < o.length; i++) if (o[i].key === k) return 'o' + ((i % 8) + 1); return 'm'; }
-  function isExtra(a, o) { return a.options.indexOf(o) < 0; }
+  function col(a, k) { if (!isChoice(a) && (k === 'y' || k === 'n')) return k; var o = opts(a); for (var i = 0; i < o.length; i++) if (o[i].key === k) return 'o' + ((i % 8) + 1); return 'm'; }
+  function isExtra(a, o) { return (a.extra || []).indexOf(o) > -1; }
   function c(x, k) { return (x && x[k]) || 0; }
   function total(x) { var n = 0; for (var k in x) if (k !== 'areas') n += x[k] || 0; return n; }
   function opinions(a, x) { return opts(a).reduce(function (s, o) { return s + c(x, o.key); }, 0); }
@@ -79,7 +81,7 @@
   function bar(a, x) {
     var n = total(x);
     if (!n) return '<p class="wa-first">No answers yet. Yours is the first.</p>';
-    var segs = isChoice(a) ? opts(a).map(function (o) { return [col(a, o.key), o.label, c(x, o.key)]; }).concat([['m', 'don’t mind', c(x, 'm')]])
+    var segs = multi(a) ? opts(a).map(function (o) { return [col(a, o.key), o.label, c(x, o.key)]; }).concat([['m', 'don’t mind', c(x, 'm')]])
       : [['y', 'yes', c(x, 'y')], ['m', 'don’t mind', c(x, 'm')], ['n', 'no', c(x, 'n')]];
     return '<div class="wa-bar" role="img" aria-label="' + esc(segs.map(function (g) { return pct(g[2], n) + '% ' + g[1]; }).join(', ')) + '">' +
       segs.map(function (g) { return '<i class="' + g[0] + '" style="width:' + pct(g[2], n) + '%"></i>'; }).join('') + '</div>';
@@ -88,12 +90,12 @@
     var ar = a.area || prefs.area, ax = ar && x.areas && x.areas[ar];
     if (!ax || !HOODS[ar]) return '';
     var ao = opinions(a, ax), top = ranked(a, ax)[0];
-    return '<p class="wa-local"><b>' + esc(HOODS[ar]) + ':</b> ' + (!ao ? 'no one there has picked an answer yet' : isChoice(a) ? 'most picked “' + esc(top.label) + '” (' + pct(c(ax, top.key), ao) + '%)' : pct(c(ax, 'y'), ao) + '% yes among people there with an opinion') + ' (' + total(ax) + ' answers)</p>';
+    return '<p class="wa-local"><b>' + esc(HOODS[ar]) + ':</b> ' + (!ao ? 'no one there has picked an answer yet' : multi(a) ? 'most picked “' + esc(top.label) + '” (' + pct(c(ax, top.key), ao) + '%)' : pct(c(ax, 'y'), ao) + '% yes among people there with an opinion') + ' (' + total(ax) + ' answers)</p>';
   }
   function totals(a) {
     var x = t(a.id), n = total(x), o = opinions(a, x);
     var out = '<div class="wa-totals">' + bar(a, x);
-    if (n && isChoice(a)) {
+    if (n && multi(a)) {
       var sh = shown(a), more = opts(a).length - sh.length;
       out += '<ul class="wa-optlegend">' + sh.map(function (op) { return '<li><i class="dot ' + col(a, op.key) + '"></i><span>' + esc(op.label) + (isExtra(a, op) ? ' <small class="wa-added">added by a resident</small>' : '') + '</span><b>' + pct(c(x, op.key), o) + '%</b></li>'; }).join('') + '</ul>' +
         (more ? '<button type="button" class="wa-link" data-more="' + esc(a.id) + '">Show ' + more + ' more answer' + (more === 1 ? '' : 's') + '</button>' : '') +
@@ -103,7 +105,7 @@
     // Share sits under the results once someone has answered; an opened ask has it in its detail instead.
     return out + areaLine(a, x) + (openId !== a.id ? '<button type="button" class="wa-link wa-sharelink" data-share="' + esc(a.id) + '">Share this question</button>' : '') + '</div>';
   }
-  function canAdd(a) { return isChoice(a) && opts(a).length < MAX_OPTIONS; }
+  function canAdd(a) { return opts(a).length < MAX_OPTIONS; }
   // "Other": write in an answer that isn't there. Opens right under the answer buttons.
   function sugBox(a) {
     if (!canAdd(a) || sug.id !== a.id) return '';
@@ -116,12 +118,12 @@
   }
   // The closed door: a blurred bar that hints there is a result behind it, without giving anything away.
   function tease(a) {
-    return '<button type="button" class="wa-tease' + (isChoice(a) ? ' choice' : '') + '" data-open="' + esc(a.id) + '"><span class="wa-tease-bar" aria-hidden="true"><i></i><i></i><i></i></span><span class="wa-tease-t">Answer to see what Squamish said</span></button>';
+    return '<button type="button" class="wa-tease' + (multi(a) ? ' choice' : '') + '" data-open="' + esc(a.id) + '"><span class="wa-tease-bar" aria-hidden="true"><i></i><i></i><i></i></span><span class="wa-tease-t">Answer to see what Squamish said</span></button>';
   }
   var WORD = { y: 'Yes', n: 'No', m: 'Don’t mind' };
   function buttons(a, big) {
     var my = mine[a.id];
-    if (isChoice(a)) {
+    if (multi(a)) {
       var sh = shown(a), more = opts(a).length - sh.length;
       return '<div class="wa-ans choice n' + sh.length + (big ? ' big' : '') + '" role="group" aria-label="Your answer">' + sh.map(function (o, i) {
         return '<button type="button" class="wa-b opt" data-ans="' + esc(o.key) + '" data-id="' + esc(a.id) + '" aria-pressed="' + (my === o.key) + '">' + (big && desk.matches && i < 9 ? '<kbd>' + (i + 1) + '</kbd> ' : '') + esc(o.label) + '</button>';
@@ -131,7 +133,7 @@
     }
     return '<div class="wa-ans' + (big ? ' big' : '') + '" role="group" aria-label="Your answer">' + ['y', 'n', 'm'].map(function (k) {
       return '<button type="button" class="wa-b ' + k + '" data-ans="' + k + '" data-id="' + esc(a.id) + '" aria-pressed="' + (my === k) + '">' + WORD[k] + '</button>';
-    }).join('') + '</div>';
+    }).join('') + (canAdd(a) ? '<button type="button" class="wa-otherline" data-sug="' + esc(a.id) + '" aria-expanded="' + (sug.id === a.id) + '">Other answer…</button>' : '') + '</div>';
   }
   function detail(a) {
     var s = STATUS[a.res ? 'resident' : a.status] || STATUS.none;
@@ -142,7 +144,7 @@
       '<dl><dt>Where it stands</dt><dd><span class="wa-chip ' + s.cls + '">' + esc(s.label) + '</span> ' + esc(s.explain || '') + '</dd>' + who +
       '<dt>Topic</dt><dd>' + esc(TOPIC[a.topic] || 'Everything else') + '</dd>' +
       (a.other_side ? '<dt>The other side</dt><dd>' + esc(a.other_side) + '</dd>' : '') +
-      (isChoice(a) ? '<dt>What each answer means</dt><dd><ul class="wa-means">' + opts(a).map(function (o) {
+      (multi(a) ? '<dt>' + (isChoice(a) ? 'What each answer means' : 'Answers residents added') + '</dt><dd><ul class="wa-means">' + (isChoice(a) ? opts(a) : a.extra).map(function (o) {
         var rk = a.id + '#' + o.key;
         return '<li><b>' + esc(o.label) + ':</b> ' + esc(o.means || '') + (isExtra(a, o) ? ' <span class="small muted">Added by a resident.</span> ' + (reported[rk] ? '<span class="small muted">Thanks, reported.</span>' : '<button type="button" class="wa-link muted" data-optreport="' + esc(rk) + '">Report</button>') : '') + '</li>';
       }).join('') + '</ul></dd>' : '') +
@@ -157,7 +159,7 @@
   }
   function row(a) {
     var my = mine[a.id], open = openId === a.id, show = my || open;
-    return '<li class="wa-row' + (isChoice(a) ? ' choice' : '') + (my ? ' answered' : '') + (open ? ' open' : '') + '" id="ask-' + esc(a.id) + '">' +
+    return '<li class="wa-row' + (multi(a) ? ' choice' : '') + (my ? ' answered' : '') + (open ? ' open' : '') + '" id="ask-' + esc(a.id) + '">' +
       '<button type="button" class="wa-title" data-open="' + esc(a.id) + '" aria-expanded="' + open + '">' + chips(a) + '<span class="wa-t">' + esc(a.title) + '</span></button>' +
       buttons(a) + sugBox(a) + (hintId === a.id ? '<p class="wa-hint">Tap your answer again to undo it.</p>' : '') +
       (show ? totals(a) + (a.info && !open && !only ? '<p class="wa-under">' + infoLink(a) + '</p>' : '') : '<div class="wa-under">' + tease(a) + (only ? '' : infoLink(a)) + '</div>') + (open ? detail(a) : '') + '</li>';
@@ -210,7 +212,7 @@
       var x = t(a.id), n = total(x), my = mine[a.id];
       var same = c(x, my);
       el.innerHTML = prog + '<div class="wa-card">' + chips(a) + '<h2>' + esc(a.title) + '</h2><p class="wa-you">' +
-        (n > 1 ? 'You and ' + pct(same, n) + '% of people ' + (my === 'm' ? 'don’t mind either way.' : isChoice(a) ? 'picked “' + esc(labelOf(a, my)) + '”.' : my === 'y' ? 'said yes.' : 'said no.') : 'You’re the first to answer this one.') + '</p>' +
+        (n > 1 ? 'You and ' + pct(same, n) + '% of people ' + (my === 'm' ? 'don’t mind either way.' : multi(a) ? 'picked “' + esc(labelOf(a, my)) + '”.' : my === 'y' ? 'said yes.' : 'said no.') : 'You’re the first to answer this one.') + '</p>' +
         totals(a) + '<button type="button" class="btn block" data-next>Next ask</button>' + (desk.matches ? '<p class="wa-keys">Press <kbd>Enter</kbd> for the next ask</p>' : '') + '</div>';
       return;
     }
@@ -218,7 +220,7 @@
     if (!a) { el.innerHTML = prog + '<div class="wa-card wa-done"><h2>That’s every ask for now.</h2><p>New ones go up as residents add them.</p><button type="button" class="btn block" data-view="top">See the Top 10</button><button type="button" class="btn secondary block" data-view="add">Missing something? Add it</button></div>'; return; }
     deckShown = a.id;
     el.innerHTML = prog + '<div class="wa-card">' + chips(a) + '<h2>' + esc(a.title) + '</h2>' + (a.why ? '<p>' + esc(a.why) + '</p>' : '') + (a.info ? '<p class="wa-onelink">' + infoLink(a) + '</p>' : '') + buttons(a, true) + sugBox(a) +
-      '<button type="button" class="wa-link center" data-skip="' + esc(a.id) + '">Skip this one</button>' + (desk.matches ? (isChoice(a) ? KEYS_CHOICE : KEYS) : '') + '</div>';
+      '<button type="button" class="wa-link center" data-skip="' + esc(a.id) + '">Skip this one</button>' + (desk.matches ? (multi(a) ? KEYS_CHOICE : KEYS) : '') + '</div>';
   }
 
   // ---------- top 10 (opens after 5 answers) ----------
@@ -236,7 +238,7 @@
       var x = t(a.id), o = opinions(a, x), lead = ranked(a, x)[0], my = mine[a.id];
       return '<li><button type="button" class="wa-topline" data-goto="' + esc(a.id) + '"><span class="wa-rank">' + (i + 1) + '</span><span class="wa-topbody"><span class="wa-topt">' + esc(a.title) + '</span>' + bar(a, x) +
         '<span class="wa-legend"><em>' + (isChoice(a) ? 'Most picked: <b>' + esc(lead.label) + '</b> (' + pct(c(x, lead.key), o) + '%)' : '<b>' + pct(c(x, 'y'), o) + '% yes</b>') + '</em><span>' + total(x) + ' answer' + (total(x) === 1 ? '' : 's') + '</span>' +
-        (my ? '<span>' + (my === 'm' ? 'You don’t mind' : isChoice(a) ? 'You picked “' + esc(labelOf(a, my)) + '”' : 'You said ' + WORD[my].toLowerCase()) + '</span>' : '') + '</span></span></button></li>';
+        (my ? '<span>' + (my === 'm' ? 'You don’t mind' : multi(a) ? 'You picked “' + esc(labelOf(a, my)) + '”' : 'You said ' + WORD[my].toLowerCase()) + '</span>' : '') + '</span></span></button></li>';
     }
     el.innerHTML = '<div class="wa-board"><h2>Most wanted</h2><p class="small muted">Ranked by the share of yes among people who said yes or no (for questions with several answers, the share of the most picked one). Tap one to answer or see more.</p><ol class="wa-toplist">' + (top.length ? top.map(line).join('') : '<li class="wa-empty">No answers yet.</li>') + '</ol>' +
       (split.length ? '<h2>Most split</h2><p class="small muted">Closest to an even yes and no.</p><ol class="wa-toplist">' + split.map(line).join('') + '</ol>' : '') +
@@ -369,7 +371,6 @@
       tallies = j.tallies || {}; mine = j.mine || {}; notes = j.notes || {}; people = j.people || 0; loaded = true;
       // Added answers, most picked first. Worked out once per load so buttons don't move while someone answers.
       asks.forEach(function (a) {
-        if (!isChoice(a)) return;
         var x = t(a.id);
         a.extra = ((j.extras || {})[a.id] || []).slice().sort(function (p, q) { return c(x, q.key) - c(x, p.key); });
       });
@@ -528,8 +529,8 @@
     var k = e.key.toLowerCase(), a = deckShown && byId(deckShown);
     if (!a) return;
     if (mine[a.id]) { if (k === 'enter' || k === 'arrowright') { e.preventDefault(); deckShown = null; drawOne(); drawProgress(); } return; }
-    if (isChoice(a) && /^[1-9]$/.test(k) && shown(a)[+k - 1]) { e.preventDefault(); answer(a.id, shown(a)[+k - 1].key); }
-    else if (k === 'm' || (!isChoice(a) && (k === 'y' || k === 'n'))) { e.preventDefault(); answer(a.id, k); }
+    if (multi(a) && /^[1-9]$/.test(k) && shown(a)[+k - 1]) { e.preventDefault(); answer(a.id, shown(a)[+k - 1].key); }
+    else if (k === 'm' || (!multi(a) && (k === 'y' || k === 'n'))) { e.preventDefault(); answer(a.id, k); }
     else if (k === 'arrowright') { e.preventDefault(); deckSkip[a.id] = true; deckShown = null; drawOne(); }
   });
   var areaSel = $('[data-wa-area]'); if (areaSel) areaSel.value = prefs.area || '';
