@@ -69,7 +69,7 @@
   function splitness(a) { var x = t(a.id), o = opinions(a, x), r = ranked(a, x); return o && c(x, r[1].key) ? 1 - (c(x, r[0].key) - c(x, r[1].key)) / o : -1; }
   function done() { return asks.filter(function (a) { return mine[a.id]; }).length; }
   function infoLink(a, cls) { return a.info ? '<a class="' + (cls || 'wa-info') + '" href="/wants/' + esc(a.id) + '/info/">More info <span aria-hidden="true">›</span></a>' : ''; }
-  function linkOf(a) { return location.origin + (a.res ? '/wants/#' + a.id : '/wants/' + a.id + '/'); }
+  function linkOf(a) { return location.origin + '/wants/' + a.id + '/'; }
 
   // ---------- pieces ----------
   function chips(a) {
@@ -100,7 +100,8 @@
         '<p class="wa-legend"><span>' + n + ' answer' + (n === 1 ? '' : 's') + '</span><span>' + c(x, 'm') + ' don’t mind</span><span>Shares leave out don’t mind</span></p>';
     } else if (n) out += '<p class="wa-legend"><em>' + (o ? '<b>' + pct(c(x, 'y'), o) + '% yes</b> of people with an opinion' : '<b>No one has said yes or no yet</b>') + '</em>' +
       '<span>' + n + ' answer' + (n === 1 ? '' : 's') + '</span><span>' + c(x, 'y') + ' yes · ' + c(x, 'n') + ' no · ' + c(x, 'm') + ' don’t mind</span></p>';
-    return out + areaLine(a, x) + sugBox(a) + '</div>';
+    // Share sits under the results once someone has answered; an opened ask has it in its detail instead.
+    return out + areaLine(a, x) + sugBox(a) + (openId !== a.id ? '<button type="button" class="wa-link wa-sharelink" data-share="' + esc(a.id) + '">Share this question</button>' : '') + '</div>';
   }
   // "Missing an answer?" on multiple choice asks: a one line box under the results.
   function sugBox(a) {
@@ -431,7 +432,7 @@
     if (navigator.share) { navigator.share({ title: title, text: text, url: url }).catch(function () {}); return; }
     (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(function () { toast('Link copied. Paste it into Facebook or a text.'); }, function () { window.prompt('Copy this link:', url); });
   }
-  function share(id) { var a = byId(id); if (a) shareUrl(linkOf(a), a.title, a.title + '? Say yes, no or don’t mind on What Squamish Wants.'); }
+  function share(id) { var a = byId(id); if (a) shareUrl(linkOf(a), a.title, a.title.replace(/[?.!]?$/, '?') + (isChoice(a) ? ' Pick your answer' : ' Say yes, no or don’t mind') + ' on What Squamish Wants.'); }
   function gotoAsk(id) {
     focusId = id; openId = id; topic = 'all'; view = 'list'; order = null; draw();
     var el = document.getElementById('ask-' + id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });

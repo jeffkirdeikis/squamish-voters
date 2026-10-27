@@ -317,7 +317,7 @@ const MOBILE_MENU = [
   ['/about/', 'About this site &amp; sources', 'about'],
 ];
 
-function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null, image = null }) {
+function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null, image = null, imageAlt = null }) {
   const img = image || 'https://squamishvoters.com/og.png?v=4';
   const cur = (href) => ((href === '/' ? url === '/' : url.startsWith(href)) ? ' aria-current="page"' : '');
   const inGroup = (g) => [g.href, ...g.items.map(([h]) => h)].some((h) => url.startsWith(h));
@@ -337,7 +337,7 @@ function page({ url, title, desc, body, hero = '', scripts = '', noindex = false
 <meta property="og:image" content="${img}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Squamish Voters: an independent, plain-language guide to Squamish council">
+<meta property="og:image:alt" content="${esc(imageAlt || 'Squamish Voters: an independent, plain-language guide to Squamish council')}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="${img}">
 <link rel="canonical" href="https://squamishvoters.com__PATH__">
@@ -1524,10 +1524,13 @@ if (TRACKED.length) {
 // ---------- WHAT SQUAMISH WANTS (/wants/ and /wants/<ask>/) ----------
 // The full list is the front door (answer right on each row; totals open once you answer or tap). Each starter ask also
 // gets its own page, the same list opened on that ask, so it can be shared on Facebook with its own title.
-// Residents' asks are shared as /wants/#<id>. api/_wants.json tells the API which starter ids and neighbourhoods exist.
+// Residents' asks are shared as /wants/<r-id>/ too: vercel.json sends those to api/wants-page.js, which serves this /wants/ page
+// with that ask's title and picture. Each ask's share picture is drawn by api/og.js (the question and its answer buttons).
+// api/_wants.json tells the API which starter ids and neighbourhoods exist.
 {
   fs.writeFileSync(path.join(ROOT, 'api', '_wants.json'), JSON.stringify({ topics: WANTS.topics, hoods: WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => h.slug), asks: WANTS.asks.map(({ id, title, why, options }) => ({ id, title, why, ...(options ? { options: options.map((o) => o.key), labels: options.map((o) => o.label) } : {}) })) }) + '\n');
   const IMG = `${ORIGIN}/share/wants.png?v=1`;
+  const askImg = (a) => ({ image: `${ORIGIN}/api/og/?id=${a.id}&v=1`, imageAlt: `What Squamish Wants: ${a.title}` });
   const body = (focus) => `<div class="wa" data-wants="page">
   <header class="wa-head">
     <h1>What Squamish Wants</h1>
@@ -1587,7 +1590,7 @@ ${wantsData({ focus })}`;
     body: body(null), scripts: '<script src="/wants.js" defer></script>',
   }));
   for (const a of WANTS.asks) write(`/wants/${a.id}/`, page({
-    url: `/wants/${a.id}/`, title: a.title.endsWith('?') ? a.title : `${a.title}?`, image: IMG,
+    url: `/wants/${a.id}/`, title: a.title.endsWith('?') ? a.title : `${a.title}?`, ...askImg(a),
     desc: `${a.why} Say yes, no or don’t mind, and see what Squamish said.`,
     jsonld: crumbLd([['Home', '/'], ['What Squamish Wants', '/wants/'], [a.title, `/wants/${a.id}/`]]),
     body: body(a.id), scripts: '<script src="/wants.js" defer></script>',
@@ -1601,7 +1604,7 @@ ${wantsData({ focus })}`;
     const sides = answers.map((lab) => ({ lab, s: (inf.sides || []).find((x) => x.answer.toLowerCase() === lab.toLowerCase()) })).filter((x) => x.s && x.s.points?.length);
     const checked = inf.checked ? new Date(inf.checked + 'T12:00:00').toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' }) : '';
     write(`/wants/${a.id}/info/`, page({
-      url: `/wants/${a.id}/info/`, title: `${a.title.replace(/\?$/, '')}: the background`, image: IMG,
+      url: `/wants/${a.id}/info/`, title: `${a.title.replace(/\?$/, '')}: the background`, ...askImg(a),
       desc: `${(inf.intro || [])[0] || a.why || ''}`.slice(0, 200),
       jsonld: crumbLd([['Home', '/'], ['What Squamish Wants', '/wants/'], [a.title, `/wants/${a.id}/`], ['More info', `/wants/${a.id}/info/`]]),
       body: `<article class="wi">

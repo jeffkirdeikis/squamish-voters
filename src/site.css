@@ -1659,6 +1659,9 @@ body:has(.wa-float:not([hidden])) #totop { display: none !important; }
 .wa-added { color: var(--muted); font-weight: 400; font-size: .78rem; white-space: nowrap; }
 .wa-ans.choice .wa-more { grid-column: 1 / -1; justify-self: start; background: none; border: 1px dashed var(--line); border-radius: 8px; padding: .45rem .85rem; font: inherit; font-size: .9rem; font-weight: 700; color: var(--brand); cursor: pointer; min-height: 2.4rem; }
 .wa-sugopen { margin-top: .35rem; }
+.wa-sharelink { margin-top: .35rem; }
+.wa-sugopen + .wa-sharelink { margin-left: .9rem; }
+.wa-sharelink::before { content: "↗ "; }
 .wa-sug { margin-top: .6rem; padding: .75rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); display: grid; gap: .5rem; }
 .wa-sug .fld { margin: 0; }
 .wa-sugrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .5rem; }

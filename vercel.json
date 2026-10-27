@@ -449,6 +449,10 @@
   ],
   "rewrites": [
     {
+      "source": "/wants/:id(r-[a-z0-9]+)/",
+      "destination": "/api/wants-page/?id=:id"
+    },
+    {
       "source": "/news/:slug",
       "destination": "/api/news-live/?slug=:slug"
     }
