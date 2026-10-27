@@ -147,10 +147,6 @@
   function shareBar(a) {
     return '<div class="wa-shareline"><button type="button" class="wa-sharego" data-share="' + esc(a.id) + '">' + SHARE_ICON + 'Share</button></div>';
   }
-  function picksBar() {
-    if (!picks().length) return '';
-    return '<div class="wa-shareline wa-picksline"><p><b>Your picks in one picture</b>, with how many agree on each.</p><button type="button" class="wa-sharego" data-share="@my">' + SHARE_ICON + 'Share my picks</button></div>';
-  }
   var SHARE_ICON = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>';
 
   // ---------- share panel ----------
@@ -583,7 +579,6 @@
     sheet = kind;
     var h = '';
     if (kind === 'me5') h = '<p><b>That’s ' + UNLOCK + '. Here’s where you stand.</b> The Top 10 is open too.</p>' + meCard() + '<div class="wa-sheetbtns"><button type="button" class="btn" data-share="@me">' + SHARE_ICON + 'Share my card</button><button type="button" class="btn secondary" data-view="top">See the Top 10</button></div>';
-    if (kind === 'five') h = '<p><b>Nice, that’s ' + UNLOCK + '.</b> The Top 10 is open. Share your picks so your neighbours can weigh in too.</p><div class="wa-sheetbtns"><button type="button" class="btn" data-view="top">See the Top 10</button><button type="button" class="btn secondary" data-share="@my">Share my picks</button></div>';
     if (kind === 'ten') h = '<p><b>10 answered. Thank you.</b> Want to know when council acts on any of these? Get a short email every Friday.</p><div class="wa-sheetbtns"><button type="button" class="btn" data-gosignup>Get the Friday email</button></div>';
     el.innerHTML = '<button type="button" class="wa-sheetx" data-sheetx aria-label="Close">×</button>' + h;
     el.hidden = false;
