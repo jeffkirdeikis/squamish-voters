@@ -1,5 +1,7 @@
 # Every 10 minutes: publish news stories Jeff approved, then check public sources for new ones and email him drafts.
 # Runs on GitHub's servers, so no computer needs to be on. The commit to main deploys the site through Vercel.
+# GitHub's schedule only really fires every few hours, so each run loops itself: one pass every 10 minutes for
+# about 5.5 hours. The concurrency group queues the next scheduled run behind it, so one is always going.
 # Needs the ANTHROPIC_API_KEY, POSTGRES_URL, RESEND_API_KEY, EMAIL_FROM and NEWS_REVIEW_TO repository secrets.
 # District of Squamish news: squamish.ca blocks automated readers, and we don't get around that. District news
 # reaches us through its email newsletter (see scripts/pipeline/news.mjs).
@@ -21,36 +23,42 @@ permissions:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 350
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - run: npm ci --no-audit --no-fund
-      - name: Neighbourhood boundaries and development projects (District open data)
-        run: node scripts/pipeline/places.mjs || echo 'District map data unavailable; keeping the last copy'
-      - name: Publish approved stories, then look for new ones
+      - name: Every 10 minutes, publish approved stories, look for new ones and commit
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           NEWS_REVIEW_TO: ${{ secrets.NEWS_REVIEW_TO }}
-          NEWS_DRAFT_ONE: ${{ github.event.inputs.draft_one == 'true' && '1' || '' }}
-        run: node scripts/pipeline/news.mjs
-      - name: Summarize Have your say comments
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
-        run: node scripts/pipeline/hy-themes.mjs || echo 'Comment summaries skipped this run'
-      - name: Make sure the site still builds
-        run: node build.mjs
-      - name: Commit
+          DRAFT_ONE: ${{ github.event.inputs.draft_one == 'true' && '1' || '' }}
         run: |
           git config user.name 'squamish-voters-bot'
           git config user.email 'actions@users.noreply.github.com'
-          git add data/news.json data/neighbourhoods.json data/developments.json data/hy-themes.json public/news/og public/news/photos
-          if git diff --cached --quiet; then echo 'Nothing new'; exit 0; fi
-          git commit -m "News update $(date -u +%Y-%m-%dT%H:%MZ)"
-          git pull --rebase -q && git push
+          end=$(( $(date +%s) + 330 * 60 ))
+          pass=0
+          while :; do
+            began=$(date +%s)
+            git pull --rebase --autostash -q || echo 'Could not pull; using what we have'
+            # District map data changes rarely: once an hour is plenty
+            if [ $(( pass % 6 )) -eq 0 ]; then node scripts/pipeline/places.mjs || echo 'District map data unavailable; keeping the last copy'; fi
+            NEWS_DRAFT_ONE=$([ $pass -eq 0 ] && echo "$DRAFT_ONE") node scripts/pipeline/news.mjs || echo 'News pass failed; trying again next pass'
+            node scripts/pipeline/hy-themes.mjs || echo 'Comment summaries skipped this pass'
+            git add data/news.json data/neighbourhoods.json data/developments.json data/hy-themes.json public/news/og public/news/photos
+            if git diff --cached --quiet; then echo 'Nothing new'
+            elif node build.mjs > /dev/null; then # make sure the site still builds before committing
+              git commit -q -m "News update $(date -u +%Y-%m-%dT%H:%MZ)"
+              git pull --rebase --autostash -q && git push -q || echo 'Push failed; will retry next pass'
+            else echo 'Build failed; not committing, trying again next pass'
+            fi
+            pass=$(( pass + 1 ))
+            next=$(( began + 600 ))
+            [ $next -ge $end ] && break
+            sleep $(( next - $(date +%s) > 0 ? next - $(date +%s) : 0 ))
+          done
