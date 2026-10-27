@@ -24,7 +24,10 @@ fi
 # Publish whatever is newest on main (ours or the GitHub job's), once per commit. The Vercel CLI is signed in on this Mac.
 LAST=.last-deployed
 if [ "$(git rev-parse HEAD)" != "$(cat $LAST 2>/dev/null)" ]; then
+  PREV=$(cat $LAST 2>/dev/null)
   vercel deploy --prod --yes >/dev/null && git rev-parse HEAD > $LAST && echo "$(date) deployed $(git rev-parse --short HEAD)"
+  # Tell Bing about meeting pages that changed in this deploy. Never fails the run.
+  node scripts/pipeline/indexnow.mjs "$PREV" || true
 else
   echo "$(date) nothing new"
 fi
