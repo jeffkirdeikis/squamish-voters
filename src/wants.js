@@ -104,12 +104,13 @@
     return a.concat(b).slice(0, 5);
   }
   // Where your answer stands, in a few words: with the most picked answer, outnumbered, or first.
-  function verdict(a) {
+  function verdict(a, big) {
     // Shares here are of everyone who answered, don't mind included, so a yes is never inflated by leaving them out.
     var my = mine[a.id], x = t(a.id), n = total(x);
     if (!my) return '';
     if (n <= 1) return 'You’re the first to answer this one';
-    if (my === 'm') return 'You and <b>' + pct(c(x, 'm'), n) + '% of Squamish</b> don’t mind';
+    // Don't mind gets no line about the crowd (Jeff, Oct 27): the buttons already show how everyone answered.
+    if (my === 'm') return big ? 'Here’s how Squamish answered' : '';
     var p = pct(c(x, my), n), top = c(x, ranked(a, x)[0].key);
     return c(x, my) >= top ? 'You’re with <b>' + p + '% of Squamish</b>' : 'Only <b>' + p + '% agree</b> with you';
   }
@@ -318,9 +319,10 @@
     var n = total(t(a.id));
     return '<div class="wa-under"><button type="button" class="wa-count" data-open="' + esc(a.id) + '">' + LOCK + (loaded ? (n ? n + ' answered' : 'Be the first to answer') : 'Answer to see results') + '<span class="visually-hidden">. Answer to see the results</span></button>' + (only ? '' : infoLink(a)) + '</div>';
   }
-  // Under a closed, answered row: a thin results bar, where you stand, Share and More info.
+  // Under a closed, answered row: how many answered, More info and Share. The buttons carry the results, so no line
+  // about where you stand here (Jeff: redundant).
   function answeredLine(a) {
-    return '<div class="wa-res"><div class="wa-resrow"><p class="wa-verdict">' + verdict(a) + '<span class="wa-n">' + total(t(a.id)).toLocaleString('en-CA') + (total(t(a.id)) === 1 ? ' person' : ' people') + ' answered</span></p>' +
+    return '<div class="wa-res"><div class="wa-resrow"><p class="wa-verdict"><span class="wa-n">' + total(t(a.id)).toLocaleString('en-CA') + (total(t(a.id)) === 1 ? ' person' : ' people') + ' answered</span></p>' +
       '<span class="wa-resacts">' + (only ? '' : infoLink(a)) + '<button type="button" class="wa-sharego small" data-share="' + esc(a.id) + '">' + SHARE_ICON + 'Share</button></span></div></div>' + areaBox(a);
   }
   function row(a) {
@@ -372,7 +374,7 @@
   function reveal(a) {
     var x = t(a.id), n = total(x), o = opinions(a, x), my = mine[a.id];
     var rows = ranked(a, x).filter(function (op) { return c(x, op.key) || op.key === my; }).slice(0, 6).concat([{ key: 'm', label: 'Don’t mind' }]);
-    return '<p class="wa-bigverdict">' + verdict(a) + '</p><div class="wa-bars">' + rows.map(function (op) {
+    return '<p class="wa-bigverdict">' + verdict(a, true) + '</p><div class="wa-bars">' + rows.map(function (op) {
       var p = pct(c(x, op.key), n);
       return '<div class="wa-brow' + (op.key === my ? ' mine' : '') + '"><span class="wa-blab"><span>' + esc(op.label) + (op.key === my ? ' <em>you</em>' : '') + '</span><b>' + p + '%</b></span><span class="wa-btrack"><i class="wa-fill" data-w="' + p + '" style="width:' + (REDUCED || grown[a.id] ? p : 0) + '%"></i></span></div>';
     }).join('') + '</div><p class="wa-legend"><span>' + n + (n === 1 ? ' person' : ' people') + ' answered</span></p>' +
