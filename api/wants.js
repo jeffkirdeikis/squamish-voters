@@ -119,7 +119,7 @@ async function check(text, list) {
       method: 'POST', signal: AbortSignal.timeout(25000),
       headers: { 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-haiku-5-5', max_tokens: 700,
+        model: 'claude-haiku-5-5', max_tokens: 2000,
         output_config: { format: { type: 'json_schema', schema: { type: 'object', additionalProperties: false,
           required: ['publish', 'reason', 'title', 'why', 'topic', 'area', 'similar'],
           properties: {
@@ -170,7 +170,7 @@ async function checkOption(text, seed, current) {
       method: 'POST', signal: AbortSignal.timeout(25000),
       headers: { 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-haiku-5-5', max_tokens: 400,
+        model: 'claude-haiku-5-5', max_tokens: 2000,
         output_config: { format: { type: 'json_schema', schema: { type: 'object', additionalProperties: false,
           required: ['publish', 'reason', 'label', 'means', 'same'],
           properties: { publish: { type: 'boolean' }, reason: { type: 'string' }, label: { type: 'string' }, means: { type: 'string' }, same: { type: 'string', enum: ['', ...current.map((o) => o.key)] } } } } },

@@ -79,7 +79,7 @@ async function moderate(q, text) {
       method: 'POST', signal: AbortSignal.timeout(20000),
       headers: { 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-haiku-5-5', max_tokens: 300,
+        model: 'claude-haiku-5-5', max_tokens: 1500,
         output_config: { format: { type: 'json_schema', schema: { type: 'object', additionalProperties: false, required: ['publish', 'reason'], properties: { publish: { type: 'boolean' }, reason: { type: 'string' } } } } },
         system: `You check public comments on Squamish Voters, a non-partisan site where residents of Squamish, B.C. vote on questions their council is about to decide.\n${COMMENT_RULES}`,
         messages: [{ role: 'user', content: `QUESTION: ${q.ask}\n\nCOMMENT:\n${text}` }],
