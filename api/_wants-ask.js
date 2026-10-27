@@ -99,6 +99,8 @@ export const SETS = {
     title: 'What do Squamish families want? | What Squamish Wants',
     desc: 'Housing for families, a safer Highway 99 crossing, Brennan Park and more. Say yes, no or don’t mind, see what Squamish said, and add what your family needs.',
     ids: ['r-5e3ac5f6', 'cleveland-highway', 'r-6a8f4502', 'brennan-next'],
+    // Short words for a choice ask's leading answer, so the picture's number column stays one line.
+    short: { ice: 'more ice', pool: 'a pool', both: 'both', neither: 'neither' },
   },
 };
 export async function setRows(name) {
@@ -109,7 +111,7 @@ export async function setRows(name) {
     if (!r || !r.opinions) return null;
     if (!r.multi) { const pct = pctOf(r.options[0].n, r.opinions); return { title: ask.title, pct, line: `${pct}% yes`, total: r.total }; }
     const top = [...r.options].sort((a, b) => b.n - a.n)[0], pct = pctOf(top.n, r.opinions);
-    return { title: ask.title, pct, line: `${pct}% ${top.label.toLowerCase()}`, total: r.total };
+    return { title: ask.title, pct, line: `${pct}% ${set.short?.[top.key] || top.label.toLowerCase()}`, total: r.total };
   }));
   return rows.filter(Boolean);
 }
