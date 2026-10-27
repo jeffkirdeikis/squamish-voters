@@ -3,6 +3,7 @@
 //   GET ?id=<ask id>&said=<answer key>  -> the question, "I said Yes", and the live results, shared from /wants/<id>/said/<key>/.
 //   GET ?top=1  -> the main /wants/ page: the 3 most wanted asks right now, each with its share of yes.
 //   GET ?id=<ask id>&live=1  -> the question and the live results only (the sharer switched "Show my answer" off), from /wants/<id>/live/.
+//   GET ?set=parents  -> a hand picked set of questions for one group (SETS in _wants-ask.js), from /wants/<set>/.
 //   GET ?my=<id>.<key>,<id>.<key>  -> "My picks for Squamish": up to 5 of one person's answers and how many agree, from /wants/my/.
 //   GET ?me=<id>.<key>,...&hd=<area>  -> "My Squamish": how many of their answers match the most picked one, their boldest take and
 //                                     the neighbourhood that answers most like them, from /wants/me/.
@@ -10,7 +11,7 @@
 // Starter asks come from _wants.json; residents' asks (r-...) from sv_wants. An unknown or hidden id gets the general picture.
 import { ImageResponse } from '@vercel/og';
 import fs from 'node:fs';
-import { findAsk, answerLabel, results, pctOf, topAsks, meSummary, HOOD_NAMES } from './_wants-ask.js';
+import { findAsk, answerLabel, results, pctOf, topAsks, meSummary, HOOD_NAMES, SETS, setRows } from './_wants-ask.js';
 
 const font = (f) => fs.readFileSync(new globalThis.URL(`./_fonts/${f}`, import.meta.url));
 const FONTS = [
@@ -151,10 +152,26 @@ function topPicture(rows) {
     footer('Say yes, no or don’t mind, and add your own'));
 }
 
+// A set for one group: its own heading, then each question with where Squamish stands, as in the main page's picture.
+function setPicture(set, rows) {
+  const line = (r) => h('div', { flexDirection: 'column', marginBottom: 20 },
+    h('div', { justifyContent: 'space-between', alignItems: 'flex-end' },
+      h('div', { fontSize: 29, fontWeight: 600, lineHeight: 1.2, flex: 1, marginRight: 24 }, cut(r.title, 80)),
+      h('div', { fontSize: 32, fontWeight: 800, color: YELLOW, flexShrink: 0 }, cut(r.line, 22))),
+    h('div', { height: 12, borderRadius: 6, background: 'rgba(255,255,255,.18)', marginTop: 8, overflow: 'hidden' },
+      h('div', { width: `${r.pct}%`, height: '100%', background: '#3fb36b' })));
+  return h('div', { width: '100%', height: '100%', flexDirection: 'column', background: GREEN, padding: '40px 64px 38px', color: '#fff', fontFamily: 'Sans' },
+    h('div', { fontSize: 22, fontWeight: 800, color: YELLOW, letterSpacing: 3 }, set.kicker),
+    h('div', { fontFamily: 'Serif', fontSize: 50, marginTop: 6, marginBottom: 24 }, set.head),
+    h('div', { flexDirection: 'column' }, rows.map(line)),
+    footer('Say yes, no or don’t mind, and add your own'));
+}
+
 export default async function handler(req, res) {
   const id = String(req.query.id || '').replace(/\/$/, ''), said = String(req.query.said || '');
   let el = null;
-  if (req.query.top) { const rows = await topAsks(3).catch(() => []); if (rows.length) el = topPicture(rows); }
+  if (req.query.set && SETS[req.query.set]) { const rows = await setRows(req.query.set).catch(() => []); if (rows.length) el = setPicture(SETS[req.query.set], rows); }
+  else if (req.query.top) { const rows = await topAsks(3).catch(() => []); if (rows.length) el = topPicture(rows); }
   else if (req.query.me) { const m = await meSummary(req.query.me).catch(() => null); if (m) el = mePicture(m, HOOD_NAMES[String(req.query.hd || '')] || null); }
   else if (req.query.my) { const rows = await picks(req.query.my); if (rows.length) el = picksPicture(rows); }
   else {
@@ -169,7 +186,7 @@ export default async function handler(req, res) {
   res.setHeader('Content-Type', 'image/png');
   // Pictures with results change as people answer: an address with &n= is one moment's count and can stay a day at the edge;
   // without it, ten minutes. The plain question picture has no numbers and keeps a day.
-  const live = said || req.query.my || req.query.me || req.query.live || req.query.top;
+  const live = said || req.query.my || req.query.me || req.query.live || req.query.top || req.query.set;
   res.setHeader('Cache-Control', live && !req.query.n ? 'public, max-age=300, s-maxage=600' : 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800');
   return res.send(Buffer.from(await img.arrayBuffer()));
 }

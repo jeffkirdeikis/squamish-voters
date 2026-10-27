@@ -90,3 +90,26 @@ export async function meSummary(spec) {
   return { agree: rows.filter((r) => r.agree).length, of: rows.length, bold };
 }
 export const HOOD_NAMES = SEED.hoodNames || {};
+
+// Hand picked sets of questions for one group, shared as /wants/<set>/ with its own picture (og.js ?set=) and words.
+// Each row is the ask and where Squamish stands on it right now: the share of yes, or the leading answer of a choice ask.
+export const SETS = {
+  parents: {
+    kicker: 'FOR SQUAMISH PARENTS', head: 'What do Squamish families want?',
+    title: 'What do Squamish families want? | What Squamish Wants',
+    desc: 'Housing for families, a safer Highway 99 crossing, Brennan Park and more. Say yes, no or don’t mind, see what Squamish said, and add what your family needs.',
+    ids: ['r-5e3ac5f6', 'cleveland-highway', 'r-6a8f4502', 'brennan-next'],
+  },
+};
+export async function setRows(name) {
+  const set = SETS[name];
+  if (!set) return [];
+  const rows = await Promise.all(set.ids.map(async (id) => {
+    const ask = await findAsk(id), r = ask && (await results(id, ask).catch(() => null));
+    if (!r || !r.opinions) return null;
+    if (!r.multi) { const pct = pctOf(r.options[0].n, r.opinions); return { title: ask.title, pct, line: `${pct}% yes`, total: r.total }; }
+    const top = [...r.options].sort((a, b) => b.n - a.n)[0], pct = pctOf(top.n, r.opinions);
+    return { title: ask.title, pct, line: `${pct}% ${top.label.toLowerCase()}`, total: r.total };
+  }));
+  return rows.filter(Boolean);
+}

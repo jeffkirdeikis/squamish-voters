@@ -4,10 +4,11 @@
 // A shared link carries ?n=<answers so far>, so each share is a new address and Facebook fetches today's results for it.
 //   GET ?id=<id>&live=1          -> /wants/<id>/live/: the live results without the sharer's answer, opened on it.
 //   GET ?mine=1&a=<id>.<key>,... -> /wants/my/?a=...: "My picks for Squamish", up to 5 answers, opened on the full list.
+//   GET ?set=parents              -> /wants/parents/: the full list with a picture of a hand picked set for one group.
 //   GET ?me=1&a=<id>.<key>,...&hd=<area> -> /wants/me/?a=...: "My Squamish", how one person's answers line up with everyone's.
 // All of them are the static /wants/ page (or the ask's own page) with the title, description, share picture and the
 // page data's focus swapped in. Hidden or unknown -> /wants/.
-import { findAsk, answerLabel, results, standing, meSummary, HOOD_NAMES } from './_wants-ask.js';
+import { findAsk, answerLabel, results, standing, meSummary, HOOD_NAMES, SETS } from './_wants-ask.js';
 
 const ORIGIN = 'https://squamishvoters.com';
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -15,6 +16,14 @@ const ask = (title) => (/[?.!]$/.test(title) ? title : `${title}?`);
 
 async function describe(q) {
   const n = /^\d{1,7}$/.test(String(q.n || '')) ? `${q.n}` : '';
+  if (q.set && SETS[q.set]) {
+    const s = SETS[q.set];
+    return {
+      shell: '/wants/', focus: null, said: null, url: `${ORIGIN}/wants/${q.set}/${n ? `?n=${n}` : ''}`, canonical: `${ORIGIN}/wants/`,
+      title: s.title, alt: `What Squamish Wants: ${s.head}`, desc: s.desc,
+      img: `${ORIGIN}/api/og/?set=${q.set}&v=1${n && `&n=${n}`}`,
+    };
+  }
   if (q.me) {
     const spec = String(q.a || '').split(',').slice(0, 60).filter((p) => /^[a-z0-9-]{2,40}\.[a-z0-9]{1,12}$/.test(p)).join(',');
     const m = spec && (await meSummary(spec).catch(() => null));
