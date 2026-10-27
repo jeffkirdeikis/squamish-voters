@@ -14,6 +14,7 @@
 //        label and says if it means the same as an answer already there. The writer's answer moves to the new option.
 //   POST { action: 'report', wid, okey, voter }        -> { ok }   (three reports hide a resident's answer)
 //   GET  ?admin=1, POST { admin: 'hide' | 'show', wid [, nid | okey] }, both with Authorization: Bearer <ADMIN_TOKEN>
+//   POST { admin: 'rename', wid, title, why }         fixes the wording of a resident's ask (votes stay)
 //   POST { admin: 'merge', wid, from, into, label? }  moves every vote from one added answer to another (and can rename it)
 import { neon } from '@neondatabase/serverless';
 import { createHash, createHmac, randomBytes } from 'node:crypto';
@@ -135,6 +136,7 @@ ${COMMENT_RULES.replace('It has to be about the question or the decision behind 
 If it breaks a rule, publish is false and "reason" is one short, friendly sentence telling the writer what to change. Otherwise reason is "".
 
 2. title: rewrite it as ONE short, specific, neutral ask that starts with a verb, the way a resident would say it (for example "Fence the off leash dog area at John Hunter Park"). Under 90 characters. Keep the writer's meaning and side; don't soften or strengthen it. Plain words, no jargon, no em dashes, no hyphenated compound words.
+It must make sense answered Yes or No: one action, one side. Never start with Decide, Consider, Discuss, Review, Study, Explore or Look into (council always decides; the ask is what to do). Never put two choices in one ask joined by "or" (for example "Increase density in existing neighbourhoods or build on undeveloped land", where Yes means nothing). If the writer favours one choice, write that one (for example "Add homes in existing neighbourhoods before building on undeveloped land"). If they name two choices and pick neither, publish is false and reason asks them to say which one they want.
 
 3. why: one neutral sentence of background taken only from what the writer said, written as a plain statement of the situation (for example "There are no public washrooms open after 9 pm."). Never start with "The writer says" or similar. No facts they didn't give. "" if there is nothing to add.
 
@@ -224,6 +226,13 @@ export default async function handler(req, res) {
           const others = [...base, ...os.filter((x) => x.wid === o.wid && x.key !== o.key && x.status === 'ok').map((x) => ({ key: x.key, label: x.label }))];
           return { wid: o.wid, okey: o.key, label: o.label, text: o.body, status: o.status, reports: o.reports, at: o.created_at, question: seed?.title || o.wid, others };
         }) });
+    }
+    if (b.admin === 'rename') {
+      // Fix the wording of a resident's ask. Votes stay, so only for changes that keep its meaning.
+      const title = clean(b.title, 120);
+      if (!title) return res.status(400).json({ ok: false, error: 'Write the new wording.' });
+      const [w] = await sql`UPDATE sv_wants SET title = ${title}, why = ${clean(b.why, 300)} WHERE id = ${String(b.wid || '')} RETURNING id`;
+      return w ? res.json({ ok: true }) : res.status(404).json({ ok: false });
     }
     const st = b.admin === 'show' ? 'ok' : 'removed';
     if (b.admin === 'merge') {

@@ -140,7 +140,7 @@
   function loadWants() {
     fetch('/api/wants/?admin=1', { headers: { Authorization: 'Bearer ' + token }, cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
       if (!d.ok) { wbox.textContent = 'Could not load.'; return; }
-      var items = d.asks.map(function (a) { return { kind: 'ask', wid: a.id, title: a.title, text: a.body, status: a.status, reports: a.reports, at: a.created_at }; })
+      var items = d.asks.map(function (a) { return { kind: 'ask', wid: a.id, title: a.title, why: a.why, text: a.body, status: a.status, reports: a.reports, at: a.created_at }; })
         .concat(d.notes.map(function (n) { return { kind: 'words', wid: n.wid, nid: n.nid, title: 'Words added to: ' + n.wid, text: n.text, status: n.status, at: n.at }; }))
         .concat((d.options || []).map(function (o) { return { kind: 'answer', wid: o.wid, okey: o.okey, title: o.label + ' (answer added to: ' + o.question + ')', text: o.text, status: o.status, reports: o.reports, at: o.at, others: o.others, label: o.label }; }))
         .sort(function (a, b) { return String(b.at).localeCompare(String(a.at)); });
@@ -150,6 +150,10 @@
         return '<div class="sb-person' + (showing ? '' : ' sb-dim') + '"><p class="sb-top"><span class="sb-pill">' + esc(WST[x.status] || x.status) + '</span><span class="small">' + ({ ask: 'New ask', words: 'Added words', answer: 'Added answer' }[x.kind]) + (x.reports ? ' · ' + x.reports + ' report' + (x.reports === 1 ? '' : 's') : '') + (x.at ? ' · ' + esc(new Date(x.at).toLocaleString('en-CA')) : '') + '</span></p>' +
           '<p><b>' + esc(x.title) + '</b></p><p class="small sb-note">' + esc(x.text || '') + '</p>' +
           (x.kind === 'ask' && showing ? '<p class="small"><a href="/wants/#' + esc(x.wid) + '">See it on the list</a></p>' : '') +
+          (x.kind === 'ask' ? '<details class="sb-merge"><summary class="small">Edit the wording</summary><p class="small muted">Answers stay with the ask, so keep the meaning the same. If the meaning was unclear, hide it instead.</p>' +
+            '<label class="small">Ask<input type="text" data-rtitle maxlength="120" value="' + esc(x.title) + '"></label>' +
+            '<label class="small">Background (optional)<input type="text" data-rwhy maxlength="300" value="' + esc(x.why || '') + '"></label>' +
+            '<button type="button" class="btn secondary" data-rename data-wid="' + esc(x.wid) + '">Save wording</button></details>' : '') +
           (x.kind === 'answer' && showing && x.others && x.others.length ? '<div class="sb-merge"><label class="small">Same as another answer? Merge it, votes and all:<select data-minto>' + x.others.map(function (o) { return '<option value="' + esc(o.key) + '">' + esc(o.label) + '</option>'; }).join('') + '</select></label>' +
             '<label class="small">Name to show after merging (optional)<input type="text" data-mlabel maxlength="60" placeholder="Keep the current name"></label>' +
             '<button type="button" class="btn secondary" data-merge data-wid="' + esc(x.wid) + '" data-from="' + esc(x.okey) + '">Merge into that answer</button></div>' : '') +
@@ -166,6 +170,14 @@
         mb.disabled = true;
         fetch('/api/wants/', { method: 'POST', headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' }, body: JSON.stringify({ admin: 'merge', wid: mb.getAttribute('data-wid'), from: mb.getAttribute('data-from'), into: into, label: lab || undefined }) })
           .then(function (r) { return r.json(); }).then(function (j) { if (!j.ok) { mb.disabled = false; mb.textContent = j.error || 'Could not merge'; return; } loadWants(); });
+        return;
+      }
+      var rb = e.target.closest('[data-rename]');
+      if (rb) {
+        var rbox = rb.closest('.sb-merge');
+        rb.disabled = true;
+        fetch('/api/wants/', { method: 'POST', headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' }, body: JSON.stringify({ admin: 'rename', wid: rb.getAttribute('data-wid'), title: rbox.querySelector('[data-rtitle]').value.trim(), why: rbox.querySelector('[data-rwhy]').value.trim() }) })
+          .then(function (r) { return r.json(); }).then(function (j) { if (!j.ok) { rb.disabled = false; rb.textContent = j.error || 'Could not save'; return; } loadWants(); });
         return;
       }
       var b = e.target.closest('[data-wmod]'); if (!b) return;
