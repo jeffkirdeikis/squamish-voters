@@ -233,7 +233,8 @@ export default async function handler(req, res) {
       const seed = SEEDS.find((x) => x.id === wid);
       const intoOk = (seed?.options || ['y', 'n']).includes(into) || (await sql`SELECT 1 FROM sv_want_options WHERE wid = ${wid} AND key = ${into} AND status = 'ok'`).length > 0;
       if (!f || !intoOk || from === into) return res.status(400).json({ ok: false, error: 'Pick two different answers on the same question.' });
-      await sql`UPDATE sv_want_votes SET choice = ${into}, updated_at = now() WHERE wid = ${wid} AND choice = ${from}`;
+      // updated_at stays as is: it times real answers for the live line and Trending, and a merge isn't one.
+      await sql`UPDATE sv_want_votes SET choice = ${into} WHERE wid = ${wid} AND choice = ${from}`;
       await sql`UPDATE sv_want_options SET status = 'merged' WHERE wid = ${wid} AND key = ${from}`;
       if (label && into.startsWith('x')) await sql`UPDATE sv_want_options SET label = ${label} WHERE wid = ${wid} AND key = ${into}`;
       return res.json({ ok: true });
