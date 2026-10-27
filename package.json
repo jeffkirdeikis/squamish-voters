@@ -11,6 +11,7 @@
     "@neondatabase/serverless": "^1.2.0",
     "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^2.8.0",
-    "@vercel/og": "^0.6.8"
+    "@vercel/og": "^0.6.8",
+    "botid": "^1.5.11"
   }
 }

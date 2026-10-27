@@ -9,6 +9,9 @@
    The Top 10 board opens after 5 answers. One by one takes Y, N, M and the right arrow on a keyboard.
    Adding an ask: Claude checks the rules, writes a short neutral ask, and lists asks already on the list that look the
    same, so the writer can answer that one or add their words to it instead of posting a copy.
+   Sharing: every answered ask has a share bar (Facebook, Copy link, and the phone's own share sheet). The link carries the
+   answer (/wants/<id>/said/<key>/), so the Facebook picture says "I said Yes" over the question; no crowd numbers on it,
+   so people still answer before they see the results. "Share my picks" sends up to 5 answers as one picture (/wants/my/).
    Multiple choice asks: residents can add a missing answer (Claude checks it isn't already there). Starter answers keep
    their order; added ones follow, ranked by popularity when the page loads. Past 6 answers the rest fold behind
    "Show more". */
@@ -27,6 +30,15 @@
   function $(sel) { return root.querySelector(sel); }
   var voter = get('sv_voter', '');
   if (!voter) { voter = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now().toString(36) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2)); put('sv_voter', voter); }
+  // A short summary of this phone or computer (screen, browser, time zone, language). It stays the same in a private window,
+  // so the API can tell when one device answers an ask again after its saved id was cleared. Nothing here identifies a person.
+  var dev = (function () {
+    var n = navigator, sc = window.screen || {}, tz = '';
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch (e) {}
+    var str = [n.userAgent, n.platform, (n.languages || [n.language]).join(','), n.hardwareConcurrency, n.maxTouchPoints, sc.width + 'x' + sc.height, sc.colorDepth, window.devicePixelRatio, tz].join('|'), h = 5381;
+    for (var i = 0; i < str.length; i++) h = ((h * 33) ^ str.charCodeAt(i)) >>> 0;
+    return h.toString(36) + str.length.toString(36);
+  })();
   var prefs = get('sv_prefs', { area: '', topics: [] });
   var desk = window.matchMedia ? window.matchMedia('(min-width: 1000px)') : { matches: false };
 
@@ -72,6 +84,35 @@
   function done() { return asks.filter(function (a) { return mine[a.id]; }).length; }
   function infoLink(a, cls) { return a.info ? '<a class="' + (cls || 'wa-info') + '" href="/wants/' + esc(a.id) + '/info/">More info <span aria-hidden="true">›</span></a>' : ''; }
   function linkOf(a) { return location.origin + '/wants/' + a.id + '/'; }
+  // The link for what someone shares: their own answer on one ask (not Don't mind, which makes a dull picture), or their picks.
+  function saidLink(a) { var my = mine[a.id]; return my && my !== 'm' ? linkOf(a) + 'said/' + encodeURIComponent(my) + '/' : linkOf(a); }
+  // Up to 5 answers for "My picks": the things they want first (yes, or a pick on a multiple choice ask), then their nos.
+  function picks() {
+    var a = asks.filter(function (x) { var k = mine[x.id]; return k && k !== 'm' && k !== 'n'; });
+    var b = asks.filter(function (x) { return mine[x.id] === 'n'; });
+    return a.concat(b).slice(0, 5);
+  }
+  function picksLink() { return location.origin + '/wants/my/?a=' + picks().map(function (x) { return x.id + '.' + mine[x.id]; }).join(','); }
+  var NATIVE = !!navigator.share;
+  // Facebook, Copy link (for pasting into a group post), and the phone's own share sheet where there is one.
+  function shareBtns(target) {
+    var t = esc(target);
+    return '<span class="wa-sharebtns"><button type="button" class="wa-sb fb" data-fb="' + t + '">Facebook</button><button type="button" class="wa-sb" data-copy="' + t + '">Copy link</button>' +
+      (NATIVE ? '<button type="button" class="wa-sb" data-share="' + t + '">More…</button>' : '') + '</span>';
+  }
+  // Under the results once someone has answered: where they stand, then the share buttons. It stays on every answered
+  // ask (never only the latest), so rows don't change height as someone works down the list.
+  function shareBar(a) {
+    var my = mine[a.id], x = t(a.id), n = total(x), o = opinions(a, x), same = c(x, my);
+    var you = my === 'm' ? (n > 1 ? 'You and <b>' + pct(same, n) + '%</b> of people don’t mind either way.' : 'You’re the first to answer.')
+      : same <= 1 ? 'You’re the first to ' + (multi(a) ? 'pick “' + esc(labelOf(a, my)) + '”.' : 'say ' + WORD[my].toLowerCase() + '.')
+      : 'You’re with <b>' + pct(same, o) + '%</b> of Squamish' + (multi(a) ? ' on “' + esc(labelOf(a, my)) + '”.' : '.');
+    return '<div class="wa-sharebar"><p class="wa-you">' + you + '</p><p class="wa-askn">' + (my === 'm' ? 'Ask your neighbours' : 'Share your answer') + '</p>' + shareBtns(a.id) + '</div>';
+  }
+  function picksBar() {
+    if (!picks().length) return '';
+    return '<div class="wa-sharebar wa-picksbar"><p class="wa-you"><b>Share your picks.</b> A picture of up to 5 of your answers, made for a Facebook group or a group chat.</p>' + shareBtns('@my') + '</div>';
+  }
 
   // ---------- pieces ----------
   function chips(a) {
@@ -103,7 +144,7 @@
     } else if (n) out += '<p class="wa-legend"><em>' + (o ? '<b>' + pct(c(x, 'y'), o) + '% yes</b> of people with an opinion' : '<b>No one has said yes or no yet</b>') + '</em>' +
       '<span>' + n + ' answer' + (n === 1 ? '' : 's') + '</span><span>' + c(x, 'y') + ' yes · ' + c(x, 'n') + ' no · ' + c(x, 'm') + ' don’t mind</span></p>';
     // Share sits under the results once someone has answered; an opened ask has it in its detail instead.
-    return out + areaLine(a, x) + (openId !== a.id ? '<button type="button" class="wa-link wa-sharelink" data-share="' + esc(a.id) + '">Share this question</button>' : '') + areaBox(a) + '</div>';
+    return out + areaLine(a, x) + (mine[a.id] ? shareBar(a) : '') + areaBox(a) + '</div>';
   }
   // After the first answer: which part of Squamish, asked inside that ask (under its results) so nothing covers the list.
   var areaAsk = null;
@@ -167,6 +208,7 @@
     var my = mine[a.id], open = openId === a.id, show = my || open;
     return '<li class="wa-row' + (multi(a) ? ' choice' : '') + (my ? ' answered' : '') + (open ? ' open' : '') + (focusId === a.id ? ' arrived' : '') + '" id="ask-' + esc(a.id) + '">' +
       '<button type="button" class="wa-title" data-open="' + esc(a.id) + '" aria-expanded="' + open + '">' + chips(a) + '<span class="wa-t">' + esc(a.title) + '</span></button>' +
+      (D.said && D.said.id === a.id ? '<p class="wa-saidby">A neighbour shared this. They said <b>' + esc(D.said.label) + '</b>. What do you say?</p>' : '') +
       buttons(a) + sugBox(a) + (hintId === a.id ? '<p class="wa-hint">Tap your answer again to undo it.</p>' : '') +
       (show ? totals(a) + (a.info && !open && !only ? '<p class="wa-under">' + infoLink(a) + '</p>' : '') : '<div class="wa-under">' + tease(a) + (only ? '' : infoLink(a)) + '</div>') + (open ? detail(a) : '') + '</li>';
   }
@@ -215,15 +257,11 @@
     var prog = '<div class="wa-prog" aria-hidden="true"><i style="width:' + pct(d, asks.length) + '%"></i></div><p class="small muted">' + d + ' of ' + asks.length + ' answered</p>';
     var a = deckShown && byId(deckShown);
     if (a && mine[a.id]) {
-      var x = t(a.id), n = total(x), my = mine[a.id];
-      var same = c(x, my);
-      el.innerHTML = prog + '<div class="wa-card">' + chips(a) + '<h2>' + esc(a.title) + '</h2><p class="wa-you">' +
-        (n > 1 ? 'You and ' + pct(same, n) + '% of people ' + (my === 'm' ? 'don’t mind either way.' : multi(a) ? 'picked “' + esc(labelOf(a, my)) + '”.' : my === 'y' ? 'said yes.' : 'said no.') : 'You’re the first to answer this one.') + '</p>' +
-        totals(a) + '<button type="button" class="btn block" data-next>Next ask</button>' + (desk.matches ? '<p class="wa-keys">Press <kbd>Enter</kbd> for the next ask</p>' : '') + '</div>';
+      el.innerHTML = prog + '<div class="wa-card">' + chips(a) + '<h2>' + esc(a.title) + '</h2>' + totals(a) + '<button type="button" class="btn block" data-next>Next ask</button>' + (desk.matches ? '<p class="wa-keys">Press <kbd>Enter</kbd> for the next ask</p>' : '') + '</div>';
       return;
     }
     var L = deck(); a = L[0];
-    if (!a) { el.innerHTML = prog + '<div class="wa-card wa-done"><h2>That’s every ask for now.</h2><p>New ones go up as residents add them.</p><button type="button" class="btn block" data-view="top">See the Top 10</button><button type="button" class="btn secondary block" data-view="add">Missing something? Add it</button></div>'; return; }
+    if (!a) { el.innerHTML = prog + '<div class="wa-card wa-done"><h2>That’s every ask for now.</h2><p>New ones go up as residents add them.</p>' + picksBar() + '<button type="button" class="btn block" data-view="top">See the Top 10</button><button type="button" class="btn secondary block" data-view="add">Missing something? Add it</button></div>'; return; }
     deckShown = a.id;
     el.innerHTML = prog + '<div class="wa-card">' + chips(a) + '<h2>' + esc(a.title) + '</h2>' + (a.why ? '<p>' + esc(a.why) + '</p>' : '') + (a.info ? '<p class="wa-onelink">' + infoLink(a) + '</p>' : '') + buttons(a, true) + sugBox(a) +
       '<button type="button" class="wa-link center" data-skip="' + esc(a.id) + '">Skip this one</button>' + (desk.matches ? (multi(a) ? KEYS_CHOICE : KEYS) : '') + '</div>';
@@ -246,7 +284,7 @@
         '<span class="wa-legend"><em>' + (isChoice(a) ? 'Most picked: <b>' + esc(lead.label) + '</b> (' + pct(c(x, lead.key), o) + '%)' : '<b>' + pct(c(x, 'y'), o) + '% yes</b>') + '</em><span>' + total(x) + ' answer' + (total(x) === 1 ? '' : 's') + '</span>' +
         (my ? '<span>' + (my === 'm' ? 'You don’t mind' : multi(a) ? 'You picked “' + esc(labelOf(a, my)) + '”' : 'You said ' + WORD[my].toLowerCase()) + '</span>' : '') + '</span></span></button></li>';
     }
-    el.innerHTML = '<div class="wa-board"><h2>Most wanted</h2><p class="small muted">Ranked by the share of yes among people who said yes or no (for questions with several answers, the share of the most picked one). Tap one to answer or see more.</p><ol class="wa-toplist">' + (top.length ? top.map(line).join('') : '<li class="wa-empty">No answers yet.</li>') + '</ol>' +
+    el.innerHTML = picksBar() + '<div class="wa-board"><h2>Most wanted</h2><p class="small muted">Ranked by the share of yes among people who said yes or no (for questions with several answers, the share of the most picked one). Tap one to answer or see more.</p><ol class="wa-toplist">' + (top.length ? top.map(line).join('') : '<li class="wa-empty">No answers yet.</li>') + '</ol>' +
       (split.length ? '<h2>Most split</h2><p class="small muted">Closest to an even yes and no.</p><ol class="wa-toplist">' + split.map(line).join('') + '</ol>' : '') +
       '<p class="small muted">Not a scientific poll. ' + people + ' people have answered so far.</p></div>';
   }
@@ -322,7 +360,7 @@
     var ms = get('sv_wa_ms', {}); ms[kind] = 1; put('sv_wa_ms', ms);
     sheet = kind;
     var h = '';
-    if (kind === 'five') h = '<p><b>Nice, that’s ' + UNLOCK + '.</b> The Top 10 is open. Share this so your neighbours can weigh in too.</p><div class="wa-sheetbtns"><button type="button" class="btn" data-view="top">See the Top 10</button><button type="button" class="btn secondary" data-sharepage>Share</button></div>';
+    if (kind === 'five') h = '<p><b>Nice, that’s ' + UNLOCK + '.</b> The Top 10 is open. Share your picks so your neighbours can weigh in too.</p><div class="wa-sheetbtns"><button type="button" class="btn" data-view="top">See the Top 10</button><button type="button" class="btn secondary" data-fb="@my">Share on Facebook</button><button type="button" class="btn secondary" data-copy="@my">Copy link</button></div>';
     if (kind === 'ten') h = '<p><b>10 answered. Thank you.</b> Want to know when council acts on any of these? Get a short email every Friday.</p><div class="wa-sheetbtns"><button type="button" class="btn" data-gosignup>Get the Friday email</button></div>';
     el.innerHTML = '<button type="button" class="wa-sheetx" data-sheetx aria-label="Close">×</button>' + h;
     el.hidden = false;
@@ -386,7 +424,7 @@
     }).catch(function () {});
   }
   function post(body) {
-    return fetch('/api/wants/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.assign({ voter: voter }, body)) })
+    return fetch('/api/wants/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.assign({ voter: voter, dev: dev }, body)) })
       .then(function (r) { return r.json(); }).catch(function () { return { ok: false, error: 'That didn’t go through. Check your connection and try again.' }; });
   }
   function answer(id, k) {
@@ -435,12 +473,26 @@
       draw();
     });
   }
-  function shareUrl(url, title, text) {
-    track('Wants share');
-    if (navigator.share) { navigator.share({ title: title, text: text, url: url }).catch(function () {}); return; }
-    (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(function () { toast('Link copied. Paste it into Facebook or a text.'); }, function () { window.prompt('Copy this link:', url); });
+  function copyUrl(url, btn) {
+    (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(function () {
+      toast('Link copied. Paste it into a Facebook group post or a text.');
+      if (btn) { btn.textContent = 'Copied ✓'; setTimeout(function () { btn.textContent = 'Copy link'; }, 2500); }
+    }, function () { window.prompt('Copy this link:', url); });
   }
-  function share(id) { var a = byId(id); if (a) shareUrl(linkOf(a), a.title, a.title.replace(/[?.!]?$/, '?') + (isChoice(a) ? ' Pick your answer' : ' Say yes, no or don’t mind') + ' on What Squamish Wants.'); }
+  function shareUrl(url, title, text) {
+    track('Wants share', { how: 'native' });
+    if (navigator.share) { navigator.share({ title: title, text: text, url: url }).catch(function () {}); return; }
+    copyUrl(url);
+  }
+  // What a share button points at: '@my' for their picks, otherwise one ask (with their answer once they've answered).
+  function target(id) {
+    if (id === '@my') return { url: picksLink(), title: 'My picks for Squamish', text: 'Here’s what I want for Squamish. What do you want?', what: 'picks' };
+    var a = byId(id); if (!a) return null;
+    var my = mine[a.id], q = a.title.replace(/[?.!]?$/, '?');
+    return { url: saidLink(a), title: a.title, what: my && my !== 'm' ? 'answer' : 'question',
+      text: my && my !== 'm' ? 'I said “' + labelOf(a, my) + '” to: ' + q + ' What do you say?' : q + (isChoice(a) ? ' Pick your answer' : ' Say yes, no or don’t mind') + ' on What Squamish Wants.' };
+  }
+  function share(id) { var x = target(id); if (x) shareUrl(x.url, x.title, x.text); }
   function gotoAsk(id) {
     focusId = id; openId = id; topic = 'all'; view = 'list'; order = null; draw();
     var el = document.getElementById('ask-' + id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -462,11 +514,18 @@
     if (e.target.closest('[data-nextq]')) { nextUnanswered(); return; }
     if (e.target.closest('[data-sheetx]')) { closeSheet(); return; }
     if (e.target.closest('[data-areax]')) { areaAsk = null; draw(); return; }
-    if (e.target.closest('[data-sharepage]')) { shareUrl(location.origin + '/wants/', 'What Squamish Wants', 'What should Squamish do? Say yes, no or don’t mind and see what everyone said.'); closeSheet(); return; }
     if (e.target.closest('[data-gosignup]')) { closeSheet(); var s = document.getElementById('signup'); if (s) { s.scrollIntoView({ behavior: 'smooth', block: 'center' }); var inp = s.querySelector('input[type=email]'); if (inp) setTimeout(function () { inp.focus({ preventScroll: true }); }, 400); } return; }
     if (e.target.closest('[data-next]')) { deckShown = null; drawOne(); drawProgress(); return; }
     if ((b = e.target.closest('[data-skip]'))) { deckSkip[b.getAttribute('data-skip')] = true; deckShown = null; drawOne(); return; }
     if ((b = e.target.closest('[data-share]'))) { share(b.getAttribute('data-share')); return; }
+    if ((b = e.target.closest('[data-fb]'))) {
+      var fx = target(b.getAttribute('data-fb')); if (!fx) return;
+      track('Wants share', { how: 'facebook', what: fx.what });
+      window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(fx.url), 'fbshare', 'width=640,height=640,noopener');
+      if (b.closest('[data-wa-sheet]')) closeSheet();
+      return;
+    }
+    if ((b = e.target.closest('[data-copy]'))) { var cx = target(b.getAttribute('data-copy')); if (cx) { track('Wants share', { how: 'copy', what: cx.what }); copyUrl(cx.url, b); } return; }
     if ((b = e.target.closest('[data-more]'))) { var mid = b.getAttribute('data-more'); expanded[mid] = true; draw(); return; }
     if ((b = e.target.closest('[data-sug]')) && sug.id === b.getAttribute('data-sug')) { sug = { id: null, text: '', busy: false, msg: '', same: '' }; draw(); return; }
     if (b) { sug = { id: b.getAttribute('data-sug'), text: '', busy: false, msg: '', same: '' }; draw(); var si = $('#wa-sug'); if (si) si.focus({ preventScroll: true }); return; }

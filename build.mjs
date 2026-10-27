@@ -397,6 +397,12 @@ const SITEMAP = []; // every indexable page, built into sitemap.xml at the end
 // Our own scripts and the stylesheet are linked with a short fingerprint of their contents (/wants.js?v=1a2b3c4d), so
 // browsers fetch the new copy as soon as it changes instead of running one they kept from an earlier visit.
 const ASSET_V = {};
+// Vercel BotID's page script, from node_modules: it patches fetch so posts to the answer API carry proof a real browser
+// sent them (api/wants.js turns away the rest). Turned into a plain script that starts itself; served as /botid.js.
+const BOTID_JS = fs.readFileSync(path.join(ROOT, 'node_modules', 'botid', 'dist', 'client', 'core', 'index.mjs'), 'utf8')
+  .replace(/export\{(\w+) as initBotId[^}]*\};?\s*$/, (m, fn) => `${fn}({protect:[{path:'/api/wants/',method:'POST'},{path:'/api/wants',method:'POST'}]});`);
+if (/\bexport\{/.test(BOTID_JS)) throw new Error('botid client changed shape; check the export line');
+ASSET_V['botid.js'] = crypto.createHash('sha1').update(BOTID_JS).digest('hex').slice(0, 8);
 const assetV = (f) => (ASSET_V[f] ||= (fs.existsSync(path.join(ROOT, 'src', f)) ? crypto.createHash('sha1').update(fs.readFileSync(path.join(ROOT, 'src', f))).digest('hex').slice(0, 8) : ''));
 const versioned = (html) => html.replace(/(src|href)="\/([a-z]+\.(?:js|css))"/g, (m, attr, f) => (assetV(f) ? `${attr}="/${f}?v=${assetV(f)}"` : m));
 function write(url, html) {
@@ -972,7 +978,7 @@ ${HAVE_SAY_OPEN ? `    <a class="cc-tile cc-say" href="/have-your-say/"><span cl
   ${homeNews()}
   ${wantsShort('home')}
   ${wantsData()}
-  <script src="/wants.js" defer></script>
+  <script src="/botid.js" defer></script><script src="/wants.js" defer></script>
   ${FB_CARD}
   <h2>Your council <span class="small">elected October 17, 2026</span></h2>
   <div class="faces faces-sm">${[...mayors, ...council].map(faceTile).join('')}</div>
@@ -1581,6 +1587,7 @@ if (TRACKED.length) {
   <section class="card wa-how"><h2>How it works</h2>
     <ul>
       <li><b>One answer per ask</b> from each phone or computer. Tap the same answer again to take it back, or pick another to change it.</li>
+      <li><b>Answering twice doesn’t work.</b> No sign up, so here is how repeats are stopped: answers sent by a script instead of a real browser are turned away; a private window or cleared browser on the same phone or computer is recognised and not counted again; and each internet connection can add only 8 answers to any one ask, enough for a busy household. Someone determined could still answer from a second device, so treat close results with care.</li>
       <li><b>Most wanted</b> ranks asks by the share of yes among people who said yes or no. “Don’t mind” is counted and shown, but left out of that share, so an ask that matters to one neighbourhood isn’t buried by people it doesn’t affect.</li>
       <li><b>Starter asks come from the public record</b>, each with a source. Asks added by residents are marked, with the resident’s own words underneath. Before an ask is added we check it against the list so the same idea isn’t added twice.</li>
       <li><b>No one sees how you answered.</b> We show totals only, and a neighbourhood’s answers only once 5 people from it have answered.</li>
@@ -1588,18 +1595,18 @@ if (TRACKED.length) {
     </ul></section>
   ${signupBox('wants')}
 </div>
-${wantsData({ focus })}`;
+${wantsData({ focus, said: null })}`;
   write('/wants/', page({
     url: '/wants/', title: 'What Squamish Wants: say yes or no to local asks', image: IMG,
     desc: `Pickleball courts, the encampment, speed humps, a bus to Vancouver: ${WANTS_N}+ specific asks. Say yes, no or don’t mind, see what Squamish said, and add your own.`,
     jsonld: crumbLd([['Home', '/'], ['Your say', '/your-say/'], ['What Squamish Wants', '/wants/']]),
-    body: body(null), scripts: '<script src="/wants.js" defer></script>',
+    body: body(null), scripts: '<script src="/botid.js" defer></script><script src="/wants.js" defer></script>',
   }));
   for (const a of WANTS.asks) write(`/wants/${a.id}/`, page({
     url: `/wants/${a.id}/`, title: a.title.endsWith('?') ? a.title : `${a.title}?`, ...askImg(a),
     desc: `${a.why} Say yes, no or don’t mind, and see what Squamish said.`,
     jsonld: crumbLd([['Home', '/'], ['What Squamish Wants', '/wants/'], [a.title, `/wants/${a.id}/`]]),
-    body: body(a.id), scripts: '<script src="/wants.js" defer></script>',
+    body: body(a.id), scripts: '<script src="/botid.js" defer></script><script src="/wants.js" defer></script>',
   }));
   // More info: /wants/<id>/info/, the background on one ask, with the answer buttons at the bottom.
   const sup = (inf, n) => (n && inf.sources[n - 1] ? `<sup><a href="#src-${n}" aria-label="Source ${n}">${n}</a></sup>` : '');
@@ -1633,7 +1640,7 @@ ${wantsData({ focus })}`;
   ${inf.sources?.length ? `<section class="wi-sec wi-srcs"><h2>Sources</h2><ol>${inf.sources.map((x, i) => `<li id="src-${i + 1}"><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a></li>`).join('')}</ol><p class="small muted">Spot something wrong or out of date? Email <a href="mailto:${SITE.contact}">${SITE.contact}</a>.</p></section>` : ''}
 </article>
 ${wantsData()}`,
-      scripts: '<script src="/wants.js" defer></script>',
+      scripts: '<script src="/botid.js" defer></script><script src="/wants.js" defer></script>',
     }));
   }
 }
@@ -1652,7 +1659,7 @@ write('/your-say/', page({
   </div>
   ${wantsShort('hub')}
   ${wantsData()}`,
-  scripts: '<script src="/wants.js" defer></script>',
+  scripts: '<script src="/botid.js" defer></script><script src="/wants.js" defer></script>',
 }));
 
 // ---------- NEIGHBOURHOODS (/neighbourhoods/ and /neighbourhoods/<slug>/) ----------
@@ -2036,6 +2043,7 @@ fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'
 
 // ---------- static assets ----------
 for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+fs.writeFileSync(path.join(DIST, 'botid.js'), `(function(){${BOTID_JS}})();`);
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
 // ---------- sitemap (every indexable page written above; lastmod = build date) ----------

@@ -1,7 +1,7 @@
 // What Squamish Wants (/wants/): residents answer yes, no or don't mind on specific asks, and can add their own.
 // Starter asks come from data/wants.json (bundled here as _wants.json by build.mjs). Residents' asks live in sv_wants.
 //   GET  ?voter=<id>                                   -> { ok, people, asks: [resident asks], tallies, mine: { wid: 'y'|'n'|'m' }, notes: { wid: [...] } }
-//   POST { action: 'vote', wid, choice, voter, area }  -> { ok, tally, choice }   (choice '' takes the answer back)
+//   POST { action: 'vote', wid, choice, voter, dev, area }  -> { ok, tally, choice }   (choice '' takes the answer back; dev = the page's device summary)
 //   POST { action: 'check', text, voter }              -> { ok, publish, reason, draft, similar: [{ id, title, how }], sig }
 //        Claude checks the rules, writes a short neutral ask and lists asks already on the list that mean the same thing.
 //   POST { action: 'post', text, draft, area, sig, voter }   -> { ok, ask }   (sig proves the draft came from 'check')
@@ -15,6 +15,7 @@
 //   POST { admin: 'merge', wid, from, into, label? }  moves every vote from one added answer to another (and can rename it)
 import { neon } from '@neondatabase/serverless';
 import { createHash, createHmac, randomBytes } from 'node:crypto';
+import { checkBotId } from 'botid/server';
 import SEED from './_wants.json' with { type: 'json' };
 import { COMMENT_RULES } from './have-your-say.js';
 
@@ -22,6 +23,7 @@ const URL = process.env.DATABASE_URL || process.env.POSTGRES_URL;
 const sql = URL ? neon(URL) : null;
 const CHOICES = ['y', 'n', 'm'];
 const PER_NETWORK = 8; // different browsers on one internet connection that can answer one ask (a busy household)
+const PER_DEVICE = 2; // answers to one ask from the same kind of phone or computer on one connection (a private window, cleared storage, or two matching phones)
 const AREA_MIN = 5; // a neighbourhood's answers show once this many people from it have answered (below that one answer could be worked out)
 const REPORTS_TO_HIDE = 3;
 const POSTS_PER_DAY = 5; // new asks from one internet connection in 24 hours
@@ -35,6 +37,7 @@ const init = () => (ready ||= sql`CREATE TABLE IF NOT EXISTS sv_wants (
   voter text, net text, reports int NOT NULL DEFAULT 0, created_at timestamptz NOT NULL DEFAULT now())`
   .then(() => sql`CREATE TABLE IF NOT EXISTS sv_want_votes (wid text NOT NULL, voter text NOT NULL, choice text NOT NULL, area text, net text,
     created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY (wid, voter))`)
+  .then(() => sql`ALTER TABLE sv_want_votes ADD COLUMN IF NOT EXISTS dev text`)
   .then(() => sql`CREATE TABLE IF NOT EXISTS sv_want_notes (wid text NOT NULL, voter text NOT NULL, body text NOT NULL, status text NOT NULL DEFAULT 'ok',
     created_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY (wid, voter))`)
   .then(() => sql`CREATE TABLE IF NOT EXISTS sv_want_reports (wid text NOT NULL, voter text NOT NULL, at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY (wid, voter))`)
@@ -48,6 +51,12 @@ const TOPICS = (SEED.topics || []).map((t) => t.key);
 const HOODS = SEED.hoods || [];
 const hash = (s) => createHash('sha256').update(`${s}|sv-wants`).digest('hex').slice(0, 24);
 const voterOk = (v) => /^[a-zA-Z0-9-]{16,64}$/.test(String(v || ''));
+const devOf = (v) => (/^[a-z0-9]{2,16}$/.test(String(v || '')) ? hash(`dev|${v}`) : null); // the page's summary of the screen, browser and settings
+// Vercel BotID: /botid.js on the page proves a real browser sent the post; scripts posting straight to the API get turned away.
+// If the check itself fails we let the answer through (and log it) rather than block real people.
+const isBot = async (req) => {
+  try { return (await checkBotId({ advancedOptions: { headers: req.headers } })).isBot; } catch (e) { console.error('botid', e.message); return false; }
+};
 const isAdmin = (req) => process.env.ADMIN_TOKEN && (req.headers.authorization || '').replace(/^Bearer /, '') === process.env.ADMIN_TOKEN;
 const clean = (s, max) => String(s || '').replace(/[\u0000-\u0008\u000b-\u001f\u007f]+/g, ' ').replace(/\s+\n/g, '\n').trim().slice(0, max);
 const sign = (o) => createHmac('sha256', process.env.ADMIN_TOKEN || 'sv-wants').update(JSON.stringify(o)).digest('hex').slice(0, 32);
@@ -238,7 +247,8 @@ export default async function handler(req, res) {
   }
   if (req.method !== 'POST') return res.status(405).json({ ok: false });
   if (!voterOk(b.voter)) return res.status(400).json({ ok: false, error: 'Please reload the page and try again.' });
-  const voter = hash(b.voter), net = netOf(req);
+  if (await isBot(req)) return res.status(403).json({ ok: false, error: 'We couldn’t tell this came from a person. Reload the page and try again.' });
+  const voter = hash(b.voter), net = netOf(req), dev = devOf(b.dev);
   const exists = async (wid) => SEEDS.some((s) => s.id === wid) || (await sql`SELECT 1 FROM sv_wants WHERE id = ${wid} AND status = 'ok'`).length > 0;
 
   if (b.action === 'vote') {
@@ -253,9 +263,13 @@ export default async function handler(req, res) {
       if (!before) {
         const [{ n }] = await sql`SELECT count(*)::int AS n FROM sv_want_votes WHERE wid = ${wid} AND net = ${net}`;
         if (n >= PER_NETWORK) return res.status(429).json({ ok: false, error: 'Lots of answers on this one have come from your internet connection already, so we can’t count another from it.' });
+        if (dev) {
+          const [{ d }] = await sql`SELECT count(*)::int AS d FROM sv_want_votes WHERE wid = ${wid} AND net = ${net} AND dev = ${dev}`;
+          if (d >= PER_DEVICE) return res.status(429).json({ ok: false, error: 'This phone or computer has already answered this one (maybe in a private window), so we can’t count it again.' });
+        }
       }
-      await sql`INSERT INTO sv_want_votes (wid, voter, choice, area, net) VALUES (${wid}, ${voter}, ${b.choice}, ${areaOk(b.area)}, ${net})
-        ON CONFLICT (wid, voter) DO UPDATE SET choice = EXCLUDED.choice, area = coalesce(EXCLUDED.area, sv_want_votes.area), updated_at = now()`;
+      await sql`INSERT INTO sv_want_votes (wid, voter, choice, area, net, dev) VALUES (${wid}, ${voter}, ${b.choice}, ${areaOk(b.area)}, ${net}, ${dev})
+        ON CONFLICT (wid, voter) DO UPDATE SET choice = EXCLUDED.choice, area = coalesce(EXCLUDED.area, sv_want_votes.area), dev = coalesce(sv_want_votes.dev, EXCLUDED.dev), updated_at = now()`;
     }
     const t = await tallies();
     return res.json({ ok: true, tally: t[wid] || { y: 0, n: 0, m: 0, areas: {} }, choice: b.choice || '' });
