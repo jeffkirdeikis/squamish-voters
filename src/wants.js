@@ -149,7 +149,8 @@
     var ar = a.area || prefs.area, ax = ar && x.areas && x.areas[ar];
     if (!ax || !HOODS[ar]) return '';
     var ao = opinions(a, ax), top = ranked(a, ax)[0];
-    return '<p class="wa-local"><b>' + esc(HOODS[ar]) + ':</b> ' + (!ao ? 'no one there has picked an answer yet' : multi(a) ? 'most picked “' + esc(top.label) + '” (' + pct(c(ax, top.key), ao) + '%)' : pct(c(ax, 'y'), ao) + '% yes among people there with an opinion') + ' (' + total(ax) + ' answers)</p>';
+    // Only the people who said they live in that neighbourhood, so it says so and gives their count next to the overall one.
+    return '<p class="wa-local"><b>Just ' + esc(HOODS[ar]) + ' residents</b> (' + total(ax) + ' of ' + total(x) + ' answers): ' + (!ao ? 'no one there has picked an answer yet' : multi(a) ? 'most picked “' + esc(top.label) + '” at ' + pct(c(ax, top.key), ao) + '%' : pct(c(ax, 'y'), ao) + '% yes among those with an opinion') + '</p>';
   }
   function totals(a) {
     var x = t(a.id), n = total(x), o = opinions(a, x);
