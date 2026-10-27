@@ -337,7 +337,7 @@
     var sortBtns = '<div class="wa-filters wa-topsort" role="group" aria-label="Sort the Top 10">' + [['votes', 'Most votes'], ['unanimous', 'Most unanimous'], ['split', 'Most split']].map(function (o) {
       return '<button type="button" class="wa-f" data-wa-topsort="' + o[0] + '" aria-pressed="' + (topSort === o[0]) + '">' + o[1] + '</button>';
     }).join('') + '</div>';
-    el.innerHTML = picksBar() + '<div class="wa-board"><h2>Top 10</h2>' + sortBtns + '<p class="small muted">' + NOTE[topSort] + '</p><ol class="wa-toplist">' + (top.length ? top.map(line).join('') : '<li class="wa-empty">' + (topSort === 'split' ? 'No ask has answers on both sides yet.' : 'No answers yet.') + '</li>') + '</ol>' +
+    el.innerHTML = '<div class="wa-board"><h2>Top 10</h2>' + sortBtns + '<p class="small muted">' + NOTE[topSort] + '</p><ol class="wa-toplist">' + (top.length ? top.map(line).join('') : '<li class="wa-empty">' + (topSort === 'split' ? 'No ask has answers on both sides yet.' : 'No answers yet.') + '</li>') + '</ol>' +
       '<p class="small muted">Not a scientific poll. ' + people + ' people have answered so far.</p></div>';
   }
 
