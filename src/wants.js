@@ -96,13 +96,10 @@
   }
   function allAnswers() { return asks.reduce(function (s, a) { return s + total(t(a.id)); }, 0); }
   var NATIVE = !!navigator.share;
-  // Before sharing, an answered ask stays calm: one line on where they stand and a single Share button. Everything else
-  // (the picture, the switch, the buttons) is in the share panel that opens from it.
+  // Before sharing, an answered ask stays calm: a single Share button. Everything else (the picture, the switch, the
+  // buttons) is in the share panel that opens from it.
   function shareBar(a) {
-    var my = mine[a.id], x = t(a.id), o = opinions(a, x), same = c(x, my), p = pct(same, o);
-    var you = my === 'm' ? 'You don’t mind either way.' : same <= 1 ? 'You’re the first to ' + (multi(a) ? 'pick this.' : 'say ' + WORD[my].toLowerCase() + '.')
-      : p > 50 ? 'You’re with the majority (' + p + '%).' : p === 50 ? 'It’s an even split.' : 'You’re in the minority (' + p + '%).';
-    return '<div class="wa-shareline"><p>' + you + '</p><button type="button" class="wa-sharego" data-share="' + esc(a.id) + '">' + SHARE_ICON + 'Share</button></div>';
+    return '<div class="wa-shareline"><button type="button" class="wa-sharego" data-share="' + esc(a.id) + '">' + SHARE_ICON + 'Share</button></div>';
   }
   function picksBar() {
     if (!picks().length) return '';
@@ -180,13 +177,6 @@
     return '<div class="wa-bar" role="img" aria-label="' + esc(segs.map(function (g) { return pct(g[2], n) + '% ' + g[1]; }).join(', ')) + '">' +
       segs.map(function (g) { return '<i class="' + g[0] + '" style="width:' + pct(g[2], n) + '%"></i>'; }).join('') + '</div>';
   }
-  function areaLine(a, x) {
-    var ar = a.area || prefs.area, ax = ar && x.areas && x.areas[ar];
-    if (!ax || !HOODS[ar]) return '';
-    var ao = opinions(a, ax), top = ranked(a, ax)[0];
-    // Only the people who said they live in that neighbourhood, so it says so and gives their count next to the overall one.
-    return '<p class="wa-local"><b>Just ' + esc(HOODS[ar]) + ' residents</b> (' + total(ax) + ' of ' + total(x) + ' answers): ' + (!ao ? 'no one there has picked an answer yet' : multi(a) ? 'most picked “' + esc(top.label) + '” at ' + pct(c(ax, top.key), ao) + '%' : pct(c(ax, 'y'), ao) + '% yes among those with an opinion') + '</p>';
-  }
   function totals(a) {
     var x = t(a.id), n = total(x), o = opinions(a, x);
     var out = '<div class="wa-totals">' + bar(a, x);
@@ -198,7 +188,7 @@
     } else if (n) out += '<p class="wa-legend"><em>' + (o ? '<b>' + pct(c(x, 'y'), o) + '% yes</b> of people with an opinion' : '<b>No one has said yes or no yet</b>') + '</em>' +
       '<span>' + n + ' answer' + (n === 1 ? '' : 's') + '</span><span>' + c(x, 'y') + ' yes · ' + c(x, 'n') + ' no · ' + c(x, 'm') + ' don’t mind</span></p>';
     // Share sits under the results once someone has answered; an opened ask has it in its detail instead.
-    return out + areaLine(a, x) + (mine[a.id] ? shareBar(a) : '') + areaBox(a) + '</div>';
+    return out + (mine[a.id] ? shareBar(a) : '') + areaBox(a) + '</div>';
   }
   // After the first answer: which part of Squamish, asked inside that ask (under its results) so nothing covers the list.
   var areaAsk = null;

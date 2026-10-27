@@ -1453,7 +1453,6 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .wa-bar .y { background: var(--yes); } .wa-bar .m { background: #c9c6b9; } .wa-bar .n { background: var(--no); }
 .wa-legend { margin: 0; display: flex; flex-wrap: wrap; gap: .2rem .9rem; font-size: .88rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 .wa-legend span { color: var(--muted); }
-.wa-local { margin: 0; font-size: .88rem; background: var(--brand-soft); border-radius: 10px; padding: .45rem .7rem; }
 .wa-first { margin: 0; font-size: .9rem; color: var(--muted); }
 .wa-detail { border-top: 1px dashed var(--line); padding-top: .8rem; display: grid; gap: .7rem; font-size: .95rem; }
 .wa-detail p { margin: 0; }
@@ -1664,7 +1663,7 @@ body:has(.wa-float:not([hidden])) #totop { display: none !important; }
 .wa-added { color: var(--muted); font-weight: 400; font-size: .78rem; white-space: nowrap; }
 .wa-ans.choice .wa-more { grid-column: 1 / -1; justify-self: start; background: none; border: 1px dashed var(--line); border-radius: 8px; padding: .45rem .85rem; font: inherit; font-size: .9rem; font-weight: 700; color: var(--brand); cursor: pointer; min-height: 2.4rem; }
 .wa-sugopen { margin-top: .35rem; }
-.wa-shareline { display: flex; align-items: center; gap: .75rem; margin-top: .2rem; }
+.wa-shareline { display: flex; align-items: center; justify-content: flex-end; gap: .75rem; margin-top: .2rem; }
 .wa-shareline p { margin: 0; flex: 1; font-size: .95rem; color: var(--ink-2); }
 .wa-sharego { flex-shrink: 0; display: inline-flex; align-items: center; gap: .45rem; min-height: 2.75rem; padding: 0 1.15rem; border: 0; border-radius: 99px; background: var(--brand); color: #fff; font: inherit; font-weight: 700; font-size: .95rem; cursor: pointer; }
 .wa-sharego:hover { background: #0b3a2c; }
