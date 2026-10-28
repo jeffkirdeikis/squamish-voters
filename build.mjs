@@ -32,6 +32,23 @@ const ALL_QUESTIONS = read('questions.json');
 const QUESTIONS = ALL_QUESTIONS.filter((q) => q.core !== false);
 const EXTRA_QUESTIONS = ALL_QUESTIONS.filter((q) => q.core === false);
 const GLOSSARY = read('glossary.json');
+// Build check: a source link with a space in it is two links or a note pasted into the address, and it goes to a
+// "page not found". Stop the build so it gets fixed instead of published.
+(() => {
+  const bad = [];
+  const walk = (v, where) => {
+    if (typeof v === 'string') { if (/^https?:\/\//.test(v) && /\s/.test(v.trim())) bad.push(`${where}: ${v}`); return; }
+    if (Array.isArray(v)) v.forEach((x, i) => walk(x, `${where}[${i}]`));
+    else if (v && typeof v === 'object') Object.entries(v).forEach(([k, x]) => walk(x, `${where}.${k}`));
+  };
+  const scan = (dir) => fs.readdirSync(dir, { withFileTypes: true }).forEach((d) => {
+    const p = path.join(dir, d.name);
+    if (d.isDirectory()) scan(p);
+    else if (d.name.endsWith('.json')) { try { walk(JSON.parse(fs.readFileSync(p, 'utf8')), path.relative(ROOT, p)); } catch {} }
+  });
+  scan(path.join(ROOT, 'data'));
+  if (bad.length) throw new Error(`Source links with a space in them (fix the address):\n${bad.join('\n')}`);
+})();
 const ORIGIN = 'https://squamishvoters.com';
 const REPO = 'https://github.com/jeffkirdeikis/squamish-voters';
 const SITE = { name: 'Squamish Voters', updated: new Date().toLocaleDateString('en-CA', { timeZone: 'America/Vancouver', month: 'long', day: 'numeric', year: 'numeric' }), contact: ctx.contact_email || null };
@@ -742,7 +759,7 @@ function stanceRow(c, i) {
   const none = !s.position || /no public position/i.test(s.position);
   const mine = directOnTopic(c, i.key);
   return `<details class="stance-row${none && !mine ? ' none' : ' has-more'}"><summary><span class="ic" aria-hidden="true">${i.icon}</span><span class="txt"><b>${i.title}</b><span class="pos">${none ? (mine ? 'Answered our questionnaire' : 'Hasn’t said') : escGl(s.position)}</span>${mine ? '<span class="badge direct">✓ Own answers inside</span>' : ''}${none && !mine ? '' : moreBtn(`Click to expand — read more about ${esc(first(c))}’s view on this`)}</span></summary>
-  ${none ? (mine ? '' : `<p class="muted">We could not find anything ${esc(first(c))} has said publicly about this.</p>`) : `<p>${escGl(s.summary)}${src(s.source_url)}</p>${s.quote ? `<blockquote>“${escGl(s.quote.replace(/^["“]|["”]$/g, ''))}”</blockquote>` : ''}${confLabel[s.confidence] ? `<p class="conf">${confLabel[s.confidence]}</p>` : ''}`}${mine}</details>`;
+  ${none ? (mine ? '' : `<p class="muted">We could not find anything ${esc(first(c))} has said publicly about this.</p>`) : `<p>${escGl(s.summary)}${src(s.source_url)}</p>${s.quote ? `<blockquote>“${escGl(s.quote.replace(/^["“]|["”]$/g, ''))}”</blockquote>${src(s.quote_source_url, 'quote source')}` : ''}${confLabel[s.confidence] ? `<p class="conf">${confLabel[s.confidence]}</p>` : ''}`}${mine}</details>`;
 }
 const confLabel = { high: 'Well documented', medium: 'Some evidence', low: 'Limited evidence', none: '' };
 function miniSlider(c, key) {
@@ -1954,7 +1971,7 @@ const nameList = (cs) => cs.map((c) => `<a href="/council/${c.slug}/">${esc(c.na
 function stanceBlock(c, key) {
   const s = c.stances[key];
   return `<li class="tstance"><h3><a href="/council/${c.slug}/#issues">${esc(c.name)}</a>${c.office === 'mayor' ? ' <span class="small">(running for mayor)</span>' : ''}${c.incumbent ? ' <span class="small">· current councillor</span>' : ''}</h3>
-  <p><b>${escGl(s.position)}</b></p><p>${escGl(s.summary || '')}${src(s.source_url)}</p>${s.quote ? `<blockquote>“${escGl(s.quote.replace(/^["“]|["”]$/g, ''))}”</blockquote>` : ''}</li>`;
+  <p><b>${escGl(s.position)}</b></p><p>${escGl(s.summary || '')}${src(s.source_url)}</p>${s.quote ? `<blockquote>“${escGl(s.quote.replace(/^["“]|["”]$/g, ''))}”</blockquote>${src(s.quote_source_url, 'quote source')}` : ''}</li>`;
 }
 const TOPIC_EXTRA_Q = { recreation_facilities: ['q12', 'q22'] }; // Brennan Park statements are filed under taxes, but this is the page people look for
 for (const ic of ctx.issues || []) {

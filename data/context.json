@@ -559,7 +559,7 @@
           "source_url": "https://www.piquenewsmagazine.com/sea-to-sky/squamish-signs-on-for-new-rcmp-deal-2491474"
         },
         {
-          "fact": "District finance staff told council the projected tax increases of 13% (2027) and 12.9% (2028) are 'largely due to the increased cost of RCMP member contracts', plus debt servicing, added fire-services staffing and transit expansion.",
+          "fact": "In January 2026, District finance staff told council the projected tax increases of 13% (2027) and 12.9% (2028) were 'largely due to the increased cost of RCMP member contracts', plus debt servicing, added fire-services staffing and transit expansion.",
           "source_url": "https://www.squamishchief.com/local-news/tough-budget-squamish-council-passes-first-decade-long-financial-plan-11710524"
         },
         {
@@ -604,15 +604,19 @@
     {
       "key": "taxes_spending",
       "title": "Property taxes, spending and big capital projects",
-      "explainer": "Property taxes are, with recreation facilities, the top issue for readers surveyed by the Squamish Chief. In January 2026 council unanimously adopted the District's first 10-year financial plan, which raised the amount collected from property taxes by 12.8% in 2026 and projects about 13% more in each of 2027 and 2028, averaging 8.3% a year over the decade. The District says the drivers are aging buildings that must be replaced (public works yard, fire halls, Brennan Park), RCMP contract costs, wages, debt payments and building up reserves; one councillor noted that below-average increases in earlier years made the jump sharper. Some 2026 candidates are campaigning on tax freezes or zero increases, while incumbents who are running generally defend the plan as necessary. Voters may want to ask any candidate promising lower taxes which services or projects would change.",
+      "explainer": "Property taxes are, with recreation facilities, the top issue for readers surveyed by the Squamish Chief. In January 2026 council unanimously adopted the District's first 10-year financial plan, which raised the amount collected from property taxes by 12.8% in 2026. January's plan had projected about 13% more in 2027 and 12.9% in 2028. Staff's draft for 2027, shown in September 2026, starts at a 10.4% increase before any new items, and the new council decides the final number, likely in January 2027. The District says the drivers are aging buildings that must be replaced (public works yard, fire halls, Brennan Park), RCMP contract costs, wages, debt payments and building up reserves; one councillor noted that below average increases in earlier years made the jump sharper. Some members of the new council campaigned on tax freezes or zero increases, while others defended the plan as necessary. Two fair questions for anyone on council: if taxes go up less, which services or projects change? And if new projects are added, how will they be paid for?",
       "key_facts": [
         {
           "fact": "2026: general property tax revenue requirement of $56.1 million, up 12.8% ($6.4 million) over 2025, or about $382 more for the average residential taxpayer. Utility rates: wastewater +7.2%, water +1.8%, solid waste +5.2%. 2026 operating budget: $82.2 million.",
           "source_url": "https://www.squamishchief.com/local-news/tough-budget-squamish-council-passes-first-decade-long-financial-plan-11710524"
         },
         {
-          "fact": "Projected increases (not yet decided): 13% in 2027 and 12.9% in 2028; average 8.3% per year across the 2026-2035 plan.",
+          "fact": "January's plan had projected increases of 13% in 2027 and 12.9% in 2028, with an average of 8.3% per year across the 2026 to 2035 plan.",
           "source_url": "https://www.squamishchief.com/local-news/tough-budget-squamish-council-passes-first-decade-long-financial-plan-11710524"
+        },
+        {
+          "fact": "Staff's draft 2027 general fund, shown September 29, 2026, starts at a 10.4% increase before items still awaiting council's approval; 6.6% of that is costs already committed. Not yet decided.",
+          "source_url": "https://squamish.civicweb.net/FileStorage/464F28A678254CD3BECE0240DCCE0208-2027-2036%20Financial%20Plan%20%E2%80%93%20General%20Fund%20Operating%20.pdf"
         },
         {
           "fact": "2025: the draft 2025-2029 plan (adopted Dec. 17, 2024) called for a 9.6% increase in tax revenue, about $250 for the average residential property, with a projected five-year average of 10.5%. Whether the final adopted 2025 figure differed from the 9.6% draft was not confirmed.",
@@ -664,7 +668,7 @@
         "https://www.squamishchief.com/local-news/laura-prosko-touts-industry-ties-pitches-property-tax-freeze-in-squamish-council-bid-12793364"
       ],
       "teaser": "Property taxes are, with recreation facilities, the top issue for readers surveyed by the Squamish Chief.",
-      "short_explainer": "Property taxes are, with recreation facilities, the top issue for readers surveyed by the Squamish Chief. In January 2026 council unanimously adopted the District's first 10-year financial plan, which raised the amount collected from property taxes by 12.8% in 2026 and projects about 13% more in each of 2027 and 2028, averaging 8.3% a year over the decade."
+      "short_explainer": "Property taxes are, with recreation facilities, the top issue for readers surveyed by the Squamish Chief. In January 2026 council unanimously adopted the District's first 10-year financial plan, which raised the amount collected from property taxes by 12.8% in 2026. Staff's draft for 2027 starts at a 10.4% increase before any new items (January's plan had projected 13%)."
     },
     {
       "key": "climate",

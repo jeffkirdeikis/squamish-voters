@@ -381,16 +381,18 @@
   "stances": {
    "growth": {
     "position": "Growing too fast: slow approvals until infrastructure catches up; judge each project on what it delivers",
-    "summary": "Says growth has outpaced essential infrastructure and amenities and pledges to 'balance growth with what our environment can sustain.' He argues that adding supply alone has not made housing affordable. His non-profit DWIFT favours 'gentle densification' (low-rise apartments and townhomes).",
-    "quote": "Balance growth with what our environment can sustain, so future development serves both people and the planet",
-    "source_url": "https://www.squamishchief.com/local-news/a-new-squamish-non-profit-aims-to-make-homeownership-more-affordable-9480990 (for the DWIFT sentence), with the year labelled",
+    "summary": "Says growth has outpaced essential infrastructure and amenities and pledges to 'balance growth with what our environment can sustain.' He argues that adding supply alone has not made housing affordable. In 2024 the Squamish Chief reported that his non-profit DWIFT favours 'gentle densification' (low-rise apartments and townhomes).",
+    "quote": "Slow down growth, and focus on developing within our boundaries, so future development serves both people and the planet",
+    "quote_source_url": "https://www.seaneaston.com/vision",
+    "source_url": "https://www.squamishchief.com/local-news/a-new-squamish-non-profit-aims-to-make-homeownership-more-affordable-9480990",
     "confidence": "low"
    },
    "housing_affordability": {
     "position": "Strongly for more public money and land, and a bigger required share of below-market homes; resident-restricted ownership",
     "summary": "Housing is his professional field. He co-founded DWIFT Housing Society to build homes and sell them at cost (reported in 2024 as 25-30% below market) to middle-income households, and DWIFT sought District land on Pioneer Way for that purpose. His platform promises 'housing that locals can afford throughout their lives.'",
     "quote": "Towns across B.C.—and the world—are getting creative in solving the housing and affordability crises, and I believe Squamish can, and must, too.",
-    "source_url": "https://www.squamishchief.com/local-news/a-new-squamish-non-profit-aims-to-sell-homes-at-cost-8460296",
+    "quote_source_url": "https://www.squamishchief.com/local-news/sean-easton-announces-run-for-squamish-mayor-12582578",
+    "source_url": "https://www.squamishchief.com/local-news/a-new-squamish-non-profit-aims-to-make-homeownership-more-affordable-9480990",
     "confidence": "high"
    },
    "homelessness": {
@@ -423,8 +425,8 @@
    },
    "transportation": {
     "position": "For regional transit if senior governments pay their share; pause new bike-lane spending until residents are consulted",
-    "summary": "His platform promises to 'invest in modernized transport that meets our diverse needs' but gives no detail.",
-    "quote": "Invest in modernized transport that meets our diverse needs",
+    "summary": "His platform promises to 'invest in frequent, modernized transport that meets our diverse needs', including working with BC Transit and the Province on an express bus down the highway every 15 minutes.",
+    "quote": "Partnering with BC Transit and the provincial government to establish an express bus down the highway every 15 minutes, making transit a more practical option",
     "source_url": "https://www.seaneaston.com/vision",
     "confidence": "low"
    },
@@ -501,7 +503,7 @@
    "instagram": "https://www.instagram.com/sean.easton.for.mayor",
    "facebook": "https://www.facebook.com/sean.easton.for.mayor",
    "email_public": "sean@seaneaston.com",
-   "other": "https://www.dwifthousing.org/ (DWIFT Housing Society); https://www.zeroceiling.org (Zero Ceiling)"
+   "other": "https://www.dwifthousing.org/"
   },
   "photo_url": "https://images.squarespace-cdn.com/content/v1/6a5916059f723c75facbd34d/265954c2-2e09-4967-95dc-49642cb79328/Sean+Easton+Squamish",
   "sources": [
@@ -1173,7 +1175,8 @@
     "summary": "Has supported the permits for Woodfibre LNG’s floating worker housing, and voted for the proposed 10-year Woodfibre tax agreement, which council rejected 5–2 on Sept. 22, 2026.",
     "source_url": "https://www.squamishchief.com/highlights/squamish-councillors-officially-issue-a-tup-for-two-wlng-floatels-11010557",
     "confidence": "high",
-    "quote": "I support natural gas as a 'bridging fuel', and I support WLNG's ongoing efforts to protect (and enhance, through extensive site remediation investments) the local marine environment. (2022)"
+    "quote": "I support natural gas as a 'bridging fuel, and I support WLNG's ongoing efforts to protect (and enhance, through extensive site remediation investments) the local marine environment. (2022)",
+    "quote_source_url": "https://myseatosky.org/election-2022/district-of-squamish/eric-andersen/"
    },
    "transportation": {
     "position": "Reduce commuting through local jobs; supports regional transit options; realistic about parking demand",
@@ -1824,7 +1827,7 @@
    "instagram": null,
    "facebook": null,
    "email_public": "andrew@andrewforsquamish.ca",
-   "other": "https://www.linkedin.com/in/andrew-hamilton-phd/ ; property tax data tool https://www.bcmunicipaldata.org"
+   "other": "https://www.linkedin.com/in/andrew-hamilton-phd/"
   },
   "photo_url": null,
   "sources": [
@@ -3044,8 +3047,9 @@
    },
    "transportation": {
     "position": "More downtown parking now; more frequent buses, evening/weekend service and express regional links",
-    "summary": "Says retail, medical-office and downtown employees need parking options immediately; would explore managing empty stalls in downtown residential buildings and on-street cafe stalls, via a stakeholder parking committee with one councillor. Lists transit as a key issue but has not yet published details. Her transit page calls for more frequent service on core routes, evening and weekend hours, coverage of newer neighbourhoods, better shelters and real-time arrival information, and exploring express regional connections with BC Transit and TransLink. She also wants new developments located and designed to support transit.",
+    "summary": "Says retail, medical-office and downtown employees need parking options immediately; would explore managing empty stalls in downtown residential buildings and on-street cafe stalls, via a stakeholder parking committee with one councillor. Her transit page calls for more frequent service on core routes, evening and weekend hours, coverage of newer neighbourhoods, better shelters and real-time arrival information, and exploring express regional connections with BC Transit and TransLink. She also wants new developments located and designed to support transit.",
     "quote": "Retail employees, medical offices, and downtown employees all need parking options immediately.",
+    "quote_source_url": "https://janicedesjardins.com/",
     "source_url": "https://janicedesjardins.com/highlights/transit",
     "confidence": "high"
    },
