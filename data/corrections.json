@@ -5,13 +5,17 @@
    "date": "2026-10-28",
    "page": "/scorecard/",
    "what": "We changed how promises are judged, before council's first votes. Each member is now marked only on their own part (what they move, second or vote for), never on what council as a whole decides. Only votes confirmed by the official minutes can give a red mark. \"Broken\" is now \"Not kept\".",
-   "affects": ["/council/"]
+   "affects": [
+    "/council/"
+   ]
   },
   {
    "date": "2026-10-28",
    "page": "/scorecard/",
    "what": "Six promises were reworded to match what the member actually said: Sarah Ellis (the Province's HEART and HEARTH program, not \"Hearth and Home\"; exploring pilot programs for people living in vehicles), Eric Andersen (consider spending developer parking payments on parking), Shaun Veltkamp (a community centre that meets Squamish's needs, without the funding detail he did not give), Janice DesJardins (a settlement and reset with Woodfibre LNG, without \"ends the court fights\") and Sean Easton (monitoring for possible effects from Woodfibre LNG).",
-   "affects": ["/council/"]
+   "affects": [
+    "/council/"
+   ]
   },
   {
    "date": "2026-10-28",
@@ -33,7 +37,18 @@
    "date": "2026-10-28",
    "page": "/issues/",
    "what": "Property tax pages said 13% for 2027, from January's plan. Staff's September draft starts at 10.4%, and the new council decides. The 2027 budget is expected to be adopted in early 2027, not December 2026 (last year it was adopted January 13). The Under One Roof tracker said a temporary housing site was chosen; none has been.",
-   "affects": ["/wants/", "/track/"]
+   "affects": [
+    "/wants/",
+    "/track/"
+   ]
+  },
+  {
+   "date": "2026-10-28",
+   "page": "/meetings/",
+   "what": "Fixed how we describe council's process. The November 3 swearing in meeting has no question period or letters on its agenda; we no longer suggest sending a letter for it. Public hearings: since late 2023, B.C. law does not allow one on a rezoning that is mostly for housing and fits the Official Community Plan. Vote counts now say how many members were there (\"All 5 there agreed, 2 away\"), and bylaw votes say which reading passed.",
+   "affects": [
+    "/faq/"
+   ]
   }
  ]
 }
