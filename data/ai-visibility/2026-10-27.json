@@ -5,7 +5,7 @@
     "asked": 20,
     "answered": 20,
     "searched": 20,
-    "cited": 0,
+    "cited": 1,
     "named": 1,
     "found": 7,
     "top_cited": [],
@@ -122,15 +122,17 @@
       "topic": "record",
       "searched": true,
       "found_us": true,
-      "cited_us": false,
+      "cited_us": true,
       "named_us": true,
       "our_pages": [
+        "https://squamishvoters.com/council/",
         "https://squamishvoters.com/",
         "https://squamishvoters.com/results/",
-        "https://squamishvoters.com/council/",
         "https://squamishvoters.com/candidates/"
       ],
-      "cited_sites": [],
+      "cited_sites": [
+        "squamishvoters.com"
+      ],
       "found_sites": [
         "squamishchief.com",
         "squamish.ca",

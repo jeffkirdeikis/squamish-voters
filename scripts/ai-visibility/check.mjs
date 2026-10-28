@@ -48,7 +48,8 @@ async function ask(q) {
   const results = content.filter((b) => b.type !== 'text');
   const texts = content.filter((b) => b.type === 'text');
   const answer = texts.map((b) => b.text).join('').trim();
-  const cited = [...new Set(texts.flatMap((b) => (b.citations || []).map((c) => c.url).filter(Boolean)))];
+  // Cited = a formal citation, or a link written into the answer (how these answers usually point to a page).
+  const cited = [...new Set([...texts.flatMap((b) => (b.citations || []).map((c) => c.url).filter(Boolean)), ...(answer.match(/https?:\/\/[^\s)\]>"']+/g) || []).map((u) => u.replace(/[.,;:]+$/, ''))])];
   const found = [...urlsIn(results)];
   const ours = (list) => list.filter((u) => host(u) === US);
   return {
