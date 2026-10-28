@@ -8,6 +8,11 @@
       "short": "Downtown"
     },
     {
+      "key": "homes",
+      "label": "Renting, housing and childcare",
+      "short": "Homes and kids"
+    },
+    {
       "key": "parks",
       "label": "Parks and recreation",
       "short": "Parks"
@@ -106,6 +111,69 @@
           "key": "elsewhere",
           "label": "Build it somewhere else",
           "means": "A different site, which likely means a delay."
+        }
+      ]
+    },
+    {
+      "id": "childcare-spaces",
+      "title": "How should Squamish help open more licensed child care spaces?",
+      "why": "In May 2020 council endorsed a child care action plan with a goal of 720 new licensed spaces by 2029. The Province licenses and funds most child care; the District can offer land or space and speed up permits, as it did for the 36 space centre in Valleycliffe that opened in 2025.",
+      "topic": "homes",
+      "area": null,
+      "who": "council",
+      "status": "plan",
+      "source_url": "https://squamish.ca/yourgovernment/news/new-valleycliffe-childcare-facility-to-deliver-36-licensed-spaces-for-squamish-families/",
+      "source_label": "District of Squamish: new Valleycliffe child care centre",
+      "kind": "choice",
+      "options": [
+        {
+          "key": "build",
+          "label": "Build or lease District space for daycares",
+          "means": "More spaces sooner; it costs tax money or land the District could use for something else."
+        },
+        {
+          "key": "permits",
+          "label": "Only speed up permits for private daycares",
+          "means": "Little cost to taxpayers; how many spaces open is up to providers."
+        },
+        {
+          "key": "province",
+          "label": "Leave it to the Province",
+          "means": "No local cost; spaces depend on provincial funding and may come slower."
+        }
+      ]
+    },
+    {
+      "id": "rental-homes",
+      "title": "How should Squamish get more homes that people can rent?",
+      "why": "Rents are high and long term rentals are hard to find. Council decides rezonings for rental buildings, can put District land toward nonprofit housing, and since 2023 can waive development fees for nonprofit affordable rental homes.",
+      "topic": "homes",
+      "area": null,
+      "who": "council",
+      "status": "plan",
+      "source_url": "https://squamish.ca/housing-action",
+      "source_label": "District of Squamish: housing action",
+      "kind": "choice",
+      "options": [
+        {
+          "key": "land",
+          "label": "Put more District land toward nonprofit rentals",
+          "means": "More below market rentals over time; that land can’t go to parks or be sold to pay for other things."
+        },
+        {
+          "key": "faster",
+          "label": "Approve private rental buildings faster",
+          "means": "More rentals sooner at market rents; neighbours get less say on each project."
+        },
+        {
+          "key": "money",
+          "label": "Put tax money toward buying rental buildings",
+          "means": "Keeps some rents lower; the cost goes onto property tax bills."
+        },
+        {
+          "key": "slow",
+          "label": "Slow down until roads and services catch up",
+          "means": "Less strain on roads, schools and pipes; rents may keep rising."
         }
       ]
     },
