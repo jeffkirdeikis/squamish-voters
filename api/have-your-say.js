@@ -4,7 +4,7 @@
 //   GET  ?voter=<id>                                       -> { ok, tallies, mine: { qid: { choice, factors, comment, comment_status, comment_note } }, comments: { qid: [...] } }
 //   POST { qid, choice, voter, area, factors?, comment? }  -> { ok, tally, mine, comments }
 //   POST { report: <cid>, qid, voter }                     -> { ok }  (three reports from different people hide a comment)
-//   GET  ?admin=1, POST { admin: 'hide' | 'show', qid, cid }, both with Authorization: Bearer <ADMIN_TOKEN> (the /subscribers/ page)
+//   GET  ?admin=1, POST { admin: 'hide' | 'show' | 'edit', qid, cid [, text] }, both with Authorization: Bearer <ADMIN_TOKEN> (the /subscribers/ page)
 // One vote per browser per question (the voter id lives in the browser), changeable until the meeting starts.
 // A cap per network stops one person stuffing a question from many browsers.
 // Comments are public without names. Each is checked by Claude against the rules below before it shows; if that check
@@ -114,7 +114,15 @@ export default async function handler(req, res) {
     }
     const [row] = (await sql`SELECT qid, voter FROM sv_votes WHERE qid = ${String(b.qid || '')}`).filter((r) => cidOf(r.qid, r.voter) === b.cid);
     if (!row) return res.status(404).json({ ok: false });
-    await sql`UPDATE sv_votes SET comment_status = ${b.admin === 'show' ? 'ok' : 'removed'}, comment_note = ${b.admin === 'show' ? '' : 'Removed by Squamish Voters.'} WHERE qid = ${row.qid} AND voter = ${row.voter}`;
+    if (b.admin === 'edit') {
+      const text = String(b.text || '').replace(/[\u0000-\u0008\u000b-\u001f\u007f]+/g, ' ').trim().slice(0, 600);
+      if (!text) return res.status(400).json({ ok: false, error: 'Write the new wording.' });
+      await sql`UPDATE sv_votes SET comment = ${text} WHERE qid = ${row.qid} AND voter = ${row.voter}`;
+      return res.json({ ok: true });
+    }
+    // Accepting clears readers' reports too, so it doesn't hide itself again on the next one.
+    if (b.admin === 'show') await sql`DELETE FROM sv_vote_reports WHERE qid = ${row.qid} AND cid = ${String(b.cid)}`;
+    await sql`UPDATE sv_votes SET comment_status = ${b.admin === 'show' ? 'ok' : 'removed'}, comment_note = ${b.admin === 'show' ? '' : 'Removed by Squamish Voters.'}, reports = CASE WHEN ${b.admin === 'show'} THEN 0 ELSE reports END WHERE qid = ${row.qid} AND voter = ${row.voter}`;
     return res.json({ ok: true });
   }
 

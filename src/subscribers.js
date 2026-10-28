@@ -160,14 +160,23 @@
     if (x.text && x.text.trim() !== String(x.title).trim()) h += '<details class="ad-orig"><summary>What they wrote</summary><p>' + esc(x.text) + '</p></details>';
     var w = why(x); if (w && opts.context) h += '<p class="ad-why">' + esc(w) + '</p>';
     h += '</div><div class="ad-acts">';
-    if (x.status !== 'merged') h += '<button type="button" class="ad-btn' + (on ? '' : ' ad-primary') + '" data-mod="' + (on ? 'hide' : 'show') + '" data-src="' + x.src + '" data-wid="' + esc(x.wid || '') + '" data-nid="' + esc(x.nid || '') + '" data-okey="' + esc(x.okey || '') + '" data-qid="' + esc(x.qid || '') + '" data-cid="' + esc(x.cid || '') + '">' + (on ? 'Hide' : 'Post it') + '</button>';
-    if (x.kind === 'ask' && live(x)) h += '<a class="ad-btn" href="/wants/' + esc(x.wid) + '/" target="_blank" rel="noopener">View</a><button type="button" class="ad-btn" data-open="edit">Edit wording</button>';
-    if (x.kind === 'answer' && live(x) && x.others && x.others.length) h += '<button type="button" class="ad-btn" data-open="merge">Merge</button>';
+    var ids = ' data-src="' + x.src + '" data-wid="' + esc(x.wid || '') + '" data-nid="' + esc(x.nid || '') + '" data-okey="' + esc(x.okey || '') + '" data-qid="' + esc(x.qid || '') + '" data-cid="' + esc(x.cid || '') + '"';
+    if (x.status === 'merged') h += '<span class="ad-done">Merged into another answer</span>';
+    else {
+      // Accept: public and checked, readers' reports cleared. Decline: off the site. Edit: fix the wording.
+      var accepted = x.status === 'ok' && !x.reports, declined = !live(x) && x.status !== 'hidden' && x.status !== 'reported';
+      h += accepted ? '<span class="ad-done ad-yes">✓ Accepted</span>' : '<button type="button" class="ad-btn ad-accept" data-mod="show"' + ids + '>✓ Accept</button>';
+      h += declined ? '<span class="ad-done ad-no">✕ Declined</span>' : '<button type="button" class="ad-btn ad-decline" data-mod="hide"' + ids + '>✕ Decline</button>';
+      h += '<button type="button" class="ad-btn" data-open="edit">✎ Edit</button>';
+      if (x.kind === 'answer' && live(x) && x.others && x.others.length) h += '<button type="button" class="ad-btn" data-open="merge">Merge</button>';
+      if (x.kind === 'ask' && live(x)) h += '<a class="ad-btn" href="/wants/' + esc(x.wid) + '/" target="_blank" rel="noopener">View</a>';
+    }
     h += '</div>';
-    if (x.kind === 'ask') h += '<div class="ad-panel" data-panel="edit" hidden><p class="small muted">Answers stay with the ask, so keep the meaning the same. If the meaning was unclear, hide it instead.</p>' +
-      '<label>Ask<input type="text" data-rtitle maxlength="120" value="' + esc(x.title) + '"></label>' +
-      '<label>Background (optional)<input type="text" data-rwhy maxlength="300" value="' + esc(x.why || '') + '"></label>' +
-      '<div class="ad-acts"><button type="button" class="ad-btn ad-primary" data-rename data-wid="' + esc(x.wid) + '">Save wording</button><button type="button" class="ad-btn" data-open="edit">Cancel</button></div></div>';
+    var max = { ask: 120, answer: 60, words: 2000, comment: 600 }[x.kind];
+    if (x.status !== 'merged') h += '<div class="ad-panel" data-panel="edit" hidden><p class="small muted">' + (x.kind === 'comment' ? 'Fix the wording. Keep what they meant.' : 'Answers stay with it, so keep the meaning the same. If the meaning was unclear, decline it instead.') + '</p>' +
+      '<label>' + ({ ask: 'Ask', answer: 'Answer', words: 'Their words', comment: 'Comment' }[x.kind]) + (x.kind === 'ask' || x.kind === 'answer' ? '<input type="text" data-rtitle maxlength="' + max + '" value="' + esc(x.title) + '">' : '<textarea data-rtitle rows="3" maxlength="' + max + '">' + esc(x.title) + '</textarea>') + '</label>' +
+      (x.kind === 'ask' ? '<label>Background (optional)<input type="text" data-rwhy maxlength="300" value="' + esc(x.why || '') + '"></label>' : '') +
+      '<div class="ad-acts"><button type="button" class="ad-btn ad-primary" data-rename' + ids + ' data-kind="' + x.kind + '">Save</button><button type="button" class="ad-btn" data-open="edit">Cancel</button></div></div>';
     if (x.kind === 'answer' && x.others && x.others.length) h += '<div class="ad-panel" data-panel="merge" hidden><label>Same as which answer? Votes move over.<select data-minto>' + x.others.map(function (o) { return '<option value="' + esc(o.key) + '">' + esc(o.label) + '</option>'; }).join('') + '</select></label>' +
       '<label>Name to show after merging (optional)<input type="text" data-mlabel maxlength="60" placeholder="Keep the current name"></label>' +
       '<div class="ad-acts"><button type="button" class="ad-btn ad-primary" data-merge data-wid="' + esc(x.wid) + '" data-from="' + esc(x.okey) + '">Merge</button><button type="button" class="ad-btn" data-open="merge">Cancel</button></div></div>';
@@ -250,8 +259,10 @@
     if (o) { var p = o.closest('.ad-item').querySelector('[data-panel="' + o.getAttribute('data-open') + '"]'); p.hidden = !p.hidden; return; }
     var rb = e.target.closest('[data-rename]');
     if (rb) {
-      var box = rb.closest('.ad-panel'); rb.disabled = true;
-      api('w', { admin: 'rename', wid: rb.getAttribute('data-wid'), title: box.querySelector('[data-rtitle]').value.trim(), why: box.querySelector('[data-rwhy]').value.trim() })
+      var box = rb.closest('.ad-panel'), val = box.querySelector('[data-rtitle]').value.trim(), g = function (k) { return rb.getAttribute(k) || undefined; }; rb.disabled = true;
+      var w = box.querySelector('[data-rwhy]');
+      (g('data-src') === 'c' ? api('c', { admin: 'edit', qid: g('data-qid'), cid: g('data-cid'), text: val })
+        : api('w', { admin: 'rename', wid: g('data-wid'), nid: g('data-nid'), okey: g('data-okey'), title: val, why: w ? w.value.trim() : undefined }))
         .then(function (j) { if (!j.ok) { rb.disabled = false; rb.textContent = j.error || 'Could not save'; return; } loadAll(); });
       return;
     }

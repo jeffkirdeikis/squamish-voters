@@ -2143,6 +2143,14 @@ write('/subscribers/', page({ url: '/subscribers/', title: 'Admin', noindex: tru
 .ad-acts { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .5rem; }
 .ad-btn { font: inherit; font-size: .9rem; font-weight: 600; padding: .35rem .8rem; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; text-decoration: none; }
 .ad-btn:hover { border-color: var(--ink-2); }
+.ad-accept { border-color: var(--yes, #2e7d32); color: var(--yes, #2e7d32); }
+.ad-accept:hover { background: var(--yes, #2e7d32); color: #fff; }
+.ad-decline { border-color: #b3261e; color: #b3261e; }
+.ad-decline:hover { background: #b3261e; color: #fff; }
+.ad-done { font-size: .9rem; font-weight: 700; padding: .35rem .6rem; color: var(--ink-2); }
+.ad-yes { color: var(--yes, #2e7d32); }
+.ad-no { color: #b3261e; }
+.ad-panel textarea { font: inherit; font-weight: 400; padding: .4rem .5rem; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); resize: vertical; }
 .ad-primary { background: var(--brand); border-color: var(--brand); color: #fff; }
 .ad-panel { display: grid; gap: .5rem; margin-top: .6rem; padding: .7rem; background: var(--surface-2); border-radius: 8px; }
 .ad-panel label { display: grid; gap: .2rem; font-size: .9rem; font-weight: 600; }

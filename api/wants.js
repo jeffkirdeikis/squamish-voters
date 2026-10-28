@@ -14,7 +14,7 @@
 //        label and says if it means the same as an answer already there. The writer's answer moves to the new option.
 //   POST { action: 'report', wid, okey, voter }        -> { ok }   (three reports hide a resident's answer)
 //   GET  ?admin=1, POST { admin: 'hide' | 'show', wid [, nid | okey] }, both with Authorization: Bearer <ADMIN_TOKEN>
-//   POST { admin: 'rename', wid, title, why }         fixes the wording of a resident's ask (votes stay)
+//   POST { admin: 'rename', wid [, nid | okey], title, why? }  fixes the wording of an ask, added words or an added answer (votes stay)
 //   POST { admin: 'merge', wid, from, into, label? }  moves every vote from one added answer to another (and can rename it)
 import { neon } from '@neondatabase/serverless';
 import { createHash, createHmac, randomBytes } from 'node:crypto';
@@ -230,11 +230,16 @@ export default async function handler(req, res) {
         }) });
     }
     if (b.admin === 'rename') {
-      // Fix the wording of a resident's ask. Votes stay, so only for changes that keep its meaning.
-      const title = clean(b.title, 120);
+      // Fix the wording of a resident's ask, an added answer or added words. Votes stay, so only for changes that keep the meaning.
+      const wid = String(b.wid || ''), title = clean(b.title, b.okey ? 60 : b.nid ? 2000 : 120);
       if (!title) return res.status(400).json({ ok: false, error: 'Write the new wording.' });
-      const [w] = await sql`UPDATE sv_wants SET title = ${title}, why = ${clean(b.why, 300)} WHERE id = ${String(b.wid || '')} RETURNING id`;
-      return w ? res.json({ ok: true }) : res.status(404).json({ ok: false });
+      let done = [];
+      if (b.okey) done = await sql`UPDATE sv_want_options SET label = ${title} WHERE wid = ${wid} AND key = ${String(b.okey)} RETURNING key`;
+      else if (b.nid) {
+        const [n] = (await sql`SELECT wid, voter FROM sv_want_notes WHERE wid = ${wid}`).filter((r) => hash(`n|${r.wid}|${r.voter}`).slice(0, 12) === b.nid);
+        if (n) done = await sql`UPDATE sv_want_notes SET body = ${title} WHERE wid = ${n.wid} AND voter = ${n.voter} RETURNING wid`;
+      } else done = await sql`UPDATE sv_wants SET title = ${title}, why = ${clean(b.why, 300)} WHERE id = ${wid} RETURNING id`;
+      return done.length ? res.json({ ok: true }) : res.status(404).json({ ok: false });
     }
     const st = b.admin === 'show' ? 'ok' : 'removed';
     if (b.admin === 'merge') {
@@ -250,12 +255,14 @@ export default async function handler(req, res) {
       if (label && into.startsWith('x')) await sql`UPDATE sv_want_options SET label = ${label} WHERE wid = ${wid} AND key = ${into}`;
       return res.json({ ok: true });
     }
-    if (b.okey) await sql`UPDATE sv_want_options SET status = ${st} WHERE wid = ${String(b.wid || '')} AND key = ${String(b.okey)}`;
+    // Accepting clears readers' reports too, so it doesn't hide itself again on the next one.
+    if (b.admin === 'show') await sql`DELETE FROM sv_want_reports WHERE wid = ${b.okey ? `${String(b.wid || '')}#${String(b.okey)}` : String(b.wid || '')}`;
+    if (b.okey) await sql`UPDATE sv_want_options SET status = ${st}, reports = CASE WHEN ${st} = 'ok' THEN 0 ELSE reports END WHERE wid = ${String(b.wid || '')} AND key = ${String(b.okey)}`;
     else if (b.nid) {
       const [n] = (await sql`SELECT wid, voter FROM sv_want_notes WHERE wid = ${String(b.wid || '')}`).filter((r) => hash(`n|${r.wid}|${r.voter}`).slice(0, 12) === b.nid);
       if (!n) return res.status(404).json({ ok: false });
       await sql`UPDATE sv_want_notes SET status = ${st} WHERE wid = ${n.wid} AND voter = ${n.voter}`;
-    } else await sql`UPDATE sv_wants SET status = ${st} WHERE id = ${String(b.wid || '')}`;
+    } else await sql`UPDATE sv_wants SET status = ${st}, reports = CASE WHEN ${st} = 'ok' THEN 0 ELSE reports END WHERE id = ${String(b.wid || '')}`;
     return res.json({ ok: true });
   }
 
