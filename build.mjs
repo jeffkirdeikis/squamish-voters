@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import crypto from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import { promiseTally, tallyText, positionStatus, confirmedByMinutes } from './scripts/pipeline/status.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
@@ -55,6 +56,9 @@ const GLOSSARY = read('glossary.json');
   scan(path.join(ROOT, 'data')); // skips the candidates.pre-*.json backups, which are never published
   if (bad.length) throw new Error(`Source links with a space in them (fix the address):\n${bad.join('\n')}`);
 })();
+// The commit this build came from, as <meta name="build"> on every page, so the deploy watch can tell when the live
+// site falls behind main (.github/workflows/deploy-watch.yml). Mac deploys pass BUILD_SHA (scripts/pipeline/mac/run.sh).
+const BUILD_SHA = process.env.VERCEL_GIT_COMMIT_SHA || process.env.BUILD_SHA || (() => { try { return execFileSync('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim(); } catch { return ''; } })();
 const ORIGIN = 'https://squamishvoters.com';
 const REPO = 'https://github.com/jeffkirdeikis/squamish-voters';
 const SITE = { name: 'Squamish Voters', updated: new Date().toLocaleDateString('en-CA', { timeZone: 'America/Vancouver', month: 'long', day: 'numeric', year: 'numeric' }), contact: ctx.contact_email || null };
@@ -377,7 +381,7 @@ function page({ url, title, desc, body, hero = '', scripts = '', noindex = false
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="${img}">
 <link rel="canonical" href="https://squamishvoters.com__PATH__">
-<meta name="theme-color" content="#0f4c3a">${noindex ? '\n<meta name="robots" content="noindex, nofollow">' : ''}${jsonld ? `\n<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
+<meta name="theme-color" content="#0f4c3a">${BUILD_SHA ? `\n<meta name="build" content="${BUILD_SHA}">` : ''}${noindex ? '\n<meta name="robots" content="noindex, nofollow">' : ''}${jsonld ? `\n<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">

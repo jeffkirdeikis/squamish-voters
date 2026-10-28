@@ -1,0 +1,53 @@
+# Deploy watch: is the live site showing what is on main? Every page carries <meta name="build" content="<commit>">
+# (build.mjs). Every 30 minutes this compares that commit with main. If main has a commit that has waited more than
+# 3 hours without going live (a failed Vercel build, a lost Git connection, an expired login), it opens one GitHub issue,
+# and GitHub emails the repository owner (the issue @mentions the owner). When the site catches up, it closes the issue on its own.
+# 3 hours, not 2: the Mac's video job runs about every 2 hours, so a normal wait can come close to 2.
+# Read only: it never deploys or changes anything except that one issue.
+name: Deploy watch
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 200
+      - name: Compare the live site with main
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MAX_HOURS: '3'
+          TITLE: 'The live site is behind main'
+        run: |
+          set -u
+          live=$(curl -fsSL --max-time 20 https://squamishvoters.com/ | grep -o '<meta name="build" content="[0-9a-f]*"' | grep -o '[0-9a-f]\{7,\}' || true)
+          head=$(git rev-parse HEAD)
+          open=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number --jq '.[0].number' || true)
+          if [ -z "$live" ]; then echo "The live page has no build tag yet (deployed before the tag existed); nothing to compare."; exit 0; fi
+          if [ "$live" = "$head" ] || git merge-base --is-ancestor "$head" "$live" 2>/dev/null; then
+            echo "Live is up to date ($live)."
+            [ -n "$open" ] && gh issue close "$open" --comment "The live site caught up: it now shows ${live:0:7}." || true
+            exit 0
+          fi
+          # The oldest commit on main that is not live yet, and how long it has waited.
+          if git cat-file -e "$live^{commit}" 2>/dev/null; then
+            oldest=$(git log --reverse --format=%ct "$live..$head" | head -1)
+          else
+            oldest=$(git log -1 --format=%ct "$head")  # live commit unknown here (deployed from a local copy): use main's newest
+          fi
+          waited=$(( ( $(date +%s) - ${oldest:-$(date +%s)} ) / 3600 ))
+          echo "Live ${live:0:7}, main ${head:0:7}, oldest waiting commit is ${waited} h old."
+          if [ "$waited" -lt "$MAX_HOURS" ]; then exit 0; fi
+          [ -n "$open" ] && { echo "Issue #$open already open."; exit 0; }
+          gh issue create --title "$TITLE" --body "squamishvoters.com shows commit \`${live:0:7}\`, but main is at \`${head:0:7}\`. The oldest change that is not live has waited about ${waited} hours.
+
+          Check the latest deployments on Vercel (project squamish-votes): a failed build shows there in red. If the Git connection or the Vercel login lapsed, redeploying main fixes it.
+
+          This issue closes on its own once the live site catches up. @jeffkirdeikis"
