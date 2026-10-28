@@ -349,6 +349,8 @@ const TODAY_STRIP = `<a class="td-strip no-print" href="/today/" data-today-stri
 const clip = (s, n) => (!s || s.length <= n ? s : `${s.slice(0, n - 1).replace(/[\s,;:]+\S*$/, '')}…`);
 // updated: the date this page's own content last changed (from its data), shown in the footer instead of the build date.
 function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null, image = null, imageAlt = null, updated = null }) {
+  // Review item 21: the pages search sends people to end with the weekly email sign up, unless they have one already.
+  if (SIGNUP_ON.some((u) => url.startsWith(u)) && !body.includes('id="signup"')) body += signupBox(url.split('/')[1] || 'home');
   const img = image || 'https://squamishvoters.com/og.png?v=4';
   const cur = (href) => ((href === '/' ? url === '/' : url.startsWith(href)) ? ' aria-current="page"' : '');
   const inGroup = (g) => [g.href, ...g.items.map(([h]) => h)].some((h) => url.startsWith(h));
@@ -673,6 +675,7 @@ function qCard(q) {
     ${t.length ? `<p class="small">Tested by: ${t.map((d) => `<a href="${mUrl(d.m)}">${escGl(d.title)}</a>`).join(', ')}</p>` : ''}</div>`;
 }
 const FB_CARD = '<a class="fbcard" href="https://www.facebook.com/groups/1090076830319905" target="_blank" rel="noopener"><img src="/img/facebook-group.jpg" width="400" height="149" alt="Squamish Voters and Politics Facebook group" loading="lazy"><span class="fbc-txt"><b>Join the conversation on Facebook</b><span>Talk about council decisions with other people in Squamish in the Squamish Voters and Politics group.</span><span class="fbc-btn">Join the group</span></span></a>';
+const SIGNUP_ON = ['/council/', '/results/', '/scorecard/', '/issues/', '/faq/', '/meetings/', '/explained/', '/compare/'];
 const signupBox = (where) => `<section class="card signup no-print" id="signup"><h2>Get it by email, once a week</h2>
   <p>Every Friday morning: what council decided that week and what’s coming up. Plain words, nothing else. Unsubscribe any time.</p>
   <form data-subscribe="${where}" novalidate>
