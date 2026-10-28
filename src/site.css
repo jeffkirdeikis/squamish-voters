@@ -2092,3 +2092,4 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .td-strip.ts-more .ts-hint { display: grid; place-items: center; position: absolute; right: .35rem; top: 50%; transform: translateY(-50%); width: 1.7rem; height: 1.7rem; border-radius: 50%; background: #ffb703; color: #14211c; font-weight: 800; pointer-events: none; box-shadow: 0 1px 6px rgba(0,0,0,.35); }
 @media (prefers-reduced-motion: no-preference) { .td-strip.ts-more .ts-hint { animation: ts-nudge 1.6s ease-in-out 3; } }
 @keyframes ts-nudge { 0%, 100% { margin-right: 0; } 50% { margin-right: .3rem; } }
+.card > h2:first-child { margin-top: 0; }
