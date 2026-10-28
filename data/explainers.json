@@ -1,0 +1,136 @@
+[
+  {
+    "slug": "why-squamish-property-taxes-went-up-12-8-percent",
+    "track": "budget-2027",
+    "question": "Why did Squamish property taxes go up 12.8%?",
+    "short": "Why Squamish property taxes went up 12.8%",
+    "published": "2026-10-27",
+    "checked": "2026-10-27",
+    "answer": "The District of Squamish raised the property tax money it collects to run the town by 12.8% for 2026, to $56.1 million. Most of the increase paid for costs it was already committed to, such as staff wages and benefits, RCMP policing, transit, inflation and debt on projects already approved. Council debated the budget in late 2025 and adopted it unanimously on January 13, 2026.",
+    "answer_src": [1, 2],
+    "sections": [
+      {
+        "h": "Was it 2025 or 2026?",
+        "p": [
+          { "t": "Both dates come up. Council worked on the budget in late 2025 and adopted the 2026 to 2035 financial plan on January 13, 2026, so the 12.8% increase is on 2026 tax bills. The year before, 2025, taxes for operations went up 12.5%.", "s": [2, 4] }
+        ]
+      },
+      {
+        "h": "What it cost a typical property",
+        "p": [{ "t": "The District's 2026 figures for the municipal part of the tax bill. School and regional district taxes are extra.", "s": [3] }],
+        "table": {
+          "head": ["Property", "2026 assessed value", "2026 municipal tax", "Change from 2025"],
+          "rows": [
+            ["Average single family home", "$1,553,742", "$4,466", "+$520 (13.2%)"],
+            ["Average home, all types", "$1,145,892", "$3,294", "+$320 (10.8%)"],
+            ["Average strata home", "$845,317", "$2,430", "+$237 (10.8%)"],
+            ["Average business", "$1,678,456", "$13,066", "+$1,618 (14.1%)"]
+          ]
+        },
+        "after": [{ "t": "Earlier estimates said about $382 or $389 more for the average home. Those were drafts; the figures above are from April 2026, after tax rates were set.", "s": [2, 5] }]
+      },
+      {
+        "h": "Where the increase came from",
+        "p": [{ "t": "When staff presented the draft budget on December 9, 2025, it was a 13.1% increase. They broke it down like this (the final increase was 12.8%):", "s": [5] }],
+        "list": [
+          "About 7.7 points: costs already committed, such as labour and benefit contracts, policing, transit, inflation and debt payments on approved projects.",
+          "About 2.9 points: keeping services at their current level, including fire services and transit.",
+          "About 2.4 points: money set aside to repair and replace roads, pipes and buildings.",
+          "The rest: new or one time projects and community grants."
+        ],
+        "after": [
+          { "t": "Staff said most of the increase came from costs the District could not avoid, not new services. The District's tax notice also lists growing RCMP and fire costs, new housing duties from the Province, debt for new facilities, and building reserves ($25.1 million in 2026).", "s": [5, 1] },
+          { "t": "Armand Hurford, mayor at the time, called the town's shortage of facilities one of the main drivers.", "s": [2] }
+        ]
+      },
+      {
+        "h": "Water, sewer and garbage fees",
+        "p": [{ "t": "Utility fees are billed separately. For 2026, sewer (wastewater) fees went up 7.2%, water 1.8% and garbage collection 5.2%.", "s": [2, 5] }]
+      },
+      {
+        "h": "Why the total tax collected rose more than 12.8%",
+        "p": [{ "t": "In spring 2026 the District collected $5.8 million more than planned from Woodfibre LNG, after the plant's assessment jumped. Council put that money into reserves for building projects instead of daily operations, so it did not lower anyone's bill. With it, total municipal taxes for 2026 were $61.9 million.", "s": [3, 6] }]
+      },
+      {
+        "h": "What comes next",
+        "p": [{ "t": "The 10 year plan expects increases of about 13% in 2027 and 12.9% in 2028, mostly for RCMP contracts, debt payments and more fire staff and transit. Staff's first draft for 2027, shown in September 2026, starts at 10.4% before new items. The new council decides the 2027 budget over the winter.", "s": [2, 7] }]
+      }
+    ],
+    "faq": [
+      ["How much did Squamish property taxes go up in 2026?", "The money the District collects for operations went up 12.8%, to $56.1 million. For the average single family home, the municipal part of the bill went up $520, to $4,466."],
+      ["Why did Squamish raise property taxes so much?", "Mostly for costs it was already committed to: wages and benefits, RCMP policing, transit, inflation and debt on approved projects. Smaller parts went to keeping fire and transit service levels and to reserves for repairing roads, pipes and buildings."],
+      ["Did Woodfibre LNG's taxes lower the increase?", "No. The extra $5.8 million from Woodfibre in 2026 went into reserves for building projects, not daily operations."]
+    ],
+    "sources": [
+      ["District of Squamish 2026 property tax notice insert", "https://squamish.ca/assets/Tax-inserts/Tax-insert-2026-web.pdf"],
+      ["Squamish Chief, January 16, 2026: council adopts first 10 year financial plan", "https://www.squamishchief.com/local-news/update-tough-budget-squamish-council-adopts-first-decade-long-financial-plan-11710524"],
+      ["District staff report, April 21, 2026: 2026 tax rate bylaw", "https://squamish.civicweb.net/FileStorage/61067136D7374195B13427429A15321C-2026%20Tax%20Rate%20Bylaw%20-%20Report%20to%20Council.pdf"],
+      ["District of Squamish 2025 property tax notice insert", "https://squamish.ca/assets/2025-budget/2025-Tax-insert.pdf"],
+      ["Squamish Chief, December 16, 2025: budget forum", "https://www.squamishchief.com/local-news/brennan-park-woodfibre-lng-tensions-surface-at-squamish-forum-11633022"],
+      ["Squamish Chief, April 24, 2026: financial plan amended with Woodfibre LNG revenue", "https://www.squamishchief.com/local-news/squamish-council-amends-10-year-financial-plan-boosts-reserves-with-woodfibre-lng-tax-windfall-12189221"],
+      ["District draft 2027 to 2036 financial plan, general fund (September 29, 2026)", "https://squamish.civicweb.net/FileStorage/464F28A678254CD3BECE0240DCCE0208-2027-2036%20Financial%20Plan%20%E2%80%93%20General%20Fund%20Operating%20.pdf"]
+    ]
+  },
+  {
+    "slug": "how-much-squamish-depends-on-woodfibre-lng-taxes",
+    "track": "woodfibre-tax-deal",
+    "question": "How much does Squamish depend on Woodfibre LNG's taxes?",
+    "short": "How much Squamish depends on Woodfibre LNG's taxes",
+    "published": "2026-10-27",
+    "checked": "2026-10-27",
+    "answer": "Woodfibre LNG paid about 12% of the District of Squamish's municipal property taxes in 2026, up from 3% in 2025, as the plant's assessed value rose while it was built. It is the town's only major industry property. The District puts that extra money into reserves rather than daily operations, so the operating budget does not depend on it.",
+    "answer_src": [1, 2, 3],
+    "sections": [
+      {
+        "h": "The numbers",
+        "p": [{ "t": "Municipal property taxes only, from the District's tax rate reports.", "s": [1, 2] }],
+        "table": {
+          "head": ["Year", "Woodfibre LNG", "All municipal taxes", "Woodfibre's share"],
+          "rows": [
+            ["2025", "$1.47 million", "$49.7 million", "3.0%"],
+            ["2026", "$7.24 million", "$61.9 million", "11.7%"]
+          ]
+        },
+        "after": [{ "t": "The District's Woodfibre page says the company paid $7.7 million in 2026. The tax rate report shows $7.24 million levied on its property. Neither explains the difference.", "s": [3, 2] }]
+      },
+      {
+        "h": "Why it jumped",
+        "p": [
+          { "t": "The plant's assessed value rose 391% from 2025 to 2026 as construction went on, from $11.8 million to $57.9 million. The tax rate stayed the same: $125 for every $1,000 of assessed value for major industry, set in 2024 when Squamish had no property in that class.", "s": [2, 1, 3] },
+          { "t": "For comparison, the District says the average major industry rate in B.C. communities that have one was $31 per $1,000 in 2026. When the pulp mill closed in 2006, the rate on that site was $58 per $1,000 and the mill paid about 16% of the town's municipal taxes.", "s": [3] }
+        ]
+      },
+      {
+        "h": "What the District does with it",
+        "p": [
+          { "t": "District staff wrote that it is best practice not to rely on revenue from a single large business to fund ongoing operations. So the District puts Woodfibre money above what it planned for into reserves for one time spending: $1.5 million in 2025 and $5.8 million in 2026.", "s": [2, 4, 5] }
+        ]
+      },
+      {
+        "h": "The rejected deal and the court cases",
+        "p": [
+          { "t": "Woodfibre has three legal cases against the District over its 2025 and 2026 taxes and other matters. In 2026 the District negotiated a 10 year deal worth at least $142 million: fixed payments of $117 million into a capital reserve, plus municipal taxes capped at $2.5 million a year (rising with inflation from 2028). The deal would have ended the court cases.", "s": [3, 6] },
+          { "t": "Council rejected it 5 to 2 on September 22, 2026. Councillors Andersen and French voted for the deal. So regular property taxation continues and the court cases go ahead. District staff said regular taxes could end up higher or lower than the deal.", "s": [7, 6] }
+        ]
+      },
+      {
+        "h": "What comes next",
+        "p": [{ "t": "The new council sets the 2027 tax rates, including the major industry rate, in spring 2027. It could also try to negotiate a new agreement.", "s": [3] }]
+      }
+    ],
+    "faq": [
+      ["How much tax does Woodfibre LNG pay Squamish?", "About $7.2 million in municipal property taxes in 2026 (the District's Woodfibre page says $7.7 million), up from $1.47 million in 2025."],
+      ["What share of Squamish's taxes comes from Woodfibre LNG?", "About 12% of municipal property taxes in 2026, up from 3% in 2025."],
+      ["Does Squamish's budget depend on Woodfibre LNG?", "The District says it is best practice not to rely on one large business for ongoing operations, so it puts Woodfibre money above plan into reserves for one time spending instead."]
+    ],
+    "sources": [
+      ["District staff report, April 22, 2025: 2025 tax rate bylaw", "https://squamish.civicweb.net/FileStorage/B69C9653190D4A85AA5205C8C7E00466-District%20of%20Squamish%202025%20Property%20Tax%20Rates%20Bylaw.pdf"],
+      ["District staff report, April 21, 2026: 2026 tax rate bylaw", "https://squamish.civicweb.net/FileStorage/61067136D7374195B13427429A15321C-2026%20Tax%20Rate%20Bylaw%20-%20Report%20to%20Council.pdf"],
+      ["District of Squamish: Woodfibre LNG agreement page and questions", "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/wlng-agreement/"],
+      ["District of Squamish 2025 property tax notice insert", "https://squamish.ca/assets/2025-budget/2025-Tax-insert.pdf"],
+      ["Squamish Chief, April 24, 2026: financial plan amended with Woodfibre LNG revenue", "https://www.squamishchief.com/local-news/squamish-council-amends-10-year-financial-plan-boosts-reserves-with-woodfibre-lng-tax-windfall-12189221"],
+      ["Squamish Reporter, September 18, 2026: the proposed $142 million agreement", "https://www.squamishreporter.com/2026/09/18/wlng-lawsuits-would-be-dismissed-under-proposed-142-million-squamish-agreement/"],
+      ["Squamish Reporter, September 23, 2026: council rejects the tax deal", "https://www.squamishreporter.com/2026/09/23/squamish-council-rejects-woodfibre-lng-tax-deal/"]
+    ]
+  }
+]

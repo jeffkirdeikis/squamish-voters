@@ -21,6 +21,8 @@ const TRACKED = fs.existsSync(path.join(ROOT, 'data', 'tracked-issues.json')) ? 
 const PART = fs.existsSync(path.join(ROOT, 'data', 'participate.json')) ? read('participate.json') : {};
 const HOODS = PART.neighbourhoods || [];
 // Squamish news: short stories from public sources, newest first (a side section; council stays the focus).
+// Plain answers to the money questions people ask most (each one researched, every fact with its source).
+const EXPLAINERS = fs.existsSync(path.join(ROOT, 'data', 'explainers.json')) ? read('explainers.json') : [];
 const NEWS = fs.existsSync(path.join(ROOT, 'data', 'news.json')) ? read('news.json') : { sections: [], coming: [], stories: [] };
 const ctx = read('context.json');
 const TR = read('trustees.json');
@@ -1424,6 +1426,7 @@ if (TRACKED.length) {
       <h1>${esc(t.question)}</h1>
       <p class="lede">${escGl(t.summary)}</p>
       ${areaTags(t.areas)}
+      ${EXPLAINERS.filter((e) => e.track === t.slug).map((e) => `<p class="notice info"><b>Explained:</b> <a href="/explained/${e.slug}/">${esc(e.question)}</a></p>`).join('')}
       <section class="card"><h2>Where it stands${now ? ` <span class="small">step ${now.i + 1} of ${now.n}</span>` : ''}</h2>
         <ol class="isteps">${(t.steps || []).map((x) => `<li class="st-${esc(x.status)}"><span class="sdot" aria-hidden="true">${STEP_ICON[x.status] || '○'}</span><span><b>${esc(x.label)}</b>${x.date ? ` <span class="small">${esc(fmtLong(x.date))}</span>` : ''}${x.note ? `<br><span class="small">${escGl(x.note)}</span>` : ''}${src(x.source_url)}</span></li>`).join('')}</ol>
         ${t.what_next ? `<p><b>What happens next:</b> ${escGl(t.what_next)}</p>` : ''}</section>
@@ -2036,6 +2039,7 @@ for (const ic of ctx.issues || []) {
     ...(ctx.pay ? [['How much is the mayor of Squamish paid?', `In ${ctx.pay.year} the mayor was paid $${ctx.pay.mayor.toLocaleString('en-CA')} and each councillor about $${ctx.pay.councillor.toLocaleString('en-CA')}, not counting expenses and benefits (District of Squamish financial statement).`, isUrl(ctx.pay.source_url) ? `<a href="${esc(ctx.pay.source_url)}" target="_blank" rel="noopener">Source</a>` : '']] : []),
     ['Is this site run by the District?', 'No. Squamish Voters is independent and not connected to the District, council or any group. It does not endorse anyone.', '<a href="/about/">About this site</a>'],
   ].filter(([, a]) => a);
+  FAQ.push(...EXPLAINERS.map((e) => [e.question, e.answer, `<a href="/explained/${e.slug}/">${esc(e.short)}, explained</a>`]));
   write('/faq/', page({
     url: '/faq/', title: 'Squamish council: quick answers',
     desc: 'Who is on Squamish council, when council meets, how to watch, what a public hearing is, and how we track promises: short answers.',
@@ -2210,6 +2214,30 @@ for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 
 fs.writeFileSync(path.join(DIST, 'botid.js'), `(function(){${BOTID_JS}})();`);
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
+// ---------- explainers: one money question each, answered first, then the detail (/explained/<slug>/) ----------
+for (const e of EXPLAINERS) {
+  const S = e.sources, ref = (ns) => (ns || []).map((n) => src(S[n - 1]?.[1], String(n))).join('');
+  const para = (x) => `<p>${escGl(x.t)}${ref(x.s)}</p>`;
+  const others = EXPLAINERS.filter((o) => o !== e), tr = TRACKED.find((t) => t.slug === e.track);
+  write(`/explained/${e.slug}/`, page({ url: `/explained/${e.slug}/`, title: e.question, desc: e.answer,
+    jsonld: [crumbLd([['Home', '/'], ['Quick answers', '/faq/'], [e.short, `/explained/${e.slug}/`]]),
+      { '@context': 'https://schema.org', '@type': 'Article', headline: e.question, description: e.answer, datePublished: e.published, dateModified: e.checked, inLanguage: 'en-CA',
+        author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/` }, publisher: { '@type': 'Organization', name: SITE.name, url: `${ORIGIN}/` },
+        about: { '@type': 'Place', name: 'Squamish, British Columbia' }, citation: S.map(([, u]) => u) },
+      { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: e.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }],
+    body: `<p class="crumbs"><a href="/faq/">← Quick answers</a></p>
+    <h1>${esc(e.question)}</h1>
+    <p class="lede">${escGl(e.answer)}${ref(e.answer_src)}</p>
+    <p class="small">Checked ${esc(fmtLong(e.checked))} against District of Squamish records. Numbers link to their sources.</p>
+    ${e.sections.map((x) => `<h2>${esc(x.h)}</h2>${(x.p || []).map(para).join('')}
+      ${x.table ? `<div class="table-scroll"><table class="res-how"><thead><tr>${x.table.head.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${x.table.rows.map((r) => `<tr>${r.map((c, i) => (i ? `<td>${esc(c)}</td>` : `<th scope="row">${esc(c)}</th>`)).join('')}</tr>`).join('')}</tbody></table></div>` : ''}
+      ${x.list ? `<ul>${x.list.map((l) => `<li>${escGl(l)}</li>`).join('')}</ul>` : ''}${(x.after || []).map(para).join('')}`).join('')}
+    ${tr ? `<p class="notice info">Follow what council does next: <a href="/track/${tr.slug}/">${esc(tr.title)}</a>, with every vote by member.</p>` : ''}
+    <h2>Sources</h2><ol class="small">${S.map(([l, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(l)}</a></li>`).join('')}</ol>
+    ${others.length ? `<h2>More explained</h2><ul>${others.map((o) => `<li><a href="/explained/${o.slug}/">${esc(o.question)}</a></li>`).join('')}</ul>` : ''}`,
+  }));
+}
+
 // ---------- open data: the site's records as spreadsheet files anyone can reuse with credit (CC BY 4.0) ----------
 {
   const csv = (rows) => rows.map((r) => r.map((v) => { const t = String(v ?? ''); return /[",\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t; }).join(',')).join('\r\n') + '\r\n';
@@ -2294,6 +2322,7 @@ ${[...upcoming.slice(0, 4), ...past.slice(0, 12)].map((m) => `- [${fmtLong(m.dat
   const issues = `## Issues we follow
 ${TRACKED.map((t) => `- [${t.title}](${U(`/track/${t.slug}/`)}): ${t.question}`).join('\n')}
 `;
+  const explained = EXPLAINERS.length ? `## Explained\n${EXPLAINERS.map((e) => `- [${e.question}](${U(`/explained/${e.slug}/`)}): ${e.answer}`).join('\n')}\n` : '';
   const more = `## Promises and record
 - [Promise tracker](${U('/promises/')}): ${PROMISES.length} promises the mayor and councillors made in the 2026 campaign, each marked kept or broken as council votes.
 - [Said vs did](${U('/said-vs-did/')}): what each member said during the campaign next to how they later voted.
@@ -2314,7 +2343,7 @@ ${TRACKED.map((t) => `- [${t.title}](${U(`/track/${t.slug}/`)}): ${t.question}`)
 ## Optional
 - [Full text for AI assistants](${U('/llms-full.txt')}): every answer, promise and issue summary in one file.
 `;
-  fs.writeFileSync(path.join(DIST, 'llms.txt'), [head, members, meetings, issues, more].join('\n'));
+  fs.writeFileSync(path.join(DIST, 'llms.txt'), [head, members, meetings, issues, explained, more].filter(Boolean).join('\n'));
   const qa = ([q, a]) => `### ${q}\n${plain(a)}\n`;
   const full = [head,
     `## Quick answers\n${(LLM.faq || []).map(qa).join('\n')}`,
