@@ -9,7 +9,7 @@
   // even when so few candidates are matchable that they'd otherwise fall into the top 6.
   var RECOMMEND = 55;
   var THIN = 6; // below this many comparable answers the card says "only N" — a 76% on five questions is weaker than a 61% on ten
-  var CHOICES = [[2, 'Strongly agree'], [1, 'Somewhat agree'], [0, 'Mixed — I’m in the middle'], [-1, 'Somewhat disagree'], [-2, 'Strongly disagree']];
+  var CHOICES = [[2, 'Strongly agree'], [1, 'Somewhat agree'], [0, 'Mixed, I’m in the middle'], [-1, 'Somewhat disagree'], [-2, 'Strongly disagree']];
   var state = SV.store.get('sv26_quiz', null) || { answers: {}, important: {}, i: 0, done: false };
 
   function save() { SV.store.set('sv26_quiz', state); }
@@ -22,13 +22,13 @@
       '<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + Q.length + '" aria-valuenow="' + state.i + '"><div style="width:' + (state.i / Q.length * 100) + '%"></div></div>' +
       '<p class="q-count"><b>' + (state.i + 1) + ' of ' + Q.length + '</b> · ' + esc(q.topic) + (Q.length - state.i - 1 > 0 && Q.length - state.i - 1 <= 3 ? ' · <b>' + (Q.length - state.i - 1) + ' to go</b>' : '') + '</p>' +
       '<h2 class="q-text">“' + esc(q.text) + '”</h2>' +
-      (q.what ? '<p class="q-what"><b>' + esc(q.what.term) + '</b> — ' + esc(q.what.def) + '</p>' : '') +
+      (q.what ? '<p class="q-what"><b>' + esc(q.what.term) + '</b>: ' + esc(q.what.def) + '</p>' : '') +
       '<p class="q-why">' + esc(q.why) + '</p>' +
       // Above the answers: tapping an answer moves on, so anything below it can never be reached.
       '<label class="important"><input type="checkbox" id="imp"' + (state.important[q.id] ? ' checked' : '') + '><span>★ This one matters a lot to me <small>(counts double)</small></span></label>' +
-      '<div class="answers" role="group" aria-label="Your answer — tap one to continue">' +
+      '<div class="answers" role="group" aria-label="Your answer: tap one to continue">' +
       CHOICES.map(function (c) { return '<button type="button" data-a="' + c[0] + '" aria-pressed="' + (a === c[0]) + '">' + c[1] + '</button>'; }).join('') +
-      '<button type="button" class="skipbtn" data-a="skip" aria-pressed="' + (a === null) + '">Not sure — skip this one</button></div>' +
+      '<button type="button" class="skipbtn" data-a="skip" aria-pressed="' + (a === null) + '">Not sure, skip this one</button></div>' +
       '<div class="quiz-nav"><button type="button" class="btn secondary" id="back"' + (state.i === 0 ? ' disabled' : '') + '>← Back</button>' +
       (a !== undefined ? '<button type="button" class="btn" id="next">' + (state.i === Q.length - 1 ? 'See my matches →' : 'Next →') + '</button>' : '') + '</div>';
   }
@@ -60,9 +60,9 @@
       '<a class="match" href="/council/' + c.slug + '/">' + avatar(c) +
       '<span class="match-txt"><b>' + esc(c.name) + '</b>' + (c.direct ? '<span class="badge direct">✓ Answered us directly</span>' : '') +
       '<span class="meter" aria-hidden="true"><span style="width:' + r.pct + '%"></span></span>' +
-      '<span class="pctline"><b class="pct">' + r.pct + '%</b> ' + (r.pct < RECOMMEND ? 'match — you mostly disagree' : 'match') + ' · ' + 'based on ' + (r.n < THIN ? 'only ' : '') + r.n + ' of your ' + answeredCount() + ' answers' + '</span></span>' +
+      '<span class="pctline"><b class="pct">' + r.pct + '%</b> ' + (r.pct < RECOMMEND ? 'match: you mostly disagree' : 'match') + ' · ' + 'based on ' + (r.n < THIN ? 'only ' : '') + r.n + ' of your ' + answeredCount() + ' answers' + '</span></span>' +
       '<span class="go" aria-hidden="true">\u203a</span></a>' +
-      (r.notes ? '<p class="small notes-hint">💬 ' + esc(first(c)) + ' added comments on ' + r.notes + ' of these — open “Why ' + r.pct + '%?” to read them in their own words.</p>' : '') +
+      (r.notes ? '<p class="small notes-hint">💬 ' + esc(first(c)) + ' added comments on ' + r.notes + ' of these. Open “Why ' + r.pct + '%?” to read them in their own words.</p>' : '') +
       '<div class="match-foot no-print">' +
       '<details id="why-' + c.slug + '"><summary>Why ' + r.pct + '%? ' + tally(r.rows) + '</summary><p class="small">✓ same answer as you (counts in full) · ~ one step off (counts two-thirds) · ✕ further apart (counts a third or nothing)</p><ul class="agree-list">' +
       r.rows.slice().sort(function (a, b) { return (a.d === null ? 9 : a.d) - (b.d === null ? 9 : b.d); }).map(function (x) {

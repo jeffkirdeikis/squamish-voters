@@ -76,11 +76,11 @@
   "topic": "Taxes",
   "short": "Woodfibre tax deal",
   "text": "The District should sign the proposed 10-year tax agreement with Woodfibre LNG.",
-  "why": "This is about money, not whether you like the plant. If yes: $142 million is locked in and the court cases end, but the amount can’t go up. If no: Woodfibre keeps paying normal taxes — staff guess $9 to $29 million a year — the court cases carry on, and the Province could cap the rate.",
+  "why": "This is about money, not whether you like the plant. If yes: $142 million is locked in and the court cases end, but the amount can’t go up. If no: Woodfibre keeps paying normal taxes (staff guess $9 to $29 million a year) the court cases carry on, and the Province could cap the rate.",
   "core": true,
   "what": {
    "term": "The tax deal",
-   "def": "Woodfibre LNG would pay Squamish at least $142 million over 10 years — a fixed, much lower tax bill plus set yearly payments — and drop its lawsuits over its 2025 and 2026 taxes."
+   "def": "Woodfibre LNG would pay Squamish at least $142 million over 10 years (a fixed, much lower tax bill plus set yearly payments) and drop its lawsuits over its 2025 and 2026 taxes."
   }
  },
  {
@@ -93,7 +93,7 @@
   "core": true,
   "what": {
    "term": "What council can actually do",
-   "def": "It cannot stop the Woodfibre LNG plant — senior governments approved it and it is being built. Council controls local permits, such as the floating worker housing (the “floatel”) and workers’ lodges, plus local rules on traffic, noise and safety, and it can press the Province to enforce the plant’s conditions."
+   "def": "It cannot stop the Woodfibre LNG plant; senior governments approved it and it is being built. Council controls local permits, such as the floating worker housing (the “floatel”) and workers’ lodges, plus local rules on traffic, noise and safety, and it can press the Province to enforce the plant’s conditions."
   },
   "text_was": "The District should take a tough line on Woodfibre LNG and its impacts."
  },
@@ -174,7 +174,7 @@
   "topic": "District spending",
   "short": "Inclusion spending",
   "core": true,
-  "text": "Spending on inclusion and community symbols — such as rainbow crosswalks, flags and proclamations — is a good use of District money.",
+  "text": "Spending on inclusion and community symbols (such as rainbow crosswalks, flags and proclamations) is a good use of District money.",
   "why": "Supporters call it a cheap, visible signal that everyone belongs. Critics call it money that should go to roads, policing or taxes."
  },
  {
@@ -210,7 +210,7 @@
   "topic": "Housing",
   "short": "Short-term rentals",
   "text": "Short-term rentals like Airbnb should be restricted further in Squamish.",
-  "why": "Every home rented to visitors is one not rented to a resident — but some owners rely on that income.",
+  "why": "Every home rented to visitors is one not rented to a resident; but some owners rely on that income.",
   "core": false
  },
  {
@@ -228,7 +228,7 @@
   "topic": "Policing",
   "short": "More bylaw officers",
   "text": "The District should put more bylaw enforcement officers downtown.",
-  "why": "Bylaw officers handle things short of crime — camping, noise, parking, street disorder.",
+  "why": "Bylaw officers handle things short of crime; camping, noise, parking, street disorder.",
   "core": false
  },
  {
@@ -309,7 +309,7 @@
   "topic": "Local economy",
   "short": "Protect job land",
   "text": "Land set aside for industry and jobs should be protected from being rezoned for housing.",
-  "why": "Housing pressure makes industrial land valuable to build on — but a town with no job land becomes a commuter suburb.",
+  "why": "Housing pressure makes industrial land valuable to build on; but a town with no job land becomes a commuter suburb.",
   "core": false
  },
  {

@@ -92,7 +92,7 @@
   "stances": {
    "growth": {
     "position": "Don’t slow approvals; fill in existing neighbourhoods first, expand the growth boundary later",
-    "summary": "Says Squamish is growing quickly and services are not keeping pace. In written answers posted online in September 2026 he said there is more room to build within existing neighbourhoods before expanding the growth boundary, but that the boundary will eventually have to grow — for business as well as housing — without harming outdoor recreation.",
+    "summary": "Says Squamish is growing quickly and services are not keeping pace. In written answers posted online in September 2026 he said there is more room to build within existing neighbourhoods before expanding the growth boundary, but that the boundary will eventually have to grow (for business as well as housing) without harming outdoor recreation.",
     "quote": "I believe we have more room to infill before looking to expand our growth boundary.",
     "source_url": "https://danieldeal.ca/about",
     "confidence": "medium"
@@ -147,7 +147,7 @@
     "confidence": "medium"
    },
    "parking": {
-    "position": "Build more downtown parking; against paid parking — if it comes, locals park free",
+    "position": "Build more downtown parking; against paid parking; if it comes, locals park free",
     "summary": "Says the biggest thing he would have done differently is build a downtown parkade after the 2020 study. He wants paid parking for visitors only, with a free online permit (a windshield barcode) for residents, and the revenue put toward the parkade. His platform says 'No Squamish local should be penalized to travel around the town.' He says the 2020 study estimated the parkade would pay for itself in six years; the study itself gives a range of 2 to 12 years.",
     "quote": "I read the 2020 study on the parkade …They estimated … (they) would cover the cost in six years. So we would have already been seeing profit on this parking, if they had just said yes.",
     "source_url": "https://www.squamishchief.com/local-news/daniel-deal-believes-he-is-the-best-deal-to-be-squamish-mayor-12798226",
@@ -306,7 +306,7 @@
     "q8"
    ]
   },
-  "growth_line": "On growth: don’t slow approvals — fill in existing neighbourhoods first, and expand the growth boundary later."
+  "growth_line": "On growth: don’t slow approvals; fill in existing neighbourhoods first, and expand the growth boundary later."
  },
  {
   "name": "Sean Easton",
@@ -645,7 +645,7 @@
    ]
   },
   "growth_group": "slow",
-  "growth_line": "On growth: slow down and let infrastructure catch up — stop approving development just to hit provincial housing numbers."
+  "growth_line": "On growth: slow down and let infrastructure catch up; stop approving development just to hit provincial housing numbers."
  },
  {
   "name": "Jenna Stoner",
@@ -759,7 +759,7 @@
     "confidence": "low"
    },
    "taxes_spending": {
-    "position": "Leans against capping taxes at inflation — zero-based budgeting instead; strongly for borrowing to renew Brennan Park now",
+    "position": "Leans against capping taxes at inflation; zero-based budgeting instead; strongly for borrowing to renew Brennan Park now",
     "summary": "Supported the District's first 10-year financial plan (adopted unanimously; it projected tax increases of about 13% in 2027 and 12.9% in 2028) and adding WLNG tax revenue to asset-management reserves. She defends spending on fire halls, the public works facility and wastewater plant, and now promises zero-based budgeting while making room for amenities like Brennan Park.",
     "quote": "Instead of rolling over budgets year-to-year, taking the time and providing transparency and ensuring every dollar gets accounted for from zero.",
     "source_url": "https://www.squamishchief.com/local-news/heres-what-jenna-stoner-is-promising-to-do-if-she-becomes-mayor-of-squamish-12745909",
@@ -780,7 +780,7 @@
     "confidence": "medium"
    },
    "economy": {
-    "position": "In the middle on cutting red tape — wants a public permit tracker instead; leans toward protecting industrial land",
+    "position": "In the middle on cutting red tape; wants a public permit tracker instead; leans toward protecting industrial land",
     "summary": "Her priorities page talks about 'supporting the people, small businesses, and community organizations that make Squamish awesome,' and in March 2026 she listed economic growth and diversification among the top issues facing Squamish.",
     "quote": null,
     "source_url": "https://www.squamishreporter.com/2026/03/03/local-elections-2026-will-squamish-councillors-run-again/",
@@ -1056,7 +1056,7 @@
    ]
   },
   "growth_group": "up",
-  "growth_line": "On growth: don’t slow approvals — build up to six storeys downtown and near transit, and make better use of what’s already built before opening new land."
+  "growth_line": "On growth: don’t slow approvals; build up to six storeys downtown and near transit, and make better use of what’s already built before opening new land."
  },
  {
   "name": "Eric Andersen",
@@ -1067,8 +1067,8 @@
   "tagline": "“A vote for Eric Andersen for Squamish Council is a vote for good jobs close to home.” (slogan from his previous campaigns)",
   "top_priorities": [
    "Avoiding unbalanced growth - jobs, businesses and amenities keeping pace with population",
-   "Good jobs close to home / a complete community (Smart Growth) — 2014 and 2022 platforms",
-   "Employment-lands and sector strategies for forestry, wood products, the port and tourism — 2022 platform",
+   "Good jobs close to home / a complete community (Smart Growth); 2014 and 2022 platforms",
+   "Employment-lands and sector strategies for forestry, wood products, the port and tourism; 2022 platform",
    "Relationships with Squamish Nation, the province and the federal government",
    "Planning for recreation and cultural facilities"
   ],
@@ -1106,7 +1106,7 @@
     "source_url": "https://www.squamishchief.com/local-news/brennan-park-woodfibre-lng-tensions-surface-at-squamish-forum-11633022"
    },
    {
-    "text": "Integrating supportive housing into residential neighbourhoods — calls existing Squamish examples 'success stories'",
+    "text": "Integrating supportive housing into residential neighbourhoods; calls existing Squamish examples 'success stories'",
     "source_url": "https://www.squamishchief.com/local-news/squamish-council-waives-fees-and-services-for-new-housing-project-10934574"
    },
    {
@@ -1742,7 +1742,7 @@
     "quote": null
    },
    "taxes_spending": {
-    "position": "Against capping taxes at inflation — it would mean cutting services; for borrowing for big projects; strongly for referendums above a set cost",
+    "position": "Against capping taxes at inflation; it would mean cutting services; for borrowing for big projects; strongly for referendums above a set cost",
     "summary": "Voted for the 2026-2035 plan despite misgivings about absorbing capital cost overruns. Names reforming how property tax rates are calculated as his top accomplishment, has the most property-tax dissents on council (mostly against permissive exemptions), moved a failed 2025 amendment to cut the Brennan Park line item, and warns projects such as the Pemberton-Laurelwood bridge are under-costed.",
     "quote": "It's very easy to say somebody else should pay, but if somebody else is paying, they're part of our community, and we are paying.",
     "source_url": "https://www.squamishchief.com/local-news/andrew-hamilton-emphasizes-project-planning-in-squamish-council-re-election-bid-12770540",
@@ -2040,7 +2040,7 @@
     "q9"
    ]
   },
-  "growth_line": "On growth: not growing too fast — approve projects that meet the community’s needs, under clear rules set in advance."
+  "growth_line": "On growth: not growing too fast; approve projects that meet the community’s needs, under clear rules set in advance."
  },
  {
   "name": "Chris Pettingill",
@@ -2091,7 +2091,7 @@
     "source_url": "https://chrisforsquamish.ca/no-donations"
    },
    {
-    "text": "Accepting the province's HEART & HEARTH encampment response — warns that turning it away (as Penticton did) risks encampments that grow",
+    "text": "Accepting the province's HEART & HEARTH encampment response; warns that turning it away (as Penticton did) risks encampments that grow",
     "source_url": "https://www.squamishchief.com/local-news/school-trustees-weigh-letter-as-concern-continues-over-hearth-housing-at-xxwunekw-park-12173611"
    }
   ],
@@ -2131,8 +2131,8 @@
   ],
   "stances": {
    "growth": {
-    "position": "Grow inside the boundary — density downtown and near transit, no sprawl",
-    "summary": "Wants Squamish to meet provincial housing targets by adding density inside the existing growth boundary rather than expanding onto new land: “We can’t put a barricade on the highway.” He is council’s second most frequent dissenter on development items, but those votes are mostly about parking, employment space and amenities rather than height — on the seven-storey 38026 Second Avenue permit he said he was fine with the height and voted no over the cut to required employment space.",
+    "position": "Grow inside the boundary; density downtown and near transit, no sprawl",
+    "summary": "Wants Squamish to meet provincial housing targets by adding density inside the existing growth boundary rather than expanding onto new land: “We can’t put a barricade on the highway.” He is council’s second most frequent dissenter on development items, but those votes are mostly about parking, employment space and amenities rather than height; on the seven-storey 38026 Second Avenue permit he said he was fine with the height and voted no over the cut to required employment space.",
     "quote": "In general, I would be okay with the height and even parking reduction, but I'm not okay with the employment reduction even at 20%, given the zoning.",
     "source_url": "https://www.squamishchief.com/local-news/more-rental-units-coming-to-downtown-squamish-10775930",
     "confidence": "high"
@@ -2386,7 +2386,7 @@
     "source_url": "https://www.squamishchief.com/local-news/ian-brown-launches-council-bid-zeroes-in-on-seniors-and-arts-12706878"
    },
    {
-    "text": "Celebrating Squamish’s identity on Cleveland Avenue: displaying its art, culture and heritage — First Nations, logging, the railway and the sawmill (campaign video, Sept 2026)",
+    "text": "Celebrating Squamish’s identity on Cleveland Avenue: displaying its art, culture and heritage; First Nations, logging, the railway and the sawmill (campaign video, Sept 2026)",
     "source_url": "https://www.ianbrownsquamish.com/"
    },
    {
@@ -2421,7 +2421,7 @@
     "confidence": "none"
    },
    "housing_affordability": {
-    "position": "Strongly against more District money and land for below-market homes — senior governments and non-profits should fund it; leans toward a required share in big projects; strongly against restricting Airbnb",
+    "position": "Strongly against more District money and land for below-market homes; senior governments and non-profits should fund it; leans toward a required share in big projects; strongly against restricting Airbnb",
     "summary": "Calls for \"creative solutions\": new rental options, co-living under $1,500/month and family-oriented housing communities. Notes much of housing is provincial jurisdiction and positions himself as an advocate.",
     "quote": "Housing Squamish can afford. Creative solutions are needed.",
     "source_url": "https://www.ianbrownsquamish.com/",
@@ -2543,7 +2543,7 @@
     "url": "https://squamish.ca/government-and-administration/council/election/2026-municipal-election-candidates/"
    },
    {
-    "title": "Ian Brown campaign site — “On Location” videos (Cleveland Avenue, Oceanfront, Long-term care), transcribed Sept 20 2026",
+    "title": "Ian Brown campaign site; “On Location” videos (Cleveland Avenue, Oceanfront, Long-term care), transcribed Sept 20 2026",
     "url": "https://www.ianbrownsquamish.com/"
    }
   ],
@@ -2925,7 +2925,7 @@
     "source_url": "https://janicedesjardins.com/"
    },
    {
-    "text": "'Missing middle' housing — townhouses, duplexes, triplexes and low-rise apartments — throughout the community, with updated zoning and streamlined approvals",
+    "text": "'Missing middle' housing (townhouses, duplexes, triplexes and low-rise apartments) throughout the community, with updated zoning and streamlined approvals",
     "source_url": "https://janicedesjardins.com/highlights/housing"
    },
    {
@@ -2995,7 +2995,7 @@
     "source_url": "https://www.squamishchief.com/opinion/squamish-letter-resident-raises-concerns-over-mixed-supportive-housing-plan-10923036"
    },
    {
-    "text": "Removing any more parking stalls near seniors' facilities and seniors' housing — 'particularly not to put in bike lanes'",
+    "text": "Removing any more parking stalls near seniors' facilities and seniors' housing; 'particularly not to put in bike lanes'",
     "source_url": "https://janicedesjardins.com/seniors"
    },
    {
@@ -3062,7 +3062,7 @@
    },
    "parking": {
     "position": "'Nowhere near enough parking spaces downtown'; wants bylaws to require adequate stalls for all housing, and a parking committee to look at angle parking, an employee lot and Loggers Lane",
-    "summary": "Parking is the first issue on her platform. She says high-density development has pushed residents' second cars onto the street and displaced downtown employees into the two-hour zones. Immediate steps: move restaurant patios off street stalls and ban food trucks from parking on Cleveland and Second between Victoria and Pemberton. She would strike a community Parking Committee to explore angle parking, a dedicated employee lot, angle parking on the old Loggers Lane rail bed and reopening side streets to parking, and task it with 'updating parking bylaws to require adequate stalls for all forms of housing — including suites' and investigating permit parking, pay parking and one-way streets. She also wants the one-stall-per-suite rule enforced. On a parkade: 'Maybe we don't need a parkade — but we do have to investigate all options first.'",
+    "summary": "Parking is the first issue on her platform. She says high-density development has pushed residents' second cars onto the street and displaced downtown employees into the two-hour zones. Immediate steps: move restaurant patios off street stalls and ban food trucks from parking on Cleveland and Second between Victoria and Pemberton. She would strike a community Parking Committee to explore angle parking, a dedicated employee lot, angle parking on the old Loggers Lane rail bed and reopening side streets to parking, and task it with 'updating parking bylaws to require adequate stalls for all forms of housing; including suites' and investigating permit parking, pay parking and one-way streets. She also wants the one-stall-per-suite rule enforced. On a parkade: 'Maybe we don't need a parkade; but we do have to investigate all options first.'",
     "quote": "There are nowhere near enough parking spaces downtown. High-density development has pushed residents with two vehicles onto the street, displacing the spots once used by downtown employees.",
     "source_url": "https://janicedesjardins.com/highlights",
     "confidence": "high"
@@ -3715,7 +3715,7 @@
    ]
   },
   "growth_group": "out",
-  "growth_line": "On growth: keep growing, but stop densifying downtown — open new land and link neighbourhoods with new roads.",
+  "growth_line": "On growth: keep growing, but stop densifying downtown; open new land and link neighbourhoods with new roads.",
   "photo_credit": "candidate’s campaign"
  },
  {
@@ -3763,11 +3763,11 @@
     "source_url": "https://www.johnlowe.ca/"
    },
    {
-    "text": "Planning growth carefully — housing, transportation, parking and land use — with neighbourhood character and livability in mind",
+    "text": "Planning growth carefully (housing, transportation, parking and land use) with neighbourhood character and livability in mind",
     "source_url": "https://www.johnlowe.ca/"
    },
    {
-    "text": "Making Squamish 'friendlier to industry' — but not in the old way that let industry damage the environment",
+    "text": "Making Squamish 'friendlier to industry'; but not in the old way that let industry damage the environment",
     "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878"
    },
    {
@@ -3783,7 +3783,7 @@
     "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878"
    },
    {
-    "text": "Old-school, face-to-face problem solving — meet the person, go and look at the problem, work out how to make it happen (he cites former mayor Pat Brennan)",
+    "text": "Old-school, face-to-face problem solving; meet the person, go and look at the problem, work out how to make it happen (he cites former mayor Pat Brennan)",
     "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878"
    }
   ],
@@ -3806,7 +3806,7 @@
     "confidence": "low"
    },
    "housing_affordability": {
-    "position": "In the middle on more public money for below-market homes — favours co-op housing with industry partners; leans against a required share in big projects; leans toward limiting short-term rentals to certain areas",
+    "position": "In the middle on more public money for below-market homes; favours co-op housing with industry partners; leans against a required share in big projects; leans toward limiting short-term rentals to certain areas",
     "summary": "John had said little in public about this before answering our questionnaire. John’s own answers are below.",
     "quote": null,
     "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878",
@@ -3841,22 +3841,22 @@
     "confidence": "none"
    },
    "transportation": {
-    "position": "In the middle on local money for regional transit — suggests rider-pay and employer funding; strongly against local money for protected bike lanes",
+    "position": "In the middle on local money for regional transit; suggests rider-pay and employer funding; strongly against local money for protected bike lanes",
     "summary": "John had said little in public about this before answering our questionnaire. John’s own answers are below.",
     "quote": null,
     "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878",
     "confidence": "none"
    },
    "economy": {
-    "position": "Strongly for protecting industrial land from rezoning; in the middle on cutting red tape — have builders supply their own certified professionals",
+    "position": "Strongly for protecting industrial land from rezoning; in the middle on cutting red tape; have builders supply their own certified professionals",
     "summary": "Says the town needs to be friendlier to industry, 'but not in the old way that allowed industry to damage the environment'. Wants more value-added wood businesses rather than shipping logs straight off the foreshore, and thinks more of the allowable cut could be harvested locally. His campaign platform adds: rebuild and diversify the business and industrial tax base, and support responsible economic development that brings jobs, investment and lasting municipal revenue.",
     "quote": "There's an opportunity because the way we're bringing the logs down, they're going down to the foreshore and then they're getting shipped away.",
     "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878",
     "confidence": "high"
    },
    "parking": {
-    "position": "Strongly against paid parking downtown; strongly for builders providing parking; leans against the District building more public parking itself — private business should",
-    "summary": "Calls paid parking meters 'stupid' — they cost money to buy and maintain, need staff, and would raise 'peanuts' while being a nuisance for locals. Points to CN-owned land on Loggers Lane as room for more parking near downtown, saying CN is 'amenable to making things happen' and private owners might buy and develop it.",
+    "position": "Strongly against paid parking downtown; strongly for builders providing parking; leans against the District building more public parking itself; private business should",
+    "summary": "Calls paid parking meters 'stupid'; they cost money to buy and maintain, need staff, and would raise 'peanuts' while being a nuisance for locals. Points to CN-owned land on Loggers Lane as room for more parking near downtown, saying CN is 'amenable to making things happen' and private owners might buy and develop it.",
     "quote": "The amount of money that they're going to get from that is peanuts. It's just nuisance value for people in the town.",
     "source_url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878",
     "confidence": "high"
@@ -3922,11 +3922,11 @@
     "url": "https://www.squamishchief.com/2026-civic-election/promising-collaborative-problem-solving-john-lowe-is-running-for-squamish-council-12808878"
    },
    {
-    "title": "John Lowe campaign website — platform (johnlowe.ca)",
+    "title": "John Lowe campaign website; platform (johnlowe.ca)",
     "url": "https://www.johnlowe.ca/"
    },
    {
-    "title": "John Lowe campaign website — About (johnlowe.ca/about)",
+    "title": "John Lowe campaign website; About (johnlowe.ca/about)",
     "url": "https://www.johnlowe.ca/about"
    },
    {
@@ -3942,7 +3942,7 @@
   "photo": "img/a-john-lowe.jpg",
   "photo_credit": "candidate’s campaign",
   "growth_group": "out",
-  "growth_line": "On growth: leans toward slowing approvals; no taller buildings downtown — open new land instead, with developers paying all the costs.",
+  "growth_line": "On growth: leans toward slowing approvals; no taller buildings downtown; open new land instead, with developers paying all the costs.",
   "answer_notes": {
    "q1": "we have grown to fast and we need to bring up to speed the amenities for who we have her now.",
    "q2": "we want to maintain what view scape we have that makes Squamish unique.  if taller building are situated where they do not disrupt our picturesque area then i would consider it",
@@ -4525,7 +4525,7 @@
     "confidence": "none"
    },
    "taxes_spending": {
-    "position": "Strongly against capping taxes at inflation if it cuts core infrastructure; cautious on borrowing for Brennan Park — look for partners first",
+    "position": "Strongly against capping taxes at inflation if it cuts core infrastructure; cautious on borrowing for Brennan Park; look for partners first",
     "summary": "Wants an urgent pivot to core municipal services and 'fiscally responsible governance', and wants residents to understand what major decisions cost and how they affect taxes. Also supports investment in roads, utilities, public spaces and recreation facilities.",
     "quote": "We urgently need to pivot to prioritize core municipal services such as recreation, transportation, municipal servicing and fiscally responsible governance.",
     "source_url": "https://www.lucperreault.ca/",
@@ -4713,7 +4713,7 @@
    ]
   },
   "growth_group": "mix",
-  "growth_line": "On growth: growth must pay its way and infrastructure must keep up — protect the views, and open new land only if it clearly benefits residents."
+  "growth_line": "On growth: growth must pay its way and infrastructure must keep up; protect the views, and open new land only if it clearly benefits residents."
  },
  {
   "name": "Laura Prosko",
@@ -4862,7 +4862,7 @@
     "confidence": "high"
    },
    "transportation": {
-    "position": "Strongly for regional transit, bike lanes and sidewalks — “but we need fiscal responsibility”",
+    "position": "Strongly for regional transit, bike lanes and sidewalks; “but we need fiscal responsibility”",
     "summary": "Calls active transportation 'fantastic' but says some residents need vehicles and street parking; suggests enhanced parking along Loggers Lane and opposes parking variances for developments. Platform also pledges to improve Sea to Sky corridor transit connectivity, accessibility, pedestrian safety and e-bike safety.",
     "quote": "I believe there are some ways in downtown Squamish that we can use land planning differently, like, for example, along Loggers Lane, for enhanced parking, and we need to get back to those basics first and foremost.",
     "source_url": "https://www.squamishchief.com/local-news/laura-prosko-touts-industry-ties-pitches-property-tax-freeze-in-squamish-council-bid-12793364",
@@ -5072,7 +5072,7 @@
    "how": "sent this statement to Squamish Voters by email"
   },
   "growth_group": "slow",
-  "growth_line": "On growth: growing too fast — get infrastructure and Brennan Park right before more growth."
+  "growth_line": "On growth: growing too fast; get infrastructure and Brennan Park right before more growth."
  },
  {
   "name": "Chris Ryan",
@@ -5134,7 +5134,7 @@
   ],
   "opposes": [
    {
-    "text": "The location of the safe injection site beside the public library, a Montessori daycare, a park and homes — says it “needs to be removed”",
+    "text": "The location of the safe injection site beside the public library, a Montessori daycare, a park and homes; says it “needs to be removed”",
     "source_url": "https://squamishvoters.com/docs/chris-ryan-2026-09-18.pdf"
    },
    {
@@ -5154,7 +5154,7 @@
     "source_url": "https://squamishvoters.com/docs/chris-ryan-2026-09-18.pdf"
    },
    {
-    "text": "Campaign signs and political donations for his own campaign — says he accepts none",
+    "text": "Campaign signs and political donations for his own campaign; says he accepts none",
     "source_url": "https://squamishvoters.com/docs/chris-ryan-2026-09-18.pdf"
    }
   ],
@@ -5181,7 +5181,7 @@
     "confidence": "medium"
    },
    "policing": {
-    "position": "More foot patrols and bylaw officers downtown; bylaws against open drug use — “a strong arm”",
+    "position": "More foot patrols and bylaw officers downtown; bylaws against open drug use; “a strong arm”",
     "summary": "Describes being attacked downtown with a wooden spear, a pipe, needles and rocks.",
     "quote": "We live in fear downtown.",
     "source_url": "https://squamishvoters.com/docs/chris-ryan-2026-09-18.pdf",
@@ -5195,7 +5195,7 @@
     "confidence": "medium"
    },
    "environment_lng": {
-    "position": "Take the Woodfibre tax deal, but press the plant on local impacts; climate a top priority — solar on public buildings",
+    "position": "Take the Woodfibre tax deal, but press the plant on local impacts; climate a top priority; solar on public buildings",
     "summary": "A renewable-energy advocate who nonetheless says Squamish should work with the LNG company to help fund community projects, and criticises council for complaining about LNG while doing little itself. Wants renewable energy on municipal buildings, schools and new construction.",
     "quote": "Contrary to my beliefs as a renewable energy advocate, we need to work with the LNG company, which can help financially support various projects in our community.",
     "source_url": "https://squamishvoters.com/docs/chris-ryan-2026-09-18.pdf",
@@ -5216,7 +5216,7 @@
     "confidence": "low"
    },
    "parking": {
-    "position": "New buildings must supply parking; against paid parking — visitors only, locals free, once Loggers Lane parking exists",
+    "position": "New buildings must supply parking; against paid parking; visitors only, locals free, once Loggers Lane parking exists",
     "summary": "His press release calls parking 'an ongoing problem in all neighbourhoods'. He would acquire the rail line on Loggers Lane to extend the bike lane and 'create angled parking that is paid for by visitors but available to our residents and employees with a permit', pave overflow parking for Bailey Street residents, and says 'Builders need to supply sufficient parking instead of opting for cash-in-lieu', suggesting vacant lots be cleaned up as temporary parking. He objects to food trucks 'taking up to four parking stalls each' downtown.",
     "quote": "Builders need to supply sufficient parking instead of opting for cash-in-lieu, and they must maintain their vacant land. They could clean up their lots to create temporary parking solutions.",
     "source_url": "https://squamishvoters.com/docs/chris-ryan-2026-09-18.pdf",
@@ -5336,7 +5336,7 @@
    ],
    "checked": "The email address on the form had a typo, so Squamish Voters confirmed with Chris that the answers are his."
   },
-  "growth_line": "On growth: more family housing (“high density, low sprawl”), but no towers downtown — with parking and a second road into downtown.",
+  "growth_line": "On growth: more family housing (“high density, low sprawl”), but no towers downtown; with parking and a second road into downtown.",
   "answer_notes": {
    "q4": "We need to adopt the successful self sufficient Whistler houseing authority model for the past 30 years. It offers single family, townhomes, suites, and condos that have a convanent to rent control for suite and room for locals, and local employees. A covenantto the increase of value along inflation rate, but allows families to get into the market, pay of their mortgage than rent. Bob Cheema has said he is willing to include this model on a portion of his land. This model also contributes to the tax base",
    "q5": "Take a page from LNG, province should buy one of the floatels to create a instant floating rehab hospital",

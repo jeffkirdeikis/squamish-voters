@@ -58,7 +58,7 @@
   function thanks() {
     try { localStorage.removeItem(KEY); } catch (e) {}
     done.hidden = false; form.hidden = true; done.textContent = '';
-    var h = document.createElement('h2'); h.textContent = 'Thank you — your answers are in';
+    var h = document.createElement('h2'); h.textContent = 'Thank you, your answers are in';
     var p = document.createElement('p'); p.className = 'lede';
     p.textContent = 'They will appear on your profile at squamishvoters.com shortly. If you would like a photo added, email one you own the rights to to ' + TO + '. If anything else on your page is wrong, tell us and we will fix it.';
     var a = document.createElement('a'); a.className = 'btn big'; a.href = '/candidates/'; a.textContent = 'See the candidates page';
@@ -67,7 +67,7 @@
 
   function emailFallback(text, subject) {
     done.hidden = false; form.hidden = true; done.textContent = '';
-    var h = document.createElement('h2'); h.textContent = 'We couldn’t save that automatically — one last step';
+    var h = document.createElement('h2'); h.textContent = 'We couldn’t save that automatically. One last step';
     var p = document.createElement('p'); p.className = 'lede';
     p.textContent = 'Nothing has reached us yet, but your answers are safe below. Please send them with the button, or copy them and email them to ' + TO + '.';
     var row = document.createElement('div'); row.className = 'btn-row';

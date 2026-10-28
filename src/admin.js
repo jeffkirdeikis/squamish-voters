@@ -66,7 +66,7 @@
       .then(function (d) {
         if (!d.ok) throw new Error('Could not load.');
         if (d.count !== lastCount) {
-          if (lastCount >= 0 && d.count > lastCount) document.title = '(' + d.count + ') Responses — Squamish Voters';
+          if (lastCount >= 0 && d.count > lastCount) document.title = '(' + d.count + ') Responses: Squamish Voters';
           lastCount = d.count; render(d);
         } else if (announce) { render(d); }
       })

@@ -471,7 +471,7 @@
         // Tap to see which way they lean: both sides always, in the order the question puts them, then anything else picked
         var det = mk('details', 'sb-issue sb-public'), sum = mk('summary'), ul = mk('ul', 'sb-leans'), more = mk('span', 'more-btn');
         more.setAttribute('aria-hidden', 'true');
-        more.append(mk('span', 'c', 'Click to see which way they lean ▾'), mk('span', 'o', 'Show less ▴'));
+        more.append(mk('span', 'c', 'Tap to see which way they lean ▾'), mk('span', 'o', 'Show less ▴'));
         sum.append(row, more);
         [[s.o[0][0], s.o[0][1]], ['mid', 'Somewhere in between'], [s.o[1][0], s.o[1][1]], ['other', 'Other'], ['none', 'Didn’t pick a side']].forEach(function (p, n) {
           var c = i.leans[p[0]] || 0;

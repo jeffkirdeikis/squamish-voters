@@ -94,7 +94,7 @@ const escGl = (s) => gl(esc(s));
 
 const GROWTH = {
   slow: { label: 'Slow down / rebalance', blurb: 'Says growth is outpacing jobs, services and amenities, and is cautious about adding more density to existing neighbourhoods.' },
-  up: { label: 'Build up and fill in', blurb: 'Prefers growth inside today’s town boundary — infill and more density near downtown and transit — rather than spreading onto new land. Some still vote against individual projects.' },
+  up: { label: 'Build up and fill in', blurb: 'Prefers growth inside today’s town boundary (infill and more density near downtown and transit) rather than spreading onto new land. Some still vote against individual projects.' },
   out: { label: 'Build out', blurb: 'Open to new neighbourhoods and expanding the growth boundary onto new land, rather than densifying existing streets.' },
   mix: { label: 'Grow, but infrastructure first', blurb: 'Supports continued growth as long as roads, services and amenities keep pace. Has not picked a side on building up versus building out.' },
   unknown: { label: 'No clear public position', blurb: 'We could not find a clear public statement on how Squamish should grow.' },
@@ -111,7 +111,7 @@ const growthKey = (c) => {
 // One plain sentence instead of a colour-coded badge.
 const GROWTH_SENTENCE = {
   slow: 'On growth: wants to slow down and let jobs and services catch up.',
-  up: 'On growth: build inside the town we have — more homes downtown and near transit.',
+  up: 'On growth: build inside the town we have: more homes downtown and near transit.',
   out: 'On growth: open new land and new neighbourhoods.',
   mix: 'On growth: keep building, but get the roads, pipes and services in place first.',
   unknown: 'On growth: hasn’t said publicly yet.',
@@ -144,7 +144,7 @@ const AXES = {
   // out of downtown, q31 clear camps). Policing, bylaw and drug-use statements are a different question and stay off this line.
   street: { title: 'Homelessness', icon: '🏘️', short: 'Homelessness', ask: 'Keep shelters and camps where they are, or move shelters out and clear camps?', lo: 'More shelters, even near homes · let camps stay', hi: 'Move shelters out of downtown · clear camps', q: { q5: -1, q18: 1, q31: 1 } },
   money: { title: 'Money', icon: '💵', ask: 'Hold taxes down, or invest in services?', lo: 'Invest in services', hi: 'Hold taxes down', q: { q7: 1, q4: -1, q12: -1, q11: -1 } },
-  growth: { title: 'Growth', icon: '🏗️', ask: 'Build more, faster — or slow down?', lo: 'Slow down, be cautious', hi: 'Build more, faster', q: { q1: -1, q2: 1, q10: 1 } },
+  growth: { title: 'Growth', icon: '🏗️', ask: 'Build more, faster, or slow down?', lo: 'Slow down, be cautious', hi: 'Build more, faster', q: { q1: -1, q2: 1, q10: 1 } },
   deal: { title: 'The Woodfibre tax deal', icon: '🤝', short: 'Tax deal', ask: 'Sign the 10-year tax deal with Woodfibre LNG, or not?', lo: 'Reject or renegotiate it', hi: 'Sign it', q: { q23: 1 } },
   env: { title: 'Climate & environment', icon: '🌲', short: 'Climate', ask: 'Should climate come first, even when it costs more?', lo: 'Keep costs down', hi: 'Climate first', q: { q9: 1, q24: 1 } },
 };
@@ -186,7 +186,7 @@ const CMAPS = {
   },
   growpay: {
     // Both lines run backwards from the other maps so spend-more / build-more sits top-left, like the classic compass.
-    title: 'How should we grow — and pay for it?', ask: 'Build more or slow down? Spend on services or hold taxes down?',
+    title: 'How should we grow, and pay for it?', ask: 'Build more or slow down? Spend on services or hold taxes down?',
     x: neg(AXES.growth.q), y: neg(CLASSIC.x),
     L: { up: '▲ SPEND MORE ON SERVICES', down: '▼ HOLD TAXES DOWN', left: '◀ BUILD MORE, FASTER', right: 'SLOW DOWN, BE CAUTIOUS ▶' },
     Lm: { up: '▲ SPEND MORE', down: '▼ HOLD TAXES DOWN', left: '◀ BUILD MORE', right: 'SLOW DOWN ▶' },
@@ -196,7 +196,7 @@ const CMAPS = {
   },
   cars: {
     // Both lines reversed, like growpay, so transit / build-more sits top-left.
-    title: 'Cars or bikes — and how much growth?', ask: 'Transit and bikes first, or parking and roads first? Build more or slow down?',
+    title: 'Cars or bikes, and how much growth?', ask: 'Transit and bikes first, or parking and roads first? Build more or slow down?',
     x: neg(AXES.growth.q), y: neg(PARKING_Q),
     L: { up: '▲ TRANSIT &amp; BIKES FIRST', down: '▼ CARS &amp; PARKING FIRST', left: '◀ BUILD MORE, FASTER', right: 'SLOW DOWN, BE CAUTIOUS ▶' },
     Lm: { up: '▲ TRANSIT &amp; BIKES', down: '▼ CARS &amp; PARKING', left: '◀ BUILD MORE', right: 'SLOW DOWN ▶' },
@@ -206,7 +206,7 @@ const CMAPS = {
   },
   projects: {
     // Same orientation rule as the other maps: more public investment up, build more left.
-    title: 'Big projects — invest now or hold off?', ask: 'Borrow and build now, or wait and ask voters first? Build more or slow down?',
+    title: 'Big projects: invest now or hold off?', ask: 'Borrow and build now, or wait and ask voters first? Build more or slow down?',
     x: neg(AXES.growth.q), y: PROJECTS_Q,
     L: { up: '▲ BORROW &amp; INVEST NOW', down: '▼ WAIT, OR ASK VOTERS FIRST', left: '◀ BUILD MORE, FASTER', right: 'SLOW DOWN, BE CAUTIOUS ▶' },
     Lm: { up: '▲ INVEST NOW', down: '▼ WAIT / ASK VOTERS', left: '◀ BUILD MORE', right: 'SLOW DOWN ▶' },
@@ -234,7 +234,7 @@ const DEAL_IF_NO = `<div class="ifno"><h3>The Woodfibre tax deal: what each choi
 <p>This is a question about money. It is not a vote for or against the plant, which is already being built, and candidates who support the plant are on both sides of it.</p>
 <div class="grid cols-2">
 <div><h4>If council says yes</h4><ul>
-<li><b>At least $142 million over 10 years</b>, fixed in advance — about $14.2 million a year on average, with the biggest payments in the first five years.</li>
+<li><b>At least $142 million over 10 years</b>, fixed in advance: about $14.2 million a year on average, with the biggest payments in the first five years.</li>
 <li><b>The court cases end.</b> Woodfibre drops its three legal actions over the 2025 and 2026 tax rates, with no refunds.</li>
 <li><b>No risk from the Province or appeals.</b> The amount holds even if the Province caps tax rates or the plant’s assessed value drops.</li>
 <li><b>But it can’t go up.</b> Most of the money doesn’t rise with inflation, it can only be spent on building projects, and it stays the same if the plant expands.</li>
@@ -384,7 +384,7 @@ function page({ url, title, desc, body, hero = '', scripts = '', noindex = false
 <a class="skip" href="#main">Skip to main content</a>
 <header class="site-header">
   <div class="wrap">
-    <a class="logo" href="/" aria-label="${SITE.name} — home">
+    <a class="logo" href="/" aria-label="${SITE.name}, home">
       <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="9" fill="#ffb703"/><path d="M5 30 L15 12 L21 22 L26 15 L35 30 Z" fill="#0f4c3a"/><path d="M12.5 25l3.5 3.5 8-9" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span>Squamish Voters<small>Stay up to date, easily</small></span>
     </a>
@@ -635,7 +635,7 @@ function profileRecord(c) {
   ${ps.length ? `<h2 id="promises">${f}’s promises <span class="small">${ps.length}</span></h2>
   <p class="small">What ${f} promised during the campaign, in plain words. Tap one for the exact quote and source.</p>
   <div class="card stack">${ps.map((p) => promiseRow(p)).join('')}</div>` : ''}
-  <h2 id="said-did">Does ${f} vote the way ${f} said?</h2>
+  <h2 id="said-did">Do ${f}’s votes match what they said in the campaign?</h2>
   <p class="small">${pr.rows.length} things ${f} said during the campaign. Each gets a mark once a council vote tests it.</p>
   <details class="drop"><summary>See all ${pr.rows.length} positions</summary><div class="stack">${pr.rows.map((r) => posRow(c, r)).join('')}</div></details>`;
   return `<section class="card record" id="record"><h2>${f}’s record on council</h2>
@@ -647,7 +647,7 @@ function profileRecord(c) {
   ${vs.length ? `<h2 id="votes">How ${f} has voted</h2>
   <div class="card stack">${vs.slice(0, 8).map((d) => `<div class="vrow"><span class="vme v-${d.votes[c.slug]}">${esc(VOTE_WORD[d.votes[c.slug]] || d.votes[c.slug])}</span><span><a href="${mUrl(d.m)}">${escGl(d.title)}</a><span class="small"> · ${esc(fmtLong(d.m.date))} · ${esc(RESULT_WORD[d.result] || '')}</span></span></div>`).join('')}</div>
   ${vs.length > 8 ? `<details class="drop"><summary>All ${vs.length} votes</summary>${vs.slice(8).map((d) => `<div class="vrow"><span class="vme v-${d.votes[c.slug]}">${esc(VOTE_WORD[d.votes[c.slug]] || d.votes[c.slug])}</span><span><a href="${mUrl(d.m)}">${escGl(d.title)}</a><span class="small"> · ${esc(fmtLong(d.m.date))}</span></span></div>`).join('')}</details>` : ''}` : ''}
-  <h2 id="said-did">Does ${f} vote the way ${f} said?</h2>
+  <h2 id="said-did">Do ${f}’s votes match what they said in the campaign?</h2>
   <p class="small">Everything ${f} said they stand for during the campaign (${pr.rows.length} positions), checked against every council vote that tests it.</p>
   <div class="pstats">${['in_line', 'against', 'mixed', 'early', 'untested'].map((k) => `<span class="pstatus ${POS_STATUS[k][2]}"><span aria-hidden="true">${POS_STATUS[k][0]}</span> ${pr[{ in_line: 'inLine', against: 'against', mixed: 'mixed', early: 'early', untested: 'untested' }[k]]} ${esc(POS_STATUS[k][1].toLowerCase())}</span>`).join('')}</div>
   ${pr.tested.length ? `<div class="card stack">${pr.tested.map((r) => posRow(c, r)).join('')}</div>` : ''}
@@ -729,11 +729,11 @@ function sideList(c, key, heading, cls, listCls) {
 const WRITE_IN = [
   ['one_thing', 'If you achieve only one thing in four years, what is it?'],
   ['say_no', 'Name something you will vote against, even if it is popular.'],
-  ['homelessness', 'Squamish’s sharpest argument: what would you actually do about encampments, Under One Roof and street disorder — and what would it cost?'],
+  ['homelessness', 'Squamish’s sharpest argument: what would you actually do about encampments, Under One Roof and street disorder, and what would it cost?'],
   ['differently', 'One council decision from the last four years you’d have made differently, and what you’d have done.'],
   ['disagree', 'What would you say to a resident on the other side of your biggest issue?'],
   ['corrections', 'Is anything on your profile wrong, out of date or missing? Tell us and we’ll fix it.'],
-  ['pitch', 'Your one-line pitch — we may use this as your tagline on the site.'],
+  ['pitch', 'Your one line pitch (we may use this as your tagline on the site).'],
 ];
 // Shown only once a candidate has returned the longer questionnaire.
 const ANSWER_WORD = { '2': 'Strongly agrees', '1': 'Somewhat agrees', '0': 'In the middle', '-1': 'Somewhat disagrees', '-2': 'Strongly disagrees' };
@@ -746,10 +746,10 @@ function paperNotice(c) {
 function directNotice(c) {
   if (!c.direct) return '';
   const f = esc(first(c)), when = esc(fmtLong(c.direct.date));
-  if (c.direct.kind === 'email') return `<div class="notice direct"><b>✓ New — ${f} answered us by email.</b> On ${when}, ${f} sent Squamish Voters written answers about ${esc(c.direct.topic)}. They are published in full, word for word. <a href="#emailed">Read ${f}’s answers</a>.</div>`;
+  if (c.direct.kind === 'email') return `<div class="notice direct"><b>✓ New: ${f} answered us by email.</b> On ${when}, ${f} sent Squamish Voters written answers about ${esc(c.direct.topic)}. They are published in full, word for word. <a href="#emailed">Read ${f}’s answers</a>.</div>`;
   return isDirectQ(c)
-    ? `<div class="notice direct"><b>✓ Verified — in ${f}’s own words.</b> ${f} filled in our candidate questionnaire on ${when}. ${c.direct.checked ? esc(c.direct.checked) : `It was sent from the email address ${f} filed with the District of Squamish.`} ${(c.direct.answered || [1]).length ? `Everything marked <span class="badge direct">✓ Direct answer</span> below is ${f}’s own answer, not our reading of the public record. <a href="#questionnaire">Jump to all answers</a>.` : `${f} answered the written questions but skipped the agree/disagree statements, so the quiz still has no answers from ${f}. <a href="#own-words">Read ${f}’s written answers</a> · <a href="#questionnaire">see the statements not yet answered</a>.`}${stmtOf(c) ? ` ${f} also sent us a platform statement on ${esc(fmtLong(stmtOf(c).date))} — <a href="${esc(stmtOf(c).url)}">read it in full</a>.` : ''}</div>`
-    : `<div class="notice direct"><b>✓ New — sent to us by ${f}.</b> ${f} sent Squamish Voters a platform statement on ${when}. The supports, against list and topics below now come from it. ${/\.pdf$/i.test(c.direct.url) ? `<a href="${esc(c.direct.url)}" target="_blank" rel="noopener">Read the original (PDF)</a>` : `<a href="${esc(c.direct.url)}">Read it in full, in ${f}’s own words →</a>`}.</div>`;
+    ? `<div class="notice direct"><b>✓ Verified: in ${f}’s own words.</b> ${f} filled in our candidate questionnaire on ${when}. ${c.direct.checked ? esc(c.direct.checked) : `It was sent from the email address ${f} filed with the District of Squamish.`} ${(c.direct.answered || [1]).length ? `Everything marked <span class="badge direct">✓ Direct answer</span> below is ${f}’s own answer, not our reading of the public record. <a href="#questionnaire">Jump to all answers</a>.` : `${f} answered the written questions but skipped the agree/disagree statements, so the quiz still has no answers from ${f}. <a href="#own-words">Read ${f}’s written answers</a> · <a href="#questionnaire">see the statements not yet answered</a>.`}${stmtOf(c) ? ` ${f} also sent us a platform statement on ${esc(fmtLong(stmtOf(c).date))}: <a href="${esc(stmtOf(c).url)}">read it in full</a>.` : ''}</div>`
+    : `<div class="notice direct"><b>✓ New: sent to us by ${f}.</b> ${f} sent Squamish Voters a platform statement on ${when}. The supports, against list and topics below now come from it. ${/\.pdf$/i.test(c.direct.url) ? `<a href="${esc(c.direct.url)}" target="_blank" rel="noopener">Read the original (PDF)</a>` : `<a href="${esc(c.direct.url)}">Read it in full, in ${f}’s own words →</a>`}.</div>`;
 }
 // Written answers a candidate emailed us: published whole, never trimmed or reworded.
 function emailedAnswers(c) {
@@ -757,7 +757,7 @@ function emailedAnswers(c) {
   const para = (t) => t.split(/\n\n+/).map((x) => `<p>${esc(x).replace(/\n/g, '<br>')}</p>`).join('');
   return `<h2 id="emailed">${esc(first(c))}’s emailed answers <span class="badge direct">✓ Own words</span></h2>
   <p class="small">Sent to Squamish Voters on ${esc(fmtLong(c.direct.date))}. Published in full and unedited.</p>
-  <div class="card stack">${c.emailed.map((x, n) => `<details class="stance-row has-more"${n === 0 ? ' open' : ''}><summary><span class="txt"><b>${esc(x.q)}</b>${moreBtn(`Click to expand — read ${esc(first(c))}’s full answer`)}</span></summary><blockquote class="long">${para(x.a)}</blockquote>${x.note ? `<p class="small ednote">${esc(x.note)}</p>` : ''}</details>`).join('')}</div>`;
+  <div class="card stack">${c.emailed.map((x, n) => `<details class="stance-row has-more"${n === 0 ? ' open' : ''}><summary><span class="txt"><b>${esc(x.q)}</b>${moreBtn(`Tap to read ${esc(first(c))}’s full answer`)}</span></summary><blockquote class="long">${para(x.a)}</blockquote>${x.note ? `<p class="small ednote">${esc(x.note)}</p>` : ''}</details>`).join('')}</div>`;
 }
 function directAnswers(c) {
   if (!isDirectQ(c)) {
@@ -765,7 +765,7 @@ function directAnswers(c) {
     const rows = EXTRA_QUESTIONS.filter((q) => typeof c.quiz_answers?.[q.id] === 'number');
     return rows.length ? `<details class="drop"><summary>More of ${esc(first(c))}’s positions (${rows.length})</summary>
     <ul class="qa">${rows.map((q) => `<li><b>${escGl(q.text)}</b><span class="ans">${ANSWER_WORD[String(c.quiz_answers[q.id])]}</span></li>`).join('')}</ul>
-    <p class="small">Our reading of ${esc(first(c))}’s public statements and votes — ${esc(first(c))} has not answered our questionnaire.</p></details>` : '';
+    <p class="small">Our reading of ${esc(first(c))}’s public statements and votes. ${esc(first(c))} has not answered our questionnaire.</p></details>` : '';
   }
   const rows = ALL_QUESTIONS.filter((q) => selfAnswered(c, q) || wrote(c, q));
   // The longer answers are the most useful thing a candidate gives us, so they sit in the open, not inside the full list.
@@ -779,7 +779,7 @@ function directAnswers(c) {
   <details class="drop" id="questionnaire"><summary>The ${QUESTIONS.length} statements the quiz uses</summary>${open(QUESTIONS)}</details>
   <details class="drop"><summary>${EXTRA_QUESTIONS.length} more optional statements</summary>${open(EXTRA_QUESTIONS)}</details>`;
   return `${words.length ? `<h2 id="own-words">In ${esc(first(c))}’s own words <span class="badge direct">✓ Direct</span></h2>
-  <div class="card stack">${words.map(([k, label]) => `<details class="stance-row has-more"${k === 'pitch' || k === 'one_thing' ? ' open' : ''}><summary><span class="txt"><b>${esc(label.replace(/ — we may use.*$/, ''))}</b>${moreBtn(`Click to expand — read ${esc(first(c))}’s full answer`)}</span></summary><blockquote>${escGl(c.own_words[k])}</blockquote></details>`).join('')}</div>` : ''}
+  <div class="card stack">${words.map(([k, label]) => `<details class="stance-row has-more"${k === 'pitch' || k === 'one_thing' ? ' open' : ''}><summary><span class="txt"><b>${esc(label.replace(/ \(we may use.*$/, ''))}</b>${moreBtn(`Tap to read ${esc(first(c))}’s full answer`)}</span></summary><blockquote>${escGl(c.own_words[k])}</blockquote></details>`).join('')}</div>` : ''}
   ${noted.length ? `<h2 id="explained">${esc(first(c))} explains ${noted.length === 1 ? 'an answer' : 'their answers'} <span class="badge direct">✓ Direct</span></h2>
   <p class="small">${esc(first(c))} added a comment to ${noted.length} of the statements we put to every candidate. These are ${esc(first(c))}’s words, unedited.</p>
   <div class="card"><ul class="qa">${noted.slice(0, SHOW).map(noteLi).join('')}</ul>
@@ -799,7 +799,7 @@ function stanceRow(c, i) {
   const s = c.stances?.[i.key] || {};
   const none = !s.position || /no public position/i.test(s.position);
   const mine = directOnTopic(c, i.key);
-  return `<details class="stance-row${none && !mine ? ' none' : ' has-more'}"><summary><span class="ic" aria-hidden="true">${i.icon}</span><span class="txt"><b>${i.title}</b><span class="pos">${none ? (mine ? 'Answered our questionnaire' : 'Hasn’t said') : escGl(s.position)}</span>${mine ? '<span class="badge direct">✓ Own answers inside</span>' : ''}${none && !mine ? '' : moreBtn(`Click to expand — read more about ${esc(first(c))}’s view on this`)}</span></summary>
+  return `<details class="stance-row${none && !mine ? ' none' : ' has-more'}"><summary><span class="ic" aria-hidden="true">${i.icon}</span><span class="txt"><b>${i.title}</b><span class="pos">${none ? (mine ? 'Answered our questionnaire' : 'Hasn’t said') : escGl(s.position)}</span>${mine ? '<span class="badge direct">✓ Own answers inside</span>' : ''}${none && !mine ? '' : moreBtn(`Tap to read more about ${esc(first(c))}’s view on this`)}</span></summary>
   ${none ? (mine ? '' : `<p class="muted">We could not find anything ${esc(first(c))} has said publicly about this.</p>`) : `<p>${escGl(s.summary)}${src(s.source_url)}</p>${s.quote ? `<blockquote>“${escGl(s.quote.replace(/^["“]|["”]$/g, ''))}”</blockquote>${src(s.quote_source_url, 'quote source')}` : ''}${confLabel[s.confidence] ? `<p class="conf">${confLabel[s.confidence]}</p>` : ''}`}${mine}</details>`;
 }
 const confLabel = { high: 'Well documented', medium: 'Some evidence', low: 'Limited evidence', none: '' };
@@ -856,7 +856,7 @@ for (const c of all) {
       ${sideList(c, 'opposes', 'Said they’re against', 'against', 'againstlist')}
     </div>
     <h2 id="issues">Where ${esc(first(c))} said they stand</h2>
-    <p class="small">Each topic opens up — press <b>Click to expand</b> for the detail, quotes and sources.</p>
+    <p class="small">Each topic opens up: tap it for the detail, quotes and sources.</p>
     <div class="card stack">${ISSUES.map((i) => stanceRow(c, i)).join('')}</div>
     <p class="small">Compare everyone on: ${ISSUES.map((i) => `<a href="/issues/${TOPIC_SLUG[i.key]}/">${esc(TOPIC_NAME[i.key])}</a>`).join(' · ')}.</p>
     ${(c.top_priorities || []).length ? `<details class="drop"><summary>${esc(first(c))}’s own priority list</summary><ol class="ol">${c.top_priorities.map((p) => `<li>${escGl(p)}</li>`).join('')}</ol></details>` : ''}
@@ -927,17 +927,17 @@ function spectrum(q) {
   const said = all.filter((c) => wrote(c, q));
   return `<div class="spectrum"><p class="stmt">“${esc(q.text)}”</p>
   <details class="means" data-q="${q.id}"><summary>What does this mean?</summary>${q.what ? `<p><b>${esc(q.what.term)}:</b> ${esc(q.what.def)}</p>` : ''}<p>${esc(q.why)}</p></details>
-  ${nearlyEmpty ? `<p class="asknote">No candidate has addressed this publicly yet. We have put the question to all ${all.length} of them — answers will appear here as they come in.</p>` : ''}
+  ${nearlyEmpty ? `<p class="asknote">No candidate has addressed this publicly yet. We have put the question to all ${all.length} of them; answers will appear here as they come in.</p>` : ''}
   <div class="bins">
   ${BINS.map(([val, cls, label]) => { const inBin = all.filter((c) => c.quiz_answers?.[q.id] === val); return inBin.length ? `<div class="bin ${cls}"><span class="lab">${label}</span><ul class="namechips">${inBin.map(nameChip).join('')}</ul></div>` : ''; }).join('')}
-  ${unknown.length ? `<details class="bin-un"><summary>${unknown.length} ${unknown.length === 1 ? 'member hasn’t' : 'members haven’t'} said — show names</summary><ul class="namechips">${unknown.map(nameChip).join('')}</ul></details>` : ''}
+  ${unknown.length ? `<details class="bin-un"><summary>${unknown.length} ${unknown.length === 1 ? 'member hasn’t' : 'members haven’t'} said: show names</summary><ul class="namechips">${unknown.map(nameChip).join('')}</ul></details>` : ''}
   </div>${said.length ? `<details class="said" data-q="${q.id}"><summary>${moreBtn(`Tap to read what ${said.length === 1 ? esc(said[0].name) : said.length + ' members'} wrote about this`)}</summary><ul class="qa">${said.map((c) => `<li><a href="/council/${c.slug}/#explained"><b>${esc(c.name)}</b></a>${c.office === 'mayor' ? ' <span class="small">(mayor)</span>' : ''} <span class="ans">${ansWord(c, q)}</span><p>“${esc(wrote(c, q))}”</p></li>`).join('')}</ul><p class="small">Comments they added when answering our questionnaire during the campaign, unedited.</p></details>` : ''}</div>`;
 }
 const issueSection = (i) => {
   const ic = issueCtx(i.key);
   return `<section id="${i.key}" data-panel data-group="cmp" hidden><h2><span aria-hidden="true">${i.icon}</span> ${i.title}</h2>
   ${ic.short_explainer ? `<p>${esc(ic.short_explainer)} <a href="/issues/${TOPIC_SLUG[i.key]}/">More background and every member’s answer</a></p>` : ''}
-  ${(i.allq ? ALL_QUESTIONS : QUESTIONS).filter((q) => q.issue === i.key).map((q) => spectrum(q) + (q.id === 'q23' ? `<details class="drop ifno-d"><summary>What happens if council says yes — or no?</summary>${DEAL_IF_NO.replace('<h3>The Woodfibre tax deal: what each choice means</h3>', '')}</details>` : '')).join('')}
+  ${(i.allq ? ALL_QUESTIONS : QUESTIONS).filter((q) => q.issue === i.key).map((q) => spectrum(q) + (q.id === 'q23' ? `<details class="drop ifno-d"><summary>What happens if council says yes or no?</summary>${DEAL_IF_NO.replace('<h3>The Woodfibre tax deal: what each choice means</h3>', '')}</details>` : '')).join('')}
   <details><summary>Read each candidate’s position on ${i.title.toLowerCase()}</summary>
   <div class="table-scroll"><table class="issue-table"><thead><tr><th>Candidate</th><th>Position</th></tr></thead><tbody>
   ${all.map((c) => { const s = c.stances?.[i.key] || {}; const none = !s.position || /no public position/i.test(s.position); return `<tr><td><a href="/council/${c.slug}/">${esc(c.name)}</a>${c.office === 'mayor' ? '<br><span class="small">mayor</span>' : ''}</td><td>${none ? '<span class="muted">No public position found.</span>' : `<span class="pos">${esc(s.position)}</span>${esc(s.summary)}${src(s.source_url)}`}</td></tr>`; }).join('')}
@@ -1303,9 +1303,9 @@ function leanList(key) {
   return `<section class="spec" id="axis-${key}" data-axis="${key}">
   <h2><span aria-hidden="true">${A.icon}</span> ${A.title}</h2>
   <p class="ask">${esc(A.ask)}</p>
-  ${key === 'street' ? `<p class="small">Policing, bylaw officers and drug-use bylaws are left off this line — they’re a separate question. Some candidates have only answered one or two of these three statements, so check the number of statements.</p>` : ''}
-  ${key === 'deal' ? `<p class="small">This is about <b>money, not the environment</b>. People on both sides of the plant itself disagree about whether this is a good deal for taxpayers. <a href="/issues/#environment_lng">What’s in the deal</a>.</p><details class="drop ifno-d"><summary>What happens if council says yes — or no?</summary>${DEAL_IF_NO.replace('<h3>The Woodfibre tax deal: what each choice means</h3>', '')}</details>` : ''}
-  ${single ? '' : `<p class="small legend-line"><span class="lg-dot"></span> based on 2 or more statements &nbsp; <span class="lg-dot hollow"></span> only 1 statement — treat with care</p>`}
+  ${key === 'street' ? `<p class="small">Policing, bylaw officers and drug-use bylaws are left off this line: they’re a separate question. Some candidates have only answered one or two of these three statements, so check the number of statements.</p>` : ''}
+  ${key === 'deal' ? `<p class="small">This is about <b>money, not the environment</b>. People on both sides of the plant itself disagree about whether this is a good deal for taxpayers. <a href="/issues/#environment_lng">What’s in the deal</a>.</p><details class="drop ifno-d"><summary>What happens if council says yes or no?</summary>${DEAL_IF_NO.replace('<h3>The Woodfibre tax deal: what each choice means</h3>', '')}</details>` : ''}
+  ${single ? '' : `<p class="small legend-line"><span class="lg-dot"></span> based on 2 or more statements &nbsp; <span class="lg-dot hollow"></span> only 1 statement: treat with care</p>`}
   <div class="spec-ends" aria-hidden="true"><span>◀ ${A.lo}</span><span>${A.hi} ▶</span></div>
   ${bands.filter((b) => b.rows.length).map((b) => `<h3 class="band">${esc(b.label)} <span>(${b.rows.length})</span></h3><ul class="slist">${b.rows.map(row).join('')}</ul>`).join('')}
   ${missing.length ? `<p class="small nopos"><b>Haven’t said yet:</b> ${missing.map((c) => `<a href="/council/${c.slug}/">${esc(c.name)}</a>`).join(', ')}.</p>` : ''}
@@ -1325,13 +1325,13 @@ const cmapWords = (c, mk) => { const M = CMAPS[mk], p = cmapPos(c, mk); if (!p) 
 const compassDetailAxes = (c) => Object.keys(AXES).map((k) => { const s = axisScore(c, k); return `${AXES[k].title}: ${axisWords(k, s)}${s ? ` (${s.n} statement${s.n > 1 ? 's' : ''})` : ''}`; });
 // The compass now lives on /compare/ (review item 10; /compass/ redirects to /compare/#compass).
 const COMPASS_PAGE = ({
-  desc: 'Where Squamish mayor and council candidates sit on taxes and spending, growth, and Woodfibre LNG and climate — worked out from their public statements and votes.',
+  desc: 'Where Squamish mayor and council candidates sit on taxes and spending, growth, and Woodfibre LNG and climate, worked out from their public statements and votes.',
   body: `<h1>Where they lean</h1>
-  <p class="lede">Everyone on a map first — swipe for ${Object.keys(CMAPS).length} different maps — then the five big questions, one at a time. Placed from their 2026 campaign answers.</p>
+  <p class="lede">Everyone on a map first (swipe for ${Object.keys(CMAPS).length} different maps), then the five big questions, one at a time. Placed from their 2026 campaign answers.</p>
   <nav class="chapters no-print" aria-label="Jump to a topic"><a href="#map" data-ch="map"><span aria-hidden="true">🧭</span> Compass</a>${Object.entries(AXES).map(([k, A]) => `<a href="#axis-${k}" data-ch="axis-${k}"><span aria-hidden="true">${A.icon}</span> ${A.short || A.title}</a>`).join('')}</nav>
   <div class="lean-tools no-print">
     <label for="follow"><b>Follow one council member:</b></label>
-    <select id="follow"><option value="">— Show everyone —</option>${all.map((c) => `<option value="${c.slug}">${esc(c.name)}${c.office === 'mayor' ? ' (mayor)' : ''}</option>`).join('')}</select>
+    <select id="follow"><option value="">Show everyone</option>${all.map((c) => `<option value="${c.slug}">${esc(c.name)}${c.office === 'mayor' ? ' (mayor)' : ''}</option>`).join('')}</select>
   </div>
   <section class="spec" id="map">
   <div class="cmap-car" data-carousel data-track="Compass step" aria-roledescription="carousel" aria-label="${Object.keys(CMAPS).length} compasses">
@@ -1350,7 +1350,7 @@ const COMPASS_PAGE = ({
   <p class="small"><b>Diamonds</b> (once council has voted at least 3 times on each line): where a member’s <b>votes</b> put them, joined by a dotted line to where their campaign answers put them. <a href="/scorecard/#positions">Do they vote the way they said? Statement by statement</a>.</p>
   <div class="card compass-detail" id="cdetail" aria-live="polite" style="margin-top:1rem"><p class="muted" style="margin:0">Tap any dot above to see the details here.</p></div>
   <div data-cmap-note="classic">
-  <p class="small"><b>Left–right</b> is support: more shelter and supportive-housing spaces, and mental-health crisis teams (left), or fewer homeless shelters (right). <b>Up–down</b> is the camps: clear tent encampments and move Under One Roof out of downtown (down), or let the camps stay (up). These aren’t opposites — someone can want more shelter <em>and</em> the camps cleared (bottom-left). Tap a dot for details.</p>
+  <p class="small"><b>Left–right</b> is support: more shelter and supportive-housing spaces, and mental-health crisis teams (left), or fewer homeless shelters (right). <b>Up–down</b> is the camps: clear tent encampments and move Under One Roof out of downtown (down), or let the camps stay (up). These aren’t opposites: someone can want more shelter <em>and</em> the camps cleared (bottom-left). Tap a dot for details.</p>
   <p class="small"><b>Read this before judging anyone by it:</b> council has voted on supportive housing but has never voted on encampments, police numbers or public drug use, so only candidates who answered our questionnaire can be placed. Everyone else is listed under the chart as not placed. <a href="/issues/#homelessness">What council has and hasn’t decided</a>.</p>
   </div>
   </section>
@@ -1364,7 +1364,7 @@ const COMPASS_PAGE = ({
   <div class="table-scroll"><table class="issue-table"><thead><tr><th>Candidate</th>${Object.values(AXES).map((A) => `<th>${A.title}</th>`).join('')}</tr></thead><tbody>
   ${all.map((c) => `<tr><td><a href="/council/${c.slug}/">${esc(c.name)}</a>${c.office === 'mayor' ? '<br><span class="small">mayor</span>' : ''}</td>${Object.keys(AXES).map((k) => { const s = axisScore(c, k); return `<td data-label="${AXES[k].title}">${s ? esc(axisWords(k, s)) : '<span class="muted">no public record</span>'}</td>`; }).join('')}</tr>`).join('')}
   </tbody></table></div></details>
-  <details class="drop" id="how"><summary>How the compasses are worked out</summary><p>Nobody here runs for a party, so nobody chose these labels. Each dot is <b>calculated</b> from the same sourced answers used in the quiz. <b>Homelessness:</b> left–right averages the support statements (more shelter and supportive housing, even near homes; mental-health crisis teams alongside the RCMP). Up–down averages two statements (clear encampments even when there is nowhere else to go; move Under One Roof out of downtown), with agreeing pushing the dot down.</p><p><b>How should we grow — and pay for it?</b> Left–right is the same growth line as the Growth list below (slow the pace of approvals; taller buildings downtown; cut red tape for builders). Up–down averages the statements about taxes, borrowing and public spending (housing, shelters, transit, recreation, bike lanes, childcare).</p><p><b>Cars or bikes?</b> Left–right is the growth line. Up–down averages the parking and transport statements: more public parking downtown, parking required in new buildings and free parking for residents (up), against paid parking being fair, and spending local money on bike lanes, sidewalks and regional transit (down).</p><p>A dot is hollow when either line rests on a single statement.</p></details>
+  <details class="drop" id="how"><summary>How the compasses are worked out</summary><p>Nobody here runs for a party, so nobody chose these labels. Each dot is <b>calculated</b> from the same sourced answers used in the quiz. <b>Homelessness:</b> left–right averages the support statements (more shelter and supportive housing, even near homes; mental-health crisis teams alongside the RCMP). Up–down averages two statements (clear encampments even when there is nowhere else to go; move Under One Roof out of downtown), with agreeing pushing the dot down.</p><p><b>How should we grow, and pay for it?</b> Left–right is the same growth line as the Growth list below (slow the pace of approvals; taller buildings downtown; cut red tape for builders). Up–down averages the statements about taxes, borrowing and public spending (housing, shelters, transit, recreation, bike lanes, childcare).</p><p><b>Cars or bikes?</b> Left–right is the growth line. Up–down averages the parking and transport statements: more public parking downtown, parking required in new buildings and free parking for residents (up), against paid parking being fair, and spending local money on bike lanes, sidewalks and regional transit (down).</p><p>A dot is hollow when either line rests on a single statement.</p></details>
   <details class="drop" hidden><summary>Why not “left vs. right”?</summary><p>Those labels come from national politics. Town councils don’t vote on civil liberties, candidates here don’t run for parties, and almost none of them have said anything about policing. Rather than guess, every position on this page is <b>calculated from the candidate’s sourced answers</b> to the same statements used in <a href="/quiz/">the quiz</a>. Anyone who hasn’t spoken publicly on a topic is left off that list, not parked in the middle.</p></details>`,
   scripts: `<script>var CD=${JSON.stringify(Object.fromEntries(Object.keys(CMAPS).map((mk) => [mk, Object.fromEntries(placedOn(mk).map((c) => [c.slug, { n: c.name, d: cmapWords(c, mk) }]))])))};
 var AX=${JSON.stringify(Object.fromEntries(Object.entries(AXES).map(([k, A]) => [k, A.q])))};
@@ -1390,9 +1390,9 @@ write('/issues/', page({
   desc: 'Housing, growth, taxes, Woodfibre LNG, homelessness, policing, parking and more: what Squamish council is doing on each one, the background in plain words, and where each member stands.',
   body: `<h1>The issues</h1>
   <p class="lede">Each topic in plain words: what council is doing about it now, the background, and where each member stands. Tap a topic to open it.</p>
-  <ul class="plainlist stack">${(ctx.issues || []).filter((i) => TOPIC_SLUG[i.key]).map((i) => { const ts = TRACKED.filter((t) => t.topic === i.key); return `<li class="card" id="${i.key}"><h2><a href="/issues/${TOPIC_SLUG[i.key]}/">${esc(i.title)}</a></h2><p>${esc(i.teaser)}</p>
+  <ul class="plainlist stack">${(ctx.issues || []).filter((i) => TOPIC_SLUG[i.key]).map((i) => { const ts = TRACKED.filter((t) => t.topic === i.key); return `<li class="card issue-hub" id="${i.key}"><h2><a href="/issues/${TOPIC_SLUG[i.key]}/">${esc(i.title)}</a></h2><p>${esc(i.teaser)}</p>
     ${ts.length ? `<p class="small"><b>What we’re following:</b></p><ul class="mlist">${ts.map(issueRow).join('')}</ul>` : ''}</li>`; }).join('')}
-  <li class="card"><h2><a href="/issues/woodfibre-tax-deal/">The Woodfibre LNG tax deal</a></h2><p>Council said no to a 10 year tax agreement in September 2026. What it would have meant, and where each member stands.</p></li></ul>`,
+  <li class="card issue-hub"><h2><a href="/issues/woodfibre-tax-deal/">The Woodfibre LNG tax deal</a></h2><p>Council said no to a 10 year tax agreement in September 2026. What it would have meant, and where each member stands.</p></li></ul>`,
 }));
 
 // ---------- QUIZ ----------
