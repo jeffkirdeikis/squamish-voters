@@ -1,5 +1,5 @@
 #!/bin/zsh
-# Installs (or with "remove", uninstalls) the launchd job that runs run.sh every 2 hours while the Mac is awake.
+# Installs (or with "remove", uninstalls) the launchd job that starts run.sh every 15 minutes while the Mac is awake (run.sh decides whether to do a full run).
 PLIST="$HOME/Library/LaunchAgents/com.squamishvoters.meetings.plist"
 launchctl bootout "gui/$(id -u)" "$PLIST" 2>/dev/null
 if [ "$1" = remove ]; then rm -f "$PLIST"; echo removed; exit 0; fi
@@ -14,7 +14,7 @@ cat > "$PLIST" <<PL
 <plist version="1.0"><dict>
   <key>Label</key><string>com.squamishvoters.meetings</string>
   <key>ProgramArguments</key><array><string>/bin/zsh</string><string>$RUN</string></array>
-  <key>StartInterval</key><integer>7200</integer>
+  <key>StartInterval</key><integer>900</integer>
   <key>RunAtLoad</key><true/>
   <key>LowPriorityIO</key><true/>
   <key>Nice</key><integer>10</integer>
@@ -22,4 +22,4 @@ cat > "$PLIST" <<PL
   <key>StandardErrorPath</key><string>$HOME/Library/Logs/squamish-voters.log</string>
 </dict></plist>
 PL
-launchctl bootstrap "gui/$(id -u)" "$PLIST" && echo "installed: runs every 2 hours while the Mac is awake"
+launchctl bootstrap "gui/$(id -u)" "$PLIST" && echo "installed: runs every 2 hours while the Mac is awake, every 15 minutes on council meeting nights"

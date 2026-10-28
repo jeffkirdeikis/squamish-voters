@@ -1,5 +1,5 @@
 #!/bin/zsh
-# Video summaries, run on Jeff's Mac every 2 hours by launchd (YouTube blocks cloud servers, not home internet).
+# Video summaries, run on Jeff's Mac by launchd (every 2 hours, every 15 minutes on meeting nights) (YouTube blocks cloud servers, not home internet).
 # Pulls, summarises any finished meeting from its video, commits and pushes; the push deploys the site.
 # Runs in its own clone (~/.squamish-voters-bot) so it never touches the working copy you edit.
 # Install or remove: scripts/pipeline/mac/install.sh [remove]. Log: ~/Library/Logs/squamish-voters.log
@@ -8,6 +8,14 @@
 set -e
 cd "$(dirname "$0")/../../.."
 export PATH="$PWD/scripts/pipeline/mac/bin:$HOME/.local/node/bin:$HOME/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+# launchd starts this every 15 minutes. On a council meeting night (6 p.m. to 2 a.m.) every start does a full run, so the
+# summary is up the same night; the rest of the time it only runs once every 2 hours.
+H=$(date +%H); D=$(date +%F); Y=$(date -v-1d +%F)
+NIGHT=""
+if [ "$H" -ge 18 ] && ls data/meetings/$D-*.json >/dev/null 2>&1; then NIGHT=1; fi
+if [ "$H" -lt 2 ] && ls data/meetings/$Y-*.json >/dev/null 2>&1; then NIGHT=1; fi
+if [ -z "$NIGHT" ] && [ -f .last-run ] && [ $(( $(date +%s) - $(stat -f %m .last-run) )) -lt 6900 ]; then exit 0; fi
+touch .last-run
 set -a; . ./.env.local; set +a
 git checkout -q main
 git pull -q --rebase

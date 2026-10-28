@@ -1,0 +1,6 @@
+{
+  "_about": "Roles on council for each member: acting mayor months, the Squamish-Lillooet Regional District board seat, committee and liaison appointments. Empty until the District publishes the appointments, which council usually makes at or soon after the swearing in on November 3, 2026. Fill members.<slug> with [{ \"role\": \"Acting mayor\", \"when\": \"January to March 2027\", \"source_url\": \"https://...\" }]. Every role needs a source_url.",
+  "note": "Appointed Nov 3",
+  "source_url": null,
+  "members": {}
+}

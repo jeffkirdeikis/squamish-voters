@@ -21,6 +21,8 @@ const PROMISES = fs.existsSync(path.join(ROOT, 'data', 'promises.json')) ? read(
 // Corrections log (/corrections/). An entry's "affects" lists the page addresses (or starts of addresses) it changed.
 const CORR = fs.existsSync(path.join(ROOT, 'data', 'corrections.json')) ? read('corrections.json') : { log_started: '2026-10-28', entries: [] };
 const corrDate = (u) => (CORR.entries || []).filter((e) => [e.page, ...(e.affects || [])].some((a) => a && u.startsWith(a))).map((e) => e.date).sort().pop() || '';
+// Roles on council (acting mayor, regional district board, committees). Empty until appointments are published.
+const ROLES = fs.existsSync(path.join(ROOT, 'data', 'roles.json')) ? read('roles.json') : { members: {} };
 const TRACKED = fs.existsSync(path.join(ROOT, 'data', 'tracked-issues.json')) ? read('tracked-issues.json').issues || [] : [];
 const PART = fs.existsSync(path.join(ROOT, 'data', 'participate.json')) ? read('participate.json') : {};
 const HOODS = PART.neighbourhoods || [];
@@ -293,7 +295,7 @@ const issueCtx = (key) => (ctx.issues || []).find((i) => i.key === key) || {};
 // ---------- layout ----------
 // Desktop top bar (layout A, Oct 26): four jobs. Council and Your say open a dropdown; each also has its own hub page.
 const NAV_GROUPS = [
-  { href: '/council/', label: 'Council', items: [['/council/', 'Your mayor and council'], ['/meetings/', 'Council meetings'], ['/this-week/', 'This week at council'], ['/scorecard/', 'Scorecard: promises and positions']] },
+  { href: '/council/', label: 'Council', items: [['/council/', 'Your mayor and council'], ['/meetings/', 'Council meetings'], ['/this-week/', 'This week at council'], ['/scorecard/', 'Scorecard: promises and positions'], ['/how-council-works/', 'How council works']] },
   { href: '/your-say/', label: 'Your say', items: [['/wants/', 'What Squamish Wants'], ['/have-your-say/', 'Before council votes'], ['/priorities/', 'Readers’ top issues']] },
   { href: '/meetings/', label: 'Meetings' },
   { href: '/neighbourhoods/', label: 'Neighbourhoods' },
@@ -325,7 +327,7 @@ const ICON = {
 // Each tab lights up for every page in its group (Meetings, Promises and the rest sit under Council).
 const TABS = [['/', 'Home', 'home'], ['/council/', 'Council', 'people'], ['/your-say/', 'Your say', 'hand'], ['/news/', 'News', 'news'], ['#menu', 'More', 'more']];
 const TAB_GROUP = {
-  '/council/': ['/council/', '/meetings/', '/this-week/', '/scorecard/', '/quiz/', '/compare/', '/results/'],
+  '/council/': ['/council/', '/meetings/', '/this-week/', '/scorecard/', '/quiz/', '/compare/', '/results/', '/how-council-works/'],
   '/your-say/': ['/your-say/', '/wants/', '/have-your-say/', '/priorities/', '/welcome/'],
   '/news/': ['/news/'],
 };
@@ -337,7 +339,7 @@ const MENU_ICON = {
 };
 const MOBILE_MENU = [
   ['/', 'Home', 'home'], ['/wants/', 'What Squamish Wants: say yes or no to local asks', 'hand'], ['/your-say/', 'Your say: everywhere you can weigh in', 'ballot'], ['/council/', 'Your mayor and council', 'people'], ['/neighbourhoods/', 'Your neighbourhood: decisions, building projects, news', 'compass'], ['/have-your-say/', 'Before council votes: vote on what council votes on', 'ballot'], ['/meetings/', 'Council meetings: what’s next and what they decided', 'meet'],
-  ['/this-week/', 'This week at council', 'meet'], ['/scorecard/', 'Scorecard: their promises and how they vote', 'promise'], ['/issues/', 'Issues: each topic, what’s happening and who stands where', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/news/', 'Squamish news', 'news'], ['/today/', 'Squamish today: weather, highway, wind, river', 'sun'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
+  ['/this-week/', 'This week at council', 'meet'], ['/how-council-works/', 'How council works, and the first 100 days', 'about'], ['/scorecard/', 'Scorecard: their promises and how they vote', 'promise'], ['/issues/', 'Issues: each topic, what’s happening and who stands where', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/news/', 'Squamish news', 'news'], ['/today/', 'Squamish today: weather, highway, wind, river', 'sun'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
   ['/about/', 'About this site &amp; sources', 'about'],
 ];
 
@@ -676,6 +678,10 @@ function qCard(q) {
 }
 const FB_CARD = '<a class="fbcard" href="https://www.facebook.com/groups/1090076830319905" target="_blank" rel="noopener"><img src="/img/facebook-group.jpg" width="400" height="149" alt="Squamish Voters and Politics Facebook group" loading="lazy"><span class="fbc-txt"><b>Join the conversation on Facebook</b><span>Talk about council decisions with other people in Squamish in the Squamish Voters and Politics group.</span><span class="fbc-btn">Join the group</span></span></a>';
 const SIGNUP_ON = ['/council/', '/results/', '/scorecard/', '/issues/', '/faq/', '/meetings/', '/explained/', '/compare/'];
+// Share pictures drawn at the end of the build (scripts/og-cards.mjs), one per council member and per upcoming meeting,
+// so a shared link shows that person or meeting instead of the general site picture (review item 22).
+const CARDS = [];
+const shareCard = (card) => { CARDS.push(card); return `${ORIGIN}/${card.file}?v=${crypto.createHash('sha1').update(JSON.stringify(card)).digest('hex').slice(0, 8)}`; };
 const signupBox = (where) => `<section class="card signup no-print" id="signup"><h2>Get it by email, once a week</h2>
   <p>Every Friday morning: what council decided that week and what’s coming up. Plain words, nothing else. Unsubscribe any time.</p>
   <form data-subscribe="${where}" novalidate>
@@ -818,7 +824,8 @@ for (const c of all) {
   const prev = peers[(idx - 1 + peers.length) % peers.length], next = peers[(idx + 1) % peers.length];
   // The date this member's page content last changed: a promise update, a vote, a correction, or their own statement.
   const updated = [...promisesOf(c).map((p) => isoDay(p.updated)), ...votesOf(c).map((d) => isoDay(d.corrected_on) || d.m.date), isoDay(c.direct?.date), isoDay(c.statement?.date), corrDate(`/council/${c.slug}/`)].filter((x) => x && x <= TODAY).sort().pop() || null;
-  write(`/council/${c.slug}/`, page({ updated,
+  const memberCard = (() => { const ps = promisesOf(c), k = pCounts(ps); return shareCard({ file: `share/cards/council-${c.slug}.png`, kicker: c.office === 'mayor' ? 'MAYOR OF SQUAMISH' : 'SQUAMISH COUNCILLOR', title: c.name, sub: 'Votes, promises and what they said', photo: hasPhoto(c) ? c.photo : null, stats: [[ps.length, 'promises tracked'], ...(ps.length - (k.not_yet || 0) > 0 ? [[k.kept || 0, 'kept so far']] : []), [castVotes(c).length, 'votes recorded']], foot: 'Council decides as a group. We track each member’s part.' }); })();
+  write(`/council/${c.slug}/`, page({ updated, image: memberCard, imageAlt: `${c.name}, ${c.office === 'mayor' ? 'Mayor of Squamish' : 'Squamish councillor'}`,
     url: '/council/', title: `${c.name}, ${c.office === 'mayor' ? 'Mayor of Squamish' : 'Squamish councillor'}: votes, promises and positions`,
     desc: raceRow(c) ? `${c.name} was elected ${c.office === 'mayor' ? 'mayor of Squamish' : 'to Squamish council'} on October 17, 2026 with ${Number(raceRow(c).total).toLocaleString('en-CA')} votes. How ${first(c)} votes, which promises they kept, and every campaign answer.` : `How ${c.name} votes on Squamish council, which campaign promises they have kept, and every answer they gave during the 2026 election, with sources.`,
     jsonld: [{
@@ -850,6 +857,7 @@ for (const c of all) {
     <div class="profile-main">
     ${whoIs(c)}
     ${memberFacts(c)}
+    ${rolesBox(c)}
     ${profileRecord(c)}
     <h2 id="campaign" class="campaign-h">What ${esc(first(c))} said during the 2026 campaign</h2>
     ${directNotice(c)}${paperNotice(c)}
@@ -1166,7 +1174,7 @@ write('/council/', page({
   <h2 id="compare">Compare them, issue by issue</h2>
   <p>What each of them said during the campaign, side by side. The mayor is marked in yellow.</p>
   ${COMPARE_BLOCK}
-  <div class="btn-row no-print"><a class="btn secondary" href="/compare/#compass">Who agrees with whom: the map</a><a class="btn secondary" href="/quiz/">Who on council thinks like you? Take the quiz</a><a class="btn secondary" href="/scorecard/">Scorecard</a></div>`,
+  <div class="btn-row no-print"><a class="btn secondary" href="/compare/#compass">Who agrees with whom: the map</a><a class="btn secondary" href="/quiz/">Who on council thinks like you? Take the quiz</a><a class="btn secondary" href="/scorecard/">Scorecard</a><a class="btn secondary" href="/how-council-works/">How council works</a></div>`,
 }));
 
 // ---------- COMPASS ----------
@@ -1421,7 +1429,8 @@ write('/quiz/', page({
 }));
 
 // ---------- MEETINGS ----------
-const MEET_HOW = `<details class="drop"><summary>How to watch or speak at a meeting</summary>
+const MEET_HOW = `<p class="small"><a href="/how-council-works/">How council works</a>: readings, the consent agenda, closed meetings and the new council’s first 100 days.</p>
+<details class="drop"><summary>How to watch or speak at a meeting</summary>
   <p><b>Go in person:</b> meetings are open to anyone at Council Chambers, Municipal Hall, 37955 Second Avenue. You don’t need to sign up to watch. Council meetings are usually the 1st and 3rd Tuesday of the month at 6 p.m.; Committee of the Whole is usually the 2nd and 4th Tuesday, often in the morning.</p>
   <p><b>Watch from home:</b> meetings are streamed live on the <a href="https://www.youtube.com/@DistrictofSquamish/streams" target="_blank" rel="noopener">District’s YouTube channel</a> and stay there afterward. Each meeting below links to its own video.</p>
   <p><b>Have your say:</b> you can write to council before a meeting, or speak at a public hearing. The District explains how on its <a href="https://squamish.ca/government-and-administration/council/" target="_blank" rel="noopener">council page</a>.</p></details>`;
@@ -1447,7 +1456,7 @@ for (const m of MEETINGS) {
   const votes = (m.decisions || []).filter((d) => d.votes && !d.consent_agenda);
   const links = [[m.video_url, '▶ Watch the full meeting video'], [m.agenda_url, 'Official agenda'], [m.minutes_url, 'Official minutes'], [m.transcript ? `/transcripts/${m.id}.txt` : null, 'Full written transcript']].filter(([u]) => u);
   write(mUrl(m), page({ updated: isoDay(m.minutes_checked) || isoDay(m.generated?.at) || null,
-    url: '/meetings/', image: done ? shareImg(m) : null, title: `Squamish ${T.label.charAt(0).toLowerCase() + T.label.slice(1)}, ${fmtLong(m.date)}: ${done ? 'what council decided' : 'agenda and how to watch'}`,
+    url: '/meetings/', image: done ? shareImg(m) : shareCard({ file: `share/cards/meeting-${m.id}.png`, kicker: T.label.toUpperCase(), title: fmtDay(m.date), sub: m.time ? `Starts at ${fmtTime(m.time)}` : 'Agenda, how to watch and how to have your say', stats: m.type === 'inaugural' ? [[all.length, 'members sworn in'], [PROMISES.length, 'promises we track']] : [], foot: m.type === 'inaugural' ? 'The new mayor and council take their oath of office' : 'What’s on the agenda and how to have your say' }), title: `Squamish ${T.label.charAt(0).toLowerCase() + T.label.slice(1)}, ${fmtLong(m.date)}: ${done ? 'what council decided' : 'agenda and how to watch'}`,
     desc: done ? `${S.headline} ${votes.length} vote${votes.length === 1 ? '' : 's'}, in plain words, with how each member voted.` : `Squamish ${T.label.toLowerCase()} on ${fmtDay(m.date)}${m.time ? ' at ' + fmtTime(m.time) : ''}: what’s on the agenda and how to watch.`,
     jsonld: [crumbLd([['Home', '/'], ['Meetings', '/meetings/'], [`${T.label}, ${fmtLong(m.date)}`, mUrl(m)]]), { '@context': 'https://schema.org', '@type': 'Event', name: `Squamish ${T.label}`, startDate: `${m.date}${m.time ? 'T' + m.time + ':00-' + (m.date >= '2026-11-01' && m.date < '2027-03-14' ? '08' : '07') + ':00' : ''}`, eventStatus: m.status === 'cancelled' ? 'https://schema.org/EventCancelled' : 'https://schema.org/EventScheduled', eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode', location: { '@type': 'Place', name: m.place || 'Squamish Municipal Hall', address: '37955 Second Avenue, Squamish, BC' }, organizer: { '@type': 'GovernmentOrganization', name: 'District of Squamish', url: 'https://squamish.ca/' } }],
     body: `<p class="crumbs"><a href="/meetings/">← All meetings</a></p>
@@ -1498,6 +1507,11 @@ if (TRACKED.length) {
       <section class="card"><h2>Where it stands${now ? ` <span class="small">step ${now.i + 1} of ${now.n}</span>` : ''}</h2>
         <ol class="isteps">${(t.steps || []).map((x) => `<li class="st-${esc(x.status)}"><span class="sdot" aria-hidden="true">${STEP_ICON[x.status] || '○'}</span><span><b>${esc(x.label)}</b>${x.date ? ` <span class="small">${esc(fmtLong(x.date))}</span>` : ''}${x.note ? `<br><span class="small">${escGl(x.note)}</span>` : ''}${src(x.source_url)}</span></li>`).join('')}</ol>
         ${t.what_next ? `<p><b>What happens next:</b> ${escGl(t.what_next)}</p>` : ''}</section>
+      ${t.slug === 'budget-2027' ? `<section class="card" id="assessment"><h2>Your BC Assessment notice (early January)</h2>
+        <p>BC Assessment mails every owner a notice in early January with the property’s value as of July 1 of the year before.${src('https://info.bcassessment.ca/', 'BC Assessment')}</p>
+        <p><b>Your assessment doesn’t set your tax bill by itself.</b> Council decides how much money to raise in the budget, then sets tax rates in the spring. What matters is how your value changed compared with the average home in Squamish: if yours went up more than average, your share of the tax goes up a bit more; if less, a bit less.</p>
+        <p>Think your value is wrong? You can ask BC Assessment to review it. The deadline is usually January 31, and it’s printed on your notice.${src('https://info.bcassessment.ca/', 'BC Assessment')}</p>
+        <p class="small">More: <a href="/how-council-works/#first-100-days">the new council’s first 100 days</a>, including when the budget and tax rates are voted on.</p></section>` : ''}
       <h2>How this council has voted on it</h2>
       ${ds.length ? `<div class="stack">${ds.map((d) => decisionCard(d, d.m)).join('')}</div>` : `<p class="muted">The new council hasn’t voted on this yet. Every vote on it will appear here.</p>`}
       ${qs.length ? `<h2>What each of them said during the campaign</h2>${qs.map(qCard).join('')}` : ''}
@@ -2042,6 +2056,7 @@ for (const ic of ctx.issues || []) {
     body: `<p class="crumbs"><a href="/issues/">← All the issues</a></p>
     <h1>Squamish council on ${esc(name)}</h1>
     ${ic.short_explainer && !ic.explainer.startsWith(ic.short_explainer.slice(0, 40)) ? `<p class="lede">${esc(ic.short_explainer)}</p>` : ''}
+    ${ic.key === 'taxes_spending' ? '<p class="notice info"><b>Your 2027 property tax, in one place:</b> <a href="/track/budget-2027/">the budget, when council votes, and what your BC Assessment notice means →</a></p>' : ''}
     ${TRACKED.some((t) => t.topic === ic.key) ? `<h2>What council is doing now</h2><ul class="mlist">${TRACKED.filter((t) => t.topic === ic.key).map(issueRow).join('')}</ul>` : ''}
     <h2>The background</h2>
     <p>${escGl(paras.slice(0, mid).join(' '))}</p><p>${escGl(paras.slice(mid).join(' '))}</p>
@@ -2284,6 +2299,65 @@ write('/subscribers/', page({ url: '/subscribers/', title: 'Admin', noindex: tru
 <script>window.SV_SUBS=${JSON.stringify({ issues: Object.fromEntries(SIGNUP_ISSUES.map((i) => [i.key, { t: i.title, i: i.icon, o: SIDES[i.key] ? [SIDES[i.key][1], SIDES[i.key][2]] : [] }])), hoods: Object.fromEntries(WELCOME_HOODS.map((h) => [h.slug, h.name])) }).replace(/</g, '\\u003c')};</script>
 <script src="/subscribers.js" defer></script>`,
 }));
+// "Roles on council": filled from data/roles.json once the District publishes appointments; until then, a plain note.
+function rolesBox(c) {
+  const rs = ((ROLES.members || {})[c.slug] || []).filter((r) => r.role && isUrl(r.source_url));
+  return `<section class="card roles" id="roles"><h2>${esc(first(c))}’s roles on council</h2>${rs.length
+    ? `<ul class="linklist">${rs.map((r) => `<li><b>${esc(r.role)}</b>${r.when ? ` <span class="small">${esc(r.when)}</span>` : ''}${src(r.source_url)}</li>`).join('')}</ul>`
+    : `<p class="muted">Not appointed yet. Council usually decides who serves as acting mayor, who sits on the Squamish-Lillooet Regional District board, and who joins which committees at or soon after the swearing in on November 3, 2026. We’ll list ${esc(first(c))}’s roles here once the District publishes them.</p>`}
+  <p class="small"><a href="/how-council-works/">How council works</a>: no one on council, not even the mayor, decides alone.</p></section>`;
+}
+
+// ---------- HOW COUNCIL WORKS (/how-council-works/) and the first 100 days ----------
+// Plain explainers, each with its source in provincial law (Community Charter) or the District's own pages.
+// Section numbers are the Community Charter's; check them at bclaws before changing any wording.
+{
+  const CC = 'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_00';
+  const cc = (n) => src(`${CC}#section${n}`, `Community Charter, section ${n}`);
+  const bud = TRACKED.find((t) => t.slug === 'budget-2027');
+  const step = (label) => (bud?.steps || []).find((x) => x.label.toLowerCase().includes(label)) || {};
+  const INAUG = MEETINGS.find((m) => m.type === 'inaugural');
+  const HOW = [
+    ['group', 'Council decides as a group', `<p>The mayor and six councillors make decisions together, by voting at a council meeting. A decision needs a majority of the members who are there, and at least four of the seven must be there for a meeting to go ahead.${cc(123)}${cc(129)}</p><p>No single member can make anything happen alone. That’s why we judge each member on their own part: how they voted and what they proposed.</p><p>A member who is in the room and doesn’t vote is counted as voting yes.${cc(123)}</p>`],
+    ['mayor', 'What the mayor can and can’t do', `<p>The mayor chairs council meetings, speaks for council, and has one vote like everyone else. There is no veto.${cc(116)}</p><p>The mayor sets up standing committees and picks who sits on them.${cc(141)} Within 30 days of a vote, the mayor can send it back to council once to be voted on again; council then decides.${cc(131)}</p>`],
+    ['bylaws', 'Bylaws and the three readings', `<p>A bylaw is a local law. It gets a first, second and third reading, which are votes to move it forward, and then a final vote to adopt it. A bylaw can’t be adopted on the same day as its third reading.${cc(135)}</p><p>A yes at first reading usually means “let this go forward”, not “I support it”. We count the final vote when we check a promise.</p>`],
+    ['consent', 'The consent agenda', `<p>Routine items, like receiving reports and minutes, are approved together in one vote. Any member who wants to debate an item or vote against it can ask for it to be taken out and voted on by itself. <a class="src" href="https://squamish.civicweb.net/Portal/MeetingSchedule.aspx" target="_blank" rel="noopener">[agendas]</a></p>`],
+    ['closed', 'Closed meetings, and why they’re allowed', `<p>Council can meet privately only for reasons the law lists, and has to say which reason in an open meeting first. The main ones, in plain words: buying or selling land, legal advice, staff and hiring matters, contract talks that would be hurt if public, and someone’s personal information.${cc(90)}</p><p>When a closed decision is later made public, it’s called “rise and report”.</p>`],
+    ['conflicts', 'Conflicts of interest', `<p>A member who has a money interest in a decision, or another interest that could sway them, must say so, leave the room, and not vote or talk about it. Minutes record this. We show it as “stepped out”, never as a missed vote.${cc(100)}${cc(101)}</p>`],
+    ['cow', 'Committee of the Whole and Special meetings', `<p>At a Committee of the Whole, the whole council talks an issue through. It can only recommend; nothing is decided until council confirms it at a later council meeting. Special meetings are extra council meetings called with notice. In Squamish they are frequent and can include big decisions, like budget meetings.${cc(127)}</p>`],
+  ];
+  const D100 = [
+    [INAUG ? fmtLong(INAUG.date) : 'November 3, 2026', 'Swearing in', `The mayor and councillors take their oath of office at the first meeting.${INAUG?.agenda_url ? src(INAUG.agenda_url, 'agenda') : ''} Council usually also sets the acting mayor schedule and names members to the Squamish-Lillooet Regional District board and to committees around this time.${cc(130)}`],
+    ['November to December', 'Getting started', 'Orientation for new members, committee and liaison appointments, and the meeting schedule for the year. Most early votes are routine. Expect very few promise checks before the budget.'],
+    ['From November', 'The 2027 budget', `The new council works through the budget, mostly at Special meetings. ${bud ? esc(bud.summary.split('. ').slice(-1)[0]) : ''}${src(step('draft').source_url)}`],
+    ['Likely January 2027', 'Budget adopted', `The financial plan bylaw gets its readings and is adopted. ${esc(step('adoption').note || '')}${src(step('adoption').source_url)}`],
+    ['Early January 2027', 'BC Assessment notices arrive', 'Your property’s assessed value for 2027 comes in the mail. It doesn’t set your tax bill by itself: council’s tax rates do. <a href="/track/budget-2027/#assessment">What your assessment means</a>.'],
+    ['Winter to spring 2027', 'A new strategic plan', 'Councils usually set a plan for their term in their first months. The last council’s 2023 to 2026 plan is done.'],
+    ['By about May 2027', 'Code of conduct', `The law says a new council must consider a code of conduct for its members within six months of its first regular meeting.${cc('113.1')}`],
+    ['Before May 15, 2027', 'Tax rates set', `The tax rates bylaw has to be adopted after the financial plan and before May 15. ${esc(step('tax rate').note || '')}${cc(197)}${cc(165)}`],
+  ];
+  const faq = [
+    ['Can the mayor of Squamish make decisions alone?', 'No. Council decides as a group by majority vote. The mayor chairs meetings and has one vote, with no veto, but can send a decision back to council once within 30 days to be voted on again.'],
+    ['What does first reading of a bylaw mean?', 'It is the first of three votes to move a bylaw forward before a final vote to adopt it. A yes at first reading usually means letting the bylaw go forward for more discussion, not final support.'],
+    ['Why does Squamish council meet behind closed doors?', 'The Community Charter allows closed meetings only for listed reasons, such as land deals, legal advice, staff matters and some negotiations. Council must say which reason applies in an open meeting first.'],
+  ];
+  write('/how-council-works/', page({
+    url: '/how-council-works/', title: 'How Squamish council works, in plain words',
+    desc: 'How Squamish council makes decisions: voting as a group, what the mayor can and can’t do, bylaw readings, the consent agenda, closed meetings, conflicts, and what happens in the new council’s first 100 days.',
+    jsonld: [crumbLd([['Home', '/'], ['Council', '/council/'], ['How council works', '/how-council-works/']]), { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }],
+    body: `<p class="crumbs"><a href="/council/">← Your mayor and council</a></p>
+    <h1>How council works</h1>
+    <p class="lede">No councillor, and not even the mayor, can make anything happen alone. Council decides as a group, and some things need the Province or others too. So we judge each person on how they voted and what they proposed.</p>
+    <div class="chip-row no-print">${HOW.map(([id, h]) => `<a class="chip-btn" href="#${id}">${esc(h)}</a>`).join('')}<a class="chip-btn" href="#first-100-days">The first 100 days</a></div>
+    ${HOW.map(([id, h, body]) => `<section class="card" id="${id}"><h2>${h}</h2>${body}</section>`).join('')}
+    <h2 id="first-100-days">The new council’s first 100 days</h2>
+    <p>What usually happens after the November 3 swearing in. Dates after November are the usual pattern, not fixed.</p>
+    <ol class="isteps">${D100.map(([when, what, note]) => `<li class="st-upcoming"><span class="sdot" aria-hidden="true">○</span><span><b>${esc(what)}</b> <span class="small">${esc(when)}</span><br><span class="small">${note}</span></span></li>`).join('')}</ol>
+    <p class="small muted">From the Community Charter (B.C.’s law for municipalities) and the District of Squamish. Something out of date? Email <a href="mailto:${esc(SITE.contact)}">${esc(SITE.contact)}</a>.</p>
+    ${signupBox('how')}`,
+  }));
+}
+
 // ---------- CORRECTIONS (every fix we make, plus every vote the official minutes corrected) ----------
 {
   const fromMinutes = DECISIONS.filter((d) => corrections(d).length).map((d) => ({ date: d.corrected_on || isoDay(d.m.minutes_checked) || d.m.date, d }));
@@ -2457,4 +2531,6 @@ fs.writeFileSync(path.join(DIST, 'sitemap.xml'), `<?xml version="1.0" encoding="
 ${[...new Set(SITEMAP)].map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>${mod(u)}</lastmod><priority>${prio(u)}</priority></url>`).join('\n')}
 </urlset>
 `);
+// Share pictures for member and upcoming meeting pages (see shareCard above).
+console.log(`Share cards: ${await (await import('./scripts/og-cards.mjs')).renderCards(CARDS, DIST)}`);
 console.log(`Built ${all.length} council members, ${MEETINGS.length} meetings, ${PROMISES.length} promises -> dist/`);
