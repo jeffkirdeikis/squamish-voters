@@ -1,0 +1,34 @@
+# Monday mornings: ask Claude (with web search) 20 questions Squamish residents ask, record whether the answers cite
+# squamishvoters.com, and commit the results (shown on the private /ai-check/ page). About $1 to $3 a run.
+# Needs the ANTHROPIC_API_KEY repository secret.
+name: AI visibility check
+on:
+  schedule:
+    - cron: '0 16 * * 1'
+  workflow_dispatch:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci --no-audit --no-fund
+      - name: Ask, then commit the results
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          node scripts/ai-visibility/check.mjs
+          git config user.name 'squamish-voters-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add data/ai-visibility
+          if git diff --cached --quiet; then echo 'Nothing new'
+          elif node build.mjs > /dev/null; then
+            git commit -q -m "AI visibility check $(date -u +%Y-%m-%d)"
+            git pull --rebase --autostash -q && git push -q
+          else echo 'Build failed; not committing'
+          fi

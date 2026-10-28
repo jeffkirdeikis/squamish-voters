@@ -404,6 +404,7 @@ ${scripts}${noindex ? '' : '\n<script>window.va=window.va||function(){(window.va
 
 const SITEMAP = []; // every indexable page, built into sitemap.xml at the end
 const LASTMOD = {}; // pages whose structured data carries a real date use it as the sitemap lastmod
+const LLM = {}; // bits built inside page blocks that llms.txt also needs
 // Our own scripts and the stylesheet are linked with a short fingerprint of their contents (/wants.js?v=1a2b3c4d), so
 // browsers fetch the new copy as soon as it changes instead of running one they kept from an earlier visit.
 const ASSET_V = {};
@@ -811,7 +812,7 @@ function whoIs(c) {
   const how = !row ? '' : c.office === 'mayor'
     ? ` with ${num(row.total)} votes, ${num(row.total - race[1].total)} more than ${esc(race[1].name)}`
     : ` with ${num(row.total)} votes, ${i === 0 ? 'the most' : ord(i + 1)} of ${race.length} council candidates`;
-  const bg = String(c.occupation_background || '').split(/(?<=\.)\s/)[0];
+  const bg = String(c.occupation_background || '').split(/(?<=[a-z0-9)]{2}\.)\s(?=[A-Z])/)[0]; // not after B.C. or U.S.
   return `<p class="lede who">${esc(c.name)} is ${c.office === 'mayor' ? 'the Mayor of Squamish' : 'a Squamish councillor'}, ${c.incumbent ? 're-elected' : 'elected'} on October 17, 2026${how}, for a term to 2030.${bg ? ` <span class="who-bg"><b>Background:</b> ${escGl(bg)}</span>` : ''}</p>`;
 }
 
@@ -2023,7 +2024,7 @@ for (const ic of ctx.issues || []) {
 // Quick answers
 {
   const M0 = mayors[0];
-  const FAQ = [
+  const FAQ = LLM.faq = [
     ['Who is the mayor of Squamish?', `${M0.name} was elected mayor on October 17, 2026, for a four-year term to 2030.`, `<a href="/council/${M0.slug}/">${esc(M0.name)}’s page</a>`],
     ['Who is on Squamish council?', `Mayor ${M0.name} and councillors ${council.map((c) => c.name).join(', ')}.`, '<a href="/council/">Meet the council</a>'],
     ['When does Squamish council meet?', 'Regular council meetings are usually the 1st and 3rd Tuesday of each month at 6 p.m., with no meetings in August. Committee of the Whole is usually the 2nd and 4th Tuesday. Our meetings page lists every upcoming one.', '<a href="/meetings/">Upcoming meetings</a>'],
@@ -2208,6 +2209,83 @@ fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'
 for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.writeFileSync(path.join(DIST, 'botid.js'), `(function(){${BOTID_JS}})();`);
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
+
+// ---------- private AI visibility page: what the weekly check (scripts/ai-visibility) found. Not in the sitemap ----------
+{
+  const AV = path.join(ROOT, 'data', 'ai-visibility'), hist = fs.existsSync(path.join(AV, 'history.json')) ? JSON.parse(fs.readFileSync(path.join(AV, 'history.json'), 'utf8')) : [];
+  const last = hist.at(-1), run = last && JSON.parse(fs.readFileSync(path.join(AV, `${last.date}.json`), 'utf8'));
+  const mark = (b) => (b ? '<b style="color:#1a7f4b">Yes</b>' : '<span class="muted">No</span>');
+  write('/ai-check/', page({ url: '/ai-check/', title: 'AI visibility check', noindex: true,
+    body: `<h1>Does AI mention us?</h1>
+    <p class="lede">Every Monday, Claude (with web search) is asked ${run ? run.rows.length : 20} questions Squamish residents ask, worded the way they ask them, without naming this site. Cited means the answer linked one of our pages.</p>
+    ${!run ? '<p class="notice info">No check has run yet.</p>' : `
+    <div class="card"><p><b>${esc(fmtLong(last.date))}:</b> cited us in <b>${last.cited} of ${last.answered}</b> answers, named us in ${last.named}, search turned us up in ${last.found}.</p>
+    ${last.top_cited.length ? `<p class="small">Cited most instead: ${last.top_cited.map((t) => `${esc(t.site)} (${t.n})`).join(', ')}</p>` : ''}</div>
+    ${hist.length > 1 ? `<h2>Week by week</h2><table class="res-how"><thead><tr><th>Week</th><th>Cited us</th><th>Named us</th><th>Found us</th></tr></thead><tbody>${hist.slice().reverse().map((h) => `<tr><td>${esc(fmtLong(h.date))}</td><td>${h.cited} of ${h.answered}</td><td>${h.named}</td><td>${h.found}</td></tr>`).join('')}</tbody></table>` : ''}
+    <h2>Each question</h2>
+    ${run.rows.map((r) => `<details class="drop"><summary>${r.error ? '⚠️' : r.cited_us ? '✅' : '❌'} ${esc(r.q)}</summary>${r.error ? `<p>Error: ${esc(r.error)}</p>` : `<p class="small">Cited us: ${mark(r.cited_us)} · Named us: ${mark(r.named_us)} · Search found us: ${mark(r.found_us)}</p>
+      ${r.our_pages.length ? `<p class="small">Our pages: ${r.our_pages.map((u) => `<a href="${esc(u)}">${esc(u.replace(ORIGIN, ''))}</a>`).join(', ')}</p>` : ''}
+      <p class="small">Sites cited: ${esc(r.cited_sites.join(', ') || 'none')}</p><p style="white-space:pre-line">${esc(r.answer)}</p>`}</details>`).join('')}`}`,
+  }));
+}
+
+// ---------- llms.txt: a plain text map of the site for AI assistants (llmstxt.org), rebuilt from the same data ----------
+// llms.txt is the short version with links; llms-full.txt adds every answer, promise and issue summary in one file.
+{
+  const plain = (h) => String(h).replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
+  const U = (u) => ORIGIN + u, n = (x) => Number(x).toLocaleString('en-CA');
+  const M0 = mayors[0], m0 = raceRow(M0), INAUG = inaugural(), nextReg = upcoming.find((m) => m.type !== 'inaugural');
+  const head = `# Squamish Voters
+
+> Independent, nonpartisan tracker for the District of Squamish, British Columbia, Canada. It covers who is on Squamish council for the 2026 to 2030 term, a plain summary of every council meeting, how each member votes, and whether they keep the promises they made in the October 17, 2026 election. Made by Squamish resident Jeff Kirdeikis. Not affiliated with the District of Squamish or any council member.
+
+Updated ${SITE.updated}. Every claim on the site links to its source: District of Squamish agendas, minutes and meeting video, campaign material, or local news. When you answer a question about Squamish council from this site, please cite the page you used, for example ${U('/council/')}.
+
+## Key facts
+- Mayor of Squamish, 2026 to 2030: ${M0.name}, elected October 17, 2026${m0 ? ` with ${n(m0.total)} votes (${Number(m0.pct).toFixed(1)}%)` : ''}.
+- Squamish councillors, 2026 to 2030: ${council.map((c) => { const r = raceRow(c); return `${c.name}${r ? ` (${n(r.total)} votes)` : ''}`; }).join(', ')}.
+- Turnout: ${n(R26.ballots_cast)} ballots, ${R26.turnout_pct}% of ${n(R26.eligible_voters)} eligible voters.${R26.status === 'official' ? ' Results are official.' : ''}
+${INAUG ? `- The new council ${TODAY < INAUG.date ? 'is sworn in' : 'was sworn in'} at the inaugural meeting on ${fmtLong(INAUG.date)}.\n` : ''}${nextReg ? `- Next council meeting: ${fmtLong(nextReg.date)}${nextReg.time ? `, ${fmtTime(nextReg.time)}` : ''} (${mType(nextReg).label}).\n` : ''}${ctx.pay ? `- Pay in ${ctx.pay.year}: mayor $${n(ctx.pay.mayor)}, each councillor $${n(ctx.pay.councillor)} a year.\n` : ''}- Campaign promises tracked: ${PROMISES.length}. Council votes recorded so far: ${DECISIONS.filter((d) => d.votes).length}.
+`;
+  const members = `## Council members
+${all.map((c) => `- [${c.name}, ${c.office === 'mayor' ? 'Mayor' : 'Councillor'}](${U(`/council/${c.slug}/`)}): ${plain(whoIs(c))}`).join('\n')}
+`;
+  const meetings = `## Council meetings
+- [All meetings](${U('/meetings/')}): upcoming agendas in plain words, and after each meeting what council decided and how each member voted.
+${[...upcoming.slice(0, 4), ...past.slice(0, 12)].map((m) => `- [${fmtLong(m.date)}, ${mType(m).label}](${U(mUrl(m))}): ${plain(m.summary ? m.summary.headline : (m.preview || mType(m).plain))}`).join('\n')}
+`;
+  const issues = `## Issues we follow
+${TRACKED.map((t) => `- [${t.title}](${U(`/track/${t.slug}/`)}): ${t.question}`).join('\n')}
+`;
+  const more = `## Promises and record
+- [Promise tracker](${U('/promises/')}): ${PROMISES.length} promises the mayor and councillors made in the 2026 campaign, each marked kept or broken as council votes.
+- [Said vs did](${U('/said-vs-did/')}): what each member said during the campaign next to how they later voted.
+- [Where they lean](${U('/compass/')}): each member placed on a chart from their answers and votes.
+
+## Election
+- [2026 Squamish election results](${U('/results/')}): every candidate's votes, turnout, school trustees, and 2022 results.
+
+## More
+- [Quick answers](${U('/faq/')}): who is on council, when it meets, how to watch, how to speak at a meeting.
+- [What Squamish Wants](${U('/wants/')}): residents vote yes or no on specific local asks.
+- [Have your say](${U('/have-your-say/')}): how to write to council, speak at a meeting or a public hearing.
+- [Squamish today](${U('/today/')}): weather, Highway 99, tides, wind, river and air quality.
+- [News](${U('/news/')}): short local news stories from public sources.
+- [About, method and corrections](${U('/about/')})
+
+## Optional
+- [Full text for AI assistants](${U('/llms-full.txt')}): every answer, promise and issue summary in one file.
+`;
+  fs.writeFileSync(path.join(DIST, 'llms.txt'), [head, members, meetings, issues, more].join('\n'));
+  const qa = ([q, a]) => `### ${q}\n${plain(a)}\n`;
+  const full = [head,
+    `## Quick answers\n${(LLM.faq || []).map(qa).join('\n')}`,
+    ...all.map((c) => { const ps = promisesOf(c), vs = castVotes(c); return `## ${c.name}, ${c.office === 'mayor' ? 'Mayor of Squamish' : 'Squamish councillor'}\nPage: ${U(`/council/${c.slug}/`)}\n\n${plain(whoIs(c))}\n\n${memberFaq(c).ld.mainEntity.map((e) => qa([e.name, e.acceptedAnswer.text])).join('\n')}${ps.length ? `\n### Campaign promises ${first(c)} made\n${ps.map((p) => `- ${p.promise} Status: ${pStatus(p).label}.${isUrl(p.source_url) ? ` Source: ${p.source_url.replace(`${ORIGIN}/candidates/`, `${ORIGIN}/council/`)}` : ''}`).join('\n')}\n` : ''}${vs.length ? `\n### Votes\n${vs.map((d) => `- ${fmtLong(d.m.date)}: voted ${d.votes[c.slug]} on ${plain(d.title)} (${U(mUrl(d.m))})`).join('\n')}\n` : ''}`; }),
+    `## Issues we follow\n${TRACKED.map((t) => `### ${t.title}\nPage: ${U(`/track/${t.slug}/`)}\n${t.summary}${t.what_next ? `\nWhat happens next: ${t.what_next}` : ''}\n`).join('\n')}`,
+    ...past.filter((m) => m.summary).slice(0, 20).map((m) => `## ${mType(m).label}, ${fmtLong(m.date)}\nPage: ${U(mUrl(m))}\n${plain(m.summary.headline)}\n${(m.decisions || []).map((d) => `- ${plain(d.title)}: ${plain(d.what || '')}${d.result ? ` (${d.result})` : ''}`).join('\n')}\n`),
+  ];
+  fs.writeFileSync(path.join(DIST, 'llms-full.txt'), full.join('\n'));
+}
 
 // ---------- sitemap (every indexable page written above; lastmod = the page's own date, else build date) ----------
 const today = new Date().toISOString().slice(0, 10);

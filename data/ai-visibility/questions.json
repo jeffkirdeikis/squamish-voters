@@ -1,0 +1,22 @@
+[
+  { "id": "mayor", "topic": "council", "q": "Who is the mayor of Squamish?" },
+  { "id": "council", "topic": "council", "q": "Who is on Squamish council now?" },
+  { "id": "won", "topic": "election", "q": "Who won the 2026 Squamish election?" },
+  { "id": "results", "topic": "election", "q": "Squamish election results 2026 with vote counts" },
+  { "id": "tracker", "topic": "record", "q": "Is there a website that tracks how Squamish councillors vote and whether they keep their promises?" },
+  { "id": "follow", "topic": "record", "q": "Where can I easily follow what Squamish council decides at each meeting?" },
+  { "id": "easton-promises", "topic": "record", "q": "What did Sean Easton promise when he ran for mayor of Squamish?" },
+  { "id": "ellis", "topic": "council", "q": "Who is Sarah Ellis on Squamish council?" },
+  { "id": "desjardins", "topic": "council", "q": "Who is Janice DesJardins in Squamish?" },
+  { "id": "next-meeting", "topic": "meetings", "q": "When is the next Squamish council meeting?" },
+  { "id": "speak", "topic": "meetings", "q": "How do I speak at a Squamish council meeting?" },
+  { "id": "pay", "topic": "council", "q": "How much are Squamish councillors and the mayor paid?" },
+  { "id": "wlng-deal", "topic": "issues", "q": "How did Squamish council vote on the Woodfibre LNG tax deal?" },
+  { "id": "floatels", "topic": "issues", "q": "What's the status of the Woodfibre LNG floatels in Squamish?" },
+  { "id": "under-one-roof", "topic": "issues", "q": "What's happening with the encampment behind Under One Roof in Squamish?" },
+  { "id": "brennan", "topic": "issues", "q": "Is Brennan Park in Squamish getting a new pool or ice rink?" },
+  { "id": "parking", "topic": "issues", "q": "Is paid parking coming to downtown Squamish?" },
+  { "id": "transit", "topic": "issues", "q": "Will there be a public bus from Squamish to Vancouver or Whistler?" },
+  { "id": "taxes", "topic": "issues", "q": "How much will Squamish property taxes go up in 2027?" },
+  { "id": "flood", "topic": "issues", "q": "What is Squamish doing about flood protection and the Cheekeye debris barrier?" }
+]
