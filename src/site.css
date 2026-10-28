@@ -1928,3 +1928,72 @@ body:has(.wa-ringtab) #totop { display: none !important; }
 .who-facts dt { font-weight: 700; color: var(--ink-2); }
 .who-facts dd { margin: 0; min-width: 0; }
 @media (max-width: 420px) { .who-facts div { grid-template-columns: 1fr; gap: 0; } }
+
+/* ---------- Squamish today (/today/ and the home page strip) ---------- */
+.td-strip { display: block; background: var(--brand-soft); color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); font-size: .95rem; }
+.td-strip[hidden] { display: none; }
+.td-strip .wrap { display: flex; align-items: center; gap: .6rem; padding-top: .5rem; padding-bottom: .5rem; }
+.td-strip b { color: var(--brand); white-space: nowrap; }
+.td-strip [data-ts] { flex: 1; min-width: 0; }
+.td-strip [data-ts] span { white-space: nowrap; }
+.td-strip [data-ts] i { font-style: normal; color: var(--muted); margin: 0 .4rem; }
+.td-strip .td-go { font-size: 1.3rem; color: var(--brand); line-height: 1; }
+.td-strip:hover [data-ts] { text-decoration: underline; }
+.td-top h1 { margin-bottom: .3rem; }
+.td-alerts { background: var(--warn-bg); color: var(--warn-ink); border: 1px solid #e9cf86; border-radius: var(--radius); padding: .8rem 1rem; margin: 1rem 0; }
+.td-alerts[hidden] { display: none; }
+.td-alerts p { margin: .2rem 0; }
+.td-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; margin: 1rem 0 1.5rem; }
+@media (min-width: 760px) { .td-grid { grid-template-columns: 1fr 1fr; } }
+.td-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem 1.2rem; box-shadow: var(--shadow); display: flex; flex-direction: column; min-width: 0; }
+.td-card h2 { margin: 0 0 .7rem; font-size: 1.2rem; display: flex; align-items: center; gap: .5rem; }
+.td-ico { font-size: 1.3rem; }
+.td-body { flex: 1; }
+.td-wait { color: var(--muted); }
+.td-src { font-size: .82rem; color: var(--muted); margin: .9rem 0 0; padding-top: .6rem; border-top: 1px solid var(--line); }
+.td-now { display: flex; align-items: center; gap: 1rem; }
+.td-big { font-size: 2.8rem; line-height: 1; font-weight: 800; color: var(--ink); white-space: nowrap; }
+.td-big small { font-size: 1rem; font-weight: 600; color: var(--muted); }
+.td-cond { font-weight: 700; margin: 0 0 .15rem; }
+.td-now p { margin: 0; }
+.td-sub { font-weight: 700; margin: 1rem 0 .3rem; font-size: .95rem; }
+.td-hours { list-style: none; padding: 0; margin: 1rem 0 .5rem; display: flex; gap: .2rem; overflow-x: auto; }
+.td-hours li { flex: 1 0 3rem; text-align: center; display: flex; flex-direction: column; align-items: center; font-size: .85rem; }
+.td-hours li span { color: var(--muted); }
+.td-hours li small { color: var(--link); }
+.td-periods { margin: .6rem 0; }
+.td-periods dt { font-weight: 700; margin-top: .5rem; }
+.td-periods dd { margin: 0; color: var(--ink-2); }
+.td-pill { display: inline-block; font-weight: 800; padding: .25rem .8rem; border-radius: 999px; background: var(--surface-2); margin: 0 0 .6rem; }
+.td-pill.ok { background: var(--yes-bg); color: var(--yes); }
+.td-pill.warn { background: var(--warn-bg); color: var(--warn-ink); }
+.td-pill.bad { background: var(--no-bg); color: var(--no); }
+.td-events { list-style: none; padding: 0; margin: 0; }
+.td-events li { padding: .55rem 0; border-top: 1px solid var(--line); font-size: .92rem; color: var(--ink-2); }
+.td-events li:first-child { border-top: 0; }
+.td-events li b { display: block; color: var(--ink); }
+.td-events li.hot b { color: var(--no); }
+.td-arrow { display: inline-block; font-weight: 800; color: var(--brand); }
+.td-bars { list-style: none; padding: 0; margin: .2rem 0 .5rem; display: flex; gap: 2px; align-items: flex-end; }
+.td-bars li { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; font-size: .72rem; }
+.td-bar { position: relative; width: 100%; height: 5.5rem; display: block; }
+.td-bar i { position: absolute; left: 12%; right: 12%; bottom: 0; border-radius: 3px 3px 0 0; }
+.td-bar i.g { background: var(--brand-soft); }
+.td-bar i.a { background: #7fa99a; }
+.td-bar i.a.kite { background: var(--brand); }
+.td-bars b { font-size: .8rem; margin-top: .15rem; }
+.td-bars small { color: var(--muted); }
+.td-kite { display: inline-block; width: .8rem; height: .8rem; border-radius: 2px; background: var(--brand); margin-right: .35rem; vertical-align: -1px; }
+.td-live { width: 100%; }
+.td-aq { padding: .2rem .7rem; border-radius: 12px; }
+.td-aq.ok { background: var(--yes-bg); color: var(--yes); }
+.td-aq.warn { background: var(--warn-bg); color: var(--warn-ink); }
+.td-aq.bad { background: var(--no-bg); color: var(--no); }
+.td-av { list-style: none; padding: 0; margin: 0 0 .5rem; }
+.td-av li { display: flex; justify-content: space-between; padding: .45rem .7rem; border-radius: 8px; margin-bottom: .3rem; background: var(--surface-2); }
+.td-av li[data-r="low"] { background: #e4f3e8; }
+.td-av li[data-r="moderate"] { background: #fff4c2; }
+.td-av li[data-r="considerable"] { background: #fde0c2; }
+.td-av li[data-r="high"] { background: #f9c9c3; }
+.td-av li[data-r="extreme"] { background: #222; color: #fff; }
+@media (max-width: 599px) { .td-strip { font-size: .88rem; } .td-strip b { display: none; } .td-strip [data-ts] i { margin: 0 .25rem; } }

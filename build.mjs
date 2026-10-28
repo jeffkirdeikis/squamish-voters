@@ -276,11 +276,13 @@ const NAV_GROUPS = [
   { href: '/neighbourhoods/', label: 'Neighbourhoods' },
   { href: '/track/', label: 'Issues', items: [['/track/', 'Issues we’re following'], ['/issues/', 'The issues explained']] },
   { href: '/news/', label: 'News' },
+  { href: '/today/', label: 'Today' },
 ];
 const NAV = [['/council/', 'Council'], ['/your-say/', 'Your say'], ['/wants/', 'What Squamish Wants'], ['/meetings/', 'Meetings'], ['/promises/', 'Promises'], ['/said-vs-did/', 'Said vs did'], ['/quiz/', 'Quiz'], ['/compare/', 'Compare'], ['/news/', 'News']];
 // The Menu lists everything; the top bar only has room for the essentials.
-const MENU = [...NAV, ['/have-your-say/', 'Before council votes'], ['/this-week/', 'This week at council'], ['/track/', 'Issues we’re following'], ['/compass/', 'Where they lean'], ['/issues/', 'The issues explained'], ['/priorities/', 'Readers’ top issues'], ['/neighbourhoods/', 'Your neighbourhood'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
+const MENU = [...NAV, ['/have-your-say/', 'Before council votes'], ['/this-week/', 'This week at council'], ['/track/', 'Issues we’re following'], ['/compass/', 'Where they lean'], ['/issues/', 'The issues explained'], ['/priorities/', 'Readers’ top issues'], ['/neighbourhoods/', 'Your neighbourhood'], ['/today/', 'Squamish today'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
 const ICON = {
+  sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>',
   gavel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4l6 6M11 7l6 6M12.5 5.5l-6 6 3 3 6-6M8 13l-5 5 3 3 5-5M4 21h9"/></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>',
   pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>',
@@ -313,9 +315,12 @@ const MENU_ICON = {
 const MOBILE_MENU = [
   ['/', 'Home', 'home'], ['/wants/', 'What Squamish Wants: say yes or no to local asks', 'hand'], ['/your-say/', 'Your say: everywhere you can weigh in', 'ballot'], ['/council/', 'Your mayor and council', 'people'], ['/neighbourhoods/', 'Your neighbourhood: decisions, building projects, news', 'compass'], ['/have-your-say/', 'Before council votes: vote on what council votes on', 'ballot'], ['/meetings/', 'Council meetings: what’s next and what they decided', 'meet'],
   ['/this-week/', 'This week at council', 'meet'], ['/track/', 'Issues we’re following', 'issues'], ['/promises/', 'Promise tracker', 'promise'], ['/said-vs-did/', 'Do they vote the way they said?', 'compare'], ['/quiz/', 'Who on council thinks like you?', 'quiz'], ['/compare/', 'Compare them, issue by issue', 'compare'],
-  ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/news/', 'Squamish news', 'news'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
+  ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/news/', 'Squamish news', 'news'], ['/today/', 'Squamish today: weather, highway, wind, river', 'sun'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
   ['/about/', 'About this site &amp; sources', 'about'],
 ];
+
+// Home page: one line of Squamish right now above the hero, filled by src/today.js (hidden until it loads).
+const TODAY_STRIP = `<a class="td-strip no-print" href="/today/" data-today-strip hidden><span class="wrap"><b>Squamish today</b><span data-ts></span><span class="td-go" aria-hidden="true">›</span></span></a><script src="/today.js" defer></script>`;
 
 // Search results cut a description at about 160 characters; end it on a whole word instead of mid word.
 const clip = (s, n) => (!s || s.length <= n ? s : `${s.slice(0, n - 1).replace(/[\s,;:]+\S*$/, '')}…`);
@@ -1008,7 +1013,7 @@ const v = ctx.voting || {};
       founder: { '@type': 'Person', name: 'Jeff Kirdeikis' }, areaServed: 'Squamish, British Columbia',
       ...(SITE.contact ? { email: SITE.contact } : {}),
     }],
-    hero: `<section class="hero hero-cc"><div class="wrap cc">
+    hero: `${TODAY_STRIP}<section class="hero hero-cc"><div class="wrap cc">
   <div class="cc-main">
     <h1>Squamish council made promises. We’re keeping score.</h1>
     <p class="lede">Every vote by Squamish’s mayor and councillors, checked against what they told voters in 2026.</p>
@@ -1727,6 +1732,34 @@ write('/your-say/', page({
 }));
 
 // ---------- NEIGHBOURHOODS (/neighbourhoods/ and /neighbourhoods/<slug>/) ----------
+// ---------- TODAY (/today/) ----------
+// Squamish right now: weather, Highway 99, wind at the Spit, river, air and avalanche danger. A daily reason to open
+// the site; council stays the main event. The page is a shell that src/today.js fills from api/today.js (cached 5 min).
+{
+  const card = (k, title, ico, src) => `<section class="td-card" data-td="${k}" aria-labelledby="td-${k}"><h2 id="td-${k}"><span class="td-ico" aria-hidden="true">${ico}</span>${title}</h2>
+    <div class="td-body" data-body><p class="td-wait">Loading…</p></div>
+    <p class="td-src">${src}</p></section>`;
+  write('/today/', page({
+    url: '/today/', title: 'Squamish today: weather, Highway 99, wind, river',
+    desc: 'Squamish right now on one page: the weather forecast, Highway 99 incidents, wind at the Spit, the Squamish River level, air quality and avalanche danger.',
+    jsonld: crumbLd([['Home', '/'], ['Squamish today', '/today/']]),
+    body: `<div class="td">
+  <header class="td-top"><h1>Squamish today</h1><p class="lede">Weather, the highway, wind, the river and the air, on one page. Updated every few minutes from public sources.</p><p class="small muted" data-td-at></p></header>
+  <div class="td-alerts" data-td-alerts hidden></div>
+  <div class="td-grid">
+  ${card('weather', 'Weather', '☁️', 'Source: <a href="https://weather.gc.ca/en/location/index.html?coords=49.702,-123.156" target="_blank" rel="noopener">Environment Canada</a>, Squamish Airport')}
+  ${card('highway', 'Highway 99', '🛣️', 'Horseshoe Bay to Whistler. Source: <a href="https://www.drivebc.ca/" target="_blank" rel="noopener">DriveBC</a>')}
+  ${card('wind', 'Wind at the Spit', '🪁', 'Forecast from <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> (the same weather models Windy uses). Live readings: <a href="https://squamishwindsports.com/conditions/wind/" target="_blank" rel="noopener">Squamish Windsports Society</a>')}
+  ${card('river', 'Squamish River', '🌊', 'Gauge near Brackendale. Source: <a href="https://wateroffice.ec.gc.ca/report/real_time_e.html?stn=08GA022" target="_blank" rel="noopener">Water Survey of Canada</a>')}
+  ${card('air', 'Air quality', '🌬️', 'Squamish monitor. Source: <a href="https://weather.gc.ca/airquality/pages/bcaq-007_e.html" target="_blank" rel="noopener">Environment Canada</a>')}
+  ${card('avalanche', 'Avalanche danger', '🏔️', 'Sea to Sky backcountry. Source: <a href="https://avalanche.ca/" target="_blank" rel="noopener">Avalanche Canada</a>')}
+  </div>
+  <section class="card td-about"><h2>Where this comes from</h2><p>Everything here is free public data, read straight from the people who measure it. Wind is a forecast, not a live reading. Before you head into the backcountry or onto the water, check the source.</p><p><a href="/news/">Squamish news →</a> · <a href="/meetings/">What council decided →</a></p></section>
+  </div>`,
+    scripts: '<script src="/today.js"></script>',
+  }));
+}
+
 // One page per neighbourhood: council decisions tagged with it, District development projects, issues we follow and news,
 // around a map. Boundaries and projects come from the District's open map data (scripts/pipeline/places.mjs).
 {
@@ -2170,7 +2203,7 @@ write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can�
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.writeFileSync(path.join(DIST, 'botid.js'), `(function(){${BOTID_JS}})();`);
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
