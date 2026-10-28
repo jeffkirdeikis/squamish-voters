@@ -1,0 +1,16 @@
+[
+  {
+    "date": "2026-10-27",
+    "model": "claude-opus-5-5",
+    "asked": 20,
+    "answered": 20,
+    "cited": 0,
+    "named": 0,
+    "found": 2,
+    "top_cited": [],
+    "tokens": {
+      "input_tokens": 488116,
+      "output_tokens": 18041
+    }
+  }
+]
