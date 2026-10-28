@@ -7,7 +7,8 @@ const SINCE = '2026-01-01T00:00:00Z'; // before the site launched, so this is ev
 
 export default async function handler(req, res) {
   const token = process.env.VERCEL_ANALYTICS_TOKEN;
-  if (!token) return res.status(503).json({ ok: false, error: 'not configured' });
+  // Not set up: answer quietly (204, no body) and let the CDN keep that for an hour, so pages stop asking.
+  if (!token) { res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600'); return res.status(204).end(); }
   // The API rounds to whole days, so ask through tomorrow to include today.
   const until = new Date(Date.now() + 864e5).toISOString().slice(0, 10) + 'T23:59:59Z';
   const q = new URLSearchParams({ projectId: PROJECT, teamId: TEAM, since: SINCE, until });

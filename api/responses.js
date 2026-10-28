@@ -2,7 +2,7 @@
 import { list, get } from '@vercel/blob';
 
 export default async function handler(req, res) {
-  const token = req.query.token || (req.headers.authorization || '').replace(/^Bearer /, '');
+  const token = (req.headers.authorization || '').replace(/^Bearer /, ''); // header only: a key in the address ends up in logs
   if (!process.env.ADMIN_TOKEN || token !== process.env.ADMIN_TOKEN) {
     res.setHeader('X-Robots-Tag', 'noindex');
     return res.status(401).json({ ok: false, error: 'unauthorized' });

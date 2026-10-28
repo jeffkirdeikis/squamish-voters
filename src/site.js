@@ -276,13 +276,19 @@
     }
     requestAnimationFrame(step);
   }
+  // The counter stops asking for good when the server says it isn't set up (204) or is down (any 5xx).
+  var visitTimer = 0;
+  function stopVisits() { if (visitTimer) clearInterval(visitTimer); visitTimer = 0; }
   function loadVisits() {
     if (document.hidden) return;
-    fetch('/api/visits/').then(function (r) { return r.json(); }).then(function (d) {
-      if (d.ok && d.pageviews > shown) showVisits(d.pageviews);
-    }).catch(function () {});
+    fetch('/api/visits/').then(function (r) {
+      if (r.status === 204 || r.status >= 500 || !r.ok) { stopVisits(); return null; }
+      return r.json();
+    }).then(function (d) {
+      if (d && d.ok && d.pageviews > shown) showVisits(d.pageviews);
+    }).catch(stopVisits);
   }
-  if (visitEls.length) { loadVisits(); setInterval(loadVisits, 30000); }
+  if (visitEls.length) { loadVisits(); visitTimer = setInterval(loadVisits, 30000); }
 
   window.SV = { getBallot: getBallot, setBallot: setBallot, toggle: toggle, toast: toast, store: store, renderPicks: render, track: track, compassYou: compassYou };
   render();

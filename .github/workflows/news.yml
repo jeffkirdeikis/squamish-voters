@@ -50,7 +50,8 @@ jobs:
             if [ $(( pass % 6 )) -eq 0 ]; then node scripts/pipeline/places.mjs || echo 'District map data unavailable; keeping the last copy'; fi
             NEWS_DRAFT_ONE=$([ $pass -eq 0 ] && echo "$DRAFT_ONE") node scripts/pipeline/news.mjs || echo 'News pass failed; trying again next pass'
             node scripts/pipeline/hy-themes.mjs || echo 'Comment summaries skipped this pass'
-            git add data/news.json data/neighbourhoods.json data/developments.json data/hy-themes.json public/news/og public/news/photos
+            node scripts/news-thumbs.mjs || echo 'Small news pictures skipped; pages use the full size ones'
+            git add data/news.json data/neighbourhoods.json data/developments.json data/hy-themes.json public/news/og public/news/photos public/news/thumbs
             if git diff --cached --quiet; then echo 'Nothing new'
             elif node build.mjs > /dev/null; then # make sure the site still builds before committing
               git commit -q -m "News update $(date -u +%Y-%m-%dT%H:%MZ)"

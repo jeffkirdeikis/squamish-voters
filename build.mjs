@@ -520,7 +520,7 @@ function promiseRow(p, { who = false } = {}) {
   const ev = (p.evidence || []);
   const f = c ? esc(first(c)) : 'they';
   const outcomes = ev.filter((e) => e.outcome);
-  return `<details class="promise" id="p-${esc(p.id)}"><summary>${pBadge(p)}<span class="ptxt">${who && c ? `<b class="pwho">${esc(c.name)}:</b> ` : ''}${escGl(p.promise)}${whoBadge(p)}</span></summary>
+  return `<details class="promise" id="p-${esc(p.id)}"><summary>${pBadge(p)}<span class="ptxt">${who && c ? `<b class="pwho">${esc(c.name)}:</b> ` : ''}${esc(p.promise)}${whoBadge(p)}</span></summary>
   <div class="pbody">
     <p class="small"><b>What ${c ? esc(first(c)) : 'they'} said:</b></p><blockquote>“${esc(p.quote)}”</blockquote>${src(p.source_url)}
     <p class="small"><b>${f}’s part (the only thing we mark):</b> ${esc(p.their_part || '')}</p>
@@ -563,7 +563,7 @@ function tallyWord(d) {
   return no === 0 && yes > 1 ? `All ${yes} there agreed${extra ? ` (${extra})` : ''}` : `${yes} to ${no}${extra ? ` (${extra})` : ''}`;
 }
 function decisionCard(d, m, { open = false } = {}) {
-  return `<details class="decision r-${esc(d.result || 'info')}"${open ? ' open' : ''}><summary><span class="dres">${esc(resultWord(d))}${d.result === 'passed' || d.result === 'failed' ? ` <span class="small">${esc(tallyWord(d))}</span>` : ''}</span><span class="dtitle">${escGl(d.title)}</span></summary>
+  return `<details class="decision r-${esc(d.result || 'info')}"${open ? ' open' : ''}><summary><span class="dres">${esc(resultWord(d))}${d.result === 'passed' || d.result === 'failed' ? ` <span class="small">${esc(tallyWord(d))}</span>` : ''}</span><span class="dtitle">${esc(d.title)}</span></summary>
   <div class="dbody">${d.for_you ? `<p class="foryou"><b>What it means for you:</b> ${escGl(d.for_you)}</p>` : ''}<p>${escGl(d.what)}</p>${d.votes ? voteChips(d) : ''}${corrNote(d)}
   ${areaTags(d.areas)}${(d.issues || []).map((sl) => TRACKED.find((t) => t.slug === sl)).filter(Boolean).map((t) => `<p class="small">Part of: <a href="/track/${t.slug}/">${esc(t.title)}</a></p>`).join('')}
   ${d.why_it_matters ? `<p class="small"><b>Why it matters:</b> ${escGl(d.why_it_matters)}</p>` : ''}
@@ -631,7 +631,7 @@ function positionReport(c) {
   const count = (k) => rows.filter((r) => r.st === k).length;
   return { rows, tested: rows.filter((r) => r.st !== 'untested'), inLine: count('in_line'), against: count('against'), mixed: count('mixed'), early: count('early'), untested: count('untested') };
 }
-const posRow = (c, r) => `<details class="promise"><summary>${posBadge(r.st)}<span class="ptxt">${escGl(r.p.label)}</span></summary><div class="pbody">
+const posRow = (c, r) => `<details class="promise"><summary>${posBadge(r.st)}<span class="ptxt">${esc(r.p.label)}</span></summary><div class="pbody">
   ${r.ch.length ? `<ul class="small">${r.ch.map((x) => `<li>${x.inLine ? '✓' : '✕'} ${esc(VOTE_WORD[x.d.votes[c.slug]])} on <a href="${mUrl(x.d.m)}">${escGl(x.d.title)}</a> (${esc(fmtLong(x.d.m.date))})</li>`).join('')}</ul>` : '<p class="small muted">Council hasn’t voted on anything that tests this yet.</p>'}
   ${isUrl(r.p.src) || r.p.src?.startsWith('/') ? `<p class="small"><a href="${esc(r.p.src)}">Where they said it</a></p>` : ''}</div></details>`;
 function profileRecord(c) {
@@ -681,6 +681,8 @@ function qCard(q) {
     ${t.length ? `<p class="small">Tested by: ${t.map((d) => `<a href="${mUrl(d.m)}">${escGl(d.title)}</a>`).join(', ')}</p>` : ''}</div>`;
 }
 const FB_CARD = '<a class="fbcard" href="https://www.facebook.com/groups/1090076830319905" target="_blank" rel="noopener"><img src="/img/facebook-group.jpg" width="400" height="149" alt="Squamish Voters and Politics Facebook group" loading="lazy"><span class="fbc-txt"><b>Join the conversation on Facebook</b><span>Talk about council decisions with other people in Squamish in the Squamish Voters and Politics group.</span><span class="fbc-btn">Join the group</span></span></a>';
+// Small copy of a news picture (scripts/news-thumbs.mjs makes them), else the full size one.
+const newsThumb = (src, w) => { const m = String(src || '').match(/^\/news\/(photos|og|img)\/([^/?]+?)\.(?:jpe?g|png)$/i); const t = m && `/news/thumbs/${w}/${m[1]}-${m[2]}.jpg`; return t && fs.existsSync(path.join(ROOT, 'public', t)) ? t : src; };
 const SIGNUP_ON = ['/council/', '/results/', '/scorecard/', '/issues/', '/faq/', '/meetings/', '/explained/', '/compare/'];
 // Share pictures drawn at the end of the build (scripts/og-cards.mjs), one per council member and per upcoming meeting,
 // so a shared link shows that person or meeting instead of the general site picture (review item 22).
@@ -812,7 +814,7 @@ function stanceRow(c, i) {
   const s = c.stances?.[i.key] || {};
   const none = !s.position || /no public position/i.test(s.position);
   const mine = directOnTopic(c, i.key);
-  return `<details class="stance-row${none && !mine ? ' none' : ' has-more'}"><summary><span class="ic" aria-hidden="true">${i.icon}</span><span class="txt"><b>${i.title}</b><span class="pos">${none ? (mine ? 'Answered our questionnaire' : 'Hasn’t said') : escGl(s.position)}</span>${mine ? '<span class="badge direct">✓ Own answers inside</span>' : ''}${none && !mine ? '' : moreBtn(`Tap to read more about ${esc(first(c))}’s view on this`)}</span></summary>
+  return `<details class="stance-row${none && !mine ? ' none' : ' has-more'}"><summary><span class="ic" aria-hidden="true">${i.icon}</span><span class="txt"><b>${i.title}</b><span class="pos">${none ? (mine ? 'Answered our questionnaire' : 'Hasn’t said') : esc(s.position)}</span>${mine ? '<span class="badge direct">✓ Own answers inside</span>' : ''}${none && !mine ? '' : moreBtn(`Tap to read more about ${esc(first(c))}’s view on this`)}</span></summary>
   ${none ? (mine ? '' : `<p class="muted">We could not find anything ${esc(first(c))} has said publicly about this.</p>`) : `<p>${escGl(s.summary)}${src(s.source_url)}</p>${s.quote ? `<blockquote>“${escGl(s.quote.replace(/^["“]|["”]$/g, ''))}”</blockquote>${src(s.quote_source_url, 'quote source')}` : ''}${confLabel[s.confidence] ? `<p class="conf">${confLabel[s.confidence]}</p>` : ''}`}${mine}</details>`;
 }
 const confLabel = { high: 'Well documented', medium: 'Some evidence', low: 'Limited evidence', none: '' };
@@ -1069,8 +1071,8 @@ function homeNews() {
   const kick = (st) => `<span class="nw-hk" data-s="${st.s}">${esc(SEC[st.s] || 'News')}</span><span class="hn-date">${esc(day(st.date))}</span>`;
   return `<section class="hn" aria-labelledby="hn-h"><div class="hn-top"><h2 id="hn-h">Squamish news</h2><a class="hn-all" href="/news/">See more news →</a></div>
   <div class="hn-grid">
-    <a class="hn-lead" href="/news/${lead.slug}/">${pic(lead) ? `<img src="${esc(pic(lead))}" alt="${esc(lead.photo?.alt || lead.visual?.alt || '')}" width="800" height="450" loading="lazy">` : ''}<span class="hn-body"><span class="hn-k">${kick(lead)}</span><b>${esc(lead.head)}</b>${lead.dek ? `<span class="hn-dek">${esc(String(lead.dek).replace(/<[^>]+>/g, ''))}</span>` : ''}</span></a>
-    <ul class="hn-list">${rest.map((st) => `<li><a href="/news/${st.slug}/">${pic(st) ? `<img src="${esc(pic(st))}" alt="" width="120" height="80" loading="lazy">` : '<span class="hn-noimg" aria-hidden="true"></span>'}<span><span class="hn-k">${kick(st)}</span><b>${esc(st.head)}</b></span></a></li>`).join('')}</ul>
+    <a class="hn-lead" href="/news/${lead.slug}/">${pic(lead) ? `<img src="${esc(newsThumb(pic(lead), 800))}" alt="${esc(lead.photo?.alt || lead.visual?.alt || '')}" width="800" height="450" loading="lazy">` : ''}<span class="hn-body"><span class="hn-k">${kick(lead)}</span><b>${esc(lead.head)}</b>${lead.dek ? `<span class="hn-dek">${esc(String(lead.dek).replace(/<[^>]+>/g, ''))}</span>` : ''}</span></a>
+    <ul class="hn-list">${rest.map((st) => `<li><a href="/news/${st.slug}/">${pic(st) ? `<img src="${esc(newsThumb(pic(st), 240))}" alt="" width="120" height="80" loading="lazy">` : '<span class="hn-noimg" aria-hidden="true"></span>'}<span><span class="hn-k">${kick(st)}</span><b>${esc(st.head)}</b></span></a></li>`).join('')}</ul>
   </div>
   <a class="btn secondary hn-more" href="/news/">See more Squamish news →</a></section>`;
 }
@@ -1540,7 +1542,7 @@ if (TRACKED.length) {
   };
   const nFaces = () => `<ul class="nw-faces">${[...mayors, ...council].map((c) => `<li><a href="/council/${c.slug}/">${avatar(c)}<b>${esc(c.name)}</b><span>${c.office === 'mayor' ? 'Mayor' : 'Councillor'}</span><em class="${c.incumbent ? '' : 'new'}">${c.incumbent ? 'Returning' : 'New'}</em></a></li>`).join('')}</ul>`;
   // Openly licensed photos (Wikimedia Commons and similar), always with the photographer and licence.
-  const photo = (st, eager = false) => (st.photo ? `<figure class="nw-photo"><img src="${esc(st.photo.file)}" alt="${esc(st.photo.alt)}" width="1200" height="800"${eager ? '' : ' loading="lazy"'}><figcaption>${esc(st.photo.caption)} <span>Photo: <a href="${esc(st.photo.link)}" target="_blank" rel="noopener">${esc(st.photo.credit)}</a></span></figcaption></figure>` : '');
+  const photo = (st, eager = false) => (st.photo ? `<figure class="nw-photo"><img src="${esc(eager ? st.photo.file : newsThumb(st.photo.file, 800))}" alt="${esc(st.photo.alt)}" width="1200" height="800"${eager ? '' : ' loading="lazy"'}><figcaption>${esc(st.photo.caption)} <span>Photo: <a href="${esc(st.photo.link)}" target="_blank" rel="noopener">${esc(st.photo.credit)}</a></span></figcaption></figure>` : '');
   const visual = (st) => {
     const v = st.visual; if (!v) return '';
     if (v.type === 'bars') return `<div class="nw-panel">${nBars(v.rows, v.title, v.note)}</div>`;

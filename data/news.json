@@ -80,7 +80,7 @@
    },
    "src": [
     "Environment Canada",
-    "https://weather.gc.ca/warnings/index_e.html?prov=bc"
+    "https://weather.gc.ca/en/location/index.html?coords=49.702,-123.156"
    ],
    "auto": true,
    "og": "wind-warning-southern-howe-sound.jpg",

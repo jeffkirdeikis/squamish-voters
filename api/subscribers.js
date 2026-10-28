@@ -10,7 +10,7 @@ const cell = (v) => { const s = v == null ? '' : v instanceof Date ? v.toISOStri
 export default async function handler(req, res) {
   res.setHeader('X-Robots-Tag', 'noindex');
   res.setHeader('Cache-Control', 'no-store');
-  const token = (req.headers.authorization || '').replace(/^Bearer /, '') || req.query.token;
+  const token = (req.headers.authorization || '').replace(/^Bearer /, ''); // header only: a key in the address ends up in logs
   if (!process.env.ADMIN_TOKEN || token !== process.env.ADMIN_TOKEN) return res.status(401).json({ ok: false, error: 'unauthorized' });
   if (!URL) return res.status(503).json({ ok: false, error: 'no database' });
   const rows = await neon(URL)`SELECT email, status, source, area, topics, stances, stance_notes, consent_at, confirmed_at, prefs_at, unsubscribed_at

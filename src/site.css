@@ -1287,8 +1287,8 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .fbc-txt { display: grid; gap: .35rem; align-content: center; }
 .fbc-txt b { font: 700 1.3rem/1.2 Georgia, serif; }
 .fbc-txt > span:not(.fbc-btn) { color: var(--ink-2); font-size: .95rem; }
-.fbc-btn { justify-self: start; margin-top: .35rem; background: #1877f2; color: #fff; font-weight: 700; padding: .65rem 1.1rem; border-radius: 10px; }
-.fbcard:hover .fbc-btn { background: #0f63d1; }
+.fbc-btn { justify-self: start; margin-top: .35rem; background: #0f63d1; color: #fff; font-weight: 700; padding: .65rem 1.1rem; border-radius: 10px; }
+.fbcard:hover .fbc-btn { background: #0b4fa8; }
 @media (min-width: 700px) { .fbcard { grid-template-columns: 300px minmax(0, 1fr); gap: 1.4rem; padding: 1rem; } }
 
 /* Have your say */

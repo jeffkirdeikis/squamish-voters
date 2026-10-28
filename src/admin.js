@@ -61,7 +61,7 @@
 
   function load(announce) {
     if (!token) { status.textContent = 'Missing token. Open this page using the private link.'; return; }
-    fetch('/api/responses/?token=' + encodeURIComponent(token))
+    fetch('/api/responses/', { headers: { Authorization: 'Bearer ' + token }, cache: 'no-store' })
       .then(function (r) { if (r.status === 401) throw new Error('Wrong or missing token.'); return r.json(); })
       .then(function (d) {
         if (!d.ok) throw new Error('Could not load.');
