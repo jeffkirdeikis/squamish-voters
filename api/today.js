@@ -1,6 +1,8 @@
 // Squamish right now: weather, Highway 99, wind at the Spit, the river, air quality and avalanche danger in one reply
 // for /today/ and the home page strip. Every source is free public data; one that fails is left out, not fatal.
-//   GET -> { at, weather, highway, wind, river, air, avalanche }
+//   GET -> { at, weather, days, highway, wind, tide, river, air, avalanche }
+import NORMALS from './_river-normals.json' with { type: 'json' };
+
 const TZ = 'America/Vancouver';
 const UA = { 'User-Agent': 'squamishvoters.com (today page)' };
 const once = (u) => fetch(u, { headers: UA, signal: AbortSignal.timeout(6000) }).then((r) => { if (!r.ok) throw new Error(`${r.status} ${u}`); return r.json(); });
@@ -60,6 +62,25 @@ async function wind() {
   };
 }
 
+// Tides at Squamish (Canadian Hydrographic Service station 07811, Squamish Inner): predicted highs and lows, next 36 hours.
+async function tide() {
+  const from = new Date(Date.now() - 6 * 36e5), to = new Date(Date.now() + 36 * 36e5);
+  const iso = (d) => d.toISOString().slice(0, 19) + 'Z';
+  const d = await get(`https://api-iwls.dfo-mpo.gc.ca/api/v1/stations/5cebf1de3d0f4a073c4bb94e/data?time-series-code=wlp-hilo&from=${iso(from)}&to=${iso(to)}`);
+  const pts = d.map((x) => ({ t: x.eventDate, m: +x.value.toFixed(1) }));
+  // A turning point is a high when it's above both neighbours (the feed doesn't label them).
+  pts.forEach((x, i) => { const n = [pts[i - 1], pts[i + 1]].filter(Boolean); x.high = n.every((y) => x.m > y.m); });
+  const now = Date.now(), next = pts.filter((x) => Date.parse(x.t) > now);
+  return { rising: next[0]?.high ?? null, next: next.slice(0, 5), link: 'https://www.tides.gc.ca/en/stations/07811' };
+}
+
+// Next 14 days for Squamish from Open-Meteo (Environment Canada's own text forecast only covers about 6 days).
+async function days() {
+  const d = await get(`https://api.open-meteo.com/v1/forecast?latitude=49.70&longitude=-123.155&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,snowfall_sum,wind_gusts_10m_max&timezone=${encodeURIComponent(TZ)}&forecast_days=15`);
+  const x = d.daily;
+  return x.time.map((t, i) => ({ date: t, code: x.weather_code[i], hi: Math.round(x.temperature_2m_max[i]), lo: Math.round(x.temperature_2m_min[i]), pop: x.precipitation_probability_max[i], rain: +x.precipitation_sum[i].toFixed(1), snow: +x.snowfall_sum[i].toFixed(1), gust: Math.round(x.wind_gusts_10m_max[i]) }));
+}
+
 // Water Survey of Canada gauge: Squamish River near Brackendale. Level now and 24 hours ago.
 async function river() {
   const d = await get('https://api.weather.gc.ca/collections/hydrometric-realtime/items?f=json&STATION_NUMBER=08GA022&sortby=-DATETIME&limit=300');
@@ -67,7 +88,12 @@ async function river() {
   if (!f.length) return null;
   const last = f[0], t0 = Date.parse(last.DATETIME);
   const ago = f.find((x) => t0 - Date.parse(x.DATETIME) >= 24 * 36e5) || f[f.length - 1];
+  // How today's flow compares with the same weeks in every year since 1922 (api/_river-normals.json).
+  const d0 = new Date(last.DATETIME_LST.slice(0, 10) + 'T12:00:00Z'), doy = Math.floor((d0 - Date.UTC(d0.getUTCFullYear(), 0, 0)) / 864e5);
+  const [p10, p25, p50, p75, p90] = NORMALS.days[doy], q = last.DISCHARGE;
+  const band = q < p10 ? 'very low' : q < p25 ? 'low' : q <= p75 ? 'normal' : q <= p90 ? 'high' : 'very high';
   return {
+    band, usual: p50, range: [p25, p75], p10, p90, record: NORMALS.record, since: NORMALS.from,
     name: 'Squamish River at Brackendale', level: last.LEVEL, flow: last.DISCHARGE, at: last.DATETIME,
     change: +(last.LEVEL - ago.LEVEL).toFixed(2), link: 'https://wateroffice.ec.gc.ca/report/real_time_e.html?stn=08GA022',
   };
@@ -94,7 +120,7 @@ async function avalanche() {
 }
 
 export default async function handler(req, res) {
-  const parts = { weather, highway, wind, river, air, avalanche };
+  const parts = { weather, days, highway, wind, tide, river, air, avalanche };
   const out = { at: new Date().toISOString() };
   await Promise.all(Object.entries(parts).map(async ([k, fn]) => { out[k] = await fn().catch((e) => { console.error(k, e.message); return null; }); }));
   // Shared cache: one fetch of every source per five minutes, however many people open the page.

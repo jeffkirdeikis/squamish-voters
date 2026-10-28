@@ -25,13 +25,41 @@
     return bits.map(function (b) { return '<span>' + b + '</span>'; }).join('<i aria-hidden="true">·</i> ');
   }
 
+  // Open-Meteo weather codes (WMO) in plain words.
+  var WX = function (c) {
+    return c === 0 ? ['☀️', 'Sunny'] : c <= 2 ? ['🌤️', 'Mostly sunny'] : c === 3 ? ['☁️', 'Cloudy'] : c <= 48 ? ['🌫️', 'Fog']
+      : c <= 57 ? ['🌦️', 'Drizzle'] : c <= 65 ? [c >= 65 ? '🌧️' : '🌦️', c >= 65 ? 'Heavy rain' : c >= 63 ? 'Rain' : 'Light rain'] : c <= 67 ? ['🌧️', 'Freezing rain']
+      : c <= 77 ? ['🌨️', 'Snow'] : c <= 82 ? ['🌧️', 'Showers'] : c <= 86 ? ['🌨️', 'Snow showers'] : ['⛈️', 'Thunderstorms'];
+  };
+  var SHOW = 3;
+  function daysList(days) {
+    if (!days || !days.length) return '';
+    var now = new Date(), todayStr = now.toLocaleDateString('en-CA', { timeZone: TZ });
+    var evening = +now.toLocaleTimeString('en-CA', { timeZone: TZ, hour: 'numeric', hour12: false }) >= 18;
+    // After 6 p.m. today's high is already behind us, so the list starts tomorrow.
+    days = days.filter(function (d) { return !(evening && d.date === todayStr); }).slice(0, 14);
+    var lo = Math.min.apply(null, days.map(function (d) { return d.lo; })), hi = Math.max.apply(null, days.map(function (d) { return d.hi; })), span = Math.max(1, hi - lo);
+    var rows = days.map(function (d, i) {
+      var dt = new Date(d.date + 'T12:00:00'), w = WX(d.code);
+      var name = d.date === todayStr ? 'Today' : i === 0 || (i === 1 && days[0].date === todayStr) ? 'Tomorrow' : dt.toLocaleDateString('en-CA', { weekday: 'short' });
+      var wet = d.snow >= 1 ? d.snow + ' cm snow' : d.rain >= 1 ? d.rain + ' mm' : d.pop >= 30 ? d.pop + '%' : '';
+      return '<li' + (i >= SHOW ? ' class="td-more" hidden' : '') + '><span class="td-dn"><b>' + name + '</b><small>' + dt.toLocaleDateString('en-CA', { month: 'short', day: 'numeric' }) + '</small></span>'
+        + '<span class="td-dw" title="' + w[1] + '"><span aria-hidden="true">' + w[0] + '</span><small>' + w[1] + '</small></span>'
+        + '<span class="td-dr">' + e(wet) + '</span>'
+        + '<span class="td-dt"><small>' + d.lo + '°</small><i class="td-range"><i style="left:' + ((d.lo - lo) / span * 100) + '%;right:' + ((hi - d.hi) / span * 100) + '%"></i></i><b>' + d.hi + '°</b></span></li>';
+    }).join('');
+    return '<h3 class="td-sub">Next ' + days.length + ' days</h3><ul class="td-days">' + rows + '</ul>'
+      + (days.length > SHOW ? '<button type="button" class="td-expand" data-td-expand aria-expanded="false">Show ' + (days.length - SHOW) + ' more days ▾</button>' : '');
+  }
+
   function weather(w) {
     var hrs = w.hourly.slice(0, 8).map(function (h) {
       return '<li><span>' + hour(h.t) + '</span>' + (h.icon != null ? '<img src="https://weather.gc.ca/weathericons/' + (+h.icon < 10 ? '0' : '') + h.icon + '.gif" alt="" width="30" height="30" loading="lazy">' : '') + '<b>' + deg(h.temp) + '</b><small>' + (h.pop ? h.pop + '%' : '&nbsp;') + '</small></li>';
     }).join('');
     return '<div class="td-now"><b class="td-big">' + deg(w.temp) + '</b><div><p class="td-cond">' + e(w.cond) + '</p><p class="small muted">Wind: ' + e(w.wind || 'n/a') + '</p></div></div>'
       + (hrs ? '<ul class="td-hours" aria-label="Next hours (chance of rain or snow underneath)">' + hrs + '</ul>' : '')
-      + '<dl class="td-periods">' + w.periods.slice(0, 3).map(function (p) { return '<dt>' + e(p.name) + '</dt><dd>' + e(p.text) + '</dd>'; }).join('') + '</dl>'
+      + (w.periods[0] ? '<p class="td-period"><b>' + e(w.periods[0].name) + ':</b> ' + e(w.periods[0].text) + '</p>' : '')
+      + daysList(D.days)
       + (w.sunrise ? '<p class="small muted">Sunrise ' + time(w.sunrise) + ' · Sunset ' + time(w.sunset) + '</p>' : '');
   }
 
@@ -60,8 +88,32 @@
   }
 
   function river(r) {
-    var dir = Math.abs(r.change) < 0.05 ? 'Steady' : r.change > 0 ? 'Rising' : 'Falling';
-    return '<div class="td-now"><b class="td-big">' + r.level.toFixed(2) + '<small> m</small></b><div><p class="td-cond">' + dir + (dir === 'Steady' ? '' : ', ' + (r.change > 0 ? 'up ' : 'down ') + Math.abs(r.change).toFixed(2) + ' m') + ' in the last 24 hours</p><p class="small muted">Flow ' + Math.round(r.flow) + ' cubic metres a second · read at ' + time(r.at) + '</p></div></div>';
+    var dir = Math.abs(r.change) < 0.05 ? 'steady' : r.change > 0 ? 'rising' : 'falling';
+    var month = new Date().toLocaleDateString('en-CA', { timeZone: TZ, month: 'long' });
+    var part = +new Date().toLocaleDateString('en-CA', { timeZone: TZ, day: 'numeric' }) <= 10 ? 'early ' : +new Date().toLocaleDateString('en-CA', { timeZone: TZ, day: 'numeric' }) <= 20 ? 'mid ' : 'late ';
+    var cls = { 'very low': 'low', low: 'low', normal: 'ok', high: 'warn', 'very high': 'bad' }[r.band];
+    // Log scale from 10 to the record, so a normal day and the 2003 flood both fit on one line.
+    var pos = function (q) { return Math.max(0, Math.min(100, Math.log(q / 10) / Math.log(r.record.flow / 10) * 100)); };
+    var ratio = r.flow / r.usual, k = Math.round(1 / ratio);
+    var how = ratio > 1.15 ? (ratio >= 2 ? 'about ' + Math.round(ratio) + ' times' : 'about ' + Math.round(ratio * 100) + '% of')
+      : ratio >= 0.85 ? 'right around' : ratio > 0.6 ? 'about ' + Math.round(ratio * 100) + '% of' : 'about ' + (['', '', 'half', 'a third', 'a quarter', 'a fifth'][k] || 'a tenth') + ' of';
+    return '<p class="td-pill ' + cls + '">' + r.band.charAt(0).toUpperCase() + r.band.slice(1) + ' for ' + part + month + '</p>'
+      + '<div class="td-now"><b class="td-big">' + Math.round(r.flow) + '</b><div><p class="td-cond">cubic metres of water a second</p><p class="small muted">That’s ' + how + ' the usual ' + r.usual + ' for this time of year, and ' + dir + ' today.</p></div></div>'
+      + '<div class="td-gauge" aria-hidden="true"><i class="td-gn" style="left:' + pos(r.range[0]) + '%;right:' + (100 - pos(r.range[1])) + '%"></i><i class="td-gm" style="left:' + pos(r.flow) + '%"></i></div>'
+      + '<p class="td-gl small muted"><span>Trickle</span><span>2003 flood</span></p>'
+      + '<p class="td-gk small muted"><span><i class="m"></i>Now</span><span><i class="n"></i>Normal range for this week</span></p>'
+      + '<p class="small">Most years this week it runs between ' + r.range[0] + ' and ' + r.range[1] + '. The record is ' + r.record.flow.toLocaleString('en-CA') + ' in the October 2003 flood, about ' + Math.round(r.record.flow / r.usual) + ' times normal. Based on daily readings since ' + r.since + '.</p>'
+      + '<p class="small muted">Water level at the gauge: ' + r.level.toFixed(2) + ' m · read at ' + time(r.at) + '</p>';
+  }
+
+  function tide(t) {
+    if (!t.next.length) return '<p>No tide times right now.</p>';
+    var n = t.next[0];
+    return '<div class="td-now"><b class="td-big td-tarrow">' + (t.rising ? '↑' : '↓') + '</b><div><p class="td-cond">' + (t.rising ? 'Coming in' : 'Going out') + '</p><p class="small muted">' + (n.high ? 'High' : 'Low') + ' tide at ' + time(n.t) + ', ' + n.m + ' m</p></div></div>'
+      + '<ul class="td-tides">' + t.next.map(function (x) {
+        var day = new Date(x.t).toLocaleDateString('en-CA', { timeZone: TZ }) === new Date().toLocaleDateString('en-CA', { timeZone: TZ }) ? '' : new Date(x.t).toLocaleDateString('en-CA', { timeZone: TZ, weekday: 'short' }) + ' ';
+        return '<li class="' + (x.high ? 'hi' : 'lo') + '"><b>' + (x.high ? 'High' : 'Low') + '</b><span>' + day + time(x.t) + '</span><span>' + x.m + ' m</span></li>';
+      }).join('') + '</ul>';
   }
 
   function air(a) {
@@ -76,11 +128,13 @@
     return '<ul class="td-av">' + v.ratings.map(function (r) { return '<li data-r="' + e(r.value) + '"><span>' + e(r.zone) + '</span><b>' + e(r.label) + '</b></li>'; }).join('') + '</ul><p class="small muted">' + e(v.day) + '</p><p class="small"><a href="' + e(v.link) + '" target="_blank" rel="noopener">Full forecast and problems →</a></p>';
   }
 
-  var FILL = { weather: weather, highway: highway, wind: wind, river: river, air: air, avalanche: avalanche };
+  var FILL = { weather: weather, highway: highway, wind: wind, tide: tide, river: river, air: air, avalanche: avalanche };
 
   function fail(el) { el.innerHTML = '<p class="td-wait">Couldn’t load this right now. Use the source link below.</p>'; }
 
+  var D = {};
   fetch('/api/today/').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (d) {
+    D = d;
     if (strip) {
       var t = stripText(d);
       if (t) { strip.querySelector('[data-ts]').innerHTML = t; strip.hidden = false; }
@@ -90,6 +144,13 @@
       var el = page.querySelector('[data-td="' + k + '"] [data-body]');
       if (!el) return;
       try { if (d[k]) el.innerHTML = FILL[k](d[k]); else fail(el); } catch (err) { fail(el); }
+    });
+    var more = page.querySelector('[data-td-expand]');
+    if (more) more.addEventListener('click', function () {
+      var open = more.getAttribute('aria-expanded') !== 'true';
+      page.querySelectorAll('.td-days .td-more').forEach(function (li) { li.hidden = !open; });
+      more.setAttribute('aria-expanded', open ? 'true' : 'false');
+      more.textContent = open ? 'Show fewer days ▴' : 'Show ' + page.querySelectorAll('.td-days .td-more').length + ' more days ▾';
     });
     var at = page.querySelector('[data-td-at]');
     if (at) at.textContent = 'Checked at ' + time(d.at);

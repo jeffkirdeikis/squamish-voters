@@ -1740,17 +1740,18 @@ write('/your-say/', page({
     <div class="td-body" data-body><p class="td-wait">Loading…</p></div>
     <p class="td-src">${src}</p></section>`;
   write('/today/', page({
-    url: '/today/', title: 'Squamish today: weather, Highway 99, wind, river',
-    desc: 'Squamish right now on one page: the weather forecast, Highway 99 incidents, wind at the Spit, the Squamish River level, air quality and avalanche danger.',
+    url: '/today/', title: 'Squamish today: weather, Highway 99, wind, tides, river',
+    desc: 'Squamish right now on one page: 14 day weather forecast, Highway 99 incidents, wind at the Spit, tides, the Squamish River, air quality and avalanche danger.',
     jsonld: crumbLd([['Home', '/'], ['Squamish today', '/today/']]),
     body: `<div class="td">
-  <header class="td-top"><h1>Squamish today</h1><p class="lede">Weather, the highway, wind, the river and the air, on one page. Updated every few minutes from public sources.</p><p class="small muted" data-td-at></p></header>
+  <header class="td-top"><h1>Squamish today</h1><p class="lede">Weather, the highway, wind, tides, the river and the air, on one page. Updated every few minutes from public sources.</p><p class="small muted" data-td-at></p></header>
   <div class="td-alerts" data-td-alerts hidden></div>
   <div class="td-grid">
-  ${card('weather', 'Weather', '☁️', 'Source: <a href="https://weather.gc.ca/en/location/index.html?coords=49.702,-123.156" target="_blank" rel="noopener">Environment Canada</a>, Squamish Airport')}
+  ${card('weather', 'Weather', '☁️', 'Now and next hours: <a href="https://weather.gc.ca/en/location/index.html?coords=49.702,-123.156" target="_blank" rel="noopener">Environment Canada</a>, Squamish Airport. 14 days: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>')}
   ${card('highway', 'Highway 99', '🛣️', 'Horseshoe Bay to Whistler. Source: <a href="https://www.drivebc.ca/" target="_blank" rel="noopener">DriveBC</a>')}
   ${card('wind', 'Wind at the Spit', '🪁', 'Forecast from <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> (the same weather models Windy uses). Live readings: <a href="https://squamishwindsports.com/conditions/wind/" target="_blank" rel="noopener">Squamish Windsports Society</a>')}
-  ${card('river', 'Squamish River', '🌊', 'Gauge near Brackendale. Source: <a href="https://wateroffice.ec.gc.ca/report/real_time_e.html?stn=08GA022" target="_blank" rel="noopener">Water Survey of Canada</a>')}
+  ${card('tide', 'Tides', '🌊', 'Squamish harbour, predicted. Source: <a href="https://www.tides.gc.ca/en/stations/07811" target="_blank" rel="noopener">Canadian Hydrographic Service</a>')}
+  ${card('river', 'Squamish River', '🏞️', 'Gauge near Brackendale. Source: <a href="https://wateroffice.ec.gc.ca/report/real_time_e.html?stn=08GA022" target="_blank" rel="noopener">Water Survey of Canada</a>, live and daily records since 1922')}
   ${card('air', 'Air quality', '🌬️', 'Squamish monitor. Source: <a href="https://weather.gc.ca/airquality/pages/bcaq-007_e.html" target="_blank" rel="noopener">Environment Canada</a>')}
   ${card('avalanche', 'Avalanche danger', '🏔️', 'Sea to Sky backcountry. Source: <a href="https://avalanche.ca/" target="_blank" rel="noopener">Avalanche Canada</a>')}
   </div>
