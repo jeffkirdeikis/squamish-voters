@@ -10,7 +10,9 @@
   "related_q": [
    "q3"
   ],
-  "how_to_check": "Kept if he votes to let a Cheema lands proposal go forward for review, starting with the growth boundary step.",
+  "their_part": "Kept if he votes to let a Cheema lands proposal go forward for review, starting with the growth boundary step. Not kept if he votes to stop it being reviewed.",
+  "did_it_happen": "Whether council lets a Cheema lands proposal be reviewed.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -25,7 +27,9 @@
   "related_q": [
    "q37"
   ],
-  "how_to_check": "Watch his votes on parking variances: kept if he weighs each one on its merits instead of backing a blanket ban.",
+  "their_part": "Not kept if he votes for a blanket ban on parking variances. Kept if he votes against a blanket ban. His votes on single requests do not count either way.",
+  "did_it_happen": "Whether council keeps deciding parking variance requests one at a time.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -40,7 +44,9 @@
   "related_q": [
    "q36"
   ],
-  "how_to_check": "Kept if he votes to send cash in lieu of parking into the off-street parking fund rather than the active transportation fund.",
+  "their_part": "Kept if he votes to put cash in lieu of parking into the parking fund rather than the walking and biking fund. Not kept if he votes the other way.",
+  "did_it_happen": "Where council decides developer parking payments go.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -55,7 +61,9 @@
   "related_q": [
    "q36"
   ],
-  "how_to_check": "Kept if he votes against selling or rezoning possible parkade sites, such as land on the north side of Pemberton Avenue.",
+  "their_part": "Kept if he votes against selling or rezoning a possible parkade site, such as land north of Pemberton Avenue, for other uses. Not kept if he votes for it.",
+  "did_it_happen": "Whether possible parkade sites stay available.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -70,7 +78,9 @@
   "related_q": [
    "q6"
   ],
-  "how_to_check": "Kept if he moves or votes for steps that reopen an RCMP office downtown.",
+  "their_part": "Kept if he moves, seconds or votes for steps toward a downtown RCMP office, such as funding it or asking the RCMP for it. Not kept if he votes against them.",
+  "did_it_happen": "Whether a downtown RCMP office opens.",
+  "who_decides": "RCMP and council",
   "status": "not_yet",
   "evidence": []
  },
@@ -83,7 +93,9 @@
   "source_kind": "news",
   "topic": "policing",
   "related_q": [],
-  "how_to_check": "Kept if the District helps set up or restart Crime Stoppers or Block Watch programs during this term.",
+  "their_part": "Kept if he moves, seconds or votes for District help to restart Crime Stoppers or Block Watch. Not kept if he votes against it.",
+  "did_it_happen": "Whether Crime Stoppers or Block Watch restart in Squamish this term.",
+  "who_decides": "RCMP and volunteer groups",
   "status": "not_yet",
   "evidence": []
  },
@@ -98,7 +110,9 @@
   "related_q": [
    "q12"
   ],
-  "how_to_check": "Kept if council orders and funds an updated Parks and Recreation Master Plan.",
+  "their_part": "Kept if he moves, seconds or votes to order and fund an updated Parks and Recreation Master Plan. Not kept if he votes against it.",
+  "did_it_happen": "Whether council orders and funds the updated plan.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -114,7 +128,9 @@
    "q23",
    "q8"
   ],
-  "how_to_check": "Kept if she votes for a negotiated settlement with Woodfibre LNG that covers taxes and amenities and ends the lawsuits.",
+  "their_part": "Kept if she votes for a negotiated agreement with Woodfibre LNG covering taxes and amenities when one comes to council. Not kept if she votes against one.",
+  "did_it_happen": "Whether the District and Woodfibre LNG reach a new agreement.",
+  "who_decides": "Woodfibre LNG and council",
   "status": "not_yet",
   "evidence": []
  },
@@ -129,7 +145,9 @@
   "related_q": [
    "q3"
   ],
-  "how_to_check": "Kept if she votes to let proposals for the Cheema lands or Fast properties be reviewed.",
+  "their_part": "Kept if she votes to let proposals for the Cheema lands or Fast properties be reviewed. Not kept if she votes to stop them being reviewed.",
+  "did_it_happen": "Whether council reviews proposals for those lands.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -144,7 +162,9 @@
   "related_q": [
    "q37"
   ],
-  "how_to_check": "Broken if she votes to turn on the six homes, no parking zoning before frequent bus service exists.",
+  "their_part": "Kept if she votes against turning on the six homes, no parking zoning before frequent buses run. Not kept if she votes for it.",
+  "did_it_happen": "Whether that zoning stays switched off. Provincial housing law sets some of these rules.",
+  "who_decides": "Council, within provincial housing law",
   "status": "not_yet",
   "evidence": []
  },
@@ -159,7 +179,9 @@
   "related_q": [
    "q17"
   ],
-  "how_to_check": "Kept if she brings a residents only vehicle permit to council for a vote with a set start date.",
+  "their_part": "Kept if she moves or seconds a motion to bring a residents only vehicle permit to council for a vote with a start date. Not kept if she votes against bringing it forward.",
+  "did_it_happen": "Whether council votes on such a permit.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -175,7 +197,9 @@
    "q4",
    "q15"
   ],
-  "how_to_check": "Kept if council sets up a land bank, or buys or reserves land, for worker and non-profit housing.",
+  "their_part": "Kept if she moves, seconds or votes for a land bank, or for buying or reserving land, for worker and non profit housing. Not kept if she votes against it.",
+  "did_it_happen": "Whether council sets up a land bank or reserves land.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -190,7 +214,9 @@
   "related_q": [
    "q37"
   ],
-  "how_to_check": "Watch her votes on parking variances: kept if she votes against each request to cut required parking.",
+  "their_part": "Kept if she votes against each request to cut required parking. Not kept if she votes for one. We show the count, for example 4 of 5.",
+  "did_it_happen": "How many parking variances council approves.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -203,7 +229,9 @@
   "source_kind": "news",
   "topic": "parking",
   "related_q": [],
-  "how_to_check": "Kept if she moves a motion, and council acts, to take patios off parking stalls and bar food trucks from Cleveland and 2nd.",
+  "their_part": "Kept if she moves or seconds a motion to take patios off parking stalls and bar food trucks from Cleveland and 2nd, and votes for it. Not kept if she votes against it.",
+  "did_it_happen": "Whether council makes these changes.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -218,7 +246,9 @@
   "related_q": [
    "q36"
   ],
-  "how_to_check": "Kept if she moves early in the term to create this parking committee, and council sets it up.",
+  "their_part": "Kept if she moves or seconds a motion early in the term to create a community parking committee, or votes for one. Not kept if she votes against it.",
+  "did_it_happen": "Whether council sets up the committee.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -233,7 +263,9 @@
   "related_q": [
    "q7"
   ],
-  "how_to_check": "Kept if she moves or votes for a zero increase budget each year; watch whether the budget council adopts goes up.",
+  "their_part": "Kept if she moves or votes for a budget with no property tax increase, and votes against budgets that raise it. Not kept if she votes for a budget with an increase.",
+  "did_it_happen": "The property tax increase in each budget council adopts, as the District reports it.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -249,7 +281,9 @@
    "q21",
    "q12"
   ],
-  "how_to_check": "Kept if she votes for a referendum, and against an alternate approval process, when council borrows for a big recreation expansion.",
+  "their_part": "Kept if she votes for a referendum, and against an alternative approval process, when council borrows for a big recreation expansion. Not kept if she votes the other way.",
+  "did_it_happen": "How council asks voters before borrowing for Brennan Park.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -264,7 +298,9 @@
   "related_q": [
    "q10"
   ],
-  "how_to_check": "Kept if the District publishes permit timelines and straightforward permits are decided in under 8 weeks.",
+  "their_part": "Kept if she moves, seconds or votes for published permit timelines or an 8 week target for simple permits. Not kept if she votes against them.",
+  "did_it_happen": "Whether the District publishes timelines and decides simple permits within 8 weeks.",
+  "who_decides": "District staff, with targets set by council",
   "status": "not_yet",
   "evidence": []
  },
@@ -277,7 +313,9 @@
   "source_kind": "website",
   "topic": "economy",
   "related_q": [],
-  "how_to_check": "Kept if council adopts a Tourism Master Plan by about November 2027.",
+  "their_part": "Kept if she moves, seconds or votes to fund and adopt a Tourism Master Plan in council's first year. Not kept if she votes against it.",
+  "did_it_happen": "Whether council adopts a Tourism Master Plan by about November 2027.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -292,7 +330,9 @@
   "related_q": [
    "q23"
   ],
-  "how_to_check": "Kept if the District signs a new 10 year tax agreement and a longer memorandum of understanding with Woodfibre LNG.",
+  "their_part": "Kept if she moves, seconds or votes to reopen talks for a 10 year tax agreement and a longer agreement with Woodfibre LNG. Not kept if she votes against reopening talks.",
+  "did_it_happen": "Whether the District and Woodfibre LNG sign new agreements.",
+  "who_decides": "Woodfibre LNG and council",
   "status": "not_yet",
   "evidence": []
  },
@@ -305,7 +345,9 @@
   "source_kind": "website",
   "topic": "environment_lng",
   "related_q": [],
-  "how_to_check": "Kept if the District creates and fills this liaison position.",
+  "their_part": "Kept if she moves, seconds or votes to create and fund this liaison job. Not kept if she votes against it.",
+  "did_it_happen": "Whether the District creates and fills the job.",
+  "who_decides": "Council and the Squamish Nation",
   "status": "not_yet",
   "evidence": []
  },
@@ -318,7 +360,9 @@
   "source_kind": "website",
   "topic": "housing_affordability",
   "related_q": [],
-  "how_to_check": "Kept if council adopts a Poverty Reduction and Affordability Strategy and funds steps from it.",
+  "their_part": "Kept if she moves, seconds or votes to adopt and fund a Poverty Reduction and Affordability Strategy. Not kept if she votes against it.",
+  "did_it_happen": "Whether council adopts and funds one.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -333,7 +377,9 @@
   "related_q": [
    "q37"
   ],
-  "how_to_check": "Watch her votes on parking variances: kept if she votes against each request to cut required parking.",
+  "their_part": "Kept if she votes against each request to cut required parking. Not kept if she votes for one. We show the count, for example 4 of 5.",
+  "did_it_happen": "How many parking variances council approves.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -349,7 +395,9 @@
    "q12",
    "q22"
   ],
-  "how_to_check": "Kept if construction on a second ice rink starts in 2027; watch whether she votes for the funding and approvals to get there.",
+  "their_part": "Kept if she votes for the funding and approvals for a second ice rink at Brennan Park. Not kept if she votes against them.",
+  "did_it_happen": "Whether construction on a second rink starts in 2027.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -364,7 +412,9 @@
   "related_q": [
    "q7"
   ],
-  "how_to_check": "Kept if the 2027 and 2028 budgets have a 0% increase in the municipal portion of residential property tax.",
+  "their_part": "Kept if she moves or votes for 0% budgets in 2027 and 2028, and votes against budgets that raise the District's property tax. Not kept if she votes for a budget with an increase.",
+  "did_it_happen": "The property tax increase in the 2027 and 2028 budgets council adopts, as the District reports it.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -377,7 +427,9 @@
   "source_kind": "website",
   "topic": "taxes_spending",
   "related_q": [],
-  "how_to_check": "Kept if the District publishes a public dashboard of capital project budgets and timelines.",
+  "their_part": "Kept if she moves, seconds or votes for a public dashboard of capital project budgets and timelines. Not kept if she votes against it.",
+  "did_it_happen": "Whether the District publishes one.",
+  "who_decides": "Council and District staff",
   "status": "not_yet",
   "evidence": []
  },
@@ -390,7 +442,9 @@
   "source_kind": "website",
   "topic": "taxes_spending",
   "related_q": [],
-  "how_to_check": "Kept if council holds a budget town hall each year, in person and online, before adopting the budget.",
+  "their_part": "Kept if she moves, seconds or votes to hold a yearly budget town hall, in person and online, before budget decisions. Not kept if she votes against it.",
+  "did_it_happen": "Whether council holds one each year.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -405,7 +459,9 @@
   "related_q": [
    "q27"
   ],
-  "how_to_check": "Watch his votes: broken if he votes to rezone commercial or industrial land for housing.",
+  "their_part": "Counts only rezonings where the staff report says land now zoned for business or industry would allow homes. Kept if he votes against one. Not kept if he votes for one.",
+  "did_it_happen": "How much business and industrial land council rezones for housing.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -420,7 +476,9 @@
   "related_q": [
    "q28"
   ],
-  "how_to_check": "Kept if the District regularly tests and updates its emergency plans, for wildfire and flood, and reports on them to the public.",
+  "their_part": "Kept if he moves, seconds or votes for regular testing and public reports on the District's wildfire and flood plans. Not kept if he votes against it.",
+  "did_it_happen": "Whether the District tests, updates and reports on its plans.",
+  "who_decides": "District staff, with direction from council",
   "status": "not_yet",
   "evidence": []
  },
@@ -435,7 +493,9 @@
   "related_q": [
    "q1"
   ],
-  "how_to_check": "Kept if he votes to raise the community amenity contributions the District asks of developers.",
+  "their_part": "Kept if he votes to raise the community amenity contributions the District asks of developers. Not kept if he votes against raising them.",
+  "did_it_happen": "Whether council raises them.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -450,7 +510,9 @@
   "related_q": [
    "q17"
   ],
-  "how_to_check": "Kept if he moves or votes for the District to plan and open a campground with basic services for vehicle residents and visitors.",
+  "their_part": "Kept if he moves, seconds or votes for the District to plan and open a campground with basic services for vehicle residents and visitors. Not kept if he votes against it.",
+  "did_it_happen": "Whether a District campground opens.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -465,7 +527,9 @@
   "related_q": [
    "q37"
   ],
-  "how_to_check": "Watch his votes on parking variances: kept if he votes against each request to cut required parking.",
+  "their_part": "Kept if he votes against each request to cut required parking. Not kept if he votes for one. We show the count, for example 4 of 5.",
+  "did_it_happen": "How many parking variances council approves.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -480,7 +544,9 @@
   "related_q": [
    "q36"
   ],
-  "how_to_check": "Kept if council approves projects that include public parking stalls protected by a covenant, or a parkade paid for by development.",
+  "their_part": "Kept if he moves, seconds or votes for a rule or deal that makes a development provide public parking held by a covenant. Not kept if he votes against one.",
+  "did_it_happen": "Whether council approves projects with public parking held for public use.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -495,7 +561,9 @@
   "related_q": [
    "q25"
   ],
-  "how_to_check": "Broken if he votes to bring in paid parking for short stay shopping spots downtown.",
+  "their_part": "Not kept if he votes to bring in paid parking for short stay shopping spots downtown. Kept if he votes against it.",
+  "did_it_happen": "Whether short stay downtown parking stays free.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -510,7 +578,9 @@
   "related_q": [
    "q6"
   ],
-  "how_to_check": "Kept if he moves or votes for more RCMP community policing, such as more officers on foot or a local office.",
+  "their_part": "Kept if he moves, seconds or votes for more RCMP community policing, such as officers on foot or a local office. Not kept if he votes against it.",
+  "did_it_happen": "Whether more community policing happens.",
+  "who_decides": "RCMP and council",
   "status": "not_yet",
   "evidence": []
  },
@@ -526,7 +596,9 @@
    "q12",
    "q22"
   ],
-  "how_to_check": "Broken if he votes to commit to a major Brennan Park expansion before council has adopted a funding plan for it.",
+  "their_part": "Not kept if he votes to commit to a major Brennan Park expansion before council has adopted a funding plan for it. Kept if he votes against committing first.",
+  "did_it_happen": "Whether council adopts a funding plan before committing.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -541,7 +613,9 @@
   "related_q": [
    "q7"
   ],
-  "how_to_check": "Kept if he moves or votes for a full review of the 10 year financial plan that lists savings and delayed spending.",
+  "their_part": "Kept if he moves, seconds or votes for a full review of the 10 year financial plan that lists savings and delayed spending. Not kept if he votes against it.",
+  "did_it_happen": "Whether council orders the review.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -556,7 +630,9 @@
   "related_q": [
    "q9"
   ],
-  "how_to_check": "Kept if she votes for budget items and bylaws that carry out the Community Climate Action Plan.",
+  "their_part": "Kept if she votes for budget items and bylaws that the staff report says carry out the Community Climate Action Plan. Not kept if she votes against them.",
+  "did_it_happen": "How much of the plan gets done.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -571,7 +647,9 @@
   "related_q": [
    "q3"
   ],
-  "how_to_check": "Watch her votes on any boundary expansion (for example the Cheema lands): kept if she only supports one that comes with a funding plan and land for affordable housing.",
+  "their_part": "Counts only votes to widen the growth boundary. Kept if she votes against one that comes without a plan to pay for services and land for affordable housing. Not kept if she votes for it.",
+  "did_it_happen": "Whether council widens the boundary, and on what terms.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -586,7 +664,9 @@
   "related_q": [
    "q5"
   ],
-  "how_to_check": "Kept if she votes for the Hearth and Home project and the Government Road supportive housing when they come to council.",
+  "their_part": "Kept if she votes for the HEART and HEARTH project and the Government Road supportive housing when they come to council. Not kept if she votes against them.",
+  "did_it_happen": "Whether both projects go ahead.",
+  "who_decides": "BC Housing and council",
   "status": "not_yet",
   "evidence": []
  },
@@ -601,7 +681,9 @@
   "related_q": [
    "q17"
   ],
-  "how_to_check": "Kept if she votes for a pilot permit or parking program for people who live in their vehicles.",
+  "their_part": "Kept if she moves, seconds or votes to look at or start a pilot permit or parking program for people who live in vehicles. Not kept if she votes against it.",
+  "did_it_happen": "Whether a pilot starts.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -617,7 +699,9 @@
    "q4",
    "q13"
   ],
-  "how_to_check": "Kept if she votes to add money to the housing reserve fund, to fee waivers for non-profit housing, and for deals where developers give land or units.",
+  "their_part": "Kept if she votes to add money to the housing reserve fund, for fee waivers for non profit housing, and for deals where developers give land or homes. Not kept if she votes against them.",
+  "did_it_happen": "How much the housing fund grows.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -632,7 +716,9 @@
   "related_q": [
    "q37"
   ],
-  "how_to_check": "Kept if council reviews and updates the downtown parking requirements in the zoning bylaw during this term.",
+  "their_part": "Kept if she moves, seconds or votes to review and update the downtown parking requirements in the zoning bylaw. Not kept if she votes against it.",
+  "did_it_happen": "Whether council updates them this term.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -648,7 +734,9 @@
    "q25",
    "q38"
   ],
-  "how_to_check": "Kept if council studies or brings in resident permits, time limits or paid parking downtown.",
+  "their_part": "Kept if she moves, seconds or votes to study or bring in resident permits, time limits or paid parking downtown. Not kept if she votes against studying them.",
+  "did_it_happen": "Whether council studies or brings them in.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -663,7 +751,9 @@
   "related_q": [
    "q36"
   ],
-  "how_to_check": "Watch how she votes on a parkade: broken if she votes to fund a parkade ahead of other urgent capital projects.",
+  "their_part": "Counts only votes to fund a downtown parkade. Not kept if she votes for one while the staff report lists higher priority projects still without money. Kept if she votes against it then.",
+  "did_it_happen": "Whether council funds a downtown parkade, and when.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -678,7 +768,9 @@
   "related_q": [
    "q12"
   ],
-  "how_to_check": "Kept if council receives a design and cost estimate for a Brennan Park replacement during this term.",
+  "their_part": "Kept if she moves, seconds or votes for steps that get a Brennan Park replacement designed and priced sooner, such as funding the design. Not kept if she votes against them.",
+  "did_it_happen": "Whether council gets a design and cost estimate this term.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -694,7 +786,9 @@
    "q26",
    "q11"
   ],
-  "how_to_check": "Kept if she votes to fund new protected bike routes and keeps pushing other governments for better transit.",
+  "their_part": "Kept if she votes to fund new protected bike routes. Not kept if she votes against them.",
+  "did_it_happen": "How many new protected bike routes get built.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -709,7 +803,9 @@
   "related_q": [
    "q8"
   ],
-  "how_to_check": "Kept if the District funds or secures community air and water monitoring stations that report results to the public.",
+  "their_part": "Kept if he moves, seconds or votes to fund or secure community air and water monitoring stations that report to the public. Not kept if he votes against them.",
+  "did_it_happen": "Whether monitoring stations are set up and report results.",
+  "who_decides": "Council and the Province",
   "status": "not_yet",
   "evidence": []
  },
@@ -724,9 +820,12 @@
   "related_q": [
    "q1"
   ],
-  "how_to_check": "Watch how he votes on rezonings: kept if he votes against projects that do not deliver affordability or community benefits.",
+  "their_part": "Counts only rezonings, which council votes on. Kept if he votes against a rezoning whose staff report shows no affordable homes and no community benefits beyond what the rules require. Not kept if he votes for one.",
+  "did_it_happen": "How many rezonings council approves.",
+  "who_decides": "Council, within provincial housing law",
   "status": "not_yet",
-  "evidence": []
+  "evidence": [],
+  "note": "Since Bill 44 (2023), council cannot pause housing that fits existing zoning: those projects need only staff permits. So this can only be tested on rezonings."
  },
  {
   "id": "sean-easton-pioneer-way",
@@ -739,7 +838,9 @@
   "related_q": [
    "q5"
   ],
-  "how_to_check": "Kept if council moves the Pioneer Way supportive housing forward (approvals, land, permits) and it gets built sooner.",
+  "their_part": "Kept if he moves, seconds or votes for steps that move the Pioneer Way supportive housing forward, such as approvals, land or permits. Not kept if he votes against them.",
+  "did_it_happen": "Whether it gets built, and when.",
+  "who_decides": "BC Housing and council",
   "status": "not_yet",
   "evidence": []
  },
@@ -755,7 +856,9 @@
    "q13",
    "q4"
   ],
-  "how_to_check": "Kept if council adopts a policy or bylaw that requires a bigger share of affordable units in new developments.",
+  "their_part": "Kept if he moves, seconds or votes for a policy or bylaw that requires a bigger share of affordable homes in new developments. Not kept if he votes against one.",
+  "did_it_happen": "Whether council adopts one.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -770,7 +873,9 @@
   "related_q": [
    "q29"
   ],
-  "how_to_check": "Kept if the District and the Squamish Nation sign a formal agreement for shared decisions on land use or the environment.",
+  "their_part": "Kept if he moves, seconds or votes to start talks or sign an agreement with the Squamish Nation on shared decisions about land use or the environment. Not kept if he votes against it.",
+  "did_it_happen": "Whether both governments sign an agreement.",
+  "who_decides": "Squamish Nation and council",
   "status": "not_yet",
   "evidence": []
  },
@@ -785,7 +890,9 @@
   "related_q": [
    "q36"
   ],
-  "how_to_check": "Kept if council chooses or reserves a site for a downtown parkade during this term.",
+  "their_part": "Kept if he moves, seconds or votes to choose or reserve a site for a downtown parkade. Not kept if he votes against choosing one.",
+  "did_it_happen": "Whether council picks a site this term.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -800,7 +907,9 @@
   "related_q": [
    "q37"
   ],
-  "how_to_check": "Kept if council adopts a pause on parking variances, or he votes against every request to cut required parking.",
+  "their_part": "Kept if he moves or votes for a pause on parking variances, or votes against each request to cut required parking. Not kept if he votes for one. We show the count, for example 4 of 5.",
+  "did_it_happen": "How many parking variances council approves.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -816,7 +925,9 @@
    "q23",
    "q12"
   ],
-  "how_to_check": "Kept if a new agreement with Woodfibre LNG includes money or a commitment for a new recreation centre with a pool and ice.",
+  "their_part": "Kept if he moves, seconds or votes to make a new recreation centre with a pool and ice rink part of talks with Woodfibre LNG. Not kept if he votes against asking for it.",
+  "did_it_happen": "Whether a new agreement with Woodfibre LNG includes money for a recreation centre.",
+  "who_decides": "Woodfibre LNG and council",
   "status": "not_yet",
   "evidence": []
  },
@@ -831,7 +942,9 @@
   "related_q": [
    "q7"
   ],
-  "how_to_check": "Kept if the 2027 budget council adopts has a 0% municipal property tax increase; broken if it goes up.",
+  "their_part": "Kept if he moves or votes for a 0% increase in the 2027 budget, and votes against a 2027 budget that raises the District's property tax. Not kept if he votes for a 2027 budget with an increase.",
+  "did_it_happen": "The 2027 property tax increase council adopts, as the District reports it. If he votes no and loses, his promise is still kept.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -846,7 +959,9 @@
   "related_q": [
    "q26"
   ],
-  "how_to_check": "Kept if council pauses new active transportation projects until a public engagement process is done.",
+  "their_part": "Kept if he moves, seconds or votes to pause new bike lane and sidewalk projects until residents are consulted. Not kept if he votes to start a new one before that.",
+  "did_it_happen": "Whether council pauses them.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -861,7 +976,9 @@
   "related_q": [
    "q11"
   ],
-  "how_to_check": "Kept if the District formally asks for and works with BC Transit and the province on frequent express regional bus service.",
+  "their_part": "Kept if he moves, seconds or votes for a formal District request to BC Transit and the Province for express highway buses every 15 minutes. Not kept if he votes against it.",
+  "did_it_happen": "Whether express buses run every 15 minutes.",
+  "who_decides": "BC Transit and the Province",
   "status": "not_yet",
   "evidence": []
  },
@@ -874,7 +991,9 @@
   "source_kind": "website",
   "topic": "economy",
   "related_q": [],
-  "how_to_check": "Kept if council adds staff or money to economic development in the budget.",
+  "their_part": "Kept if he moves, seconds or votes to add staff or money for economic development in the budget. Not kept if he votes against it.",
+  "did_it_happen": "Whether the budget adds them.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -887,7 +1006,9 @@
   "source_kind": "website",
   "topic": "economy",
   "related_q": [],
-  "how_to_check": "Kept if council adopts a Tourism Master Plan during this term.",
+  "their_part": "Kept if he moves, seconds or votes to fund and adopt a Tourism Master Plan. Not kept if he votes against it.",
+  "did_it_happen": "Whether council adopts one this term.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -902,7 +1023,9 @@
   "related_q": [
    "q3"
   ],
-  "how_to_check": "Broken if he votes to expand the growth boundary for housing before areas like Oceanfront are built out.",
+  "their_part": "Not kept if he votes to expand the growth boundary for housing while planned areas like Oceanfront are still mostly unbuilt. Kept if he votes against it.",
+  "did_it_happen": "Whether council expands the boundary.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -915,7 +1038,9 @@
   "source_kind": "website",
   "topic": "growth",
   "related_q": [],
-  "how_to_check": "Kept if council starts the Official Community Plan update early in the term and adopts it on a short timeline.",
+  "their_part": "Kept if he moves, seconds or votes to start the Official Community Plan update early in the term on a short timeline. Not kept if he votes to delay it.",
+  "did_it_happen": "When council starts and adopts the update.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -928,7 +1053,9 @@
   "source_kind": "website",
   "topic": "other_campaign_topics",
   "related_q": [],
-  "how_to_check": "Kept if council hires a new Chief Administrative Officer through an open, wide search.",
+  "their_part": "Kept if he moves, seconds or votes for an open, wide search when council hires a Chief Administrative Officer. Not kept if he votes to hire without one.",
+  "did_it_happen": "Whether council runs a wide search. Hiring is often decided in closed meetings, so his vote may not be public.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -941,7 +1068,9 @@
   "source_kind": "website",
   "topic": "other_campaign_topics",
   "related_q": [],
-  "how_to_check": "Kept if council sets up regular performance reviews for the Chief Administrative Officer and senior staff.",
+  "their_part": "Kept if he moves, seconds or votes to set up regular performance reviews for the Chief Administrative Officer. Not kept if he votes against it.",
+  "did_it_happen": "Whether reviews happen each year. The Chief Administrative Officer reviews other senior staff.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -957,7 +1086,9 @@
    "q6",
    "q19"
   ],
-  "how_to_check": "Kept if the District and RCMP adopt and carry out a new downtown safety strategy.",
+  "their_part": "Kept if he moves, seconds or votes to work with the RCMP on a new downtown safety plan, or to fund one. Not kept if he votes against it.",
+  "did_it_happen": "Whether the District and the RCMP adopt and carry out a plan.",
+  "who_decides": "RCMP and council",
   "status": "not_yet",
   "evidence": []
  },
@@ -973,7 +1104,9 @@
    "q12",
    "q22"
   ],
-  "how_to_check": "Kept if he votes to plan a new community centre and the District applies for provincial and federal money for it.",
+  "their_part": "Kept if he moves, seconds or votes to plan a new community centre or to apply for grants for it. Not kept if he votes against planning it.",
+  "did_it_happen": "Whether the District plans it and wins grant money.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  },
@@ -986,7 +1119,9 @@
   "source_kind": "website",
   "topic": "taxes_spending",
   "related_q": [],
-  "how_to_check": "Kept if the budget funds a District grant writer position.",
+  "their_part": "Kept if he moves, seconds or votes to fund a District grant writer position. Not kept if he votes against it.",
+  "did_it_happen": "Whether the budget funds the position.",
+  "who_decides": "Council",
   "status": "not_yet",
   "evidence": []
  }

@@ -2059,3 +2059,5 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
   .ts-c[data-k="sun"] { display: flex; }
   .ts-go { margin-left: .6rem; margin-right: 1.5rem; padding: .35rem .5rem .35rem .75rem; font-size: .82rem; }
 }
+/* Promise also needs someone other than council (review item 1). */
+.whob { display: block; width: fit-content; margin-top: .35rem; padding: .05rem .5rem; border-radius: 999px; background: var(--surface-2); color: var(--ink-2, var(--ink)); font-size: .8rem; font-weight: 500; vertical-align: middle; }

@@ -469,21 +469,28 @@ const votesOf = (c) => DECISIONS.filter((d) => d.votes && d.votes[c.slug] && d.v
 // A promise's status is set by the pipeline from the votes; "not_yet" until council acts on it.
 const PSTATUS = {
   kept: { label: 'Kept', cls: 'ps-kept', icon: '✓' },
-  broken: { label: 'Broken', cls: 'ps-broken', icon: '✕' },
+  not_kept: { label: 'Not kept', cls: 'ps-broken', icon: '✕' },
   progress: { label: 'In progress', cls: 'ps-progress', icon: '…' },
   not_yet: { label: 'Not tested yet', cls: 'ps-notyet', icon: '○' },
 };
-const pStatus = (p) => PSTATUS[p.status] || PSTATUS.not_yet;
+const pStatus = (p) => PSTATUS[p.status === 'broken' ? 'not_kept' : p.status] || PSTATUS.not_yet;
 const promisesOf = (c) => PROMISES.filter((p) => p.slug === c.slug);
-const pCounts = (list) => Object.fromEntries(Object.keys(PSTATUS).map((k) => [k, list.filter((p) => (p.status || 'not_yet') === k).length]));
+const pKey = (p) => (p.status === 'broken' ? 'not_kept' : p.status || 'not_yet');
+const pCounts = (list) => Object.fromEntries(Object.keys(PSTATUS).map((k) => [k, list.filter((p) => pKey(p) === k).length]));
+// Promises that also need someone other than council (the Province, BC Transit, the RCMP, Woodfibre, the Squamish Nation).
+const whoBadge = (p) => p.who_decides && p.who_decides !== 'Council' ? `<span class="whob">Who decides: ${esc(p.who_decides)}</span>` : '';
 const pBadge = (p) => `<span class="pstatus ${pStatus(p).cls}"><span aria-hidden="true">${pStatus(p).icon}</span> ${pStatus(p).label}</span>`;
 function promiseRow(p, { who = false } = {}) {
   const c = bySlug[p.slug];
   const ev = (p.evidence || []);
-  return `<details class="promise" id="p-${esc(p.id)}"><summary>${pBadge(p)}<span class="ptxt">${who && c ? `<b class="pwho">${esc(c.name)}:</b> ` : ''}${escGl(p.promise)}</span></summary>
+  const f = c ? esc(first(c)) : 'they';
+  const outcomes = ev.filter((e) => e.outcome);
+  return `<details class="promise" id="p-${esc(p.id)}"><summary>${pBadge(p)}<span class="ptxt">${who && c ? `<b class="pwho">${esc(c.name)}:</b> ` : ''}${escGl(p.promise)}${whoBadge(p)}</span></summary>
   <div class="pbody">
     <p class="small"><b>What ${c ? esc(first(c)) : 'they'} said:</b></p><blockquote>“${esc(p.quote)}”</blockquote>${src(p.source_url)}
-    <p class="small"><b>How we’ll know:</b> ${esc(p.how_to_check)}</p>
+    <p class="small"><b>${f}’s part (the only thing we mark):</b> ${esc(p.their_part || '')}</p>
+    <p class="small"><b>Did it happen?</b> ${outcomes.length ? esc(outcomes[outcomes.length - 1].outcome) : `Not yet. We’re watching ${esc((p.did_it_happen || '').replace(/^./, (x) => x.toLowerCase()))}`} <span class="muted">This is a plain fact, never a mark against ${f}: council decides as a group.</span></p>
+    <p class="small"><b>Who decides:</b> ${esc(p.who_decides || 'Council')}</p>${p.note ? `<p class="small muted">${esc(p.note)}</p>` : ''}
     ${ev.length ? `<p class="small"><b>What has happened so far:</b></p><ul class="small">${ev.map((e) => { const m = MEETINGS.find((x) => x.id === e.meeting); return `<li>${m ? `<a href="${mUrl(m)}">${esc(fmtLong(m.date))}</a>: ` : ''}${esc(e.note)}</li>`; }).join('')}</ul>` : '<p class="small muted">Council hasn’t voted on anything that tests this yet.</p>'}
     ${p.updated ? `<p class="small muted">Status worked out automatically from council votes on ${esc(fmtLong(p.updated))}. <a href="/promises/#how">How we judge promises</a>.</p>` : ''}
   </div></details>`;
@@ -550,7 +557,7 @@ function scoreCard(c, { promises = true, positions = true } = {}) {
   // Before any votes there is nothing to score: one quiet line instead of rows of zeros.
   if (!ANY_VOTES) return `<a class="scard" href="/council/${c.slug}/#record">${avatar(c, 'sm')}<span class="sbody"><span class="sname"><b>${esc(c.name)}</b><span class="small">${[promises && `${ps.length} promises`, positions && `${pr.rows.length} positions`].filter(Boolean).join(' · ')} tracked</span></span></span><span class="go" aria-hidden="true">›</span></a>`;
   return `<a class="scard" href="/council/${c.slug}/#record">${avatar(c, 'sm')}<span class="sbody"><span class="sname"><b>${esc(c.name)}</b><span class="small">${c.office === 'mayor' ? 'Mayor' : 'Councillor'}</span></span>
-  ${promises ? line('Promises', [[pc.kept, 'ps-kept', 'kept'], [pc.broken, 'ps-broken', 'broken'], [pc.progress, 'ps-progress', 'in progress']], ps.length, pc.not_yet) : ''}
+  ${promises ? line('Promises', [[pc.kept, 'ps-kept', 'kept'], [pc.not_kept, 'ps-broken', 'not kept'], [pc.progress, 'ps-progress', 'in progress']], ps.length, pc.not_yet) : ''}
   ${positions ? line('Positions', [[pr.inLine, 'ps-kept', 'voted the way they said'], [pr.against, 'ps-broken', 'voted against'], [pr.mixed, 'ps-progress', 'mixed']], pr.rows.length, pr.untested) : ''}</span></a>`;
 }
 const noVotesNote = () => ANY_VOTES ? '' : `<div class="notice info"><b>No votes yet.</b> The new council is sworn in on November 3${FIRST_VOTES ? ` and its first regular meeting is ${esc(fmtLong(FIRST_VOTES))}` : ''}. Every vote after that is checked here automatically.</div>`;
@@ -568,7 +575,7 @@ const posRow = (c, r) => `<details class="promise"><summary>${posBadge(r.st)}<sp
 function profileRecord(c) {
   const f = esc(first(c)), ps = promisesOf(c), pc = pCounts(ps), vs = votesOf(c), pr = positionReport(c);
   const next = upcoming[0];
-  const pSum = ps.length ? `${pc.kept} kept · ${pc.broken} broken · ${pc.progress} in progress · ${pc.not_yet} not tested yet` : '';
+  const pSum = ps.length ? `${pc.kept} kept · ${pc.not_kept} not kept · ${pc.progress} in progress · ${pc.not_yet} not tested yet` : '';
   if (!ANY_VOTES) return `<section class="card record" id="record"><h2>${f}’s record on council</h2>
   <p>Council hasn’t voted yet. We’re tracking <a href="#promises"><b>${ps.length} promises</b></a> and <a href="#said-did"><b>${pr.rows.length} positions</b></a> ${f} took during the campaign.${next ? ` First meeting: <a href="${mUrl(next)}">${esc(fmtLong(next.date))}</a>.` : ''}</p></section>
   ${ps.length ? `<h2 id="promises">${f}’s promises <span class="small">${ps.length}</span></h2>
@@ -578,7 +585,7 @@ function profileRecord(c) {
   <p class="small">${pr.rows.length} things ${f} said during the campaign. Each gets a mark once a council vote tests it.</p>
   <details class="drop"><summary>See all ${pr.rows.length} positions</summary><div class="stack">${pr.rows.map((r) => posRow(c, r)).join('')}</div></details>`;
   return `<section class="card record" id="record"><h2>${f}’s record on council</h2>
-  <div class="statrow"><div><b>${ps.length}</b><span>campaign promises we track</span></div><div><b>${vs.filter((d) => ['yes', 'no'].includes(d.votes[c.slug])).length}</b><span>votes cast so far</span></div><div><b>${pc.kept} / ${pc.broken}</b><span>promises kept / broken</span></div><div><b>${pr.inLine} / ${pr.against}</b><span>positions voted in line / against</span></div></div>
+  <div class="statrow"><div><b>${ps.length}</b><span>campaign promises we track</span></div><div><b>${vs.filter((d) => ['yes', 'no'].includes(d.votes[c.slug])).length}</b><span>votes cast so far</span></div><div><b>${pc.kept} / ${pc.not_kept}</b><span>promises kept / not kept</span></div><div><b>${pr.inLine} / ${pr.against}</b><span>positions voted in line / against</span></div></div>
   ${vs.length ? '' : `<p class="small">${TODAY < '2026-11-03' ? 'The new council is sworn in on November 3, 2026.' : 'This council was sworn in on November 3, 2026.'} ${next && next.date !== '2026-11-03' ? `The next meeting is <a href="${mUrl(next)}">${esc(fmtDay(next.date))}</a>.` : ''} Votes will appear here after each meeting.</p>`}</section>
   ${ps.length ? `<h2 id="promises">${f}’s promises <span class="small">${pSum}</span></h2>
   <p class="small">What ${f} promised during the campaign, in plain words, with the exact quote and source. Tap any promise to see the details.</p>
@@ -750,7 +757,7 @@ for (const c of all) {
   const prev = peers[(idx - 1 + peers.length) % peers.length], next = peers[(idx + 1) % peers.length];
   write(`/council/${c.slug}/`, page({
     url: '/council/', title: `${c.name}, ${c.office === 'mayor' ? 'Mayor of Squamish' : 'Squamish councillor'}: votes, promises and positions`,
-    desc: raceRow(c) ? `${c.name} was elected ${c.office === 'mayor' ? 'mayor of Squamish' : 'to Squamish council'} on October 17, 2026 with ${Number(raceRow(c).total).toLocaleString('en-CA')} votes. How ${first(c)} votes, promises kept and broken, and every campaign answer.` : `How ${c.name} votes on Squamish council, which campaign promises they have kept, and every answer they gave during the 2026 election, with sources.`,
+    desc: raceRow(c) ? `${c.name} was elected ${c.office === 'mayor' ? 'mayor of Squamish' : 'to Squamish council'} on October 17, 2026 with ${Number(raceRow(c).total).toLocaleString('en-CA')} votes. How ${first(c)} votes, which promises they kept, and every campaign answer.` : `How ${c.name} votes on Squamish council, which campaign promises they have kept, and every answer they gave during the 2026 election, with sources.`,
     jsonld: [{
       '@context': 'https://schema.org', '@type': 'Person', name: c.name,
       url: `${ORIGIN}/council/${c.slug}/`,
@@ -840,7 +847,7 @@ function memberFaq(c) {
     mayor ? ['Who is the mayor of Squamish?', `${c.name} is the mayor of Squamish, elected on October 17, 2026${row ? ` with ${n(row.total)} votes${row.pct != null ? ` (${Number(row.pct).toFixed(1)}%)` : ''}` : ''}. The term runs to the October 2030 election.`]
       : [`Is ${c.name} on Squamish council?`, `Yes. ${c.name} was ${c.incumbent ? 're-elected' : 'elected'} to Squamish council on October 17, 2026${row ? ` with ${n(row.total)} votes` : ''}, one of six councillors serving with Mayor ${mayors[0].name} until 2030.`],
     INAUGURAL && [`When does ${c.name} take office?`, TODAY < INAUGURAL.date ? `${c.name} is sworn in with the new council at the inaugural meeting on ${fmtLong(INAUGURAL.date)} at 6 p.m. at Municipal Hall.` : `${c.name} was sworn in with the new council at the inaugural meeting on ${fmtLong(INAUGURAL.date)}.`],
-    ps.length && [`What did ${c.name} promise?`, `We track ${ps.length} promise${ps.length === 1 ? '' : 's'} ${f} made during the 2026 campaign, including: ${ps.slice(0, 3).map((p) => p.promise.replace(/\.$/, '')).join('; ')}. Each one is marked kept or broken when council votes on something that tests it.`],
+    ps.length && [`What did ${c.name} promise?`, `We track ${ps.length} promise${ps.length === 1 ? '' : 's'} ${f} made during the 2026 campaign, including: ${ps.slice(0, 3).map((p) => p.promise.replace(/\.$/, '')).join('; ')}. Each one is marked kept or not kept by how ${f} votes, not by what council as a whole decides.`],
     [`How has ${c.name} voted on council?`, vs.length ? `${f} has voted on ${vs.length} council decision${vs.length === 1 ? '' : 's'} so far: ${vs.filter((d) => d.votes[c.slug] === 'yes').length} for and ${vs.filter((d) => d.votes[c.slug] === 'no').length} against. Every vote is listed on this page with a link to the meeting.` : `Council hasn’t voted yet.${next ? ` The first regular meeting is ${fmtLong(next.date)}.` : ''} Every vote ${f} casts will be listed on this page.`],
     pay && [mayor ? 'How much is the mayor of Squamish paid?' : 'How much is a Squamish councillor paid?', `In ${ctx.pay.year} the ${mayor ? 'mayor' : 'each councillor'} was paid $${pay.toLocaleString('en-CA')}, not counting expenses and benefits, according to the District of Squamish financial statement.`],
   ].filter(Boolean);
@@ -1910,7 +1917,7 @@ write('/your-say/', page({
   const c0 = pCounts(PROMISES);
   write('/promises/', page({
     url: '/promises/', title: 'Squamish council promise tracker',
-    desc: `${PROMISES.length} campaign promises from Squamish’s mayor and councillors, each with the exact quote and source, marked kept, broken or in progress as council votes.`,
+    desc: `${PROMISES.length} campaign promises from Squamish’s mayor and councillors, each with the exact quote and source, marked kept, not kept or in progress by each member’s own votes.`,
     jsonld: crumbLd([['Home', '/'], ['Promise tracker', '/promises/']]),
     body: `<h1>Promise tracker</h1>
     <p class="lede">What the mayor and councillors said they would do during the 2026 campaign, and whether they’ve done it.</p>
@@ -1922,11 +1929,12 @@ write('/your-say/', page({
     <h2 id="list">Every promise</h2>
     ${ANY_VOTES ? '' : '<!--'}<div class="pstats">${Object.entries(PSTATUS).map(([k, P]) => `<button type="button" class="chip-btn" data-pf="${k}" aria-pressed="false"><span class="pstatus ${P.cls}"><span aria-hidden="true">${P.icon}</span> ${c0[k]}</span> ${esc(P.label)}</button>`).join('')}<button type="button" class="chip-btn" data-pf="" aria-pressed="true">Show all</button></div>${ANY_VOTES ? '' : '-->'}
     ${all.map((c) => { const ps = promisesOf(c); return ps.length ? `<h2 id="${c.slug}" class="phead">${avatar(c, 'sm')} <a href="/council/${c.slug}/">${esc(c.name)}</a> <span class="small">${c.office === 'mayor' ? 'Mayor' : 'Councillor'} · ${ps.length} promises</span></h2>
-    <div class="card stack">${ps.map((p) => promiseRow(p).replace('<details class="promise"', `<details class="promise" data-ps="${p.status || 'not_yet'}"`)).join('')}</div>` : ''; }).join('')}
+    <div class="card stack">${ps.map((p) => promiseRow(p).replace('<details class="promise"', `<details class="promise" data-ps="${pKey(p)}"`)).join('')}</div>` : ''; }).join('')}
     <h2 id="how">How we judge promises</h2>
     <ul>
       <li><b>We only count clear promises.</b> Something they said they would do or vote for, in their own words, with a link to where they said it. General values like “I care about Squamish” aren’t tracked.</li>
-      <li><b>Each promise says how we’ll know.</b> We write down in advance what vote or action would show it was kept or broken.</li>
+      <li><b>We only mark what they did themselves.</b> Each promise says, in advance, what their part is: how they vote, or what they move or second. That is the only thing that gets a label.</li>
+      <li><b>“Did it happen?” is a plain fact, never a mark.</b> Council decides as a group, and some promises also need the Province, BC Transit, the RCMP, Woodfibre or the Squamish Nation. If a member votes the way they promised and loses, their promise is still kept.</li>
       <li><b>Votes decide it, not opinions.</b> When council votes on something that tests a promise, the promise is updated automatically and links to that vote.</li>
       <li><b>“In progress”</b> means council has taken a step but not finished. <b>“Nothing to judge yet”</b> means council hasn’t voted on it.</li>
       <li><b>Positions are checked the same way.</b> When a vote directly tests something a member said, like “move the Under One Roof shelter out of downtown”, we note whether their vote went the same way as what they said.</li>
@@ -2034,7 +2042,7 @@ for (const ic of ctx.issues || []) {
     ['Can I watch a council meeting?', 'Yes. Meetings are open to the public at Municipal Hall, and most are streamed live and posted online afterward. Each meeting on our site links to the official video.', '<a href="/meetings/">Meetings and videos</a>'],
     ['What is the difference between a council meeting and Committee of the Whole?', `${MTYPE.regular.plain} ${MTYPE.cow.label}: ${MTYPE.cow.plain}`, ''],
     ['What is a public hearing?', MTYPE.hearing.plain + ' Anyone can speak or send a letter. Fewer rezonings need one since B.C. changed the rules in 2023.', ''],
-    ['How do you know if a promise was kept?', 'Each promise lists exactly what would show it was kept or broken. When council votes on something that tests it, we mark it and link to the vote.', '<a href="/promises/#how">How we judge promises</a>'],
+    ['How do you know if a promise was kept?', 'Each promise lists their part: how they vote, or what they move or second. Only that is marked, not what council as a whole decides. When council votes on something that tests it, we mark it and link to the vote.', '<a href="/promises/#how">How we judge promises</a>'],
     ['Who won the 2026 Squamish election?', `${resWinner('mayor')[0]} won the mayor’s race. Elected to council: ${resWinner('council').join(', ')}. Turnout was ${R26.turnout_pct}%.`, '<a href="/results/">Full results</a>'],
     ...(ctx.pay ? [['How much is the mayor of Squamish paid?', `In ${ctx.pay.year} the mayor was paid $${ctx.pay.mayor.toLocaleString('en-CA')} and each councillor about $${ctx.pay.councillor.toLocaleString('en-CA')}, not counting expenses and benefits (District of Squamish financial statement).`, isUrl(ctx.pay.source_url) ? `<a href="${esc(ctx.pay.source_url)}" target="_blank" rel="noopener">Source</a>` : '']] : []),
     ['Is this site run by the District?', 'No. Squamish Voters is independent and not connected to the District, council or any group. It does not endorse anyone.', '<a href="/about/">About this site</a>'],
@@ -2250,8 +2258,8 @@ for (const e of EXPLAINERS) {
       rows: [['meeting_date', 'meeting_type', 'meeting_page', 'decision', 'result', 'member', 'vote', 'checked_against'],
         ...DECISIONS.filter((d) => d.votes).flatMap((d) => all.filter((c) => d.votes[c.slug]).map((c) => [d.m.date, mType(d.m).label, U(mUrl(d.m)), d.title, d.result, c.name, d.votes[c.slug], d.m.votes_source === 'minutes' ? 'official minutes' : 'meeting video']))] },
     { f: 'promises.csv', name: 'Squamish council campaign promises', about: 'Every promise the mayor and councillors made in the 2026 campaign, in their words, what would count as keeping it, its status and the source.',
-      rows: [['member', 'role', 'promise', 'their_words', 'topic', 'kept_if', 'status', 'source'],
-        ...all.flatMap((c) => promisesOf(c).map((p) => [c.name, role(c), p.promise, p.quote, p.topic, p.how_to_check, pStatus(p).label, String(p.source_url || '').replace(`${ORIGIN}/candidates/`, `${ORIGIN}/council/`)]))] },
+      rows: [['member', 'role', 'promise', 'their_words', 'topic', 'their_part', 'did_it_happen', 'who_decides', 'status', 'source'],
+        ...all.flatMap((c) => promisesOf(c).map((p) => [c.name, role(c), p.promise, p.quote, p.topic, p.their_part, p.did_it_happen, p.who_decides, pStatus(p).label, String(p.source_url || '').replace(`${ORIGIN}/candidates/`, `${ORIGIN}/council/`)]))] },
     { f: 'election-2026.csv', name: 'Squamish election results 2026', about: `Official results for mayor and council from the District of Squamish: every candidate's mail, advance and voting day votes and total.`,
       rows: [['race', 'candidate', 'mail_ballot', 'advance', 'general_voting_day', 'total', 'pct', 'elected'],
         ...['mayor', 'council'].flatMap((k) => (R26[k] || []).map((r) => [k, r.name, r.special, r.advance, r.general_voting_day, r.total, r.pct, r.elected ? 'yes' : 'no']))] },
@@ -2324,7 +2332,7 @@ ${TRACKED.map((t) => `- [${t.title}](${U(`/track/${t.slug}/`)}): ${t.question}`)
 `;
   const explained = EXPLAINERS.length ? `## Explained\n${EXPLAINERS.map((e) => `- [${e.question}](${U(`/explained/${e.slug}/`)}): ${e.answer}`).join('\n')}\n` : '';
   const more = `## Promises and record
-- [Promise tracker](${U('/promises/')}): ${PROMISES.length} promises the mayor and councillors made in the 2026 campaign, each marked kept or broken as council votes.
+- [Promise tracker](${U('/promises/')}): ${PROMISES.length} promises the mayor and councillors made in the 2026 campaign, each marked kept or not kept by that member’s own votes.
 - [Said vs did](${U('/said-vs-did/')}): what each member said during the campaign next to how they later voted.
 - [Where they lean](${U('/compass/')}): each member placed on a chart from their answers and votes.
 

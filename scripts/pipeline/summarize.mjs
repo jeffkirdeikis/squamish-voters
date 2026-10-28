@@ -81,7 +81,7 @@ const SCHEMA = {
     },
     promise_updates: {
       type: 'array', description: 'Only promises that a vote at THIS meeting clearly tests.',
-      items: { type: 'object', additionalProperties: false, required: ['id', 'status', 'note'], properties: { id: { type: 'string' }, status: { type: 'string', enum: ['kept', 'broken', 'progress'] }, note: { type: 'string', description: 'One plain sentence with the evidence, e.g. "Voted no on the 2027 budget increase of 4.9%, as promised."' } } },
+      items: { type: 'object', additionalProperties: false, required: ['id', 'status', 'note', 'outcome'], properties: { id: { type: 'string' }, status: { type: 'string', enum: ['kept', 'not_kept', 'progress'] }, note: { type: 'string', description: 'One plain sentence about the member’s OWN action, e.g. "Voted no on the 2027 budget increase of 4.9%, as promised."' }, outcome: { type: 'string', description: 'One plain sentence on what council as a whole decided, as a fact, e.g. "Council passed the 2027 budget with a 4.9% increase, 5 to 2." Empty if nothing was decided.' } } },
     },
   },
 };
@@ -127,8 +127,8 @@ HOW VOTES WORK HERE: the chair calls the question and asks who is opposed. Unles
 
 Include every motion that was voted on (skip only adopting the agenda and adjourning), plus important presentations or discussions with no vote (votes null, result "info"). Put the most important first.
 
-CAMPAIGN PROMISES WE TRACK (only update one if a vote here clearly tests it; a member who votes the way they promised has kept it even if the vote failed):
-${JSON.stringify(promises.map((p) => ({ id: p.id, who: p.slug, promise: p.promise, how_to_check: p.how_to_check })))}
+CAMPAIGN PROMISES WE TRACK (only update one if a vote here clearly tests it). Judge ONLY "their_part": the member's own vote, motion or second. What council as a whole decides never sets the status: a member who votes the way they promised has kept it even if the vote failed, and a member who votes against it has not kept it even if it passed. Put what council decided in "outcome" as a plain fact:
+${JSON.stringify(promises.map((p) => ({ id: p.id, who: p.slug, promise: p.promise, their_part: p.their_part, did_it_happen: p.did_it_happen })))}
 
 CAMPAIGN POSITIONS (for "positions"; what each member said they support or are against). Link a vote to every position it directly tests, for any member, even ones not marked as promises. Example: a vote to fund keeping a shelter downtown tests "against: moving Under One Roof" (yes_is 1) and "supports: moving it out" (yes_is -1). Only clear, direct links; leave it empty when nothing fits:
 ${JSON.stringify(positions)}
@@ -168,7 +168,7 @@ ${fromMinutes ? `OFFICIAL MINUTES:\n${fs.readFileSync(minutesFile, 'utf8')}` : `
   for (const u of m.promise_updates) {
     const p = promises.find((x) => x.id === u.id);
     p.status = u.status; p.updated = today;
-    p.evidence = [...(p.evidence || []).filter((e) => e.meeting !== m.id), { meeting: m.id, note: u.note, status: u.status }];
+    p.evidence = [...(p.evidence || []).filter((e) => e.meeting !== m.id), { meeting: m.id, note: u.note, status: u.status, ...(u.outcome ? { outcome: u.outcome } : {}) }];
   }
   writeJson(path.join(ROOT, 'data', 'promises.json'), promises);
   saveMeeting(m);
