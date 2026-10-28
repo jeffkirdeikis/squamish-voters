@@ -3,7 +3,8 @@
 //   node scripts/pipeline/minutes.mjs
 import fs from 'node:fs';
 import path from 'node:path';
-import { cw, RAW_DIR, loadMeetings, saveMeeting, pdfToText, council, log, claudeJson, STYLE } from './lib.mjs';
+import { cw, ROOT, RAW_DIR, loadMeetings, saveMeeting, pdfToText, council, log, claudeJson, STYLE, readJson, writeJson } from './lib.mjs';
+import { recomputePromises } from './status.mjs';
 
 const KIND = { Regular: 'regular', Special: 'special', COW: 'cow' };
 const all = loadMeetings();
@@ -51,12 +52,18 @@ ${text}`,
     let changed = 0;
     for (const c of out.checked) {
       const d = m.decisions[c.i]; if (!d || !c.matched) continue;
-      if (JSON.stringify([d.result, d.votes]) !== JSON.stringify([c.result, c.votes])) { changed++; d.corrected_from = { result: d.result, votes: d.votes }; }
+      if (JSON.stringify([d.result, d.votes]) !== JSON.stringify([c.result, c.votes])) { changed++; d.corrected_from = { result: d.result, votes: d.votes }; d.corrected_on = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' }); }
       Object.assign(d, { result: c.result, votes: c.votes, votes_source: 'minutes', votes_confidence: 'clear' });
     }
     m.decisions.push(...out.missed.map((d) => ({ ...d, why_it_matters: '', related_q: [], votes_source: 'minutes', votes_confidence: 'clear' })));
     Object.assign(m, { votes_source: 'minutes', minutes_url: a.url, minutes_checked: new Date().toISOString(), minutes_corrections: changed });
     saveMeeting(m);
     log(`checked ${m.id}: ${changed} corrected, ${out.missed.length} added`);
+    // The minutes now settle these votes: work every promise's label out again from all its evidence (status.mjs),
+    // so a label set from the video is confirmed, held back or flipped. Positions are worked out at build time.
+    const pFile = path.join(ROOT, 'data', 'promises.json');
+    const promises = readJson(pFile, []);
+    const flipped = recomputePromises(promises, loadMeetings());
+    if (flipped) { writeJson(pFile, promises); log(`${flipped} promise labels changed after the minutes`); }
   }
 }

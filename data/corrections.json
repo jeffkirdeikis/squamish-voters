@@ -1,0 +1,39 @@
+{
+ "log_started": "2026-10-28",
+ "entries": [
+  {
+   "date": "2026-10-28",
+   "page": "/promises/",
+   "what": "We changed how promises are judged, before council's first votes. Each member is now marked only on their own part (what they move, second or vote for), never on what council as a whole decides. Only votes confirmed by the official minutes can give a red mark. \"Broken\" is now \"Not kept\".",
+   "affects": ["/council/"]
+  },
+  {
+   "date": "2026-10-28",
+   "page": "/promises/",
+   "what": "Six promises were reworded to match what the member actually said: Sarah Ellis (the Province's HEART and HEARTH program, not \"Hearth and Home\"; exploring pilot programs for people living in vehicles), Eric Andersen (consider spending developer parking payments on parking), Shaun Veltkamp (a community centre that meets Squamish's needs, without the funding detail he did not give), Janice DesJardins (a settlement and reset with Woodfibre LNG, without \"ends the court fights\") and Sean Easton (monitoring for possible effects from Woodfibre LNG).",
+   "affects": ["/council/"]
+  },
+  {
+   "date": "2026-10-28",
+   "page": "/council/sean-easton/",
+   "what": "Fixed two broken source links and corrected his transportation summary, which said his platform gave no detail; it names an express highway bus every 15 minutes."
+  },
+  {
+   "date": "2026-10-28",
+   "page": "/council/eric-andersen/",
+   "what": "Added a direct link to where he said natural gas is a \"bridging fuel\" (his 2022 My Sea to Sky answers). Janice DesJardins's downtown parking quote now links to her home page, where it appears."
+  },
+  {
+   "date": "2026-10-28",
+   "page": "/news/",
+   "what": "The B.C. election story said Jeremy Valeriote won and the Conservatives won the province. Those are results after the initial count; Elections BC does the final count November 6 to 10.",
+   "affects": []
+  },
+  {
+   "date": "2026-10-28",
+   "page": "/issues/",
+   "what": "Property tax pages said 13% for 2027, from January's plan. Staff's September draft starts at 10.4%, and the new council decides. The 2027 budget is expected to be adopted in early 2027, not December 2026 (last year it was adopted January 13). The Under One Roof tracker said a temporary housing site was chosen; none has been.",
+   "affects": ["/wants/", "/track/"]
+  }
+ ]
+}

@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { ROOT, RAW_DIR, TRANSCRIPTS, cw, loadMeetings, saveMeeting, readJson, writeJson, council, positionList, hoods, tracked, attachmentsText, TAG_RULES, log, claudeJson, STYLE } from './lib.mjs';
+import { recomputePromises } from './status.mjs';
 
 const only = process.argv[2];
 const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' });
@@ -61,7 +62,7 @@ const SCHEMA = {
     decisions: {
       type: 'array',
       items: {
-        type: 'object', additionalProperties: false, required: ['title', 'what', 'why_it_matters', 'for_you', 'areas', 'issues', 'result', 'votes', 'votes_confidence', 'topic', 'related_q', 'positions', 'timestamp'],
+        type: 'object', additionalProperties: false, required: ['title', 'what', 'why_it_matters', 'for_you', 'areas', 'issues', 'result', 'votes', 'votes_confidence', 'consent_agenda', 'topic', 'related_q', 'positions', 'timestamp'],
         properties: {
           title: { type: 'string', description: 'Plain title, e.g. "Rezoning for 120 rental homes on Pioneer Way".' },
           what: { type: 'string', description: 'One to three plain sentences: what council decided and what it means. The first sentence must make sense quoted on its own: start with "Squamish council" and say what it decided ("Squamish council voted to ..."). Give a vote count only if the meeting record states it.' },
@@ -72,6 +73,7 @@ const SCHEMA = {
           result: { type: 'string', enum: ['passed', 'failed', 'referred', 'info'] },
           votes: { anyOf: [{ type: 'null' }, { type: 'object', additionalProperties: false, required: slugs, properties: voteProps }], description: 'null for items with no vote. Otherwise every member. "unknown" when the recording does not make it clear.' },
           votes_confidence: { type: 'string', enum: ['clear', 'likely', 'unclear', 'none'] },
+          consent_agenda: { type: 'boolean', description: 'true if this item was approved as part of the consent agenda (routine items passed together in one vote) and no member pulled it out for its own vote.' },
           topic: { type: 'string' },
           related_q: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['q', 'yes_is'], properties: { q: { type: 'string' }, yes_is: { type: 'integer', enum: [1, -1] } } }, description: 'Quiz statements this vote directly tests. yes_is 1 if voting yes agrees with the statement, -1 if it disagrees. Only include clear, direct links.' },
           positions: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['id', 'yes_is'], properties: { id: { type: 'string' }, yes_is: { type: 'integer', enum: [1, -1] } } }, description: 'Campaign positions (from the POSITIONS list) this vote directly tests. yes_is 1 if voting yes goes the same way as that position, -1 if voting yes goes against it.' },
@@ -81,7 +83,7 @@ const SCHEMA = {
     },
     promise_updates: {
       type: 'array', description: 'Only promises that a vote at THIS meeting clearly tests.',
-      items: { type: 'object', additionalProperties: false, required: ['id', 'status', 'note', 'outcome'], properties: { id: { type: 'string' }, status: { type: 'string', enum: ['kept', 'not_kept', 'progress'] }, note: { type: 'string', description: 'One plain sentence about the member’s OWN action, e.g. "Voted no on the 2027 budget increase of 4.9%, as promised."' }, outcome: { type: 'string', description: 'One plain sentence on what council as a whole decided, as a fact, e.g. "Council passed the 2027 budget with a 4.9% increase, 5 to 2." Empty if nothing was decided.' } } },
+      items: { type: 'object', additionalProperties: false, required: ['id', 'decision', 'keeps_if', 'status', 'note', 'outcome'], properties: { id: { type: 'string' }, decision: { type: 'integer', description: 'Index (0 based) of the item in your "decisions" array that tests it.' }, keeps_if: { type: 'string', enum: ['yes', 'no', 'none'], description: '"yes" if a yes vote by this member keeps the promise, "no" if a no vote keeps it, "none" if it is not about their vote (for example they moved a motion).' }, status: { type: 'string', enum: ['kept', 'not_kept', 'progress'] }, note: { type: 'string', description: 'One plain sentence about the member’s OWN action, e.g. "Voted no on the 2027 budget increase of 4.9%, as promised."' }, outcome: { type: 'string', description: 'One plain sentence on what council as a whole decided, as a fact, e.g. "Council passed the 2027 budget with a 4.9% increase, 5 to 2." Empty if nothing was decided.' } } },
     },
   },
 };
@@ -127,7 +129,7 @@ HOW VOTES WORK HERE: the chair calls the question and asks who is opposed. Unles
 
 Include every motion that was voted on (skip only adopting the agenda and adjourning), plus important presentations or discussions with no vote (votes null, result "info"). Put the most important first.
 
-CAMPAIGN PROMISES WE TRACK (only update one if a vote here clearly tests it). Judge ONLY "their_part": the member's own vote, motion or second. What council as a whole decides never sets the status: a member who votes the way they promised has kept it even if the vote failed, and a member who votes against it has not kept it even if it passed. Put what council decided in "outcome" as a plain fact:
+CAMPAIGN PROMISES WE TRACK (only update one if a vote here clearly tests it). Judge ONLY "their_part": the member's own vote, motion or second. What council as a whole decides never sets the status: a member who votes the way they promised has kept it even if the vote failed, and a member who votes against it has not kept it even if it passed. Skip consent agenda items and anything that needs a judgement call the test does not spell out. Put what council decided in "outcome" as a plain fact:
 ${JSON.stringify(promises.map((p) => ({ id: p.id, who: p.slug, promise: p.promise, their_part: p.their_part, did_it_happen: p.did_it_happen })))}
 
 CAMPAIGN POSITIONS (for "positions"; what each member said they support or are against). Link a vote to every position it directly tests, for any member, even ones not marked as promises. Example: a vote to fund keeping a shelter downtown tests "against: moving Under One Roof" (yes_is 1) and "supports: moving it out" (yes_is -1). Only clear, direct links; leave it empty when nothing fits:
@@ -163,13 +165,15 @@ ${fromMinutes ? `OFFICIAL MINUTES:\n${fs.readFileSync(minutesFile, 'utf8')}` : `
   m.transcript = !fromMinutes;
   if (fromMinutes) m.votes_source = 'minutes';
   m.generated = { at: new Date().toISOString(), model: 'claude-opus-5-5', from: fromMinutes ? 'official minutes and the agenda' : parts[0].from === 'YouTube automatic captions' ? 'meeting video’s automatic captions and the agenda' : 'meeting audio and the agenda' };
-  // Promises: newest evidence wins the status, and every piece of evidence is kept.
-  m.promise_updates = out.promise_updates.filter((u) => promises.some((p) => p.id === u.id));
+  // Promises: every piece of evidence is kept, linked to the decision it came from, and the status is worked out again
+  // from ALL of it (status.mjs). A video vote can only give an "Early sign"; the official minutes settle it later.
+  m.promise_updates = out.promise_updates.filter((u) => promises.some((p) => p.id === u.id) && m.decisions[u.decision]);
   for (const u of m.promise_updates) {
     const p = promises.find((x) => x.id === u.id);
-    p.status = u.status; p.updated = today;
-    p.evidence = [...(p.evidence || []).filter((e) => e.meeting !== m.id), { meeting: m.id, note: u.note, status: u.status, ...(u.outcome ? { outcome: u.outcome } : {}) }];
+    p.updated = today;
+    p.evidence = [...(p.evidence || []).filter((e) => !(e.meeting === m.id && e.decision === u.decision)), { meeting: m.id, decision: u.decision, keeps_if: u.keeps_if, note: u.note, status: u.status, ...(u.outcome ? { outcome: u.outcome } : {}) }];
   }
+  recomputePromises(promises, loadMeetings().filter((x) => x.id !== m.id).concat(m));
   writeJson(path.join(ROOT, 'data', 'promises.json'), promises);
   saveMeeting(m);
   log('summarised', m.id, `${m.decisions.length} items, ${m.promise_updates.length} promise updates`);

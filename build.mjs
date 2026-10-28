@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import crypto from 'node:crypto';
+import { promiseTally, tallyText, positionStatus, confirmedByMinutes } from './scripts/pipeline/status.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.join(ROOT, 'dist');
@@ -17,6 +18,9 @@ const MEET_DIR = path.join(ROOT, 'data', 'meetings');
 const MEETINGS = fs.existsSync(MEET_DIR) ? fs.readdirSync(MEET_DIR).filter((f) => f.endsWith('.json')).filter((f) => !f.startsWith('TEST-')).map((f) => JSON.parse(fs.readFileSync(path.join(MEET_DIR, f), 'utf8'))).sort((a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || ''))) : [];
 const PROMISES = fs.existsSync(path.join(ROOT, 'data', 'promises.json')) ? read('promises.json') : [];
 // Long-running issues we follow across meetings, and how residents can take part (both researched, with sources).
+// Corrections log (/corrections/). An entry's "affects" lists the page addresses (or starts of addresses) it changed.
+const CORR = fs.existsSync(path.join(ROOT, 'data', 'corrections.json')) ? read('corrections.json') : { log_started: '2026-10-28', entries: [] };
+const corrDate = (u) => (CORR.entries || []).filter((e) => [e.page, ...(e.affects || [])].some((a) => a && u.startsWith(a))).map((e) => e.date).sort().pop() || '';
 const TRACKED = fs.existsSync(path.join(ROOT, 'data', 'tracked-issues.json')) ? read('tracked-issues.json').issues || [] : [];
 const PART = fs.existsSync(path.join(ROOT, 'data', 'participate.json')) ? read('participate.json') : {};
 const HOODS = PART.neighbourhoods || [];
@@ -344,7 +348,8 @@ const TODAY_STRIP = `<a class="td-strip no-print" href="/today/" data-today-stri
 
 // Search results cut a description at about 160 characters; end it on a whole word instead of mid word.
 const clip = (s, n) => (!s || s.length <= n ? s : `${s.slice(0, n - 1).replace(/[\s,;:]+\S*$/, '')}…`);
-function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null, image = null, imageAlt = null }) {
+// updated: the date this page's own content last changed (from its data), shown in the footer instead of the build date.
+function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null, image = null, imageAlt = null, updated = null }) {
   const img = image || 'https://squamishvoters.com/og.png?v=4';
   const cur = (href) => ((href === '/' ? url === '/' : url.startsWith(href)) ? ' aria-current="page"' : '');
   const inGroup = (g) => [g.href, ...g.items.map(([h]) => h)].some((h) => url.startsWith(h));
@@ -403,8 +408,8 @@ ${body}
 </div></main>
 <footer class="site-footer"><div class="wrap">
   <div class="cols">
-    <div><h2>${SITE.name}</h2><p>An independent, non-partisan guide to Squamish council made by <a href="/about/#who">Jeff Kirdeikis</a>, a Squamish resident. Not affiliated with the District of Squamish, any council member, or any party.</p><p>Last updated ${esc(SITE.updated)}.</p><p data-visits hidden><b>0</b> page views so far.</p></div>
-    <div><h2>Pages</h2><ul>${[['/', 'Home'], ...MENU, ['/data/', 'Data downloads'], ['/about/', 'About, method &amp; corrections']].map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join('')}</ul></div>
+    <div><h2>${SITE.name}</h2><p>An independent, non-partisan guide to Squamish council made by <a href="/about/#who">Jeff Kirdeikis</a>, a Squamish resident. Not affiliated with the District of Squamish, any council member, or any party.</p>${updated ? `<p>This page last changed ${esc(fmtLong(updated))}.</p>` : ''}<p data-visits hidden><b>0</b> page views so far.</p></div>
+    <div><h2>Pages</h2><ul>${[['/', 'Home'], ...MENU, ['/data/', 'Data downloads'], ['/about/', 'About and method'], ['/corrections/', 'Corrections']].map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join('')}</ul></div>
     <div><h2>Official information</h2><ul><li><a href="https://squamish.ca/government-and-administration/council/" target="_blank" rel="noopener">District of Squamish: council</a></li><li><a href="https://squamish.civicweb.net/Portal/MeetingSchedule.aspx" target="_blank" rel="noopener">Official agendas and minutes</a></li><li><a href="https://www.youtube.com/@DistrictofSquamish/streams" target="_blank" rel="noopener">Meeting videos (YouTube)</a></li><li><a href="https://www.facebook.com/groups/1090076830319905" target="_blank" rel="noopener">Squamish Voters &amp; Politics on Facebook</a></li></ul>
     </div>
     <div><h2>Spot a mistake?</h2><p>Are you on council, or did we get something wrong? Email <a href="mailto:${SITE.contact}">${SITE.contact}</a> and we’ll fix it.</p></div>
@@ -484,19 +489,25 @@ const bySlug = Object.fromEntries(all.map((c) => [c.slug, c]));
 const DECISIONS = past.flatMap((m) => (m.decisions || []).map((d) => ({ ...d, m })));
 const votesOf = (c) => DECISIONS.filter((d) => d.votes && d.votes[c.slug] && d.votes[c.slug] !== 'unknown');
 // A promise's status is set by the pipeline from the votes; "not_yet" until council acts on it.
+// A promise's label is worked out from ALL its evidence every build (scripts/pipeline/status.mjs): only the member's own
+// vote counts, and only votes checked against the official minutes can make it red; a vote heard on the video is an
+// "Early sign" at most.
+for (const p of PROMISES) { p.tally = promiseTally(p, MEETINGS); p.status = p.tally.status; }
 const PSTATUS = {
   kept: { label: 'Kept', cls: 'ps-kept', icon: '✓' },
   not_kept: { label: 'Not kept', cls: 'ps-broken', icon: '✕' },
+  mixed: { label: 'Mixed', cls: 'ps-progress', icon: '~' },
+  early: { label: 'Early sign', cls: 'ps-early', icon: '…' },
   progress: { label: 'In progress', cls: 'ps-progress', icon: '…' },
   not_yet: { label: 'Not tested yet', cls: 'ps-notyet', icon: '○' },
 };
 const pStatus = (p) => PSTATUS[p.status === 'broken' ? 'not_kept' : p.status] || PSTATUS.not_yet;
 const promisesOf = (c) => PROMISES.filter((p) => p.slug === c.slug);
-const pKey = (p) => (p.status === 'broken' ? 'not_kept' : p.status || 'not_yet');
+const pKey = (p) => (p.status === 'broken' ? 'not_kept' : PSTATUS[p.status] ? p.status : 'not_yet');
 const pCounts = (list) => Object.fromEntries(Object.keys(PSTATUS).map((k) => [k, list.filter((p) => pKey(p) === k).length]));
 // Promises that also need someone other than council (the Province, BC Transit, the RCMP, Woodfibre, the Squamish Nation).
 const whoBadge = (p) => p.who_decides && p.who_decides !== 'Council' ? `<span class="whob">Who decides: ${esc(p.who_decides)}</span>` : '';
-const pBadge = (p) => `<span class="pstatus ${pStatus(p).cls}"><span aria-hidden="true">${pStatus(p).icon}</span> ${pStatus(p).label}</span>`;
+const pBadge = (p) => { const t = p.tally && tallyText(p.tally); return `<span class="pstatus ${pStatus(p).cls}"><span aria-hidden="true">${pStatus(p).icon}</span> ${pStatus(p).label}${t ? ` <span class="ptally">(${esc(t)})</span>` : ''}</span>`; };
 function promiseRow(p, { who = false } = {}) {
   const c = bySlug[p.slug];
   const ev = (p.evidence || []);
@@ -508,8 +519,8 @@ function promiseRow(p, { who = false } = {}) {
     <p class="small"><b>${f}’s part (the only thing we mark):</b> ${esc(p.their_part || '')}</p>
     <p class="small"><b>Did it happen?</b> ${outcomes.length ? esc(outcomes[outcomes.length - 1].outcome) : `Not yet. We’re watching ${esc((p.did_it_happen || '').replace(/^./, (x) => x.toLowerCase()))}`} <span class="muted">This is a plain fact, never a mark against ${f}: council decides as a group.</span></p>
     <p class="small"><b>Who decides:</b> ${esc(p.who_decides || 'Council')}</p>${p.note ? `<p class="small muted">${esc(p.note)}</p>` : ''}
-    ${ev.length ? `<p class="small"><b>What has happened so far:</b></p><ul class="small">${ev.map((e) => { const m = MEETINGS.find((x) => x.id === e.meeting); return `<li>${m ? `<a href="${mUrl(m)}">${esc(fmtLong(m.date))}</a>: ` : ''}${esc(e.note)}</li>`; }).join('')}</ul>` : '<p class="small muted">Council hasn’t voted on anything that tests this yet.</p>'}
-    ${p.updated ? `<p class="small muted">Status worked out automatically from council votes on ${esc(fmtLong(p.updated))}. <a href="/promises/#how">How we judge promises</a>.</p>` : ''}
+    ${ev.length ? `<p class="small"><b>What has happened so far:</b></p><ul class="small">${ev.map((e) => { const m = MEETINGS.find((x) => x.id === e.meeting); return `<li>${m ? `<a href="${mUrl(m)}">${esc(fmtLong(m.date))}</a>: ` : ''}${esc(e.note)}${(() => { const d = m && Number.isInteger(e.decision) ? (m.decisions || [])[e.decision] : null; return d && !confirmedByMinutes(d) ? ' <span class="muted">(from the meeting video; waiting for the official minutes)</span>' : ''; })()}</li>`; }).join('')}</ul>` : '<p class="small muted">Council hasn’t voted on anything that tests this yet.</p>'}
+    ${p.updated ? `<p class="small muted">Marked automatically by an AI model on ${esc(fmtLong(p.updated))} from council votes. <a href="/promises/#how">How we judge promises</a>.</p>` : ''}
   </div></details>`;
 }
 function voteChips(d) {
@@ -517,10 +528,20 @@ function voteChips(d) {
   const how = d.votes_source === 'minutes' ? 'Checked against the official minutes.' : 'From the meeting video. We check it against the official minutes when they come out, usually a few weeks later.';
   return `<div class="vchips">${groups.map(([k, l]) => `<div class="vgroup v-${k}"><span class="vlab">${{ yes: '✓ Yes', no: '✕ No', recused: 'Stepped out', absent: 'Not there', unknown: 'Not clear' }[k]}</span>${l.map((c) => `<a href="/council/${c.slug}/" class="vface">${avatar(c, 'xs')}${esc(lastName(c))}</a>`).join('')}</div>`).join('')}<p class="small muted">${how}</p></div>`;
 }
+// What the official minutes changed from our video based record (scripts/pipeline/minutes.mjs keeps corrected_from).
+function corrections(d) {
+  const was = d.corrected_from; if (!was) return [];
+  const out = [];
+  if (was.result !== d.result) out.push(`${RESULT_WORD[was.result] || was.result || 'Not recorded'} to ${RESULT_WORD[d.result] || d.result}`);
+  for (const c of all) { const a = was.votes?.[c.slug], b = d.votes?.[c.slug]; if (a !== b && (a || b)) out.push(`${lastName(c)}: ${VOTE_WORD[a] || 'not recorded'} to ${VOTE_WORD[b] || 'not recorded'}`); }
+  return out;
+}
+const corrNote = (d) => (corrections(d).length ? `<p class="corr"><b>Corrected after official minutes${d.corrected_on ? ` (${esc(fmtLong(d.corrected_on))})` : ''}:</b> ${corrections(d).map(esc).join('; ')}. <a href="/corrections/">All corrections</a></p>` : '');
+const isoDay = (x) => (typeof x === 'string' && /^\d{4}-\d\d-\d\d/.test(x) ? x.slice(0, 10) : '');
 function decisionCard(d, m, { open = false } = {}) {
   const yes = Object.values(d.votes || {}).filter((v) => v === 'yes').length, no = Object.values(d.votes || {}).filter((v) => v === 'no').length;
   return `<details class="decision r-${esc(d.result || 'info')}"${open ? ' open' : ''}><summary><span class="dres">${esc(RESULT_WORD[d.result] || 'Decided')}${d.result === 'passed' || d.result === 'failed' ? ` <span class="small">${no === 0 && yes > 1 ? 'all agreed' : `${yes}–${no}`}</span>` : ''}</span><span class="dtitle">${escGl(d.title)}</span></summary>
-  <div class="dbody">${d.for_you ? `<p class="foryou"><b>What it means for you:</b> ${escGl(d.for_you)}</p>` : ''}<p>${escGl(d.what)}</p>${d.votes ? voteChips(d) : ''}
+  <div class="dbody">${d.for_you ? `<p class="foryou"><b>What it means for you:</b> ${escGl(d.for_you)}</p>` : ''}<p>${escGl(d.what)}</p>${d.votes ? voteChips(d) : ''}${corrNote(d)}
   ${areaTags(d.areas)}${(d.issues || []).map((sl) => TRACKED.find((t) => t.slug === sl)).filter(Boolean).map((t) => `<p class="small">Part of: <a href="/track/${t.slug}/">${esc(t.title)}</a></p>`).join('')}
   ${d.why_it_matters ? `<p class="small"><b>Why it matters:</b> ${escGl(d.why_it_matters)}</p>` : ''}
   ${isUrl(d.video_url) ? `<p class="small"><a href="${esc(d.video_url)}" target="_blank" rel="noopener">▶ Watch this part of the meeting</a></p>` : ''}</div></details>`;
@@ -551,7 +572,7 @@ function checksFor(c, pos) {
     const link = pos.kind === 'quiz' ? (d.related_q || []).find((r) => r.q === pos.q.id) : (d.positions || []).find((r) => r.id === pos.id);
     if (!link) return [];
     const dir = v * (link.yes_is || 1);
-    return [{ d, inLine: pos.kind === 'quiz' ? Math.sign(dir) === Math.sign(pos.said) : dir > 0 }];
+    return [{ d, inLine: pos.kind === 'quiz' ? Math.sign(dir) === Math.sign(pos.said) : dir > 0, confirmed: confirmedByMinutes(d) }];
   });
 }
 // What a member's votes say about each quiz statement, on the same -2..+2 scale as their campaign answer:
@@ -574,17 +595,18 @@ function scoreCard(c, { promises = true, positions = true } = {}) {
   // Before any votes there is nothing to score: one quiet line instead of rows of zeros.
   if (!ANY_VOTES) return `<a class="scard" href="/council/${c.slug}/#record">${avatar(c, 'sm')}<span class="sbody"><span class="sname"><b>${esc(c.name)}</b><span class="small">${[promises && `${ps.length} promises`, positions && `${pr.rows.length} positions`].filter(Boolean).join(' · ')} tracked</span></span></span><span class="go" aria-hidden="true">›</span></a>`;
   return `<a class="scard" href="/council/${c.slug}/#record">${avatar(c, 'sm')}<span class="sbody"><span class="sname"><b>${esc(c.name)}</b><span class="small">${c.office === 'mayor' ? 'Mayor' : 'Councillor'}</span></span>
-  ${promises ? line('Promises', [[pc.kept, 'ps-kept', 'kept'], [pc.not_kept, 'ps-broken', 'not kept'], [pc.progress, 'ps-progress', 'in progress']], ps.length, pc.not_yet) : ''}
-  ${positions ? line('Positions', [[pr.inLine, 'ps-kept', 'voted the way they said'], [pr.against, 'ps-broken', 'voted against'], [pr.mixed, 'ps-progress', 'mixed']], pr.rows.length, pr.untested) : ''}</span></a>`;
+  ${promises ? line('Promises', [[pc.kept, 'ps-kept', 'kept'], [pc.not_kept, 'ps-broken', 'not kept'], [pc.mixed, 'ps-progress', 'mixed'], [pc.progress, 'ps-progress', 'in progress'], [pc.early, 'ps-early', 'early sign']], ps.length, pc.not_yet) : ''}
+  ${positions ? line('Positions', [[pr.inLine, 'ps-kept', 'voted the way they said'], [pr.against, 'ps-broken', 'voted against'], [pr.mixed, 'ps-progress', 'mixed'], [pr.early, 'ps-early', 'early sign']], pr.rows.length, pr.untested) : ''}</span></a>`;
 }
-const noVotesNote = () => ANY_VOTES ? '' : `<div class="notice info"><b>No votes yet.</b> The new council is sworn in on November 3${FIRST_VOTES ? ` and its first regular meeting is ${esc(fmtLong(FIRST_VOTES))}` : ''}. Every vote after that is checked here automatically.</div>`;
-const posStatus = (checks) => (!checks.length ? 'untested' : checks.every((x) => x.inLine) ? 'in_line' : checks.every((x) => !x.inLine) ? 'against' : 'mixed');
-const POS_STATUS = { in_line: ['✓', 'Voted the way they said', 'ps-kept'], against: ['✕', 'Voted against what they said', 'ps-broken'], mixed: ['~', 'Mixed', 'ps-progress'], untested: ['○', 'Not tested yet', 'ps-notyet'] };
+const noVotesNote = () => ANY_VOTES ? '' : `<div class="notice info"><b>No votes yet.</b> The new council is sworn in on November 3${FIRST_VOTES ? ` and its first regular meeting is ${esc(fmtLong(FIRST_VOTES))}` : ''}. Every vote after that is checked here automatically, and nothing is marked red until the official minutes confirm the vote.</div>`;
+// Red ("voted against") needs 2 or more votes confirmed by the official minutes (scripts/pipeline/status.mjs).
+const posStatus = (checks) => positionStatus(checks);
+const POS_STATUS = { in_line: ['✓', 'Voted the way they said', 'ps-kept'], against: ['✕', 'Voted against what they said', 'ps-broken'], mixed: ['~', 'Mixed', 'ps-progress'], early: ['…', 'Early sign', 'ps-early'], untested: ['○', 'Not tested yet', 'ps-notyet'] };
 const posBadge = (st) => `<span class="pstatus ${POS_STATUS[st][2]}"><span aria-hidden="true">${POS_STATUS[st][0]}</span> ${POS_STATUS[st][1]}</span>`;
 function positionReport(c) {
   const rows = positionsOf(c).map((p) => { const ch = checksFor(c, p); return { p, ch, st: posStatus(ch) }; });
   const count = (k) => rows.filter((r) => r.st === k).length;
-  return { rows, tested: rows.filter((r) => r.st !== 'untested'), inLine: count('in_line'), against: count('against'), mixed: count('mixed'), untested: count('untested') };
+  return { rows, tested: rows.filter((r) => r.st !== 'untested'), inLine: count('in_line'), against: count('against'), mixed: count('mixed'), early: count('early'), untested: count('untested') };
 }
 const posRow = (c, r) => `<details class="promise"><summary>${posBadge(r.st)}<span class="ptxt">${escGl(r.p.label)}</span></summary><div class="pbody">
   ${r.ch.length ? `<ul class="small">${r.ch.map((x) => `<li>${x.inLine ? '✓' : '✕'} ${esc(VOTE_WORD[x.d.votes[c.slug]])} on <a href="${mUrl(x.d.m)}">${escGl(x.d.title)}</a> (${esc(fmtLong(x.d.m.date))})</li>`).join('')}</ul>` : '<p class="small muted">Council hasn’t voted on anything that tests this yet.</p>'}
@@ -592,7 +614,7 @@ const posRow = (c, r) => `<details class="promise"><summary>${posBadge(r.st)}<sp
 function profileRecord(c) {
   const f = esc(first(c)), ps = promisesOf(c), pc = pCounts(ps), vs = votesOf(c), pr = positionReport(c);
   const next = upcoming[0];
-  const pSum = ps.length ? `${pc.kept} kept · ${pc.not_kept} not kept · ${pc.progress} in progress · ${pc.not_yet} not tested yet` : '';
+  const pSum = ps.length ? [[pc.kept, 'kept'], [pc.not_kept, 'not kept'], [pc.mixed, 'mixed'], [pc.early, 'early sign'], [pc.progress, 'in progress'], [pc.not_yet, 'not tested yet']].filter(([n], i) => n || i < 2).map(([n, w]) => `${n} ${w}`).join(' · ') : '';
   if (!ANY_VOTES) return `<section class="card record" id="record"><h2>${f}’s record on council</h2>
   <p>Council hasn’t voted yet. We’re tracking <a href="#promises"><b>${ps.length} promises</b></a> and <a href="#said-did"><b>${pr.rows.length} positions</b></a> ${f} took during the campaign.${next ? ` First meeting: <a href="${mUrl(next)}">${esc(fmtLong(next.date))}</a>.` : ''}</p></section>
   ${ps.length ? `<h2 id="promises">${f}’s promises <span class="small">${ps.length}</span></h2>
@@ -612,7 +634,7 @@ function profileRecord(c) {
   ${vs.length > 8 ? `<details class="drop"><summary>All ${vs.length} votes</summary>${vs.slice(8).map((d) => `<div class="vrow"><span class="vme v-${d.votes[c.slug]}">${esc(VOTE_WORD[d.votes[c.slug]] || d.votes[c.slug])}</span><span><a href="${mUrl(d.m)}">${escGl(d.title)}</a><span class="small"> · ${esc(fmtLong(d.m.date))}</span></span></div>`).join('')}</details>` : ''}` : ''}
   <h2 id="said-did">Does ${f} vote the way ${f} said?</h2>
   <p class="small">Everything ${f} said they stand for during the campaign (${pr.rows.length} positions), checked against every council vote that tests it.</p>
-  <div class="pstats">${['in_line', 'against', 'mixed', 'untested'].map((k) => `<span class="pstatus ${POS_STATUS[k][2]}"><span aria-hidden="true">${POS_STATUS[k][0]}</span> ${pr[{ in_line: 'inLine', against: 'against', mixed: 'mixed', untested: 'untested' }[k]]} ${esc(POS_STATUS[k][1].toLowerCase())}</span>`).join('')}</div>
+  <div class="pstats">${['in_line', 'against', 'mixed', 'early', 'untested'].map((k) => `<span class="pstatus ${POS_STATUS[k][2]}"><span aria-hidden="true">${POS_STATUS[k][0]}</span> ${pr[{ in_line: 'inLine', against: 'against', mixed: 'mixed', early: 'early', untested: 'untested' }[k]]} ${esc(POS_STATUS[k][1].toLowerCase())}</span>`).join('')}</div>
   ${pr.tested.length ? `<div class="card stack">${pr.tested.map((r) => posRow(c, r)).join('')}</div>` : ''}
   <details class="drop"><summary>${pr.untested} positions council hasn’t voted on yet</summary><div class="stack">${pr.rows.filter((r) => r.st === 'untested').map((r) => posRow(c, r)).join('')}</div></details>`;
 }
@@ -629,7 +651,7 @@ const areaTags = (areas) => (areas || []).filter((a) => a !== 'all' && hoodName(
 // One statement with all 7 answers as tiles (Said vs did, issue pages).
 function qCard(q) {
   const people = [...mayors, ...council];
-  const mark = (c) => { const pos = positionsOf(c).find((p) => p.kind === 'quiz' && p.q.id === q.id); if (!pos) return ''; const st = posStatus(checksFor(c, pos)); return st === 'untested' ? '' : `<span class="vmark ${POS_STATUS[st][2]}">${st === 'in_line' ? '✓ voted that way' : st === 'against' ? '✕ voted against' : '~ mixed'}</span>`; };
+  const mark = (c) => { const pos = positionsOf(c).find((p) => p.kind === 'quiz' && p.q.id === q.id); if (!pos) return ''; const st = posStatus(checksFor(c, pos)); return st === 'untested' ? '' : `<span class="vmark ${POS_STATUS[st][2]}">${st === 'in_line' ? '✓ voted that way' : st === 'against' ? '✕ voted against' : st === 'early' ? '… early sign' : '~ mixed'}</span>`; };
   const t = DECISIONS.filter((d) => (d.related_q || []).some((r) => r.q === q.id));
   return `<div class="card qcard"><p class="qtext">“${escGl(q.text)}”</p>
     <ul class="qwho">${people.map((c) => `<li><a href="/council/${c.slug}/#said-did">${cell(c.quiz_answers?.[q.id])}<span class="qname">${esc(lastName(c))}</span>${mark(c)}</a></li>`).join('')}</ul>
@@ -772,7 +794,9 @@ for (const c of all) {
   const links = Object.entries(c.links || {}).filter(([, u]) => isUrl(u)).map(([k, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc({ website: 'Campaign website', instagram: 'Instagram', facebook: 'Facebook', other: 'More', linkedin: 'LinkedIn', bluesky: 'Bluesky' }[k] || k)}</a></li>`).join('');
   const peers = c.office === 'mayor' ? mayors : council, idx = peers.indexOf(c);
   const prev = peers[(idx - 1 + peers.length) % peers.length], next = peers[(idx + 1) % peers.length];
-  write(`/council/${c.slug}/`, page({
+  // The date this member's page content last changed: a promise update, a vote, a correction, or their own statement.
+  const updated = [...promisesOf(c).map((p) => isoDay(p.updated)), ...votesOf(c).map((d) => isoDay(d.corrected_on) || d.m.date), isoDay(c.direct?.date), isoDay(c.statement?.date), corrDate(`/council/${c.slug}/`)].filter((x) => x && x <= TODAY).sort().pop() || null;
+  write(`/council/${c.slug}/`, page({ updated,
     url: '/council/', title: `${c.name}, ${c.office === 'mayor' ? 'Mayor of Squamish' : 'Squamish councillor'}: votes, promises and positions`,
     desc: raceRow(c) ? `${c.name} was elected ${c.office === 'mayor' ? 'mayor of Squamish' : 'to Squamish council'} on October 17, 2026 with ${Number(raceRow(c).total).toLocaleString('en-CA')} votes. How ${first(c)} votes, which promises they kept, and every campaign answer.` : `How ${c.name} votes on Squamish council, which campaign promises they have kept, and every answer they gave during the 2026 election, with sources.`,
     jsonld: [{
@@ -1396,7 +1420,7 @@ for (const m of MEETINGS) {
   const T = mType(m), done = !!m.summary, S = m.summary || {};
   const votes = (m.decisions || []).filter((d) => d.votes);
   const links = [[m.video_url, '▶ Watch the full meeting video'], [m.agenda_url, 'Official agenda'], [m.minutes_url, 'Official minutes'], [m.transcript ? `/transcripts/${m.id}.txt` : null, 'Full written transcript']].filter(([u]) => u);
-  write(mUrl(m), page({
+  write(mUrl(m), page({ updated: isoDay(m.minutes_checked) || isoDay(m.generated?.at) || null,
     url: '/meetings/', image: done ? shareImg(m) : null, title: `Squamish ${T.label.charAt(0).toLowerCase() + T.label.slice(1)}, ${fmtLong(m.date)}: ${done ? 'what council decided' : 'agenda and how to watch'}`,
     desc: done ? `${S.headline} ${votes.length} vote${votes.length === 1 ? '' : 's'}, in plain words, with how each member voted.` : `Squamish ${T.label.toLowerCase()} on ${fmtDay(m.date)}${m.time ? ' at ' + fmtTime(m.time) : ''}: what’s on the agenda and how to watch.`,
     jsonld: [crumbLd([['Home', '/'], ['Meetings', '/meetings/'], [`${T.label}, ${fmtLong(m.date)}`, mUrl(m)]]), { '@context': 'https://schema.org', '@type': 'Event', name: `Squamish ${T.label}`, startDate: `${m.date}${m.time ? 'T' + m.time + ':00-' + (m.date >= '2026-11-01' && m.date < '2027-03-14' ? '08' : '07') + ':00' : ''}`, eventStatus: m.status === 'cancelled' ? 'https://schema.org/EventCancelled' : 'https://schema.org/EventScheduled', eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode', location: { '@type': 'Place', name: m.place || 'Squamish Municipal Hall', address: '37955 Second Avenue, Squamish, BC' }, organizer: { '@type': 'GovernmentOrganization', name: 'District of Squamish', url: 'https://squamish.ca/' } }],
@@ -1518,6 +1542,7 @@ if (TRACKED.length) {
 
   write('/news/', page({
     url: '/news/', title: 'Squamish news',
+    updated: [...(NEWS.stories || []).map((x) => isoDay(x.date)).filter((x) => x <= TODAY), corrDate('/news/')].filter(Boolean).sort().pop() || null,
     desc: 'Short Squamish news from the public record: District releases, council agendas, election results and local announcements, in plain words with the source for every story.',
     image: `${ORIGIN}/news/og/index.jpg?v=3`,
     jsonld: crumbLd([['Home', '/'], ['News', '/news/']]),
@@ -1543,7 +1568,7 @@ if (TRACKED.length) {
     </aside>
   </div>
   <section class="nw-how"><h2>How we write these</h2>
-    <p>We read District news releases, council agendas, regional district notices, Elections BC and local announcements, then write a short story in our own words. Every story names its source. No opinions and no endorsements. Spot a mistake? <a href="/about/">Tell us</a>.</p></section>
+    <p>An AI model (Anthropic’s Claude) reads District news releases, council agendas, regional district notices, Elections BC and local announcements, and drafts a short story about each one. A person reads every draft, fixes it if needed and approves it before it goes up. Every story names its source. No opinions and no endorsements. Spot a mistake? <a href="mailto:${esc(SITE.contact)}?subject=News%20correction">Tell us</a> and we’ll fix it and note it on the <a href="/corrections/">corrections page</a>.</p></section>
 </div>`,
     scripts: '<script src="/news.js"></script>',
   }));
@@ -1903,7 +1928,7 @@ write('/your-say/', page({
     const pos = positionsOf(c).find((p) => p.kind === 'quiz' && p.q.id === q.id);
     if (!pos) return '';
     const st = posStatus(checksFor(c, pos));
-    return st === 'untested' ? '' : `<span class="vmark ${POS_STATUS[st][2]}" title="${esc(POS_STATUS[st][1])}">${st === 'in_line' ? '✓ voted that way' : st === 'against' ? '✕ voted against' : '~ mixed'}</span>`;
+    return st === 'untested' ? '' : `<span class="vmark ${POS_STATUS[st][2]}" title="${esc(POS_STATUS[st][1])}">${st === 'in_line' ? '✓ voted that way' : st === 'against' ? '✕ voted against' : st === 'early' ? '… early sign' : '~ mixed'}</span>`;
   };
   const tested = (q) => DECISIONS.filter((d) => (d.related_q || []).some((r) => r.q === q.id));
   const groups = [...new Set(ALL_QUESTIONS.map((q) => q.issue))];
@@ -1930,15 +1955,18 @@ write('/your-say/', page({
 }
 
 // ---------- PROMISES ----------
+const AI_NOTE = 'An AI model (Anthropic’s Claude) reads each vote and decides whether it tests a promise. It marks it kept or not kept and links the vote so you can check. It can be wrong. Tell us and we will fix it and note the correction.';
 {
   const c0 = pCounts(PROMISES);
   write('/promises/', page({
     url: '/promises/', title: 'Squamish council promise tracker',
+    updated: [...PROMISES.map((p) => isoDay(p.updated)), ...DECISIONS.map((d) => isoDay(d.corrected_on)), corrDate('/promises/')].filter(Boolean).sort().pop() || null,
     desc: `${PROMISES.length} campaign promises from Squamish’s mayor and councillors, each with the exact quote and source, marked kept, not kept or in progress by each member’s own votes.`,
     jsonld: crumbLd([['Home', '/'], ['Promise tracker', '/promises/']]),
     body: `<h1>Promise tracker</h1>
     <p class="lede">What the mayor and councillors said they would do during the 2026 campaign, and whether they’ve done it.</p>
     <div class="notice info"><b>Want the agree/disagree answers side by side with their votes?</b> <a href="/said-vs-did/">See “Do they vote the way they said?”</a></div>
+    <div class="notice info"><b>An AI makes the calls.</b> ${esc(AI_NOTE)} <a href="/corrections/">See every correction</a>.</div>
     <h2 id="scoreboard">At a glance</h2>
     ${noVotesNote()}
     <div class="scards">${all.map((c) => scoreCard(c)).join('')}</div>
@@ -1952,7 +1980,9 @@ write('/your-say/', page({
       <li><b>We only count clear promises.</b> Something they said they would do or vote for, in their own words, with a link to where they said it. General values like “I care about Squamish” aren’t tracked.</li>
       <li><b>We only mark what they did themselves.</b> Each promise says, in advance, what their part is: how they vote, or what they move or second. That is the only thing that gets a label.</li>
       <li><b>“Did it happen?” is a plain fact, never a mark.</b> Council decides as a group, and some promises also need the Province, BC Transit, the RCMP, Woodfibre or the Squamish Nation. If a member votes the way they promised and loses, their promise is still kept.</li>
-      <li><b>Votes decide it, not opinions.</b> When council votes on something that tests a promise, the promise is updated automatically and links to that vote.</li>
+      <li><b>An AI reads the votes.</b> Every mark links the vote it came from, so you can check it yourself. Fixes are listed on the <a href="/corrections/">corrections page</a>.</li>
+      <li><b>Only the official minutes can make a label red.</b> A vote heard on the meeting video shows as an <b>early sign</b> until the minutes confirm it, usually a few weeks later. When the minutes change a vote, every label is worked out again from all the votes. A position is only marked “voted against” after at least 2 confirmed votes against it.</li>
+      <li><b>Each label shows its count</b>, like “Not kept (1 vote)”, or “Mixed” when their votes went both ways.</li>
       <li><b>“In progress”</b> means council has taken a step but not finished. <b>“Nothing to judge yet”</b> means council hasn’t voted on it.</li>
       <li><b>Positions are checked the same way.</b> When a vote directly tests something a member said, like “move the Under One Roof shelter out of downtown”, we note whether their vote went the same way as what they said.</li>
       <li><b>One vote can’t always keep a promise.</b> A councillor can vote the way they promised and still lose. We mark their promise kept if they did what they said, even if the vote failed.</li>
@@ -2231,6 +2261,23 @@ write('/subscribers/', page({ url: '/subscribers/', title: 'Admin', noindex: tru
 <script>window.SV_SUBS=${JSON.stringify({ issues: Object.fromEntries(SIGNUP_ISSUES.map((i) => [i.key, { t: i.title, i: i.icon, o: SIDES[i.key] ? [SIDES[i.key][1], SIDES[i.key][2]] : [] }])), hoods: Object.fromEntries(WELCOME_HOODS.map((h) => [h.slug, h.name])) }).replace(/</g, '\\u003c')};</script>
 <script src="/subscribers.js" defer></script>`,
 }));
+// ---------- CORRECTIONS (every fix we make, plus every vote the official minutes corrected) ----------
+{
+  const fromMinutes = DECISIONS.filter((d) => corrections(d).length).map((d) => ({ date: d.corrected_on || isoDay(d.m.minutes_checked) || d.m.date, d }));
+  const items = [
+    ...(CORR.entries || []).map((e) => ({ date: e.date, html: `${e.page ? `<a href="${esc(e.page)}">${esc(e.page)}</a>: ` : ''}${esc(e.what)}` })),
+    ...fromMinutes.map(({ date, d }) => ({ date, html: `<b>Vote corrected after the official minutes:</b> <a href="${mUrl(d.m)}">${escGl(d.title)}</a> (${esc(fmtLong(d.m.date))} meeting). ${corrections(d).map(esc).join('; ')}.` })),
+  ].sort((a, b) => b.date.localeCompare(a.date));
+  write('/corrections/', page({
+    url: '/corrections/', title: 'Corrections', updated: items[0]?.date || null,
+    desc: 'Every correction Squamish Voters has made, and every council vote the official minutes changed from what we first wrote down from the meeting video.',
+    jsonld: crumbLd([['Home', '/'], ['Corrections', '/corrections/']]),
+    body: `<h1>Corrections</h1>
+    <p class="lede">Every mistake we fix is listed here, newest first.</p>
+    <p>Two kinds of corrections show up here: fixes we make ourselves, often after a reader tells us, and votes we first wrote down from the meeting video that the official minutes later changed. An AI model (Anthropic’s Claude) writes our meeting summaries and decides which votes test a promise, so it can be wrong. Spot something? <a href="mailto:${esc(SITE.contact)}?subject=Correction">Tell us</a>.</p>
+    ${items.length ? `<ul class="corr-list">${items.map((x) => `<li class="card"><p class="small muted">${esc(fmtLong(x.date))}</p><p>${x.html}</p></li>`).join('')}</ul>` : '<p class="muted">No corrections yet.</p>'}`,
+  }));
+}
 write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can’t find that page</h1><p class="lede">Try one of these instead.</p><div class="btn-row"><a class="btn big" href="/">Home</a><a class="btn big secondary" href="/council/">Candidates</a><a class="btn big secondary" href="/quiz/">Take the quiz</a></div>' }));
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 

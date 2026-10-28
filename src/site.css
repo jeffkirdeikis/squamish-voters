@@ -2061,3 +2061,7 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 }
 /* Promise also needs someone other than council (review item 1). */
 .whob { display: block; width: fit-content; margin-top: .35rem; padding: .05rem .5rem; border-radius: 999px; background: var(--surface-2); color: var(--ink-2, var(--ink)); font-size: .8rem; font-weight: 500; vertical-align: middle; }
+.ps-early { background: var(--surface-2); color: var(--ink-2); border: 1px dashed var(--line, #c9c9c9); }
+.ptally { font-weight: 600; }
+.corr-list { list-style: none; padding: 0; display: grid; gap: .8rem; }
+.corr { font-size: .9rem; margin: .4rem 0; padding: .4rem .6rem; border-left: 3px solid var(--warn-ink, #8a6d00); background: var(--warn-bg, #fff8e1); }
