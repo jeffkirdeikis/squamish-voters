@@ -27,8 +27,11 @@ const h = (type, style, ...children) => ({ type, props: { style: { display: 'fle
 const cut = (s, n) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s);
 const ANS = { y: { background: '#0b6b34', color: '#fff', border: '3px solid #0b6b34' }, n: { background: '#fff', color: '#a61b1b', border: '3px solid #e5b3b3' }, o: { background: YELLOW, color: '#1a1a1a', border: `3px solid ${YELLOW}` }, m: { background: '#fff', color: '#4a4a4a', border: '3px solid #d6d2c8' } };
 const kindOf = (key, ask) => (key === 'm' ? 'm' : !ask.keys && !key.startsWith('x') ? key : 'o');
-const footer = (left) => h('div', { marginTop: 'auto', justifyContent: 'space-between', alignItems: 'flex-end', fontSize: 26, fontWeight: 600 },
-  h('div', { color: 'rgba(255,255,255,.8)', flex: 1, marginRight: 24 }, left), h('div', { fontWeight: 800, flexShrink: 0 }, 'squamishvoters.com/wants'));
+// A picture with results takes a second line (note) under the left text, so a feed scroller knows who answered and who runs it.
+const NOTE = 'Independent. Not the District of Squamish.';
+const footer = (left, note) => h('div', { marginTop: 'auto', justifyContent: 'space-between', alignItems: 'flex-end', fontSize: note ? 23 : 26, fontWeight: 600 },
+  h('div', { flexDirection: 'column', flex: 1, marginRight: 24 }, h('div', { color: 'rgba(255,255,255,.8)' }, left), note ? h('div', { color: YELLOW, marginTop: 6 }, note) : null),
+  h('div', { fontWeight: 800, flexShrink: 0, fontSize: 26 }, 'squamishvoters.com/wants'));
 
 // The live results as ranked bars: each answer with its full label and share, biggest first, the sharer's own answer in yellow.
 // At most 4 rows fit, so a sharer's answer outside the top 4 takes the last row. Shares are of people who picked a side.
@@ -53,13 +56,13 @@ function resultsRows(r, mine) {
 function saidPicture(ask, label, kind, r, key) {
   const q = /[?.!]$/.test(ask.title) ? ask.title : `${ask.title}?`;
   if (r && r.total) {
-    const many = r.options.length > 3, who = `${r.total} neighbour${r.total === 1 ? '' : 's'} answered.`;
+    const many = r.options.length > 3, who = `${r.total} ${r.total === 1 ? 'person' : 'people'} chose to answer. Not a scientific poll.`;
     const size = (q.length <= 45 ? 58 : q.length <= 75 ? 54 : q.length <= 105 ? 44 : 38) - (many ? 6 : 0);
     return h('div', { width: '100%', height: '100%', flexDirection: 'column', background: GREEN, padding: '44px 64px 40px', color: '#fff', fontFamily: 'Sans' },
       h('div', { fontSize: 22, fontWeight: 800, color: YELLOW, letterSpacing: 3 }, 'WHAT SQUAMISH WANTS'),
       h('div', { fontFamily: 'Serif', fontSize: size, lineHeight: 1.1, marginTop: 12, maxWidth: 1072 }, q),
       resultsRows(r, key),
-      footer(kind === 'm' ? `${who} I said I don’t mind.` : `${who} Where do you stand?`));
+      footer(who, kind === 'm' ? `I said I don’t mind. ${NOTE}` : NOTE));
   }
   const size = q.length <= 45 ? 72 : q.length <= 75 ? 62 : q.length <= 105 ? 52 : 44;
   return h('div', { width: '100%', height: '100%', flexDirection: 'column', background: GREEN, padding: '56px 72px', color: '#fff', fontFamily: 'Sans' },
@@ -149,7 +152,7 @@ function topPicture(rows) {
     h('div', { fontSize: 22, fontWeight: 800, color: YELLOW, letterSpacing: 3 }, 'WHAT SQUAMISH WANTS'),
     h('div', { fontFamily: 'Serif', fontSize: 50, marginTop: 8, marginBottom: 28 }, 'Most wanted right now'),
     h('div', { flexDirection: 'column' }, rows.map(line)),
-    footer('Say yes, no or don’t mind, and add your own'));
+    footer('Say yes, no or don’t mind. Not a scientific poll.', NOTE));
 }
 
 // A set for one group: its own heading, then each question with where Squamish stands, as in the main page's picture.
@@ -164,7 +167,7 @@ function setPicture(set, rows) {
     h('div', { fontSize: 22, fontWeight: 800, color: YELLOW, letterSpacing: 3 }, set.kicker),
     h('div', { fontFamily: 'Serif', fontSize: 50, marginTop: 6, marginBottom: 24 }, set.head),
     h('div', { flexDirection: 'column' }, rows.map(line)),
-    footer('Say yes, no or don’t mind, and add your own'));
+    footer('Say yes, no or don’t mind. Not a scientific poll.', NOTE));
 }
 
 export default async function handler(req, res) {

@@ -48,9 +48,9 @@ const GLOSSARY = read('glossary.json');
   const scan = (dir) => fs.readdirSync(dir, { withFileTypes: true }).forEach((d) => {
     const p = path.join(dir, d.name);
     if (d.isDirectory()) scan(p);
-    else if (d.name.endsWith('.json')) { try { walk(JSON.parse(fs.readFileSync(p, 'utf8')), path.relative(ROOT, p)); } catch {} }
+    else if (d.name.endsWith('.json') && !/\.pre-/.test(d.name)) { try { walk(JSON.parse(fs.readFileSync(p, 'utf8')), path.relative(ROOT, p)); } catch {} }
   });
-  scan(path.join(ROOT, 'data'));
+  scan(path.join(ROOT, 'data')); // skips the candidates.pre-*.json backups, which are never published
   if (bad.length) throw new Error(`Source links with a space in them (fix the address):\n${bad.join('\n')}`);
 })();
 const ORIGIN = 'https://squamishvoters.com';
@@ -1656,14 +1656,15 @@ if (TRACKED.length) {
   fs.writeFileSync(path.join(ROOT, 'api', '_wants.json'), JSON.stringify({ topics: WANTS.topics, hoods: WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => h.slug), hoodNames: Object.fromEntries(WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => [h.slug, h.name])), asks: WANTS.asks.map(({ id, title, why, options, status }) => ({ id, title, why, ...(status === 'done' ? { status } : {}), ...(options ? { options: options.map((o) => o.key), labels: options.map((o) => o.label) } : {}) })) }) + '\n');
   // Live pictures: the main page shows the 3 most wanted asks, a question's page shows its results (api/og.js). Facebook keeps
   // its own copy per address, so these refresh when it re-reads the page; a share from the site's buttons is always fresh.
-  const IMG = `${ORIGIN}/api/og/?top=1&v=2`;
-  const askImg = (a) => ({ image: `${ORIGIN}/api/og/?id=${a.id}&live=1&v=2`, imageAlt: `What Squamish Wants: ${a.title}` });
+  const IMG = `${ORIGIN}/api/og/?top=1&v=3`;
+  const askImg = (a) => ({ image: `${ORIGIN}/api/og/?id=${a.id}&live=1&v=3`, imageAlt: `What Squamish Wants: ${a.title}` });
   const body = (focus) => `<div class="wa" data-wants="page">
   <header class="wa-head">
     <h1>What Squamish Wants</h1>
     <p class="wa-lede">Say yes, no or don’t mind on what Squamish should do. Tap any ask to see what everyone said.</p>
     <p class="wa-people" data-wa-people aria-live="polite"></p>
     <p class="wa-live" data-wa-live hidden></p>
+    <p class="wa-note">Independent, not the District. Not a scientific poll. <a href="#wa-how">How it works ›</a></p>
   </header>
   <div class="wa-layout">
   <div class="wa-main">
@@ -1747,6 +1748,7 @@ ${wantsData({ focus, said: null })}`;
   <p class="wa-chips"><span class="wa-chip ${st.cls}">${esc(st.label)}</span>${hood ? `<span class="wa-chip area">${esc(hood.name)}</span>` : ''}</p>
   <h1>${esc(a.title)}</h1>
   <p class="wi-meta small muted">The background, so you can decide for yourself.${checked ? ` Facts checked ${esc(checked)}.` : ''}</p>
+  ${inf.district ? `<p class="wi-district"><b>The District’s own page on this:</b> <a href="${esc(inf.district.url)}" target="_blank" rel="noopener">${esc(inf.district.label)} ›</a> Its official surveys and meetings are posted there. Answering here does not replace them.</p>` : ''}
   <a class="btn wi-jump" href="#answer">Skip to answering</a>
   <div class="wi-intro">${(inf.intro || []).map((p) => `<p>${esc(p)}</p>`).join('')}</div>
   ${inf.facts?.length ? `<section class="card wi-sec"><h2>Key facts</h2><dl class="wi-facts">${inf.facts.map((f) => `<div><dt>${esc(f.label)}</dt><dd>${esc(f.value)}${sup(inf, f.src)}</dd></div>`).join('')}</dl></section>` : ''}
