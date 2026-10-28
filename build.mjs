@@ -469,10 +469,10 @@ const crumbLd = (items) => ({ '@context': 'https://schema.org', '@type': 'Breadc
 // Each meeting type gets one colour everywhere it appears, so people can tell them apart at a glance.
 const MTYPE = {
   regular: { label: 'Council meeting', cls: 'mt-regular', plain: 'The main meeting where council makes official decisions and votes.' },
-  cow: { label: 'Committee of the Whole', cls: 'mt-cow', plain: 'The whole council talking an issue through before it comes to a vote. Usually no final decisions.' },
+  cow: { label: 'Committee of the Whole', cls: 'mt-cow', plain: 'The whole council meeting as a committee to talk an issue through. It can only recommend: its ideas become decisions only when council confirms them at a later council meeting.' },
   hearing: { label: 'Public hearing', cls: 'mt-hearing', plain: 'Residents can speak to council about a rezoning or bylaw before council decides. Held as part of a council meeting.' },
-  special: { label: 'Special meeting', cls: 'mt-special', plain: 'An extra meeting called for a few items. Often short, and sometimes only to go behind closed doors.' },
-  inaugural: { label: 'Swearing-in meeting', cls: 'mt-special', plain: 'The new mayor and councillors take their oath of office.' },
+  special: { label: 'Special meeting', cls: 'mt-special', plain: 'A meeting called outside the regular schedule, with at least 24 hours’ notice. Squamish holds many of these, and some include big decisions, such as budget workshops. Others open only to move behind closed doors.' },
+  inaugural: { label: 'Swearing in meeting', cls: 'mt-special', plain: 'The new mayor and councillors take their oath of office.' },
 };
 const mType = (m) => MTYPE[m.type] || MTYPE.regular;
 const mBadge = (m) => `<span class="mtype ${mType(m).cls}">${esc(mType(m).label)}</span>`;
@@ -525,7 +525,7 @@ function promiseRow(p, { who = false } = {}) {
 }
 function voteChips(d) {
   const groups = ['yes', 'no', 'recused', 'absent', 'unknown'].map((k) => [k, all.filter((c) => d.votes?.[c.slug] === k)]).filter(([, l]) => l.length);
-  const how = d.votes_source === 'minutes' ? 'Checked against the official minutes.' : 'From the meeting video. We check it against the official minutes when they come out, usually a few weeks later.';
+  const how = (d.votes_source === 'minutes' ? 'Checked against the official minutes.' : 'From the meeting video. We check it against the official minutes when they come out, usually a few weeks later.') + ' Under B.C. law, a member who is in the room and does not vote is counted as voting yes (Community Charter section 123(4)).';
   return `<div class="vchips">${groups.map(([k, l]) => `<div class="vgroup v-${k}"><span class="vlab">${{ yes: '✓ Yes', no: '✕ No', recused: 'Stepped out', absent: 'Not there', unknown: 'Not clear' }[k]}</span>${l.map((c) => `<a href="/council/${c.slug}/" class="vface">${avatar(c, 'xs')}${esc(lastName(c))}</a>`).join('')}</div>`).join('')}<p class="small muted">${how}</p></div>`;
 }
 // What the official minutes changed from our video based record (scripts/pipeline/minutes.mjs keeps corrected_from).
@@ -538,9 +538,25 @@ function corrections(d) {
 }
 const corrNote = (d) => (corrections(d).length ? `<p class="corr"><b>Corrected after official minutes${d.corrected_on ? ` (${esc(fmtLong(d.corrected_on))})` : ''}:</b> ${corrections(d).map(esc).join('; ')}. <a href="/corrections/">All corrections</a></p>` : '');
 const isoDay = (x) => (typeof x === 'string' && /^\d{4}-\d\d-\d\d/.test(x) ? x.slice(0, 10) : '');
+// A bylaw reading is a step, not the final say: "First reading passed" reads right, "Passed" does not.
+const READING_RX = /\b((?:first|second|third)(?:(?:,|,? and) (?:first|second|third))*) readings?\b|\b(adopt(?:ion|ed)?)\b/i;
+function resultWord(d) {
+  const base = RESULT_WORD[d.result] || 'Decided';
+  if (d.result !== 'passed' && d.result !== 'failed') return base;
+  const st = d.stage || ((d.title || '').match(READING_RX) || [])[1];
+  if (!st || /adopt/i.test(st)) return base;
+  const s = st.toLowerCase().replace(/ readings?$/, '');
+  return `${s.charAt(0).toUpperCase()}${s.slice(1)} reading${/,| and /.test(s) ? 's' : ''} ${d.result}`;
+}
+// "All agreed" only counts the members who were there; away and stepped out members are named as such.
+function tallyWord(d) {
+  const vs = Object.values(d.votes || {}), n = (k) => vs.filter((v) => v === k).length;
+  const yes = n('yes'), no = n('no'), away = n('absent'), out = n('recused');
+  const extra = [away ? `${away} away` : '', out ? `${out} stepped out` : ''].filter(Boolean).join(', ');
+  return no === 0 && yes > 1 ? `All ${yes} there agreed${extra ? ` (${extra})` : ''}` : `${yes} to ${no}${extra ? ` (${extra})` : ''}`;
+}
 function decisionCard(d, m, { open = false } = {}) {
-  const yes = Object.values(d.votes || {}).filter((v) => v === 'yes').length, no = Object.values(d.votes || {}).filter((v) => v === 'no').length;
-  return `<details class="decision r-${esc(d.result || 'info')}"${open ? ' open' : ''}><summary><span class="dres">${esc(RESULT_WORD[d.result] || 'Decided')}${d.result === 'passed' || d.result === 'failed' ? ` <span class="small">${no === 0 && yes > 1 ? 'all agreed' : `${yes}–${no}`}</span>` : ''}</span><span class="dtitle">${escGl(d.title)}</span></summary>
+  return `<details class="decision r-${esc(d.result || 'info')}"${open ? ' open' : ''}><summary><span class="dres">${esc(resultWord(d))}${d.result === 'passed' || d.result === 'failed' ? ` <span class="small">${esc(tallyWord(d))}</span>` : ''}</span><span class="dtitle">${escGl(d.title)}</span></summary>
   <div class="dbody">${d.for_you ? `<p class="foryou"><b>What it means for you:</b> ${escGl(d.for_you)}</p>` : ''}<p>${escGl(d.what)}</p>${d.votes ? voteChips(d) : ''}${corrNote(d)}
   ${areaTags(d.areas)}${(d.issues || []).map((sl) => TRACKED.find((t) => t.slug === sl)).filter(Boolean).map((t) => `<p class="small">Part of: <a href="/track/${t.slug}/">${esc(t.title)}</a></p>`).join('')}
   ${d.why_it_matters ? `<p class="small"><b>Why it matters:</b> ${escGl(d.why_it_matters)}</p>` : ''}
@@ -669,6 +685,10 @@ const signupBox = (where) => `<section class="card signup no-print" id="signup">
   <p class="small muted">Sent by Squamish Voters (Jeff Kirdeikis, Squamish, B.C.). We never share your address. <a href="/this-week/">See this week’s email</a>.</p></section>`;
 // How to take part, from the District's own rules (data/participate.json). Short first, the fine print one tap away.
 function haveSay(m, item, t) {
+  // The swearing in meeting is ceremonial: no question period, no delegations, and no letters on its agenda.
+  if (m && m.type === 'inaugural') return `<section class="card havesay"><h2>Have your say</h2>
+    <p>The swearing in meeting is ceremonial. There is no question period and no letters on the agenda. To raise something with the new council, write to <a href="mailto:council@squamish.ca">council@squamish.ca</a> after November 3. Letters sent before then go to the outgoing council.</p>
+    <p><b>Watch.</b> Live and afterward on the <a href="https://www.youtube.com/@DistrictofSquamish/streams" target="_blank" rel="noopener">District’s YouTube channel</a>.</p></section>`;
   const W = PART.write_to_council || {}, SP = PART.speak_at_a_meeting || {}, H = PART.public_hearings || {}, D = PART.delegations || {};
   const budget = t && t.slug === 'budget-2027' && W.budget_feedback_email;
   const email = budget ? W.budget_feedback_email : W.email || 'council@squamish.ca';
@@ -1418,7 +1438,9 @@ write('/meetings/', page({
 }));
 for (const m of MEETINGS) {
   const T = mType(m), done = !!m.summary, S = m.summary || {};
-  const votes = (m.decisions || []).filter((d) => d.votes);
+  // Consent agenda items are routine and passed together in one vote: shown as one block, not as separate votes.
+  const consent = (m.decisions || []).filter((d) => d.votes && d.consent_agenda);
+  const votes = (m.decisions || []).filter((d) => d.votes && !d.consent_agenda);
   const links = [[m.video_url, '▶ Watch the full meeting video'], [m.agenda_url, 'Official agenda'], [m.minutes_url, 'Official minutes'], [m.transcript ? `/transcripts/${m.id}.txt` : null, 'Full written transcript']].filter(([u]) => u);
   write(mUrl(m), page({ updated: isoDay(m.minutes_checked) || isoDay(m.generated?.at) || null,
     url: '/meetings/', image: done ? shareImg(m) : null, title: `Squamish ${T.label.charAt(0).toLowerCase() + T.label.slice(1)}, ${fmtLong(m.date)}: ${done ? 'what council decided' : 'agenda and how to watch'}`,
@@ -1436,6 +1458,7 @@ for (const m of MEETINGS) {
     ${votes.length ? `<h2 id="votes">The votes <span class="small">${votes.length}</span></h2><p class="small">Tap any vote to see what it means and who voted which way.</p>
     <div class="stack">${votes.slice(0, 6).map((d) => decisionCard(d, m)).join('')}</div>
     ${votes.length > 6 ? `<details class="drop"><summary>Show ${votes.length - 6} more votes, mostly routine</summary><div class="stack">${votes.slice(6).map((d) => decisionCard(d, m)).join('')}</div></details>` : ''}` : '<p class="muted">Council didn’t take any recorded votes at this meeting.</p>'}
+    ${consent.length ? `<details class="drop"><summary>Routine items passed together in one vote (consent agenda, ${consent.length})</summary><p class="small">Council approves routine items, like minutes and reports for information, in one vote. Any member can pull one out for its own vote.</p><div class="stack">${consent.map((d) => decisionCard(d, m)).join('')}</div></details>` : ''}
     ${(m.decisions || []).filter((d) => !d.votes).length ? `<details class="drop"><summary>Also discussed, with no vote (${m.decisions.filter((d) => !d.votes).length})</summary><div class="stack">${m.decisions.filter((d) => !d.votes).map((d) => decisionCard(d, m)).join('')}</div></details>` : ''}
     ${(S.explainer || []).length ? `<details class="drop layer2"><summary>Explain this meeting a bit more</summary>${S.explainer.map((x) => `<p>${escGl(x)}</p>`).join('')}</details>` : ''}
     ${(m.promise_updates || []).length ? `<h2>Promises this meeting tested</h2><div class="card stack">${m.promise_updates.map((u) => { const pr = PROMISES.find((x) => x.id === u.id); return pr ? promiseRow(pr, { who: true }) : ''; }).join('')}</div>` : ''}
@@ -2090,7 +2113,7 @@ for (const ic of ctx.issues || []) {
     ['When does Squamish council meet?', 'Regular council meetings are usually the 1st and 3rd Tuesday of each month at 6 p.m., with no meetings in August. Committee of the Whole is usually the 2nd and 4th Tuesday. Our meetings page lists every upcoming one.', '<a href="/meetings/">Upcoming meetings</a>'],
     ['Can I watch a council meeting?', 'Yes. Meetings are open to the public at Municipal Hall, and most are streamed live and posted online afterward. Each meeting on our site links to the official video.', '<a href="/meetings/">Meetings and videos</a>'],
     ['What is the difference between a council meeting and Committee of the Whole?', `${MTYPE.regular.plain} ${MTYPE.cow.label}: ${MTYPE.cow.plain}`, ''],
-    ['What is a public hearing?', MTYPE.hearing.plain + ' Anyone can speak or send a letter. Fewer rezonings need one since B.C. changed the rules in 2023.', ''],
+    ['What is a public hearing?', MTYPE.hearing.plain + ' Anyone can speak or send a letter. Since late 2023, B.C. law does not allow a public hearing on a rezoning that is mostly for housing and fits the Official Community Plan. A change to the Official Community Plan itself must have one.', ''],
     ['How do you know if a promise was kept?', 'Each promise lists their part: how they vote, or what they move or second. Only that is marked, not what council as a whole decides. When council votes on something that tests it, we mark it and link to the vote.', '<a href="/promises/#how">How we judge promises</a>'],
     ['Who won the 2026 Squamish election?', `${resWinner('mayor')[0]} won the mayor’s race. Elected to council: ${resWinner('council').join(', ')}. Turnout was ${R26.turnout_pct}%.`, '<a href="/results/">Full results</a>'],
     ...(ctx.pay ? [['How much is the mayor of Squamish paid?', `In ${ctx.pay.year} the mayor was paid $${ctx.pay.mayor.toLocaleString('en-CA')} and each councillor about $${ctx.pay.councillor.toLocaleString('en-CA')}, not counting expenses and benefits (District of Squamish financial statement).`, isUrl(ctx.pay.source_url) ? `<a href="${esc(ctx.pay.source_url)}" target="_blank" rel="noopener">Source</a>` : '']] : []),

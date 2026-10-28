@@ -28,7 +28,7 @@
   "summary": "There are two short chances for anyone to speak at a Regular Business Meeting without booking ahead: Unscheduled Public Attendance near the start, and Open Question Period near the end. You do not register in advance. The Chair asks who wants to speak when that part of the meeting comes up.",
   "source_url": "https://squamish.civicweb.net/document/182780",
   "unscheduled_public_attendance": {
-   "when": "Near the start of Regular Business Meetings (item 4 on the agenda, after delegations).",
+   "when": "Near the start of Regular Business Meetings (item 4 on the agenda, after booked speakers).",
    "what_topics": "Only something urgent that came up after the agenda closed and cannot wait until the next regular meeting, or something tied to an item on that night's agenda that must be dealt with before the next regular meeting.",
    "how_it_works": "The Chair calls for speakers. You get up to two minutes to say what your topic is and why it is urgent. Council then votes on whether to hear you. If they agree, you get up to five minutes.",
    "limits": "No more than 15 minutes or three speakers in total, unless council agrees to more.",
@@ -40,7 +40,7 @@
    "how_it_works": "The Chair calls for speakers. You get up to two minutes to ask your question, and council gets a chance to answer.",
    "source_url": "https://squamish.civicweb.net/document/182780"
   },
-  "topics_that_can_be_refused": "Council can turn down a request to speak if the topic is outside the District's powers, is before the courts, is a claim for damages against the District, is about bylaw enforcement against someone, promotes a business, is about staffing or labour relations, is about a District contract or tender, or is about a freedom of information request. Speaking is also refused on a rezoning that matches the Official Community Plan, because provincial law bars a public hearing on those.",
+  "topics_that_can_be_refused": "Council can turn down a request to speak if the topic is outside the District's powers, is before the courts, is a claim for damages against the District, is about bylaw enforcement against someone, promotes a business, is about staffing or labour relations, is about a District contract or tender, or is about a freedom of information request. Speaking is also refused on a rezoning that is mostly for housing and fits the Official Community Plan, because provincial law does not allow a public hearing on those. You can still write to council.",
   "topics_source_url": "https://squamish.civicweb.net/document/182780",
   "ways_to_join": "In person in Council Chambers at Municipal Hall, 37955 Second Avenue (room holds 29 people including council and staff), online through Webex (use Raise Hand), or by phone at 1-604-449-3026 (press *3 to raise your hand). The YouTube live stream is for watching only.",
   "ways_to_join_source_url": "https://squamish.civicweb.net/Portal/227149/ParticipatinginMeetings/",
@@ -48,7 +48,7 @@
   "conduct_source_url": "https://squamish.ca/government-and-administration/council/council-meetings-and-public-notices/"
  },
  "delegations": {
-  "summary": "A delegation is a booked slot to present to council. Send a written request to the Corporate Officer two weeks before the meeting you want. Include the names of everyone who will speak, your topic, and whether you will attend in person or online. The Mayor decides whether to approve it.",
+  "summary": "You can book a slot to speak to council for up to 5 minutes (the formal name is a delegation). Send a written request to the Corporate Officer two weeks before the meeting you want. Include the names of everyone who will speak, your topic, and whether you will attend in person or online. The Mayor decides whether to approve it.",
   "lead_time": "Two weeks before the requested meeting.",
   "time_limit": "Up to five minutes at a Regular Business Meeting, unless council votes to give more. The Mayor can allow more time at Special meetings and Committee of the Whole.",
   "how_to_apply": "Use the District's Application to Appear form and attach any supporting documents. Audio visual equipment is not allowed, so send handouts with your application.",
