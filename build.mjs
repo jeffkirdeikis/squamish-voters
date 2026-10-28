@@ -2219,13 +2219,13 @@ fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
     body: `<h1>Does AI mention us?</h1>
     <p class="lede">Every Monday, Claude (with web search) is asked ${run ? run.rows.length : 20} questions Squamish residents ask, worded the way they ask them, without naming this site. Cited means the answer linked one of our pages.</p>
     ${!run ? '<p class="notice info">No check has run yet.</p>' : `
-    <div class="card"><p><b>${esc(fmtLong(last.date))}:</b> cited us in <b>${last.cited} of ${last.answered}</b> answers, named us in ${last.named}, search turned us up in ${last.found}.</p>
+    <div class="card"><p><b>${esc(fmtLong(last.date))}:</b> cited us in <b>${last.cited} of ${last.answered}</b> answers, named us in ${last.named}, search turned us up in ${last.found}${last.searched != null ? ` (it searched for ${last.searched})` : ''}.</p>
     ${last.top_cited.length ? `<p class="small">Cited most instead: ${last.top_cited.map((t) => `${esc(t.site)} (${t.n})`).join(', ')}</p>` : ''}</div>
     ${hist.length > 1 ? `<h2>Week by week</h2><table class="res-how"><thead><tr><th>Week</th><th>Cited us</th><th>Named us</th><th>Found us</th></tr></thead><tbody>${hist.slice().reverse().map((h) => `<tr><td>${esc(fmtLong(h.date))}</td><td>${h.cited} of ${h.answered}</td><td>${h.named}</td><td>${h.found}</td></tr>`).join('')}</tbody></table>` : ''}
     <h2>Each question</h2>
     ${run.rows.map((r) => `<details class="drop"><summary>${r.error ? '⚠️' : r.cited_us ? '✅' : '❌'} ${esc(r.q)}</summary>${r.error ? `<p>Error: ${esc(r.error)}</p>` : `<p class="small">Cited us: ${mark(r.cited_us)} · Named us: ${mark(r.named_us)} · Search found us: ${mark(r.found_us)}</p>
       ${r.our_pages.length ? `<p class="small">Our pages: ${r.our_pages.map((u) => `<a href="${esc(u)}">${esc(u.replace(ORIGIN, ''))}</a>`).join(', ')}</p>` : ''}
-      <p class="small">Sites cited: ${esc(r.cited_sites.join(', ') || 'none')}</p><p style="white-space:pre-line">${esc(r.answer)}</p>`}</details>`).join('')}`}`,
+      <p class="small">Sites cited: ${esc(r.cited_sites.join(', ') || 'none')}${r.found_sites ? ` · Search turned up: ${esc(r.found_sites.slice(0, 12).join(', ') || 'nothing, it answered from memory')}` : ''}</p><p style="white-space:pre-line">${esc(r.answer)}</p>`}</details>`).join('')}`}`,
   }));
 }
 

@@ -26,7 +26,7 @@ function urlsIn(x, out = new Set()) {
 }
 
 async function ask(q) {
-  // A plain question with no system prompt, so the answer is close to what a person typing into Claude would get.
+  // Only the date as a system prompt, like the Claude app gives it, so the answer is close to what a person would get.
   const messages = [{ role: 'user', content: q.q }];
   let content = [], usage = { input_tokens: 0, output_tokens: 0 }, msg;
   for (let turn = 0; turn < 4; turn++) {
@@ -35,7 +35,7 @@ async function ask(q) {
       max_tokens: 16000,
       betas: ['server-side-fallback-2026-07-01'],
       fallbacks: 'default',
-      output_config: { effort: 'low' },
+      system: `The current date is ${new Date().toLocaleDateString('en-US', { timeZone: 'America/Vancouver', weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}.`,
       tools: [{ type: 'web_search_20260209', name: 'web_search', max_uses: 5, user_location: { type: 'approximate', city: 'Squamish', region: 'British Columbia', country: 'CA', timezone: 'America/Vancouver' } }],
       messages,
     }).finalMessage();
@@ -53,9 +53,10 @@ async function ask(q) {
   const ours = (list) => list.filter((u) => host(u) === US);
   return {
     id: q.id, q: q.q, topic: q.topic,
-    found_us: ours(found).length > 0, cited_us: ours(cited).length > 0, named_us: /squamish\s*voters/i.test(answer),
+    searched: results.length > 0, found_us: ours(found).length > 0, cited_us: ours(cited).length > 0, named_us: /squamish\s*voters/i.test(answer),
     our_pages: [...new Set([...ours(cited), ...ours(found)])],
     cited_sites: [...new Set(cited.map(host).filter(Boolean))],
+    found_sites: [...new Set(found.map(host).filter(Boolean))],
     answer: answer.slice(0, 1500),
     tokens: usage,
   };
@@ -74,7 +75,7 @@ const rivals = {};
 ok.forEach((r) => r.cited_sites.filter((s) => s !== US).forEach((s) => { rivals[s] = (rivals[s] || 0) + 1; }));
 const summary = {
   date: TODAY, model: 'claude-opus-5-5', asked: rows.length, answered: ok.length,
-  cited: count('cited_us'), named: count('named_us'), found: count('found_us'),
+  searched: count('searched'), cited: count('cited_us'), named: count('named_us'), found: count('found_us'),
   top_cited: Object.entries(rivals).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([site, n]) => ({ site, n })),
   tokens: ok.reduce((t, r) => ({ input_tokens: t.input_tokens + r.tokens.input_tokens, output_tokens: t.output_tokens + r.tokens.output_tokens }), { input_tokens: 0, output_tokens: 0 }),
 };
