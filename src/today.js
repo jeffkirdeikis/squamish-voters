@@ -16,14 +16,66 @@
   var HWY = { clear: ['Clear', 'ok'], delays: ['Incidents', 'warn'], closed: ['Closed', 'bad'] };
   var KITE = 15; // knots: roughly where kiting at the Spit starts
 
-  function stripText(d) {
-    var bits = [];
-    if (d.weather && d.weather.temp != null) bits.push(deg(d.weather.temp) + ' ' + e(d.weather.cond));
-    if (d.highway) bits.push('Highway 99 ' + HWY[d.highway.status][0].toLowerCase());
-    if (d.wind) bits.push('Spit ' + d.wind.kn + ' knots');
-    if (d.air) bits.push('Air ' + e(d.air.risk.toLowerCase()));
-    return bits.map(function (b) { return '<span>' + b + '</span>'; }).join('<i aria-hidden="true">·</i> ');
+  // Home page strip: one short value per cell, a coloured dot where there's a status.
+  var SVG = function (d) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>'; };
+  var WXI = {
+    sun: SVG('<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>'),
+    moon: SVG('<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>'),
+    cloud: SVG('<path d="M7 18a4.5 4.5 0 1 1 .9-8.9A6 6 0 0 1 19.5 11 3.5 3.5 0 0 1 18 18z"/>'),
+    rain: SVG('<path d="M7 14a4.5 4.5 0 1 1 .9-8.9A6 6 0 0 1 19.5 7 3.5 3.5 0 0 1 18 14z"/><path d="M8 17l-1 3M12 17l-1 3M16 17l-1 3"/>'),
+    snow: SVG('<path d="M7 14a4.5 4.5 0 1 1 .9-8.9A6 6 0 0 1 19.5 7 3.5 3.5 0 0 1 18 14z"/><path d="M8 18h.01M12 20h.01M16 18h.01M10 22h.01M14 22h.01"/>'),
+    fog: SVG('<path d="M4 9h16M2 13h20M5 17h14M8 21h8"/>'),
+    storm: SVG('<path d="M7 14a4.5 4.5 0 1 1 .9-8.9A6 6 0 0 1 19.5 7 3.5 3.5 0 0 1 18 14z"/><path d="M12 13l-2 4h4l-2 4"/>'),
+  };
+  var wxKind = function (c, night) {
+    c = String(c || '').toLowerCase();
+    return /thunder/.test(c) ? 'storm' : /snow|flurr|ice pellet/.test(c) ? 'snow' : /rain|shower|drizzle/.test(c) ? 'rain' : /fog|mist|haze|smoke/.test(c) ? 'fog'
+      : /clear|sunny/.test(c) && !/cloud/.test(c) ? (night ? 'moon' : 'sun') : /mainly sunny|mix of sun|partly/.test(c) ? (night ? 'moon' : 'sun') : 'cloud';
+  };
+  var dot = function (lvl) { return '<i class="ts-d ' + lvl + '" aria-hidden="true"></i>'; };
+
+  function fillStrip(d) {
+    var set = function (k, html, label) {
+      var c = strip.querySelector('[data-k="' + k + '"]');
+      if (!c) return;
+      if (html == null) { c.hidden = true; return; }
+      c.querySelector('b').innerHTML = html;
+      if (label) c.querySelector('small').textContent = label;
+    };
+    var w = d.weather, now = Date.now();
+    var night = !!(w && w.sunrise && w.sunset && (now < Date.parse(w.sunrise) || now > Date.parse(w.sunset)));
+    if (w && w.temp != null) {
+      strip.querySelector('[data-k="weather"] .ts-i').innerHTML = WXI[wxKind(w.cond, night)];
+      var today = (d.days || [])[0], todayStr = new Date().toLocaleDateString('en-CA', { timeZone: TZ });
+      set('weather', deg(w.temp) + ' <span>' + e(w.cond) + '</span>', today && today.date === todayStr && !night ? 'Now · high ' + today.hi + '°' : 'Weather now');
+    } else set('weather', null);
+    set('highway', d.highway ? dot(HWY[d.highway.status][1]) + HWY[d.highway.status][0] : null);
+    var t = d.tide && d.tide.next && d.tide.next[0];
+    set('tide', t ? (t.high ? 'High' : 'Low') + ' <span>' + time(t.t) + '</span>' : null, d.tide && (d.tide.rising ? 'Tide coming in' : 'Tide going out'));
+    set('wind', d.wind ? d.wind.kn + ' knots <span>' + compass(d.wind.dir) + '</span>' : null, 'Spit wind');
+    var rb = d.river && d.river.band;
+    set('river', rb ? dot({ 'very low': 'info', low: 'info', normal: 'ok', high: 'warn', 'very high': 'bad' }[rb]) + rb.charAt(0).toUpperCase() + rb.slice(1) : null, 'River');
+    set('air', d.air ? dot(d.air.aqhi <= 3 ? 'ok' : d.air.aqhi <= 6 ? 'warn' : 'bad') + e(d.air.risk) + ' risk' : null, 'Air');
+    if (w && w.sunset) {
+      var before = !night;
+      set('sun', time(before ? w.sunset : w.sunrise), before ? 'Sunset' : 'Sunrise');
+    } else set('sun', null);
+    strip.classList.add('ts-ready');
+    fit();
   }
+
+  // Desktop shows the row without scrolling: drop cells from least to most important until it fits.
+  var DROP = ['sun', 'air', 'river', 'wind'];
+  function fit() {
+    var row = strip.querySelector('.ts-row');
+    DROP.forEach(function (k) { var c = strip.querySelector('[data-k="' + k + '"]'); if (c) c.removeAttribute('data-fit-off'); });
+    if (window.innerWidth < 900) return;
+    for (var i = 0; i < DROP.length && row.scrollWidth > row.clientWidth + 1; i++) {
+      var c = strip.querySelector('[data-k="' + DROP[i] + '"]');
+      if (c) c.setAttribute('data-fit-off', '');
+    }
+  }
+  if (strip) window.addEventListener('resize', function () { if (strip.classList.contains('ts-ready')) fit(); });
 
   // Open-Meteo weather codes (WMO) in plain words.
   var WX = function (c) {
@@ -135,10 +187,7 @@
   var D = {};
   fetch('/api/today/').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (d) {
     D = d;
-    if (strip) {
-      var t = stripText(d);
-      if (t) { strip.querySelector('[data-ts]').innerHTML = t; strip.hidden = false; }
-    }
+    if (strip) fillStrip(d);
     if (!page) return;
     Object.keys(FILL).forEach(function (k) {
       var el = page.querySelector('[data-td="' + k + '"] [data-body]');
@@ -161,6 +210,7 @@
       box.hidden = false;
     }
   }).catch(function () {
+    if (strip) strip.hidden = true;
     if (page) page.querySelectorAll('[data-body]').forEach(fail);
   });
 })();

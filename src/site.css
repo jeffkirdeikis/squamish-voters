@@ -1930,15 +1930,6 @@ body:has(.wa-ringtab) #totop { display: none !important; }
 @media (max-width: 420px) { .who-facts div { grid-template-columns: 1fr; gap: 0; } }
 
 /* ---------- Squamish today (/today/ and the home page strip) ---------- */
-.td-strip { display: block; background: var(--brand-soft); color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); font-size: .95rem; }
-.td-strip[hidden] { display: none; }
-.td-strip .wrap { display: flex; align-items: center; gap: .6rem; padding-top: .5rem; padding-bottom: .5rem; }
-.td-strip b { color: var(--brand); white-space: nowrap; }
-.td-strip [data-ts] { flex: 1; min-width: 0; }
-.td-strip [data-ts] span { white-space: nowrap; }
-.td-strip [data-ts] i { font-style: normal; color: var(--muted); margin: 0 .4rem; }
-.td-strip .td-go { font-size: 1.3rem; color: var(--brand); line-height: 1; }
-.td-strip:hover [data-ts] { text-decoration: underline; }
 .td-top h1 { margin-bottom: .3rem; }
 .td-alerts { background: var(--warn-bg); color: var(--warn-ink); border: 1px solid #e9cf86; border-radius: var(--radius); padding: .8rem 1rem; margin: 1rem 0; }
 .td-alerts[hidden] { display: none; }
@@ -1996,7 +1987,6 @@ body:has(.wa-ringtab) #totop { display: none !important; }
 .td-av li[data-r="considerable"] { background: #fde0c2; }
 .td-av li[data-r="high"] { background: #f9c9c3; }
 .td-av li[data-r="extreme"] { background: #222; color: #fff; }
-@media (max-width: 599px) { .td-strip { font-size: .88rem; } .td-strip b { display: none; } .td-strip [data-ts] i { margin: 0 .25rem; } }
 /* Today: 14 day forecast, tides, river gauge */
 @media (min-width: 760px) { .td-card[data-td="weather"] { grid-column: 1 / -1; } .td-card[data-td="weather"] .td-days { max-width: 40rem; } }
 .td-period { margin: .5rem 0 0; color: var(--ink-2); }
@@ -2031,3 +2021,41 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .td-gk i.m { width: 4px; height: 14px; background: var(--ink); border-radius: 2px; }
 .td-gk i.n { width: 18px; height: 10px; background: #b9d6c8; border-radius: 5px; }
 @media (min-width: 760px) { .td-card[data-td="weather"] .td-expand { max-width: 40rem; } }
+
+/* Home page strip: a quiet row of Squamish right now, part of the dark header band above the hero */
+.td-strip { display: block; background: #0b3d2f; color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.08); }
+.td-strip[hidden] { display: none; }
+.ts-row { display: flex; align-items: stretch; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-top: .55rem; padding-bottom: .55rem; }
+.ts-row::-webkit-scrollbar { display: none; }
+.ts-c { display: flex; align-items: center; gap: .55rem; padding: .15rem 1.1rem; border-left: 1px solid rgba(255,255,255,.12); flex: 0 0 auto; }
+.ts-c:first-child { border-left: 0; padding-left: 0; }
+.ts-c[hidden] { display: none; }
+.ts-i { color: #ffb703; display: flex; } .ts-i svg { width: 22px; height: 22px; }
+.ts-t { display: flex; flex-direction: column; line-height: 1.2; }
+.ts-t small { font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; color: rgba(255,255,255,.62); font-weight: 600; white-space: nowrap; }
+.ts-t b { font-size: .98rem; font-weight: 700; white-space: nowrap; display: flex; align-items: center; gap: .35rem; }
+.ts-t b span { font-weight: 500; color: rgba(255,255,255,.82); }
+.td-strip:not(.ts-ready) .ts-t b { color: transparent; background: rgba(255,255,255,.1); border-radius: 4px; min-width: 4.5rem; }
+.ts-d { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 8px; background: #b9c4bf; }
+.ts-d.ok { background: #5fd394; box-shadow: 0 0 0 3px rgba(95,211,148,.18); }
+.ts-d.warn { background: #f5c451; box-shadow: 0 0 0 3px rgba(245,196,81,.2); }
+.ts-d.bad { background: #ff7b6b; box-shadow: 0 0 0 3px rgba(255,123,107,.22); }
+.ts-d.info { background: #7fb8ea; box-shadow: 0 0 0 3px rgba(127,184,234,.2); }
+.ts-go { margin-left: auto; flex: 0 0 auto; align-self: center; display: inline-flex; align-items: center; gap: .2rem; padding: .45rem .55rem .45rem .9rem; border-radius: 999px; border: 1px solid rgba(255,255,255,.28); font-weight: 700; font-size: .9rem; white-space: nowrap; }
+.ts-go svg { width: 16px; height: 16px; }
+.td-strip:hover .ts-go, .td-strip:focus-visible .ts-go { background: #ffb703; border-color: #ffb703; color: #14211c; }
+@media (min-width: 900px) {
+  .ts-row { overflow: hidden; }
+  .ts-c { padding: .15rem .8rem; }
+  .ts-t b { font-size: .94rem; }
+  .ts-c[data-k="sun"]:not([data-fit-off]) { display: flex; }
+}
+/* src/today.js hides the least important cells when the row is too narrow, instead of cutting words off. */
+.ts-c[data-fit-off] { display: none !important; }
+@media (max-width: 899px) {
+  .ts-row { padding-top: .45rem; padding-bottom: .45rem; mask-image: linear-gradient(90deg, #000 85%, transparent); -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); }
+  .ts-c { padding: .1rem .8rem; gap: .45rem; } .ts-i svg { width: 18px; height: 18px; }
+  .ts-t b { font-size: .92rem; }
+  .ts-c[data-k="sun"] { display: flex; }
+  .ts-go { margin-left: .6rem; margin-right: 1.5rem; padding: .35rem .5rem .35rem .75rem; font-size: .82rem; }
+}
