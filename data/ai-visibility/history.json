@@ -4,13 +4,14 @@
     "model": "claude-opus-5-5",
     "asked": 20,
     "answered": 20,
+    "searched": 20,
     "cited": 0,
-    "named": 0,
-    "found": 2,
+    "named": 1,
+    "found": 7,
     "top_cited": [],
     "tokens": {
-      "input_tokens": 488116,
-      "output_tokens": 18041
+      "input_tokens": 744179,
+      "output_tokens": 26829
     }
   }
 ]
