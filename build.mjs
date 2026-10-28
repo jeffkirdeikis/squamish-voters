@@ -385,7 +385,7 @@ ${body}
 <footer class="site-footer"><div class="wrap">
   <div class="cols">
     <div><h2>${SITE.name}</h2><p>An independent, non-partisan guide to Squamish council made by <a href="/about/#who">Jeff Kirdeikis</a>, a Squamish resident. Not affiliated with the District of Squamish, any council member, or any party.</p><p>Last updated ${esc(SITE.updated)}.</p><p data-visits hidden><b>0</b> page views so far.</p></div>
-    <div><h2>Pages</h2><ul>${[['/', 'Home'], ...MENU, ['/about/', 'About, method &amp; corrections']].map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join('')}</ul></div>
+    <div><h2>Pages</h2><ul>${[['/', 'Home'], ...MENU, ['/data/', 'Data downloads'], ['/about/', 'About, method &amp; corrections']].map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join('')}</ul></div>
     <div><h2>Official information</h2><ul><li><a href="https://squamish.ca/government-and-administration/council/" target="_blank" rel="noopener">District of Squamish: council</a></li><li><a href="https://squamish.civicweb.net/Portal/MeetingSchedule.aspx" target="_blank" rel="noopener">Official agendas and minutes</a></li><li><a href="https://www.youtube.com/@DistrictofSquamish/streams" target="_blank" rel="noopener">Meeting videos (YouTube)</a></li><li><a href="https://www.facebook.com/groups/1090076830319905" target="_blank" rel="noopener">Squamish Voters &amp; Politics on Facebook</a></li></ul>
     </div>
     <div><h2>Spot a mistake?</h2><p>Are you on council, or did we get something wrong? Email <a href="mailto:${SITE.contact}">${SITE.contact}</a> and we’ll fix it.</p></div>
@@ -2210,6 +2210,43 @@ for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 
 fs.writeFileSync(path.join(DIST, 'botid.js'), `(function(){${BOTID_JS}})();`);
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
+// ---------- open data: the site's records as spreadsheet files anyone can reuse with credit (CC BY 4.0) ----------
+{
+  const csv = (rows) => rows.map((r) => r.map((v) => { const t = String(v ?? ''); return /[",\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t; }).join(',')).join('\r\n') + '\r\n';
+  const U = (u) => ORIGIN + u, role = (c) => (c.office === 'mayor' ? 'Mayor' : 'Councillor');
+  const files = [
+    { f: 'council.csv', name: 'Squamish council 2026 to 2030', about: 'The mayor and six councillors: votes received on October 17, 2026, share of the vote, whether they were re-elected, promises tracked and council votes cast so far.',
+      rows: [['name', 'role', 'page', 'votes_2026', 'vote_share_pct', 're_elected', 'promises_tracked', 'council_votes_cast'],
+        ...all.map((c) => { const r = raceRow(c); return [c.name, role(c), U(`/council/${c.slug}/`), r?.total, r?.pct, c.incumbent ? 'yes' : 'no', promisesOf(c).length, castVotes(c).length]; })] },
+    { f: 'votes.csv', name: 'How each Squamish council member voted', about: 'One row per member per council decision: the meeting, what was decided, the result and how that member voted. Fills in from the first regular meeting on November 17, 2026.',
+      rows: [['meeting_date', 'meeting_type', 'meeting_page', 'decision', 'result', 'member', 'vote', 'checked_against'],
+        ...DECISIONS.filter((d) => d.votes).flatMap((d) => all.filter((c) => d.votes[c.slug]).map((c) => [d.m.date, mType(d.m).label, U(mUrl(d.m)), d.title, d.result, c.name, d.votes[c.slug], d.m.votes_source === 'minutes' ? 'official minutes' : 'meeting video']))] },
+    { f: 'promises.csv', name: 'Squamish council campaign promises', about: 'Every promise the mayor and councillors made in the 2026 campaign, in their words, what would count as keeping it, its status and the source.',
+      rows: [['member', 'role', 'promise', 'their_words', 'topic', 'kept_if', 'status', 'source'],
+        ...all.flatMap((c) => promisesOf(c).map((p) => [c.name, role(c), p.promise, p.quote, p.topic, p.how_to_check, pStatus(p).label, String(p.source_url || '').replace(`${ORIGIN}/candidates/`, `${ORIGIN}/council/`)]))] },
+    { f: 'election-2026.csv', name: 'Squamish election results 2026', about: `Official results for mayor and council from the District of Squamish: every candidate's mail, advance and voting day votes and total.`,
+      rows: [['race', 'candidate', 'mail_ballot', 'advance', 'general_voting_day', 'total', 'pct', 'elected'],
+        ...['mayor', 'council'].flatMap((k) => (R26[k] || []).map((r) => [k, r.name, r.special, r.advance, r.general_voting_day, r.total, r.pct, r.elected ? 'yes' : 'no']))] },
+  ];
+  fs.mkdirSync(path.join(DIST, 'data'), { recursive: true });
+  files.forEach((x) => fs.writeFileSync(path.join(DIST, 'data', x.f), '﻿' + csv(x.rows))); // the mark at the start makes Excel read the accents
+  const LIC = 'https://creativecommons.org/licenses/by/4.0/';
+  LLM.data = files;
+  write('/data/', page({ url: '/data/', title: 'Squamish council data downloads',
+    desc: 'Free spreadsheets of Squamish council: every member, every vote by member, every campaign promise and its status, and the 2026 election results. Reuse them with credit.',
+    jsonld: [crumbLd([['Home', '/'], ['Data downloads', '/data/']]), ...files.map((x) => ({ '@context': 'https://schema.org', '@type': 'Dataset', name: x.name, description: x.about, url: U('/data/'), license: LIC, isAccessibleForFree: true, dateModified: TODAY,
+      creator: { '@type': 'Organization', name: SITE.name, url: U('/') }, spatialCoverage: { '@type': 'Place', name: 'Squamish, British Columbia, Canada' },
+      distribution: [{ '@type': 'DataDownload', encodingFormat: 'text/csv', contentUrl: U(`/data/${x.f}`) }] }))],
+    body: `<h1>Data downloads</h1>
+    <p class="lede">The records behind this site as spreadsheet files. They update every time the site does. Use them for anything, including news stories and research, as long as you credit Squamish Voters.</p>
+    <div class="card stack">${files.map((x) => `<div><h2 style="margin:0 0 .25em"><a href="/data/${x.f}">${esc(x.name)}</a></h2><p>${esc(x.about)}</p><p class="small">${x.f} · ${x.rows.length - 1} row${x.rows.length === 2 ? '' : 's'} · updated ${esc(fmtLong(TODAY))}</p></div>`).join('')}</div>
+    <h2>How to credit</h2>
+    <p>Write “Source: Squamish Voters (squamishvoters.com)” and link to the page you used. The files are shared under the <a href="${LIC}" rel="license">Creative Commons Attribution 4.0</a> licence.</p>
+    <h2>Where the data comes from</h2>
+    <p>Votes come from council meeting video and are checked against the official minutes once they are published. Promises come from each member's own campaign material, questionnaire answers and interviews, with a link to each source. Election results are the District of Squamish's official count. <a href="/about/">How the site works and how to send a correction</a>.</p>`,
+  }));
+}
+
 // ---------- private AI visibility page: what the weekly check (scripts/ai-visibility) found. Not in the sitemap ----------
 {
   const AV = path.join(ROOT, 'data', 'ai-visibility'), hist = fs.existsSync(path.join(AV, 'history.json')) ? JSON.parse(fs.readFileSync(path.join(AV, 'history.json'), 'utf8')) : [];
@@ -2267,6 +2304,7 @@ ${TRACKED.map((t) => `- [${t.title}](${U(`/track/${t.slug}/`)}): ${t.question}`)
 
 ## More
 - [Quick answers](${U('/faq/')}): who is on council, when it meets, how to watch, how to speak at a meeting.
+- [Data downloads](${U('/data/')}): every member, vote, promise and the 2026 election results as spreadsheet files, free to reuse with credit (CC BY 4.0).
 - [What Squamish Wants](${U('/wants/')}): residents vote yes or no on specific local asks.
 - [Have your say](${U('/have-your-say/')}): how to write to council, speak at a meeting or a public hearing.
 - [Squamish today](${U('/today/')}): weather, Highway 99, tides, wind, river and air quality.

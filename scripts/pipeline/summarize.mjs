@@ -53,7 +53,7 @@ const SCHEMA = {
     summary: {
       type: 'object', additionalProperties: false, required: ['headline', 'key_points', 'explainer'],
       properties: {
-        headline: { type: 'string', description: 'One plain sentence: the most important thing that happened.' },
+        headline: { type: 'string', description: 'One plain sentence: the most important thing that happened. It must make sense quoted on its own, so name Squamish council and the date, e.g. "On November 17, 2026, Squamish council approved ...".' },
         key_points: { type: 'array', items: { type: 'string' }, description: '4 to 8 short plain bullets covering the most important points and every important vote result.' },
         explainer: { type: 'array', items: { type: 'string' }, description: '2 to 5 short paragraphs explaining the meeting a bit more, still in plain words: the background, what was argued, what happens next.' },
       },
@@ -64,7 +64,7 @@ const SCHEMA = {
         type: 'object', additionalProperties: false, required: ['title', 'what', 'why_it_matters', 'for_you', 'areas', 'issues', 'result', 'votes', 'votes_confidence', 'topic', 'related_q', 'positions', 'timestamp'],
         properties: {
           title: { type: 'string', description: 'Plain title, e.g. "Rezoning for 120 rental homes on Pioneer Way".' },
-          what: { type: 'string', description: 'One to three plain sentences: what council decided and what it means.' },
+          what: { type: 'string', description: 'One to three plain sentences: what council decided and what it means. The first sentence must make sense quoted on its own: start with "Squamish council" and say what it decided ("Squamish council voted to ..."). Give a vote count only if the meeting record states it.' },
           why_it_matters: { type: 'string', description: 'One plain sentence on why a resident might care. Empty string if routine.' },
           for_you: { type: 'string' },
           areas: { type: 'array', items: { type: 'string' } },
