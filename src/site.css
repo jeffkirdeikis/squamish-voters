@@ -2075,3 +2075,15 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .issue-hub { padding: 1rem 1.1rem; }
 .issue-hub h2 { margin-top: 0; font-size: 1.35rem; }
 .td-a2hs ul, .td-go ul { margin: .4rem 0 0; padding-left: 1.2rem; }
+/* /today/ category buttons and side by side cards on phones (Oct 28) */
+.td-grid { position: relative; }
+.td-card { scroll-margin-top: calc(var(--hdr, 64px) + 4.5rem); }
+.td-swipe { display: none; }
+@media (max-width: 759px) {
+  .td-swipe { display: block; margin: .2rem 0 0; font-size: .9rem; color: var(--muted); }
+  .td-swipe span { font-weight: 700; color: var(--ink); }
+  .td-grid { display: flex; align-items: flex-start; gap: .75rem; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; margin: .5rem -1rem 1.5rem; padding: .2rem 1rem 1rem; scroll-padding: 0 1rem; }
+  .td-grid::-webkit-scrollbar { display: none; }
+  .td-grid > .td-card { flex: 0 0 calc(100% - 2.5rem); scroll-snap-align: center; scroll-snap-stop: always; }
+  .td-card .td-hours, .td-card .td-days, .td-card [class*="scroll"] { overscroll-behavior-x: contain; }
+}

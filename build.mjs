@@ -1085,7 +1085,7 @@ const v = ctx.voting || {};
     <a class="cc-tile" href="/meetings/"><span class="cc-ico">${ICON.gavel}</span><b>What council decided</b><span>Every meeting, in plain words</span></a>
     <a class="cc-tile" href="/scorecard/"><span class="cc-ico">${ICON.check}</span><b>Scorecard</b><span>${PROMISES.length} promises we’re watching</span></a>
     <a class="cc-tile" href="/neighbourhoods/"><span class="cc-ico">${ICON.pin}</span><b>Your neighbourhood</b><span>Decisions and building near you</span></a>
-${HAVE_SAY_OPEN ? `    <a class="cc-tile cc-say" href="/have-your-say/"><span class="cc-ico">${ICON.hand}</span><b>Have your say <span class="cc-new">${HAVE_SAY_OPEN ? 'Vote now' : 'New'}</span></b><span>${HAVE_SAY_OPEN ? `${HAVE_SAY_OPEN} question${HAVE_SAY_OPEN === 1 ? '' : 's'} open: vote before council does` : 'Vote on what council votes on'}</span></a>` : `<a class="cc-tile cc-say" href="/wants/"><span class="cc-ico">${ICON.hand}</span><b>What Squamish Wants <span class="cc-new">New</span></b><span>Say yes or no to ${WANTS_N}+ local asks</span></a>`}
+${HAVE_SAY_OPEN ? `    <a class="cc-tile cc-say" href="/have-your-say/"><span class="cc-ico">${ICON.hand}</span><b>Have your say <span class="cc-new">${HAVE_SAY_OPEN ? 'Vote now' : 'New'}</span></b><span>${HAVE_SAY_OPEN ? `${HAVE_SAY_OPEN} question${HAVE_SAY_OPEN === 1 ? '' : 's'} open: vote before council does` : 'Vote on what council votes on'}</span></a>` : `<a class="cc-tile cc-say" href="/wants/"><span class="cc-ico">${ICON.hand}</span><b>What Squamish Wants <span class="cc-new">New</span></b><span>Say yes or no to what people want changed in town</span></a>`}
   </div>
   <form class="herosign cc-sign" id="signup" data-subscribe="home-hero" novalidate>
     <label for="hs-email"><b>Get a short email every Friday:</b> what council decided and what’s coming up.</label>
@@ -1733,7 +1733,7 @@ if (TRACKED.length) {
 ${wantsData({ focus, said: null })}`;
   write('/wants/', page({
     url: '/wants/', title: 'What Squamish Wants: say yes or no to local asks', image: IMG,
-    desc: `Pickleball courts, the encampment, speed humps, a bus to Vancouver: ${WANTS_N}+ specific asks. Say yes, no or don’t mind, see what Squamish said, and add your own.`,
+    desc: `Pickleball courts, the encampment, speed humps, a bus to Vancouver: specific asks from residents. Say yes, no or don’t mind, see what Squamish said, and add your own.`,
     jsonld: crumbLd([['Home', '/'], ['Your say', '/your-say/'], ['What Squamish Wants', '/wants/']]),
     body: body(null), scripts: '<script src="/botid.js" defer></script><script src="/wants.js" defer></script>',
   }));
@@ -1776,7 +1776,7 @@ ${wantsData({ focus, said: null })}`;
   ${inf.questions?.length ? `<section class="card wi-sec"><h2>Questions people ask</h2>${inf.questions.map((q) => `<details class="wi-q"><summary>${esc(q.q)}</summary><p>${esc(q.a)}${sup(inf, q.src)}</p></details>`).join('')}</section>` : ''}
   <section class="wi-answer" id="answer">
     <div class="card wa-short" data-wants="short" data-only="${esc(a.id)}"><p class="wa-kicker">Ready to decide?</p><h2>Your answer</h2><p class="small">Tap to answer, then see what Squamish said. Tap your answer again to take it back.</p><ul class="wa-rows" data-wa-rows>${wantsStatic([a])}</ul>
-    <a class="btn secondary block" href="/wants/">See all ${WANTS_N} asks</a></div>
+    <a class="btn secondary block" href="/wants/">See every ask</a></div>
   </section>
   <section class="wi-sec wi-more"><h2>More background</h2><ul>${WANTS.asks.filter((x) => x.id !== a.id && WANT_INFO[x.id]).map((x) => `<li><a href="/wants/${x.id}/info/">${esc(x.title)}</a></li>`).join('')}</ul></section>
   ${inf.sources?.length ? `<section class="wi-sec wi-srcs"><h2>Sources</h2><ol>${inf.sources.map((x, i) => `<li id="src-${i + 1}"><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a></li>`).join('')}</ol><p class="small muted">Spot something wrong or out of date? Email <a href="mailto:${SITE.contact}">${SITE.contact}</a>.</p></section>` : ''}
@@ -1795,7 +1795,7 @@ write('/your-say/', page({
   body: `<h1>Your say</h1>
   <p class="lede">Council decides. Here’s where you tell them, and everyone else, what you think.</p>
   <div class="ys-doors">
-    <a class="ys-door hi" href="/wants/"><span class="cc-ico">${ICON.hand}</span><b>What Squamish Wants <span class="cc-new">New</span></b><span>Say yes, no or don’t mind on ${WANTS_N}+ specific asks, from pickleball courts to the encampment. Add your own.</span></a>
+    <a class="ys-door hi" href="/wants/"><span class="cc-ico">${ICON.hand}</span><b>What Squamish Wants <span class="cc-new">New</span></b><span>Say yes, no or don’t mind on specific asks, from pickleball courts to the encampment. Add your own.</span></a>
     <a class="ys-door" href="/have-your-say/"><span class="cc-ico">${ICON.ballot}</span><b>Before council votes${HAVE_SAY_OPEN ? ` <span class="cc-new">${HAVE_SAY_OPEN} open</span>` : ''}</b><span>${HAVE_SAY_OPEN ? `Vote on ${HAVE_SAY_OPEN} question${HAVE_SAY_OPEN === 1 ? '' : 's'} council is about to decide.` : 'Vote on the questions council is about to decide. They open when the agenda comes out.'}</span></a>
     <a class="ys-door" href="/priorities/"><span class="cc-ico">${ICON.compare}</span><b>Readers’ top issues</b><span>The big topics readers of the Friday email care about most.</span></a>
   </div>
@@ -1809,7 +1809,10 @@ write('/your-say/', page({
 // Squamish right now: weather, Highway 99, wind at the Spit, river, air and avalanche danger. A daily reason to open
 // the site; council stays the main event. The page is a shell that src/today.js fills from api/today.js (cached 5 min).
 {
-  const card = (k, title, ico, src) => `<section class="td-card" data-td="${k}" aria-labelledby="td-${k}"><h2 id="td-${k}"><span class="td-ico" aria-hidden="true">${ico}</span>${title}</h2>
+  // Category buttons above the cards (Jeff, Oct 28): on phones the cards sit side by side and swipe left and right,
+  // and a button slides to its card; on wider screens the cards stay in a grid and a button scrolls down to it.
+  const TD_CATS = [['weather', '☁️', 'Weather'], ['highway', '🛣️', 'Highway'], ['wind', '🪁', 'Wind'], ['tide', '🌊', 'Tides'], ['rock', '🧗', 'Rock'], ['river', '🏞️', 'River'], ['air', '🌬️', 'Air'], ['avalanche', '🏔️', 'Avalanche']];
+  const card = (k, title, ico, src) => `<section class="td-card" id="t-${k}" data-td="${k}" aria-labelledby="td-${k}"><h2 id="td-${k}"><span class="td-ico" aria-hidden="true">${ico}</span>${title}</h2>
     <div class="td-body" data-body><p class="td-wait">Loading…</p></div>
     <p class="td-src">${src}</p></section>`;
   write('/today/', page({
@@ -1819,6 +1822,8 @@ write('/your-say/', page({
     body: `<div class="td">
   <header class="td-top"><h1>Squamish weather, Highway 99 and tides today</h1><p class="lede">Weather, the highway, tides, wind, the rock, the river and the air, on one page. Updated every few minutes from public sources.</p><p class="small muted" data-td-at></p></header>
   <div class="td-alerts" data-td-alerts hidden></div>
+  <nav class="chapters td-chips no-print" aria-label="Jump to a category">${TD_CATS.map(([k, ico, label], n) => `<a href="#t-${k}" data-tdc="${k}"${n ? '' : ' class="on" aria-current="true"'}><span aria-hidden="true">${ico}</span> ${label}</a>`).join('')}</nav>
+  <p class="td-swipe no-print" aria-hidden="true"><span data-td-pos>1 of ${TD_CATS.length}</span> · Swipe sideways or tap a category</p>
   <div class="td-grid">
   ${card('weather', 'Weather', '☁️', 'Now and next hours: <a href="https://weather.gc.ca/en/location/index.html?coords=49.702,-123.156" target="_blank" rel="noopener">Environment Canada</a>, Squamish Airport. 14 days: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>')}
   ${card('highway', 'Highway 99', '🛣️', 'Horseshoe Bay to Whistler. Source: <a href="https://www.drivebc.ca/" target="_blank" rel="noopener">DriveBC</a>')}

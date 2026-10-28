@@ -233,4 +233,63 @@
     if (strip) strip.hidden = true;
     if (page) page.querySelectorAll('[data-body]').forEach(fail);
   });
+
+  // Category buttons: on phones the cards scroll sideways and a button slides to its card; on wider screens the
+  // cards are a grid and a button scrolls down to it. Either way the button for the card in view lights up.
+  var grid = page && page.querySelector('.td-grid'), bar = page && page.querySelector('.td-chips');
+  if (grid && bar) {
+    var chips = [].slice.call(bar.querySelectorAll('[data-tdc]')), cards = [].slice.call(grid.querySelectorAll('[data-td]'));
+    var pos = page.querySelector('[data-td-pos]');
+    var sideways = function () { return getComputedStyle(grid).overflowX !== 'visible'; };
+    var mark = function (k) {
+      chips.forEach(function (a) {
+        var on = a.getAttribute('data-tdc') === k;
+        a.classList.toggle('on', on);
+        if (on) { a.setAttribute('aria-current', 'true'); bar.scrollTo({ left: a.offsetLeft - (bar.clientWidth - a.offsetWidth) / 2, behavior: 'smooth' }); } else a.removeAttribute('aria-current');
+      });
+      var i = cards.findIndex(function (c) { return c.getAttribute('data-td') === k; });
+      if (pos && i >= 0) pos.textContent = (i + 1) + ' of ' + cards.length;
+    };
+    var lock = 0; // after a tap, the tapped button stays lit while the page scrolls to it
+    var go = function (k, smooth) {
+      lock = Date.now() + 1200;
+      var c = grid.querySelector('[data-td="' + k + '"]'); if (!c) return;
+      var how = smooth ? 'smooth' : 'auto';
+      if (sideways()) {
+        grid.scrollTo({ left: c.offsetLeft - (grid.clientWidth - c.offsetWidth) / 2, behavior: how });
+        var top = bar.getBoundingClientRect().top;
+        if (top < 0 || top > innerHeight * 0.6) bar.scrollIntoView({ behavior: how, block: 'start' });
+      } else c.scrollIntoView({ behavior: how, block: 'start' });
+      mark(k);
+    };
+    chips.forEach(function (a) {
+      a.addEventListener('click', function (ev) {
+        ev.preventDefault();
+        var k = a.getAttribute('data-tdc');
+        go(k, true);
+        if (history.replaceState) history.replaceState(null, '', '#t-' + k);
+      });
+    });
+    // Phones: whichever card is nearest the middle after a swipe.
+    var t;
+    grid.addEventListener('scroll', function () {
+      if (!sideways()) return;
+      clearTimeout(t);
+      t = setTimeout(function () {
+        var mid = grid.scrollLeft + grid.clientWidth / 2, best = cards[0], d = Infinity;
+        cards.forEach(function (c) { var x = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (x < d) { d = x; best = c; } });
+        mark(best.getAttribute('data-td'));
+      }, 80);
+    }, { passive: true });
+    // Wider screens: whichever card is near the top of the screen.
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) {
+        if (sideways() || Date.now() < lock) return;
+        es.forEach(function (x) { if (x.isIntersecting) mark(x.target.getAttribute('data-td')); });
+      }, { rootMargin: '-30% 0px -60% 0px' });
+      cards.forEach(function (c) { io.observe(c); });
+    }
+    var h = (location.hash.match(/^#t-(\w+)$/) || [])[1];
+    if (h) setTimeout(function () { go(h, false); }, 50);
+  }
 })();
