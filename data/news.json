@@ -141,7 +141,7 @@
    "date": "2026-10-21",
    "head": "Final count: Easton wins mayor by 175 votes, and six of seven seats change hands",
    "dek": "The official count confirms Sean Easton beat Jenna Stoner 3,681 to 3,506. Eric Andersen is the only councillor returning. Sarah Ellis led the council vote with 4,499. Councillors John French, Andrew Hamilton and Chris Pettingill were not elected.",
-   "take": "Six of the seven members are new to council. What each of them promised is on our <a href=\"/promises/\">promise tracker</a>.",
+   "take": "Six of the seven members are new to council. What each of them promised is on our <a href=\"/scorecard/\">scorecard</a>.",
    "visual": {
     "type": "bars+faces",
     "rows": [
@@ -245,7 +245,7 @@
    "tier": "brief",
    "date": "2026-10-20",
    "head": "Outgoing council's final meeting reviews its strategic plan",
-   "dek": "One agenda item: a summary report on the 2023 to 2026 Strategic Plan. Compare it with recorded votes on our <a href=\"/said-vs-did/\">said versus did page</a>.",
+   "dek": "One agenda item: a summary report on the 2023 to 2026 Strategic Plan. Compare it with recorded votes on our <a href=\"/scorecard/#positions\">scorecard</a>.",
    "src": [
     "October 20 council agenda",
     "https://squamish.civicweb.net/Portal/MeetingInformation.aspx?Org=Cal&Id=2115"

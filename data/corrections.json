@@ -3,13 +3,13 @@
  "entries": [
   {
    "date": "2026-10-28",
-   "page": "/promises/",
+   "page": "/scorecard/",
    "what": "We changed how promises are judged, before council's first votes. Each member is now marked only on their own part (what they move, second or vote for), never on what council as a whole decides. Only votes confirmed by the official minutes can give a red mark. \"Broken\" is now \"Not kept\".",
    "affects": ["/council/"]
   },
   {
    "date": "2026-10-28",
-   "page": "/promises/",
+   "page": "/scorecard/",
    "what": "Six promises were reworded to match what the member actually said: Sarah Ellis (the Province's HEART and HEARTH program, not \"Hearth and Home\"; exploring pilot programs for people living in vehicles), Eric Andersen (consider spending developer parking payments on parking), Shaun Veltkamp (a community centre that meets Squamish's needs, without the funding detail he did not give), Janice DesJardins (a settlement and reset with Woodfibre LNG, without \"ends the court fights\") and Sean Easton (monitoring for possible effects from Woodfibre LNG).",
    "affects": ["/council/"]
   },

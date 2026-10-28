@@ -2069,3 +2069,6 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .ptally { font-weight: 600; }
 .corr-list { list-style: none; padding: 0; display: grid; gap: .8rem; }
 .corr { font-size: .9rem; margin: .4rem 0; padding: .4rem .6rem; border-left: 3px solid var(--warn-ink, #8a6d00); background: var(--warn-bg, #fff8e1); }
+.sc-tabs { display: flex; gap: .5rem; margin: 1rem 0; position: sticky; top: 0; z-index: 2; background: var(--bg, #fff); padding: .4rem 0; }
+.sc-tabs a { flex: 1; text-align: center; padding: .8rem 1rem; border-radius: 999px; font-weight: 800; text-decoration: none; background: var(--surface-2); color: inherit; min-height: 44px; }
+.sc-tabs a[aria-current="true"] { background: var(--ink, #111); color: var(--bg, #fff); }

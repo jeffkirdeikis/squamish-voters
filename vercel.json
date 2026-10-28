@@ -445,6 +445,31 @@
       "source": "/wants/regional-bus/",
       "destination": "/wants/regional-bus-pay/",
       "permanent": true
+    },
+    {
+      "source": "/promises/",
+      "destination": "/scorecard/",
+      "permanent": true
+    },
+    {
+      "source": "/said-vs-did/",
+      "destination": "/scorecard/?tab=positions",
+      "permanent": true
+    },
+    {
+      "source": "/track/",
+      "destination": "/issues/",
+      "permanent": true
+    },
+    {
+      "source": "/compass/",
+      "destination": "/compare/#compass",
+      "permanent": true
+    },
+    {
+      "source": "/issues/woodfibre-lng-and-climate/",
+      "destination": "/issues/woodfibre-lng/",
+      "permanent": true
     }
   ],
   "rewrites": [

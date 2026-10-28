@@ -170,7 +170,7 @@ const CLASSIC = {
 // cleared are not opposites. Left = more homeless shelters & outreach. Down = clear the camps and move the shelter.
 const SUPPORT_Q = { q5: -1, q20: -1 };
 const CAMPS_Q = { q31: -1, q18: -1 };
-// More two-line maps people can swipe through on /compass/ and the small compass cards. Each is worked out the
+// More two-line maps people can swipe through on /compare/ and the small compass cards. Each is worked out the
 // same way as the classic one: the average of a candidate's sourced scores on each list of statements.
 const neg = (qs) => Object.fromEntries(Object.entries(qs).map(([q, w]) => [q, -w]));
 const PROJECTS_Q = { q12: 1, q22: 1, q28: 1, q21: -1 };
@@ -230,7 +230,7 @@ const placed = all.filter(isPlaced), unplaced = all.filter((c) => !isPlaced(c));
 // Plain answer to the question everyone asks about the Woodfibre deal. Facts from the District's own FAQ and staff report.
 const DEAL_SRC = 'https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/wlng-agreement/';
 const DEAL_IF_NO = `<div class="ifno"><h3>The Woodfibre tax deal: what each choice means</h3>
-<p class="deal-update"><b>Update, Sept. 22:</b> council said no, 5–2 (Stoner, Hamilton and Pettingill against; Andersen and French for). A future council could still negotiate a new deal, so where candidates stand still matters. <a href="https://www.squamishreporter.com/2026/09/23/squamish-council-rejects-woodfibre-lng-tax-deal/" target="_blank" rel="noopener">Squamish Reporter</a></p>
+<p class="deal-update"><b>Update, Sept. 22:</b> council said no, 5–2 (Stoner, Hamilton and Pettingill against; Andersen and French for). The new council could still negotiate a new deal, so where each member stands still matters. <a href="https://www.squamishreporter.com/2026/09/23/squamish-council-rejects-woodfibre-lng-tax-deal/" target="_blank" rel="noopener">Squamish Reporter</a></p>
 <p>This is a question about money. It is not a vote for or against the plant, which is already being built, and candidates who support the plant are on both sides of it.</p>
 <div class="grid cols-2">
 <div><h4>If council says yes</h4><ul>
@@ -286,24 +286,24 @@ const SIDES = {
 // The same labels for every page that shows them: { key: { t: title, i: icon, q: question, o: [[value, side], [value, side]] } }
 const SIDE_LABELS = Object.fromEntries(SIGNUP_ISSUES.filter((i) => SIDES[i.key]).map((i) => [i.key, { t: i.title, i: i.icon, q: SIDES[i.key][0], o: [SIDES[i.key][1], SIDES[i.key][2]] }]));
 // Each topic's own page at /issues/<slug>/, named the way people search for it.
-const TOPIC_SLUG = { growth: 'growth-and-development', housing_affordability: 'housing', homelessness: 'homelessness', policing: 'policing-and-safety', taxes_spending: 'property-taxes', climate: 'climate-and-environment', environment_lng: 'woodfibre-lng-and-climate', transportation: 'transit-and-highway-99', parking: 'parking', economy: 'jobs-and-economy', recreation_facilities: 'brennan-park-and-recreation', flood_hazards_climate_resilience: 'flood-protection', other_campaign_topics: 'childcare-rentals-and-vanlife' };
+const TOPIC_SLUG = { growth: 'growth-and-development', housing_affordability: 'housing', homelessness: 'homelessness', policing: 'policing-and-safety', taxes_spending: 'property-taxes', climate: 'climate-and-environment', environment_lng: 'woodfibre-lng', transportation: 'transit-and-highway-99', parking: 'parking', economy: 'jobs-and-economy', recreation_facilities: 'brennan-park-and-recreation', flood_hazards_climate_resilience: 'flood-protection', other_campaign_topics: 'childcare-rentals-and-vanlife' };
 const TOPIC_NAME = { growth: 'growth and development', housing_affordability: 'housing', homelessness: 'homelessness and supportive housing', policing: 'policing and community safety', taxes_spending: 'property taxes and spending', climate: 'climate and the environment', environment_lng: 'the Woodfibre LNG plant', transportation: 'transit and Highway 99', parking: 'parking', economy: 'jobs and the local economy', recreation_facilities: 'Brennan Park and recreation', flood_hazards_climate_resilience: 'flood protection', other_campaign_topics: 'childcare, short-term rentals and vanlife' };
 const issueCtx = (key) => (ctx.issues || []).find((i) => i.key === key) || {};
 
 // ---------- layout ----------
 // Desktop top bar (layout A, Oct 26): four jobs. Council and Your say open a dropdown; each also has its own hub page.
 const NAV_GROUPS = [
-  { href: '/council/', label: 'Council', items: [['/council/', 'Your mayor and council'], ['/meetings/', 'Council meetings'], ['/this-week/', 'This week at council'], ['/promises/', 'Promise tracker'], ['/said-vs-did/', 'Said vs did'], ['/quiz/', 'Who on council thinks like you?'], ['/compare/', 'Compare them, issue by issue'], ['/compass/', 'Where they lean']] },
+  { href: '/council/', label: 'Council', items: [['/council/', 'Your mayor and council'], ['/meetings/', 'Council meetings'], ['/this-week/', 'This week at council'], ['/scorecard/', 'Scorecard: promises and positions']] },
   { href: '/your-say/', label: 'Your say', items: [['/wants/', 'What Squamish Wants'], ['/have-your-say/', 'Before council votes'], ['/priorities/', 'Readers’ top issues']] },
   { href: '/meetings/', label: 'Meetings' },
   { href: '/neighbourhoods/', label: 'Neighbourhoods' },
-  { href: '/track/', label: 'Issues', items: [['/track/', 'Issues we’re following'], ['/issues/', 'The issues explained']] },
+  { href: '/issues/', label: 'Issues' },
   { href: '/news/', label: 'News' },
   { href: '/today/', label: 'Today' },
 ];
-const NAV = [['/council/', 'Council'], ['/your-say/', 'Your say'], ['/wants/', 'What Squamish Wants'], ['/meetings/', 'Meetings'], ['/promises/', 'Promises'], ['/said-vs-did/', 'Said vs did'], ['/quiz/', 'Quiz'], ['/compare/', 'Compare'], ['/news/', 'News']];
+const NAV = [['/council/', 'Council'], ['/your-say/', 'Your say'], ['/wants/', 'What Squamish Wants'], ['/meetings/', 'Meetings'], ['/scorecard/', 'Scorecard'], ['/issues/', 'Issues'], ['/news/', 'News']];
 // The Menu lists everything; the top bar only has room for the essentials.
-const MENU = [...NAV, ['/have-your-say/', 'Before council votes'], ['/this-week/', 'This week at council'], ['/track/', 'Issues we’re following'], ['/compass/', 'Where they lean'], ['/issues/', 'The issues explained'], ['/priorities/', 'Readers’ top issues'], ['/neighbourhoods/', 'Your neighbourhood'], ['/today/', 'Squamish today'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
+const MENU = [...NAV, ['/have-your-say/', 'Before council votes'], ['/this-week/', 'This week at council'], ['/priorities/', 'Readers’ top issues'], ['/neighbourhoods/', 'Your neighbourhood'], ['/today/', 'Squamish today'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
 const ICON = {
   sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>',
   gavel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4l6 6M11 7l6 6M12.5 5.5l-6 6 3 3 6-6M8 13l-5 5 3 3 5-5M4 21h9"/></svg>',
@@ -325,7 +325,7 @@ const ICON = {
 // Each tab lights up for every page in its group (Meetings, Promises and the rest sit under Council).
 const TABS = [['/', 'Home', 'home'], ['/council/', 'Council', 'people'], ['/your-say/', 'Your say', 'hand'], ['/news/', 'News', 'news'], ['#menu', 'More', 'more']];
 const TAB_GROUP = {
-  '/council/': ['/council/', '/meetings/', '/this-week/', '/promises/', '/said-vs-did/', '/quiz/', '/compare/', '/compass/', '/results/'],
+  '/council/': ['/council/', '/meetings/', '/this-week/', '/scorecard/', '/quiz/', '/compare/', '/results/'],
   '/your-say/': ['/your-say/', '/wants/', '/have-your-say/', '/priorities/', '/welcome/'],
   '/news/': ['/news/'],
 };
@@ -337,8 +337,7 @@ const MENU_ICON = {
 };
 const MOBILE_MENU = [
   ['/', 'Home', 'home'], ['/wants/', 'What Squamish Wants: say yes or no to local asks', 'hand'], ['/your-say/', 'Your say: everywhere you can weigh in', 'ballot'], ['/council/', 'Your mayor and council', 'people'], ['/neighbourhoods/', 'Your neighbourhood: decisions, building projects, news', 'compass'], ['/have-your-say/', 'Before council votes: vote on what council votes on', 'ballot'], ['/meetings/', 'Council meetings: what’s next and what they decided', 'meet'],
-  ['/this-week/', 'This week at council', 'meet'], ['/track/', 'Issues we’re following', 'issues'], ['/promises/', 'Promise tracker', 'promise'], ['/said-vs-did/', 'Do they vote the way they said?', 'compare'], ['/quiz/', 'Who on council thinks like you?', 'quiz'], ['/compare/', 'Compare them, issue by issue', 'compare'],
-  ['/compass/', 'Where they lean', 'compass'], ['/issues/', 'The issues explained', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/news/', 'Squamish news', 'news'], ['/today/', 'Squamish today: weather, highway, wind, river', 'sun'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
+  ['/this-week/', 'This week at council', 'meet'], ['/scorecard/', 'Scorecard: their promises and how they vote', 'promise'], ['/issues/', 'Issues: each topic, what’s happening and who stands where', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/news/', 'Squamish news', 'news'], ['/today/', 'Squamish today: weather, highway, wind, river', 'sun'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
   ['/about/', 'About this site &amp; sources', 'about'],
 ];
 
@@ -520,7 +519,7 @@ function promiseRow(p, { who = false } = {}) {
     <p class="small"><b>Did it happen?</b> ${outcomes.length ? esc(outcomes[outcomes.length - 1].outcome) : `Not yet. We’re watching ${esc((p.did_it_happen || '').replace(/^./, (x) => x.toLowerCase()))}`} <span class="muted">This is a plain fact, never a mark against ${f}: council decides as a group.</span></p>
     <p class="small"><b>Who decides:</b> ${esc(p.who_decides || 'Council')}</p>${p.note ? `<p class="small muted">${esc(p.note)}</p>` : ''}
     ${ev.length ? `<p class="small"><b>What has happened so far:</b></p><ul class="small">${ev.map((e) => { const m = MEETINGS.find((x) => x.id === e.meeting); return `<li>${m ? `<a href="${mUrl(m)}">${esc(fmtLong(m.date))}</a>: ` : ''}${esc(e.note)}${(() => { const d = m && Number.isInteger(e.decision) ? (m.decisions || [])[e.decision] : null; return d && !confirmedByMinutes(d) ? ' <span class="muted">(from the meeting video; waiting for the official minutes)</span>' : ''; })()}</li>`; }).join('')}</ul>` : '<p class="small muted">Council hasn’t voted on anything that tests this yet.</p>'}
-    ${p.updated ? `<p class="small muted">Marked automatically by an AI model on ${esc(fmtLong(p.updated))} from council votes. <a href="/promises/#how">How we judge promises</a>.</p>` : ''}
+    ${p.updated ? `<p class="small muted">Marked automatically by an AI model on ${esc(fmtLong(p.updated))} from council votes. <a href="/scorecard/#how">How we judge promises</a>.</p>` : ''}
   </div></details>`;
 }
 function voteChips(d) {
@@ -865,7 +864,7 @@ for (const c of all) {
     ${directAnswers(c)}
     ${memberFaq(c).html}
     <details class="drop"><summary>About ${esc(first(c))}</summary><p>${escGl(c.occupation_background)}</p></details>
-    <details class="drop"><summary>Where ${esc(first(c))} leans on money, growth and LNG</summary>${Object.keys(AXES).map((k) => miniSlider(c, k)).join('')}<p class="small">Worked out from ${esc(first(c))}’s public statements and votes — not a label they chose. <a href="/compass/">See everyone side by side</a>.</p></details>
+    <details class="drop"><summary>Where ${esc(first(c))} leans on money, growth and LNG</summary>${Object.keys(AXES).map((k) => miniSlider(c, k)).join('')}<p class="small">Worked out from ${esc(first(c))}’s public statements and votes, not a label they chose. <a href="/compare/#compass">See everyone side by side</a> · <a href="/quiz/">Who on council thinks like you? Take the quiz</a>.</p></details>
     <details class="drop"><summary>Sources we used (${(c.sources || []).filter((s) => isUrl(s.url)).length})</summary><ul class="small">${(c.sources || []).filter((s) => isUrl(s.url)).map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title || s.url)}</a></li>`).join('')}</ul></details>
     ${links ? `<div class="mobile-links"><h2>Hear it from ${esc(first(c))} directly</h2><ul class="linklist">${links}</ul></div>` : ''}
     <p class="small claim">Are you ${esc(c.name)}, or did you spot a mistake? Email <a href="mailto:${SITE.contact}?subject=${encodeURIComponent('Update for ' + c.name)}">${SITE.contact}</a> to update or add to this page. <a href="/about/#corrections">How corrections work</a>.</p>
@@ -931,17 +930,17 @@ function spectrum(q) {
   ${nearlyEmpty ? `<p class="asknote">No candidate has addressed this publicly yet. We have put the question to all ${all.length} of them — answers will appear here as they come in.</p>` : ''}
   <div class="bins">
   ${BINS.map(([val, cls, label]) => { const inBin = all.filter((c) => c.quiz_answers?.[q.id] === val); return inBin.length ? `<div class="bin ${cls}"><span class="lab">${label}</span><ul class="namechips">${inBin.map(nameChip).join('')}</ul></div>` : ''; }).join('')}
-  ${unknown.length ? `<details class="bin-un"><summary>${unknown.length} ${unknown.length === 1 ? 'candidate hasn’t' : 'candidates haven’t'} said — show names</summary><ul class="namechips">${unknown.map(nameChip).join('')}</ul></details>` : ''}
-  </div>${said.length ? `<details class="said" data-q="${q.id}"><summary>${moreBtn(`Click to expand — read what ${said.length === 1 ? esc(said[0].name) : said.length + ' candidates'} wrote about this`)}</summary><ul class="qa">${said.map((c) => `<li><a href="/council/${c.slug}/#explained"><b>${esc(c.name)}</b></a>${c.office === 'mayor' ? ' <span class="small">(for mayor)</span>' : ''} <span class="ans">${ansWord(c, q)}</span><p>“${esc(wrote(c, q))}”</p></li>`).join('')}</ul><p class="small">Comments candidates added when answering our questionnaire, unedited.</p></details>` : ''}</div>`;
+  ${unknown.length ? `<details class="bin-un"><summary>${unknown.length} ${unknown.length === 1 ? 'member hasn’t' : 'members haven’t'} said — show names</summary><ul class="namechips">${unknown.map(nameChip).join('')}</ul></details>` : ''}
+  </div>${said.length ? `<details class="said" data-q="${q.id}"><summary>${moreBtn(`Tap to read what ${said.length === 1 ? esc(said[0].name) : said.length + ' members'} wrote about this`)}</summary><ul class="qa">${said.map((c) => `<li><a href="/council/${c.slug}/#explained"><b>${esc(c.name)}</b></a>${c.office === 'mayor' ? ' <span class="small">(mayor)</span>' : ''} <span class="ans">${ansWord(c, q)}</span><p>“${esc(wrote(c, q))}”</p></li>`).join('')}</ul><p class="small">Comments they added when answering our questionnaire during the campaign, unedited.</p></details>` : ''}</div>`;
 }
 const issueSection = (i) => {
   const ic = issueCtx(i.key);
   return `<section id="${i.key}" data-panel data-group="cmp" hidden><h2><span aria-hidden="true">${i.icon}</span> ${i.title}</h2>
-  ${ic.short_explainer ? `<p>${esc(ic.short_explainer)} <a href="/issues/${TOPIC_SLUG[i.key]}/">More background and every candidate’s answer</a></p>` : ''}
+  ${ic.short_explainer ? `<p>${esc(ic.short_explainer)} <a href="/issues/${TOPIC_SLUG[i.key]}/">More background and every member’s answer</a></p>` : ''}
   ${(i.allq ? ALL_QUESTIONS : QUESTIONS).filter((q) => q.issue === i.key).map((q) => spectrum(q) + (q.id === 'q23' ? `<details class="drop ifno-d"><summary>What happens if council says yes — or no?</summary>${DEAL_IF_NO.replace('<h3>The Woodfibre tax deal: what each choice means</h3>', '')}</details>` : '')).join('')}
   <details><summary>Read each candidate’s position on ${i.title.toLowerCase()}</summary>
   <div class="table-scroll"><table class="issue-table"><thead><tr><th>Candidate</th><th>Position</th></tr></thead><tbody>
-  ${all.map((c) => { const s = c.stances?.[i.key] || {}; const none = !s.position || /no public position/i.test(s.position); return `<tr><td><a href="/council/${c.slug}/">${esc(c.name)}</a>${c.office === 'mayor' ? '<br><span class="small">for mayor</span>' : ''}</td><td>${none ? '<span class="muted">No public position found.</span>' : `<span class="pos">${esc(s.position)}</span>${esc(s.summary)}${src(s.source_url)}`}</td></tr>`; }).join('')}
+  ${all.map((c) => { const s = c.stances?.[i.key] || {}; const none = !s.position || /no public position/i.test(s.position); return `<tr><td><a href="/council/${c.slug}/">${esc(c.name)}</a>${c.office === 'mayor' ? '<br><span class="small">mayor</span>' : ''}</td><td>${none ? '<span class="muted">No public position found.</span>' : `<span class="pos">${esc(s.position)}</span>${esc(s.summary)}${src(s.source_url)}`}</td></tr>`; }).join('')}
   </tbody></table></div></details></section>`;
 };
 const cell = (val) => { const b = typeof val === 'number' ? binOf(val) : null; return b ? `<span class="cell ${b[1]}" title="${b[2]}"><span aria-hidden="true">${b[3]}</span><span class="sr" style="position:absolute;left:-999em">${b[2]}</span></span>` : '<span class="cell un" title="No public position found">?</span>'; };
@@ -963,15 +962,6 @@ const COMPARE_BLOCK = `<div class="cmp-wrap"><div class="picker no-print" data-p
   </tbody></table></div>
   <ol class="small" style="margin-top:1rem">${QUESTIONS.map((q) => `<li><b>${esc(q.short)}:</b> “${esc(q.text)}”</li>`).join('')}</ol></section>
   <nav class="panel-nav no-print" data-panel-nav="cmp" aria-label="Move between topics"></nav></div>`;
-write('/compare/', page({
-  url: '/compare/', jsonld: crumbLd([['Home', '/'], ['Compare them', '/compare/']]), title: 'Compare the Squamish candidates on every issue',
-  desc: 'See where every Squamish mayor and council candidate stands on housing, growth, taxes, Woodfibre LNG and more, side by side, issue by issue.',
-  body: `<h1>Compare the candidates</h1>
-  <p class="lede">Pick an issue to see where everyone stands, side by side. Candidates for mayor are marked in yellow.</p>
-  ${COMPARE_BLOCK}
-  ${miniCompass({ heading: 'The same candidates on one map' })}
-  <a class="card" href="/issues/" style="display:block;margin-top:1.5rem"><h3>The issues explained</h3><p>Plain-language background on what this election is actually about.</p></a>`,
-}));
 
 // ---------- 2026 RESULTS (results page, and the top of home once the District posts numbers) ----------
 const R26 = RES['2026'], RES_LIVE = R26.status !== 'pending' && (R26.mayor || []).length > 0;
@@ -1093,7 +1083,7 @@ const v = ctx.voting || {};
   </div>
   <div class="cc-tiles">
     <a class="cc-tile" href="/meetings/"><span class="cc-ico">${ICON.gavel}</span><b>What council decided</b><span>Every meeting, in plain words</span></a>
-    <a class="cc-tile" href="/promises/"><span class="cc-ico">${ICON.check}</span><b>Promise tracker</b><span>${PROMISES.length} promises we’re watching</span></a>
+    <a class="cc-tile" href="/scorecard/"><span class="cc-ico">${ICON.check}</span><b>Scorecard</b><span>${PROMISES.length} promises we’re watching</span></a>
     <a class="cc-tile" href="/neighbourhoods/"><span class="cc-ico">${ICON.pin}</span><b>Your neighbourhood</b><span>Decisions and building near you</span></a>
 ${HAVE_SAY_OPEN ? `    <a class="cc-tile cc-say" href="/have-your-say/"><span class="cc-ico">${ICON.hand}</span><b>Have your say <span class="cc-new">${HAVE_SAY_OPEN ? 'Vote now' : 'New'}</span></b><span>${HAVE_SAY_OPEN ? `${HAVE_SAY_OPEN} question${HAVE_SAY_OPEN === 1 ? '' : 's'} open: vote before council does` : 'Vote on what council votes on'}</span></a>` : `<a class="cc-tile cc-say" href="/wants/"><span class="cc-ico">${ICON.hand}</span><b>What Squamish Wants <span class="cc-new">New</span></b><span>Say yes or no to ${WANTS_N}+ local asks</span></a>`}
   </div>
@@ -1148,9 +1138,9 @@ ${HAVE_SAY_OPEN ? `    <a class="cc-tile cc-say" href="/have-your-say/"><span cl
   <section class="card"><h2>Promise tracker</h2>
   <p>We wrote down <b>${PROMISES.length} promises</b> and <b>${all.reduce((a, c) => a + positionsOf(c).length, 0)} positions</b> the mayor and councillors took during the campaign. Every council vote is checked against them.</p>
   ${ANY_VOTES ? `<div class="pstats">${Object.entries(PSTATUS).map(([k, P]) => `<span class="pstatus ${P.cls}"><span aria-hidden="true">${P.icon}</span> ${allP[k]} ${esc(P.label.toLowerCase())}</span>`).join('')}</div>` : `<p class="small">Nothing to judge until the first votes${FIRST_VOTES ? ` on ${esc(fmtLong(FIRST_VOTES))}` : ''}.</p>`}
-  <div class="btn-row"><a class="btn secondary" href="/promises/">See every promise →</a><a class="btn secondary" href="/said-vs-did/">Do they vote the way they said? →</a></div></section>
+  <div class="btn-row"><a class="btn secondary" href="/scorecard/">See every promise →</a><a class="btn secondary" href="/scorecard/#positions">Do they vote the way they said? →</a></div></section>
 
-  ${TRACKED.length ? `<section class="card"><h2>Issues we’re following</h2><p class="small">The big questions that keep coming back to council. Tap one to see where it stands.</p><ul class="mlist">${TRACKED.slice(0, 5).map(issueRow).join('')}</ul><p><a href="/track/">All ${TRACKED.length} issues →</a></p></section>` : ''}
+  ${TRACKED.length ? `<section class="card"><h2>Issues we’re following</h2><p class="small">The big questions that keep coming back to council. Tap one to see where it stands.</p><ul class="mlist">${TRACKED.slice(0, 5).map(issueRow).join('')}</ul><p><a href="/issues/">All the issues →</a></p></section>` : ''}
   <div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg><div>
     <h2>You can check our work</h2>
     <p>No endorsements. Every summary links to the official video, agenda and minutes, and every promise links to where it was said. The code is public.</p>
@@ -1172,7 +1162,8 @@ write('/council/', page({
   <ul class="cand-list" id="council-grid">${council.map(candCard).join('')}</ul>
   <h2 id="compare">Compare them, issue by issue</h2>
   <p>What each of them said during the campaign, side by side. The mayor is marked in yellow.</p>
-  ${COMPARE_BLOCK}`,
+  ${COMPARE_BLOCK}
+  <div class="btn-row no-print"><a class="btn secondary" href="/compare/#compass">Who agrees with whom: the map</a><a class="btn secondary" href="/quiz/">Who on council thinks like you? Take the quiz</a><a class="btn secondary" href="/scorecard/">Scorecard</a></div>`,
 }));
 
 // ---------- COMPASS ----------
@@ -1269,9 +1260,9 @@ function compassSvg({ mini = false, tap = !mini, map: mk = 'classic' } = {}) {
 function compassLegend(mini, mk = 'classic') { return `<div class="legend${mini ? ' mini' : ''}"><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="#eb6834"/></svg>Mayor</span><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="#2a78d6"/></svg>Council</span><span><svg width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="7.5" fill="#fff" stroke="#2a78d6" stroke-width="3.5"/></svg>${mini ? 'Hollow = thin evidence' : 'Hollow = only one statement on one of the two lines'}</span></div>`; }
 function miniCaveat(mk = 'classic') {
   const n = placedOn(mk).length;
-  if (mk === 'classic') return `Only ${n} of ${all.length} candidates have said where they stand on enforcement — council has never voted on encampments, policing or public drug use.`;
-  if (mk === 'cars') return `Only ${n} of ${all.length} candidates have enough on the record to place. Most of the parking and bike-lane statements aren’t in the quiz, so ★ You rests on fewer of your answers here.`;
-  return `Only ${n} of ${all.length} candidates have enough on the record to place.`;
+  if (mk === 'classic') return `Only ${n} of ${all.length} council members have said where they stand on enforcement. Council has never voted on encampments, policing or public drug use.`;
+  if (mk === 'cars') return `Only ${n} of ${all.length} council members have enough on the record to place. Most of the parking and bike-lane statements aren’t in the quiz, so ★ You rests on fewer of your answers here.`;
+  return `Only ${n} of ${all.length} council members have enough on the record to place.`;
 }
 // ‹ 1 of 3 › header shared by the compass carousels (site.js [data-carousel] does the stepping).
 function carHead(label, what) { return  `<div class="lt-head"><span class="lt-kicker">${label} <span class="lt-count" data-car-count></span></span><span class="lt-arrows no-print"><button type="button" class="picker-step" data-car-prev aria-label="Previous ${what}">‹</button><button type="button" class="picker-step" data-car-next aria-label="Next ${what}">›</button></span></div>`; }
@@ -1279,14 +1270,14 @@ function miniCompass({ heading = 'The Squamish compass', you = true, maps = Obje
   const slide = (mk, n) => `<div${maps.length > 1 ? ` data-slide${n ? ' hidden' : ''}` : ''}>
   ${maps.length > 1 ? `<p class="mc-t">${esc(CMAPS[mk].title)}</p>` : ''}<p class="mc-q">${esc(CMAPS[mk].ask)}</p>
   ${compassLegend(true, mk)}
-  <a class="mc-chart" href="/compass/${mk === 'classic' ? '' : '?map=' + mk}#map" aria-label="Open the full compass">${compassSvg({ mini: true, map: mk })}</a>
-  <p class="small mc-note">${miniCaveat(mk)} <a href="/compass/#how">How it’s worked out</a>.</p></div>`;
+  <a class="mc-chart" href="/compare/${mk === 'classic' ? '' : '?map=' + mk}#map" aria-label="Open the full compass">${compassSvg({ mini: true, map: mk })}</a>
+  <p class="small mc-note">${miniCaveat(mk)} <a href="/compare/#how">How it’s worked out</a>.</p></div>`;
   return `<section class="mini-compass"${maps.length > 1 ? ` data-carousel data-track="Compass step" aria-roledescription="carousel" aria-label="${esc(heading)}"` : ''}>
   ${maps.length > 1 ? carHead(`🧭 ${heading}`, 'compass') : `<span class="lt-kicker">🧭 ${heading}</span>`}
   ${maps.map(slide).join('')}
   ${maps.length > 1 ? `<p class="small lt-hint no-print">Use the arrows to see ${maps.length - 1} more ways of mapping the same candidates.</p>` : ''}
   ${you ? `<p class="mc-you" data-you="none"><a class="btn secondary" href="/quiz/">★ Take the quiz to see where you land</a></p><p class="small mc-you" data-you="has" hidden><b>★ You</b> is where your quiz answers put you. It’s worked out on your device and never sent anywhere.</p>` : ''}
-  <a class="lt-go" href="/compass/">Open the full compass →</a>
+  <a class="lt-go" href="/compare/#compass">Open the full map →</a>
 </section>`;
 }
 // One ranked list per theme: a row per candidate, grouped under plain-word headings, each with a dot on a short line.
@@ -1332,8 +1323,8 @@ function spectrumTeaser(key) {
 const cmapWords = (c, mk) => { const M = CMAPS[mk], p = cmapPos(c, mk); if (!p) return []; const w = (v, lo, hi) => (Math.abs(v) < 0.34 ? 'in the middle' : `${Math.abs(v) >= 1.2 ? 'clearly' : 'leans'} ${v < 0 ? lo : hi}`);
   return [`${M.xt}: ${w(p.x.v, ...M.xw)} (${p.x.n} statement${p.x.n > 1 ? 's' : ''})`, `${M.yt}: ${w(p.y.v, ...M.yw)} (${p.y.n} statement${p.y.n > 1 ? 's' : ''})`]; };
 const compassDetailAxes = (c) => Object.keys(AXES).map((k) => { const s = axisScore(c, k); return `${AXES[k].title}: ${axisWords(k, s)}${s ? ` (${s.n} statement${s.n > 1 ? 's' : ''})` : ''}`; });
-write('/compass/', page({
-  url: '/compass/', jsonld: crumbLd([['Home', '/'], ['Where they lean', '/compass/']]), title: 'Where they lean',
+// The compass now lives on /compare/ (review item 10; /compass/ redirects to /compare/#compass).
+const COMPASS_PAGE = ({
   desc: 'Where Squamish mayor and council candidates sit on taxes and spending, growth, and Woodfibre LNG and climate — worked out from their public statements and votes.',
   body: `<h1>Where they lean</h1>
   <p class="lede">Everyone on a map first — swipe for ${Object.keys(CMAPS).length} different maps — then the five big questions, one at a time. Placed from their 2026 campaign answers.</p>
@@ -1356,7 +1347,7 @@ write('/compass/', page({
   </div>`; }).join('')}
   <p class="small lt-hint no-print">Use the arrows (or swipe) to see the same candidates mapped ${Object.keys(CMAPS).length} different ways.</p>
   </div>
-  <p class="small"><b>Diamonds</b> (once council has voted at least 3 times on each line): where a member’s <b>votes</b> put them, joined by a dotted line to where their campaign answers put them. <a href="/said-vs-did/">Said vs did, statement by statement</a>.</p>
+  <p class="small"><b>Diamonds</b> (once council has voted at least 3 times on each line): where a member’s <b>votes</b> put them, joined by a dotted line to where their campaign answers put them. <a href="/scorecard/#positions">Do they vote the way they said? Statement by statement</a>.</p>
   <div class="card compass-detail" id="cdetail" aria-live="polite" style="margin-top:1rem"><p class="muted" style="margin:0">Tap any dot above to see the details here.</p></div>
   <div data-cmap-note="classic">
   <p class="small"><b>Left–right</b> is support: more shelter and supportive-housing spaces, and mental-health crisis teams (left), or fewer homeless shelters (right). <b>Up–down</b> is the camps: clear tent encampments and move Under One Roof out of downtown (down), or let the camps stay (up). These aren’t opposites — someone can want more shelter <em>and</em> the camps cleared (bottom-left). Tap a dot for details.</p>
@@ -1371,27 +1362,37 @@ write('/compass/', page({
 
   <details class="drop"><summary>Everything above as a plain table</summary>
   <div class="table-scroll"><table class="issue-table"><thead><tr><th>Candidate</th>${Object.values(AXES).map((A) => `<th>${A.title}</th>`).join('')}</tr></thead><tbody>
-  ${all.map((c) => `<tr><td><a href="/council/${c.slug}/">${esc(c.name)}</a>${c.office === 'mayor' ? '<br><span class="small">for mayor</span>' : ''}</td>${Object.keys(AXES).map((k) => { const s = axisScore(c, k); return `<td data-label="${AXES[k].title}">${s ? esc(axisWords(k, s)) : '<span class="muted">no public record</span>'}</td>`; }).join('')}</tr>`).join('')}
+  ${all.map((c) => `<tr><td><a href="/council/${c.slug}/">${esc(c.name)}</a>${c.office === 'mayor' ? '<br><span class="small">mayor</span>' : ''}</td>${Object.keys(AXES).map((k) => { const s = axisScore(c, k); return `<td data-label="${AXES[k].title}">${s ? esc(axisWords(k, s)) : '<span class="muted">no public record</span>'}</td>`; }).join('')}</tr>`).join('')}
   </tbody></table></div></details>
   <details class="drop" id="how"><summary>How the compasses are worked out</summary><p>Nobody here runs for a party, so nobody chose these labels. Each dot is <b>calculated</b> from the same sourced answers used in the quiz. <b>Homelessness:</b> left–right averages the support statements (more shelter and supportive housing, even near homes; mental-health crisis teams alongside the RCMP). Up–down averages two statements (clear encampments even when there is nowhere else to go; move Under One Roof out of downtown), with agreeing pushing the dot down.</p><p><b>How should we grow — and pay for it?</b> Left–right is the same growth line as the Growth list below (slow the pace of approvals; taller buildings downtown; cut red tape for builders). Up–down averages the statements about taxes, borrowing and public spending (housing, shelters, transit, recreation, bike lanes, childcare).</p><p><b>Cars or bikes?</b> Left–right is the growth line. Up–down averages the parking and transport statements: more public parking downtown, parking required in new buildings and free parking for residents (up), against paid parking being fair, and spending local money on bike lanes, sidewalks and regional transit (down).</p><p>A dot is hollow when either line rests on a single statement.</p></details>
   <details class="drop" hidden><summary>Why not “left vs. right”?</summary><p>Those labels come from national politics. Town councils don’t vote on civil liberties, candidates here don’t run for parties, and almost none of them have said anything about policing. Rather than guess, every position on this page is <b>calculated from the candidate’s sourced answers</b> to the same statements used in <a href="/quiz/">the quiz</a>. Anyone who hasn’t spoken publicly on a topic is left off that list, not parked in the middle.</p></details>`,
   scripts: `<script>var CD=${JSON.stringify(Object.fromEntries(Object.keys(CMAPS).map((mk) => [mk, Object.fromEntries(placedOn(mk).map((c) => [c.slug, { n: c.name, d: cmapWords(c, mk) }]))])))};
 var AX=${JSON.stringify(Object.fromEntries(Object.entries(AXES).map(([k, A]) => [k, A.q])))};
 </script><script src="/lean.js"></script>`,
+});
+write('/compare/', page({
+  url: '/compare/', jsonld: crumbLd([['Home', '/'], ['Compare them', '/compare/']]), title: 'Compare the Squamish mayor and council on every issue',
+  desc: 'See where Squamish’s mayor and six councillors stand on housing, growth, taxes, Woodfibre LNG and more, side by side, issue by issue, and on one map.',
+  body: `<h1>Compare the mayor and council, issue by issue</h1>
+  <p class="lede">Pick an issue to see where everyone stands, side by side. The mayor is marked in yellow.</p>
+  ${COMPARE_BLOCK}
+  <h2 id="compass">Who agrees with whom: the map</h2>
+  ${COMPASS_PAGE.body.replace(/^<h1>[^<]*<\/h1>\s*/, '')}
+  <a class="card" href="/issues/" style="display:block;margin-top:1.5rem"><h3>The issues</h3><p>Plain language background on each topic, what council is doing about it, and where each member stands.</p></a>`,
+  scripts: COMPASS_PAGE.scripts,
 }));
 
 // ---------- ISSUES ----------
+// One Issues section (review item 10): /issues/ lists every topic, each topic page is the hub for it, with the
+// issues we follow on that topic (/track/<slug>/) and where each member stands. /track/ redirects here.
 write('/issues/', page({
-  url: '/issues/', jsonld: crumbLd([['Home', '/'], ['The issues', '/issues/']]), title: 'Squamish election issues, explained',
-  desc: 'The big questions in the 2026 Squamish election — housing, growth, taxes, Woodfibre LNG, homelessness, policing, parking — explained in plain language with sources.',
-  body: `<h1>The issues, explained</h1>
-  <p class="lede">A plain-language primer on what this election is about. Tap any topic to open it.</p>
-  ${(ctx.issues || []).map((i) => { const paras = i.explainer.split(/(?<=[.!?])\s+/); const mid = Math.ceil(paras.length / 2); return `<details class="issue-card" id="${i.key}"><summary><span><b>${esc(i.title)}</b><span class="teaser">${esc(i.teaser)}</span></span></summary>
-    <p>${esc(paras.slice(0, mid).join(' '))}</p><p>${esc(paras.slice(mid).join(' '))}</p>
-    ${i.key === 'environment_lng' || i.key === 'taxes_spending' ? DEAL_IF_NO : ''}
-    ${(i.key_facts || []).length ? `<h3>Key facts</h3><ul class="facts">${i.key_facts.map((f) => `<li>${esc(f.fact)}${src(f.source_url)}</li>`).join('')}</ul>` : ''}
-    <div class="btn-row"><a class="btn secondary" href="/issues/${TOPIC_SLUG[i.key]}/">See where every candidate stands →</a></div></details>`; }).join('')}`,
-  scripts: `<script>function openHash(){var el=location.hash&&document.getElementById(location.hash.slice(1));if(el&&el.tagName==='DETAILS'){el.open=true;el.scrollIntoView()}}window.addEventListener('hashchange',openHash);openHash()</script>`,
+  url: '/issues/', jsonld: crumbLd([['Home', '/'], ['The issues', '/issues/']]), title: 'Squamish council issues, explained',
+  desc: 'Housing, growth, taxes, Woodfibre LNG, homelessness, policing, parking and more: what Squamish council is doing on each one, the background in plain words, and where each member stands.',
+  body: `<h1>The issues</h1>
+  <p class="lede">Each topic in plain words: what council is doing about it now, the background, and where each member stands. Tap a topic to open it.</p>
+  <ul class="plainlist stack">${(ctx.issues || []).filter((i) => TOPIC_SLUG[i.key]).map((i) => { const ts = TRACKED.filter((t) => t.topic === i.key); return `<li class="card" id="${i.key}"><h2><a href="/issues/${TOPIC_SLUG[i.key]}/">${esc(i.title)}</a></h2><p>${esc(i.teaser)}</p>
+    ${ts.length ? `<p class="small"><b>What we’re following:</b></p><ul class="mlist">${ts.map(issueRow).join('')}</ul>` : ''}</li>`; }).join('')}
+  <li class="card"><h2><a href="/issues/woodfibre-tax-deal/">The Woodfibre LNG tax deal</a></h2><p>Council said no to a 10 year tax agreement in September 2026. What it would have meant, and where each member stands.</p></li></ul>`,
 }));
 
 // ---------- QUIZ ----------
@@ -1406,12 +1407,12 @@ const clientData = {
 fs.mkdirSync(DIST, { recursive: true });
 fs.writeFileSync(path.join(DIST, 'data.js'), 'window.SV_DATA=' + JSON.stringify(clientData) + ';');
 write('/quiz/', page({
-  url: '/quiz/', jsonld: crumbLd([['Home', '/'], ['Quiz', '/quiz/']]), title: 'Squamish election quiz: who should I vote for?',
-  desc: `Answer ${QUESTIONS.length} plain-language questions and see which Squamish mayor and council candidates match your views.`,
-  body: `<div class="quiz-shell"><div id="quiz-intro"><h1>Who should I vote for?</h1>
+  url: '/quiz/', jsonld: crumbLd([['Home', '/'], ['Quiz', '/quiz/']]), title: 'Squamish council quiz: who on council thinks like you?',
+  desc: `Answer ${QUESTIONS.length} plain-language questions and see which members of Squamish council think most like you.`,
+  body: `<div class="quiz-shell"><div id="quiz-intro"><h1>Who on council thinks like you?</h1>
   <p class="lede">${QUESTIONS.length} statements. Tell us if you agree or disagree. It takes about three minutes, and your answers never leave your device.</p></div>
-  <div id="quiz" class="card"><noscript>The quiz needs JavaScript turned on. You can still <a href="/compare/">compare candidates issue by issue</a>.</noscript></div>
-  <p class="small" style="margin-top:1rem">How matching works: we compare your answers to each candidate’s public positions and votes. Questions you mark as important count double. Where a candidate has no public position, that question is left out for them. <a href="/about/#quiz">Full method</a>.</p></div>
+  <div id="quiz" class="card"><noscript>The quiz needs JavaScript turned on. You can still <a href="/compare/">compare the mayor and council issue by issue</a>.</noscript></div>
+  <p class="small" style="margin-top:1rem">How matching works: we compare your answers to each council member’s public positions and votes. Questions you mark as important count double. Where a member has no public position, that question is left out for them. <a href="/about/#quiz">Full method</a>.</p></div>
   <template id="tpl-compass">${miniCompass({ heading: 'Where you land', you: false, maps: ['classic'] })}</template>`,
   scripts: '<script src="/data.js"></script><script src="/quiz.js"></script>',
 }));
@@ -1471,29 +1472,22 @@ for (const m of MEETINGS) {
     ${MEET_HOW}`}
     ${links.length ? `<details class="drop layer3"${done ? '' : ' open'}><summary>Full details: video, agenda${done ? ', minutes and transcript' : ''}</summary><ul class="linklist">${links.map(([u, l]) => `<li><a href="${esc(u)}"${u.startsWith('/') ? '' : ' target="_blank" rel="noopener"'}>${l}</a></li>`).join('')}</ul>
     ${done && m.generated ? `<p class="small muted">Summary written automatically on ${esc(fmtLong(m.generated.at.slice(0, 10)))} from the ${esc(m.generated.from || 'meeting video and official documents')}. If anything here is wrong, the official minutes are the record. <a href="mailto:${esc(SITE.contact)}?subject=${encodeURIComponent('Meeting summary ' + m.id)}">Tell us</a>.</p>` : ''}</details>` : ''}
-    <div class="btn-row no-print"><a class="btn secondary" href="/meetings/">← All meetings</a><a class="btn secondary" href="/promises/">Promise tracker</a></div>
+    <div class="btn-row no-print"><a class="btn secondary" href="/meetings/">← All meetings</a><a class="btn secondary" href="/scorecard/">Scorecard</a></div>
     ${signupBox('meeting')}`,
   }));
 }
 
 // ---------- ISSUES WE'RE FOLLOWING (/track/) ----------
 if (TRACKED.length) {
-  write('/track/', page({
-    url: '/track/', title: 'What’s happening with Squamish’s big issues',
-    desc: `Where Squamish council is on ${TRACKED.slice(0, 4).map((t) => t.title).join(', ')} and more: each issue step by step, with every vote, in plain words.`,
-    jsonld: crumbLd([['Home', '/'], ['Issues we’re following', '/track/']]),
-    body: `<h1>Issues we’re following</h1>
-    <p class="lede">The big questions that come back to council meeting after meeting. Each one shows where it stands, what happens next, and how every member has voted on it.</p>
-    <ul class="mlist">${TRACKED.map(issueRow).join('')}</ul>${signupBox('track')}`,
-  }));
+  // The /track/ index is now /issues/ (review item 10): each topic page lists the issues we follow on it.
   for (const t of TRACKED) {
     const ds = issueDecisions(t), qs = (t.related_q || []).map((id) => ALL_QUESTIONS.find((q) => q.id === id)).filter(Boolean);
     const now = stepNow(t);
     write(`/track/${t.slug}/`, page({
-      url: '/track/', title: `${t.title}: Squamish council, step by step`,
+      url: '/issues/', title: `${t.title}: Squamish council, step by step`,
       desc: `${t.summary.split('. ')[0]}. Where it stands now, what council decides next, and how each member has voted.`,
-      jsonld: crumbLd([['Home', '/'], ['Issues we’re following', '/track/'], [t.title, `/track/${t.slug}/`]]),
-      body: `<p class="crumbs"><a href="/track/">← All issues</a></p>
+      jsonld: crumbLd([['Home', '/'], ['The issues', '/issues/'], ...(TOPIC_SLUG[t.topic] ? [[TOPIC_NAME[t.topic].replace(/^./, (x) => x.toUpperCase()), `/issues/${TOPIC_SLUG[t.topic]}/`]] : []), [t.title, `/track/${t.slug}/`]]),
+      body: `<p class="crumbs">${TOPIC_SLUG[t.topic] ? `<a href="/issues/${TOPIC_SLUG[t.topic]}/">← ${esc(TOPIC_NAME[t.topic].replace(/^./, (x) => x.toUpperCase()))}</a> · ` : ''}<a href="/issues/">All issues</a></p>
       <h1>${esc(t.question)}</h1>
       <p class="lede">${escGl(t.summary)}</p>
       ${areaTags(t.areas)}
@@ -1945,62 +1939,48 @@ write('/your-say/', page({
   }));
 }
 
-// ---------- SAID VS DID ----------
-// Every agree/disagree statement against every member: their campaign answer, and whether their votes since went the same way.
-{
-  const people = [...mayors, ...council];
-  const voteMark = (c, q) => {
-    const pos = positionsOf(c).find((p) => p.kind === 'quiz' && p.q.id === q.id);
-    if (!pos) return '';
-    const st = posStatus(checksFor(c, pos));
-    return st === 'untested' ? '' : `<span class="vmark ${POS_STATUS[st][2]}" title="${esc(POS_STATUS[st][1])}">${st === 'in_line' ? '✓ voted that way' : st === 'against' ? '✕ voted against' : st === 'early' ? '… early sign' : '~ mixed'}</span>`;
-  };
-  const tested = (q) => DECISIONS.filter((d) => (d.related_q || []).some((r) => r.q === q.id));
-  const groups = [...new Set(ALL_QUESTIONS.map((q) => q.issue))];
-  const anyVotes = DECISIONS.some((d) => (d.related_q || []).length);
-  write('/said-vs-did/', page({
-    url: '/said-vs-did/', title: 'Do Squamish council members vote the way they said?',
-    desc: 'Every Squamish council member’s campaign answers (strongly agree to strongly disagree) side by side with how they have actually voted since, statement by statement.',
-    jsonld: crumbLd([['Home', '/'], ['Said vs did', '/said-vs-did/']]),
-    body: `<h1>Do they vote the way they said?</h1>
-    <p class="lede">During the campaign we asked every candidate to agree or disagree with the same ${ALL_QUESTIONS.length} statements. Here is what each of the seven winners said, and, as council votes, whether their votes went the same way.</p>
-    ${noVotesNote()}
-    <h2 id="scoreboard">Scoreboard</h2>
-    <div class="scards">${people.map((c) => scoreCard(c, { promises: false })).join('')}</div>
-    <h2 id="grid">Statement by statement</h2>
-    <div class="card keybox"><div class="legend">${BINS.map((b) => `<span><span class="cell ${b[1]}">${b[3]}</span>${b[2]}</span>`).join('')}<span><span class="cell un">?</span>Didn’t say</span></div>
-    <p class="small">The box is what they said during the campaign. Once a council vote tests it, <span class="vmark ps-kept">✓ voted that way</span> or <span class="vmark ps-broken">✕ voted against</span> appears under it.</p></div>
-    <div class="chip-row no-print">${groups.map((g) => `<a class="chip-btn" href="#t-${g}">${esc(((ISSUES.find((i) => i.key === g) || {}).title || TOPIC_NAME[g] || g).replace(/^./, (x) => x.toUpperCase()))}</a>`).join('')}</div>
-    ${groups.map((g) => { const qs = ALL_QUESTIONS.filter((q) => q.issue === g); const title = (ISSUES.find((i) => i.key === g) || {}).title || TOPIC_NAME[g] || g; return `<h3 id="t-${g}">${esc(title.charAt(0).toUpperCase() + title.slice(1))}</h3>
-    ${qs.map(qCard).join('')}`; }).join('')}
-    <h2 id="compass">On the compass</h2>
-    <p>The <a href="/compass/">compass</a> places each member from their campaign answers. Once at least 3 votes test each line of a map, a second diamond-shaped marker shows where their <b>votes</b> put them, joined to the first by a dotted line. A long line means they vote differently from how they campaigned.</p>
-    <p class="small"><a href="/promises/#how">How we link votes to statements</a> · <a href="/about/#meetings">How meeting summaries are made</a></p>`,
-  }));
-}
-
-// ---------- PROMISES ----------
+// ---------- SCORECARD (promises and positions on one page; /promises/ and /said-vs-did/ redirect here) ----------
+// Two tabs, Promises and Positions. Without JavaScript both sections show one after the other and the tabs are plain
+// links that jump down the page; with it, only the chosen tab shows (also from ?tab=positions, where /said-vs-did/ lands).
 const AI_NOTE = 'An AI model (Anthropic’s Claude) reads each vote and decides whether it tests a promise. It marks it kept or not kept and links the vote so you can check. It can be wrong. Tell us and we will fix it and note the correction.';
 {
+  const people = [...mayors, ...council];
+  const groups = [...new Set(ALL_QUESTIONS.map((q) => q.issue))];
   const c0 = pCounts(PROMISES);
-  write('/promises/', page({
-    url: '/promises/', title: 'Squamish council promise tracker',
-    updated: [...PROMISES.map((p) => isoDay(p.updated)), ...DECISIONS.map((d) => isoDay(d.corrected_on)), corrDate('/promises/')].filter(Boolean).sort().pop() || null,
-    desc: `${PROMISES.length} campaign promises from Squamish’s mayor and councillors, each with the exact quote and source, marked kept, not kept or in progress by each member’s own votes.`,
-    jsonld: crumbLd([['Home', '/'], ['Promise tracker', '/promises/']]),
-    body: `<h1>Promise tracker</h1>
-    <p class="lede">What the mayor and councillors said they would do during the 2026 campaign, and whether they’ve done it.</p>
-    <div class="notice info"><b>Want the agree/disagree answers side by side with their votes?</b> <a href="/said-vs-did/">See “Do they vote the way they said?”</a></div>
+  write('/scorecard/', page({
+    url: '/scorecard/', title: 'Squamish council scorecard: promises and positions',
+    updated: [...PROMISES.map((p) => isoDay(p.updated)), ...DECISIONS.map((d) => isoDay(d.corrected_on)), corrDate('/scorecard/')].filter(Boolean).sort().pop() || null,
+    desc: `${PROMISES.length} campaign promises and every agree or disagree answer from Squamish’s mayor and councillors, each with a source, checked against their own votes.`,
+    jsonld: crumbLd([['Home', '/'], ['Scorecard', '/scorecard/']]),
+    body: `<h1>Scorecard</h1>
+    <p class="lede">What the mayor and councillors said during the 2026 campaign, and whether their own votes match.</p>
     <div class="notice info"><b>An AI makes the calls.</b> ${esc(AI_NOTE)} <a href="/corrections/">See every correction</a>.</div>
     <h2 id="scoreboard">At a glance</h2>
     ${noVotesNote()}
     <div class="scards">${all.map((c) => scoreCard(c)).join('')}</div>
-    <p class="small"><b>Promises</b> are specific things they said they would do. <b>Positions</b> are everything else they said they stand for. <a href="/said-vs-did/">See positions statement by statement</a>.</p>
-    <h2 id="list">Every promise</h2>
+    <nav class="sc-tabs no-print" aria-label="Scorecard sections"><a href="#promises" data-sctab="promises" aria-current="true">Promises</a><a href="#positions" data-sctab="positions">Positions</a></nav>
+
+    <section id="promises" data-scpanel="promises">
+    <h2>Promises</h2>
+    <p class="small">Specific things they said they would do. Each one says in advance what <b>their part</b> is: what they move, second or vote for. Only that part gets a label.</p>
     ${ANY_VOTES ? '' : '<!--'}<div class="pstats">${Object.entries(PSTATUS).map(([k, P]) => `<button type="button" class="chip-btn" data-pf="${k}" aria-pressed="false"><span class="pstatus ${P.cls}"><span aria-hidden="true">${P.icon}</span> ${c0[k]}</span> ${esc(P.label)}</button>`).join('')}<button type="button" class="chip-btn" data-pf="" aria-pressed="true">Show all</button></div>${ANY_VOTES ? '' : '-->'}
-    ${all.map((c) => { const ps = promisesOf(c); return ps.length ? `<h2 id="${c.slug}" class="phead">${avatar(c, 'sm')} <a href="/council/${c.slug}/">${esc(c.name)}</a> <span class="small">${c.office === 'mayor' ? 'Mayor' : 'Councillor'} · ${ps.length} promises</span></h2>
+    ${all.map((c) => { const ps = promisesOf(c); return ps.length ? `<h3 id="${c.slug}" class="phead">${avatar(c, 'sm')} <a href="/council/${c.slug}/">${esc(c.name)}</a> <span class="small">${c.office === 'mayor' ? 'Mayor' : 'Councillor'} · ${ps.length} promises</span></h3>
     <div class="card stack">${ps.map((p) => promiseRow(p).replace('<details class="promise"', `<details class="promise" data-ps="${pKey(p)}"`)).join('')}</div>` : ''; }).join('')}
-    <h2 id="how">How we judge promises</h2>
+    </section>
+
+    <section id="positions" data-scpanel="positions">
+    <h2>Positions: do they vote the way they said?</h2>
+    <p class="small">During the campaign we asked every candidate to agree or disagree with the same ${ALL_QUESTIONS.length} statements. Here is what each of the seven winners said, and, as council votes, whether their votes went the same way.</p>
+    <div class="card keybox"><div class="legend">${BINS.map((b) => `<span><span class="cell ${b[1]}">${b[3]}</span>${b[2]}</span>`).join('')}<span><span class="cell un">?</span>Didn’t say</span></div>
+    <p class="small">The box is what they said during the campaign. Once a council vote tests it, a mark appears under it: <span class="vmark ps-kept">✓ voted that way</span>, <span class="vmark ps-early">… early sign</span> or <span class="vmark ps-broken">✕ voted against</span>.</p></div>
+    <div class="chip-row no-print">${groups.map((g) => `<a class="chip-btn" href="#t-${g}">${esc(((ISSUES.find((i) => i.key === g) || {}).title || TOPIC_NAME[g] || g).replace(/^./, (x) => x.toUpperCase()))}</a>`).join('')}</div>
+    ${groups.map((g) => { const qs = ALL_QUESTIONS.filter((q) => q.issue === g); const title = (ISSUES.find((i) => i.key === g) || {}).title || TOPIC_NAME[g] || g; return `<h3 id="t-${g}">${esc(title.charAt(0).toUpperCase() + title.slice(1))}</h3>
+    ${qs.map(qCard).join('')}`; }).join('')}
+    <h3 id="compass">On the map</h3>
+    <p>The <a href="/compare/#compass">map on the compare page</a> places each member from their campaign answers. Once at least 3 votes test each line of a map, a second diamond shaped marker shows where their <b>votes</b> put them, joined to the first by a dotted line. A long line means they vote differently from how they campaigned.</p>
+    </section>
+
+    <h2 id="how">How we judge</h2>
     <ul>
       <li><b>We only count clear promises.</b> Something they said they would do or vote for, in their own words, with a link to where they said it. General values like “I care about Squamish” aren’t tracked.</li>
       <li><b>We only mark what they did themselves.</b> Each promise says, in advance, what their part is: how they vote, or what they move or second. That is the only thing that gets a label.</li>
@@ -2008,12 +1988,15 @@ const AI_NOTE = 'An AI model (Anthropic’s Claude) reads each vote and decides 
       <li><b>An AI reads the votes.</b> Every mark links the vote it came from, so you can check it yourself. Fixes are listed on the <a href="/corrections/">corrections page</a>.</li>
       <li><b>Only the official minutes can make a label red.</b> A vote heard on the meeting video shows as an <b>early sign</b> until the minutes confirm it, usually a few weeks later. When the minutes change a vote, every label is worked out again from all the votes. A position is only marked “voted against” after at least 2 confirmed votes against it.</li>
       <li><b>Each label shows its count</b>, like “Not kept (1 vote)”, or “Mixed” when their votes went both ways.</li>
-      <li><b>“In progress”</b> means council has taken a step but not finished. <b>“Nothing to judge yet”</b> means council hasn’t voted on it.</li>
+      <li><b>“In progress”</b> means council has taken a step but not finished. <b>“Not tested yet”</b> means council hasn’t voted on it.</li>
       <li><b>Positions are checked the same way.</b> When a vote directly tests something a member said, like “move the Under One Roof shelter out of downtown”, we note whether their vote went the same way as what they said.</li>
-      <li><b>One vote can’t always keep a promise.</b> A councillor can vote the way they promised and still lose. We mark their promise kept if they did what they said, even if the vote failed.</li>
     </ul>
-    <p class="small">Think we got one wrong? <a href="mailto:${esc(SITE.contact)}?subject=Promise%20tracker">Tell us</a> and we’ll take another look.</p>`,
-    scripts: `<script>document.querySelectorAll('[data-pf]').forEach(function(b){b.addEventListener('click',function(){var f=b.getAttribute('data-pf');document.querySelectorAll('[data-pf]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});document.querySelectorAll('details.promise').forEach(function(d){d.hidden=!!f&&d.getAttribute('data-ps')!==f})})})</script>`,
+    <p class="small">Think we got one wrong? <a href="mailto:${esc(SITE.contact)}?subject=Scorecard">Tell us</a> and we’ll fix it and note it on the <a href="/corrections/">corrections page</a>. · <a href="/about/#meetings">How meeting summaries are made</a></p>`,
+    scripts: `<script>document.querySelectorAll('[data-pf]').forEach(function(b){b.addEventListener('click',function(){var f=b.getAttribute('data-pf');document.querySelectorAll('[data-pf]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});document.querySelectorAll('details.promise').forEach(function(d){d.hidden=!!f&&d.getAttribute('data-ps')!==f})})});
+(function(){var tabs=document.querySelectorAll('[data-sctab]'),panels=document.querySelectorAll('[data-scpanel]');function show(t,scroll){if(t!=='positions')t='promises';tabs.forEach(function(a){a.setAttribute('aria-current',String(a.getAttribute('data-sctab')===t))});panels.forEach(function(p){p.hidden=p.getAttribute('data-scpanel')!==t});if(scroll){var n=document.querySelector('.sc-tabs');if(n)n.scrollIntoView({block:'start'})}}
+var q=(location.search.match(/[?&]tab=(\\w+)/)||[])[1],h=location.hash.slice(1),el=h&&document.getElementById(h),inPos=el&&el.closest('[data-scpanel="positions"]');show(q||(h==='positions'||inPos?'positions':'promises'),false);if(el&&h!=='promises'&&h!=='positions')el.scrollIntoView();
+tabs.forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var t=a.getAttribute('data-sctab');show(t,true);history.replaceState(null,'','#'+t)})});
+window.addEventListener('hashchange',function(){var h=location.hash.slice(1),el=h&&document.getElementById(h);if(!el)return;var pn=el.closest('[data-scpanel]');if(pn&&pn.hidden){show(pn.getAttribute('data-scpanel'),false);el.scrollIntoView()}})})();</script>`,
   }));
 }
 
@@ -2025,7 +2008,7 @@ const hasStance = (c, key) => { const s = c.stances?.[key]; return !!(s && s.pos
 const nameList = (cs) => cs.map((c) => `<a href="/council/${c.slug}/">${esc(c.name)}</a>`).join(', ');
 function stanceBlock(c, key) {
   const s = c.stances[key];
-  return `<li class="tstance"><h3><a href="/council/${c.slug}/#issues">${esc(c.name)}</a>${c.office === 'mayor' ? ' <span class="small">(running for mayor)</span>' : ''}${c.incumbent ? ' <span class="small">· current councillor</span>' : ''}</h3>
+  return `<li class="tstance"><h3><a href="/council/${c.slug}/#issues">${esc(c.name)}</a>${c.office === 'mayor' ? ' <span class="small">(mayor)</span>' : ''}${c.incumbent ? ' <span class="small">· also on the last council</span>' : ''}</h3>
   <p><b>${escGl(s.position)}</b></p><p>${escGl(s.summary || '')}${src(s.source_url)}</p>${s.quote ? `<blockquote>“${escGl(s.quote.replace(/^["“]|["”]$/g, ''))}”</blockquote>${src(s.quote_source_url, 'quote source')}` : ''}</li>`;
 }
 const TOPIC_EXTRA_Q = { recreation_facilities: ['q12', 'q22'] }; // Brennan Park statements are filed under taxes, but this is the page people look for
@@ -2043,17 +2026,18 @@ for (const ic of ctx.issues || []) {
     desc: `${iss ? `${withS.length} of ${all.length} Squamish council members have a public position on ${name}. ` : ''}What each one has said, with sources, plus plain language background.`,
     jsonld: crumbLd([['Home', '/'], ['The issues', '/issues/'], [ic.title, url]]),
     body: `<p class="crumbs"><a href="/issues/">← All the issues</a></p>
-    <h1>Where the candidates stand on ${esc(name)}</h1>
+    <h1>Squamish council on ${esc(name)}</h1>
     ${ic.short_explainer && !ic.explainer.startsWith(ic.short_explainer.slice(0, 40)) ? `<p class="lede">${esc(ic.short_explainer)}</p>` : ''}
+    ${TRACKED.some((t) => t.topic === ic.key) ? `<h2>What council is doing now</h2><ul class="mlist">${TRACKED.filter((t) => t.topic === ic.key).map(issueRow).join('')}</ul>` : ''}
     <h2>The background</h2>
     <p>${escGl(paras.slice(0, mid).join(' '))}</p><p>${escGl(paras.slice(mid).join(' '))}</p>
     ${ic.key === 'environment_lng' || ic.key === 'taxes_spending' ? DEAL_IF_NO : ''}
     ${(ic.key_facts || []).length ? `<h3>Key facts</h3><ul class="facts">${ic.key_facts.map((f) => `<li>${esc(f.fact)}${src(f.source_url)}</li>`).join('')}</ul>` : ''}
-    ${qs.length ? `<h2>Agree or disagree?</h2><p>Where each candidate lands on ${qs.length === 1 ? 'this statement' : `these ${qs.length} statements`}, from their own questionnaire answers or their public record. Tap a name for the detail.</p>${qs.map(spectrum).join('')}` : ''}
-    ${iss ? `<h2>What each candidate has said</h2>
-    <p class="small">Mayor candidates first, then council, in alphabetical order. Our summary of the public record; tap <b>[source]</b> to check it.</p>
+    ${qs.length ? `<h2>Agree or disagree?</h2><p>Where each council member lands on ${qs.length === 1 ? 'this statement' : `these ${qs.length} statements`}, from their own questionnaire answers or their public record. Tap a name for the detail.</p>${qs.map(spectrum).join('')}` : ''}
+    ${iss ? `<h2>What each council member has said</h2>
+    <p class="small">The mayor first, then council, in alphabetical order. Our summary of the public record; tap <b>[source]</b> to check it.</p>
     <ul class="plainlist tstances">${withS.map((c) => stanceBlock(c, ic.key)).join('')}</ul>
-    ${without.length ? `<p class="muted"><b>No public position found for:</b> ${nameList(without)}. If you are one of these candidates, <a href="mailto:${SITE.contact}?subject=${encodeURIComponent('Position on ' + name)}">send us your position</a>.</p>` : ''}` : ''}
+    ${without.length ? `<p class="muted"><b>No public position found for:</b> ${nameList(without)}. If you are one of these council members, <a href="mailto:${SITE.contact}?subject=${encodeURIComponent('Position on ' + name)}">send us your position</a>.</p>` : ''}` : ''}
     <div class="btn-row no-print"><a class="btn" href="/quiz/">Take the ${QUESTIONS.length}-question quiz →</a><a class="btn secondary" href="/compare/">Compare everyone</a></div>
     <h2>Other issues</h2><ul class="namechips">${(ctx.issues || []).filter((o) => o.key !== ic.key && TOPIC_SLUG[o.key]).map((o) => `<li><a href="/issues/${TOPIC_SLUG[o.key]}/">${esc(TOPIC_NAME[o.key])}</a></li>`).join('')}<li><a href="/issues/woodfibre-tax-deal/">the Woodfibre tax deal</a></li></ul>`,
   }));
@@ -2063,14 +2047,14 @@ for (const ic of ctx.issues || []) {
   if (q23) {
     const yes = all.filter((c) => c.quiz_answers?.q23 > 0), no = all.filter((c) => c.quiz_answers?.q23 < 0);
     write('/issues/woodfibre-tax-deal/', page({
-      url: '/issues/', title: 'Woodfibre LNG tax deal: where the Squamish candidates stand',
-      desc: `Council rejected the 10-year Woodfibre LNG tax agreement 5–2 on Sept. 22, 2026; the next council could revisit it. ${yes.length} candidates lean yes, ${no.length} lean no. What each choice means and what every candidate has said, with sources.`,
+      url: '/issues/', title: 'Woodfibre LNG tax deal: where Squamish council stands',
+      desc: `Council rejected the 10-year Woodfibre LNG tax agreement 5–2 on Sept. 22, 2026; the next council could revisit it. ${yes.length} of the new council lean yes, ${no.length} lean no. What each choice means and what each member has said, with sources.`,
       jsonld: crumbLd([['Home', '/'], ['The issues', '/issues/'], ['Woodfibre LNG tax deal', '/issues/woodfibre-tax-deal/']]),
       body: `<p class="crumbs"><a href="/issues/">← All the issues</a></p>
       <h1>The Woodfibre LNG tax deal</h1>
-      <p class="lede">On September 22, 2026, council voted 5–2 against a proposed 10-year agreement fixing what Woodfibre LNG pays in place of normal property tax. The next council could negotiate a new one. Here is what it means and where every candidate stands.</p>
+      <p class="lede">On September 22, 2026, council voted 5–2 against a proposed 10-year agreement fixing what Woodfibre LNG pays in place of normal property tax. The new council could negotiate a new one. Here is what it means and where each member stands.</p>
       ${DEAL_IF_NO}
-      <h2>Where the candidates stand</h2>${spectrum(q23)}
+      <h2>Where council stands</h2>${spectrum(q23)}
       <p>For the wider debate about the plant itself, see <a href="/issues/${TOPIC_SLUG.environment_lng}/">the Woodfibre LNG plant</a>. For property taxes generally, see <a href="/issues/${TOPIC_SLUG.taxes_spending}/">property taxes and spending</a>.</p>
       <div class="btn-row no-print"><a class="btn" href="/quiz/">Take the quiz →</a><a class="btn secondary" href="/compare/#taxes_spending">Compare everyone on taxes</a></div>`,
     }));
@@ -2114,7 +2098,7 @@ for (const ic of ctx.issues || []) {
     ['Can I watch a council meeting?', 'Yes. Meetings are open to the public at Municipal Hall, and most are streamed live and posted online afterward. Each meeting on our site links to the official video.', '<a href="/meetings/">Meetings and videos</a>'],
     ['What is the difference between a council meeting and Committee of the Whole?', `${MTYPE.regular.plain} ${MTYPE.cow.label}: ${MTYPE.cow.plain}`, ''],
     ['What is a public hearing?', MTYPE.hearing.plain + ' Anyone can speak or send a letter. Since late 2023, B.C. law does not allow a public hearing on a rezoning that is mostly for housing and fits the Official Community Plan. A change to the Official Community Plan itself must have one.', ''],
-    ['How do you know if a promise was kept?', 'Each promise lists their part: how they vote, or what they move or second. Only that is marked, not what council as a whole decides. When council votes on something that tests it, we mark it and link to the vote.', '<a href="/promises/#how">How we judge promises</a>'],
+    ['How do you know if a promise was kept?', 'Each promise lists their part: how they vote, or what they move or second. Only that is marked, not what council as a whole decides. When council votes on something that tests it, we mark it and link to the vote.', '<a href="/scorecard/#how">How we judge promises</a>'],
     ['Who won the 2026 Squamish election?', `${resWinner('mayor')[0]} won the mayor’s race. Elected to council: ${resWinner('council').join(', ')}. Turnout was ${R26.turnout_pct}%.`, '<a href="/results/">Full results</a>'],
     ...(ctx.pay ? [['How much is the mayor of Squamish paid?', `In ${ctx.pay.year} the mayor was paid $${ctx.pay.mayor.toLocaleString('en-CA')} and each councillor about $${ctx.pay.councillor.toLocaleString('en-CA')}, not counting expenses and benefits (District of Squamish financial statement).`, isUrl(ctx.pay.source_url) ? `<a href="${esc(ctx.pay.source_url)}" target="_blank" rel="noopener">Source</a>` : '']] : []),
     ['Is this site run by the District?', 'No. Squamish Voters is independent and not connected to the District, council or any group. It does not endorse anyone.', '<a href="/about/">About this site</a>'],
@@ -2303,7 +2287,7 @@ write('/subscribers/', page({ url: '/subscribers/', title: 'Admin', noindex: tru
     ${items.length ? `<ul class="corr-list">${items.map((x) => `<li class="card"><p class="small muted">${esc(fmtLong(x.date))}</p><p>${x.html}</p></li>`).join('')}</ul>` : '<p class="muted">No corrections yet.</p>'}`,
   }));
 }
-write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can’t find that page</h1><p class="lede">Try one of these instead.</p><div class="btn-row"><a class="btn big" href="/">Home</a><a class="btn big secondary" href="/council/">Candidates</a><a class="btn big secondary" href="/quiz/">Take the quiz</a></div>' }));
+write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can’t find that page</h1><p class="lede">Try one of these instead.</p><div class="btn-row"><a class="btn big" href="/">Home</a><a class="btn big secondary" href="/council/">Mayor and council</a><a class="btn big secondary" href="/quiz/">Take the quiz</a></div>' }));
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
@@ -2421,9 +2405,8 @@ ${TRACKED.map((t) => `- [${t.title}](${U(`/track/${t.slug}/`)}): ${t.question}`)
 `;
   const explained = EXPLAINERS.length ? `## Explained\n${EXPLAINERS.map((e) => `- [${e.question}](${U(`/explained/${e.slug}/`)}): ${e.answer}`).join('\n')}\n` : '';
   const more = `## Promises and record
-- [Promise tracker](${U('/promises/')}): ${PROMISES.length} promises the mayor and councillors made in the 2026 campaign, each marked kept or not kept by that member’s own votes.
-- [Said vs did](${U('/said-vs-did/')}): what each member said during the campaign next to how they later voted.
-- [Where they lean](${U('/compass/')}): each member placed on a chart from their answers and votes.
+- [Scorecard](${U('/scorecard/')}): ${PROMISES.length} promises the mayor and councillors made in the 2026 campaign, each marked kept or not kept by that member’s own votes, plus what each member said during the campaign next to how they later voted.
+- [Compare them](${U('/compare/')}): where each member stands, issue by issue, and each member placed on a map from their answers and votes.
 
 ## Election
 - [2026 Squamish election results](${U('/results/')}): every candidate's votes, turnout, school trustees, and 2022 results.
@@ -2453,7 +2436,7 @@ ${TRACKED.map((t) => `- [${t.title}](${U(`/track/${t.slug}/`)}): ${t.question}`)
 
 // ---------- sitemap (every indexable page written above; lastmod = the page's own date, else build date) ----------
 const today = new Date().toISOString().slice(0, 10);
-const prio = (u) => (u === '/' || u === '/meetings/' ? '1.0' : ['/council/', '/promises/', '/quiz/', '/faq/'].includes(u) || u.startsWith('/meetings/') ? '0.8' : '0.6');
+const prio = (u) => (u === '/' || u === '/meetings/' ? '1.0' : ['/council/', '/scorecard/', '/quiz/', '/faq/'].includes(u) || u.startsWith('/meetings/') ? '0.8' : '0.6');
 const mod = (u) => LASTMOD[u] || today;
 fs.writeFileSync(path.join(DIST, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

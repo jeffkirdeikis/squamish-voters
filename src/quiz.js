@@ -108,7 +108,7 @@
     html += '<h2>Who on council thinks most like you</h2>' + ranked.map(function (r, i) { return matchCard(r, i === 0 && r.pct >= RECOMMEND); }).join('');
     html += thinList(thin);
     html += '<p class="small">A match is only as good as the record. <a href="/about/#quiz">How matching works</a>.</p>';
-    html += '<div class="btn-row no-print"><a class="btn big" href="/meetings/">See what council is deciding →</a><a class="btn secondary" href="/compass/">★ See yourself on the compass</a><button class="btn secondary" id="share" type="button">Share</button><button class="btn secondary" id="restart" type="button">Start again</button></div>';
+    html += '<div class="btn-row no-print"><a class="btn big" href="/meetings/">See what council is deciding →</a><a class="btn secondary" href="/compare/#compass">★ See yourself on the compass</a><button class="btn secondary" id="share" type="button">Share</button><button class="btn secondary" id="restart" type="button">Start again</button></div>';
     root.innerHTML = html;
     var tpl = document.getElementById('tpl-compass'), first = root.querySelector('.match-card');
     if (tpl && first) { var mc = tpl.content.firstElementChild.cloneNode(true); root.insertBefore(mc, root.querySelector('h2')); if (!SV.compassYou(mc)) mc.remove(); }

@@ -446,7 +446,7 @@
           "source_url": "https://www.squamishchief.com/local-news/advocates-say-its-time-for-local-politicians-to-step-up-on-affordable-housing-12776406"
         },
         {
-          "fact": "Housing Squamish's executive director (Sarah Ellis, who is also a 2026 council candidate) says local government should contribute serviced public land, waive development charges, fees and taxes, and expedite approvals to compete for limited senior-government funding.",
+          "fact": "Housing Squamish's executive director (Sarah Ellis, elected to council in 2026) has said local government should contribute serviced public land, waive development charges, fees and taxes, and expedite approvals to compete for limited senior-government funding.",
           "source_url": "https://www.squamishchief.com/local-news/advocates-say-its-time-for-local-politicians-to-step-up-on-affordable-housing-12776406"
         },
         {
@@ -531,7 +531,7 @@
           "source_url": "https://squamish.civicweb.net/"
         },
         {
-          "fact": "This is why most candidates can only be placed on the ‘housing and support’ side of our charts: it is the only side anyone has had to vote on. Candidates who answer our questionnaire are placed on both.",
+          "fact": "This is why most council members can only be placed on the ‘housing and support’ side of our charts: it is the only side anyone has had to vote on. Members who answered our questionnaire are placed on both.",
           "source_url": "https://squamishvoters.com/compass/"
         }
       ],
@@ -583,7 +583,7 @@
           "source_url": "https://www.squamishchief.com/local-news/violent-crime-highway-collisions-rise-in-squamish-rcmp-says-12308567"
         },
         {
-          "fact": "PearlSpace has publicly called on candidates to address intimate partner violence.",
+          "fact": "During the campaign, PearlSpace publicly called on candidates to address intimate partner violence.",
           "source_url": "https://www.squamishchief.com/2026-civic-election/pearlspace-calls-on-squamish-candidates-to-address-intimate-partner-violence-12783947"
         },
         {
@@ -647,12 +647,8 @@
           "source_url": "https://www.squamishchief.com/local-news/squamish-council-amends-10-year-financial-plan-boosts-reserves-with-woodfibre-lng-tax-windfall-12189221"
         },
         {
-          "fact": "Campaign positions reported so far (attributed, not endorsed): council candidate Janice DesJardins calls for zero property tax increases and referendums on major capital projects; council candidate Laura Prosko pitches a property tax freeze.",
+          "fact": "During the 2026 campaign, Janice DesJardins (now a councillor) called for zero property tax increases and referendums on major capital projects, and Laura Prosko (now a councillor) pitched a property tax freeze.",
           "source_url": "https://www.squamishreporter.com/2026/09/14/desjardins-squamish-council-platform/"
-        },
-        {
-          "fact": "Fire hall replacement costs and current total District debt: not confirmed in this pass (older reporting put one new fire hall at $13.3 million).",
-          "source_url": "https://www.squamishchief.com/local-news/critical-infrastructure-projects-prompt-59-net-increase-in-squamish-taxes-6246604"
         }
       ],
       "sources": [
@@ -702,7 +698,7 @@
     {
       "key": "environment_lng",
       "title": "The Woodfibre LNG plant",
-      "explainer": "Woodfibre LNG is building a liquefied natural gas export plant on Howe Sound about 7 km from downtown, fed by a new FortisBC pipeline; it was approved by senior governments and the Squamish Nation, not by council, and remains divisive locally. Council's real levers are land-use permits (such as the 'floatel' worker housing) and how the plant is taxed. The biggest live decision is a proposed 10-year deal under which Woodfibre would pay the District at least $142 million from 2027 in exchange for a fixed, much lower municipal tax bill, and would drop its lawsuits over 2025 and 2026 taxes; on Sept. 22, 2026 council rejected it 5–2, so the question for the next council is whether to go back for a new deal. This is really two separate arguments. One is about the plant itself. The other is about money: supporters of the deal value predictable revenue and an end to litigation, while critics — including several candidates who support the plant — say the District may be giving up revenue and that the decision is rushed.",
+      "explainer": "Woodfibre LNG is building a liquefied natural gas export plant on Howe Sound about 7 km from downtown, fed by a new FortisBC pipeline; it was approved by senior governments and the Squamish Nation, not by council, and remains divisive locally. Council's real levers are land-use permits (such as the 'floatel' worker housing) and how the plant is taxed. The biggest recent decision was a proposed 10 year deal under which Woodfibre would have paid the District at least $142 million from 2027 in exchange for a fixed, much lower municipal tax bill, and would have dropped its lawsuits over 2025 and 2026 taxes. On Sept. 22, 2026 council rejected it 5 to 2, so the question for the new council is whether to go back for a new deal. This is really two separate arguments. One is about the plant itself. The other is about money: supporters of the deal value predictable revenue and an end to litigation, while critics, including several people now on council who support the plant, said the District might be giving up revenue and that the decision was rushed.",
       "key_facts": [
         {
           "fact": "Result: on Sept. 22, 2026 council voted 5–2 to reject the proposed 10-year agreement. Against: Mayor Armand Hurford and Couns. Jenna Stoner (who moved the motion), Lauren Greenlaw, Andrew Hamilton and Chris Pettingill. For: Couns. Eric Andersen and John French. A future council could still consider another agreement.",
@@ -721,11 +717,11 @@
           "source_url": "https://www.squamishreporter.com/2026/09/18/wlng-lawsuits-would-be-dismissed-under-proposed-142-million-squamish-agreement/"
         },
         {
-          "fact": "Under normal taxation, the District says Woodfibre LNG paid $7.7 million in municipal property tax in 2026 while still under construction, at a major-industry rate of 125 — about four times the B.C. average for that class. The District itself says keeping that rate for 10 years “would be unusual”.",
+          "fact": "Under normal taxation, the District says Woodfibre LNG paid $7.7 million in municipal property tax in 2026 while still under construction, at a major industry rate of $125 per $1,000 of assessed value, about four times the B.C. average for that class. The District itself says keeping that rate for 10 years “would be unusual”.",
           "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/wlng-agreement/"
         },
         {
-          "fact": "Mayoral candidate Sean Easton has said council should vote no on the proposed agreement (attributed campaign position).",
+          "fact": "During the campaign, Sean Easton (now mayor) said council should vote no on the proposed agreement.",
           "source_url": "https://www.squamishreporter.com/2026/09/14/council-vote-no-woodfibre-lng-agreement-sean-easton/"
         },
         {
@@ -749,7 +745,7 @@
           "source_url": "https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/wlng-agreement/"
         },
         {
-          "fact": "What critics of the deal point to: the $117 million in payments never rises with inflation, is front-loaded (about $18.5 million a year in 2028–30, falling to about $10.5 million by 2034–36), can only be spent on capital projects, does not increase if the plant expands, and must be partly repaid if Woodfibre’s tax bill ever rises above the agreed amount — so $142 million works as a ceiling as well as a floor.",
+          "fact": "What critics of the deal point to: the $117 million in payments never rises with inflation, is front-loaded (about $18.5 million a year in 2028–30, falling to about $10.5 million by 2034–36), can only be spent on capital projects, does not increase if the plant expands, and must be partly repaid if Woodfibre’s tax bill ever rises above the agreed amount, so $142 million works as a ceiling as well as a floor.",
           "source_url": "https://squamish.ca/assets/WLNG/CEP-Agreement-FINAL-25-Aug-26.pdf"
         },
         {
@@ -761,7 +757,7 @@
           "source_url": "https://www.squamishreporter.com/2026/09/23/squamish-council-rejects-woodfibre-lng-tax-deal/"
         },
         {
-          "fact": "Among candidates who have taken a side, opposition to the deal is about money and timing, not the environment: Daniel Deal, Sean Easton, Janice DesJardins and Laura Prosko all want it rejected or delayed for a better one, and none of them opposes the plant itself. Sean Goodwin supports signing. At the Sept. 22 vote, sitting councillors Stoner, Hamilton and Pettingill voted to reject it; Andersen and French voted for it.",
+          "fact": "During the campaign, opposition to the deal was about money and timing, not the environment: Sean Easton, Janice DesJardins and Laura Prosko (all now on council) wanted it rejected or delayed for a better one, and none of them opposed the plant itself. At the Sept. 22 vote, the outgoing councillors Stoner, Hamilton and Pettingill voted to reject it; Andersen and French voted for it.",
           "source_url": "https://www.squamishchief.com/local-news/is-the-woodfibre-lng-tax-deal-fair-here-is-what-the-company-and-critics-are-saying-12799020"
         }
       ],
@@ -776,7 +772,7 @@
         "https://myseatosky.org/news/updates/woodfibre-lngs-terrible-tax-deal/"
       ],
       "teaser": "Woodfibre LNG is building a liquefied natural gas export plant on Howe Sound about 7 km from downtown, fed by a new FortisBC pipeline; it was approved by senior governments and the Squamish Nation, not by council, and remains divisive locally.",
-      "short_explainer": "Woodfibre LNG is building a gas export plant on Howe Sound, about 7 km from downtown. Senior governments and the Squamish Nation approved it — council did not, and cannot stop it. What council does control is local: permits for worker housing (the ‘floatel’ and workers’ lodges), rules on traffic, noise and safety, and how hard it presses the Province to enforce the plant’s conditions. In April 2024 council refused the floatel permit 4–3; the Province overrode it, and in July 2025 council approved a two-year permit 5–2. How the plant is taxed is a separate question — see Taxes & spending."
+      "short_explainer": "Woodfibre LNG is building a gas export plant on Howe Sound, about 7 km from downtown. Senior governments and the Squamish Nation approved it. Council did not, and cannot stop it. What council does control is local: permits for worker housing (the ‘floatel’ and workers’ lodges), rules on traffic, noise and safety, and how hard it presses the Province to enforce the plant’s conditions. In April 2024 council refused the floatel permit 4–3; the Province overrode it, and in July 2025 council approved a two-year permit 5–2. How the plant is taxed is a separate question: see Taxes and spending."
     },
     {
       "key": "transportation",
@@ -825,7 +821,7 @@
       "title": "Parking",
       "teaser": "How much parking new buildings must include, whether to charge for it, and whether to build more.",
       "short_explainer": "Parking comes up in almost every conversation about downtown and about new buildings. Council does not just decide whether to charge for parking. It also decides how much parking each new building must include, and it has often allowed less.",
-      "explainer": "Parking comes up in almost every conversation about downtown and about new buildings. Council does not just decide whether to charge for parking. It also decides how much parking each new building must include, and it has often allowed less. Supporters of less parking say it makes homes cheaper to build, and that more people will walk, bike or take the bus as the town fills in. Critics say most Squamish households still need a car, often two, and that the cars simply end up on the street. There are three live questions. First, new buildings: council can cut the required parking for one project (a variance), let a builder pay cash instead of building stalls, or drop the requirement entirely, as it did in 2025 for small lots near future frequent bus routes. Second, paid parking: a 2023 District study found the downtown core close to full at peak times and recommended charging on Cleveland and Second avenues, but council has put that off until at least 2027 and is running a pilot at Darrell Bay instead, where locals pay too. Third, more supply: a 2020 study priced a downtown parkade at $10 million to $25 million, and the District says it will try managing demand first. Some candidates say downtown has a shortage of spaces. Others say it has enough spaces that are poorly managed.",
+      "explainer": "Parking comes up in almost every conversation about downtown and about new buildings. Council does not just decide whether to charge for parking. It also decides how much parking each new building must include, and it has often allowed less. Supporters of less parking say it makes homes cheaper to build, and that more people will walk, bike or take the bus as the town fills in. Critics say most Squamish households still need a car, often two, and that the cars simply end up on the street. There are three live questions. First, new buildings: council can cut the required parking for one project (a variance), let a builder pay cash instead of building stalls, or drop the requirement entirely, as it did in 2025 for small lots near future frequent bus routes. Second, paid parking: a 2023 District study found the downtown core close to full at peak times and recommended charging on Cleveland and Second avenues, but council has put that off until at least 2027 and is running a pilot at Darrell Bay instead, where locals pay too. Third, more supply: a 2020 study priced a downtown parkade at $10 million to $25 million, and the District says it will try managing demand first. Some people say downtown has a shortage of spaces. Others say it has enough spaces that are poorly managed.",
       "key_facts": [
         {
           "fact": "Downtown paid parking is on hold. At a March 11, 2025 committee meeting council chose a paid-parking pilot at Darrell Bay only, which the Squamish Chief reported 'means that paid-parking will not move forward in downtown Squamish until at least 2027'. Staff are to report back with an evaluation in early 2027.",
@@ -910,7 +906,7 @@
           "source_url": "https://letstalksquamish.ca/neighbourhood-nodes-squamish"
         },
         {
-          "fact": "The Oct. 5 all-candidates meeting is hosted by the business community's Joint Engagement Committee (Chamber of Commerce, Downtown Squamish BIA, Tourism Squamish), which also called for consultation on the downtown HEARTH housing site in April 2026.",
+          "fact": "The Oct. 5, 2026 all candidates meeting was hosted by the business community's Joint Engagement Committee (Chamber of Commerce, Downtown Squamish BIA, Tourism Squamish), which also called for consultation on the downtown HEARTH housing site in April 2026.",
           "source_url": "https://www.squamishreporter.com/2026/04/27/squamish-businesses-call-for-consultation-on-downtown-homeless-housing-proposal/"
         }
       ],
@@ -993,7 +989,7 @@
     {
       "key": "other_campaign_topics",
       "title": "Also in the conversation: childcare, short-term rentals, vanlife, Indigenous relations",
-      "explainer": "Several smaller topics recur in 2026 coverage. Childcare is scarce and expensive, and is cited as the main reason Squamish's living wage exceeds Metro Vancouver's. Short-term rentals are limited to an operator's principal residence, with a capped number of temporary permits for suites, and enforcement has been uneven. The Chief's editorial board has asked candidates for their approach to people living in vehicles ('vanlifers') alongside street disorder. The District's relationship with the Squamish Nation (Skwxwu7mesh Uxwumixw), a major landowner and development partner, ranked in the top three issues for about 23% of survey respondents.",
+      "explainer": "Several smaller topics recur in 2026 coverage. Childcare is scarce and expensive, and is cited as the main reason Squamish's living wage exceeds Metro Vancouver's. Short-term rentals are limited to an operator's principal residence, with a capped number of temporary permits for suites, and enforcement has been uneven. During the campaign, the Chief's editorial board asked candidates for their approach to people living in vehicles ('vanlifers') alongside street disorder. The District's relationship with the Squamish Nation (Skwxwu7mesh Uxwumixw), a major landowner and development partner, ranked in the top three issues for about 23% of survey respondents.",
       "key_facts": [
         {
           "fact": "The 2025 Squamish living wage report attributes Squamish's higher-than-Metro-Vancouver living wage largely to higher childcare costs.",
@@ -1008,7 +1004,7 @@
           "source_url": "https://www.squamishchief.com/highlights/short-term-rental-listings-fall-16-in-squamish-but-compliance-gaps-remain-12026735"
         },
         {
-          "fact": "The Squamish Chief's Sept. 16, 2026 editorial asks candidates for specifics on reducing parking, the LNG relationship, street disorder and 'easing tensions for and with vanlifers', Brennan Park, and property taxes.",
+          "fact": "The Squamish Chief's Sept. 16, 2026 editorial asked candidates for specifics on reducing parking, the LNG relationship, street disorder and 'easing tensions for and with vanlifers', Brennan Park, and property taxes.",
           "source_url": "https://www.squamishchief.com/2026-civic-election/editorial-why-squamish-voters-deserve-specific-answers-from-candidates-12783144"
         },
         {
