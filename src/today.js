@@ -62,6 +62,7 @@
     } else set('sun', null);
     strip.classList.add('ts-ready');
     fit();
+    more();
   }
 
   // Desktop shows the row without scrolling: drop cells from least to most important until it fits.
@@ -76,6 +77,17 @@
     }
   }
   if (strip) window.addEventListener('resize', function () { if (strip.classList.contains('ts-ready')) fit(); });
+  // Phones: show the swipe arrow while more cells are hidden off to the right.
+  function more() {
+    var row = strip.querySelector('.ts-row');
+    strip.classList.toggle('ts-more', !strip.hidden && window.innerWidth < 900 && row.scrollLeft + row.clientWidth < row.scrollWidth - 8);
+  }
+  if (strip) {
+    var tsRow = strip.querySelector('.ts-row');
+    tsRow.addEventListener('scroll', more, { passive: true });
+    window.addEventListener('resize', more);
+    setTimeout(more, 0); // before data arrives the placeholders already overflow
+  }
 
   // Open-Meteo weather codes (WMO) in plain words.
   var WX = function (c) {
@@ -180,7 +192,15 @@
     return '<ul class="td-av">' + v.ratings.map(function (r) { return '<li data-r="' + e(r.value) + '"><span>' + e(r.zone) + '</span><b>' + e(r.label) + '</b></li>'; }).join('') + '</ul><p class="small muted">' + e(v.day) + '</p><p class="small"><a href="' + e(v.link) + '" target="_blank" rel="noopener">Full forecast and problems →</a></p>';
   }
 
-  var FILL = { weather: weather, highway: highway, wind: wind, tide: tide, river: river, air: air, avalanche: avalanche };
+  // "Is the rock dry?": a rough guide from recent rain at the Chief, never a promise.
+  function rock(r) {
+    var V = { dry: ['Probably dry', 'ok', 'No real rain at the Chief in the last two days.'], drying: ['Drying, maybe damp', 'warn', 'It rained in the last two days but has been dry for ' + r.dryHours + ' hours. Sunny faces may be fine; shady and seepy spots may still be wet.'], wet: ['Probably wet', 'bad', 'It is raining now or rained recently. Give it a dry day or two.'] }[r.verdict];
+    return '<p class="td-pill ' + V[1] + '">' + V[0] + '</p><p>' + e(V[2]) + '</p>'
+      + '<p class="small">Rain at the Chief: <b>' + r.rain24 + ' mm</b> in the last 24 hours, <b>' + r.rain48 + ' mm</b> in the last 48. ' + (r.next12 >= 0.5 ? 'About ' + r.next12 + ' mm more expected in the next 12 hours.' : 'Little or no rain expected in the next 12 hours.') + '</p>'
+      + '<p class="small muted"><b>Rough guide only.</b> Worked out from rainfall, not from the rock itself. Granite can seep for days after heavy rain, and forest crags stay wet longer. Look before you climb.</p>';
+  }
+
+  var FILL = { weather: weather, highway: highway, wind: wind, tide: tide, rock: rock, river: river, air: air, avalanche: avalanche };
 
   function fail(el) { el.innerHTML = '<p class="td-wait">Couldn’t load this right now. Use the source link below.</p>'; }
 

@@ -2074,3 +2074,4 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .sc-tabs a[aria-current="true"] { background: var(--ink, #111); color: var(--bg, #fff); }
 .issue-hub { padding: 1rem 1.1rem; }
 .issue-hub h2 { margin-top: 0; font-size: 1.35rem; }
+.td-a2hs ul, .td-go ul { margin: .4rem 0 0; padding-left: 1.2rem; }

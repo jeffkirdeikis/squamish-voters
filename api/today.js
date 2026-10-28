@@ -1,6 +1,6 @@
 // Squamish right now: weather, Highway 99, wind at the Spit, the river, air quality and avalanche danger in one reply
 // for /today/ and the home page strip. Every source is free public data; one that fails is left out, not fatal.
-//   GET -> { at, weather, days, highway, wind, tide, river, air, avalanche }
+//   GET -> { at, weather, days, highway, wind, tide, rock, river, air, avalanche }
 import NORMALS from './_river-normals.json' with { type: 'json' };
 
 const TZ = 'America/Vancouver';
@@ -81,6 +81,21 @@ async function days() {
   return x.time.map((t, i) => ({ date: t, code: x.weather_code[i], hi: Math.round(x.temperature_2m_max[i]), lo: Math.round(x.temperature_2m_min[i]), pop: x.precipitation_probability_max[i], rain: +x.precipitation_sum[i].toFixed(1), snow: +x.snowfall_sum[i].toFixed(1), gust: Math.round(x.wind_gusts_10m_max[i]) }));
 }
 
+// "Is the rock dry?": a rough guide for climbers from hourly rain at the Stawamus Chief (Open-Meteo, past 2 days and the
+// next 12 hours). Not a measurement of the rock: granite seeps for days after heavy rain and shady crags stay wet longer.
+async function rock() {
+  const d = await get(`https://api.open-meteo.com/v1/forecast?latitude=49.684&longitude=-123.146&current=precipitation&hourly=precipitation&past_days=2&forecast_days=1&timezone=${encodeURIComponent(TZ)}`);
+  const h = d.hourly || {}, now = String(d.current?.time || '').slice(0, 13);
+  const i0 = (h.time || []).findIndex((t) => t.slice(0, 13) === now);
+  if (i0 < 0) return null;
+  const mm = (a, b) => +(h.precipitation.slice(Math.max(0, a), b).reduce((x, y) => x + (y || 0), 0)).toFixed(1);
+  const rain48 = mm(i0 - 47, i0 + 1), rain24 = mm(i0 - 23, i0 + 1), next3 = mm(i0 + 1, i0 + 4), next12 = mm(i0 + 1, i0 + 13);
+  let dryHours = 0; for (let i = i0; i >= 0 && (h.precipitation[i] || 0) < 0.2; i--) dryHours++;
+  const wetNow = (h.precipitation[i0] || 0) >= 0.2 || next3 >= 0.5;
+  const verdict = wetNow ? 'wet' : rain48 < 1 && dryHours >= 24 ? 'dry' : dryHours >= 12 && rain48 < 5 ? 'drying' : 'wet';
+  return { verdict, rain48, rain24, dryHours: Math.min(dryHours, 48), next12, link: 'https://open-meteo.com/' };
+}
+
 // Water Survey of Canada gauge: Squamish River near Brackendale. Level now and 24 hours ago.
 async function river() {
   const d = await get('https://api.weather.gc.ca/collections/hydrometric-realtime/items?f=json&STATION_NUMBER=08GA022&sortby=-DATETIME&limit=300');
@@ -120,7 +135,7 @@ async function avalanche() {
 }
 
 export default async function handler(req, res) {
-  const parts = { weather, days, highway, wind, tide, river, air, avalanche };
+  const parts = { weather, days, highway, wind, tide, rock, river, air, avalanche };
   const out = { at: new Date().toISOString() };
   await Promise.all(Object.entries(parts).map(async ([k, fn]) => { out[k] = await fn().catch((e) => { console.error(k, e.message); return null; }); }));
   // Shared cache: one fetch of every source per five minutes, however many people open the page.
