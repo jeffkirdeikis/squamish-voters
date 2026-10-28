@@ -79,7 +79,8 @@ img { max-width: 100%; }
 /* phones: My ballot lives in the header (icon + count) now that Compare has its bottom tab */
 .ballot-btn { flex: none; padding: 0 .6rem; }
 .ballot-btn svg { width: 24px; height: 24px; }
-@media (max-width: 30em) { .site-header .wrap { gap: .5rem; } .logo { font-size: 1.05rem; gap: .45rem; } .logo > span { white-space: nowrap; } .logo small { font-size: .68rem; } .logo-mark { width: 2rem; height: 2rem; } }
+@media (max-width: 30em) { .site-header .wrap { gap: .5rem; } .logo { font-size: min(1.05rem, 5.4vw); gap: .45rem; } .logo > span { white-space: normal; overflow: visible; overflow-wrap: normal; word-break: normal; } .logo small { font-size: min(.68rem, 3.4vw); } .logo-mark { width: 2rem; height: 2rem; flex: none; } }
+@media (max-width: 23em) { .logo { font-size: min(1rem, 5.4vw); } .logo > span { white-space: normal; overflow: visible; } .logo small { display: none; } }
 @media (min-width: 60em) { .top-nav { display: flex; } .menu-btn, .ballot-btn { display: none; } .logo > span { white-space: nowrap; } }
 /* our own A-A-A control doesn't affect media queries, so step the breakpoint up by hand */
 .menu-btn { flex: none; }
@@ -99,7 +100,7 @@ img { max-width: 100%; }
 .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; background: var(--surface); border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -2px 12px rgba(0,0,0,.08); max-width: 100vw; }
 .tabbar a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .15rem; min-height: 4rem; text-decoration: none; color: var(--ink-2); font-weight: 600; text-align: center; line-height: 1.1; padding: .3rem .1rem; position: relative; min-width: 0; overflow: hidden; }
 /* fixed px, not rem: the A-A-A text scaler must not be able to widen the bar */
-.tabbar a > span:not(.ballot-count) { font-size: 12px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tabbar a > span:not(.ballot-count) { font-size: min(.8rem, 3.9vw); max-width: 100%; white-space: normal; overflow-wrap: normal; line-height: 1.1; } /* follows the phone's text size, capped by screen width so a word never splits */
 .tabbar svg { flex: none; }
 .tabbar svg { width: 26px; height: 26px; }
 .tabbar a[aria-current="page"] { color: var(--brand); background: var(--brand-soft); }
@@ -729,7 +730,6 @@ blockquote.long p { margin: 0 0 .7rem; } blockquote.long { font-style: normal; }
 .mc-note { color: var(--muted); margin: .6rem 0 .4rem; }
 .mc-you { margin: .6rem 0 0; }
 .lean-more { margin-top: 2rem; }
-@media (max-width: 380px) { .tabbar a > span:not(.ballot-count) { font-size: 11px; } }
 @media (max-width: 520px) { .mini-compass { padding: 1rem .7rem .9rem; } }
 .cb-narrow { display: none; }
 @media (max-width: 620px) { .cb-wide { display: none; } .cb-narrow { display: block; } .compass-box { padding: .3rem; } }
@@ -1256,8 +1256,8 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .cc-cal { flex: none; width: 3.1rem; text-align: center; background: #fff; color: var(--ink); border-radius: 10px; overflow: hidden; }
 .cc-cal span { display: block; background: #ffd84d; font-size: .62rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: .1rem 0; }
 .cc-cal b { display: block; font: 800 1.4rem/1.35 Georgia, serif; color: var(--ink); }
-.cc-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
-.cc-tile { display: flex; flex-direction: column; gap: .4rem; min-height: 6.6rem; padding: .8rem; border-radius: var(--radius); background: #fff; color: var(--ink); text-decoration: none; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+.cc-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr)); gap: .6rem; }
+.cc-tile { display: flex; flex-direction: column; gap: .4rem; min-width: 0; overflow-wrap: anywhere; min-height: 6.6rem; padding: .8rem; border-radius: var(--radius); background: #fff; color: var(--ink); text-decoration: none; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
 .cc-tile:hover { box-shadow: 0 0 0 3px #ffd84d; }
 .cc-tile b { font: 700 1rem/1.2 Georgia, serif; }
 .cc-tile > span:last-child { font-size: .75rem; line-height: 1.35; color: var(--ink-2); }
@@ -2087,3 +2087,8 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
   .td-grid > .td-card { flex: 0 0 calc(100% - 2.5rem); scroll-snap-align: center; scroll-snap-stop: always; }
   .td-card .td-hours, .td-card .td-days, .td-card [class*="scroll"] { overscroll-behavior-x: contain; }
 }
+.td-strip { position: relative; }
+.ts-hint { display: none; }
+.td-strip.ts-more .ts-hint { display: grid; place-items: center; position: absolute; right: .35rem; top: 50%; transform: translateY(-50%); width: 1.7rem; height: 1.7rem; border-radius: 50%; background: #ffb703; color: #14211c; font-weight: 800; pointer-events: none; box-shadow: 0 1px 6px rgba(0,0,0,.35); }
+@media (prefers-reduced-motion: no-preference) { .td-strip.ts-more .ts-hint { animation: ts-nudge 1.6s ease-in-out 3; } }
+@keyframes ts-nudge { 0%, 100% { margin-right: 0; } 50% { margin-right: .3rem; } }
