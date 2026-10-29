@@ -83,7 +83,7 @@
     },
     {
      "date": "2026-06-23",
-     "what": "BC Housing presented the HEART and HEARTH program to council at Committee of the Whole.",
+     "what": "BC Housing presented the HEART and HEARTH program to council at a council workshop (Committee of the Whole).",
      "votes": "",
      "source_url": "https://squamish.ca/building-and-land-development/addressing-homelessness/"
     },
@@ -268,7 +268,7 @@
      "source_url": "https://squamish.civicweb.net/FileStorage/5546015607B24507BB9272C2DFC09AC2-0901%20Regular%20Minutes%202026.pdf"
     },
     {
-     "label": "Phase 1: needs, options, costs, funding plan",
+     "label": "Working out what to build, what it costs and how to pay",
      "status": "current",
      "date": "",
      "note": "Started June 2026 and planned to take about 12 months.",
@@ -556,24 +556,24 @@
     "all",
     "garibaldi-estates"
    ],
-   "summary": "The Official Community Plan (OCP) is the master plan for where and how Squamish grows; the current one was adopted in 2018. Council has been adding provincial housing rules and neighbourhood plans, most recently pre-zoning Garibaldi Estates for more homes. Staff's draft budget proposes a full OCP rewrite starting in 2027.",
+   "summary": "The Official Community Plan (OCP), or town plan, is the master plan for where and how Squamish grows; the current one was adopted in 2018. Council has been adding provincial housing rules and neighbourhood plans, most recently pre-zoning Garibaldi Estates for more homes. Staff's draft budget proposes a full town plan rewrite starting in 2027.",
    "steps": [
     {
-     "label": "Province's housing update added to OCP",
+     "label": "Province's housing update added to the town plan",
      "status": "done",
      "date": "2025-11-18",
      "note": "Council adopted the interim housing needs amendment (Bylaw 3139).",
      "source_url": "https://squamish.civicweb.net/FileStorage/F1DAB059BE9A443886BF61123E69005B-1118%20Regular%20Minutes%202025.pdf"
     },
     {
-     "label": "Garibaldi Estates pre-zoning",
+     "label": "Garibaldi Estates zoned for more homes ahead of time",
      "status": "current",
      "date": "2026-10-06",
      "note": "Final adoption of the Garibaldi Estates zoning bylaws was on the October 6 agenda; the minutes confirming the result are not posted yet.",
      "source_url": "https://squamish.civicweb.net/Portal/MeetingInformation.aspx?Id=2113"
     },
     {
-     "label": "Full OCP update funded in the 2027 budget",
+     "label": "Full town plan update funded in the 2027 budget",
      "status": "upcoming",
      "date": "",
      "note": "Staff's draft 2027 to 2036 plan proposes $97,500 in 2027 and about $540,000 more in 2028 and 2029; the budget is not yet adopted.",
@@ -590,11 +590,11 @@
      "label": "Readings and public hearing",
      "status": "upcoming",
      "date": "",
-     "note": "An OCP bylaw needs readings and, usually, a public hearing.",
+     "note": "A town plan bylaw needs readings and, usually, a public hearing.",
      "source_url": "https://squamish.civicweb.net/Portal/227149/ParticipatinginMeetings/"
     },
     {
-     "label": "New OCP adopted",
+     "label": "New town plan adopted",
      "status": "upcoming",
      "date": "",
      "note": "",
@@ -604,25 +604,25 @@
    "history": [
     {
      "date": "2026-10-06",
-     "what": "Garibaldi Estates pre-zoning bylaws were on the agenda for final adoption (minutes not yet posted).",
+     "what": "Bylaws zoning Garibaldi Estates for more homes ahead of time were on the agenda for final adoption (minutes not yet posted).",
      "votes": "",
      "source_url": "https://squamish.civicweb.net/Portal/MeetingInformation.aspx?Id=2113"
     },
     {
      "date": "2026-07-07",
-     "what": "Council gave first and second reading to a Steep Slopes OCP amendment and set a public hearing.",
+     "what": "Council gave first and second reading to a Steep Slopes change to the town plan and set a public hearing.",
      "votes": "",
      "source_url": "https://squamish.civicweb.net/Portal/MeetingInformation.aspx?Id=2097"
     },
     {
      "date": "2026-05-19",
-     "what": "Council gave three readings to five Garibaldi Estates pre-zoning bylaws; the medium lot zone passed 5 to 2.",
+     "what": "Council gave three readings to five bylaws zoning Garibaldi Estates for more homes ahead of time; the medium lot zone passed 5 to 2.",
      "votes": "Councillors Hamilton and Greenlaw opposed the medium lot zone",
      "source_url": "https://squamish.civicweb.net/FileStorage/1BEE57A5E9E14321B5E214689F3DDC8F-0519%20Regular%20Minutes%202026%20v2.pdf"
     },
     {
      "date": "2025-11-18",
-     "what": "Council adopted the OCP amendment adding the provincially required interim housing needs report.",
+     "what": "Council adopted the town plan change adding the provincially required interim housing needs report.",
      "votes": "",
      "source_url": "https://squamish.civicweb.net/FileStorage/F1DAB059BE9A443886BF61123E69005B-1118%20Regular%20Minutes%202025.pdf"
     },
@@ -633,7 +633,7 @@
      "source_url": "https://squamish.civicweb.net/Portal/MeetingInformation.aspx?Id=1993"
     }
    ],
-   "what_next": "The new council decides in the 2027 budget whether to fund a full OCP rewrite starting in 2027, and will see the Newport Ridge neighbourhood plan and other growth proposals.",
+   "what_next": "The new council decides in the 2027 budget whether to fund a full town plan rewrite starting in 2027, and will see the Newport Ridge neighbourhood plan and other growth proposals.",
    "related_q": [
     "q1",
     "q2",
