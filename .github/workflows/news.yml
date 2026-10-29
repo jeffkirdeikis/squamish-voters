@@ -20,6 +20,7 @@ concurrency:
   cancel-in-progress: false
 permissions:
   contents: write
+  actions: write # to start the IndexNow job after a push (pushes made here don't start other workflows)
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -37,6 +38,7 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           NEWS_REVIEW_TO: ${{ secrets.NEWS_REVIEW_TO }}
+          GH_TOKEN: ${{ github.token }}
           DRAFT_ONE: ${{ github.event.inputs.draft_one == 'true' && '1' || '' }}
         run: |
           git config user.name 'squamish-voters-bot'
@@ -56,6 +58,7 @@ jobs:
             elif node build.mjs > /dev/null; then # make sure the site still builds before committing
               git commit -q -m "News update $(date -u +%Y-%m-%dT%H:%MZ)"
               git pull --rebase --autostash -q && git push -q || echo 'Push failed; will retry next pass'
+              gh workflow run indexnow.yml > /dev/null 2>&1 || true # tell Bing about the changed pages once live
             else echo 'Build failed; not committing, trying again next pass'
             fi
             pass=$(( pass + 1 ))

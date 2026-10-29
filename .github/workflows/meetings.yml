@@ -16,6 +16,7 @@ concurrency:
   cancel-in-progress: false
 permissions:
   contents: write
+  actions: write # to start the IndexNow job after a push (pushes made here don't start other workflows)
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -47,6 +48,8 @@ jobs:
       - name: Make sure the site still builds
         run: node build.mjs
       - name: Commit
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name 'squamish-voters-bot'
           git config user.email 'actions@users.noreply.github.com'
@@ -56,3 +59,4 @@ jobs:
           git pull --rebase -q && git push
           # Publish. Works once Vercel's GitHub app can see this repo; until then Jeff's Mac publishes (scripts/pipeline/mac/run.sh).
           curl -fsS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}" || true
+          gh workflow run indexnow.yml > /dev/null 2>&1 || true # tell Bing about the changed pages once live
