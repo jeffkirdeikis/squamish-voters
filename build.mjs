@@ -299,7 +299,7 @@ const issueCtx = (key) => (ctx.issues || []).find((i) => i.key === key) || {};
 // ---------- layout ----------
 // Desktop top bar (layout A, Oct 26): four jobs. Council and Your say open a dropdown; each also has its own hub page.
 const NAV_GROUPS = [
-  { href: '/council/', label: 'Council', items: [['/council/', 'Your mayor and council'], ['/meetings/', 'Council meetings'], ['/this-week/', 'This week at council'], ['/scorecard/', 'Scorecard: promises and positions'], ['/how-council-works/', 'How council works']] },
+  { href: '/council/', label: 'Council', items: [['/council/', 'Your mayor and council'], ['/meetings/', 'Council meetings'], ['/this-week/', 'This week in Squamish'], ['/scorecard/', 'Scorecard: promises and positions'], ['/how-council-works/', 'How council works']] },
   { href: '/your-say/', label: 'Your say', items: [['/wants/', 'What Squamish Wants'], ['/have-your-say/', 'Before council votes'], ['/priorities/', 'Readers’ top issues']] },
   { href: '/meetings/', label: 'Meetings' },
   { href: '/neighbourhoods/', label: 'Neighbourhoods' },
@@ -309,7 +309,7 @@ const NAV_GROUPS = [
 ];
 const NAV = [['/council/', 'Council'], ['/your-say/', 'Your say'], ['/wants/', 'What Squamish Wants'], ['/meetings/', 'Meetings'], ['/scorecard/', 'Scorecard'], ['/issues/', 'Issues'], ['/news/', 'News']];
 // The Menu lists everything; the top bar only has room for the essentials.
-const MENU = [...NAV, ['/have-your-say/', 'Before council votes'], ['/this-week/', 'This week at council'], ['/priorities/', 'Readers’ top issues'], ['/neighbourhoods/', 'Your neighbourhood'], ['/today/', 'Squamish today'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
+const MENU = [...NAV, ['/have-your-say/', 'Before council votes'], ['/this-week/', 'This week in Squamish'], ['/priorities/', 'Readers’ top issues'], ['/neighbourhoods/', 'Your neighbourhood'], ['/today/', 'Squamish today'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
 const ICON = {
   sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>',
   gavel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4l6 6M11 7l6 6M12.5 5.5l-6 6 3 3 6-6M8 13l-5 5 3 3 5-5M4 21h9"/></svg>',
@@ -343,7 +343,7 @@ const MENU_ICON = {
 };
 const MOBILE_MENU = [
   ['/', 'Home', 'home'], ['/wants/', 'What Squamish Wants: say yes or no to local asks', 'hand'], ['/your-say/', 'Your say: everywhere you can weigh in', 'ballot'], ['/council/', 'Your mayor and council', 'people'], ['/neighbourhoods/', 'Your neighbourhood: decisions, building projects, news', 'compass'], ['/have-your-say/', 'Before council votes: vote on what council votes on', 'ballot'], ['/meetings/', 'Council meetings: what’s next and what they decided', 'meet'],
-  ['/this-week/', 'This week at council', 'meet'], ['/how-council-works/', 'How council works, and the first 100 days', 'about'], ['/scorecard/', 'Scorecard: their promises and how they vote', 'promise'], ['/issues/', 'Issues: each topic, what’s happening and who stands where', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/news/', 'Squamish news', 'news'], ['/today/', 'Squamish today: weather, highway, wind, river', 'sun'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
+  ['/this-week/', 'This week in Squamish', 'meet'], ['/how-council-works/', 'How council works, and the first 100 days', 'about'], ['/scorecard/', 'Scorecard: their promises and how they vote', 'promise'], ['/issues/', 'Issues: each topic, what’s happening and who stands where', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/news/', 'Squamish news', 'news'], ['/today/', 'Squamish today: weather, highway, wind, river', 'sun'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
   ['/about/', 'About this site &amp; sources', 'about'],
 ];
 
@@ -1958,25 +1958,81 @@ write('/your-say/', page({
   }
 }
 
-// ---------- THIS WEEK AT COUNCIL (/this-week/ and the Friday email) ----------
+// ---------- THIS WEEK IN SQUAMISH (/this-week/ and the Friday email) ----------
+// Council first, then dates, roads, news, one What Squamish Wants question and the budget, all from data the site
+// already has. A part with nothing in it is left out. Roads and the answer totals load in the browser (/api/today/,
+// /api/wants/), like the Today page. this-week.json keeps its old fields for the email and adds the new parts.
 {
   const back = new Date(Date.now() - 8 * 864e5).toISOString().slice(0, 10), ahead = new Date(Date.now() + 10 * 864e5).toISOString().slice(0, 10);
   const recent = past.filter((m) => m.summary && m.date >= back), soon = upcoming.filter((m) => m.date <= ahead);
+  // With nothing in the next 10 days, still show the next meeting; then one line for the one after.
+  const shown = soon.length ? soon : upcoming.slice(0, 1), after = upcoming.find((m) => !shown.includes(m));
+  // Dates and deadlines: the news page's calendar, plus any tracked issue whose current step is open for comments.
+  const dates = NEWS.coming.filter((c) => c.date >= TODAY).sort((a, b) => a.date.localeCompare(b.date));
+  const open = TRACKED.flatMap((t) => (t.steps || []).filter((s) => s.status === 'current' && /input|comment|feedback|survey|hearing/i.test(s.label)).map((s) => ({ t, s })));
+  // Top stories: the last 10 days, lead and feature stories first, then the newest.
+  const since = new Date(Date.now() - 10 * 864e5).toISOString().slice(0, 10), TIER = { lead: 0, feature: 1 };
+  const top = NEWS.stories.filter((s) => s.date >= since && s.date <= TODAY).sort((a, b) => (TIER[a.tier] ?? 2) - (TIER[b.tier] ?? 2) || b.date.localeCompare(a.date)).slice(0, 3);
+  const SEC = Object.fromEntries(NEWS.sections);
+  // The newest yearly budget we follow, and the What Squamish Wants question that points at it (else the first one).
+  const bud = TRACKED.filter((t) => /^budget-\d{4}$/.test(t.slug)).sort((a, b) => b.slug.localeCompare(a.slug))[0];
+  const wq = (bud && WANTS.asks.find((a) => a.source_url === `/track/${bud.slug}/`)) || WANTS.asks[0];
+  const wOpts = wq ? [...(wq.options || [{ key: 'y', label: 'Yes' }, { key: 'n', label: 'No' }]).map((o) => [o.key, o.label]), ['m', 'Don’t mind']] : [];
   const week = { built: TODAY, recent: recent.map((m) => ({ url: ORIGIN + mUrl(m), date: m.date, type: mType(m).label, headline: m.summary.headline, key_points: m.summary.key_points || [], votes: (m.decisions || []).filter((d) => d.votes).slice(0, 5).map((d) => ({ title: d.title, result: RESULT_WORD[d.result] || '', for_you: d.for_you || '', against: all.filter((c) => d.votes[c.slug] === 'no').map((c) => c.name) })) })),
     soon: soon.map((m) => ({ url: ORIGIN + mUrl(m), date: m.date, time: fmtTime(m.time), type: mType(m).label, preview: m.preview || mType(m).plain, items: (m.agenda_items || []).slice(0, 5).map((a) => a.plain) })),
-    promises: Object.fromEntries(Object.entries(pCounts(PROMISES))) };
+    promises: Object.fromEntries(Object.entries(pCounts(PROMISES))),
+    next: after ? { url: ORIGIN + mUrl(after), date: after.date, type: mType(after).label, preview: after.preview || mType(after).plain } : null,
+    dates: [...dates.map((c) => ({ date: c.date, title: c.title, text: c.text, url: isUrl(c.url) ? c.url : ORIGIN + c.url })), ...open.map(({ t, s }) => ({ date: null, title: s.label, text: s.note || '', url: `${ORIGIN}/track/${t.slug}/` }))],
+    news: top.map((s) => ({ url: `${ORIGIN}/news/${s.slug}/`, date: s.date, section: SEC[s.s] || '', head: s.head, dek: s.dek, source: s.src[0], source_url: s.src[1] })),
+    wants: wq ? { url: `${ORIGIN}/wants/${wq.id}/`, title: wq.title, options: wOpts.map(([key, label]) => ({ key, label })) } : null,
+    budget: bud ? { url: `${ORIGIN}/track/${bud.slug}/`, title: bud.title, summary: bud.summary, what_next: bud.what_next || '' } : null };
   fs.mkdirSync(DIST, { recursive: true });
   fs.writeFileSync(path.join(DIST, 'this-week.json'), JSON.stringify(week));
+  const cut = (s, n = 220) => (s.length > n ? s.slice(0, s.lastIndexOf(' ', n)) + '…' : s);
+  const cal = (d) => { const x = new Date(d + 'T12:00:00'); return `<div class="nw-cal" aria-hidden="true"><span>${x.toLocaleDateString('en-CA', { month: 'short' }).replace('.', '')}</span><b>${x.getDate()}</b></div>`; };
+  const council = recent.length
+    ? recent.map((m) => `<section class="card"><p class="mwhen"><b>${esc(fmtDay(m.date))}</b> ${mBadge(m)}</p><p class="lede">${escGl(m.summary.headline)}</p><ul class="keypoints">${(m.summary.key_points || []).map((k) => `<li>${escGl(k)}</li>`).join('')}</ul><a class="btn secondary" href="${mUrl(m)}">Every vote →</a></section>`).join('')
+    : `<p>Council didn’t meet in the last week.${shown[0] ? ` The next meeting is ${esc(fmtDay(shown[0].date))}.` : ''}</p>`;
   write('/this-week/', page({
-    url: '/this-week/', jsonld: crumbLd([['Home', '/'], ['This week at council', '/this-week/']]), title: 'This week at Squamish council',
-    desc: 'What Squamish council decided this week and what’s coming up next, in plain words. The same summary goes out by email every Friday.',
-    body: `<h1>This week at council</h1>
-    <p class="lede">What council decided in the last week, and what’s coming up. This is what our Friday email says.</p>
-    <h2>Decided</h2>
-    ${recent.length ? recent.map((m) => `<section class="card"><p class="mwhen"><b>${esc(fmtDay(m.date))}</b> ${mBadge(m)}</p><p class="lede">${escGl(m.summary.headline)}</p><ul class="keypoints">${(m.summary.key_points || []).map((k) => `<li>${escGl(k)}</li>`).join('')}</ul><a class="btn secondary" href="${mUrl(m)}">Every vote →</a></section>`).join('') : '<p class="muted">Council didn’t meet in the last week.</p>'}
-    <h2>Coming up</h2>
-    ${soon.length ? `<ul class="mlist">${soon.map(meetingRow).join('')}</ul>` : '<p class="muted">No meetings in the next 10 days.</p>'}
+    url: '/this-week/', jsonld: crumbLd([['Home', '/'], ['This week in Squamish', '/this-week/']]), title: 'This week in Squamish: council, news, roads and dates', updated: TODAY,
+    desc: 'What Squamish council decided this week and what’s coming up, plus the top local news, dates and deadlines, Highway 99 roadwork and the yearly budget, in plain words.',
+    body: `<h1>This week in Squamish</h1>
+    <p class="lede">Council, news, roads, deadlines and what people here are saying. The council part is what our Friday email says.</p>
+    <h2>At council</h2>
+    ${council}
+    ${shown.length ? `<ul class="mlist">${shown.map(meetingRow).join('')}</ul>` : ''}
+    ${after ? `<p>After that: <a href="${mUrl(after)}">${esc(fmtDay(after.date))}</a>, ${esc(mType(after).label.toLowerCase())}. ${esc(after.preview || mType(after).plain)}</p>` : ''}
+    ${dates.length || open.length ? `<h2>Dates and deadlines</h2>
+    <section class="card nw-coming"><ol>${dates.map((c) => `<li data-until="${c.date}">${cal(c.date)}<div><a href="${esc(c.url)}"${isUrl(c.url) ? ' target="_blank" rel="noopener"' : ''}>${esc(c.title)}</a><p>${esc(fmtLong(c.date))}. ${esc(c.text)}</p></div></li>`).join('')}${open.map(({ t, s }) => `<li><div class="nw-cal" aria-hidden="true"><span>Now</span><b>✉</b></div><div><a href="/track/${t.slug}/">${esc(s.label)}</a><p>${esc(s.note || '')}</p></div></li>`).join('')}</ol></section>` : ''}
+    <div data-tw-road hidden><h2>On the road</h2><section class="card"><ul data-body></ul><p class="small muted">Highway 99 between Horseshoe Bay and Whistler, from DriveBC. Live on <a href="/today/">Squamish today</a>.</p></section></div>
+    ${top.length ? `<h2>In the news</h2>
+    <div class="nw"><div class="nw-cards">${top.map((s) => `<article class="nw-card" data-s="${s.s}"><div class="nw-kicker"><span>${esc(SEC[s.s])}</span><time datetime="${s.date}">${esc(fmtLong(s.date))}</time></div><h3 class="nw-h"><a href="/news/${s.slug}/">${esc(s.head)}</a></h3><p class="nw-dek">${esc(cut(s.dek))}</p><p class="nw-src">Source: <a href="${esc(s.src[1])}" target="_blank" rel="noopener">${esc(s.src[0])}</a></p></article>`).join('')}</div>
+    <p><a href="/news/">All Squamish news →</a></p></div>` : ''}
+    ${wq ? `<h2>What Squamish Wants</h2>
+    <section class="card nw" data-tw-wants="${wq.id}" data-opts="${esc(JSON.stringify(wOpts))}"><h3>${esc(wq.title)}</h3><div data-body></div><p><a class="btn secondary" href="/wants/${wq.id}/">Add your answer →</a></p></section>` : ''}
+    ${bud ? `<h2>${esc(bud.slug.slice(7))} budget</h2>
+    <section class="card"><p>${escGl(bud.summary)}</p>${bud.what_next ? `<p class="small">${escGl(bud.what_next)}</p>` : ''}<p><a class="btn secondary" href="/track/${bud.slug}/">Follow the budget →</a></p></section>` : ''}
     ${signupBox('week')}`,
+    scripts: `<script>(function(){
+  var e=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+  var t0=new Date().toLocaleDateString('en-CA',{timeZone:'America/Vancouver'});
+  document.querySelectorAll('[data-until]').forEach(function(li){if(li.getAttribute('data-until')<t0)li.hidden=true});
+  if(!window.fetch)return;
+  var road=document.querySelector('[data-tw-road]');
+  fetch('/api/today/').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+    var h=d.highway;if(!h)return;
+    road.querySelector('[data-body]').innerHTML=h.events.length?h.events.slice(0,4).map(function(ev){return'<li><b>'+(ev.type==='INCIDENT'?'Incident':ev.severity==='MAJOR'?'Major roadwork':'Roadwork')+':</b> '+e(ev.text)+'</li>'}).join(''):'<li>No crashes, closures or major roadwork right now.</li>';
+    road.hidden=false;
+  }).catch(function(){});
+  var w=document.querySelector('[data-tw-wants]');if(!w)return;
+  var id=w.getAttribute('data-tw-wants'),opts=JSON.parse(w.getAttribute('data-opts'));
+  fetch('/api/wants/').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){
+    var t=(j.tallies||{})[id];if(!t)return;
+    var rows=opts.map(function(o){return[o[1],t[o[0]]||0]}).sort(function(a,b){return b[1]-a[1]});
+    var sum=rows.reduce(function(s,r){return s+r[1]},0),max=rows[0][1];if(!sum)return;
+    w.querySelector('[data-body]').innerHTML='<div class="nw-bars">'+rows.map(function(r,i){return'<div class="nw-bar'+(i?'':' win')+'" style="--w:'+Math.round(r[1]/max*1000)/10+'%;--fill:var(--nw-green)"><div class="nw-lbl"><span>'+e(r[0])+'</span><b>'+r[1]+'</b></div><div class="nw-track"><div class="nw-fill"></div></div></div>'}).join('')+'</div><p class="small muted">'+sum+' answers on this site so far. Not a scientific poll.</p>';
+  }).catch(function(){});
+})();</script>`,
   }));
 }
 
