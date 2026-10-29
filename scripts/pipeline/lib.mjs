@@ -71,9 +71,10 @@ export function council() {
 
 // Same ids build.mjs gives each "supports" / "against" line, so a vote can point at the exact position it tests.
 export const posId = (c, kind, text) => `${c.slug}-${kind}-${crypto.createHash('sha256').update(text).digest('hex').slice(0, 6)}`;
+// Lines tagged "from": "past vote" are our reading of an old council vote, never checked against new votes (review item 3).
 export const positionList = (people) => people.flatMap((c) => [
-  ...(c.supports || []).map((x) => ({ id: posId(c, 's', x.text), who: c.slug, position: `supports: ${x.text}` })),
-  ...(c.opposes || []).map((x) => ({ id: posId(c, 'o', x.text), who: c.slug, position: `against: ${x.text}` })),
+  ...(c.supports || []).filter((x) => x.from !== 'past vote').map((x) => ({ id: posId(c, 's', x.text), who: c.slug, position: `supports: ${x.text}` })),
+  ...(c.opposes || []).filter((x) => x.from !== 'past vote').map((x) => ({ id: posId(c, 'o', x.text), who: c.slug, position: `against: ${x.text}` })),
 ]);
 
 // Neighbourhoods and the long-running issues we follow, for tagging decisions (data/participate.json, data/tracked-issues.json).
