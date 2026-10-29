@@ -259,6 +259,8 @@
   // a link straight to a collapsed section (/council/x/#questionnaire) opens it
   function openHash() { var d = location.hash && document.getElementById(location.hash.slice(1)); if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView(); } }
   openHash(); window.addEventListener('hashchange', openHash);
+  // clicking the same link again after closing the box (no hashchange) still opens it
+  document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('a[href*="#"]'); if (a && a.hash === location.hash && a.pathname === location.pathname) setTimeout(openHash, 0); });
 
   // ----- live page view counter (Vercel Web Analytics total, via /api/visits/) -----
   var visitEls = document.querySelectorAll('[data-visits]'), shown = 0;

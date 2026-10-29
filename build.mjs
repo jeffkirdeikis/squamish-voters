@@ -799,7 +799,8 @@ function directAnswers(c) {
   <p class="small">${esc(first(c))} added a comment to ${noted.length} of the statements we put to every candidate. These are ${esc(first(c))}’s words, unedited.</p>
   <div class="card"><ul class="qa">${noted.slice(0, SHOW).map(noteLi).join('')}</ul>
   ${noted.length > SHOW ? `<details class="more"><summary>Show ${noted.length - SHOW} more</summary><ul class="qa">${noted.slice(SHOW).map(noteLi).join('')}</ul></details>` : ''}</div>` : ''}
-  ${rows.length ? `<details class="drop" id="questionnaire" open><summary>All ${rows.length} of ${esc(first(c))}’s questionnaire answers <span class="badge direct">✓ Direct</span></summary>
+  ${rows.length ? `<p class="small">${esc(first(c))} answered ${rows.length === ALL_QUESTIONS.length ? `all ${rows.length}` : `${rows.length} of the ${ALL_QUESTIONS.length}`} statements we put to every candidate.${noted.length ? ' The answers with comments are above.' : ''} Tap below for the full list.</p>
+  <details class="drop" id="questionnaire"><summary>All ${rows.length} of ${esc(first(c))}’s questionnaire answers <span class="badge direct">✓ Direct</span></summary>
   <ul class="qa">${rows.map((q) => `<li><b>${escGl(q.text)}</b><span class="ans">${ansWord(c, q)}</span>${wrote(c, q) ? `<p>“${escGl(wrote(c, q))}”</p>` : ''}</li>`).join('')}</ul>
   <p class="small">Answered by ${esc(c.name)} on ${esc(fmtLong(c.direct.date))}. Where these differ from our earlier reading of the public record, the candidate’s own answer is what counts in the quiz and compare pages.</p></details>` : unanswered}`;
 }
@@ -1913,6 +1914,9 @@ write('/your-say/', page({
     const dv = devsIn(h.slug), dc = decisionsIn(h.slug), cu = comingIn(h.slug), is = issuesIn(h.slug), nw = newsIn(h.slug);
     const total = dv.reduce((a, d) => a + d.homes, 0);
     const others = HOODLIST.filter((x) => x !== h);
+    // zero tiles are hidden; an area with nothing yet gets one plain line and its local asks move up top
+    const quiet = !dc.length && !dv.length && !total;
+    const wantsBox = (() => { const as = WANTS.asks.filter((a) => a.area === h.slug); return as.length ? `<section class="card"><h2>What people want for ${esc(h.name)}</h2><ul class="hd-news">${as.map((a) => `<li><a href="${WANT_INFO[a.id] ? `/wants/${a.id}/info/` : `/wants/${a.id}/`}">${esc(a.title)}</a><span class="small muted">The background, and say yes or no</span></li>`).join('')}</ul></section>` : ''; })();
     write(hUrl(h), page({
       url: hUrl(h), title: `${h.name}, Squamish: council decisions, development and news`,
       desc: `What Squamish council decided for ${h.name}, development projects planned there (${dv.length}), issues we follow and local news, on one map.`,
@@ -1920,11 +1924,12 @@ write('/your-say/', page({
       body: `<div class="hd">
   <p class="crumbs"><a href="/neighbourhoods/">← All neighbourhoods</a></p>
   <h1>${esc(h.name)}</h1>
-  <div class="hd-stats">
-    <div><b>${dc.length}</b><span>council decision${dc.length === 1 ? '' : 's'} this term</span></div>
-    <div><b>${dv.length}</b><span>development project${dv.length === 1 ? '' : 's'}</span></div>
-    <div><b>${homes(total)}</b><span>homes planned</span></div>
-  </div>
+  ${quiet ? `<p class="muted">Quiet so far: no council decisions and no large building projects here this term.</p>
+  ${wantsBox}` : `<div class="hd-stats">
+    ${dc.length ? `<div><b>${dc.length}</b><span>council decision${dc.length === 1 ? '' : 's'} this term</span></div>` : ''}
+    ${dv.length ? `<div><b>${dv.length}</b><span>development project${dv.length === 1 ? '' : 's'}</span></div>` : ''}
+    ${total ? `<div><b>${homes(total)}</b><span>homes planned</span></div>` : ''}
+  </div>`}
   <div class="hd-map" id="hoodmap" data-mode="one" data-slug="${h.slug}" role="img" aria-label="Map of ${esc(h.name)} with development projects"></div>
   <script type="application/json" id="hoodmap-data">${mapData([h, ...others], dv)}</script>
   <p class="hd-legend small"><span class="lg st-review"></span>Under review <span class="lg st-ok"></span>Approved <span class="lg st-new"></span>Application received</p>
@@ -1942,7 +1947,7 @@ write('/your-say/', page({
 
   ${nw.length ? `<section class="card"><h2>News from ${esc(h.name)}</h2><ul class="hd-news">${nw.map((s) => `<li><a href="/news/${s.slug}/">${esc(s.head)}</a><span class="small muted">${esc(fmtLong(s.date))}</span></li>`).join('')}</ul><p><a href="/news/">All Squamish news →</a></p></section>` : ''}
 
-  ${(() => { const as = WANTS.asks.filter((a) => a.area === h.slug); return as.length ? `<section class="card"><h2>What people want for ${esc(h.name)}</h2><ul class="hd-news">${as.map((a) => `<li><a href="${WANT_INFO[a.id] ? `/wants/${a.id}/info/` : `/wants/${a.id}/`}">${esc(a.title)}</a><span class="small muted">The background, and say yes or no</span></li>`).join('')}</ul></section>` : ''; })()}
+  ${quiet ? '' : wantsBox}
 
   <section class="hd-others"><h2>Other neighbourhoods</h2><p>${others.map((o) => `<a href="${hUrl(o)}">${esc(o.name)}</a>`).join(' · ')}</p></section>
 </div>`,
