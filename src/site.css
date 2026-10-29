@@ -801,8 +801,9 @@ summary:hover .more-btn { background: var(--brand); color: #fff; }
 .mrow.mt-hearing a { border-left-color: var(--mt-hearing); }
 .mrow.mt-special a { border-left-color: var(--mt-special); }
 .mrow a:hover { background: var(--brand-soft); }
-.mcheck { flex: none; width: 1.7rem; height: 1.7rem; border: 2.5px solid var(--ink-2); border-radius: 6px; display: grid; place-items: center; font-weight: 800; margin-top: .1rem; }
-.mrow.done .mcheck { background: var(--yes); border-color: var(--yes); color: #fff; }
+.mcal { flex: none; width: 3rem; border: 1.5px solid var(--ink); border-radius: 8px; overflow: hidden; text-align: center; background: var(--surface); margin-top: .1rem; }
+.mcal span { display: block; background: var(--ink); color: var(--surface); font: 700 .62rem system-ui, sans-serif; letter-spacing: .12em; text-transform: uppercase; padding: .05rem 0; }
+.mcal b { display: block; font: 700 1.35rem/1.3 Georgia, serif; }
 .mtxt { display: flex; flex-direction: column; gap: .25rem; flex: 1; min-width: 0; }
 .mtxt .mtype { align-self: flex-start; }
 .mhead { font-size: 1.02rem; }

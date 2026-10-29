@@ -476,7 +476,7 @@ const crumbLd = (items) => ({ '@context': 'https://schema.org', '@type': 'Breadc
 // Each meeting type gets one colour everywhere it appears, so people can tell them apart at a glance.
 const MTYPE = {
   regular: { label: 'Council meeting', cls: 'mt-regular', plain: 'The main meeting where council makes official decisions and votes.' },
-  cow: { label: 'Committee of the Whole', cls: 'mt-cow', plain: 'The whole council meeting as a committee to talk an issue through. It can only recommend: its ideas become decisions only when council confirms them at a later council meeting.' },
+  cow: { label: 'Council workshop (no final votes)', official: 'Committee of the Whole', cls: 'mt-cow', plain: 'All of council talks an issue through. Nothing is decided here: ideas only count once council confirms them at a later council meeting.' },
   hearing: { label: 'Public hearing', cls: 'mt-hearing', plain: 'Residents can speak to council about a rezoning or bylaw before council decides. Held as part of a council meeting.' },
   special: { label: 'Special meeting', cls: 'mt-special', plain: 'A meeting called outside the regular schedule, with at least 24 hours’ notice. Squamish holds many of these, and some include big decisions, such as budget workshops. Others open only to move behind closed doors.' },
   inaugural: { label: 'Swearing in meeting', cls: 'mt-special', plain: 'The new mayor and councillors take their oath of office.' },
@@ -571,8 +571,10 @@ function decisionCard(d, m, { open = false } = {}) {
 }
 function meetingRow(m) {
   const done = !!m.summary;
-  return `<li class="mrow ${mType(m).cls}${done ? ' done' : ''}"><a href="${mUrl(m)}"><span class="mcheck" aria-hidden="true">${done ? '✓' : ''}</span>
-  <span class="mtxt"><span class="mwhen"><b>${esc(fmtDay(m.date))}</b>${m.time ? ` · ${esc(fmtTime(m.time))}` : ''}</span><span class="mtags">${mBadge(m)}${m.has_public_hearing ? `<span class="mtype ${MTYPE.hearing.cls}">Includes a public hearing</span>` : ''}${m.closed_only ? '<span class="mtype mt-special">Mostly behind closed doors</span>' : ''}</span>
+  // A calendar chip shows the date (not an empty square that looks like a box to tick); the line beside it keeps the weekday.
+  const x = new Date(m.date + 'T12:00:00'), yr = m.date.slice(0, 4) !== TODAY.slice(0, 4) ? `, ${m.date.slice(0, 4)}` : '';
+  return `<li class="mrow ${mType(m).cls}${done ? ' done' : ''}"><a href="${mUrl(m)}"><span class="mcal" aria-hidden="true"><span>${x.toLocaleDateString('en-CA', { month: 'short' }).replace('.', '')}</span><b>${x.getDate()}</b></span>
+  <span class="mtxt"><span class="mwhen"><span class="visually-hidden">${esc(fmtDay(m.date))}</span><b aria-hidden="true">${esc(x.toLocaleDateString('en-CA', { weekday: 'long' }))}${yr}</b>${m.time ? ` · ${esc(fmtTime(m.time))}` : ''}</span><span class="mtags">${mBadge(m)}${m.has_public_hearing ? `<span class="mtype ${MTYPE.hearing.cls}">Includes a public hearing</span>` : ''}${m.closed_only ? '<span class="mtype mt-special">Mostly behind closed doors</span>' : ''}</span>
   <span class="mhead">${esc(done ? m.summary.headline : (m.preview || mType(m).plain))}</span>
   ${done && (m.decisions || []).length ? `<span class="small">${m.decisions.filter((d) => d.votes).length} vote${m.decisions.filter((d) => d.votes).length === 1 ? '' : 's'} · tap to read</span>` : m.date >= TODAY ? '<span class="small">Coming up · tap for what’s on the agenda</span>' : '<span class="small">Summary coming soon</span>'}</span>
   <span class="go" aria-hidden="true">›</span></a></li>`;
@@ -1438,10 +1440,10 @@ write('/quiz/', page({
 // ---------- MEETINGS ----------
 const MEET_HOW = `<p class="small"><a href="/how-council-works/">How council works</a>: readings, the consent agenda, closed meetings and the new council’s first 100 days.</p>
 <details class="drop"><summary>How to watch or speak at a meeting</summary>
-  <p><b>Go in person:</b> meetings are open to anyone at Council Chambers, Municipal Hall, 37955 Second Avenue. You don’t need to sign up to watch. Council meetings are usually the 1st and 3rd Tuesday of the month at 6 p.m.; Committee of the Whole is usually the 2nd and 4th Tuesday, often in the morning.</p>
+  <p><b>Go in person:</b> meetings are open to anyone at Council Chambers, Municipal Hall, 37955 Second Avenue. You don’t need to sign up to watch. Council meetings are usually the 1st and 3rd Tuesday of the month at 6 p.m.; council workshops (official name: Committee of the Whole) are usually the 2nd and 4th Tuesday, often in the morning.</p>
   <p><b>Watch from home:</b> meetings are streamed live on the <a href="https://www.youtube.com/@DistrictofSquamish/streams" target="_blank" rel="noopener">District’s YouTube channel</a> and stay there afterward. Each meeting below links to its own video.</p>
   <p><b>Have your say:</b> you can write to council before a meeting, or speak at a public hearing. The District explains how on its <a href="https://squamish.ca/government-and-administration/council/" target="_blank" rel="noopener">council page</a>.</p></details>`;
-const typeLegend = () => `<div class="mlegend">${['regular', 'cow', 'hearing', 'special'].map((k) => `<span><span class="mtype ${MTYPE[k].cls}">${esc(MTYPE[k].label)}</span> ${esc(MTYPE[k].plain)}</span>`).join('')}</div>`;
+const typeLegend = () => `<div class="mlegend">${['regular', 'cow', 'hearing', 'special'].map((k) => `<span><span class="mtype ${MTYPE[k].cls}">${esc(MTYPE[k].label)}</span> ${esc(MTYPE[k].plain)}${MTYPE[k].official ? ` <span class="small">Official name: ${esc(MTYPE[k].official)}.</span>` : ''}</span>`).join('')}</div>`;
 write('/meetings/', page({
   url: '/meetings/', title: 'Squamish council meetings: what’s next and what they decided',
   desc: 'Every upcoming Squamish council meeting, Committee of the Whole and public hearing, and a plain-language summary of every past one: what was decided and who voted yes or no.',
@@ -2134,9 +2136,9 @@ for (const ic of ctx.issues || []) {
   const FAQ = LLM.faq = [
     ['Who is the mayor of Squamish?', `${M0.name} was elected mayor on October 17, 2026, for a four-year term to 2030.`, `<a href="/council/${M0.slug}/">${esc(M0.name)}’s page</a>`],
     ['Who is on Squamish council?', `Mayor ${M0.name} and councillors ${council.map((c) => c.name).join(', ')}.`, '<a href="/council/">Meet the council</a>'],
-    ['When does Squamish council meet?', 'Regular council meetings are usually the 1st and 3rd Tuesday of each month at 6 p.m., with no meetings in August. Committee of the Whole is usually the 2nd and 4th Tuesday. Our meetings page lists every upcoming one.', '<a href="/meetings/">Upcoming meetings</a>'],
+    ['When does Squamish council meet?', 'Regular council meetings are usually the 1st and 3rd Tuesday of each month at 6 p.m., with no meetings in August. Council workshops (official name: Committee of the Whole) are usually the 2nd and 4th Tuesday. Our meetings page lists every upcoming one.', '<a href="/meetings/">Upcoming meetings</a>'],
     ['Can I watch a council meeting?', 'Yes. Meetings are open to the public at Municipal Hall, and most are streamed live and posted online afterward. Each meeting on our site links to the official video.', '<a href="/meetings/">Meetings and videos</a>'],
-    ['What is the difference between a council meeting and Committee of the Whole?', `${MTYPE.regular.plain} ${MTYPE.cow.label}: ${MTYPE.cow.plain}`, ''],
+    ['What is the difference between a council meeting and a council workshop (Committee of the Whole)?', `${MTYPE.regular.plain} ${MTYPE.cow.label}: ${MTYPE.cow.plain}`, ''],
     ['What is a public hearing?', MTYPE.hearing.plain + ' Anyone can speak or send a letter. Since late 2023, B.C. law does not allow a public hearing on a rezoning that is mostly for housing and fits the Official Community Plan. A change to the Official Community Plan itself must have one.', ''],
     ['How do you know if a promise was kept?', 'Each promise lists their part: how they vote, or what they move or second. Only that is marked, not what council as a whole decides. When council votes on something that tests it, we mark it and link to the vote.', '<a href="/scorecard/#how">How we judge promises</a>'],
     ['Who won the 2026 Squamish election?', `${resWinner('mayor')[0]} won the mayor’s race. Elected to council: ${resWinner('council').join(', ')}. Turnout was ${R26.turnout_pct}%.`, '<a href="/results/">Full results</a>'],
@@ -2335,7 +2337,7 @@ function rolesBox(c) {
     ['consent', 'The consent agenda', `<p>Routine items, like receiving reports and minutes, are approved together in one vote. Any member who wants to debate an item or vote against it can ask for it to be taken out and voted on by itself. <a class="src" href="https://squamish.civicweb.net/Portal/MeetingSchedule.aspx" target="_blank" rel="noopener">[agendas]</a></p>`],
     ['closed', 'Closed meetings, and why they’re allowed', `<p>Council can meet privately only for reasons the law lists, and has to say which reason in an open meeting first. The main ones, in plain words: buying or selling land, legal advice, staff and hiring matters, contract talks that would be hurt if public, and someone’s personal information.${cc(90)}</p><p>When a closed decision is later made public, it’s called “rise and report”.</p>`],
     ['conflicts', 'Conflicts of interest', `<p>A member who has a money interest in a decision, or another interest that could sway them, must say so, leave the room, and not vote or talk about it. Minutes record this. We show it as “stepped out”, never as a missed vote.${cc(100)}${cc(101)}</p>`],
-    ['cow', 'Committee of the Whole and Special meetings', `<p>At a Committee of the Whole, the whole council talks an issue through. It can only recommend; nothing is decided until council confirms it at a later council meeting. Special meetings are extra council meetings called with notice. In Squamish they are frequent and can include big decisions, like budget meetings.${cc(127)}</p>`],
+    ['cow', 'Council workshops and Special meetings', `<p>At a council workshop (official name: Committee of the Whole), the whole council talks an issue through. It can only recommend; nothing is decided until council confirms it at a later council meeting. Special meetings are extra council meetings called with notice. In Squamish they are frequent and can include big decisions, like budget meetings.${cc(127)}</p>`],
   ];
   const D100 = [
     [INAUG ? fmtLong(INAUG.date) : 'November 3, 2026', 'Swearing in', `The mayor and councillors take their oath of office at the first meeting.${INAUG?.agenda_url ? src(INAUG.agenda_url, 'agenda') : ''} Council usually also sets the acting mayor schedule and names members to the Squamish-Lillooet Regional District board and to committees around this time.${cc(130)}`],
