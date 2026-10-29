@@ -863,6 +863,10 @@ summary:hover .more-btn { background: var(--brand); color: #fff; }
 @media (max-width: 640px) { .hero-two { grid-template-columns: 1fr; } }
 .vmark { display: block; margin-top: .25rem; font-size: .72rem; font-weight: 800; border-radius: 6px; padding: .05rem .3rem; white-space: nowrap; }
 span.vmark.ps-kept, span.vmark.ps-broken { display: inline-block; }
+/* Our reading, not their own answer (review item 3): faded box, dashed ring, never a vote mark */
+.cell.ours { opacity: .55; outline: 2px dashed var(--ink-2); outline-offset: 2px; }
+.ps-ours { background: var(--surface-2); color: var(--muted); font-weight: 700; }
+.pgroup { margin: 1rem 0 .3rem; } .pgroup b { display: block; font-family: Georgia, "Iowan Old Style", "Times New Roman", serif; } .pgroup .small { display: block; }
 .svd-grid td:first-child { min-width: 16rem; text-align: left; }
 .svd-grid td { text-align: center; vertical-align: top; }
 

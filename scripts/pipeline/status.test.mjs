@@ -1,7 +1,7 @@
 // node --test scripts/pipeline/status.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { promiseTally, tallyText, recomputePromises, positionStatus } from './status.mjs';
+import { promiseTally, tallyText, recomputePromises, positionStatus, isBudgetAdoption } from './status.mjs';
 
 const vote = (v, source = 'minutes', extra = {}) => ({ title: 'x', votes: { 'sean-easton': v, 'sarah-ellis': 'yes' }, votes_source: source, ...extra });
 const meetings = [
@@ -61,4 +61,13 @@ test('positions: red only after 2 or more confirmed votes against', () => {
   assert.equal(positionStatus([{ inLine: false, confirmed: true }, { inLine: false, confirmed: true }]), 'against');
   assert.equal(positionStatus([{ inLine: true, confirmed: true }]), 'in_line');
   assert.equal(positionStatus([{ inLine: true, confirmed: true }, { inLine: false, confirmed: true }]), 'mixed');
+});
+
+test('whole budget adoption votes never test a position', () => {
+  assert.equal(isBudgetAdoption({ title: '2027 to 2031 Five Year Financial Plan Bylaw, third reading' }), true);
+  assert.equal(isBudgetAdoption({ title: 'Council adopts the 2027 budget' }), true);
+  assert.equal(isBudgetAdoption({ title: 'Grant for the Brennan Park roof study' }), false);
+  assert.equal(isBudgetAdoption({ title: 'Approve a $50,000 budget for the trail study' }), false);
+  assert.equal(isBudgetAdoption({ title: 'Rezoning for 120 rental homes', budget_adoption: true }), true);
+  assert.equal(isBudgetAdoption({ title: 'Approve the 2027 budget', budget_adoption: false }), false);
 });

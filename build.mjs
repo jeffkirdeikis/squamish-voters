@@ -5,7 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
-import { promiseTally, tallyText, positionStatus, confirmedByMinutes } from './scripts/pipeline/status.mjs';
+import { promiseTally, tallyText, positionStatus, confirmedByMinutes, isBudgetAdoption } from './scripts/pipeline/status.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.join(ROOT, 'dist');
@@ -583,14 +583,19 @@ function meetingRow(m) {
 // yes vote goes the same way as the statement or position. The pipeline writes both links (scripts/pipeline/summarize.mjs).
 const posId = (c, kind, text) => `${c.slug}-${kind}-${crypto.createHash('sha256').update(text).digest('hex').slice(0, 6)}`;
 const POS_WORD = { 2: 'Strongly agreed', 1: 'Agreed', '-1': 'Disagreed', '-2': 'Strongly disagreed' };
+// "ours" (review item 3): a statement the member did not answer themselves, or a line that only describes a past
+// council vote ("from": "past vote" in data/candidates.json). Shown in a dashed box, never checked against votes.
+const READ_WORD = { 2: 'strongly agreeing', 1: 'agreeing', '-1': 'disagreeing', '-2': 'strongly disagreeing' };
 function positionsOf(c) {
   const quiz = ALL_QUESTIONS.filter((q) => typeof c.quiz_answers?.[q.id] === 'number' && c.quiz_answers[q.id] !== 0)
-    .map((q) => ({ id: `${c.slug}-${q.id}`, kind: 'quiz', q, said: c.quiz_answers[q.id], label: `${POS_WORD[c.quiz_answers[q.id]]}: “${q.text}”`, src: `/council/${c.slug}/#questionnaire` }));
-  const list = (key, kind, word) => (c[key] || []).map((x) => ({ id: posId(c, kind, x.text), kind, label: `${word}: ${x.text}`, src: x.source_url }));
+    .map((q) => { const ours = !selfAnswered(c, q); return { id: `${c.slug}-${q.id}`, kind: 'quiz', q, ours, said: c.quiz_answers[q.id], label: ours ? `We read ${first(c)} as ${READ_WORD[c.quiz_answers[q.id]]}: “${q.text}”` : `${POS_WORD[c.quiz_answers[q.id]]}: “${q.text}”`, src: ours ? '' : `/council/${c.slug}/#questionnaire` }; });
+  const list = (key, kind, word) => (c[key] || []).map((x) => { const ours = x.from === 'past vote'; return { id: posId(c, kind, x.text), kind, ours, label: ours ? `From a past council vote: ${x.text}` : `${word}: ${x.text}`, src: x.source_url }; });
   return [...quiz, ...list('supports', 's', 'Said they support'), ...list('opposes', 'o', 'Said they’re against')];
 }
+// Our reading is never checked, and a vote to adopt the whole budget never tests a position (review item 3).
 function checksFor(c, pos) {
-  return votesOf(c).filter((d) => ['yes', 'no'].includes(d.votes[c.slug])).flatMap((d) => {
+  if (pos.ours) return [];
+  return votesOf(c).filter((d) => ['yes', 'no'].includes(d.votes[c.slug]) && !isBudgetAdoption(d)).flatMap((d) => {
     const v = d.votes[c.slug] === 'yes' ? 1 : -1;
     const link = pos.kind === 'quiz' ? (d.related_q || []).find((r) => r.q === pos.q.id) : (d.positions || []).find((r) => r.id === pos.id);
     if (!link) return [];
@@ -603,7 +608,7 @@ function checksFor(c, pos) {
 function votedAnswers(c) {
   const out = {};
   for (const q of ALL_QUESTIONS) {
-    const dirs = votesOf(c).filter((d) => ['yes', 'no'].includes(d.votes[c.slug])).flatMap((d) => (d.related_q || []).filter((r) => r.q === q.id).map((r) => (d.votes[c.slug] === 'yes' ? 1 : -1) * (r.yes_is || 1)));
+    const dirs = votesOf(c).filter((d) => ['yes', 'no'].includes(d.votes[c.slug]) && !isBudgetAdoption(d)).flatMap((d) => (d.related_q || []).filter((r) => r.q === q.id).map((r) => (d.votes[c.slug] === 'yes' ? 1 : -1) * (r.yes_is || 1)));
     if (dirs.length) out[q.id] = { v: Math.round((dirs.reduce((a, b) => a + b, 0) / dirs.length) * 2), n: dirs.length };
   }
   return out;
@@ -616,36 +621,46 @@ function scoreCard(c, { promises = true, positions = true } = {}) {
   const bar = (parts, total) => `<span class="sbar" aria-hidden="true">${parts.filter(([n]) => n).map(([n, cls]) => `<i class="${cls}" style="flex:${n}"></i>`).join('')}${total - parts.reduce((a, [n]) => a + n, 0) > 0 ? `<i class="ps-notyet" style="flex:${total - parts.reduce((a, [n]) => a + n, 0)}"></i>` : ''}</span>`;
   const line = (label, parts, total, untested) => `<div class="sline"><p><b>${label}</b></p>${bar(parts, total)}<p class="small">${parts.map(([n, , w]) => `${n} ${w}`).join(' · ')} · ${untested} not tested yet</p></div>`;
   // Before any votes there is nothing to score: one quiet line instead of rows of zeros.
-  if (!ANY_VOTES) return `<a class="scard" href="/council/${c.slug}/#record">${avatar(c, 'sm')}<span class="sbody"><span class="sname"><b>${esc(c.name)}</b><span class="small">${[promises && `${ps.length} promises`, positions && `${pr.rows.length} positions`].filter(Boolean).join(' · ')} tracked</span></span></span><span class="go" aria-hidden="true">›</span></a>`;
+  if (!ANY_VOTES) return `<a class="scard" href="/council/${c.slug}/#record">${avatar(c, 'sm')}<span class="sbody"><span class="sname"><b>${esc(c.name)}</b><span class="small">${[promises && `${ps.length} promises`, positions && `${pr.rows.length} positions`].filter(Boolean).join(' · ')} tracked${positions && pr.ours.length ? ` (${pr.own.length} checked against votes)` : ''}</span></span></span><span class="go" aria-hidden="true">›</span></a>`;
   return `<a class="scard" href="/council/${c.slug}/#record">${avatar(c, 'sm')}<span class="sbody"><span class="sname"><b>${esc(c.name)}</b><span class="small">${c.office === 'mayor' ? 'Mayor' : 'Councillor'}</span></span>
   ${promises ? line('Promises', [[pc.kept, 'ps-kept', 'kept'], [pc.not_kept, 'ps-broken', 'not kept'], [pc.mixed, 'ps-progress', 'mixed'], [pc.progress, 'ps-progress', 'in progress'], [pc.early, 'ps-early', 'early sign']], ps.length, pc.not_yet) : ''}
-  ${positions ? line('Positions', [[pr.inLine, 'ps-kept', 'voted the way they said'], [pr.against, 'ps-broken', 'voted against'], [pr.mixed, 'ps-progress', 'mixed'], [pr.early, 'ps-early', 'early sign']], pr.rows.length, pr.untested) : ''}</span></a>`;
+  ${positions ? line('Positions', [[pr.inLine, 'ps-kept', 'voted the way they said'], [pr.against, 'ps-broken', 'voted against'], [pr.mixed, 'ps-progress', 'mixed'], [pr.early, 'ps-early', 'early sign']], pr.own.length, pr.untested) : ''}</span></a>`;
 }
 const noVotesNote = () => ANY_VOTES ? '' : `<div class="notice info"><b>No votes yet.</b> The new council is sworn in on November 3${FIRST_VOTES ? ` and its first regular meeting is ${esc(fmtLong(FIRST_VOTES))}` : ''}. Every vote after that is checked here automatically, and nothing is marked red until the official minutes confirm the vote.</div>`;
 // Red ("voted against") needs 2 or more votes confirmed by the official minutes (scripts/pipeline/status.mjs).
 const posStatus = (checks) => positionStatus(checks);
-const POS_STATUS = { in_line: ['✓', 'Voted the way they said', 'ps-kept'], against: ['✕', 'Voted against what they said', 'ps-broken'], mixed: ['~', 'Mixed', 'ps-progress'], early: ['…', 'Early sign', 'ps-early'], untested: ['○', 'Not tested yet', 'ps-notyet'] };
+const POS_STATUS = { in_line: ['✓', 'Voted the way they said', 'ps-kept'], against: ['✕', 'Voted against what they said', 'ps-broken'], mixed: ['~', 'Mixed', 'ps-progress'], early: ['…', 'Early sign', 'ps-early'], untested: ['○', 'Not tested yet', 'ps-notyet'], ours: ['○', 'Our reading, not marked', 'ps-ours'] };
 const posBadge = (st) => `<span class="pstatus ${POS_STATUS[st][2]}"><span aria-hidden="true">${POS_STATUS[st][0]}</span> ${POS_STATUS[st][1]}</span>`;
+// own: their own words, checked against votes. ours: our reading of the record, shown but never marked.
 function positionReport(c) {
-  const rows = positionsOf(c).map((p) => { const ch = checksFor(c, p); return { p, ch, st: posStatus(ch) }; });
+  const rows = positionsOf(c).map((p) => { const ch = checksFor(c, p); return { p, ch, st: p.ours ? 'ours' : posStatus(ch) }; });
   const count = (k) => rows.filter((r) => r.st === k).length;
-  return { rows, tested: rows.filter((r) => r.st !== 'untested'), inLine: count('in_line'), against: count('against'), mixed: count('mixed'), early: count('early'), untested: count('untested') };
+  return { rows, own: rows.filter((r) => !r.p.ours), ours: rows.filter((r) => r.p.ours), tested: rows.filter((r) => !['untested', 'ours'].includes(r.st)), inLine: count('in_line'), against: count('against'), mixed: count('mixed'), early: count('early'), untested: count('untested') };
 }
 const posRow = (c, r) => `<details class="promise"><summary>${posBadge(r.st)}<span class="ptxt">${esc(r.p.label)}</span></summary><div class="pbody">
-  ${r.ch.length ? `<ul class="small">${r.ch.map((x) => `<li>${x.inLine ? '✓' : '✕'} ${esc(VOTE_WORD[x.d.votes[c.slug]])} on <a href="${mUrl(x.d.m)}">${escGl(x.d.title)}</a> (${esc(fmtLong(x.d.m.date))})</li>`).join('')}</ul>` : '<p class="small muted">Council hasn’t voted on anything that tests this yet.</p>'}
-  ${isUrl(r.p.src) || r.p.src?.startsWith('/') ? `<p class="small"><a href="${esc(r.p.src)}">Where they said it</a></p>` : ''}</div></details>`;
+  ${r.p.ours ? `<p class="small muted">This is our reading of the public record, not ${esc(first(c))}’s own answer, so it is never checked against votes.</p>` : r.ch.length ? `<ul class="small">${r.ch.map((x) => `<li>${x.inLine ? '✓' : '✕'} ${esc(VOTE_WORD[x.d.votes[c.slug]])} on <a href="${mUrl(x.d.m)}">${escGl(x.d.title)}</a> (${esc(fmtLong(x.d.m.date))})</li>`).join('')}</ul>` : '<p class="small muted">Council hasn’t voted on anything that tests this yet.</p>'}
+  ${isUrl(r.p.src) || r.p.src?.startsWith('/') ? `<p class="small"><a href="${esc(r.p.src)}">${r.p.ours ? 'Source' : 'Where they said it'}</a></p>` : ''}</div></details>`;
+// The two groups on a member page, when some of what we have on file is our reading (review item 3).
+const posGroups = (c, pr, own = pr.own) => `${own.length ? `<p class="pgroup"><b>Things ${esc(first(c))} said${isDirectQ(c) ? '' : ' in public'} (${own.length})</b><span class="small">Checked against every new vote.</span></p>${own.map((r) => posRow(c, r)).join('')}` : ''}
+  <p class="pgroup"><b>Our reading of ${esc(first(c))}’s record (${pr.ours.length})</b><span class="small">Not ${esc(first(c))}’s own answers. Shown for context, never marked.</span></p>${pr.ours.map((r) => posRow(c, r)).join('')}`;
+// Why some positions are our reading, in one sentence.
+const posOursLede = (c, pr) => {
+  const f = esc(first(c)), skipped = pr.ours.filter((r) => r.p.kind === 'quiz').length;
+  const why = !isDirectQ(c) ? `${f} did not answer our questionnaire.` : skipped ? `${f} skipped ${skipped} of the statements in our questionnaire.` : `Some lines on file only describe how ${f} voted on the last council.`;
+  return `${why} So we split the ${pr.rows.length} things on file: ${pr.own.length} ${isDirectQ(c) ? `in ${f}’s own words` : `${f} said in public`}, which get checked against new votes, and ${pr.ours.length} that ${pr.ours.length === 1 ? 'is' : 'are'} our reading of ${f}’s record, which ${pr.ours.length === 1 ? 'is' : 'are'} shown but never marked.`;
+};
 function profileRecord(c) {
   const f = esc(first(c)), ps = promisesOf(c), pc = pCounts(ps), vs = votesOf(c), pr = positionReport(c);
   const next = upcoming[0];
   const pSum = ps.length ? [[pc.kept, 'kept'], [pc.not_kept, 'not kept'], [pc.mixed, 'mixed'], [pc.early, 'early sign'], [pc.progress, 'in progress'], [pc.not_yet, 'not tested yet']].filter(([n], i) => n || i < 2).map(([n, w]) => `${n} ${w}`).join(' · ') : '';
   if (!ANY_VOTES) return `<section class="card record" id="record"><h2>${f}’s record on council</h2>
-  <p>Council hasn’t voted yet. We’re tracking <a href="#promises"><b>${ps.length} promises</b></a> and <a href="#said-did"><b>${pr.rows.length} positions</b></a> ${f} took during the campaign.${next ? ` First meeting: <a href="${mUrl(next)}">${esc(fmtLong(next.date))}</a>.` : ''}</p></section>
+  <p>Council hasn’t voted yet. We’re tracking <a href="#promises"><b>${ps.length} promises</b></a> and <a href="#said-did"><b>${pr.rows.length} positions</b></a> ${pr.ours.length ? `on file for ${f} (${pr.own.length} in ${f}’s own words)` : `${f} took during the campaign`}.${next ? ` First meeting: <a href="${mUrl(next)}">${esc(fmtLong(next.date))}</a>.` : ''}</p></section>
   ${ps.length ? `<h2 id="promises">${f}’s promises <span class="small">${ps.length}</span></h2>
   <p class="small">What ${f} promised during the campaign, in plain words. Tap one for the exact quote and source.</p>
   <div class="card stack">${ps.map((p) => promiseRow(p)).join('')}</div>` : ''}
   <h2 id="said-did">Do ${f}’s votes match what they said in the campaign?</h2>
-  <p class="small">${pr.rows.length} things ${f} said during the campaign. Each gets a mark once a council vote tests it.</p>
-  <details class="drop"><summary>See all ${pr.rows.length} positions</summary><div class="stack">${pr.rows.map((r) => posRow(c, r)).join('')}</div></details>`;
+  <p class="small">${pr.ours.length ? posOursLede(c, pr) : `${pr.rows.length} things ${f} said during the campaign. Each gets a mark once a council vote tests it.`}</p>
+  <details class="drop"><summary>See all ${pr.rows.length}${pr.ours.length ? ` (${pr.own.length} checked against votes)` : ' positions'}</summary><div class="stack">${pr.ours.length ? posGroups(c, pr) : pr.rows.map((r) => posRow(c, r)).join('')}</div></details>`;
   return `<section class="card record" id="record"><h2>${f}’s record on council</h2>
   <div class="statrow"><div><b>${ps.length}</b><span>campaign promises we track</span></div><div><b>${vs.filter((d) => ['yes', 'no'].includes(d.votes[c.slug])).length}</b><span>votes cast so far</span></div><div><b>${pc.kept} / ${pc.not_kept}</b><span>promises kept / not kept</span></div><div><b>${pr.inLine} / ${pr.against}</b><span>positions voted in line / against</span></div></div>
   ${vs.length ? '' : `<p class="small">${TODAY < '2026-11-03' ? 'The new council is sworn in on November 3, 2026.' : 'This council was sworn in on November 3, 2026.'} ${next && next.date !== '2026-11-03' ? `The next meeting is <a href="${mUrl(next)}">${esc(fmtDay(next.date))}</a>.` : ''} Votes will appear here after each meeting.</p>`}</section>
@@ -656,10 +671,11 @@ function profileRecord(c) {
   <div class="card stack">${vs.slice(0, 8).map((d) => `<div class="vrow"><span class="vme v-${d.votes[c.slug]}">${esc(VOTE_WORD[d.votes[c.slug]] || d.votes[c.slug])}</span><span><a href="${mUrl(d.m)}">${escGl(d.title)}</a><span class="small"> · ${esc(fmtLong(d.m.date))} · ${esc(RESULT_WORD[d.result] || '')}</span></span></div>`).join('')}</div>
   ${vs.length > 8 ? `<details class="drop"><summary>All ${vs.length} votes</summary>${vs.slice(8).map((d) => `<div class="vrow"><span class="vme v-${d.votes[c.slug]}">${esc(VOTE_WORD[d.votes[c.slug]] || d.votes[c.slug])}</span><span><a href="${mUrl(d.m)}">${escGl(d.title)}</a><span class="small"> · ${esc(fmtLong(d.m.date))}</span></span></div>`).join('')}</details>` : ''}` : ''}
   <h2 id="said-did">Do ${f}’s votes match what they said in the campaign?</h2>
-  <p class="small">Everything ${f} said they stand for during the campaign (${pr.rows.length} positions), checked against every council vote that tests it.</p>
+  <p class="small">${pr.ours.length ? posOursLede(c, pr) : `Everything ${f} said they stand for during the campaign (${pr.rows.length} positions), checked against every council vote that tests it.`}</p>
   <div class="pstats">${['in_line', 'against', 'mixed', 'early', 'untested'].map((k) => `<span class="pstatus ${POS_STATUS[k][2]}"><span aria-hidden="true">${POS_STATUS[k][0]}</span> ${pr[{ in_line: 'inLine', against: 'against', mixed: 'mixed', early: 'early', untested: 'untested' }[k]]} ${esc(POS_STATUS[k][1].toLowerCase())}</span>`).join('')}</div>
   ${pr.tested.length ? `<div class="card stack">${pr.tested.map((r) => posRow(c, r)).join('')}</div>` : ''}
-  <details class="drop"><summary>${pr.untested} positions council hasn’t voted on yet</summary><div class="stack">${pr.rows.filter((r) => r.st === 'untested').map((r) => posRow(c, r)).join('')}</div></details>`;
+  <details class="drop"><summary>${pr.untested} positions council hasn’t voted on yet</summary><div class="stack">${pr.rows.filter((r) => r.st === 'untested').map((r) => posRow(c, r)).join('')}</div></details>
+  ${pr.ours.length ? `<details class="drop"><summary>Our reading of ${f}’s record (${pr.ours.length}), never marked</summary><div class="stack">${posGroups(c, pr, [])}</div></details>` : ''}`;
 }
 
 
@@ -674,10 +690,12 @@ const areaTags = (areas) => (areas || []).filter((a) => a !== 'all' && hoodName(
 // One statement with all 7 answers as tiles (Said vs did, issue pages).
 function qCard(q) {
   const people = [...mayors, ...council];
-  const mark = (c) => { const pos = positionsOf(c).find((p) => p.kind === 'quiz' && p.q.id === q.id); if (!pos) return ''; const st = posStatus(checksFor(c, pos)); return st === 'untested' ? '' : `<span class="vmark ${POS_STATUS[st][2]}">${st === 'in_line' ? '✓ voted that way' : st === 'against' ? '✕ voted against' : st === 'early' ? '… early sign' : '~ mixed'}</span>`; };
-  const t = DECISIONS.filter((d) => (d.related_q || []).some((r) => r.q === q.id));
+  // Our reading (not their own answer): a dashed box, never a vote mark (review item 3).
+  const ours = (c) => typeof c.quiz_answers?.[q.id] === 'number' && !selfAnswered(c, q);
+  const mark = (c) => { if (ours(c)) return '<span class="vmark ps-ours">our reading</span>'; const pos = positionsOf(c).find((p) => p.kind === 'quiz' && p.q.id === q.id); if (!pos) return ''; const st = posStatus(checksFor(c, pos)); return st === 'untested' ? '' : `<span class="vmark ${POS_STATUS[st][2]}">${st === 'in_line' ? '✓ voted that way' : st === 'against' ? '✕ voted against' : st === 'early' ? '… early sign' : '~ mixed'}</span>`; };
+  const t = DECISIONS.filter((d) => !isBudgetAdoption(d) && (d.related_q || []).some((r) => r.q === q.id));
   return `<div class="card qcard"><p class="qtext">“${escGl(q.text)}”</p>
-    <ul class="qwho">${people.map((c) => `<li><a href="/council/${c.slug}/#said-did">${cell(c.quiz_answers?.[q.id])}<span class="qname">${esc(lastName(c))}</span>${mark(c)}</a></li>`).join('')}</ul>
+    <ul class="qwho">${people.map((c) => `<li><a href="/council/${c.slug}/#said-did">${cell(c.quiz_answers?.[q.id], ours(c))}<span class="qname">${esc(lastName(c))}</span>${mark(c)}</a></li>`).join('')}</ul>
     ${t.length ? `<p class="small">Tested by: ${t.map((d) => `<a href="${mUrl(d.m)}">${escGl(d.title)}</a>`).join(', ')}</p>` : ''}</div>`;
 }
 const FB_CARD = '<a class="fbcard" href="https://www.facebook.com/groups/1090076830319905" target="_blank" rel="noopener"><img src="/img/facebook-group.jpg" width="400" height="149" alt="Squamish Voters and Politics Facebook group" loading="lazy"><span class="fbc-txt"><b>Join the conversation on Facebook</b><span>Talk about council decisions with other people in Squamish in the Squamish Voters and Politics group.</span><span class="fbc-btn">Join the group</span></span></a>';
@@ -960,7 +978,7 @@ const issueSection = (i) => {
   ${all.map((c) => { const s = c.stances?.[i.key] || {}; const none = !s.position || /no public position/i.test(s.position); return `<tr><td><a href="/council/${c.slug}/">${esc(c.name)}</a>${c.office === 'mayor' ? '<br><span class="small">mayor</span>' : ''}</td><td>${none ? '<span class="muted">No public position found.</span>' : `<span class="pos">${esc(s.position)}</span>${esc(s.summary)}${src(s.source_url)}`}</td></tr>`; }).join('')}
   </tbody></table></div></details></section>`;
 };
-const cell = (val) => { const b = typeof val === 'number' ? binOf(val) : null; return b ? `<span class="cell ${b[1]}" title="${b[2]}"><span aria-hidden="true">${b[3]}</span><span class="sr" style="position:absolute;left:-999em">${b[2]}</span></span>` : '<span class="cell un" title="No public position found">?</span>'; };
+const cell = (val, ours = false) => { const b = typeof val === 'number' ? binOf(val) : null; return b ? `<span class="cell ${b[1]}${ours ? ' ours' : ''}" title="${b[2]}${ours ? ' (our reading, not their answer)' : ''}"><span aria-hidden="true">${b[3]}</span><span class="sr" style="position:absolute;left:-999em">${b[2]}${ours ? ' (our reading, not their answer)' : ''}</span></span>` : '<span class="cell un" title="No public position found">?</span>'; };
 // The topic picker and its panels. Used on Compare and again at the end of the Candidates list.
 const COMPARE_BLOCK = `<div class="cmp-wrap"><div class="picker no-print" data-picker="cmp" role="tablist" aria-label="Choose a topic">
     <button type="button" class="chip-btn" data-show="growth-chart" role="tab">🏘️ Stop, up or out?</button>
@@ -1153,7 +1171,7 @@ ${HAVE_SAY_OPEN ? `    <a class="cc-tile cc-say" href="/have-your-say/"><span cl
   <a class="btn secondary" href="${mUrl(last)}">Read what they decided →</a></section>` : ''}
 
   <section class="card"><h2>Promise tracker</h2>
-  <p>We wrote down <b>${PROMISES.length} promises</b> and <b>${all.reduce((a, c) => a + positionsOf(c).length, 0)} positions</b> the mayor and councillors took during the campaign. Every council vote is checked against them.</p>
+  <p>We wrote down <b>${PROMISES.length} promises</b> and <b>${all.reduce((a, c) => a + positionsOf(c).filter((p) => !p.ours).length, 0)} positions</b> the mayor and councillors took during the campaign. Every council vote is checked against them.</p>
   ${ANY_VOTES ? `<div class="pstats">${Object.entries(PSTATUS).map(([k, P]) => `<span class="pstatus ${P.cls}"><span aria-hidden="true">${P.icon}</span> ${allP[k]} ${esc(P.label.toLowerCase())}</span>`).join('')}</div>` : `<p class="small">Nothing to judge until the first votes${FIRST_VOTES ? ` on ${esc(fmtLong(FIRST_VOTES))}` : ''}.</p>`}
   <div class="btn-row"><a class="btn secondary" href="/scorecard/">See every promise →</a><a class="btn secondary" href="/scorecard/#positions">Do they vote the way they said? →</a></div></section>
 
@@ -1981,6 +1999,13 @@ const AI_NOTE = 'An AI model (Anthropic’s Claude) reads each vote and decides 
   const people = [...mayors, ...council];
   const groups = [...new Set(ALL_QUESTIONS.map((q) => q.issue))];
   const c0 = pCounts(PROMISES);
+  // Who answered the questionnaire, worked out from the data (review item 3).
+  const NUMW = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'], numw = (n) => NUMW[n] || String(n);
+  const names = (l) => l.map((c) => esc(c.name)).join(l.length > 2 ? ', ' : ' and ').replace(/, ([^,]*)$/, ', and $1');
+  const noQ = all.filter((c) => !isDirectQ(c)), skipQ = all.filter((c) => isDirectQ(c) && ALL_QUESTIONS.some((q) => typeof c.quiz_answers?.[q.id] === 'number' && !selfAnswered(c, q)));
+  const nQ = all.length - noQ.length, whoQ = nQ === all.length ? `All ${numw(all.length)} winners answered.` : `${numw(nQ).replace(/^./, (x) => x.toUpperCase())} of the ${numw(all.length)} winners answered.`;
+  const missQ = [noQ.length ? `${names(noQ)} did not answer` : '', skipQ.length ? `${names(skipQ)} skipped some` : ''].filter(Boolean).join(', and ');
+  const posLede = `During the campaign we asked every candidate to agree or disagree with the same ${ALL_QUESTIONS.length} statements. ${whoQ}${missQ ? ` ${missQ}. Where someone did not answer, a dashed box shows our reading of the public record. Dashed boxes are never checked against votes.` : ''}`;
   write('/scorecard/', page({
     url: '/scorecard/', title: 'Squamish council scorecard: promises and positions',
     updated: [...PROMISES.map((p) => isoDay(p.updated)), ...DECISIONS.map((d) => isoDay(d.corrected_on)), corrDate('/scorecard/')].filter(Boolean).sort().pop() || null,
@@ -2004,8 +2029,8 @@ const AI_NOTE = 'An AI model (Anthropic’s Claude) reads each vote and decides 
 
     <section id="positions" data-scpanel="positions">
     <h2>Positions: do they vote the way they said?</h2>
-    <p class="small">During the campaign we asked every candidate to agree or disagree with the same ${ALL_QUESTIONS.length} statements. Here is what each of the seven winners said, and, as council votes, whether their votes went the same way.</p>
-    <div class="card keybox"><div class="legend">${BINS.map((b) => `<span><span class="cell ${b[1]}">${b[3]}</span>${b[2]}</span>`).join('')}<span><span class="cell un">?</span>Didn’t say</span></div>
+    <p class="small">${posLede}</p>
+    <div class="card keybox"><div class="legend">${BINS.map((b) => `<span><span class="cell ${b[1]}">${b[3]}</span>${b[2]}</span>`).join('')}<span><span class="cell un">?</span>Didn’t say</span>${noQ.length || skipQ.length ? `<span><span class="cell ${BINS[1][1]} ours">${BINS[1][3]}</span>Our reading, not their answer</span>` : ''}</div>
     <p class="small">The box is what they said during the campaign. Once a council vote tests it, a mark appears under it: <span class="vmark ps-kept">✓ voted that way</span>, <span class="vmark ps-early">… early sign</span> or <span class="vmark ps-broken">✕ voted against</span>.</p></div>
     <div class="chip-row no-print">${groups.map((g) => `<a class="chip-btn" href="#t-${g}">${esc(((ISSUES.find((i) => i.key === g) || {}).title || TOPIC_NAME[g] || g).replace(/^./, (x) => x.toUpperCase()))}</a>`).join('')}</div>
     ${groups.map((g) => { const qs = ALL_QUESTIONS.filter((q) => q.issue === g); const title = (ISSUES.find((i) => i.key === g) || {}).title || TOPIC_NAME[g] || g; return `<h3 id="t-${g}">${esc(title.charAt(0).toUpperCase() + title.slice(1))}</h3>

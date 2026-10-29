@@ -87,3 +87,14 @@ export function positionStatus(checks) {
   if (yes) return 'in_line';
   return 'early'; // only video votes, or a single confirmed vote against: not enough for a red mark
 }
+
+// A vote to adopt the whole budget (the five year financial plan) says little about any one campaign position, so it
+// never tests one (review item 3). Votes on one budget item, such as a single grant or project, still count.
+// A decision can be flagged with budget_adoption: true; otherwise the title is read.
+export const isBudgetAdoption = (d) => {
+  if (!d) return false;
+  if (typeof d.budget_adoption === 'boolean') return d.budget_adoption;
+  const t = String(d.title || '');
+  const whole = /\b(20\d\d|annual|the) budget\b/i;
+  return /\bfinancial plan\b/i.test(t) || (whole.test(t) && /\b(adopt\w*|approv\w*|pass\w*)\b/i.test(t));
+};
