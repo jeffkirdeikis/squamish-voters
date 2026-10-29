@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { promiseTally, tallyText, positionStatus, confirmedByMinutes, isBudgetAdoption } from './scripts/pipeline/status.mjs';
+import { thinMeeting, thinHood, latestDate, pageDate, LASTMOD_MARK, sitemapXml, feedXml } from './scripts/seo.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.join(ROOT, 'dist');
@@ -354,13 +355,15 @@ const TODAY_STRIP = `<a class="td-strip no-print" href="/today/" data-today-stri
 // Search results cut a description at about 160 characters; end it on a whole word instead of mid word.
 const clip = (s, n) => (!s || s.length <= n ? s : `${s.slice(0, n - 1).replace(/[\s,;:]+\S*$/, '')}…`);
 // updated: the date this page's own content last changed (from its data), shown in the footer instead of the build date.
-function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null, image = null, imageAlt = null, updated = null }) {
+// lastmod: the same kind of date for the sitemap only, on pages that don't show one. noindex 'thin': kept out of search
+// until it has real content (scripts/seo.mjs), but links on it are still followed and visits still counted.
+function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null, image = null, imageAlt = null, updated = null, lastmod = null }) {
   // Review item 21: the pages search sends people to end with the weekly email sign up, unless they have one already.
   if (SIGNUP_ON.some((u) => url.startsWith(u)) && !body.includes('id="signup"')) body += signupBox(url.split('/')[1] || 'home');
   const img = image || 'https://squamishvoters.com/og.png?v=4';
   const cur = (href) => ((href === '/' ? url === '/' : url.startsWith(href)) ? ' aria-current="page"' : '');
   const inGroup = (g) => [g.href, ...g.items.map(([h]) => h)].some((h) => url.startsWith(h));
-  const full = title ? (title.length > 52 ? title : `${title} | ${SITE.name}`) : 'Squamish Voters: what Squamish council is deciding, how each member votes, and whether they keep their promises';
+  const full = title ? (title.length > 52 ? title : `${title} | ${SITE.name}`) : 'Squamish Voters: council votes, meetings and promises';
   desc = clip(desc, 158);
   return `<!doctype html>
 <html lang="en-CA">
@@ -381,12 +384,13 @@ function page({ url, title, desc, body, hero = '', scripts = '', noindex = false
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="${img}">
 <link rel="canonical" href="https://squamishvoters.com__PATH__">
-<meta name="theme-color" content="#0f4c3a">${BUILD_SHA ? `\n<meta name="build" content="${BUILD_SHA}">` : ''}${noindex ? '\n<meta name="robots" content="noindex, nofollow">' : ''}${jsonld ? `\n<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
+<meta name="theme-color" content="#0f4c3a">${BUILD_SHA ? `\n<meta name="build" content="${BUILD_SHA}">` : ''}${noindex ? `\n<meta name="robots" content="${noindex === 'thin' ? 'noindex, follow' : 'noindex, nofollow'}">` : ''}${jsonld ? `\n<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/site.css">
+<link rel="alternate" type="application/rss+xml" title="Squamish Voters: news and council meeting summaries" href="/feed.xml">${updated || lastmod ? `\n<!--lastmod:${updated || lastmod}-->` : ''}
 </head>
 <body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -429,12 +433,12 @@ ${body}
 <a class="totop no-print" href="#main" id="totop" hidden>↑ Top</a>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="/site.js"></script>
-${scripts}${noindex ? '' : '\n<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script><script defer src="/_vercel/insights/script.js"></script>'}
+${scripts}${noindex && noindex !== 'thin' ? '' : '\n<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script><script defer src="/_vercel/insights/script.js"></script>'}
 </body></html>`;
 }
 
 const SITEMAP = []; // every indexable page, built into sitemap.xml at the end
-const LASTMOD = {}; // pages whose structured data carries a real date use it as the sitemap lastmod
+const LASTMOD = {}; // each page's own content date (page() updated/lastmod, or its structured data) for the sitemap
 const LLM = {}; // bits built inside page blocks that llms.txt also needs
 // Our own scripts and the stylesheet are linked with a short fingerprint of their contents (/wants.js?v=1a2b3c4d), so
 // browsers fetch the new copy as soon as it changes instead of running one they kept from an earlier visit.
@@ -450,8 +454,9 @@ const versioned = (html) => html.replace(/(src|href)="\/([a-z]+\.(?:js|css))"/g,
 function write(url, html) {
   html = versioned(html);
   if (!/name="robots" content="noindex/.test(html) && url !== '/404/') SITEMAP.push(url);
-  const dated = html.match(/"dateModified":"(\d{4}-\d\d-\d\d)/) || html.match(/"datePublished":"(\d{4}-\d\d-\d\d)/);
-  if (dated) LASTMOD[url] = dated[1];
+  const dated = latestDate([pageDate(html, TODAY), HUB_DATE[url], corrDate(url)], TODAY); // the page's own content date, never the build date (scripts/seo.mjs)
+  if (dated) LASTMOD[url] = dated;
+  html = html.replace(LASTMOD_MARK, '');
   const out = path.join(DIST, url, 'index.html');
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, html.replaceAll('__PATH__', url)); // each page's own address, for sharing and search engines
@@ -545,6 +550,17 @@ function corrections(d) {
 }
 const corrNote = (d) => (corrections(d).length ? `<p class="corr"><b>Corrected after official minutes${d.corrected_on ? ` (${esc(fmtLong(d.corrected_on))})` : ''}:</b> ${corrections(d).map(esc).join('; ')}. <a href="/corrections/">All corrections</a></p>` : '');
 const isoDay = (x) => (typeof x === 'string' && /^\d{4}-\d\d-\d\d/.test(x) ? x.slice(0, 10) : '');
+// Sitemap dates for pages that don't show their own (review item 23): the newest date their data changed. Council
+// pages change with each meeting summary and promise update; a tracked issue with its newest step.
+const COUNCIL_DATE = latestDate([...past.filter((m) => m.summary).map((m) => isoDay(m.minutes_checked) || isoDay(m.generated?.at) || m.date), ...PROMISES.map((p) => p.updated)], TODAY);
+const ISSUE_ANSWERS = fs.existsSync(path.join(ROOT, 'data', 'issue-answers.json')) ? read('issue-answers.json').answers || {} : {}; // see the issue pages
+const stepDates = (t) => (t.steps || []).map((x) => x.date);
+const HUB_DATE = {
+  '/': latestDate([COUNCIL_DATE, ...NEWS.stories.map((s) => s.date)], TODAY), '/council/': COUNCIL_DATE, '/meetings/': COUNCIL_DATE, '/compare/': COUNCIL_DATE, '/this-week/': COUNCIL_DATE,
+  '/issues/': latestDate([...Object.values(ISSUE_ANSWERS).map((a) => a.as_of), ...TRACKED.flatMap(stepDates)], TODAY),
+  ...Object.fromEntries(TRACKED.map((t) => [`/track/${t.slug}/`, latestDate([...stepDates(t), corrDate(`/track/${t.slug}/`)], TODAY)])),
+  ...Object.fromEntries(['/wants/', ...read('wants.json').asks.map((a) => `/wants/${a.id}/`)].map((u) => [u, latestDate([read('wants.json').updated, corrDate(u)], TODAY)])),
+};
 // A bylaw reading is a step, not the final say: "First reading passed" reads right, "Passed" does not.
 const READING_RX = /\b((?:first|second|third)(?:(?:,|,? and) (?:first|second|third))*) readings?\b|\b(adopt(?:ion|ed)?)\b/i;
 function resultWord(d) {
@@ -1482,7 +1498,7 @@ for (const m of MEETINGS) {
   const consent = (m.decisions || []).filter((d) => d.votes && d.consent_agenda);
   const votes = (m.decisions || []).filter((d) => d.votes && !d.consent_agenda);
   const links = [[m.video_url, '▶ Watch the full meeting video'], [m.agenda_url, 'Official agenda'], [m.minutes_url, 'Official minutes'], [m.transcript ? `/transcripts/${m.id}.txt` : null, 'Full written transcript']].filter(([u]) => u);
-  write(mUrl(m), page({ updated: isoDay(m.minutes_checked) || isoDay(m.generated?.at) || null,
+  write(mUrl(m), page({ updated: isoDay(m.minutes_checked) || isoDay(m.generated?.at) || null, noindex: thinMeeting(m) ? 'thin' : false,
     url: '/meetings/', image: done ? shareImg(m) : shareCard({ file: `share/cards/meeting-${m.id}.png`, kicker: T.label.toUpperCase(), title: fmtDay(m.date), sub: m.time ? `Starts at ${fmtTime(m.time)}` : 'Agenda, how to watch and how to have your say', stats: m.type === 'inaugural' ? [[all.length, 'members sworn in'], [PROMISES.length, 'promises we track']] : [], foot: m.type === 'inaugural' ? 'The new mayor and council take their oath of office' : 'What’s on the agenda and how to have your say' }), title: `Squamish ${T.label.charAt(0).toLowerCase() + T.label.slice(1)}, ${fmtLong(m.date)}: ${done ? 'what council decided' : 'agenda and how to watch'}`,
     desc: done ? `${S.headline} ${votes.length} vote${votes.length === 1 ? '' : 's'}, in plain words, with how each member voted.` : `Squamish ${T.label.toLowerCase()} on ${fmtDay(m.date)}${m.time ? ' at ' + fmtTime(m.time) : ''}: what’s on the agenda and how to watch.`,
     jsonld: [crumbLd([['Home', '/'], ['Meetings', '/meetings/'], [`${T.label}, ${fmtLong(m.date)}`, mUrl(m)]]), { '@context': 'https://schema.org', '@type': 'Event', name: `Squamish ${T.label}`, startDate: `${m.date}${m.time ? 'T' + m.time + ':00-' + (m.date >= '2026-11-01' && m.date < '2027-03-14' ? '08' : '07') + ':00' : ''}`, eventStatus: m.status === 'cancelled' ? 'https://schema.org/EventCancelled' : 'https://schema.org/EventScheduled', eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode', location: { '@type': 'Place', name: m.place || 'Squamish Municipal Hall', address: '37955 Second Avenue, Squamish, BC' }, organizer: { '@type': 'GovernmentOrganization', name: 'District of Squamish', url: 'https://squamish.ca/' } }],
@@ -1938,6 +1954,8 @@ write('/your-say/', page({
     const quiet = !dc.length && !dv.length && !total;
     const wantsBox = (() => { const as = WANTS.asks.filter((a) => a.area === h.slug); return as.length ? `<section class="card"><h2>What people want for ${esc(h.name)}</h2><ul class="hd-news">${as.map((a) => `<li><a href="${WANT_INFO[a.id] ? `/wants/${a.id}/info/` : `/wants/${a.id}/`}">${esc(a.title)}</a><span class="small muted">The background, and say yes or no</span></li>`).join('')}</ul></section>` : ''; })();
     write(hUrl(h), page({
+      noindex: thinHood({ decisions: dc.length, projects: dv.length }) ? 'thin' : false,
+      lastmod: latestDate([...dc.map((d) => d.m?.date), ...nw.map((s) => s.date), ...is.flatMap((t) => (t.steps || []).map((x) => x.date)), corrDate(hUrl(h))], TODAY) || null,
       url: hUrl(h), title: `${h.name}, Squamish: council decisions, development and news`,
       desc: `What Squamish council decided for ${h.name}, development projects planned there (${dv.length}), issues we follow and local news, on one map.`,
       jsonld: crumbLd([['Home', '/'], ['Neighbourhoods', '/neighbourhoods/'], [h.name, hUrl(h)]]),
@@ -2134,6 +2152,12 @@ function stanceBlock(c, key) {
   <p><b>${escGl(s.position)}</b></p><p>${escGl(s.summary || '')}${src(s.source_url)}</p>${s.quote ? `<blockquote>“${escGl(s.quote.replace(/^["“]|["”]$/g, ''))}”</blockquote>${src(s.quote_source_url, 'quote source')}` : ''}</li>`;
 }
 const TOPIC_EXTRA_Q = { recreation_facilities: ['q12', 'q22'] }; // Brennan Park statements are filed under taxes, but this is the page people look for
+// Topics with no questionnaire issue had one shared description; each gets its own (review item 23).
+const TOPIC_DESC = {
+  recreation_facilities: 'Where Squamish council stands on Brennan Park, a new pool and more ice, with sources, plus what the expansion study will decide and when.',
+  flood_hazards_climate_resilience: 'Where Squamish council stands on dikes, flood protection and the Cheekeye debris flow barrier, with sources, plus what is being built and how it is paid for.',
+  other_campaign_topics: 'Where Squamish council stands on child care, short term rentals, vanlife and Indigenous relations, with sources and plain language background.',
+};
 for (const ic of ctx.issues || []) {
   const slug = TOPIC_SLUG[ic.key]; if (!slug) continue;
   const iss = ISSUES.find((x) => x.key === ic.key);
@@ -2142,13 +2166,15 @@ for (const ic of ctx.issues || []) {
   const without = iss ? all.filter((c) => !hasStance(c, ic.key)) : [];
   const name = TOPIC_NAME[ic.key];
   const paras = ic.explainer.split(/(?<=[.!?])\s+/), mid = Math.ceil(paras.length / 2);
-  const url = `/issues/${slug}/`;
+  const url = `/issues/${slug}/`, ans = ISSUE_ANSWERS[ic.key];
   write(url, page({
     url: '/issues/', title: `Squamish council on ${name}: where each member stands`,
-    desc: `${iss ? `${withS.length} of ${all.length} Squamish council members have a public position on ${name}. ` : ''}What each one has said, with sources, plus plain language background.`,
+    desc: iss || !TOPIC_DESC[ic.key] ? `${iss ? `${withS.length} of ${all.length} Squamish council members have a public position on ${name}. ` : ''}What each one has said, with sources, plus plain language background.` : TOPIC_DESC[ic.key],
+    lastmod: latestDate([ans?.as_of, ...TRACKED.filter((t) => t.topic === ic.key).flatMap(stepDates), corrDate(url)], TODAY) || null,
     jsonld: crumbLd([['Home', '/'], ['The issues', '/issues/'], [ic.title, url]]),
     body: `<p class="crumbs"><a href="/issues/">← All the issues</a></p>
     <h1>Squamish council on ${esc(name)}</h1>
+    ${ans ? `<p class="notice info issue-answer"><b>As of <time datetime="${esc(ans.as_of)}">${esc(fmtLong(ans.as_of))}</time>,</b> ${escGl(ans.text)}</p>` : ''}
     ${ic.short_explainer && !ic.explainer.startsWith(ic.short_explainer.slice(0, 40)) ? `<p class="lede">${esc(ic.short_explainer)}</p>` : ''}
     ${ic.key === 'taxes_spending' ? '<p class="notice info"><b>Your 2027 property tax, in one place:</b> <a href="/track/budget-2027/">the budget, when council votes, and what your BC Assessment notice means →</a></p>' : ''}
     ${TRACKED.some((t) => t.topic === ic.key) ? `<h2>What council is doing now</h2><ul class="mlist">${TRACKED.filter((t) => t.topic === ic.key).map(issueRow).join('')}</ul>` : ''}
@@ -2616,15 +2642,19 @@ ${TRACKED.map((t) => `- [${t.title}](${U(`/track/${t.slug}/`)}): ${t.question}`)
   fs.writeFileSync(path.join(DIST, 'llms-full.txt'), full.join('\n'));
 }
 
-// ---------- sitemap (every indexable page written above; lastmod = the page's own date, else build date) ----------
-const today = new Date().toISOString().slice(0, 10);
+// ---------- sitemap (every indexable page written above; lastmod = the page's own content date, left out when unknown) ----------
 const prio = (u) => (u === '/' || u === '/meetings/' ? '1.0' : ['/council/', '/scorecard/', '/quiz/', '/faq/'].includes(u) || u.startsWith('/meetings/') ? '0.8' : '0.6');
-const mod = (u) => LASTMOD[u] || today;
-fs.writeFileSync(path.join(DIST, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...new Set(SITEMAP)].map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>${mod(u)}</lastmod><priority>${prio(u)}</priority></url>`).join('\n')}
-</urlset>
-`);
+fs.writeFileSync(path.join(DIST, 'sitemap.xml'), sitemapXml(ORIGIN, [...new Set(SITEMAP)], LASTMOD, prio));
+// ---------- RSS feed (/feed.xml): news stories and meeting summaries, newest first, for feed readers and tools that
+// repost new stories. Every page's head links to it.
+{
+  const strip = (h) => String(h || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+  const items = [
+    ...NEWS.stories.filter((st) => isoDay(st.date) && st.date <= TODAY).map((st) => ({ title: st.head, url: `/news/${st.slug}/`, date: isoDay(st.date), text: strip(st.dek) })),
+    ...past.filter((m) => m.summary).map((m) => ({ title: `${mType(m).label}, ${fmtLong(m.date)}: what council decided`, url: mUrl(m), date: m.date, text: strip(m.summary.headline) })),
+  ].sort((x, y) => y.date.localeCompare(x.date)).slice(0, 50);
+  fs.writeFileSync(path.join(DIST, 'feed.xml'), feedXml({ origin: ORIGIN, title: 'Squamish Voters: news and council meeting summaries', desc: 'Short Squamish news from the public record and plain language summaries of what Squamish council decided.', items }));
+}
 // Share pictures for member and upcoming meeting pages (see shareCard above).
 console.log(`Share cards: ${await (await import('./scripts/og-cards.mjs')).renderCards(CARDS, DIST)}`);
 console.log(`Built ${all.length} council members, ${MEETINGS.length} meetings, ${PROMISES.length} promises -> dist/`);

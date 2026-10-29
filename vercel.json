@@ -27,6 +27,11 @@
       "permanent": false
     },
     {
+      "source": "/rss.xml",
+      "destination": "/feed.xml",
+      "permanent": true
+    },
+    {
       "source": "/candidates/",
       "destination": "/council/",
       "permanent": true

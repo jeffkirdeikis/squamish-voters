@@ -1,0 +1,18 @@
+{
+  "_about": "One dated sentence at the top of each issue page (/issues/<topic>/), written from that page's own summary (tracked-issues.json or context.json) as of the date that data was checked. Update the sentence and its date together.",
+  "answers": {
+    "growth": { "as_of": "2026-10-19", "text": "council is rezoning Garibaldi Estates for more homes, and staff's draft budget proposes a full rewrite of the Official Community Plan starting in 2027." },
+    "housing_affordability": { "as_of": "2026-10-19", "text": "council has approved the land lease for 65 supportive homes at 39900 Government Road, BC Housing expects to start building in summer 2027, and a second building of affordable rentals has no funding yet." },
+    "homelessness": { "as_of": "2026-10-19", "text": "the District has closed the encampment behind Under One Roof for good, and the District and BC Housing are still choosing a site for the Province's temporary housing." },
+    "policing": { "as_of": "2026-10-06", "text": "Squamish is policed by the Royal Canadian Mounted Police under a contract, and the District pays most of the bill." },
+    "taxes_spending": { "as_of": "2026-10-19", "text": "staff's draft 2027 budget starts at a 10.4% property tax increase, about $342 for the average home, and the new council has not voted on it yet." },
+    "climate": { "as_of": "2026-10-06", "text": "the District's climate plan aims to cut the town's emissions at least 45% below 2010 levels by 2030 and be on track for net zero by 2050." },
+    "environment_lng": { "as_of": "2026-10-19", "text": "Woodfibre LNG is building its gas export plant, which council cannot stop, and its worker floatels run on a two year permit council approved in July 2025." },
+    "transportation": { "as_of": "2026-10-19", "text": "there is still no public bus from Squamish to Vancouver or Whistler, and in September 2026 local governments, the Lil'wat and Squamish Nations and the Province signed a memorandum to keep working on one." },
+    "parking": { "as_of": "2026-10-19", "text": "paid parking is a pilot at Darrell Bay only, running to the end of 2026, and staff report back in early 2027 on whether to expand it downtown." },
+    "economy": { "as_of": "2026-10-06", "text": "many Squamish residents commute out of town for work, and council's goal was a net increase in space for businesses by September 2026." },
+    "recreation_facilities": { "as_of": "2026-10-19", "text": "grant funded renovations at Brennan Park are nearly done, but a real expansion has no money set aside, and a task force is due to report options and costs around mid 2027." },
+    "flood_hazards_climate_resilience": { "as_of": "2026-10-19", "text": "a new $18 million sea dike at Xwu'nekw Park protects downtown, and borrowing for the 2026 flood upgrades still needs approval from voters before council can adopt it." },
+    "other_campaign_topics": { "as_of": "2026-10-06", "text": "child care in Squamish is scarce and expensive, and it is named as the main reason the local living wage is higher than Metro Vancouver's." }
+  }
+}

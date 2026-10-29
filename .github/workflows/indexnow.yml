@@ -1,0 +1,71 @@
+# IndexNow: once a new version of the site is live, tell Bing (and the other IndexNow engines) every page whose
+# content changed, so new summaries and stories are crawled the same day (Bing feeds Microsoft Copilot).
+# It waits until squamishvoters.com shows the new commit in <meta name="build">, builds the site at the last commit it
+# pinged for and at the live one, and sends only the pages that differ (scripts/pipeline/indexnow.mjs).
+# Runs on every push to main, when the news and meetings jobs push (they start it, since their pushes can't), and every
+# 30 minutes as a backup. The last commit pinged for is kept in the Actions cache.
+# It never deploys anything and can't fail a build or a deploy: Vercel builds on its own, and every step here gives up
+# quietly instead of failing.
+name: IndexNow
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '7,37 * * * *'
+  workflow_dispatch:
+concurrency:
+  group: indexnow
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Last commit we pinged for
+        uses: actions/cache/restore@v4
+        with:
+          path: .indexnow-last
+          key: indexnow-${{ github.run_id }}
+          restore-keys: indexnow-
+      - name: Wait for the live site, then build the old and new versions and ping
+        id: ping
+        continue-on-error: true
+        run: |
+          set -u
+          target=$(git rev-parse HEAD)
+          live() { curl -fsSL --max-time 20 "https://squamishvoters.com/?indexnow=$(date +%s)" | grep -o '<meta name="build" content="[0-9a-f]*"' | grep -o '[0-9a-f]\{7,\}' || true; }
+          # Wait up to 25 minutes for this commit (or a newer one) to go live.
+          for i in $(seq 1 50); do
+            now=$(live)
+            if [ -n "$now" ] && { [ "$now" = "$target" ] || git merge-base --is-ancestor "$target" "$now" 2>/dev/null; }; then break; fi
+            sleep 30
+          done
+          now=$(live)
+          if [ -z "$now" ] || ! git cat-file -e "$now^{commit}" 2>/dev/null; then echo "Live commit '${now}' isn't on main here; nothing to do."; exit 0; fi
+          last=$(cat .indexnow-last 2>/dev/null || true)
+          if [ -z "$last" ] || ! git cat-file -e "$last^{commit}" 2>/dev/null; then last=$(git rev-parse "$now^"); echo "No earlier ping recorded; comparing with the commit before."; fi
+          if [ "$last" = "$now" ]; then echo "Already pinged for ${now:0:7}."; exit 0; fi
+          echo "Comparing ${last:0:7} with live ${now:0:7}"
+          npm ci --no-audit --no-fund --silent
+          git worktree add -q --detach ../old "$last" && ln -s "$PWD/node_modules" ../old/node_modules
+          git worktree add -q --detach ../new "$now" && ln -s "$PWD/node_modules" ../new/node_modules
+          # Same moment for both builds, so only real changes differ. A build that fails just means no ping this time.
+          (cd ../old && BUILD_SHA="$last" node build.mjs > /dev/null) || { echo 'Old version did not build; skipping.'; echo "$now" > .indexnow-last; exit 0; }
+          (cd ../new && BUILD_SHA="$now" node build.mjs > /dev/null) || { echo 'New version did not build; skipping.'; exit 0; }
+          node scripts/pipeline/indexnow.mjs ../old/dist ../new/dist || true
+          echo "$now" > .indexnow-last
+      - name: Remember it
+        if: always()
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: .indexnow-last
+          key: indexnow-${{ github.run_id }}
