@@ -1,4 +1,4 @@
-# The Friday "This week at council" email, 7 a.m. Pacific (8 a.m. in summer). Emails Jeff an Approve link;
+# The Friday email (full weekly roundup), 7 a.m. Pacific (8 a.m. in summer). Emails Jeff an Approve link;
 # nothing goes to readers until he presses it (api/digest-review.js).
 name: Weekly email
 on:
@@ -18,6 +18,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 100
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -27,6 +29,7 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           HTML_FILE: ${{ inputs.html }}
           SUBJECT: ${{ inputs.subject }}
         run: |
