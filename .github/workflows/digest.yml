@@ -1,10 +1,17 @@
-# The Friday "This week at council" email, 7 a.m. Pacific (8 a.m. in summer). Sends only once RESEND_API_KEY,
-# EMAIL_FROM and POSTGRES_URL secrets exist; until then it just checks the email builds.
+# The Friday "This week at council" email, 7 a.m. Pacific (8 a.m. in summer). Emails Jeff an Approve link;
+# nothing goes to readers until he presses it (api/digest-review.js).
 name: Weekly email
 on:
   schedule:
     - cron: '0 15 * * 5'
   workflow_dispatch:
+    inputs:
+      html:
+        description: 'Hand-written email file in emails/ (leave empty for the usual weekly email)'
+        required: false
+      subject:
+        description: 'Subject line for the hand-written email'
+        required: false
 jobs:
   send:
     runs-on: ubuntu-latest
@@ -20,6 +27,12 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+          HTML_FILE: ${{ inputs.html }}
+          SUBJECT: ${{ inputs.subject }}
         run: |
           node scripts/pipeline/confirm-pending.mjs
-          node scripts/pipeline/digest.mjs --send
+          if [ -n "$HTML_FILE" ]; then
+            node scripts/pipeline/digest.mjs --request --html "emails/$HTML_FILE" --subject "$SUBJECT"
+          else
+            node scripts/pipeline/digest.mjs --request
+          fi
