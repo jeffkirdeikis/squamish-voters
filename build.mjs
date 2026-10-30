@@ -419,7 +419,7 @@ ${body}
 </div></main>
 <footer class="site-footer"><div class="wrap">
   <div class="cols">
-    <div><h2>${SITE.name}</h2><p>An independent, non-partisan guide to Squamish council made by <a href="/about/#who">Jeff Kirdeikis</a>, a Squamish resident. Not affiliated with the District of Squamish, any council member, or any party.</p>${updated ? `<p>This page last changed ${esc(fmtLong(updated))}.</p>` : ''}<p data-visits hidden><b>0</b> page views so far.</p></div>
+    <div><h2>${SITE.name}</h2><p>An independent, non-partisan guide to Squamish council made by <a href="https://jeffkirdeikis.com">Jeff Kirdeikis</a>, a Squamish resident. Not affiliated with the District of Squamish, any council member, or any party.</p>${updated ? `<p>This page last changed ${esc(fmtLong(updated))}.</p>` : ''}<p data-visits hidden><b>0</b> page views so far.</p></div>
     <div><h2>Pages</h2><ul>${[['/', 'Home'], ...MENU, ['/data/', 'Data downloads'], ['/about/', 'About and method'], ['/corrections/', 'Corrections']].map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join('')}</ul></div>
     <div><h2>Official information</h2><ul><li><a href="https://squamish.ca/government-and-administration/council/" target="_blank" rel="noopener">District of Squamish: council</a></li><li><a href="https://squamish.civicweb.net/Portal/MeetingSchedule.aspx" target="_blank" rel="noopener">Official agendas and minutes</a></li><li><a href="https://www.youtube.com/@DistrictofSquamish/streams" target="_blank" rel="noopener">Meeting videos (YouTube)</a></li><li><a href="https://www.facebook.com/groups/1090076830319905" target="_blank" rel="noopener">Squamish Voters &amp; Politics on Facebook</a></li></ul>
     </div>
@@ -1126,7 +1126,7 @@ const v = ctx.voting || {};
       description: 'Independent, plain-language guide to Squamish council: meetings, votes and campaign promises.',
     }, {
       '@context': 'https://schema.org', '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/`, logo: `${ORIGIN}/icon-512.png`,
-      founder: { '@type': 'Person', name: 'Jeff Kirdeikis' }, areaServed: 'Squamish, British Columbia',
+      founder: { '@type': 'Person', name: 'Jeff Kirdeikis', url: 'https://jeffkirdeikis.com' }, areaServed: 'Squamish, British Columbia',
       ...(SITE.contact ? { email: SITE.contact } : {}),
     }],
     hero: `${TODAY_STRIP}<section class="hero hero-cc"><div class="wrap cc">
@@ -1672,7 +1672,7 @@ if (TRACKED.length) {
       url: nUrl(st), title: st.head,
       desc: st.dek.replace(/<[^>]+>/g, ''),
       image: ogUrl(st),
-      jsonld: [crumbLd([['Home', '/'], ['News', '/news/'], [st.head, nUrl(st)]]), { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: st.head, datePublished: st.date, inLanguage: 'en-CA', image: ogUrl(st), author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/` }, publisher: { '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/` }, isBasedOn: st.src[1] }],
+      jsonld: [crumbLd([['Home', '/'], ['News', '/news/'], [st.head, nUrl(st)]]), { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: st.head, datePublished: st.date, inLanguage: 'en-CA', image: ogUrl(st), author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/`, sameAs: ['https://jeffkirdeikis.com'] }, publisher: { '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/` }, isBasedOn: st.src[1] }],
       body: `<div class="nw nw-story-page">
   <p class="crumbs"><a href="/news/">← All news</a></p>
   <article class="nw-full" data-s="${st.s}">${body}${foot(st)}</article>
@@ -1817,7 +1817,7 @@ ${wantsData({ focus, said: null })}`;
       jsonld: [crumbLd([['Home', '/'], ['What Squamish Wants', '/wants/'], [a.title, `/wants/${a.id}/`], ['More info', `/wants/${a.id}/info/`]]),
         { '@context': 'https://schema.org', '@type': 'Article', headline: a.title, description: (inf.intro || [])[0] || a.why || '', image: askImg(a).image,
           ...(inf.checked ? { datePublished: inf.published || inf.checked, dateModified: inf.checked } : {}), inLanguage: 'en-CA', about: { '@type': 'Place', name: hood ? `${hood.name}, Squamish, BC` : 'Squamish, BC' },
-          author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/` }, publisher: { '@type': 'Organization', name: SITE.name, url: ORIGIN, logo: { '@type': 'ImageObject', url: `${ORIGIN}/icon-512.png` } },
+          author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/`, sameAs: ['https://jeffkirdeikis.com'] }, publisher: { '@type': 'Organization', name: SITE.name, url: ORIGIN, logo: { '@type': 'ImageObject', url: `${ORIGIN}/icon-512.png` } },
           mainEntityOfPage: `${ORIGIN}/wants/${a.id}/info/`, citation: (inf.sources || []).map((x) => x.url) },
         ...(inf.questions?.length ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: inf.questions.map((q) => ({ '@type': 'Question', name: q.q, acceptedAnswer: { '@type': 'Answer', text: q.a } })) }] : [])],
       body: `<article class="wi">
@@ -2511,7 +2511,7 @@ for (const e of EXPLAINERS) {
   write(`/explained/${e.slug}/`, page({ url: `/explained/${e.slug}/`, title: e.question, desc: e.answer,
     jsonld: [crumbLd([['Home', '/'], ['Quick answers', '/faq/'], [e.short, `/explained/${e.slug}/`]]),
       { '@context': 'https://schema.org', '@type': 'Article', headline: e.question, description: e.answer, datePublished: e.published, dateModified: e.checked, inLanguage: 'en-CA',
-        author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/` }, publisher: { '@type': 'Organization', name: SITE.name, url: `${ORIGIN}/` },
+        author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/`, sameAs: ['https://jeffkirdeikis.com'] }, publisher: { '@type': 'Organization', name: SITE.name, url: `${ORIGIN}/` },
         about: { '@type': 'Place', name: 'Squamish, British Columbia' }, citation: S.map(([, u]) => u) },
       { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: e.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }],
     body: `<p class="crumbs"><a href="/faq/">← Quick answers</a></p>
