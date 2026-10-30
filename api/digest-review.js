@@ -40,6 +40,9 @@ export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   if (!sql) return res.status(503).send(shell('Not ready', '<h1>The database is not connected.</h1>'));
+  await sql`CREATE TABLE IF NOT EXISTS sv_digests (id text PRIMARY KEY, token text NOT NULL, subject text NOT NULL, html text NOT NULL,
+    status text NOT NULL DEFAULT 'pending', created_at timestamptz NOT NULL DEFAULT now(), decided_at timestamptz, sent_at timestamptz,
+    sent_count int, error text)`;
   const b = req.method === 'POST' ? (typeof req.body === 'string' ? Object.fromEntries(new URLSearchParams(req.body)) : req.body || {}) : {};
   const id = String(b.id || req.query.id || ''), t = String(b.t || req.query.t || '');
   const [r] = id && t ? await sql`SELECT * FROM sv_digests WHERE id = ${id} AND token = ${t}` : [];
