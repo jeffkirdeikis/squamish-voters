@@ -268,6 +268,12 @@ ${[parts.council, parts.coming, parts.wants, parts.pri, parts.weekend, parts.sco
   if (sql) await sql`INSERT INTO sv_digest_snap (data) VALUES (${JSON.stringify({ people, promises: D.W.promises, wants: Object.fromEntries(rows.map((r) => [r.id, r.total])), announced: [...(prev?.announced || ANNOUNCED_OCT30), ...w.site_new.map((x) => x.name)].slice(-40) })})`;
 }
 
+// Every link to the site carries utm tags, so site analytics can count clicks from each email (filter utm_campaign).
+// API links (unsubscribe, approve) are left alone.
+const utm = `utm_source=squamish-voters-email&amp;utm_medium=email&amp;utm_campaign=weekly-${stamp}`;
+html = html.replace(/href="(https:\/\/(?:www\.)?squamishvoters\.com(?!\/api\/)[^"#]*)(#[^"]*)?"/g,
+  (m, u, h = '') => (u.includes('utm_') ? m : `href="${u}${u.includes('?') ? '&amp;' : '?'}${utm}${h}"`));
+
 const dir = path.join(ROOT, 'data', 'digest'); fs.mkdirSync(dir, { recursive: true });
 fs.writeFileSync(path.join(dir, `${stamp}.html`), html.replaceAll('%%UNSUB%%', `${ORIGIN}/api/subscribe/?unsubscribe=PREVIEW`));
 log('preview written', `data/digest/${stamp}.html`, '|', subject);
