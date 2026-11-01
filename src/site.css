@@ -1052,6 +1052,14 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .nw-h a:hover { text-decoration: underline; text-decoration-color: var(--c); text-decoration-thickness: 2px; text-underline-offset: 3px; }
 .nw-dek { color: var(--ink-2); margin: 0; }
 .nw-take { border-left: 3px solid var(--c); padding: .1rem 0 .1rem .8rem; margin: 0; font-size: .95rem; }
+.nw-body { margin-top: 1.4rem; font-size: 1.02rem; line-height: 1.6; }
+.nw-body h2 { font-size: 1.25rem; margin: 1.6rem 0 .5rem; }
+.nw-body p { margin: 0 0 .9rem; }
+.nw-body ul { margin: 0 0 1rem; padding-left: 1.2rem; }
+.nw-body li { margin: .3rem 0; }
+.nw-readmore { margin: .6rem 0 0; font-weight: 700; }
+.nw-readmore a { color: var(--c); text-decoration: none; }
+.nw-readmore a:hover { text-decoration: underline; }
 .nw-take b { display: block; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--c); }
 .nw-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .4rem .8rem; }
 .nw-src { font-size: .82rem; color: var(--muted); margin: 0; min-width: 0; }
@@ -1080,9 +1088,9 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 /* feature + faces */
 .nw-feature { background: var(--surface); border: 1px solid var(--line); border-top: 6px solid var(--c); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.1rem; }
 .nw-feature .nw-h { font-size: clamp(1.45rem, 5vw, 1.9rem); }
-.nw-faces { list-style: none; margin: .3rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .9rem .4rem; align-items: start; }
+.nw-faces { list-style: none; margin: .3rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(4.6rem, 1fr)); gap: .8rem .3rem; align-items: start; }
 .nw-faces a { display: grid; justify-items: center; align-content: start; text-align: center; gap: .1rem; text-decoration: none; color: var(--ink); font-size: .72rem; line-height: 1.2; }
-.nw-faces .avatar { width: 100%; max-width: 4.4rem; height: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover; border: 3px solid var(--surface); box-shadow: 0 0 0 2px var(--c); margin-bottom: .3rem; font-size: 1.1rem; }
+.nw-faces .avatar { width: 3.6rem; height: 3.6rem; max-width: none; flex: none; border-radius: 50%; object-fit: cover; border: 3px solid var(--surface); box-shadow: 0 0 0 2px var(--c); margin-bottom: .3rem; font-size: 1.1rem; }
 .nw-faces b { font-weight: 700; }
 .nw-faces span { color: var(--muted); }
 .nw-faces em { font-style: normal; font-size: .58rem; font-weight: 700; letter-spacing: .03em; white-space: nowrap; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 0 .4rem; margin-top: .15rem; }
@@ -1142,7 +1150,6 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 
 @media (min-width: 700px) {
   .nw-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .nw-faces { grid-template-columns: repeat(7, minmax(0, 1fr)); }
   .nw-feature { padding: 1.4rem; }
   .nw-full { padding: 1.8rem; }
   .nw-chips-wrap { margin: 0; }

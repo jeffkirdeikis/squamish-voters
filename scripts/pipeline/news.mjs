@@ -103,7 +103,7 @@ const SOURCES = {
           text: `This is what Squamish council decided at its ${kind} on ${day(m.date)}. It is newsworthy: write it up as a council story, section "council" unless the main decision is clearly about money, housing or getting around.\n\n${S.headline}\n\n${(S.key_points || []).map((x) => '- ' + x).join('\n')}\n\n${(S.explainer || []).join('\n\n')}\n\nDecisions:\n${dec.map((d) => `- ${d.title} (${d.result}): ${d.what}`).join('\n')}` });
       } else if (!m.summary && (m.agenda_items || []).length && m.date >= t && m.date <= soon) {
         out.push({ key: `meet-agenda-${m.id}`, source: 'meetings', label: `${day(m.date)} ${kind} agenda (District of Squamish)`, url: m.agenda_url, more, title: `Agenda posted for the ${day(m.date)} ${kind}`, date: t,
-          text: `The District of Squamish has posted the agenda for its ${kind} on ${day(m.date)}${m.time ? ' at ' + m.time + ' (24 hour clock)' : ''}, ${m.place || 'Council Chambers, Municipal Hall'}. Meetings are open to the public and streamed on the District's YouTube channel. Write it as a preview of what council will decide (this is not a routine meeting notice; skip only if every item is routine paperwork). Section "council" unless one item clearly dominates. Use the meeting date as the visual if nothing bigger stands out.${m.has_public_hearing ? ' It includes a public hearing where residents can speak.' : ''}\n\nOverview: ${m.preview || ''}\n\nAgenda items:\n${m.agenda_items.map((a) => `- ${a.plain}${a.for_you ? ' For residents: ' + a.for_you : ''}${(a.facts || []).length ? ' Facts: ' + a.facts.join('; ') : ''}`).join('\n')}` });
+          text: `The District of Squamish has posted the agenda for its ${kind} on ${day(m.date)}${m.time ? ' at ' + m.time + ' (24 hour clock)' : ''}, ${m.place || 'Council Chambers, Municipal Hall'}. Meetings are open to the public and streamed on the District's YouTube channel. Write it as a preview of what council will decide (this is not a routine meeting notice; skip only if every item is routine paperwork). Section "council" unless one item clearly dominates. Use the meeting date as the visual if nothing bigger stands out.${m.has_public_hearing ? ' It includes a public hearing where residents can speak.' : ''}\n\nOverview: ${m.preview || ''}\n\nAgenda items:\n${m.agenda_items.map((a) => `- ${a.plain}${a.for_you ? ' For residents: ' + a.for_you : ''}${(a.facts || []).length ? ' Facts: ' + a.facts.join('; ') : ''}`).join('\n')}\n\nOFFICIAL AGENDA TEXT (for exact details: venue, ceremony, how to watch or take part):\n${(() => { try { return fs.readFileSync(path.join(dir, 'raw', `${m.id}-agenda.txt`), 'utf8').slice(0, 7000); } catch { return ''; } })()}` });
       }
     }
     return out;
@@ -166,13 +166,14 @@ Rules:
 - Skip (publish=false): routine meeting notices, holiday hours, job postings, items not about the Squamish area, items with too little information, and anything already stale.
 - section: one of ${SECTIONS.join(', ')}.
 - areas: the Squamish neighbourhoods the story is about, from this list only: ${HOOD_SLUGS.join(', ')}. Empty if it is town-wide or outside these areas.
+- body: the full story in markdown, shown under the summary on the story page. This is where the detail goes, so never leave it thin: 150 to 450 words in 2 to 5 sections, each starting with "## " and a plain heading (for example "What happens", "The details", "Who it affects", "What comes next", "How to take part"). Use "- " bullets for lists of dates, items, places or numbers. Put in every useful fact from the source: dates, times, places, amounts, names, deadlines, how to apply or comment. Do not repeat the dek word for word. Link to our own pages from the SITE PAGES list with [text](/path/) where they really help (a council member's page when you name them, the meeting page, an issue page), and to the source with its full https link. Only facts from the source or the SITE PAGES list; never guess.
 - photo_queries: 2 or 3 short searches for an openly licensed photo of the PLACE or TOPIC (not the event itself), most specific first, e.g. "Howe Sound Squamish", "Sea to Sky Highway", "downtown Squamish".`;
 const SCHEMA = {
   type: 'object', additionalProperties: false,
-  required: ['publish', 'reason', 'section', 'weight', 'head', 'dek', 'take', 'visual_big', 'visual_small', 'slug', 'photo_queries', 'areas'],
+  required: ['publish', 'reason', 'section', 'weight', 'head', 'dek', 'take', 'body', 'visual_big', 'visual_small', 'slug', 'photo_queries', 'areas'],
   properties: {
     publish: { type: 'boolean' }, reason: { type: 'string' }, section: { type: 'string', enum: SECTIONS }, weight: { type: 'string', enum: ['big', 'normal', 'brief'] },
-    head: { type: 'string' }, dek: { type: 'string' }, take: { type: 'string' }, visual_big: { type: 'string' }, visual_small: { type: 'string' },
+    head: { type: 'string' }, dek: { type: 'string' }, take: { type: 'string' }, body: { type: 'string', description: 'full story in markdown (## headings, - bullets, [links](/path/))' }, visual_big: { type: 'string' }, visual_small: { type: 'string' },
     slug: { type: 'string', description: 'short url slug, lowercase words joined by hyphens, under 50 characters' },
     photo_queries: { type: 'array', items: { type: 'string' } },
     areas: { type: 'array', items: { type: 'string', enum: HOOD_SLUGS.length ? HOOD_SLUGS : ['downtown'] } },
@@ -180,14 +181,25 @@ const SCHEMA = {
 };
 const clean = (s) => String(s || '').replace(/\s*[—–]\s*/g, ', ').replace(/\s+,/g, ',').trim();
 
+// Our own pages a story can link to, with one line of context each (members' pages get their background).
+const SITE_PAGES = (() => {
+  const people = readJson(path.join(ROOT, 'data', 'candidates.json'), []);
+  const sitting = new Set(['sean-easton', 'eric-andersen', 'janice-desjardins', 'sarah-ellis', 'luc-perreault', 'laura-prosko', 'shaun-veltkamp']);
+  const members = people.filter((c) => sitting.has(c.slug)).map((c) => `/council/${c.slug}/ ${c.office === 'mayor' ? 'Mayor' : 'Councillor'} ${c.name}${c.incumbent ? ' (returning)' : ' (new in 2026)'}: ${String(c.occupation_background || '').slice(0, 160)} Priorities: ${(c.top_priorities || []).slice(0, 2).join('; ').slice(0, 200)}`);
+  const issues = ['brennan-park-and-recreation', 'childcare-rentals-and-vanlife', 'climate-and-environment', 'flood-protection', 'growth-and-development', 'homelessness', 'housing', 'jobs-and-economy', 'parking', 'policing-and-safety', 'property-taxes', 'transit-and-highway-99', 'woodfibre-lng', 'woodfibre-tax-deal'].map((x) => `/issues/${x}/ issue page: ${x.replace(/-/g, ' ')}`);
+  const meets = fs.readdirSync(path.join(ROOT, 'data', 'meetings')).filter((f) => f.endsWith('.json')).map((f) => readJson(path.join(ROOT, 'data', 'meetings', f))).filter((m) => m && m.date >= new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10)).map((m) => `/meetings/${m.id}/ ${m.type} council meeting ${m.date}${m.place ? ' at ' + m.place : ''}`);
+  return [...members, ...meets, ...issues, '/scorecard/ every promise and campaign position checked against votes', '/have-your-say/ residents vote on the questions before council does', '/how-council-works/ plain guide to council', '/today/ weather, Highway 99, river and air right now', '/neighbourhoods/ news and projects by neighbourhood'].join('\n');
+})();
+
 async function draft(item) {
   let text = item.text;
   if (!text || text.length < 200) { try { text = await pageText(item.url); } catch (e) { log('page text failed', item.url, e.message); } }
   const d = await claudeJson({
-    system: SYSTEM, schema: SCHEMA, effort: 'medium', maxTokens: 4000,
-    content: `Today is ${today()}.\nSource: ${item.label}\nURL: ${item.url}\nPublished: ${item.date}\nTitle: ${item.title}\n\n${(text || '').slice(0, 9000)}`,
+    system: SYSTEM, schema: SCHEMA, effort: 'medium', maxTokens: 8000,
+    content: `SITE PAGES (ours, to link to):\n${SITE_PAGES}\n\nToday is ${today()}.\nSource: ${item.label}\nURL: ${item.url}\nPublished: ${item.date}\nTitle: ${item.title}\n\n${(text || '').slice(0, 9000)}`,
   });
   for (const k of ['head', 'dek', 'take', 'visual_big', 'visual_small']) d[k] = clean(d[k]);
+  d.body = String(d.body || '').replace(/\s*[—–]\s*/g, ', ').trim();
   d.slug = String(d.slug || '').toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || `story-${Date.now()}`;
   return d;
 }
@@ -252,7 +264,7 @@ async function emailDrafts(rows) {
   const card = (r) => `<div style="border:1px solid #d9d5c8;border-radius:12px;padding:16px;margin:0 0 16px;background:#fff">
 <p style="margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#2457a6">${esc(r.item.label)}</p>
 ${r.draft.photo ? `<img src="${esc(r.draft.photo.remote)}" alt="" width="528" style="width:100%;height:auto;border-radius:8px;margin:0 0 4px;display:block"><p style="margin:0 0 10px;font-size:12px;color:#5d6661">Photo: ${esc(r.draft.photo.credit)}</p>` : ''}<h2 style="font-family:Georgia,serif;font-size:21px;line-height:1.25;margin:0 0 8px">${esc(r.draft.head)}</h2>
-<p style="margin:0 0 8px;color:#3f4b45">${esc(r.draft.dek)}</p>${r.draft.take ? `<p style="margin:0 0 12px;border-left:3px solid #0f4c3a;padding-left:10px">${esc(r.draft.take)}</p>` : ''}
+<p style="margin:0 0 8px;color:#3f4b45">${esc(r.draft.dek)}</p>${r.draft.take ? `<p style="margin:0 0 12px;border-left:3px solid #0f4c3a;padding-left:10px">${esc(r.draft.take)}</p>` : ''}${r.draft.body ? `<p style="margin:0 0 8px;font-size:13px;color:#5d6661">Plus a full story of about ${r.draft.body.split(/\s+/).length} words with ${(r.draft.body.match(/^## /gm) || []).length} sections. Read it on the review page.</p>` : ''}
 <p style="margin:14px 0 4px"><a href="${ORIGIN}/api/news-review/?id=${r.id}&amp;t=${r.token}" style="background:#0f4c3a;color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:10px;display:inline-block">Review and approve</a></p>
 <p style="margin:6px 0 0;font-size:13px;color:#5d6661">Source: <a href="${esc(r.item.url)}" style="color:#5d6661">${esc(r.item.title)}</a>${r.item.more ? ` · Story links to <a href="${ORIGIN}${esc(r.item.more[1])}" style="color:#5d6661">${esc(r.item.more[0].toLowerCase())}</a>` : ''}</p></div>`;
   const subject = rows.length === 1 ? `News to approve: ${rows[0].draft.head}` : `${rows.length} news stories to approve`;
@@ -292,7 +304,7 @@ for (const r of approved) {
   let slug = d.slug; while (news.stories.some((s) => s.slug === slug)) slug += '-2';
   const story = {
     slug, s: d.section, tier: { big: 'lead', normal: 'card', brief: 'brief' }[d.weight] || 'card', date: it.date && it.date <= today() ? it.date : today(),
-    head: d.head, dek: d.dek, ...(d.take ? { take: esc(d.take) } : {}),
+    head: d.head, dek: d.dek, ...(d.take ? { take: esc(d.take) } : {}), ...(d.body ? { body: d.body } : {}),
     ...(d.visual_big ? { visual: { type: 'big', big: d.visual_big, small: d.visual_small } } : {}),
     src: [it.label, it.url], ...(it.more ? { more: it.more } : {}), auto: true, ...(d.areas && d.areas.length ? { areas: d.areas } : {}),
   };

@@ -1,5 +1,6 @@
 // Static site generator for Squamish Voters 2026. No dependencies.
 //   node build.mjs   ->  dist/
+import { mdToHtml } from './api/_md.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -1591,9 +1592,11 @@ if (TRACKED.length) {
   const dekHtml = (st) => (st.html ? st.dek : esc(st.dek)); // hand-written stories may carry links; drafted ones are plain text
   const ogUrl = (st) => `${ORIGIN}/news/og/${st.og || `${st.slug}.jpg`}?v=2`;
   const take = (st) => (st.take ? `<p class="nw-take"><b>What changes</b>${st.take}</p>` : '');
+  const bodyHtml = (st) => (st.body ? `<div class="nw-body">${mdToHtml(st.body)}</div>` : '');
+  const readMore = (st) => (st.body ? `<p class="nw-readmore"><a href="${nUrl(st)}">Read the full story →</a></p>` : '');
   const source = (st) => `<p class="nw-src">Source: <a href="${esc(st.src[1])}" target="_blank" rel="noopener">${esc(st.src[0])}</a>${st.more ? ` · <a href="${esc(st.more[1])}">${esc(st.more[0])} →</a>` : ''}</p>`;
   const shareBtn = (st) => `<button class="nw-share no-print" type="button" data-nw-share="${esc(ORIGIN + nUrl(st))}" data-title="${esc(st.head)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7.5 7.5L12 3l4.5 4.5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>Share</button>`;
-  const foot = (st) => `<div class="nw-foot">${source(st)}${shareBtn(st)}</div>`;
+  const foot = (st) => `${readMore(st)}<div class="nw-foot">${source(st)}${shareBtn(st)}</div>`;
   const hLink = (st, tag = 'h2') => `<${tag} class="nw-h"><a href="${nUrl(st)}">${esc(st.head)}</a></${tag}>`;
   const attrs = (st, cls) => `class="${cls}" data-s="${st.s}"`;
   const story = (st) => {
@@ -1675,7 +1678,7 @@ if (TRACKED.length) {
       jsonld: [crumbLd([['Home', '/'], ['News', '/news/'], [st.head, nUrl(st)]]), { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: st.head, datePublished: st.date, inLanguage: 'en-CA', image: ogUrl(st), author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/`, sameAs: ['https://jeffkirdeikis.com'] }, publisher: { '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/` }, isBasedOn: st.src[1] }],
       body: `<div class="nw nw-story-page">
   <p class="crumbs"><a href="/news/">← All news</a></p>
-  <article class="nw-full" data-s="${st.s}">${body}${foot(st)}</article>
+  <article class="nw-full" data-s="${st.s}">${body}${bodyHtml(st)}<div class="nw-foot">${source(st)}${shareBtn(st)}</div></article>
   <section class="nw-next"><h2 class="nw-sechead">More news</h2><ul>${others.map((o) => `<li data-s="${o.s}"><span>${esc(SEC[o.s])}</span><a href="${nUrl(o)}">${esc(o.head)}</a></li>`).join('')}</ul>
   <p class="nw-more"><a href="/news/">All news →</a> · <a href="/meetings/">What council decided →</a></p></section>
   ${signupBox('news-story')}

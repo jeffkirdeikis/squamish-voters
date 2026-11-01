@@ -40,7 +40,7 @@ export default async function handler(req, res) {
       await sql`UPDATE sv_news SET status = 'rejected', decided_at = now() WHERE id = ${id}`;
       return res.send(shell('Skipped', '<h1>Skipped</h1><p>This one won’t go on the site.</p>'));
     }
-    const d = { ...r.draft, head: one(b.head, 140) || r.draft.head, dek: one(b.dek, 1200) || r.draft.dek, take: one(b.take, 400), visual_big: one(b.visual_big, 24), visual_small: one(b.visual_small, 60), photo: b.no_photo ? null : r.draft.photo || null };
+    const d = { ...r.draft, head: one(b.head, 140) || r.draft.head, dek: one(b.dek, 1200) || r.draft.dek, take: one(b.take, 400), body: b.body != null ? String(b.body).replace(/\r/g, '').replace(/\s*[—–]\s*/g, ', ').trim().slice(0, 8000) : r.draft.body || '', visual_big: one(b.visual_big, 24), visual_small: one(b.visual_small, 60), photo: b.no_photo ? null : r.draft.photo || null };
     await sql`UPDATE sv_news SET status = 'approved', decided_at = now(), draft = ${JSON.stringify(d)} WHERE id = ${id}`;
     return res.send(shell('Approved', `<h1>Approved</h1><p>“${esc(d.head)}” is on <a href="https://squamishvoters.com/news/">squamishvoters.com/news</a> now (it can take up to a minute to appear). Its share picture is added within about 20 minutes.</p>`));
   }
@@ -56,6 +56,7 @@ ${d.photo ? `<figure style="margin:1rem 0 0"><img src="${esc(d.photo.remote)}" a
 <label for="head">Headline</label><textarea id="head" name="head" maxlength="140" style="min-height:4.2rem;font-weight:700">${esc(d.head)}</textarea>
 <label for="dek">Story</label><textarea id="dek" name="dek" maxlength="1200">${esc(d.dek)}</textarea>
 <label for="take">What changes (one line, optional)</label><textarea id="take" name="take" maxlength="400" style="min-height:4rem">${esc(d.take)}</textarea>
+<label for="body">Full story (shown under the summary on the story page; ## for a heading, - for a bullet, [words](/link/) for a link)</label><textarea id="body" name="body" maxlength="8000" style="min-height:22rem">${esc(d.body || '')}</textarea>
 <div class="row"><div><label for="vb">Big number or date (optional)</label><input id="vb" name="visual_big" value="${esc(d.visual_big)}" maxlength="24"></div>
 <div><label for="vs">Label under it</label><input id="vs" name="visual_small" value="${esc(d.visual_small)}" maxlength="60"></div></div>
 <div class="btns"><button class="go" name="action" value="approve">Approve and publish</button><button class="no" name="action" value="skip">Skip</button></div>

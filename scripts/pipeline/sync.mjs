@@ -18,7 +18,7 @@ for (const it of list) {
   // A meeting may already exist from the published schedule (no CivicWeb id yet): match it by date and type.
   let m = have.find((x) => x.civicweb_id === it.Id) || have.find((x) => !x.civicweb_id && x.date === date && (x.type === type || (inaugural && x.type === 'inaugural')));
   if (!m) { m = { id: meetingId(date, inaugural ? 'inaugural' : type), date, type: inaugural ? 'inaugural' : type }; have.push(m); log('new meeting', m.id); }
-  Object.assign(m, { civicweb_id: it.Id, civicweb_name: name, date, time, place: 'Council Chambers, Municipal Hall, 37955 Second Avenue' });
+  Object.assign(m, { civicweb_id: it.Id, civicweb_name: name, date, time, place: m.agenda_place || 'Council Chambers, Municipal Hall, 37955 Second Avenue' });
   if (/CANCELLED/i.test(name)) m.status = 'cancelled';
   m.agenda_url = `${CW}/Portal/MeetingInformation.aspx?Id=${it.Id}`;
   saveMeeting(m);
@@ -36,6 +36,9 @@ for (const m of loadMeetings().filter((x) => x.civicweb_id && !x.summary && x.st
   m.agenda_url = `${CW}/document/${ag.Id}/`;
   m.agenda_pdf = `${CW}/document/${ag.Id}/?printPdf=true`;
   m.attachments = links;
+  // The agenda names the venue ("to be held on ... at 6:00 PM / at the Squamish Valley Golf Club, / 2458 Mamquam Road"); some meetings move out of Chambers.
+  const v = text.match(/to be held on[^\n]*\n\s*(?:in|at)\s+(?:the\s+)?([^\n]+?),?\s*\n\s*([^\n]*\d[^\n]*)/i);
+  if (v) { m.agenda_place = `${v[1].trim()}, ${v[2].trim().replace(/,?\s*Squamish,? BC$/i, '')}`; m.place = m.agenda_place; }
   if (m.agenda_hash === h) { saveMeeting(m); continue; }
   log('agenda changed', m.id);
   fs.rmSync(path.join(RAW_DIR, `${m.id}-attachments.txt`), { force: true });
