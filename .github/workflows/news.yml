@@ -3,8 +3,8 @@
 # GitHub's schedule only really fires every few hours, so each run loops itself: one pass every 10 minutes for
 # about 5.5 hours. The concurrency group queues the next scheduled run behind it, so one is always going.
 # Needs the ANTHROPIC_API_KEY, POSTGRES_URL, RESEND_API_KEY, EMAIL_FROM and NEWS_REVIEW_TO repository secrets.
-# District of Squamish news: squamish.ca blocks automated readers, and we don't get around that. District news
-# reaches us through its email newsletter (see scripts/pipeline/news.mjs).
+# District of Squamish news: squamish.ca blocks automated readers, and we don't get around that. The District's weekly
+# E-News is sent to district-news@crisuavau.resend.app and read with RESEND_INBOX_KEY (see district() in news.mjs).
 name: Squamish news
 on:
   schedule:
@@ -36,6 +36,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_INBOX_KEY: ${{ secrets.RESEND_INBOX_KEY }} # full access key: reads the District E-News sent to our Resend inbox
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           NEWS_REVIEW_TO: ${{ secrets.NEWS_REVIEW_TO }}
           GH_TOKEN: ${{ github.token }}

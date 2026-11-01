@@ -3,7 +3,7 @@
 //   2. Scan: check public sources for anything new, have Claude draft a short story in our own words,
 //      save it as 'pending' and email Jeff a link to read, edit and approve it.
 // Every source here allows plain automated reading. We never get around a site's bot check: the District's own
-// news page blocks scripts, so District news comes in through its email newsletter instead (see README in news.yml).
+// news page blocks scripts, so District news comes in through its weekly E-News email instead (see district() below).
 // The Squamish Chief is not a source: its stories are its own reporting.
 //   NEWS_DRAFT_ONE=1  draft the newest item from one source even if it was seen before (to test the email).
 import fs from 'node:fs';
@@ -105,6 +105,37 @@ const SOURCES = {
         out.push({ key: `meet-agenda-${m.id}`, source: 'meetings', label: `${day(m.date)} ${kind} agenda (District of Squamish)`, url: m.agenda_url, more, title: `Agenda posted for the ${day(m.date)} ${kind}`, date: t,
           text: `The District of Squamish has posted the agenda for its ${kind} on ${day(m.date)}${m.time ? ' at ' + m.time + ' (24 hour clock)' : ''}, ${m.place || 'Council Chambers, Municipal Hall'}. Meetings are open to the public and streamed on the District's YouTube channel. Write it as a preview of what council will decide (this is not a routine meeting notice; skip only if every item is routine paperwork). Section "council" unless one item clearly dominates. Use the meeting date as the visual if nothing bigger stands out.${m.has_public_hearing ? ' It includes a public hearing where residents can speak.' : ''}\n\nOverview: ${m.preview || ''}\n\nAgenda items:\n${m.agenda_items.map((a) => `- ${a.plain}${a.for_you ? ' For residents: ' + a.for_you : ''}${(a.facts || []).length ? ' Facts: ' + a.facts.join('; ') : ''}`).join('\n')}` });
       }
+    }
+    return out;
+  },
+  async district() { // District of Squamish weekly E-News: squamish.ca blocks automated readers, so the District's own
+    // newsletter is sent to our Resend inbox (district-news@crisuavau.resend.app) and read here through the Resend API.
+    const key = process.env.RESEND_INBOX_KEY;
+    if (!key) return [];
+    const api = async (p) => { const r = await fetch(`https://api.resend.com${p}`, { headers: { Authorization: `Bearer ${key}` }, signal: AbortSignal.timeout(20000) }); if (!r.ok) throw new Error(`Resend ${r.status}: ${(await r.text()).slice(0, 200)}`); return r.json(); };
+    const since = Date.now() - 10 * 86400000;
+    const mails = ((await api('/emails/receiving?limit=30')).data || []).filter((e) => new Date(e.created_at).getTime() > since);
+    const out = [];
+    for (const e of mails) {
+      const issueId = idOf(`enews-${e.id}`);
+      let [row] = await sql`SELECT item FROM sv_news WHERE id = ${issueId}`;
+      if (!row) {
+        const full = await api(`/emails/receiving/${e.id}`);
+        const html = full.html || '', text = full.text || strip(html);
+        if (/confirm|verify|validate/i.test(e.subject || '') && !/enews|e-news|update/i.test(e.subject || '')) { log('district: confirmation email waiting:', e.subject, (html.match(/href="(https:[^"]+)"/g) || []).slice(0, 6).join(' ')); continue; }
+        const online = ((html.match(/href="(https:\/\/app\.cyberimpact\.com\/newsletter-view-online[^"]+)"/) || [])[1] || '').replace(/&amp;/g, '&');
+        const x = await claudeJson({
+          system: 'You read the District of Squamish weekly email newsletter and list its separate news items. Use only what the newsletter says. Leave out: council meeting times and agendas (we cover meetings separately), job postings, holiday hours, recurring reminders with nothing new, and the newsletter header and footer.',
+          schema: { type: 'object', additionalProperties: false, required: ['items'], properties: { items: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['title', 'text', 'link'], properties: { title: { type: 'string' }, text: { type: 'string', description: 'everything the newsletter says about this item, close to its own words, with dates, places and numbers' }, link: { type: 'string', description: 'the item\'s "learn more" link if it has one, else empty' } } } } } },
+          effort: 'low', maxTokens: 6000, content: `Subject: ${e.subject}\nSent: ${e.created_at}\n\n${text.slice(0, 30000)}\n\nLinks in the email:\n${[...new Set((html.match(/href="(https?:[^"]+)"/g) || []).map((h) => h.slice(6, -1).replace(/&amp;/g, '&')))].filter((u) => !/unsubscribe|cyberimpact\.com\/(?!newsletter-view-online)|facebook|instagram|twitter|x\.com|linkedin|youtube\.com\/@/i.test(u)).slice(0, 80).join('\n')}`,
+        });
+        const date = new Date(e.created_at).toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' });
+        const items = (x.items || []).map((it, n) => ({ key: `enews-${e.id}-${n}`, source: 'district', label: 'District of Squamish E-News', url: /^https?:/.test(it.link) ? it.link : (online || 'https://squamish.ca/government-and-administration/district-information/enews-archives/'), title: it.title, date, text: it.text }));
+        await sql`INSERT INTO sv_news (id, source, source_url, title, status, item) VALUES (${issueId}, 'district', ${online || null}, ${e.subject}, 'issue', ${JSON.stringify({ items })}) ON CONFLICT DO NOTHING`;
+        log(`district: newsletter "${e.subject}" has ${items.length} items`);
+        row = { item: { items } };
+      }
+      out.push(...(row.item?.items || []));
     }
     return out;
   },
