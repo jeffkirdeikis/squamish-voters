@@ -87,6 +87,27 @@ const SOURCES = {
     })).filter((i) => /squamish|sea to sky|howe sound|highway 99|woodfibre|britannia|garibaldi/i.test(i.title + ' ' + i.text))
       .map((i) => ({ key: `bcgov-${i.url}`, source: 'province', label: 'BC Government News', ...i }));
   },
+  async meetings() { // our own council meeting pages (scripts/pipeline): a posted agenda, then what council decided
+    const dir = path.join(ROOT, 'data', 'meetings');
+    const t = today(), soon = new Date(Date.now() + 14 * 86400000).toISOString().slice(0, 10), recent = new Date(Date.now() - 4 * 86400000).toISOString().slice(0, 10);
+    const KIND = { regular: 'council meeting', cow: 'council workshop (Committee of the Whole, no final votes)', hearing: 'public hearing', inaugural: 'inaugural council meeting', special: 'special council meeting' };
+    const day = (d) => new Date(d + 'T12:00:00').toLocaleDateString('en-CA', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+    const out = [];
+    for (const f of fs.readdirSync(dir).filter((x) => x.endsWith('.json'))) {
+      const m = readJson(path.join(dir, f));
+      if (!m || m.status === 'cancelled' || m.closed_only) continue;
+      const kind = KIND[m.type] || 'council meeting', more = ['Full meeting page', `/meetings/${m.id}/`];
+      if (m.summary && m.date >= recent && m.date <= t) {
+        const S = m.summary, dec = (m.decisions || []).filter((d) => !d.consent_agenda && d.result !== 'info');
+        out.push({ key: `meet-result-${m.id}`, source: 'meetings', label: `${day(m.date)} ${kind} (District of Squamish)`, url: m.minutes_url || m.video_url || m.agenda_url, more, title: `What council decided on ${day(m.date)}`, date: m.date,
+          text: `This is what Squamish council decided at its ${kind} on ${day(m.date)}. It is newsworthy: write it up as a council story, section "council" unless the main decision is clearly about money, housing or getting around.\n\n${S.headline}\n\n${(S.key_points || []).map((x) => '- ' + x).join('\n')}\n\n${(S.explainer || []).join('\n\n')}\n\nDecisions:\n${dec.map((d) => `- ${d.title} (${d.result}): ${d.what}`).join('\n')}` });
+      } else if (!m.summary && (m.agenda_items || []).length && m.date >= t && m.date <= soon) {
+        out.push({ key: `meet-agenda-${m.id}`, source: 'meetings', label: `${day(m.date)} ${kind} agenda (District of Squamish)`, url: m.agenda_url, more, title: `Agenda posted for the ${day(m.date)} ${kind}`, date: t,
+          text: `The District of Squamish has posted the agenda for its ${kind} on ${day(m.date)}${m.time ? ' at ' + m.time + ' (24 hour clock)' : ''}, ${m.place || 'Council Chambers, Municipal Hall'}. Meetings are open to the public and streamed on the District's YouTube channel. Write it as a preview of what council will decide (this is not a routine meeting notice; skip only if every item is routine paperwork). Section "council" unless one item clearly dominates. Use the meeting date as the visual if nothing bigger stands out.${m.has_public_hearing ? ' It includes a public hearing where residents can speak.' : ''}\n\nOverview: ${m.preview || ''}\n\nAgenda items:\n${m.agenda_items.map((a) => `- ${a.plain}${a.for_you ? ' For residents: ' + a.for_you : ''}${(a.facts || []).length ? ' Facts: ' + a.facts.join('; ') : ''}`).join('\n')}` });
+      }
+    }
+    return out;
+  },
   async foundation() { // Squamish Community Foundation posts
     const x = await get('https://www.squamishfoundation.com/feed/');
     return [...x.matchAll(/<item>([\s\S]*?)<\/item>/g)].slice(0, 5).map((m) => m[1]).map((it) => {
@@ -181,7 +202,7 @@ async function emailDrafts(rows) {
 ${r.draft.photo ? `<img src="${esc(r.draft.photo.remote)}" alt="" width="528" style="width:100%;height:auto;border-radius:8px;margin:0 0 4px;display:block"><p style="margin:0 0 10px;font-size:12px;color:#5d6661">Photo: ${esc(r.draft.photo.credit)}</p>` : ''}<h2 style="font-family:Georgia,serif;font-size:21px;line-height:1.25;margin:0 0 8px">${esc(r.draft.head)}</h2>
 <p style="margin:0 0 8px;color:#3f4b45">${esc(r.draft.dek)}</p>${r.draft.take ? `<p style="margin:0 0 12px;border-left:3px solid #0f4c3a;padding-left:10px">${esc(r.draft.take)}</p>` : ''}
 <p style="margin:14px 0 4px"><a href="${ORIGIN}/api/news-review/?id=${r.id}&amp;t=${r.token}" style="background:#0f4c3a;color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:10px;display:inline-block">Review and approve</a></p>
-<p style="margin:6px 0 0;font-size:13px;color:#5d6661">Source: <a href="${esc(r.item.url)}" style="color:#5d6661">${esc(r.item.title)}</a></p></div>`;
+<p style="margin:6px 0 0;font-size:13px;color:#5d6661">Source: <a href="${esc(r.item.url)}" style="color:#5d6661">${esc(r.item.title)}</a>${r.item.more ? ` · Story links to <a href="${ORIGIN}${esc(r.item.more[1])}" style="color:#5d6661">${esc(r.item.more[0].toLowerCase())}</a>` : ''}</p></div>`;
   const subject = rows.length === 1 ? `News to approve: ${rows[0].draft.head}` : `${rows.length} news stories to approve`;
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST', headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
@@ -221,7 +242,7 @@ for (const r of approved) {
     slug, s: d.section, tier: { big: 'lead', normal: 'card', brief: 'brief' }[d.weight] || 'card', date: it.date && it.date <= today() ? it.date : today(),
     head: d.head, dek: d.dek, ...(d.take ? { take: esc(d.take) } : {}),
     ...(d.visual_big ? { visual: { type: 'big', big: d.visual_big, small: d.visual_small } } : {}),
-    src: [it.label, it.url], auto: true, ...(d.areas && d.areas.length ? { areas: d.areas } : {}),
+    src: [it.label, it.url], ...(it.more ? { more: it.more } : {}), auto: true, ...(d.areas && d.areas.length ? { areas: d.areas } : {}),
   };
   if (d.photo && d.photo.remote) {
     try {
