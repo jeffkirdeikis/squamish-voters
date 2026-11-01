@@ -68,7 +68,7 @@
   {
    "slug": "new-council-sworn-in-november-3",
    "s": "council",
-   "tier": "card",
+   "tier": "lead",
    "date": "2026-10-31",
    "head": "New Squamish council to be sworn in at first meeting on November 3",
    "dek": "Mayor Easton and Councillors Andersen, DesJardins, Ellis, Perreault, Prosko and Veltkamp will take their oaths of office on Tuesday, November 3 at 6 p.m. at Municipal Hall, 37955 Second Avenue. Council will also name members to the Squamish-Lillooet Regional District Board, the Squamish Library Board, the Community Forest Board and the Land Back Task Force. It will set the acting mayor rotation and approve its 2027 meeting schedule. Mayor Easton will give an opening speech.",
@@ -87,7 +87,15 @@
     "/meetings/2026-11-03-inaugural/"
    ],
    "auto": true,
-   "og": "new-council-sworn-in-november-3.png"
+   "og": "new-council-sworn-in-november-3.png",
+   "photo": {
+    "file": "/news/photos/new-council-sworn-in-november-3.jpg",
+    "alt": "Mayor Sean Easton and Councillors Eric Andersen, Janice DesJardins, Sarah Ellis, Luc Perreault, Laura Prosko and Shaun Veltkamp",
+    "caption": "Squamish council for 2026 to 2030.",
+    "credit": "Campaign photos and District of Squamish; background Straitgate, CC BY-SA 3.0",
+    "link": "https://squamishvoters.com/council/",
+    "og": "/news/library/council-2026-share.jpg"
+   }
   },
   {
    "slug": "wind-warning-southern-howe-sound",

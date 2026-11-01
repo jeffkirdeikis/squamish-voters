@@ -206,7 +206,7 @@ async function commonsSearch(q) {
 // pick from our own library of Squamish photos (data/news-library.json).
 const LIBRARY = (readJson(path.join(ROOT, 'data', 'news-library.json'), { photos: [] }).photos || []);
 const LIB_BY_SECTION = { council: 0, vote: 0, weather: 1, move: 2, money: 3, community: 4, housing: 3, recon: 8, safety: 6 };
-const libPhoto = (p) => p && { remote: `${ORIGIN}${p.file}`, alt: p.alt, caption: p.caption, credit: p.credit, link: /^https?:/.test(p.link) ? p.link : `${ORIGIN}${p.link}` };
+const libPhoto = (p) => p && { remote: `${ORIGIN}${p.file}`, ...(p.og ? { og: p.og } : {}), alt: p.alt, caption: p.caption, credit: p.credit, link: /^https?:/.test(p.link) ? p.link : `${ORIGIN}${p.link}` };
 async function libraryPhoto(d) {
   const fallback = () => libPhoto(LIBRARY[LIB_BY_SECTION[d.section] ?? 6] || LIBRARY[0]);
   if (!LIBRARY.length) return null;
@@ -274,7 +274,7 @@ function ogImage(story) {
   const chrome = ['google-chrome', 'google-chrome-stable', 'chromium', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'].find((c) => { try { execFileSync(c, ['--version'], { stdio: 'ignore' }); return true; } catch { return false; } });
   if (!chrome) { log('no Chrome; skipping share picture'); return null; }
   const tpl = fs.readFileSync(path.join(ROOT, 'scripts', 'pipeline', 'news-og.html'), 'utf8');
-  const data = { head: story.head, sec: SEC_NAME[story.s] || 'News', s: story.s, date: new Date(story.date + 'T12:00:00').toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' }), big: story.visual?.big || '', small: story.visual?.small || '', photo: story.photo ? `file://${path.join(ROOT, 'public', story.photo.file)}` : '' };
+  const data = { head: story.head, sec: SEC_NAME[story.s] || 'News', s: story.s, date: new Date(story.date + 'T12:00:00').toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' }), big: story.visual?.big || '', small: story.visual?.small || '', photo: story.photo ? `file://${path.join(ROOT, 'public', story.photo.og || story.photo.file)}` : '' }; // og: a share-picture version that leaves room for the headline
   const tmp = path.join(OG_DIR, `.tmp-${story.slug}.html`);
   fs.writeFileSync(tmp, tpl.replace('__DATA__', JSON.stringify(data).replace(/</g, '\\u003c')));
   const out = path.join(OG_DIR, `${story.slug}.png`);
@@ -301,7 +301,7 @@ for (const r of approved) {
       fs.mkdirSync(PHOTO_DIR, { recursive: true });
       const buf = Buffer.from(await (await fetch(d.photo.remote, { headers: { 'User-Agent': UA } })).arrayBuffer());
       fs.writeFileSync(path.join(PHOTO_DIR, `${slug}.jpg`), buf);
-      story.photo = { file: `/news/photos/${slug}.jpg`, alt: d.photo.alt, caption: d.photo.caption, credit: d.photo.credit, link: d.photo.link };
+      story.photo = { file: `/news/photos/${slug}.jpg`, ...(d.photo.og ? { og: d.photo.og } : {}), alt: d.photo.alt, caption: d.photo.caption, credit: d.photo.credit, link: d.photo.link };
     } catch (e) { log('photo download failed', e.message); }
   }
   story.og = ogImage(story) || undefined;
