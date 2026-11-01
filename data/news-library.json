@@ -1,0 +1,77 @@
+{
+ "_about": "Photos any news story can use when no better openly licensed photo is found. Every story gets a picture. 'use' says what each suits.",
+ "photos": [
+  {
+   "file": "/news/library/council-2026.jpg",
+   "use": "Council stories: meetings, votes, swearing in, anything the mayor and council decide",
+   "alt": "Mayor Sean Easton and Councillors Eric Andersen, Janice DesJardins, Sarah Ellis, Luc Perreault, Laura Prosko and Shaun Veltkamp",
+   "caption": "Squamish council for 2026 to 2030.",
+   "credit": "Campaign photos and District of Squamish; background Straitgate, CC BY-SA 3.0",
+   "link": "/council/"
+  },
+  {
+   "file": "/news/photos/wind-warning-southern-howe-sound.jpg",
+   "use": "Weather, Howe Sound, water, wind, ferries",
+   "alt": "Howe Sound seen from above Squamish",
+   "caption": "Howe Sound, seen from above Squamish.",
+   "credit": "Shafik Diwan, CC BY-SA 4.0",
+   "link": "https://commons.wikimedia.org/wiki/File:Howe_Sound,_Squamish.jpg"
+  },
+  {
+   "file": "/news/photos/riding-stays-green.jpg",
+   "use": "Highway 99, driving, transit, provincial news, the Sea to Sky corridor",
+   "alt": "Sea to Sky Highway curving along Howe Sound at Porteau Road",
+   "caption": "The Sea to Sky Highway along Howe Sound, part of the West Vancouver to Sea to Sky riding.",
+   "credit": "Ruth Hartnup, CC BY 2.0",
+   "link": "https://commons.wikimedia.org/wiki/File:Sea_to_Sky_Highway_and_Howe_Sound_at_Porteau_Road.jpg"
+  },
+  {
+   "file": "/news/photos/budget-2027.jpg",
+   "use": "Taxes, budget, money, growth, the whole town",
+   "alt": "Aerial view of Squamish with mountains behind",
+   "caption": "Squamish from above.",
+   "credit": "Madhumanti Mandal, CC BY-SA 4.0",
+   "link": "https://commons.wikimedia.org/wiki/File:Downtown_Squamish.jpg"
+  },
+  {
+   "file": "/news/photos/community-grants.jpg",
+   "use": "Downtown, businesses, community events, grants",
+   "alt": "Shops along Cleveland Avenue in downtown Squamish",
+   "caption": "Cleveland Avenue, downtown Squamish.",
+   "credit": "Guerinf, CC0",
+   "link": "https://commons.wikimedia.org/wiki/File:Squamish_(5).jpg"
+  },
+  {
+   "file": "/news/photos/area-d-de-jong.jpg",
+   "use": "Squamish Valley, rural areas, the regional district, rivers, farms",
+   "alt": "The Squamish River winding through a forested valley",
+   "caption": "The Squamish River valley, part of Area D.",
+   "credit": "Tim Gage, CC BY-SA 2.0",
+   "link": "https://commons.wikimedia.org/wiki/File:Squamish_River_Valley_101.jpg"
+  },
+  {
+   "file": "/news/photos/last-council-meeting.jpg",
+   "use": "Downtown, District hall, general civic news",
+   "alt": "Downtown Squamish street with the Stawamus Chief behind",
+   "caption": "Downtown Squamish, with the Stawamus Chief behind.",
+   "credit": "Straitgate, CC BY-SA 3.0",
+   "link": "https://commons.wikimedia.org/wiki/File:Squamish_City_Centre.JPG"
+  },
+  {
+   "file": "/news/photos/turnout-up.jpg",
+   "use": "Downtown, elections, general town news",
+   "alt": "Main street in Squamish with snowy peaks behind",
+   "caption": "Downtown Squamish.",
+   "credit": "Damieng (English Wikipedia), CC BY-SA 3.0",
+   "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+  },
+  {
+   "file": "/news/photos/apology-squamish-nation.jpg",
+   "use": "Stawamus Chief, Squamish Nation, parks, outdoors, tourism",
+   "alt": "The Stawamus Chief seen from the Chief Overlook trail",
+   "caption": "The Stawamus Chief (Siyám Smánit), seen from the Chief Overlook trail.",
+   "credit": "Daniel Lu (User:dllu), CC BY-SA 4.0",
+   "link": "https://commons.wikimedia.org/wiki/File:Stawamus_Chief_from_Chief_Overlook_Panorama_Trail_Sea_to_Sky_Gondola_Squamish_dllu.jpg"
+  }
+ ]
+}

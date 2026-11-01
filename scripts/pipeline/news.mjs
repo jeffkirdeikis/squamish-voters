@@ -202,7 +202,28 @@ async function commonsSearch(q) {
     return { title: p.title.slice(5), thumb: ii.thumburl, w: ii.width, h: ii.height, page: ii.descriptionurl, licence: strip(m.LicenseShortName?.value || ''), artist: strip(m.Artist?.value || '').slice(0, 80) };
   }).filter((c) => c.thumb && c.w >= 1000 && c.w >= c.h && OK_LICENCE.test(c.licence));
 }
+// Every story gets a picture: when Commons has nothing that fits (and for council stories, which get the council's faces),
+// pick from our own library of Squamish photos (data/news-library.json).
+const LIBRARY = (readJson(path.join(ROOT, 'data', 'news-library.json'), { photos: [] }).photos || []);
+const LIB_BY_SECTION = { council: 0, vote: 0, weather: 1, move: 2, money: 3, community: 4, housing: 3, recon: 8, safety: 6 };
+const libPhoto = (p) => p && { remote: `${ORIGIN}${p.file}`, alt: p.alt, caption: p.caption, credit: p.credit, link: /^https?:/.test(p.link) ? p.link : `${ORIGIN}${p.link}` };
+async function libraryPhoto(d) {
+  const fallback = () => libPhoto(LIBRARY[LIB_BY_SECTION[d.section] ?? 6] || LIBRARY[0]);
+  if (!LIBRARY.length) return null;
+  try {
+    const x = await claudeJson({
+      system: 'Pick the photo that best suits a short local news story in Squamish, B.C., from our own library. Always pick one. For stories about council, the mayor or a council meeting, pick the council photo.',
+      schema: { type: 'object', additionalProperties: false, required: ['index'], properties: { index: { type: 'integer' } } }, effort: 'low', maxTokens: 300,
+      content: `Story (${d.section}): ${d.head}\n${d.dek}\n\nLibrary:\n${LIBRARY.map((p, i) => `${i}: ${p.caption} Suits: ${p.use}`).join('\n')}`,
+    });
+    return libPhoto(LIBRARY[x.index]) || fallback();
+  } catch (e) { log('library pick failed', e.message); return fallback(); }
+}
 async function findPhoto(d) {
+  if (d.section === 'council' || d.section === 'vote') return libraryPhoto(d);
+  return (await commonsPhoto(d).catch((e) => { log('photo pick failed', e.message); return null; })) || libraryPhoto(d);
+}
+async function commonsPhoto(d) {
   const cands = [];
   for (const q of (d.photo_queries || []).slice(0, 3)) {
     try { for (const c of await commonsSearch(q)) if (!cands.some((x) => x.thumb === c.thumb)) cands.push(c); } catch (e) { log('photo search failed', q, e.message); }
@@ -321,7 +342,7 @@ for (const i of fresh) {
       log('skipped:', i.title, '|', d.reason);
       continue;
     }
-    try { d.photo = await findPhoto(d); } catch (e) { log('photo pick failed', e.message); d.photo = null; }
+    d.photo = await findPhoto(d);
     const token = crypto.randomBytes(18).toString('base64url');
     await sql`INSERT INTO sv_news (id, source, source_url, title, status, token, item, draft) VALUES (${id}, ${i.source}, ${i.url}, ${i.title}, 'pending', ${token}, ${JSON.stringify(i)}, ${JSON.stringify(d)})
       ON CONFLICT (id) DO UPDATE SET status = 'pending', token = EXCLUDED.token, draft = EXCLUDED.draft`;
