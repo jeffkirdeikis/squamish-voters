@@ -66,6 +66,30 @@
  ],
  "stories": [
   {
+   "slug": "new-council-sworn-in-november-3",
+   "s": "council",
+   "tier": "card",
+   "date": "2026-10-31",
+   "head": "New Squamish council to be sworn in at first meeting on November 3",
+   "dek": "Mayor Easton and Councillors Andersen, DesJardins, Ellis, Perreault, Prosko and Veltkamp will take their oaths of office on Tuesday, November 3 at 6 p.m. at Municipal Hall, 37955 Second Avenue. Council will also name members to the Squamish-Lillooet Regional District Board, the Squamish Library Board, the Community Forest Board and the Land Back Task Force. It will set the acting mayor rotation and approve its 2027 meeting schedule. Mayor Easton will give an opening speech.",
+   "take": "The meeting is open to the public and streamed on the District's YouTube channel, and in 2027 regular council meetings would usually be held at 6 p.m. on the first and third Tuesdays, with no meetings in August and only one in September.",
+   "visual": {
+    "type": "big",
+    "big": "Nov 3",
+    "small": "Council sworn in"
+   },
+   "src": [
+    "Tuesday, November 3, 2026 inaugural council meeting agenda (District of Squamish)",
+    "https://squamish.civicweb.net/document/271675/"
+   ],
+   "more": [
+    "Full meeting page",
+    "/meetings/2026-11-03-inaugural/"
+   ],
+   "auto": true,
+   "og": "new-council-sworn-in-november-3.png"
+  },
+  {
    "slug": "wind-warning-southern-howe-sound",
    "s": "weather",
    "tier": "card",
