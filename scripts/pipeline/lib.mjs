@@ -79,7 +79,7 @@ export const positionList = (people) => people.flatMap((c) => [
 
 // Neighbourhoods and the long-running issues we follow, for tagging decisions (data/participate.json, data/tracked-issues.json).
 export const hoods = () => (readJson(path.join(ROOT, 'data', 'participate.json'), {}).neighbourhoods || []).map((h) => ({ slug: h.slug, name: h.name, also: h.also || [] }));
-export const tracked = () => readJson(path.join(ROOT, 'data', 'tracked-issues.json'), []).map((t) => ({ slug: t.slug, title: t.title, keywords: t.keywords || [], steps: (t.steps || []).map((x) => x.label) }));
+export const tracked = () => (readJson(path.join(ROOT, 'data', 'tracked-issues.json'), {}).issues || []).map((t) => ({ slug: t.slug, title: t.title, keywords: t.keywords || [], steps: (t.steps || []).map((x) => x.label) }));
 export const TAG_RULES = `"for_you": one plain sentence on what it means for an ordinary resident, ideally in dollars ("About $40 more a year on an average home's property tax") or places ("Affects homes along Government Road"). Use only numbers the agenda, staff reports or recording actually give. Empty string if nothing concrete.
 "areas": neighbourhood slugs it mostly affects, from the NEIGHBOURHOODS list, or ["all"] for the whole town.
 "issues": slugs from the TRACKED ISSUES list this is part of, or [].`;
