@@ -4,9 +4,155 @@
  "type": "inaugural",
  "time": "18:00",
  "place": "Council Chambers, Municipal Hall, 37955 Second Avenue",
- "preview": "The new mayor and councillors are sworn in and take their oath of office.",
+ "preview": "This is the first meeting of the newly elected council. Mayor Easton and six councillors will be sworn in, council will choose who sits on outside boards and approve its 2027 meeting dates, and the mayor will give an opening speech.",
  "source": "District of Squamish 2026 meeting schedule",
  "civicweb_id": 2116,
  "civicweb_name": "Inaugural Meeting - 03 Nov 2026",
- "agenda_url": "https://squamish.civicweb.net/Portal/MeetingInformation.aspx?Id=2116"
+ "agenda_url": "https://squamish.civicweb.net/document/271675/",
+ "agenda_pdf": "https://squamish.civicweb.net/document/271675/?printPdf=true",
+ "attachments": [
+  {
+   "url": "https://squamish.civicweb.net/FileStorage/A4FC2342660C43DBBABE2A81EB39049A-2027%20Regular%20Business%20Meeting%20Schedule.pdf",
+   "name": ""
+  }
+ ],
+ "has_public_hearing": false,
+ "closed_only": false,
+ "agenda_items": [
+  {
+   "plain": "Mayor Easton and Councillors Andersen, DesJardins, Ellis, Perreault, Prosko and Veltkamp will take their oaths of office and promise to follow council's code of conduct.",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "presentation",
+   "topic": "other",
+   "for_you": "These seven people will make decisions for the whole town for the next four years.",
+   "areas": [
+    "all"
+   ],
+   "issues": []
+  },
+  {
+   "plain": "Council will vote to name which councillors sit on the Squamish-Lillooet Regional District Board (the regional government for the area), along with backup members.",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "vote",
+   "topic": "other",
+   "for_you": "Mayor Easton would hold 5 votes on the regional board and two councillors would hold 4 votes each, speaking for Squamish on regional matters.",
+   "areas": [
+    "all"
+   ],
+   "issues": []
+  },
+  {
+   "plain": "Council will vote to approve its schedule of regular business meetings for 2027.",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "vote",
+   "topic": "other",
+   "for_you": "Regular meetings would be held at 6 p.m. at Municipal Hall, 37955 Second Avenue, usually on the first and third Tuesdays, with no meetings in August and only one in September.",
+   "areas": [
+    "all"
+   ],
+   "issues": []
+  },
+  {
+   "plain": "Council will vote to choose which councillors serve as acting mayor (who fills in when the mayor is away) for each month from November 2026 to December 2027.",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "vote",
+   "topic": "other",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": []
+  },
+  {
+   "plain": "Council will vote to name councillors to the Squamish Library Board, the Community Forest Board and the Land Back Task Force until the end of 2027.",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "vote",
+   "topic": "other",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": []
+  },
+  {
+   "plain": "Mayor Easton will give his opening speech, and councillors will make their own remarks.",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "presentation",
+   "topic": "other",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": []
+  },
+  {
+   "plain": "The mayor and each councillor may invite one community member to speak to council for up to three minutes.",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "presentation",
+   "topic": "other",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": []
+  }
+ ],
+ "agenda_hash": "53ec40ce50a38f64",
+ "agenda_checked": "2026-11-01T04:14:30.235Z"
 }
