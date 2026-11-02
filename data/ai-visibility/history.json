@@ -13,5 +13,20 @@
       "input_tokens": 744179,
       "output_tokens": 26829
     }
+  },
+  {
+    "date": "2026-11-02",
+    "model": "claude-opus-5-5",
+    "asked": 23,
+    "answered": 0,
+    "searched": 0,
+    "cited": 0,
+    "named": 0,
+    "found": 0,
+    "top_cited": [],
+    "tokens": {
+      "input_tokens": 0,
+      "output_tokens": 0
+    }
   }
 ]
