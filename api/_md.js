@@ -20,3 +20,11 @@ export function mdToHtml(md) {
   flushP(); flushL();
   return out.join('\n');
 }
+
+// Extra story photos sit inside the full story: one before each section heading after the first, any left over at the end.
+export function placePhotos(html, figs) {
+  const f = [...(figs || [])]; if (!f.length) return html;
+  let n = 0;
+  const out = String(html || '').replace(/<h2[ >]/g, (m) => (n++ >= 1 && f.length ? f.shift() + m : m));
+  return out + f.join('');
+}

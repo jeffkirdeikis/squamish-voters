@@ -3,7 +3,7 @@
 //   GET ?slug=<slug> -> one story's full page, for /news/<slug>/ before its static page exists (vercel.json rewrite)
 // .github/workflows/news.yml later bakes each one into data/news.json with its share picture.
 import { neon } from '@neondatabase/serverless';
-import { mdToHtml } from './_md.js';
+import { mdToHtml, placePhotos } from './_md.js';
 
 const URL = process.env.DATABASE_URL || process.env.POSTGRES_URL;
 const sql = URL ? neon(URL) : null;
@@ -14,7 +14,7 @@ const today = () => new Date().toLocaleDateString('en-CA', { timeZone: 'America/
 
 export const toStory = (r) => {
   const d = r.draft || {}, it = r.item || {};
-  return { slug: d.slug, s: d.section, sec: SEC[d.section] || 'News', date: it.date && it.date <= today() ? it.date : today(), head: d.head, dek: d.dek, take: d.take || '', big: d.visual_big || '', small: d.visual_small || '', photo: d.photo || null, body: d.body || '', src: [it.label, it.url] };
+  return { slug: d.slug, s: d.section, sec: SEC[d.section] || 'News', date: it.date && it.date <= today() ? it.date : today(), head: d.head, dek: d.dek, take: d.take || '', big: d.visual_big || '', small: d.visual_small || '', photo: d.photo || null, photos: d.photos || [], body: d.body || '', src: [it.label, it.url] };
 };
 
 export default async function handler(req, res) {
@@ -45,7 +45,7 @@ export function storyPage(st, shell, top = '') {
 <h1 class="nw-h">${esc(st.head)}</h1>${st.photo ? `<figure class="nw-photo"><img src="${esc(st.photo.remote)}" alt="${esc(st.photo.alt)}"><figcaption>${esc(st.photo.caption)} <span>Photo: <a href="${esc(st.photo.link)}" target="_blank" rel="noopener">${esc(st.photo.credit)}</a></span></figcaption></figure>` : ''}<p class="nw-dek">${esc(st.dek)}</p>
 ${st.big ? `<div class="nw-big">${esc(st.big)}<small>${esc(st.small)}</small></div>` : ''}
 ${st.take ? `<p class="nw-take"><b>What changes</b>${esc(st.take)}</p>` : ''}
-${st.body ? `<div class="nw-body">${mdToHtml(st.body)}</div>` : ''}
+${st.body || (st.photos || []).length ? `<div class="nw-body">${placePhotos(mdToHtml(st.body), (st.photos || []).map((p) => `<figure class="nw-photo"><img src="${esc(p.remote)}" alt="${esc(p.alt)}" loading="lazy"><figcaption>${esc(p.caption)} <span>Photo: <a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.credit)}</a></span></figcaption></figure>`))}</div>` : ''}
 <div class="nw-foot"><p class="nw-src">Source: <a href="${esc(st.src[1])}" target="_blank" rel="noopener">${esc(st.src[0])}</a></p><button class="nw-share no-print" type="button" data-nw-share="${esc(ORIGIN + url)}" data-title="${esc(st.head)}">Share</button></div>`;
   return shell
     .replace(/<meta name="robots" content="noindex, nofollow">\n?/, top ? '<meta name="robots" content="noindex, nofollow">\n' : '')

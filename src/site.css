@@ -1057,6 +1057,7 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .nw-body p { margin: 0 0 .9rem; }
 .nw-body ul { margin: 0 0 1rem; padding-left: 1.2rem; }
 .nw-body li { margin: .3rem 0; }
+.nw-body > .nw-photo { margin: 1.4rem 0; }
 .nw-readmore { margin: .6rem 0 0; font-weight: 700; }
 .nw-readmore a { color: var(--c); text-decoration: none; }
 .nw-readmore a:hover { text-decoration: underline; }
