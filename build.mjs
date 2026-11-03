@@ -1615,7 +1615,7 @@ if (TRACKED.length) {
   // Newest first. The lead is the newest big story near the top; the rest fall into Latest and Earlier by date.
   const S = [...NEWS.stories].sort((a, b) => b.date.localeCompare(a.date));
   const main = S.filter((s) => s.tier !== 'brief'), briefs = S.filter((s) => s.tier === 'brief').slice(0, 5);
-  const leadSt = main.slice(0, 3).find((s) => s.tier === 'lead') || main[0];
+  const leadSt = main[0]; // the newest story always gets the top spot
   const featSt = main.slice(0, 6).find((s) => s !== leadSt && (s.tier === 'feature' || s.tier === 'lead'));
   const asTier = (st, tier) => (st ? { ...st, tier } : null);
   const lead = [asTier(leadSt, 'lead')].filter(Boolean), feat = [asTier(featSt, 'feature')].filter(Boolean);
