@@ -52,12 +52,15 @@
       var have = {};
       document.querySelectorAll('.nw-h a').forEach(function (a) { have[a.getAttribute('href')] = 1; });
       var e = function (s) { return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+      var n = 0;
       (d.stories || []).forEach(function (st) {
         var url = '/news/' + st.slug + '/';
         if (have[url]) return;
         var a = document.createElement('article');
-        a.className = 'nw-card'; a.setAttribute('data-s', st.s);
-        a.innerHTML = (st.photo ? '<figure class="nw-photo"><img src="' + e(st.photo.remote) + '" alt="' + e(st.photo.alt) + '"><figcaption>' + e(st.photo.caption) + ' <span>Photo: ' + e(st.photo.credit) + '</span></figcaption></figure>' : '') + '<div class="nw-kicker"><span>' + e(st.sec) + '</span><time>Just now</time></div><h3 class="nw-h"><a href="' + url + '">' + e(st.head) + '</a></h3>' +
+        // The newest one runs full width like the top story; any others sit as cards beside each other.
+        var top = n++ === 0;
+        a.className = top ? 'nw-lead solo' : 'nw-card'; a.setAttribute('data-s', st.s);
+        a.innerHTML = (st.photo ? '<figure class="nw-photo"><img src="' + e(st.photo.remote) + '" alt="' + e(st.photo.alt) + '"><figcaption>' + e(st.photo.caption) + ' <span>Photo: ' + e(st.photo.credit) + '</span></figcaption></figure>' : '') + '<div class="nw-kicker"><span>' + e(st.sec) + '</span><time>Just now</time></div>' + (top ? '<h2' : '<h3') + ' class="nw-h"><a href="' + url + '">' + e(st.head) + '</a>' + (top ? '</h2>' : '</h3>') +
           (st.big ? '<div class="nw-big">' + e(st.big) + '<small>' + e(st.small) + '</small></div>' : '') + '<p class="nw-dek">' + e(st.dek) + '</p>' +
           (st.take ? '<p class="nw-take"><b>What changes</b>' + e(st.take) + '</p>' : '') +
           '<div class="nw-foot"><p class="nw-src">Source: <a href="' + e(st.src[1]) + '" target="_blank" rel="noopener">' + e(st.src[0]) + '</a></p><button class="nw-share no-print" type="button" data-nw-share="https://squamishvoters.com' + url + '" data-title="' + e(st.head) + '">Share</button></div>';

@@ -1098,6 +1098,7 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 
 /* cards */
 .nw-cards { display: grid; gap: 1rem; align-items: start; }
+.nw-cards > .nw-lead { grid-column: 1 / -1; }
 .nw-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.05rem; }
 .nw-big { font: 700 2.5rem/1 Georgia, "Iowan Old Style", serif; color: var(--c); }
 .nw-big small { display: block; font: 700 .68rem system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-top: .35rem; }
