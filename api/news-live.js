@@ -12,7 +12,7 @@ const SEC = { vote: 'Elections', council: 'Council', money: 'Your money', commun
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const today = () => new Date().toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' });
 
-const toStory = (r) => {
+export const toStory = (r) => {
   const d = r.draft || {}, it = r.item || {};
   return { slug: d.slug, s: d.section, sec: SEC[d.section] || 'News', date: it.date && it.date <= today() ? it.date : today(), head: d.head, dek: d.dek, take: d.take || '', big: d.visual_big || '', small: d.visual_small || '', photo: d.photo || null, body: d.body || '', src: [it.label, it.url] };
 };
@@ -35,6 +35,11 @@ export default async function handler(req, res) {
     const nf = await fetch(`${ORIGIN}/404/`).then((r) => r.text()).catch(() => '<h1>Page not found</h1>');
     return res.status(404).send(nf);
   }
+  return res.send(storyPage(st, shell));
+}
+
+// One story as the site shows it, inside the site's own story page shell (/news/_live/). api/news-review.js reuses it for previews.
+export function storyPage(st, shell, top = '') {
   const url = `/news/${st.slug}/`;
   const body = `<div class="nw-kicker"><span>${esc(st.sec)}</span><time datetime="${st.date}" data-rel>${esc(new Date(st.date + 'T12:00:00').toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' }))}</time></div>
 <h1 class="nw-h">${esc(st.head)}</h1>${st.photo ? `<figure class="nw-photo"><img src="${esc(st.photo.remote)}" alt="${esc(st.photo.alt)}"><figcaption>${esc(st.photo.caption)} <span>Photo: <a href="${esc(st.photo.link)}" target="_blank" rel="noopener">${esc(st.photo.credit)}</a></span></figcaption></figure>` : ''}<p class="nw-dek">${esc(st.dek)}</p>
@@ -42,8 +47,10 @@ ${st.big ? `<div class="nw-big">${esc(st.big)}<small>${esc(st.small)}</small></d
 ${st.take ? `<p class="nw-take"><b>What changes</b>${esc(st.take)}</p>` : ''}
 ${st.body ? `<div class="nw-body">${mdToHtml(st.body)}</div>` : ''}
 <div class="nw-foot"><p class="nw-src">Source: <a href="${esc(st.src[1])}" target="_blank" rel="noopener">${esc(st.src[0])}</a></p><button class="nw-share no-print" type="button" data-nw-share="${esc(ORIGIN + url)}" data-title="${esc(st.head)}">Share</button></div>`;
-  return res.send(shell
-    .replace(/<meta name="robots" content="noindex, nofollow">\n?/, '')
+  return shell
+    .replace(/<meta name="robots" content="noindex, nofollow">\n?/, top ? '<meta name="robots" content="noindex, nofollow">\n' : '')
     .replaceAll('__LIVE_TITLE__', esc(st.head)).replaceAll('__LIVE_DESC__', esc(st.dek)).replaceAll('/news/_live/', url)
-    .replace('data-s="__LIVE_S__"', `data-s="${esc(st.s)}"`).replace('<!--LIVE_BODY-->', body));
+    .replace('data-s="__LIVE_S__"', `data-s="${esc(st.s)}"`).replace('<!--LIVE_BODY-->', body)
+    .replace(/<body([^>]*)>/, (m) => m + top);
 }
+

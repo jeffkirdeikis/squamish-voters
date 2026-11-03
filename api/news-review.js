@@ -1,8 +1,9 @@
 // Jeff's OK for a drafted news story (scripts/pipeline/news.mjs emails the link).
-//   GET  ?id=&t=                     -> the draft, with its wording editable, and Approve / Skip buttons
+//   GET  ?id=&t=                     -> the story exactly as the site will show it, with Approve / Decline buttons on top
 //   POST id, t, action, head, dek...  -> saved; .github/workflows/news.yml publishes approved drafts within about 10 minutes
 // The link alone never approves anything: mail apps open links to scan them, so approving needs the button press (POST).
 import { neon } from '@neondatabase/serverless';
+import { toStory, storyPage } from './news-live.js';
 
 const URL = process.env.DATABASE_URL || process.env.POSTGRES_URL;
 const sql = URL ? neon(URL) : null;
@@ -38,29 +39,30 @@ export default async function handler(req, res) {
     if (r.status !== 'pending') return res.send(shell('Already done', `<h1>Already ${esc(r.status)}</h1><p>Nothing changed.</p>`));
     if (b.action === 'skip') {
       await sql`UPDATE sv_news SET status = 'rejected', decided_at = now() WHERE id = ${id}`;
-      return res.send(shell('Skipped', '<h1>Skipped</h1><p>This one won’t go on the site.</p>'));
+      return res.send(shell('Declined', '<h1>Declined</h1><p>This one won’t go on the site.</p>'));
     }
-    const d = { ...r.draft, head: one(b.head, 140) || r.draft.head, dek: one(b.dek, 1200) || r.draft.dek, take: one(b.take, 400), body: b.body != null ? String(b.body).replace(/\r/g, '').replace(/\s*[—–]\s*/g, ', ').trim().slice(0, 8000) : r.draft.body || '', visual_big: one(b.visual_big, 24), visual_small: one(b.visual_small, 60), photo: b.no_photo ? null : r.draft.photo || null };
+    // The preview has no edit fields, so a plain Approve keeps the draft exactly as shown.
+    const edited = ['head', 'dek', 'take', 'body', 'visual_big', 'visual_small'].some((k) => k in b);
+    const d = !edited ? { ...r.draft } : { ...r.draft, head: one(b.head, 140) || r.draft.head, dek: one(b.dek, 1200) || r.draft.dek, take: one(b.take, 400), body: b.body != null ? String(b.body).replace(/\r/g, '').replace(/\s*[—–]\s*/g, ', ').trim().slice(0, 8000) : r.draft.body || '', visual_big: one(b.visual_big, 24), visual_small: one(b.visual_small, 60), photo: b.no_photo ? null : r.draft.photo || null };
     await sql`UPDATE sv_news SET status = 'approved', decided_at = now(), draft = ${JSON.stringify(d)} WHERE id = ${id}`;
     return res.send(shell('Approved', `<h1>Approved</h1><p>“${esc(d.head)}” is on <a href="https://squamishvoters.com/news/">squamishvoters.com/news</a> now (it can take up to a minute to appear). Its share picture is added within about 20 minutes.</p>`));
   }
 
   const d = r.draft || {}, it = r.item || {};
   if (r.status !== 'pending') return res.send(shell('Already done', `<h1>${esc(d.head)}</h1><p class="note">This draft was already ${esc(r.status)}.</p>`));
-  return res.send(shell('Approve this story?', `<h1>Approve this story?</h1>
-<p class="src">From <a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.label)}: ${esc(it.title)}</a></p>
-<form method="post" action="/api/news-review/">
-<input type="hidden" name="id" value="${esc(id)}"><input type="hidden" name="t" value="${esc(t)}">
-${d.photo ? `<figure style="margin:1rem 0 0"><img src="${esc(d.photo.remote)}" alt="" style="width:100%;height:auto;border-radius:10px;display:block"><figcaption class="src">${esc(d.photo.caption)} Photo: <a href="${esc(d.photo.link)}" target="_blank" rel="noopener">${esc(d.photo.credit)}</a></figcaption></figure>
-<label style="font-weight:600"><input type="checkbox" name="no_photo" value="1" style="width:auto;margin-right:.4rem">Leave the photo off</label>` : ''}
-<label for="head">Headline</label><textarea id="head" name="head" maxlength="140" style="min-height:4.2rem;font-weight:700">${esc(d.head)}</textarea>
-<label for="dek">Story</label><textarea id="dek" name="dek" maxlength="1200">${esc(d.dek)}</textarea>
-<label for="take">What changes (one line, optional)</label><textarea id="take" name="take" maxlength="400" style="min-height:4rem">${esc(d.take)}</textarea>
-<label for="body">Full story (shown under the summary on the story page; ## for a heading, - for a bullet, [words](/link/) for a link)</label><textarea id="body" name="body" maxlength="8000" style="min-height:22rem">${esc(d.body || '')}</textarea>
-<div class="row"><div><label for="vb">Big number or date (optional)</label><input id="vb" name="visual_big" value="${esc(d.visual_big)}" maxlength="24"></div>
-<div><label for="vs">Label under it</label><input id="vs" name="visual_small" value="${esc(d.visual_small)}" maxlength="60"></div></div>
-<div class="btns"><button class="go" name="action" value="approve">Approve and publish</button><button class="no" name="action" value="skip">Skip</button></div>
-</form>
-<details><summary>Show the source text Claude read</summary><pre>${esc(String(it.text || '(the source page)').slice(0, 6000))}</pre></details>
-<p class="note">Why Claude picked it: ${esc(d.reason)}</p>`));
+  // The story as readers will see it, in the site's own page, with a bar on top to approve or decline.
+  const pageShell = await fetch('https://squamishvoters.com/news/_live/').then((x) => (x.ok ? x.text() : '')).catch(() => '');
+  const st = toStory(r);
+  const bar = `<style>.rv-bar{position:sticky;top:0;z-index:999;background:#14211c;color:#fff;padding:.7rem 1rem;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+.rv-in{max-width:46rem;margin:0 auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}.rv-in p{margin:0;flex:1 1 14rem;font:600 .95rem/1.3 system-ui,sans-serif}.rv-in p small{display:block;font-weight:400;opacity:.75}
+.rv-in form{display:flex;gap:.5rem;flex:1 1 16rem}.rv-in button{flex:1;font:700 1.05rem system-ui,sans-serif;border:0;border-radius:12px;padding:.85rem 1rem;cursor:pointer}
+.rv-go{background:#3fbf7f;color:#08130e}.rv-no{background:#3a4640;color:#fff}</style>
+<div class="rv-bar"><div class="rv-in"><p>Preview. Not on the site yet.<small>This is exactly how the story will look.</small></p>
+<form method="post" action="/api/news-review/"><input type="hidden" name="id" value="${esc(id)}"><input type="hidden" name="t" value="${esc(t)}">
+<button class="rv-go" name="action" value="approve">Approve</button><button class="rv-no" name="action" value="skip">Decline</button></form></div></div>`;
+  if (pageShell && st.slug) return res.send(storyPage(st, pageShell, bar));
+  // Fallback if the site shell can't be fetched: the plain story with the same two buttons.
+  return res.send(shell('Approve this story?', `<h1>${esc(d.head)}</h1>${d.photo ? `<img src="${esc(d.photo.remote)}" alt="" style="width:100%;border-radius:10px">` : ''}<p>${esc(d.dek)}</p>
+<form method="post" action="/api/news-review/"><input type="hidden" name="id" value="${esc(id)}"><input type="hidden" name="t" value="${esc(t)}">
+<div class="btns"><button class="go" name="action" value="approve">Approve</button><button class="no" name="action" value="skip">Decline</button></div></form>`));
 }

@@ -12,6 +12,7 @@ import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { neon } from '@neondatabase/serverless';
 import { ROOT, log, readJson, writeJson, claudeJson } from './lib.mjs';
+import { mdToHtml } from '../../api/_md.js';
 
 const NEWS_FILE = path.join(ROOT, 'data', 'news.json');
 const OG_DIR = path.join(ROOT, 'public', 'news', 'og');
@@ -262,19 +263,34 @@ async function commonsPhoto(d) {
 async function emailDrafts(rows) {
   const to = process.env.NEWS_REVIEW_TO;
   if (!to || !process.env.RESEND_API_KEY) { log('no NEWS_REVIEW_TO or RESEND_API_KEY; drafts saved but not emailed'); return; }
-  const card = (r) => `<div style="border:1px solid #d9d5c8;border-radius:12px;padding:16px;margin:0 0 16px;background:#fff">
-<p style="margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#2457a6">${esc(r.item.label)}</p>
-${r.draft.photo ? `<img src="${esc(r.draft.photo.remote)}" alt="" width="528" style="width:100%;height:auto;border-radius:8px;margin:0 0 4px;display:block"><p style="margin:0 0 10px;font-size:12px;color:#5d6661">Photo: ${esc(r.draft.photo.credit)}</p>` : ''}<h2 style="font-family:Georgia,serif;font-size:21px;line-height:1.25;margin:0 0 8px">${esc(r.draft.head)}</h2>
-<p style="margin:0 0 8px;color:#3f4b45">${esc(r.draft.dek)}</p>${r.draft.take ? `<p style="margin:0 0 12px;border-left:3px solid #0f4c3a;padding-left:10px">${esc(r.draft.take)}</p>` : ''}${r.draft.body ? `<p style="margin:0 0 8px;font-size:13px;color:#5d6661">Plus a full story of about ${r.draft.body.split(/\s+/).length} words with ${(r.draft.body.match(/^## /gm) || []).length} sections. Read it on the review page.</p>` : ''}
-<p style="margin:14px 0 4px"><a href="${ORIGIN}/api/news-review/?id=${r.id}&amp;t=${r.token}" style="background:#0f4c3a;color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:10px;display:inline-block">Review and approve</a></p>
-<p style="margin:6px 0 0;font-size:13px;color:#5d6661">Source: <a href="${esc(r.item.url)}" style="color:#5d6661">${esc(r.item.title)}</a>${r.item.more ? ` · Story links to <a href="${ORIGIN}${esc(r.item.more[1])}" style="color:#5d6661">${esc(r.item.more[0].toLowerCase())}</a>` : ''}</p></div>`;
+  // The email shows the story the way the site will: photo, section, headline, number, summary, full story, source.
+  // Approve and Decline open the preview page with the two buttons (mail apps scan links, so a link alone never approves).
+  const bodyMail = (md) => mdToHtml(md)
+    .replace(/<h2>/g, '<h2 style="font-family:Georgia,serif;font-size:19px;line-height:1.25;margin:22px 0 8px;color:#14211c">')
+    .replace(/<p>/g, '<p style="margin:0 0 12px">').replace(/<ul>/g, '<ul style="margin:0 0 12px;padding-left:22px">').replace(/<li>/g, '<li style="margin:0 0 6px">')
+    .replace(/href="\//g, `href="${ORIGIN}/`).replace(/<a /g, '<a style="color:#0b5cab" ');
+  const review = (r) => `${ORIGIN}/api/news-review/?id=${r.id}&amp;t=${r.token}`;
+  const btns = (r) => `<table role="presentation" cellspacing="0" cellpadding="0" style="margin:18px 0 4px"><tr>
+<td style="padding-right:8px"><a href="${review(r)}" style="background:#0f4c3a;color:#fff;text-decoration:none;font-weight:700;padding:13px 26px;border-radius:10px;display:inline-block">Approve</a></td>
+<td><a href="${review(r)}" style="background:#e7e3d8;color:#14211c;text-decoration:none;font-weight:700;padding:13px 26px;border-radius:10px;display:inline-block">Decline</a></td></tr></table>`;
+  const card = (r) => { const d = r.draft; return `<div style="border:1px solid #d9d5c8;border-radius:14px;margin:0 0 22px;background:#fff;overflow:hidden">
+${d.photo ? `<img src="${esc(d.photo.remote)}" alt="${esc(d.photo.alt)}" width="560" style="width:100%;height:auto;display:block"><p style="margin:6px 18px 0;font-size:12px;color:#5d6661">${esc(d.photo.caption)} Photo: ${esc(d.photo.credit)}</p>` : ''}
+<div style="padding:16px 18px 18px">
+<p style="margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7a3a78">${esc(SEC_NAME[d.section] || 'News')}</p>
+<h2 style="font-family:Georgia,serif;font-size:26px;line-height:1.15;margin:0 0 12px;color:#14211c">${esc(d.head)}</h2>
+${d.visual_big ? `<p style="margin:0 0 12px;font-family:Georgia,serif;font-size:34px;font-weight:700;line-height:1;color:#7a3a78">${esc(d.visual_big)}<br><span style="font-family:-apple-system,Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#3f4b45">${esc(d.visual_small)}</span></p>` : ''}
+<p style="margin:0 0 12px;font-size:17px">${esc(d.dek)}</p>
+${d.take ? `<p style="margin:0 0 14px;border-left:3px solid #7a3a78;padding-left:12px"><span style="display:block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7a3a78">What changes</span>${esc(d.take)}</p>` : ''}
+${d.body ? bodyMail(d.body) : ''}
+<p style="margin:10px 0 0;font-size:13px;color:#5d6661">Source: <a href="${esc(r.item.url)}" style="color:#5d6661">${esc(r.item.label)}</a></p>
+${btns(r)}</div></div>`; };
   const subject = rows.length === 1 ? `News to approve: ${rows[0].draft.head}` : `${rows.length} news stories to approve`;
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST', headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({ from: process.env.EMAIL_FROM, to: [to], subject,
       html: `<!doctype html><html><body style="margin:0;background:#f7f5ef;font:16px/1.5 -apple-system,Helvetica,Arial,sans-serif;color:#14211c"><div style="max-width:560px;margin:0 auto;padding:20px 14px">
 <p style="font-weight:700;color:#0f4c3a;margin:0 0 12px">Squamish Voters News: ${rows.length === 1 ? 'a new story is' : 'new stories are'} waiting for your OK</p>${rows.map(card).join('')}
-<p style="font-size:13px;color:#5d6661">Nothing goes on the site until you approve it. You can fix the wording on the review page first. Ignored drafts just sit there.</p></div></body></html>`,
+<p style="font-size:13px;color:#5d6661">Nothing goes on the site until you tap Approve. Ignored drafts just sit there.</p></div></body></html>`,
       text: rows.map((x) => `${x.draft.head}\n${x.draft.dek}\nReview: ${ORIGIN}/api/news-review/?id=${x.id}&t=${x.token}\n`).join('\n') }),
   });
   if (!r.ok) throw new Error(`Resend ${r.status}: ${await r.text()}`);
