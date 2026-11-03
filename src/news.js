@@ -69,6 +69,22 @@
     }).catch(function () {});
   }
 
+  // Tap anywhere on a story box to open the full story (links and buttons inside it still do their own thing).
+  var mark = function () {
+    document.querySelectorAll('.nw-main article[data-s], .nw-rail article[data-s]').forEach(function (a) {
+      if (a.hasAttribute('data-open')) return;
+      var h = a.querySelector('.nw-h a'); if (h) a.setAttribute('data-open', h.getAttribute('href'));
+    });
+  };
+  mark();
+  if (window.MutationObserver && live) new MutationObserver(mark).observe(live, { childList: true });
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-open]');
+    if (!a || e.target.closest('a, button, input, label, summary') || (window.getSelection && String(window.getSelection()).length)) return;
+    var url = a.getAttribute('data-open');
+    if (e.metaKey || e.ctrlKey) window.open(url, '_blank'); else location.href = url;
+  });
+
   // Share: the phone's own share sheet where there is one, otherwise copy the link.
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-nw-share]');

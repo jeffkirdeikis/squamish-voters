@@ -2109,3 +2109,13 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 @media (prefers-reduced-motion: no-preference) { .td-strip.ts-more .ts-hint { animation: ts-nudge 1.6s ease-in-out 3; } }
 @keyframes ts-nudge { 0%, 100% { margin-right: 0; } 50% { margin-right: .3rem; } }
 .card > h2:first-child { margin-top: 0; }
+
+/* The top story gets the same outlined box as the others, and every story box opens the full story when tapped anywhere. */
+.nw-lead { background: var(--surface); border: 1px solid var(--line); border-top: 6px solid var(--c); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.1rem; }
+.nw-lead > .nw-photo { margin: -1.1rem -1.1rem .1rem; }
+.nw-lead > .nw-photo img { border-radius: var(--radius) var(--radius) 0 0; }
+.nw-lead > .nw-photo figcaption { padding: 0 1.1rem; }
+@media (min-width: 700px) { .nw-lead { padding: 1.4rem; } .nw-lead > .nw-photo { margin: -1.4rem -1.4rem .1rem; } .nw-lead > .nw-photo figcaption { padding: 0 1.4rem; } }
+.nw-main [data-open], .nw-rail [data-open] { cursor: pointer; transition: box-shadow .15s, transform .15s, border-color .15s; }
+.nw-main .nw-lead[data-open]:hover, .nw-main .nw-feature[data-open]:hover, .nw-main .nw-card[data-open]:hover { box-shadow: 0 6px 22px rgba(20, 33, 28, .16); transform: translateY(-2px); border-color: var(--c); }
+.nw-main [data-open]:hover .nw-h a, .nw-rail [data-open]:hover .nw-h a { text-decoration: underline; }
