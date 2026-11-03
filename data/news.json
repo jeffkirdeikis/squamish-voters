@@ -66,6 +66,50 @@
  ],
  "stories": [
   {
+   "slug": "slrd-first-nations-development-fee-exemptions",
+   "s": "recon",
+   "tier": "card",
+   "date": "2026-11-03",
+   "head": "Regional district waives fees for First Nations housing and cultural projects",
+   "dek": "The Squamish-Lillooet Regional District Board has adopted changes to its bylaw on development application fees and procedures. The changes let the regional district waive up to 100 per cent of fees for eligible First Nations affordable housing and traditional cultural activity projects. The bylaw was adopted at the board's October meeting after a referral to First Nations.",
+   "take": "Eligible First Nations affordable housing and traditional cultural activity projects on fee simple lands can now get up to 100 per cent off regional district development application fees.",
+   "body": "## What changed\n\nThe Squamish-Lillooet Regional District Board adopted Amendment Bylaw No. 1969-2026 at its October board meeting. It updates the regional district's Development Approval Information, Fees and Notification Procedures Bylaw No. 1936-2025. The regional district says the changes apply to all of its areas.\n\nThe work came from the regional district's Indigenous Relations, Truth and Reconciliation Guide. The guide commits the regional district to review its policies, bylaws and procedures so they better reflect Indigenous perspectives and strengthen relationships with First Nations in the region.\n\n## The key changes\n\n- New definitions of \"First Nations\" and \"Traditional Cultural Activity\", written in response to First Nations feedback\n- Clearer rules on archaeological information reports and following the Heritage Conservation Act\n- New power to waive up to 100 per cent of development application fees for eligible First Nations affordable housing and traditional cultural activity projects on fee simple lands\n- Clearer timelines for when development approvals and permits expire\n- New cost recovery agreements for complex applications that need specialized technical review\n- Other updates to make the bylaw easier to read and apply consistently\n\nThe regional district says asking for archaeological assessments earlier should help find possible issues sooner and give applicants more certainty.\n\n## How First Nations were involved\n\nThe board gave the changes first and second reading in June 2026. The draft was then sent to all First Nations whose core traditional territories fall within the regional district. The regional district says the feedback it received shaped the final version.\n\nPresiding Chair Jenna Stoner said the review let the regional district improve service for applicants while also putting its reconciliation commitments into practice. She said the feedback made the bylaw more effective and more transparent.\n\n## More information\n\nRead the full notice from the [Squamish-Lillooet Regional District](https://www.slrd.bc.ca/inside-slrd/news-notices/slrd-board-adopts-bylaw-amendments-improve-development-application). Questions can go to the regional district's communications team at 604.894.6371 extension 264 or communications@slrd.bc.ca. For local development news, see our [growth and development](/issues/growth-and-development/) page.",
+   "visual": {
+    "type": "big",
+    "big": "100%",
+    "small": "Maximum fee exemption for eligible First Nations projects"
+   },
+   "src": [
+    "Squamish-Lillooet Regional District",
+    "https://www.slrd.bc.ca/inside-slrd/news-notices/slrd-board-adopts-bylaw-amendments-improve-development-application"
+   ],
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/slrd-first-nations-development-fee-exemptions.jpg",
+    "alt": "Panoramic winter view of Howe Sound surrounded by snowy forested mountains under a dramatic sky",
+    "caption": "Howe Sound and surrounding mountains in the Squamish-Lillooet Regional District.",
+    "credit": "Husam Mohammad, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish-Lillooet_D.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/slrd-first-nations-development-fee-exemptions-2.jpg",
+     "alt": "Braided river winding through a forested valley toward a snow-capped peak",
+     "caption": "The Squamish River valley, with mountains beyond.",
+     "credit": "McKay Savage, CC BY 2.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_valley.jpg"
+    },
+    {
+     "file": "/news/photos/slrd-first-nations-development-fee-exemptions-3.jpg",
+     "alt": "Main street of Lillooet with small buildings and power lines beneath steep mountains",
+     "caption": "Lillooet, in the regional district's northern area, seen in 1992.",
+     "credit": "Phillip Capper, CC BY 2.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Lillooet_BBC_Canada_1992.jpg"
+    }
+   ],
+   "og": "slrd-first-nations-development-fee-exemptions.png"
+  },
+  {
    "slug": "urban-forest-strategy-squamish",
    "s": "community",
    "tier": "card",
