@@ -4,7 +4,7 @@
  "type": "inaugural",
  "time": "18:00",
  "place": "Squamish Valley Golf Club, 2458 Mamquam Road",
- "preview": "This is the first meeting of the newly elected council. Mayor Easton and six councillors will be sworn in, council will choose who sits on outside boards and approve its 2027 meeting dates, and the mayor will give an opening speech.",
+ "preview": "This is the first meeting of the newly elected council. Mayor Easton and six councillors will be sworn in, council will choose who sits on outside boards and who acts as mayor each month, and it will set its 2027 meeting dates.",
  "source": "District of Squamish 2026 meeting schedule",
  "civicweb_id": 2116,
  "civicweb_name": "Inaugural Meeting - 03 Nov 2026",
@@ -20,7 +20,7 @@
  "closed_only": false,
  "agenda_items": [
   {
-   "plain": "Mayor Easton and Councillors Andersen, DesJardins, Ellis, Perreault, Prosko and Veltkamp will take their oaths of office and promise to follow council's code of conduct.",
+   "plain": "Mayor Sean Easton and Councillors Andersen, DesJardins, Ellis, Perreault, Prosko and Veltkamp will take their oaths of office, led by a judge, after a Squamish Nation blessing.",
    "ask": "",
    "yes_means": "",
    "no_means": "",
@@ -32,14 +32,33 @@
    "factors": [],
    "kind": "presentation",
    "topic": "other",
-   "for_you": "These seven people will make decisions for the whole town for the next four years.",
+   "for_you": "",
    "areas": [
     "all"
    ],
    "issues": []
   },
   {
-   "plain": "Council will vote to name which councillors sit on the Squamish-Lillooet Regional District Board (the regional government for the area), along with backup members.",
+   "plain": "Mayor Easton will give his first speech to the community, and each councillor will share remarks.",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "presentation",
+   "topic": "other",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": []
+  },
+  {
+   "plain": "Council will vote on who represents Squamish on the Squamish-Lillooet Regional District Board (the regional government that covers Squamish and nearby areas): Mayor Easton with 5 votes, and Councillors Ellis and Andersen with 4 votes each.",
    "ask": "",
    "yes_means": "",
    "no_means": "",
@@ -51,14 +70,14 @@
    "factors": [],
    "kind": "vote",
    "topic": "other",
-   "for_you": "Mayor Easton would hold 5 votes on the regional board and two councillors would hold 4 votes each, speaking for Squamish on regional matters.",
+   "for_you": "Councillors Prosko, Perreault and Veltkamp would fill in as backups when a main member cannot attend.",
    "areas": [
     "all"
    ],
    "issues": []
   },
   {
-   "plain": "Council will vote to approve its schedule of regular business meetings for 2027.",
+   "plain": "Council will vote on approving its 2027 meeting schedule, with regular business meetings at 6 p.m. at Municipal Hall on Second Avenue.",
    "ask": "",
    "yes_means": "",
    "no_means": "",
@@ -70,14 +89,14 @@
    "factors": [],
    "kind": "vote",
    "topic": "other",
-   "for_you": "Regular meetings would be held at 6 p.m. at Municipal Hall, 37955 Second Avenue, usually on the first and third Tuesdays, with no meetings in August and only one in September.",
+   "for_you": "Regular meetings would be held twice most months, with one in September and none in August.",
    "areas": [
     "all"
    ],
    "issues": []
   },
   {
-   "plain": "Council will vote to choose which councillors serve as acting mayor (who fills in when the mayor is away) for each month from November 2026 to December 2027.",
+   "plain": "Council will vote on a rotating list of councillors who step in as acting mayor each month from November 2026 to December 2027.",
    "ask": "",
    "yes_means": "",
    "no_means": "",
@@ -96,7 +115,7 @@
    "issues": []
   },
   {
-   "plain": "Council will vote to name councillors to the Squamish Library Board, the Community Forest Board and the Land Back Task Force until the end of 2027.",
+   "plain": "Council will vote on naming Councillors Andersen, Prosko and Veltkamp to the Land Back Task Force until the end of 2027.",
    "ask": "",
    "yes_means": "",
    "no_means": "",
@@ -115,7 +134,7 @@
    "issues": []
   },
   {
-   "plain": "Mayor Easton will give his opening speech, and councillors will make their own remarks.",
+   "plain": "Council will vote on naming Councillors Ellis and Perreault to the Community Forest Board until the end of 2027.",
    "ask": "",
    "yes_means": "",
    "no_means": "",
@@ -125,7 +144,26 @@
    "supporters": [],
    "concerns": [],
    "factors": [],
-   "kind": "presentation",
+   "kind": "vote",
+   "topic": "other",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": []
+  },
+  {
+   "plain": "Council will vote on naming Councillor DesJardins to the Squamish Library Board until the end of 2027.",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "vote",
    "topic": "other",
    "for_you": "",
    "areas": [
@@ -146,14 +184,14 @@
    "factors": [],
    "kind": "presentation",
    "topic": "other",
-   "for_you": "",
+   "for_you": "The meeting is at the Squamish Valley Golf Club on Mamquam Road at 6 p.m., followed by a community welcome and reception.",
    "areas": [
     "all"
    ],
    "issues": []
   }
  ],
- "agenda_hash": "53ec40ce50a38f64",
- "agenda_checked": "2026-11-01T04:14:30.235Z",
+ "agenda_hash": "dbbdf607e3b37548",
+ "agenda_checked": "2026-11-03T06:53:40.190Z",
  "agenda_place": "Squamish Valley Golf Club, 2458 Mamquam Road"
 }
