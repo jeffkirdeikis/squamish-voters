@@ -66,6 +66,34 @@
  ],
  "stories": [
   {
+   "slug": "urban-forest-strategy-squamish",
+   "s": "community",
+   "tier": "card",
+   "date": "2026-11-02",
+   "head": "Squamish starts work on its first urban forest strategy",
+   "dek": "The District of Squamish is developing its first Urban Forest Management Strategy. It will guide tree protection, planting and care on public and private land over the next 25 years. A community survey, an online mapping tool and an open house are planned, with details coming soon.",
+   "take": "Residents will be able to share their views through a survey, nominate valued or heritage trees on a map, and attend an open house once the District posts the details.",
+   "body": "## What is happening\n\nThe District of Squamish is writing its first Urban Forest Management Strategy. The plan will guide how trees are protected, planted and cared for over the next 25 years. It covers both public and private land.\n\nThe urban forest includes trees in yards, along streets, in parks and school grounds, beside rivers and in natural areas. It also includes the soil and other plants that support those trees.\n\n## Why the District says it is needed\n\nAs Squamish grows, protecting existing trees and making room for new ones takes coordination. That work spans streets, parks, natural areas and private properties. The District says tree management also has to deal with:\n\n- climate change and wildfire risk\n- wildlife habitat\n- protecting waterways\n- slope stability\n- community needs\n\nThe strategy will help the District set priorities and plan the resources needed for long term tree care. It will also look at where more trees could give more people shade and access to nature.\n\n## How to take part\n\nThe District lists three ways to get involved. Details for each are still to come.\n\n- **Community survey** (coming soon): share what matters to you about local trees, the problems you see, and where efforts should focus.\n- **Mapping tool** (coming soon): mark places and trees you value, suggest spots for planting or improvements, and nominate heritage or significant trees. Heritage trees are recognized under the District's Heritage Management Strategy.\n- **Community open house** (more information soon): learn about the strategy, ask questions and share ideas.\n\nUpdates will be posted on the [Let's Talk Squamish urban forest page](https://letstalksquamish.ca/urban-forest).\n\n## What comes next\n\nCommunity input will be weighed together with feedback from the Squamish Nation, District Council and staff, and interested groups. The input will shape the strategy's vision, goals and actions. For related coverage, see our [climate and environment](/issues/climate-and-environment/) and [growth and development](/issues/growth-and-development/) pages.",
+   "visual": {
+    "type": "big",
+    "big": "25 years",
+    "small": "How long the strategy will guide tree care"
+   },
+   "src": [
+    "Let’s Talk Squamish (District of Squamish)",
+    "https://letstalksquamish.ca/urban-forest"
+   ],
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/urban-forest-strategy-squamish.jpg",
+    "alt": "Aerial view of Squamish with mountains behind",
+    "caption": "Squamish from above.",
+    "credit": "Madhumanti Mandal, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Downtown_Squamish.jpg"
+   },
+   "og": "urban-forest-strategy-squamish.png"
+  },
+  {
    "slug": "new-council-sworn-in-november-3",
    "s": "council",
    "tier": "lead",
