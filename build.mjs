@@ -1650,9 +1650,31 @@ if (TRACKED.length) {
     </aside>
   </div>
   <section class="nw-how"><h2>How we write these</h2>
-    <p>An AI model (Anthropic’s Claude) reads District news releases, council agendas, regional district notices, Elections BC and local announcements, and drafts a short story about each one. A person reads every draft, fixes it if needed and approves it before it goes up. Every story names its source. No opinions and no endorsements. Spot a mistake? <a href="mailto:${esc(SITE.contact)}?subject=News%20correction">Tell us</a> and we’ll fix it and note it on the <a href="/corrections/">corrections page</a>.</p></section>
+    <p>An AI model (Anthropic’s Claude) reads District news releases, council agendas, regional district notices, Elections BC and local announcements, and drafts a short story about each one. A person reads every draft, fixes it if needed and approves it before it goes up. Every story names its source. No opinions and no endorsements. Spot a mistake? <a href="mailto:${esc(SITE.contact)}?subject=News%20correction">Tell us</a> and we’ll fix it and note it on the <a href="/corrections/">corrections page</a>.</p>
+    <p><b>Saw something on Facebook or Instagram?</b> <a href="/tip/">Send us a tip</a>: a screenshot, a link or a note.</p></section>
 </div>`,
     scripts: '<script src="/news.js"></script>',
+  }));
+
+  // Tip line (/tip/): anyone can send a screenshot of a Facebook or Instagram post, a link or a note (api/tip.js).
+  write('/tip/', page({
+    url: '/tip/', title: 'Send Squamish Voters a news tip',
+    desc: 'Saw something on Facebook or Instagram that Squamish should know? Send a screenshot, a link or a note to the Squamish Voters news desk.',
+    jsonld: crumbLd([['Home', '/'], ['News', '/news/'], ['Send a tip', '/tip/']]),
+    body: `<div class="tip">
+  <h1>Send us a news tip</h1>
+  <p class="lede">Saw a post about a closure, a change, an event or a decision in Squamish? Send a screenshot, a link or a few words. We check it against the original, write it up in plain words, and a person approves every story before it goes up.</p>
+  <form class="card tip-form" data-tip>
+    <label class="fld"><b>Screenshot</b> <span class="small muted">(optional)</span><input type="file" name="image" accept="image/*"></label>
+    <img data-tip-preview hidden alt="Your screenshot" class="tip-prev">
+    <label class="fld"><b>Link</b> <span class="small muted">(optional)</span><input type="url" name="link" inputmode="url" placeholder="https://"></label>
+    <label class="fld"><b>What is it about?</b> <span class="small muted">(optional)</span><textarea name="text" rows="4" maxlength="4000" placeholder="For example: District post says the Mamquam bridge closes Thursday"></textarea></label>
+    <button class="btn" type="submit">Send tip</button>
+    <p class="small" data-tip-msg role="status"></p>
+  </form>
+  <p class="small muted">Don’t send private details about anyone. Tips are anonymous: we don’t ask for your name or email.</p>
+</div>`,
+    scripts: '<script src="/tip.js" defer></script>',
   }));
 
   // Template for stories approved but not built yet: api/news-live.js fills it in (so they're live the moment Jeff approves).
@@ -2504,7 +2526,7 @@ write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can�
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.writeFileSync(path.join(DIST, 'botid.js'), `(function(){${BOTID_JS}})();`);
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 

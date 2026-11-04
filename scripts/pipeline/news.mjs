@@ -23,6 +23,7 @@ const UA = 'SquamishVotersNews/1.0 (+https://squamishvoters.com/news/; plain-lan
 const MAX_DRAFTS = 4; // per run, so a burst of releases can't flood the inbox
 const sql = neon(process.env.POSTGRES_URL || process.env.DATABASE_URL);
 
+await sql`CREATE TABLE IF NOT EXISTS sv_tips (id text PRIMARY KEY, status text NOT NULL DEFAULT 'new', text text, link text, image text, ip_hash text, reading jsonb, created_at timestamptz NOT NULL DEFAULT now())`;
 await sql`CREATE TABLE IF NOT EXISTS sv_news (
   id text PRIMARY KEY, source text NOT NULL, source_url text, title text, found_at timestamptz NOT NULL DEFAULT now(),
   status text NOT NULL, token text, draft jsonb, item jsonb, decided_at timestamptz, published_at timestamptz)`;
@@ -44,14 +45,29 @@ const pageText = async (url, max = 7000) => {
   return strip(main).slice(0, max);
 };
 
+const recent = (i) => i.date >= new Date(Date.now() - 5 * 864e5).toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' }); // new sources never dig up old posts
+const rssItems = (x, n) => [...x.matchAll(/<item>([\s\S]*?)<\/item>/g)].slice(0, n).map((m) => m[1]).map((it) => ({
+  url: strip((it.match(/<link>([\s\S]*?)<\/link>/) || [])[1]), title: strip((it.match(/<title>([\s\S]*?)<\/title>/) || [])[1]).replace(/^<!\[CDATA\[|\]\]>$/g, ''),
+  date: new Date((it.match(/<pubDate>([^<]+)/) || [])[1] || Date.now()).toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' }),
+  text: strip((it.match(/<content:encoded>([\s\S]*?)<\/content:encoded>/) || it.match(/<description>([\s\S]*?)<\/description>/) || [])[1]).slice(0, 6000) }));
+
 // Newsletters that arrive in our Resend inbox (district-news@crisuavau.resend.app), told apart by sender.
 // The first entry (District) is the default; the others are matched by sender, or by the original sender in a forward. Each one says what to keep, so ads and member perks never become stories.
+const KEEP_PUBLIC = 'Keep only items any Squamish resident would want to know about: public events, closures, changes to services, plans, consultations, deadlines, results and real local news. Leave out: ads and sales pitches, members only or ticketed promotions, paid workshops, sponsor thanks, recaps with nothing new, and the header and footer. An empty list is fine. Use only what the email says.';
 const NEWSLETTERS = [
   { match: /squamish\.ca|cyberimpact/i, source: 'district', label: 'District of Squamish E-News', home: 'https://squamish.ca/government-and-administration/district-information/enews-archives/',
     system: 'You read the District of Squamish weekly email newsletter and list its separate news items. Use only what the newsletter says. Leave out: council meeting times and agendas (we cover meetings separately), job postings, holiday hours, recurring reminders with nothing new, and the newsletter header and footer.' },
-  { match: /squamishchamber|squamish chamber of commerce|ccsend\.com|constantcontact/i, source: 'chamber', label: 'Squamish Chamber of Commerce', home: 'https://www.squamishchamber.com/',
+  { match: /squamishchamber|squamish chamber of commerce|ccsend\.com/i, source: 'chamber', label: 'Squamish Chamber of Commerce', home: 'https://www.squamishchamber.com/',
     system: 'You read the Squamish Chamber of Commerce email newsletter and list only the items any Squamish resident would want to know about. Keep: public events and meetings with elected officials (MP, MLA, council), District of Squamish or government plans, studies and consultations, Squamish Nation or major project opportunities that are open to the public, community events open to everyone, and real local business news (openings, closures, awards results). Leave out: members only events and perks, ticket sales pitches for Chamber events, paid workshops, sponsor thanks, advertising for single businesses, recaps with nothing new, and the header and footer. An empty list is fine. Use only what the newsletter says.' },
+  { match: /tourism ?squamish|exploresquamish/i, source: 'tourism', label: 'Tourism Squamish', home: 'https://www.exploresquamish.com/', system: `You read the Tourism Squamish email newsletter. ${KEEP_PUBLIC}` },
+  { match: /squamish public library|squamishlibrary/i, source: 'library', label: 'Squamish Public Library', home: 'https://www.squamishlibrary.ca/', system: `You read the Squamish Public Library email newsletter. Keep changes to hours or services, new programs open to everyone and library board news. ${KEEP_PUBLIC}` },
+  { match: /woodfibre/i, source: 'woodfibre', label: 'Woodfibre LNG', home: 'https://woodfibrelng.ca/', system: `You read a Woodfibre LNG community update. Keep construction schedules, marine and road traffic changes, environmental monitoring results, community meetings and anything about jobs or safety. Report only what Woodfibre says, as Woodfibre's statement, never as fact checked. ${KEEP_PUBLIC}` },
+  { match: /squamish arts|squamisharts/i, source: 'arts', label: 'Squamish Arts Council', home: 'https://squamisharts.com/', system: `You read the Squamish Arts Council email newsletter. Keep festivals, public art, grants and calls for artists, and events open to everyone. ${KEEP_PUBLIC}` },
+  { match: /sea to sky gondola|seatoskygondola/i, source: 'gondola', label: 'Sea to Sky Gondola', home: 'https://www.seatoskygondola.com/', system: `You read the Sea to Sky Gondola email newsletter. Keep only closures, schedule changes, trail or access news and big public events; leave out ticket offers. ${KEEP_PUBLIC}` },
 ];
+// Anything else that lands in the inbox (media releases from the District, SLRD, RCMP, Squamish Nation and others)
+const RELEASE = (who) => ({ source: 'release', label: who || 'News release', home: 'https://squamishvoters.com/news/',
+  system: `You read an email sent to the Squamish Voters news desk, usually a media release or newsletter from ${who || 'a local organization'}. ${KEEP_PUBLIC} If it is spam, a personal message or not about the Squamish area, return an empty list.` });
 
 // ---------- sources: each returns [{ key, source, label, url, title, date, text? }] ----------
 const SOURCES = {
@@ -137,7 +153,9 @@ const SOURCES = {
         const online = ((html.match(/href="(https:\/\/(?:app\.cyberimpact\.com\/newsletter-view-online|myemail\.constantcontact\.com\/)[^"]+)"/) || [])[1] || '').replace(/&amp;/g, '&');
         const from = String(e.from || full.from || '');
         const head = `${from}\n${text.slice(0, 3000)}`; // forwarded copies carry the original sender in the text
-        const nl = NEWSLETTERS.slice(1).find((n) => n.match.test(head)) || NEWSLETTERS[0];
+        const to = [].concat(e.to || full.to || []).join(' ');
+        const who = (String(from).match(/^\s*"?([^"<]+?)"?\s*</) || [])[1] || '';
+        const nl = NEWSLETTERS.slice(1).find((n) => n.match.test(head)) || (/district-news@/i.test(to) || NEWSLETTERS[0].match.test(head) ? NEWSLETTERS[0] : RELEASE(who));
         const x = await claudeJson({
           system: nl.system,
           schema: { type: 'object', additionalProperties: false, required: ['items'], properties: { items: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['title', 'text', 'link'], properties: { title: { type: 'string' }, text: { type: 'string', description: 'everything the newsletter says about this item, close to its own words, with dates, places and numbers' }, link: { type: 'string', description: 'the item\'s "learn more" link if it has one, else empty' } } } } } },
@@ -150,6 +168,41 @@ const SOURCES = {
         row = { item: { items } };
       }
       out.push(...(row.item?.items || []));
+    }
+    return out;
+  },
+  async nation() { // Sḵwx̱wú7mesh Úxwumixw (Squamish Nation) news posts
+    const x = await get('https://www.squamish.net/feed/');
+    return rssItems(x, 6).filter(recent).map((i) => ({ key: `nation-${i.url}`, source: 'nation', label: 'Sḵwx̱wú7mesh Úxwumixw (Squamish Nation)', ...i }));
+  },
+  async downtown() { // Downtown Squamish Business Improvement Association posts
+    const x = await get('https://www.downtownsquamish.com/feed/');
+    return rssItems(x, 4).filter(recent).filter((i) => !/^welcome to the neighbourhood/i.test(i.title)).map((i) => ({ key: `dsbia-${i.url}`, source: 'downtown', label: 'Downtown Squamish Business Improvement Association', ...i }));
+  },
+  async hydro() { // BC Hydro power outages in the Squamish area (open data behind the outage map), big ones only
+    const d = await get('https://www.bchydro.com/power-outages/app/outages-map-data.json', 'json');
+    const at = (ms) => (ms ? new Date(ms).toLocaleString('en-CA', { timeZone: 'America/Vancouver', weekday: 'long', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'not given');
+    return (d || []).filter((o) => o.latitude > 49.6 && o.latitude < 49.86 && o.longitude > -123.35 && o.longitude < -122.95 && o.numCustomersOut >= 300 && (!o.dateOn || o.dateOn > Date.now()))
+      .map((o) => ({ key: `hydro-${o.id}`, source: 'hydro', label: 'BC Hydro outage map', url: 'https://www.bchydro.com/power-outages/app/outage-map.html', title: `Power outage: ${o.numCustomersOut} BC Hydro customers in ${o.municipality}`, date: today(),
+        text: `BC Hydro reports a power outage in ${o.municipality} affecting ${o.numCustomersOut} customers. Area: ${o.area}. Cause: ${o.cause}. Power went off ${at(o.dateOff)}. Crew status: ${o.crewStatusDescription || o.crewStatus}${o.crewStatusNote ? ' (' + o.crewStatusNote + ')' : ''}. ${o.showEtr && o.crewEtr ? 'Estimated restoration: ' + at(o.crewEtr) + '.' : 'No restoration estimate yet.'} Last updated ${at(o.lastUpdated)}. Write it as a short brief in section "safety". Say these numbers can change quickly and link the live outage map. Skip it if the cause is planned work that affects fewer than 1,000 customers.` }));
+  },
+  async tips() { // Tips sent through squamishvoters.com/tip/ (a screenshot of a Facebook or Instagram post, a link or a note)
+    // Each tip is read once (the reading is saved); it stays listed for 3 days so a failed draft is tried again.
+    const rows = await sql`SELECT id, status, text, link, image, reading FROM sv_tips WHERE status IN ('new', 'read') AND created_at > now() - interval '3 days' ORDER BY created_at LIMIT 8`;
+    const out = [];
+    for (const t of rows) {
+      let r = t.reading || { poster: '', platform: '', official: false, posted: '', text: t.text || '', link: t.link || '' };
+      const img = /^data:(image\/(?:jpeg|png|webp|gif));base64,(.+)$/.exec(t.image || '');
+      if (t.status === 'new' && img) {
+        r = await claudeJson({ effort: 'low', maxTokens: 3000,
+          system: 'Someone sent the Squamish Voters news desk a tip: usually a screenshot of a social media post, sometimes with a note or a link. Read it carefully. Copy the post text exactly as shown (all of it), say who posted it and where, and whether the poster is an official organization (a government, First Nation, police, fire, school district, utility, business or nonprofit page) rather than a private person. Never add anything that is not visible.',
+          schema: { type: 'object', additionalProperties: false, required: ['poster', 'platform', 'official', 'posted', 'text', 'link'], properties: { poster: { type: 'string' }, platform: { type: 'string', description: 'Facebook, Instagram, X, website, email or other' }, official: { type: 'boolean' }, posted: { type: 'string', description: 'when it was posted, as shown, else empty' }, text: { type: 'string' }, link: { type: 'string', description: 'a full https link shown in the post or sent with the tip, else empty' } } },
+          content: [...(img ? [{ type: 'image', source: { type: 'base64', media_type: img[1], data: img[2] } }] : []), { type: 'text', text: `Note from the sender: ${t.text || '(none)'}\nLink sent: ${t.link || '(none)'}` }] });
+      }
+      if (t.status === 'new') await sql`UPDATE sv_tips SET status = 'read', reading = ${JSON.stringify(r)} WHERE id = ${t.id}`;
+      const who = r.poster ? `${r.poster}${r.platform ? ` (${r.platform})` : ''}` : 'A reader tip';
+      out.push({ key: `tip-${t.id}`, source: 'tip', label: who, tip: true, url: /^https?:/.test(r.link || t.link || '') ? (r.link || t.link) : `${ORIGIN}/news/`, title: (r.text || t.text || 'Tip').slice(0, 90), date: today(),
+        text: `This came in as a TIP to our news desk, not from a feed. ${r.official ? `It is a post by ${who}, an official organization: treat that organization as the source and name it.` : `It is a post by ${who}, who looks like a private person, not an official organization: only publish if it is clearly useful public information (a closure, a hazard, a public event), say plainly who posted it, and never present it as confirmed.`} Posted: ${r.posted || 'not shown'}.\n\nPost text:\n${r.text || ''}\n\nNote from the sender: ${t.text || '(none)'}` });
     }
     return out;
   },
@@ -310,6 +363,7 @@ ${d.visual_big ? `<p style="margin:0 0 12px;font-family:Georgia,serif;font-size:
 ${d.take ? `<p style="margin:0 0 14px;border-left:3px solid #7a3a78;padding-left:12px"><span style="display:block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7a3a78">What changes</span>${esc(d.take)}</p>` : ''}
 ${placePhotos(d.body ? bodyMail(d.body) : '', (d.photos || []).map(mailFig))}
 <p style="margin:10px 0 0;font-size:13px;color:#5d6661">Source: <a href="${esc(r.item.url)}" style="color:#5d6661">${esc(r.item.label)}</a></p>
+${r.item.tip ? `<p style="margin:10px 0 0;padding:10px 12px;background:#fdf3d4;border-radius:8px;font-size:14px"><b>This came in as a tip.</b> Check it against the original post before you approve.</p>` : ''}
 ${btns(r)}</div></div>`; };
   const subject = rows.length === 1 ? `News to approve: ${rows[0].draft.head}` : `${rows.length} news stories to approve`;
   const r = await fetch('https://api.resend.com/emails', {

@@ -2119,3 +2119,10 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .nw-main [data-open], .nw-rail [data-open] { cursor: pointer; transition: box-shadow .15s, transform .15s, border-color .15s; }
 .nw-main .nw-lead[data-open]:hover, .nw-main .nw-feature[data-open]:hover, .nw-main .nw-card[data-open]:hover { box-shadow: 0 6px 22px rgba(20, 33, 28, .16); transform: translateY(-2px); border-color: var(--c); }
 .nw-main [data-open]:hover .nw-h a, .nw-rail [data-open]:hover .nw-h a { text-decoration: underline; }
+/* tip line (/tip/) */
+.tip{max-width:40rem}
+.tip-form{display:grid;gap:14px}
+.tip-form input[type=url],.tip-form textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid #cfcabb;border-radius:10px;background:#fff}
+.tip-form input[type=file]{display:block;margin-top:6px;font:inherit}
+.tip-prev{max-width:100%;max-height:340px;border-radius:10px;border:1px solid #e2ded3}
+[hidden]{display:none!important}
