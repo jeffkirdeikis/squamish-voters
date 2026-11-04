@@ -6,23 +6,24 @@
 html,body{margin:0;width:1200px;height:630px;overflow:hidden}
 body{position:relative;background:#0f4c3a;color:#fff;font-family:"Public Sans",system-ui,sans-serif}
 .bg{position:absolute;inset:0;background-size:cover;background-position:center}
-.fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,26,20,0) 18%,rgba(8,26,20,.55) 48%,rgba(8,26,20,.94) 100%)}
+.fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,26,20,0) 8%,rgba(8,26,20,.6) 40%,rgba(8,26,20,.95) 100%)}
 .plain .fade{background:radial-gradient(120% 90% at 100% 0%,#17694f 0%,#0f4c3a 55%,#0b3a2c 100%)}
 .wrap{position:absolute;left:64px;right:64px;bottom:48px;display:flex;flex-direction:column;gap:20px}
-.row{display:flex;align-items:flex-end;gap:48px}
-.txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:18px}
-.k{align-self:flex-start;font-weight:800;font-size:21px;letter-spacing:3px;text-transform:uppercase;color:#14211c;background:#ffd84d;padding:8px 14px 7px;border-radius:6px}
-h1{font:800 66px/1.04 "Newsreader",Georgia,serif;margin:0;letter-spacing:-.6px;text-wrap:balance;text-shadow:0 2px 18px rgba(0,0,0,.35)}
-.big{flex:none;text-align:right;padding-bottom:6px}
-.big b{display:block;font:800 120px/0.95 "Newsreader",Georgia,serif;color:#ffd84d;letter-spacing:-2px}
-.big span{display:block;margin-top:8px;font-size:21px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:.85}
+.tags{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.k{font-weight:800;font-size:21px;letter-spacing:3px;text-transform:uppercase;color:#14211c;background:#ffd84d;padding:8px 14px 7px;border-radius:6px}
+/* The story's key number rides beside the section tag as a badge, so the headline always gets the full width. */
+.big{display:flex;align-items:baseline;gap:10px;background:rgba(8,26,20,.72);border:2px solid rgba(255,216,77,.75);border-radius:8px;padding:3px 14px 4px}
+.big b{font:800 34px/1.1 "Newsreader",Georgia,serif;color:#ffd84d;letter-spacing:-.3px;white-space:nowrap}
+.big span{font-size:17px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;opacity:.9;white-space:nowrap}
+h1{font:800 70px/1.05 "Newsreader",Georgia,serif;margin:0;letter-spacing:-.6px;text-wrap:balance;text-shadow:0 2px 18px rgba(0,0,0,.45);max-width:1040px}
 .foot{display:flex;align-items:center;justify-content:space-between;border-top:2px solid rgba(255,255,255,.28);padding-top:16px;font-size:22px}
 .foot b{font:800 30px "Newsreader",Georgia,serif;letter-spacing:-.3px}.foot b i{font-weight:500;color:#ffd84d}
 .foot span{opacity:.85;font-weight:600}
 </style></head><body>
 <div class="bg" id="bg"></div><div class="fade"></div>
 <div class="wrap">
-  <div class="row"><div class="txt"><div class="k" id="k"></div><h1 id="h"></h1></div><div class="big" id="v" hidden></div></div>
+  <div class="tags"><div class="k" id="k"></div><div class="big" id="v" hidden></div></div>
+  <h1 id="h"></h1>
   <div class="foot"><b>Squamish Voters <i>News</i></b><span id="d"></span></div>
 </div>
 <script>
@@ -33,5 +34,5 @@ document.getElementById('d').textContent = st.date;
 if (st.photo) document.getElementById('bg').style.backgroundImage = `url("${st.photo}")`;
 else document.body.className = 'plain';
 if (st.big) { const v = document.getElementById('v'); v.hidden = false; v.innerHTML = '<b></b><span></span>'; v.firstChild.textContent = st.big; v.lastChild.textContent = st.small; }
-const n = st.head.length; if (n > 60) h.style.fontSize = '58px'; if (n > 85) h.style.fontSize = '52px';
+const n = st.head.length; if (n > 55) h.style.fontSize = '62px'; if (n > 80) h.style.fontSize = '54px';
 </script></body></html>

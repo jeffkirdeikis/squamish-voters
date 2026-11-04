@@ -14,6 +14,7 @@ import { execFileSync } from 'node:child_process';
 import { neon } from '@neondatabase/serverless';
 import { ROOT, log, readJson, writeJson, claudeJson } from './lib.mjs';
 import { mdToHtml, placePhotos } from '../../api/_md.js';
+import { ogImage, SEC_NAME } from './news-og.mjs';
 
 const NEWS_FILE = path.join(ROOT, 'data', 'news.json');
 const OG_DIR = path.join(ROOT, 'public', 'news', 'og');
@@ -235,8 +236,11 @@ Rules:
 - Neutral and factual. No opinion, no praise or blame, no "big test", no predictions, no calls to action except practical ones (a deadline, how to apply, a road closure).
 - Plain words a 12-year-old could follow. Canadian spelling. Short sentences.
 - Never use em dashes or en dashes. Avoid hyphenated compound words where a plain phrase works. Spell out abbreviations (except B.C., BC in party or agency names, RCMP).
-- Headline: specific, under 90 characters, sentence case, no clickbait, no colon if you can avoid it.
-- dek: 2 to 4 sentences with the key facts (who, what, when, where).
+- Headline: the line that makes a Squamish resident stop scrolling and tap. Lead with what it means for them or the most interesting concrete fact (a number, a place they know, a date, a cost, a change to daily life), never with the agency's name or process words like "is building a plan", "launches", "announces", "seeks input". A question is fine when the story answers it. Active verbs, present tense, sentence case, under 75 characters. It must stay strictly true to the source: no exaggeration, no fear, no promise the story does not deliver.
+  Weak: "District of Squamish is building a 10 year plan for local jobs and skills". Strong: "What jobs will Squamish need in 10 years? The District is writing the plan".
+  Weak: "Britannia Village tree lighting set for Friday, November 27". Strong: "Britannia lights a taller Christmas tree November 27, with weekend markets after".
+- dek: first sentence is the hook a reader cares about, then the key facts (who, what, when, where). 2 to 4 sentences.
+- social: the text of the Facebook post that shares the story, 2 short lines separated by a blank line. Line 1 hooks a local with the most interesting fact (not a copy of the headline). Line 2 says what they get by tapping (the dates, the map, how to take part, what it costs). No hashtags, no emoji, no "click here", no exclamation marks.
 - take: one sentence that says what changes for residents or what they can do, strictly factual. Empty if there is nothing useful.
 - weight: "big" only for something most residents care about (a major closure, an election result, a big decision); "brief" for small notices; otherwise "normal".
 - visual: a key number or date from the source (like "Nov 16" with "Application deadline", or "90 km/h" with "Wind gusts") or null. Never invent one.
@@ -248,10 +252,10 @@ Rules:
 - photo_queries: 3 or 4 short searches for openly licensed photos of the PLACE or TOPIC (not the event itself), most specific first and each a different angle so the story can carry more than one picture, e.g. "Howe Sound Squamish", "Sea to Sky Highway", "downtown Squamish".`;
 const SCHEMA = {
   type: 'object', additionalProperties: false,
-  required: ['publish', 'reason', 'section', 'weight', 'head', 'dek', 'take', 'body', 'visual_big', 'visual_small', 'slug', 'photo_queries', 'areas'],
+  required: ['publish', 'reason', 'section', 'weight', 'head', 'dek', 'social', 'take', 'body', 'visual_big', 'visual_small', 'slug', 'photo_queries', 'areas'],
   properties: {
     publish: { type: 'boolean' }, reason: { type: 'string' }, section: { type: 'string', enum: SECTIONS }, weight: { type: 'string', enum: ['big', 'normal', 'brief'] },
-    head: { type: 'string' }, dek: { type: 'string' }, take: { type: 'string' }, body: { type: 'string', description: 'full story in markdown (## headings, - bullets, [links](/path/))' }, visual_big: { type: 'string' }, visual_small: { type: 'string' },
+    head: { type: 'string' }, dek: { type: 'string' }, social: { type: 'string', description: 'Facebook post text: hook line, blank line, what tapping gets you' }, take: { type: 'string' }, body: { type: 'string', description: 'full story in markdown (## headings, - bullets, [links](/path/))' }, visual_big: { type: 'string' }, visual_small: { type: 'string' },
     slug: { type: 'string', description: 'short url slug, lowercase words joined by hyphens, under 50 characters' },
     photo_queries: { type: 'array', items: { type: 'string' } },
     areas: { type: 'array', items: { type: 'string', enum: HOOD_SLUGS.length ? HOOD_SLUGS : ['downtown'] } },
@@ -277,6 +281,7 @@ async function draft(item) {
     content: `SITE PAGES (ours, to link to):\n${SITE_PAGES}\n\nToday is ${today()}.\nSource: ${item.label}\nURL: ${item.url}\nPublished: ${item.date}\nTitle: ${item.title}\n\n${(text || '').slice(0, 9000)}`,
   });
   for (const k of ['head', 'dek', 'take', 'visual_big', 'visual_small']) d[k] = clean(d[k]);
+  if (d.social) d.social = String(d.social).replace(/\s*[—–]\s*/g, ', ').trim().slice(0, 600);
   d.body = String(d.body || '').replace(/\s*[—–]\s*/g, ', ').trim();
   d.slug = String(d.slug || '').toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || `story-${Date.now()}`;
   return d;
@@ -388,22 +393,6 @@ ${btns(r)}</div></div>`; };
   log(`emailed ${rows.length} draft(s)`);
 }
 
-// ---------- share picture ----------
-const SEC_NAME = { vote: 'Elections', council: 'Council', money: 'Your money', community: 'Community', housing: 'Housing', recon: 'Reconciliation', move: 'Getting around', safety: 'Safety', weather: 'Weather' };
-function ogImage(story) {
-  const chrome = ['google-chrome', 'google-chrome-stable', 'chromium', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'].find((c) => { try { execFileSync(c, ['--version'], { stdio: 'ignore' }); return true; } catch { return false; } });
-  if (!chrome) { log('no Chrome; skipping share picture'); return null; }
-  const tpl = fs.readFileSync(path.join(ROOT, 'scripts', 'pipeline', 'news-og.html'), 'utf8');
-  const data = { head: story.head, sec: SEC_NAME[story.s] || 'News', s: story.s, date: new Date(story.date + 'T12:00:00').toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' }), big: story.visual?.big || '', small: story.visual?.small || '', photo: story.photo ? `file://${path.join(ROOT, 'public', story.photo.og || story.photo.file)}` : '' }; // og: a share-picture version that leaves room for the headline
-  const tmp = path.join(OG_DIR, `.tmp-${story.slug}.html`);
-  fs.writeFileSync(tmp, tpl.replace('__DATA__', JSON.stringify(data).replace(/</g, '\\u003c')));
-  const out = path.join(OG_DIR, `${story.slug}.png`);
-  try {
-    execFileSync(chrome, ['--headless=new', '--no-sandbox', '--mute-audio', '--disable-gpu', '--hide-scrollbars', '--window-size=1200,630', '--virtual-time-budget=5000', `--screenshot=${out}`, `file://${tmp}`], { stdio: 'ignore', timeout: 60000 });
-  } finally { fs.rmSync(tmp, { force: true }); }
-  return fs.existsSync(out) ? `${story.slug}.png` : null;
-}
-
 // ---------- publish: every approved draft goes into data/news.json ----------
 const news = readJson(NEWS_FILE);
 let publishedCount = 0;
@@ -417,7 +406,7 @@ for (const r of approved) {
     slug, s: d.section, tier: { big: 'lead', normal: 'card', brief: 'brief' }[d.weight] || 'card', date: it.date && it.date <= today() ? it.date : today(),
     head: d.head, dek: d.dek, ...(d.take ? { take: esc(d.take) } : {}), ...(d.body ? { body: d.body } : {}),
     ...(d.visual_big ? { visual: { type: 'big', big: d.visual_big, small: d.visual_small } } : {}),
-    src: [it.label, it.url], ...(it.more ? { more: it.more } : {}), auto: true, ...(d.areas && d.areas.length ? { areas: d.areas } : {}),
+    src: [it.label, it.url], ...(it.more ? { more: it.more } : {}), ...(d.social ? { social: d.social } : {}), auto: true, ...(d.areas && d.areas.length ? { areas: d.areas } : {}),
   };
   if (d.photo && d.photo.remote) {
     try {
