@@ -60,3 +60,15 @@ jobs:
           # Publish. Works once Vercel's GitHub app can see this repo; until then Jeff's Mac publishes (scripts/pipeline/mac/run.sh).
           curl -fsS -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}" || true
           gh workflow run indexnow.yml > /dev/null 2>&1 || true # tell Bing about the changed pages once live
+      - name: Alarm if a meeting is not covered by the next afternoon
+        # A meeting that ended more than 20 hours ago with no summary means something is broken (Nov 2026: the Mac bot
+        # was stuck and the inaugural video was not linked in CivicWeb). Failing this step makes GitHub email Jeff.
+        run: |
+          node -e "
+          const fs=require('fs'),p='data/meetings';const late=[];
+          for(const f of fs.readdirSync(p).filter(x=>x.endsWith('.json'))){const m=JSON.parse(fs.readFileSync(p+'/'+f));
+            if(m.summary||m.closed_only||m.status==='cancelled')continue;
+            const end=Date.parse(m.date+'T'+(m.time||'18:00')+':00-08:00')+4*3600e3, age=(Date.now()-end)/3600e3;
+            if(age>20&&age<24*14)late.push(m.id+' ('+Math.round(age)+' h)');}
+          if(late.length){console.log('::error::No summary yet for: '+late.join(', ')+'. Check the Mac bot log and the District YouTube channel.');process.exit(1);}
+          console.log('Every recent meeting is covered');"

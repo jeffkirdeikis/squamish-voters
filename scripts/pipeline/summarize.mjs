@@ -120,17 +120,17 @@ for (const m of todo) {
   let vids = (ev?.Events || []).map((e) => e.eventId).filter((v) => v && v !== '0');
   if (!vids.length && ev?.eventId && ev.eventId !== '0') vids.push(ev.eventId);
   if (!vids.length && m.video_ids?.length) vids = m.video_ids;
-  if (!vids.length && !process.env.SKIP_VIDEO) { const f = findOnChannel(m); if (f) { vids = [f]; m.video_ids = [f]; } }
+  if (!vids.length && !process.env.SKIP_VIDEO) { const f = findOnChannel(m); if (f) { vids = [f]; m.video_ids = [f]; saveMeeting(m); } }
   // YouTube refuses cloud servers ("Sign in to confirm you're not a bot"), so the GitHub job sets SKIP_VIDEO and only
   // summarises from the official minutes; Jeff's Mac (scripts/pipeline/mac/run.sh) does the video, usually the next day.
   let parts = [];
   // A transcript already made on the Mac (pushed to public/transcripts) is used as is, so the summary can be written
   // by whichever machine has a working API key, including the GitHub job that can't reach YouTube.
   const saved = path.join(TRANSCRIPTS, `${m.id}.txt`);
-  if (vids.length && fs.existsSync(saved)) {
+  if (fs.existsSync(saved)) {
     const raw = fs.readFileSync(saved, 'utf8'), body = raw.split('\n\n').slice(1).join('\n\n');
     const from = /Made automatically from the (.+?)\. It will/.exec(raw)?.[1] || 'meeting audio (transcribed by Whisper)';
-    parts = [{ vid: vids[0], dur: null, text: body, from }];
+    parts = [{ vid: vids[0] || null, dur: null, text: body, from }];
     log('using saved transcript', saved);
   }
   if (!parts.length && vids.length && !process.env.SKIP_VIDEO) {

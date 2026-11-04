@@ -17,11 +17,17 @@ if [ "$H" -lt 2 ] && ls data/meetings/$Y-*.json >/dev/null 2>&1; then NIGHT=1; f
 if [ -z "$NIGHT" ] && [ -f .last-run ] && [ $(( $(date +%s) - $(stat -f %m .last-run) )) -lt 6900 ]; then exit 0; fi
 touch .last-run
 set -a; . ./.env.local; set +a
+# Tell Jeff on screen when a run fails, instead of failing quietly in the log (Oct 31 to Nov 4 2026 it failed 45 times unseen).
+FAILS=.fail-count
+trap 'n=$(( $(cat $FAILS 2>/dev/null || echo 0) + 1 )); echo $n > $FAILS; [ $n -ge 2 ] && /usr/bin/osascript -e "display notification \"The meeting video bot has failed $n runs in a row. See ~/Library/Logs/squamish-voters.log\" with title \"Squamish Voters bot\" sound name \"Basso\""' ERR
 git checkout -q main
-git pull -q --rebase
+# This clone is only the bot's: match GitHub exactly, so a stray file can never block the update again.
+git fetch -q origin main && git reset -q --hard origin/main
 [ -d node_modules/@anthropic-ai/sdk ] || npm ci --silent --no-audit --no-fund
 node scripts/pipeline/sync.mjs
-node scripts/pipeline/summarize.mjs
+# If the summary step fails (for example a dead API key), still push the transcript: the GitHub job then writes the
+# summary from it with its own key.
+node scripts/pipeline/summarize.mjs || echo "$(date) summary failed; pushing any transcript for the GitHub job"
 node scripts/pipeline/share.mjs
 git add data/meetings data/promises.json public/transcripts public/share
 if ! git diff --cached --quiet; then
@@ -37,3 +43,4 @@ if [ "$(git rev-parse HEAD)" != "$(cat $LAST 2>/dev/null)" ]; then
 else
   echo "$(date) nothing new"
 fi
+rm -f $FAILS
