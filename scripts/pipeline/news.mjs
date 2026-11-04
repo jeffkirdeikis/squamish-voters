@@ -408,7 +408,8 @@ function ogImage(story) {
 const news = readJson(NEWS_FILE);
 let publishedCount = 0;
 async function publishApproved() {
-const approved = await sql`SELECT * FROM sv_news WHERE status = 'approved' ORDER BY decided_at`;
+const REMOVED = new Set(readJson(path.join(ROOT, 'api', '_removed.json'), { slugs: [] }).slugs || []); // stories taken down by hand
+const approved = (await sql`SELECT * FROM sv_news WHERE status = 'approved' ORDER BY decided_at`).filter((r) => !REMOVED.has(r.draft?.slug));
 for (const r of approved) {
   const d = r.draft, it = r.item;
   let slug = d.slug; while (news.stories.some((s) => s.slug === slug)) slug += '-2';

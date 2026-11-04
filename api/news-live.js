@@ -4,6 +4,7 @@
 // .github/workflows/news.yml later bakes each one into data/news.json with its share picture.
 import { neon } from '@neondatabase/serverless';
 import { mdToHtml, placePhotos } from './_md.js';
+import REMOVED from './_removed.json' with { type: 'json' };
 
 const URL = process.env.DATABASE_URL || process.env.POSTGRES_URL;
 const sql = URL ? neon(URL) : null;
@@ -21,7 +22,8 @@ export default async function handler(req, res) {
   if (!sql) return res.status(503).json({ stories: [] });
   // Approved, plus anything published in the last hour (its static page may still be deploying).
   const rows = await sql`SELECT draft, item FROM sv_news WHERE status = 'approved' OR (status = 'published' AND published_at > now() - interval '1 hour') ORDER BY decided_at DESC LIMIT 20`.catch(() => []);
-  const stories = rows.map(toStory).filter((s) => s.slug && s.head);
+  const gone = new Set(REMOVED.slugs || []);
+  const stories = rows.map(toStory).filter((s) => s.slug && s.head && !gone.has(s.slug));
   if (!req.query.slug) {
     res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=20, stale-while-revalidate=60');
     return res.json({ stories });

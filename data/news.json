@@ -66,49 +66,6 @@
  ],
  "stories": [
   {
-   "slug": "squamish-nation-notcho-humpback-whale",
-   "s": "recon",
-   "tier": "card",
-   "date": "2026-11-03",
-   "head": "Squamish Nation cares for remains of Notcho, a humpback whale killed by a ferry",
-   "dek": "Sḵwx̱wú7mesh Úxwumixw (Squamish Nation) says Notcho, a male humpback whale, was hit and killed by a BC Ferry on October 18. His remains were found near Gambier Island on October 26. The Nation says the whale was brought to its Territory so his remains could be cared for under its laws.",
-   "body": "## What happened\n\nSḵwx̱wú7mesh Úxwumixw (Squamish Nation) shared an update with its Community about Notcho, a male humpback whale. The Nation says it understands that:\n\n- Notcho was hit and killed by a BC Ferry on October 18.\n- His remains were found near Gambier Island on October 26.\n- He was then brought to the Nation's Territory so his remains could be cared for in keeping with Squamish laws.\n\nThe Nation described the past few days as busy and grounding for its People.\n\n## How it came about\n\nThe Nation says this was possible because of relationships its Ta na wa Yúus ta Stitúyntsam̓ (Rights and Title) Department has been building in recent months with the Canadian Coast Guard and Fisheries and Oceans Canada. Part of that work has been sharing knowledge about how important whales are in Sḵwx̱wú7mesh (Squamish) history and culture.\n\nThe Nation says bringing the remains of whales home is an important step in honouring its marine relatives and continuing its cultural practices.\n\n## Who helped\n\nThe Nation says it had to put together several teams quickly to do this work. It called it an effort that drew on many skills across several organizations and governments. In its post, the Nation thanked:\n\n- Its Knowledge Keepers and Elders, for sharing their teachings.\n- Nuu-chah-nulth First Nation Elders, who travelled to Squamish Territory to guide the Nation through the process.\n- Squamish Nation staff from several departments, including Rights and Title, Language and Culture, and Intergovernmental Relations.\n\n## Read more\n\nThe full post is from Sḵwx̱wú7mesh Úxwumixw (Squamish Nation), shared with our news desk: [source](https://squamishvoters.com/news/). For more local stories about the land and water around Squamish, see our [climate and environment](/issues/climate-and-environment/) page.",
-   "visual": {
-    "type": "big",
-    "big": "Oct 18",
-    "small": "Notcho hit by a ferry"
-   },
-   "src": [
-    "Sḵwx̱wú7mesh Úxwumixw (Squamish Nation) (website)",
-    "https://squamishvoters.com/news/"
-   ],
-   "auto": true,
-   "photo": {
-    "file": "/news/photos/squamish-nation-notcho-humpback-whale.jpg",
-    "alt": "Silhouette of a mountainous island rising from calm blue water under a hazy sky",
-    "caption": "Gambier Island in Howe Sound, near where Notcho's remains were found.",
-    "credit": "Kyle Pearce from Vancouver, Canada, CC BY-SA 2.0",
-    "link": "https://commons.wikimedia.org/wiki/File:GambierIslandSilhouette.jpg"
-   },
-   "photos": [
-    {
-     "file": "/news/photos/squamish-nation-notcho-humpback-whale-2.jpg",
-     "alt": "Calm water of Howe Sound with hazy islands and mountains in the distance",
-     "caption": "Howe Sound, seen from Horseshoe Bay.",
-     "credit": "Ymblanter, CC BY-SA 4.0",
-     "link": "https://commons.wikimedia.org/wiki/File:Howe_Sound_from_Horseshoe_Bay.jpg"
-    },
-    {
-     "file": "/news/photos/squamish-nation-notcho-humpback-whale-3.jpg",
-     "alt": "View through evergreen trees over blue water toward forested islands and snow-capped mountains",
-     "caption": "Central Howe Sound, looking north from Keats Island.",
-     "credit": "TimBray, CC BY-SA 4.0",
-     "link": "https://commons.wikimedia.org/wiki/File:Central_Howe_Sound_looking_north_from_Keats_Island.jpg"
-    }
-   ],
-   "og": "squamish-nation-notcho-humpback-whale.png"
-  },
-  {
    "slug": "squamish-nation-notcho-humpback-whale-update",
    "s": "recon",
    "tier": "card",
