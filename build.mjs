@@ -1590,7 +1590,7 @@ if (TRACKED.length) {
     return '';
   };
   const dekHtml = (st) => (st.html ? st.dek : esc(st.dek)); // hand-written stories may carry links; drafted ones are plain text
-  const ogUrl = (st) => `${ORIGIN}/news/og/${st.og || `${st.slug}.jpg`}?v=3`;
+  const ogUrl = (st) => `${ORIGIN}/news/og/${st.og || `${st.slug}.jpg`}?v=4`;
   const take = (st) => (st.take ? `<p class="nw-take"><b>What changes</b>${st.take}</p>` : '');
   const bodyHtml = (st) => (st.body ? `<div class="nw-body">${mdToHtml(st.body)}</div>` : '');
   // Full story page: the extra photos go inside the story, between its sections.
