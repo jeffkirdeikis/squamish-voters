@@ -2126,3 +2126,28 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .tip-form input[type=file]{display:block;margin-top:6px;font:inherit}
 .tip-prev{max-width:100%;max-height:340px;border-radius:10px;border:1px solid #e2ded3}
 [hidden]{display:none!important}
+
+/* News story page on wide screens: headline, summary and photo across the top, the story in a reading column, and a
+   sidebar (number, What changes, More news) that stays in view. Phones keep the single column: .nw-side is invisible. */
+.nw-side { display: contents; }
+.nw-side-more { display: none; }
+@media (min-width: 1100px) {
+  .nw-story-page { max-width: 1200px; }
+  .nw-art { grid-template-columns: minmax(0, 1fr) 320px; grid-auto-flow: row dense; column-gap: 3rem; padding: 2.4rem 2.8rem; align-items: start; }
+  .nw-art > * { grid-column: 1; }
+  .nw-art > .nw-kicker, .nw-art > h1.nw-h, .nw-art > .nw-dek, .nw-art > .nw-photo, .nw-art > .nw-map { grid-column: 1 / -1; }
+  .nw-art > h1.nw-h { font-size: 3rem; max-width: 22ch; }
+  .nw-art > .nw-dek { font-size: 1.25rem; line-height: 1.55; max-width: 62ch; }
+  .nw-art > .nw-photo img { aspect-ratio: 21 / 9; object-fit: cover; }
+  .nw-art .nw-body { font-size: 1.08rem; line-height: 1.7; max-width: 70ch; }
+  .nw-side { display: grid; gap: 1.4rem; grid-column: 2; grid-row: span 2; position: sticky; top: 1.5rem; align-self: start; padding: 1.4rem; background: var(--bg, #f6f5f1); border: 1px solid var(--line); border-radius: var(--radius); }
+  .nw-side .nw-take { font-size: 1rem; }
+  .nw-side-more { display: block; border-top: 1px solid var(--line); padding-top: 1.1rem; }
+  .nw-side-more .nw-sechead { font-size: 1.05rem; margin: 0; }
+  .nw-side-more ul { list-style: none; margin: .7rem 0 0; padding: 0; display: grid; gap: .8rem; }
+  .nw-side-more li span { display: block; font: 700 .64rem system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--c); }
+  .nw-side-more li a { font: 700 .98rem/1.3 Georgia, serif; color: var(--ink); text-decoration: none; }
+  .nw-side-more li a:hover { color: var(--link); text-decoration: underline; }
+  .nw-side-more .nw-more { margin: .8rem 0 0; font-size: .9rem; }
+  .nw-story-page > .nw-next { display: none; }
+}

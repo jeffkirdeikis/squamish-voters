@@ -1697,9 +1697,12 @@ if (TRACKED.length) {
 
   S.forEach((st, i) => {
     const others = S.filter((x) => x !== st).slice(0, 4);
+    // On wide screens the number, What changes and More news sit in a sidebar beside the story (.nw-side); on phones
+    // the sidebar box disappears (display: contents) and everything stays in the same single column as before.
+    const sideMore = `<nav class="nw-side-more" aria-label="More news"><h2 class="nw-sechead">More news</h2><ul>${others.map((o) => `<li data-s="${o.s}"><span>${esc(SEC[o.s])}</span><a href="${nUrl(o)}">${esc(o.head)}</a></li>`).join('')}</ul><p class="nw-more"><a href="/news/">All news →</a></p></nav>`;
     const body = st.tier === 'lead'
-      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p>${visual(st)}${take(st)}`
-      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${st.visual && st.visual.type === 'map' ? visual(st) : photo(st, true)}<p class="nw-dek">${dekHtml(st)}</p>${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}`;
+      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p><aside class="nw-side">${visual(st)}${take(st)}${sideMore}</aside>`
+      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${st.visual && st.visual.type === 'map' ? visual(st) : photo(st, true)}<p class="nw-dek">${dekHtml(st)}</p><aside class="nw-side">${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}${sideMore}</aside>`;
     write(nUrl(st), page({
       url: nUrl(st), title: st.head,
       desc: st.dek.replace(/<[^>]+>/g, ''),
@@ -1707,7 +1710,7 @@ if (TRACKED.length) {
       jsonld: [crumbLd([['Home', '/'], ['News', '/news/'], [st.head, nUrl(st)]]), { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: st.head, datePublished: st.date, inLanguage: 'en-CA', image: ogUrl(st), author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/`, sameAs: ['https://jeffkirdeikis.com'] }, publisher: { '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/` }, isBasedOn: st.src[1] }],
       body: `<div class="nw nw-story-page">
   <p class="crumbs"><a href="/news/">← All news</a></p>
-  <article class="nw-full" data-s="${st.s}">${body}${fullBodyHtml(st)}<div class="nw-foot">${source(st)}${shareBtn(st)}</div></article>
+  <article class="nw-full nw-art" data-s="${st.s}">${body}${fullBodyHtml(st)}<div class="nw-foot">${source(st)}${shareBtn(st)}</div></article>
   <section class="nw-next"><h2 class="nw-sechead">More news</h2><ul>${others.map((o) => `<li data-s="${o.s}"><span>${esc(SEC[o.s])}</span><a href="${nUrl(o)}">${esc(o.head)}</a></li>`).join('')}</ul>
   <p class="nw-more"><a href="/news/">All news →</a> · <a href="/meetings/">What council decided →</a></p></section>
   ${signupBox('news-story')}
