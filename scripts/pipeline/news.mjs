@@ -1,7 +1,8 @@
 // Squamish news, run by .github/workflows/news.yml every 10 minutes (no computer needs to be on).
-//   1. Publish: drafts Jeff approved (api/news-review.js) go into data/news.json with a share picture.
-//   2. Scan: check public sources for anything new, have Claude draft a short story in our own words,
-//      save it as 'pending' and email Jeff a link to read, edit and approve it.
+//   1. Scan: check public sources for anything new, have Claude draft a short story in our own words (or skip it).
+//   2. Publish: drafts go straight into data/news.json with a share picture. Since Nov 3 2026 Jeff doesn't approve
+//      each story (his call: "always push them out automatically"). NEWS_APPROVAL=1 brings back the old way:
+//      drafts saved as 'pending' and emailed to him with Approve / Decline (api/news-review.js).
 // Every source here allows plain automated reading. We never get around a site's bot check: the District's own
 // news page blocks scripts, so District news comes in through its weekly E-News email instead (see district() below).
 // The Squamish Chief is not a source: its stories are its own reporting.
@@ -339,8 +340,10 @@ function ogImage(story) {
   return fs.existsSync(out) ? `${story.slug}.png` : null;
 }
 
-// ---------- 1. publish what Jeff approved ----------
+// ---------- publish: every approved draft goes into data/news.json ----------
 const news = readJson(NEWS_FILE);
+let publishedCount = 0;
+async function publishApproved() {
 const approved = await sql`SELECT * FROM sv_news WHERE status = 'approved' ORDER BY decided_at`;
 for (const r of approved) {
   const d = r.draft, it = r.item;
@@ -373,6 +376,10 @@ for (const r of approved) {
   log('published', slug);
 }
 if (approved.length) { news.stories.sort((a, b) => b.date.localeCompare(a.date)); writeJson(NEWS_FILE, news); }
+publishedCount += approved.length;
+}
+await publishApproved(); // anything approved by hand since the last pass
+const AUTO = process.env.NEWS_APPROVAL !== '1';
 
 // ---------- 2. scan for new items ----------
 const [{ n: known }] = await sql`SELECT count(*)::int AS n FROM sv_news`;
@@ -407,11 +414,13 @@ for (const i of fresh) {
     }
     Object.assign(d, await findPhotos(d));
     const token = crypto.randomBytes(18).toString('base64url');
-    await sql`INSERT INTO sv_news (id, source, source_url, title, status, token, item, draft) VALUES (${id}, ${i.source}, ${i.url}, ${i.title}, 'pending', ${token}, ${JSON.stringify(i)}, ${JSON.stringify(d)})
-      ON CONFLICT (id) DO UPDATE SET status = 'pending', token = EXCLUDED.token, draft = EXCLUDED.draft`;
+    const status = AUTO ? 'approved' : 'pending';
+    await sql`INSERT INTO sv_news (id, source, source_url, title, status, token, item, draft, decided_at) VALUES (${id}, ${i.source}, ${i.url}, ${i.title}, ${status}, ${token}, ${JSON.stringify(i)}, ${JSON.stringify(d)}, ${AUTO ? new Date().toISOString() : null})
+      ON CONFLICT (id) DO UPDATE SET status = EXCLUDED.status, token = EXCLUDED.token, draft = EXCLUDED.draft, decided_at = EXCLUDED.decided_at`;
     drafted.push({ id, token, item: i, draft: d });
     log('drafted:', d.head);
   } catch (e) { log('draft failed:', i.title, e.message); }
 }
-if (drafted.length) await emailDrafts(drafted);
-log(`done: ${approved.length} published, ${drafted.length} drafted`);
+if (drafted.length && !AUTO) await emailDrafts(drafted);
+if (AUTO) await publishApproved(); // straight onto the site this pass
+log(`done: ${publishedCount} published, ${drafted.length} drafted`);
