@@ -45,6 +45,15 @@ const pageText = async (url, max = 7000) => {
   return strip(main).slice(0, max);
 };
 
+// Newsletter links go through click trackers (Constant Contact, Mailchimp, Campaign Monitor). Follow them once to the
+// real page so a story's source link is clean; if that fails, drop the link and the newsletter's home page is used.
+const TRACKER = /rs6\.net|ccsend\.com|list-manage\.com|cmail\d*\.com|createsend|cyberimpact\.com\/(?:t|click)|mailchi\.mp|sendgrid\.net|mandrillapp/i;
+async function realLink(u) {
+  if (!/^https?:/.test(u || '') || !TRACKER.test(u)) return u || '';
+  try { const r = await fetch(u, { redirect: 'follow', headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(15000) }); if (TRACKER.test(r.url)) return '';
+    const x = new URL(r.url); for (const k of [...x.searchParams.keys()]) if (/^(utm_|gclid|gad_|gbraid|wbraid|fbclid|mc_|_hs)/i.test(k)) x.searchParams.delete(k); // ad tracking tags
+    return x.toString(); } catch { return ''; }
+}
 const recent = (i) => i.date >= new Date(Date.now() - 5 * 864e5).toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' }); // new sources never dig up old posts
 const rssItems = (x, n) => [...x.matchAll(/<item>([\s\S]*?)<\/item>/g)].slice(0, n).map((m) => m[1]).map((it) => ({
   url: strip((it.match(/<link>([\s\S]*?)<\/link>/) || [])[1]), title: strip((it.match(/<title>([\s\S]*?)<\/title>/) || [])[1]).replace(/^<!\[CDATA\[|\]\]>$/g, ''),
@@ -162,6 +171,7 @@ const SOURCES = {
           effort: 'low', maxTokens: 6000, content: `Subject: ${e.subject}\nSent: ${e.created_at}\n\n${text.slice(0, 30000)}\n\nLinks in the email:\n${[...new Set((html.match(/href="(https?:[^"]+)"/g) || []).map((h) => h.slice(6, -1).replace(/&amp;/g, '&')))].filter((u) => !/unsubscribe|cyberimpact\.com\/(?!newsletter-view-online)|constantcontact\.com\/(?!.*myemail)|ccsend\.com|facebook|instagram|twitter|x\.com|linkedin|youtube\.com\/@/i.test(u)).slice(0, 80).join('\n')}`,
         });
         const date = new Date(e.created_at).toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' });
+        for (const it of x.items || []) it.link = await realLink(it.link);
         const items = (x.items || []).map((it, n) => ({ key: `enews-${e.id}-${n}`, source: nl.source, label: nl.label, url: /^https?:/.test(it.link) ? it.link : (online || nl.home), title: it.title, date, text: it.text }));
         await sql`INSERT INTO sv_news (id, source, source_url, title, status, item) VALUES (${issueId}, ${nl.source}, ${online || null}, ${e.subject}, 'issue', ${JSON.stringify({ items })}) ON CONFLICT DO NOTHING`;
         log(`${nl.source}: newsletter "${e.subject}" has ${items.length} items`);
@@ -468,13 +478,15 @@ for (const i of fresh) {
     }
     Object.assign(d, await findPhotos(d));
     const token = crypto.randomBytes(18).toString('base64url');
-    const status = AUTO ? 'approved' : 'pending';
-    await sql`INSERT INTO sv_news (id, source, source_url, title, status, token, item, draft, decided_at) VALUES (${id}, ${i.source}, ${i.url}, ${i.title}, ${status}, ${token}, ${JSON.stringify(i)}, ${JSON.stringify(d)}, ${AUTO ? new Date().toISOString() : null})
+    const auto = AUTO && !i.tip; // tips come from anyone, so they always wait for Jeff's OK
+    const status = auto ? 'approved' : 'pending';
+    await sql`INSERT INTO sv_news (id, source, source_url, title, status, token, item, draft, decided_at) VALUES (${id}, ${i.source}, ${i.url}, ${i.title}, ${status}, ${token}, ${JSON.stringify(i)}, ${JSON.stringify(d)}, ${auto ? new Date().toISOString() : null})
       ON CONFLICT (id) DO UPDATE SET status = EXCLUDED.status, token = EXCLUDED.token, draft = EXCLUDED.draft, decided_at = EXCLUDED.decided_at`;
     drafted.push({ id, token, item: i, draft: d });
     log('drafted:', d.head);
   } catch (e) { log('draft failed:', i.title, e.message); }
 }
-if (drafted.length && !AUTO) await emailDrafts(drafted);
+const toEmail = drafted.filter((r) => !AUTO || r.item.tip);
+if (toEmail.length) await emailDrafts(toEmail);
 if (AUTO) await publishApproved(); // straight onto the site this pass
 log(`done: ${publishedCount} published, ${drafted.length} drafted`);
