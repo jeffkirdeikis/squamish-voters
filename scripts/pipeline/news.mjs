@@ -43,6 +43,15 @@ const pageText = async (url, max = 7000) => {
   return strip(main).slice(0, max);
 };
 
+// Newsletters that arrive in our Resend inbox (district-news@crisuavau.resend.app), told apart by sender.
+// The first entry (District) is the default; the others are matched by sender, or by the original sender in a forward. Each one says what to keep, so ads and member perks never become stories.
+const NEWSLETTERS = [
+  { match: /squamish\.ca|cyberimpact/i, source: 'district', label: 'District of Squamish E-News', home: 'https://squamish.ca/government-and-administration/district-information/enews-archives/',
+    system: 'You read the District of Squamish weekly email newsletter and list its separate news items. Use only what the newsletter says. Leave out: council meeting times and agendas (we cover meetings separately), job postings, holiday hours, recurring reminders with nothing new, and the newsletter header and footer.' },
+  { match: /squamishchamber|squamish chamber of commerce|ccsend\.com|constantcontact/i, source: 'chamber', label: 'Squamish Chamber of Commerce', home: 'https://www.squamishchamber.com/',
+    system: 'You read the Squamish Chamber of Commerce email newsletter and list only the items any Squamish resident would want to know about. Keep: public events and meetings with elected officials (MP, MLA, council), District of Squamish or government plans, studies and consultations, Squamish Nation or major project opportunities that are open to the public, community events open to everyone, and real local business news (openings, closures, awards results). Leave out: members only events and perks, ticket sales pitches for Chamber events, paid workshops, sponsor thanks, advertising for single businesses, recaps with nothing new, and the header and footer. An empty list is fine. Use only what the newsletter says.' },
+];
+
 // ---------- sources: each returns [{ key, source, label, url, title, date, text? }] ----------
 const SOURCES = {
   async weather() { // Environment Canada warnings and watches for Howe Sound and Squamish
@@ -124,16 +133,19 @@ const SOURCES = {
         const full = await api(`/emails/receiving/${e.id}`);
         const html = full.html || '', text = full.text || strip(html);
         if (/confirm|verify|validate/i.test(e.subject || '') && !/enews|e-news|update/i.test(e.subject || '')) { log('district: confirmation email waiting:', e.subject, (html.match(/href="(https:[^"]+)"/g) || []).slice(0, 6).join(' ')); continue; }
-        const online = ((html.match(/href="(https:\/\/app\.cyberimpact\.com\/newsletter-view-online[^"]+)"/) || [])[1] || '').replace(/&amp;/g, '&');
+        const online = ((html.match(/href="(https:\/\/(?:app\.cyberimpact\.com\/newsletter-view-online|myemail\.constantcontact\.com\/)[^"]+)"/) || [])[1] || '').replace(/&amp;/g, '&');
+        const from = String(e.from || full.from || '');
+        const head = `${from}\n${text.slice(0, 3000)}`; // forwarded copies carry the original sender in the text
+        const nl = NEWSLETTERS.slice(1).find((n) => n.match.test(head)) || NEWSLETTERS[0];
         const x = await claudeJson({
-          system: 'You read the District of Squamish weekly email newsletter and list its separate news items. Use only what the newsletter says. Leave out: council meeting times and agendas (we cover meetings separately), job postings, holiday hours, recurring reminders with nothing new, and the newsletter header and footer.',
+          system: nl.system,
           schema: { type: 'object', additionalProperties: false, required: ['items'], properties: { items: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['title', 'text', 'link'], properties: { title: { type: 'string' }, text: { type: 'string', description: 'everything the newsletter says about this item, close to its own words, with dates, places and numbers' }, link: { type: 'string', description: 'the item\'s "learn more" link if it has one, else empty' } } } } } },
-          effort: 'low', maxTokens: 6000, content: `Subject: ${e.subject}\nSent: ${e.created_at}\n\n${text.slice(0, 30000)}\n\nLinks in the email:\n${[...new Set((html.match(/href="(https?:[^"]+)"/g) || []).map((h) => h.slice(6, -1).replace(/&amp;/g, '&')))].filter((u) => !/unsubscribe|cyberimpact\.com\/(?!newsletter-view-online)|facebook|instagram|twitter|x\.com|linkedin|youtube\.com\/@/i.test(u)).slice(0, 80).join('\n')}`,
+          effort: 'low', maxTokens: 6000, content: `Subject: ${e.subject}\nSent: ${e.created_at}\n\n${text.slice(0, 30000)}\n\nLinks in the email:\n${[...new Set((html.match(/href="(https?:[^"]+)"/g) || []).map((h) => h.slice(6, -1).replace(/&amp;/g, '&')))].filter((u) => !/unsubscribe|cyberimpact\.com\/(?!newsletter-view-online)|constantcontact\.com\/(?!.*myemail)|ccsend\.com|facebook|instagram|twitter|x\.com|linkedin|youtube\.com\/@/i.test(u)).slice(0, 80).join('\n')}`,
         });
         const date = new Date(e.created_at).toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' });
-        const items = (x.items || []).map((it, n) => ({ key: `enews-${e.id}-${n}`, source: 'district', label: 'District of Squamish E-News', url: /^https?:/.test(it.link) ? it.link : (online || 'https://squamish.ca/government-and-administration/district-information/enews-archives/'), title: it.title, date, text: it.text }));
-        await sql`INSERT INTO sv_news (id, source, source_url, title, status, item) VALUES (${issueId}, 'district', ${online || null}, ${e.subject}, 'issue', ${JSON.stringify({ items })}) ON CONFLICT DO NOTHING`;
-        log(`district: newsletter "${e.subject}" has ${items.length} items`);
+        const items = (x.items || []).map((it, n) => ({ key: `enews-${e.id}-${n}`, source: nl.source, label: nl.label, url: /^https?:/.test(it.link) ? it.link : (online || nl.home), title: it.title, date, text: it.text }));
+        await sql`INSERT INTO sv_news (id, source, source_url, title, status, item) VALUES (${issueId}, ${nl.source}, ${online || null}, ${e.subject}, 'issue', ${JSON.stringify({ items })}) ON CONFLICT DO NOTHING`;
+        log(`${nl.source}: newsletter "${e.subject}" has ${items.length} items`);
         row = { item: { items } };
       }
       out.push(...(row.item?.items || []));
