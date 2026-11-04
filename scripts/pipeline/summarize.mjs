@@ -124,7 +124,16 @@ for (const m of todo) {
   // YouTube refuses cloud servers ("Sign in to confirm you're not a bot"), so the GitHub job sets SKIP_VIDEO and only
   // summarises from the official minutes; Jeff's Mac (scripts/pipeline/mac/run.sh) does the video, usually the next day.
   let parts = [];
-  if (vids.length && !process.env.SKIP_VIDEO) {
+  // A transcript already made on the Mac (pushed to public/transcripts) is used as is, so the summary can be written
+  // by whichever machine has a working API key, including the GitHub job that can't reach YouTube.
+  const saved = path.join(TRANSCRIPTS, `${m.id}.txt`);
+  if (vids.length && fs.existsSync(saved)) {
+    const raw = fs.readFileSync(saved, 'utf8'), body = raw.split('\n\n').slice(1).join('\n\n');
+    const from = /Made automatically from the (.+?)\. It will/.exec(raw)?.[1] || 'meeting audio (transcribed by Whisper)';
+    parts = [{ vid: vids[0], dur: null, text: body, from }];
+    log('using saved transcript', saved);
+  }
+  if (!parts.length && vids.length && !process.env.SKIP_VIDEO) {
     try {
       for (const vid of vids) {
         // Only once YouTube has finished processing the recording (evening meetings take about 12 hours).
@@ -138,7 +147,7 @@ for (const m of todo) {
   const fromMinutes = !parts.length && fs.existsSync(minutesFile);
   if (!parts.length && !fromMinutes) { log('nothing to summarise from yet'); continue; }
   const transcript = parts.map((p, i) => (parts.length > 1 ? `=== Recording ${i + 1} of ${parts.length} ===\n` : '') + p.text).join('\n\n');
-  if (parts.length) fs.writeFileSync(path.join(TRANSCRIPTS, `${m.id}.txt`), `Transcript of the ${m.civicweb_name}, District of Squamish, ${m.date}.\nMade automatically from the ${parts[0].from}. It will contain mistakes; the official video and minutes are the record.\n\n${transcript}\n`);
+  if (parts.length && !fs.existsSync(saved)) fs.writeFileSync(path.join(TRANSCRIPTS, `${m.id}.txt`), `Transcript of the ${m.civicweb_name}, District of Squamish, ${m.date}.\nMade automatically from the ${parts[0].from}. It will contain mistakes; the official video and minutes are the record.\n\n${transcript}\n`);
   const agenda = fs.existsSync(path.join(RAW_DIR, `${m.id}-agenda.txt`)) ? fs.readFileSync(path.join(RAW_DIR, `${m.id}-agenda.txt`), 'utf8') : '(no agenda text saved)';
 
   const out = await claudeJson({

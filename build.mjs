@@ -1097,13 +1097,18 @@ function heroMeet() {
 
 // Home: latest news right under the hero. One highlighted story (the newest lead or feature, else the newest with a
 // picture) shown big, then the next four as rows, then a button to the full page.
+// Pinned: the story stays on top of the home page and News page until its pin_until date (inclusive, Pacific time).
+const TODAY_PT = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' });
+const pinned = (st) => !!st.pin_until && st.pin_until >= TODAY_PT;
+
 function homeNews() {
   const S = [...NEWS.stories].sort((a, b) => b.date.localeCompare(a.date)), SEC = Object.fromEntries(NEWS.sections);
   if (!S.length) return '';
   // Photo, else the story's map, else its share picture (every story has one).
   const pic = (st) => st.photo?.file || st.visual?.img || (fs.existsSync(path.join(ROOT, 'public', 'news', 'og', st.og || `${st.slug}.jpg`)) ? `/news/og/${st.og || `${st.slug}.jpg`}` : '');
   const top = S.slice(0, 4);
-  const lead = top.find((st) => (st.tier === 'lead' || st.tier === 'feature') && pic(st)) || S.find(pic) || S[0];
+  // A big story can be pinned to the top until a date ("pin_until": "2026-11-10"); otherwise the newest big story leads.
+  const lead = S.find(pinned) || top.find((st) => (st.tier === 'lead' || st.tier === 'feature') && pic(st)) || S.find(pic) || S[0];
   const rest = S.filter((st) => st !== lead).slice(0, 4);
   const day = (d) => new Date(d + 'T12:00:00').toLocaleDateString('en-CA', { month: 'short', day: 'numeric' }).replace('.', '');
   const kick = (st) => `<span class="nw-hk" data-s="${st.s}">${esc(SEC[st.s] || 'News')}</span><span class="hn-date">${esc(day(st.date))}</span>`;
@@ -1615,7 +1620,7 @@ if (TRACKED.length) {
   // Newest first. The lead is the newest big story near the top; the rest fall into Latest and Earlier by date.
   const S = [...NEWS.stories].sort((a, b) => b.date.localeCompare(a.date));
   const main = S.filter((s) => s.tier !== 'brief'), briefs = S.filter((s) => s.tier === 'brief').slice(0, 5);
-  const leadSt = main[0]; // the newest story always gets the top spot
+  const leadSt = main.find(pinned) || main[0]; // a pinned story, else the newest, gets the top spot
   const featSt = main.slice(0, 6).find((s) => s !== leadSt && (s.tier === 'feature' || s.tier === 'lead'));
   const asTier = (st, tier) => (st ? { ...st, tier } : null);
   const lead = [asTier(leadSt, 'lead')].filter(Boolean), feat = [asTier(featSt, 'feature')].filter(Boolean);
