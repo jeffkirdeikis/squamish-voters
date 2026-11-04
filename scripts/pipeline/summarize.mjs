@@ -88,12 +88,39 @@ const SCHEMA = {
   },
 };
 
+// Search the District's channel (live streams and plain uploads) for a video from the meeting day or the day after
+// whose title matches the meeting type. Returns a video id or null.
+function findOnChannel(m) {
+  const kind = (m.civicweb_name || m.type || '').split(' - ')[0].toLowerCase().replace(/meeting/, '').trim();
+  const d = new Date(m.date + 'T12:00:00');
+  const stamp = `${m.date.slice(8)} ${d.toLocaleDateString('en-CA', { month: 'short' }).replace('.', '')} ${m.date.slice(0, 4)}`.toLowerCase(); // "03 nov 2026"
+  const recent = (Date.now() - d.getTime()) < 4 * 864e5;
+  for (const tab of ['streams', 'videos']) {
+    let out = '';
+    try { out = ytdlp(['--flat-playlist', '--playlist-end', '15', '--print', '%(id)s\t%(title)s\t%(upload_date)s', `https://www.youtube.com/@DistrictofSquamish/${tab}`]); } catch { continue; }
+    for (const line of out.split('\n')) {
+      const [id, title = '', up = 'NA'] = line.split('\t');
+      if (!id) continue;
+      const t = title.toLowerCase();
+      // A title with the meeting date settles it. A title with only the meeting type needs a date near the meeting
+      // (uploads list often has no date, so then only within a few days of the meeting).
+      const near = up !== 'NA' ? up >= m.date.replace(/-/g, '') && up <= new Date(d.getTime() + 2 * 864e5).toISOString().slice(0, 10).replace(/-/g, '') : recent;
+      if (t.includes(stamp) || (kind && t.includes(kind) && !/\d{2} [a-z]{3} \d{4}/.test(t) && near)) { log('found video on channel', tab, id, title); return id; }
+    }
+  }
+  return null;
+}
+
 const todo = loadMeetings().filter((m) => (only ? m.id === only : m.civicweb_id && !m.summary && m.date <= today && m.status !== 'cancelled'));
 for (const m of todo) {
   log('summarising', m.id);
   const ev = await cw(`/api/getevent/${m.civicweb_id}`).catch(() => null);
-  const vids = (ev?.Events || []).map((e) => e.eventId).filter(Boolean);
-  if (!vids.length && ev?.eventId) vids.push(ev.eventId);
+  // CivicWeb gives "0" when no video is linked (for example the inaugural meeting, held outside Council Chambers and
+  // uploaded later as a plain video). Then use a video id saved on the meeting, else find it on the District's channel.
+  let vids = (ev?.Events || []).map((e) => e.eventId).filter((v) => v && v !== '0');
+  if (!vids.length && ev?.eventId && ev.eventId !== '0') vids.push(ev.eventId);
+  if (!vids.length && m.video_ids?.length) vids = m.video_ids;
+  if (!vids.length && !process.env.SKIP_VIDEO) { const f = findOnChannel(m); if (f) { vids = [f]; m.video_ids = [f]; } }
   // YouTube refuses cloud servers ("Sign in to confirm you're not a bot"), so the GitHub job sets SKIP_VIDEO and only
   // summarises from the official minutes; Jeff's Mac (scripts/pipeline/mac/run.sh) does the video, usually the next day.
   let parts = [];
