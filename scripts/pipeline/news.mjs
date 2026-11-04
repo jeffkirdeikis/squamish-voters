@@ -240,7 +240,8 @@ Rules:
   Weak: "District of Squamish is building a 10 year plan for local jobs and skills". Strong: "What jobs will Squamish need in 10 years? The District is writing the plan".
   Weak: "Britannia Village tree lighting set for Friday, November 27". Strong: "Britannia lights a taller Christmas tree November 27, with weekend markets after".
 - dek: first sentence is the hook a reader cares about, then the key facts (who, what, when, where). 2 to 4 sentences.
-- social: the text of the Facebook post that shares the story, 2 short lines separated by a blank line. Line 1 hooks a local with the most interesting fact (not a copy of the headline). Line 2 says what they get by tapping (the dates, the map, how to take part, what it costs). No hashtags, no emoji, no "click here", no exclamation marks.
+- social: the text of the Facebook post that shares the story, 2 short paragraphs separated by a blank line. It must make a local stop scrolling and want to tap or comment. Paragraph 1 opens with either a question about the reader's own life that this story touches (their commute, kids, rent, taxes, weekend, street, safety) or the single most human or surprising fact in the story. Make the stakes personal: why should someone in Squamish care today? Paragraph 2 gives the key fact and ends with what they get by tapping (for example "How it happened and who helped:" or "What it covers and when it lands:"). A question to readers may go beyond the source (it asks, it does not claim), but every statement must be true to the source. No hashtags, no emoji, no "click here", no exclamation marks, no copy of the headline.
+- share: 1 to 5, how likely Squamish people are to tap, share or comment on this on Facebook (5: a striking human story, a big change to daily life, a local event families go to; 1: a routine notice). Be honest; most stories are 2 or 3.
 - take: one sentence that says what changes for residents or what they can do, strictly factual. Empty if there is nothing useful.
 - weight: "big" only for something most residents care about (a major closure, an election result, a big decision); "brief" for small notices; otherwise "normal".
 - visual: a key number or date from the source (like "Nov 16" with "Application deadline", or "90 km/h" with "Wind gusts") or null. Never invent one.
@@ -252,10 +253,10 @@ Rules:
 - photo_queries: 3 or 4 short searches for openly licensed photos of the PLACE or TOPIC (not the event itself), most specific first and each a different angle so the story can carry more than one picture, e.g. "Howe Sound Squamish", "Sea to Sky Highway", "downtown Squamish".`;
 const SCHEMA = {
   type: 'object', additionalProperties: false,
-  required: ['publish', 'reason', 'section', 'weight', 'head', 'dek', 'social', 'take', 'body', 'visual_big', 'visual_small', 'slug', 'photo_queries', 'areas'],
+  required: ['publish', 'reason', 'section', 'weight', 'head', 'dek', 'social', 'share', 'take', 'body', 'visual_big', 'visual_small', 'slug', 'photo_queries', 'areas'],
   properties: {
     publish: { type: 'boolean' }, reason: { type: 'string' }, section: { type: 'string', enum: SECTIONS }, weight: { type: 'string', enum: ['big', 'normal', 'brief'] },
-    head: { type: 'string' }, dek: { type: 'string' }, social: { type: 'string', description: 'Facebook post text: hook line, blank line, what tapping gets you' }, take: { type: 'string' }, body: { type: 'string', description: 'full story in markdown (## headings, - bullets, [links](/path/))' }, visual_big: { type: 'string' }, visual_small: { type: 'string' },
+    head: { type: 'string' }, dek: { type: 'string' }, social: { type: 'string', description: 'Facebook post text: personal hook, blank line, key fact + what tapping gets you' }, share: { type: 'integer', minimum: 1, maximum: 5 }, take: { type: 'string' }, body: { type: 'string', description: 'full story in markdown (## headings, - bullets, [links](/path/))' }, visual_big: { type: 'string' }, visual_small: { type: 'string' },
     slug: { type: 'string', description: 'short url slug, lowercase words joined by hyphens, under 50 characters' },
     photo_queries: { type: 'array', items: { type: 'string' } },
     areas: { type: 'array', items: { type: 'string', enum: HOOD_SLUGS.length ? HOOD_SLUGS : ['downtown'] } },
@@ -406,7 +407,7 @@ for (const r of approved) {
     slug, s: d.section, tier: { big: 'lead', normal: 'card', brief: 'brief' }[d.weight] || 'card', date: it.date && it.date <= today() ? it.date : today(),
     head: d.head, dek: d.dek, ...(d.take ? { take: esc(d.take) } : {}), ...(d.body ? { body: d.body } : {}),
     ...(d.visual_big ? { visual: { type: 'big', big: d.visual_big, small: d.visual_small } } : {}),
-    src: [it.label, it.url], ...(it.more ? { more: it.more } : {}), ...(d.social ? { social: d.social } : {}), auto: true, ...(d.areas && d.areas.length ? { areas: d.areas } : {}),
+    src: [it.label, it.url], ...(it.more ? { more: it.more } : {}), ...(d.social ? { social: d.social } : {}), ...(d.share ? { share: d.share } : {}), auto: true, ...(d.areas && d.areas.length ? { areas: d.areas } : {}),
   };
   if (d.photo && d.photo.remote) {
     try {
