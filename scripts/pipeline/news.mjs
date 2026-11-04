@@ -135,7 +135,9 @@ const SOURCES = {
       const m = readJson(path.join(dir, f));
       if (!m || m.status === 'cancelled' || m.closed_only) continue;
       const kind = KIND[m.type] || 'council meeting', more = ['Full meeting page', `/meetings/${m.id}/`];
-      if (m.summary && m.date >= recent && m.date <= t) {
+      // Skip the results item when a story dated on or after the meeting already covers it (written by hand from the video).
+      const covered = (readJson(path.join(ROOT, 'data', 'news.json'), { stories: [] }).stories || []).some((st) => st.more?.[1] === `/meetings/${m.id}/` && st.date >= m.date);
+      if (m.summary && !covered && m.date >= recent && m.date <= t) {
         const S = m.summary, dec = (m.decisions || []).filter((d) => !d.consent_agenda && d.result !== 'info');
         out.push({ key: `meet-result-${m.id}`, source: 'meetings', label: `${day(m.date)} ${kind} (District of Squamish)`, url: m.minutes_url || m.video_url || m.agenda_url, more, title: `What council decided on ${day(m.date)}`, date: m.date,
           text: `This is what Squamish council decided at its ${kind} on ${day(m.date)}. It is newsworthy: write it up as a council story, section "council" unless the main decision is clearly about money, housing or getting around.\n\n${S.headline}\n\n${(S.key_points || []).map((x) => '- ' + x).join('\n')}\n\n${(S.explainer || []).join('\n\n')}\n\nDecisions:\n${dec.map((d) => `- ${d.title} (${d.result}): ${d.what}`).join('\n')}` });
