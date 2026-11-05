@@ -66,6 +66,36 @@
  ],
  "stories": [
   {
+   "slug": "woodfibre-lng-stormwater-permit-comment",
+   "s": "recon",
+   "tier": "card",
+   "date": "2026-11-05",
+   "head": "Woodfibre LNG wants to release treated stormwater into Howe Sound. How to comment",
+   "dek": "Woodfibre LNG says it has applied for a permit to send treated stormwater and drainage water from its plant into Howe Sound. People who may be affected can send written comments within 30 days of the last date the notice is posted. The application went to the BC Energy Regulator.",
+   "take": "People who may be adversely affected can send written comments to info@wlng.ca, with a copy to waste.management@bc-er.ca, within 30 days of the last date the notice is posted.",
+   "body": "## What Woodfibre is asking for\n\nWoodfibre LNG says it has applied to the BC Energy Regulator for an effluent discharge permit under British Columbia's Environmental Management Act. The company says the permit is part of getting the plant ready for commissioning, startup and future operations.\n\nThe plant is about seven kilometres southwest of Squamish. It is in the traditional territory of the Sḵwx̱wú7mesh Úxwumixw (Squamish Nation) and the səlilwətaɬ (Tsleil-Waututh Nation).\n\n## How the water would be handled\n\nWoodfibre says rain and drainage water may touch equipment and work areas once the plant is running. It says the plant has separate drainage systems that sort water by how likely it is to be contaminated.\n\n- Water from equipment areas that may hold contaminants goes to an oily water treatment system, or is trucked off site for disposal.\n- The treatment system is designed to remove petroleum hydrocarbons and suspended solids.\n- Treated water would flow into Howe Sound at an existing discharge point called Outfall 10.\n- Woodfibre expects discharges mostly when it rains, with some during dry weather.\n- The application proposes limits for petroleum hydrocarbons and suspended solids in the water released.\n\n## How to comment\n\nThe BC Energy Regulator will review the application. A public notice, called an Environmental Protection Notice, sums up the proposed discharge, the treatment and the limits.\n\n- Who can comment: members of the public who may be adversely affected by the discharge.\n- Deadline: within 30 days of the last date the notice is posted, published, served or displayed.\n- Send comments to Woodfibre LNG at info@wlng.ca, with a copy to the BC Energy Regulator at waste.management@bc-er.ca.\n- A printed copy of the application will be at the Squamish Public Library.\n- The full application and notice are linked from [Woodfibre's announcement](https://woodfibrelng.ca/news/2026/11/05/woodfibre-lng-submits-stormwater-and-drainage-permit-application-to-bc-energy-regulator/).\n\n## Open houses\n\nWoodfibre says it will hold open houses in Squamish and Britannia Beach in November and December. They will cover this application and a second permit application about air emissions. Dates and places are listed on Woodfibre's website.\n\nThis story reports Woodfibre LNG's own statement. More background is on our [Woodfibre LNG issue page](/issues/woodfibre-lng/).",
+   "visual": {
+    "type": "big",
+    "big": "30 days",
+    "small": "Window to comment after notice"
+   },
+   "src": [
+    "Woodfibre LNG",
+    "https://woodfibrelng.ca/news/2026/11/05/woodfibre-lng-submits-stormwater-and-drainage-permit-application-to-bc-energy-regulator/"
+   ],
+   "social": "Water that runs off the Woodfibre LNG site could end up in Howe Sound once the plant is running. Do you have something to say about that?\n\nWoodfibre has applied for a permit to release treated stormwater through an existing outfall, and people who may be affected have 30 days to comment. What the water will be treated for, and where to send your comments:",
+   "share": 3,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/woodfibre-lng-stormwater-permit-comment.jpg",
+    "alt": "Howe Sound seen from above Squamish",
+    "caption": "Howe Sound, seen from above Squamish.",
+    "credit": "Shafik Diwan, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Howe_Sound,_Squamish.jpg"
+   },
+   "og": "woodfibre-lng-stormwater-permit-comment.png"
+  },
+  {
    "slug": "squamish-remembrance-day-ceremony-2026",
    "s": "community",
    "tier": "card",
