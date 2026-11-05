@@ -185,6 +185,11 @@ const SOURCES = {
     }
     return out;
   },
+  async woodfibre() { // Woodfibre LNG's own news posts (permits, open houses, comment periods). Reported as the company's statement.
+    const x = await get('https://woodfibrelng.ca/feed/');
+    return rssItems(x, 6).filter(recent).map((i) => ({ key: `wlng-${i.url}`, source: 'woodfibre', label: 'Woodfibre LNG', ...i,
+      text: `This is a post by Woodfibre LNG, the company building the LNG plant near Squamish. Report what it says as Woodfibre's statement, never as fact checked. Lead with anything residents can act on (comment deadlines, open houses, how to comment) and with what changes for people nearby (flaring, noise, light, marine traffic). Link our /issues/woodfibre-lng/ page.\n\n${i.text || ''}` }));
+  },
   async nation() { // Sḵwx̱wú7mesh Úxwumixw (Squamish Nation) news posts
     const x = await get('https://www.squamish.net/feed/');
     return rssItems(x, 6).filter(recent).map((i) => ({ key: `nation-${i.url}`, source: 'nation', label: 'Sḵwx̱wú7mesh Úxwumixw (Squamish Nation)', ...i }));
