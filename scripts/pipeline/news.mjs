@@ -262,7 +262,7 @@ const SCHEMA = {
   required: ['publish', 'reason', 'section', 'weight', 'head', 'dek', 'social', 'share', 'take', 'body', 'visual_big', 'visual_small', 'slug', 'photo_queries', 'areas'],
   properties: {
     publish: { type: 'boolean' }, reason: { type: 'string' }, section: { type: 'string', enum: SECTIONS }, weight: { type: 'string', enum: ['big', 'normal', 'brief'] },
-    head: { type: 'string' }, dek: { type: 'string' }, social: { type: 'string', description: 'Facebook post text: personal hook, blank line, key fact + what tapping gets you' }, share: { type: 'integer', minimum: 1, maximum: 5 }, take: { type: 'string' }, body: { type: 'string', description: 'full story in markdown (## headings, - bullets, [links](/path/))' }, visual_big: { type: 'string' }, visual_small: { type: 'string' },
+    head: { type: 'string' }, dek: { type: 'string' }, social: { type: 'string', description: 'Facebook post text: personal hook, blank line, key fact + what tapping gets you' }, share: { type: 'integer', description: '1 to 5' }, take: { type: 'string' }, body: { type: 'string', description: 'full story in markdown (## headings, - bullets, [links](/path/))' }, visual_big: { type: 'string' }, visual_small: { type: 'string' },
     slug: { type: 'string', description: 'short url slug, lowercase words joined by hyphens, under 50 characters' },
     photo_queries: { type: 'array', items: { type: 'string' } },
     areas: { type: 'array', items: { type: 'string', enum: HOOD_SLUGS.length ? HOOD_SLUGS : ['downtown'] } },
@@ -413,7 +413,7 @@ for (const r of approved) {
     slug, s: d.section, tier: { big: 'lead', normal: 'card', brief: 'brief' }[d.weight] || 'card', date: it.date && it.date <= today() ? it.date : today(),
     head: d.head, dek: d.dek, ...(d.take ? { take: esc(d.take) } : {}), ...(d.body ? { body: d.body } : {}),
     ...(d.visual_big ? { visual: { type: 'big', big: d.visual_big, small: d.visual_small } } : {}),
-    src: [it.label, it.url], ...(it.more ? { more: it.more } : {}), ...(d.social ? { social: d.social } : {}), ...(d.share ? { share: d.share } : {}), auto: true, ...(d.areas && d.areas.length ? { areas: d.areas } : {}),
+    src: [it.label, it.url], ...(it.more ? { more: it.more } : {}), ...(d.social ? { social: d.social } : {}), ...(d.share ? { share: Math.min(5, Math.max(1, Math.round(d.share))) } : {}), auto: true, ...(d.areas && d.areas.length ? { areas: d.areas } : {}),
   };
   if (d.photo && d.photo.remote) {
     try {
