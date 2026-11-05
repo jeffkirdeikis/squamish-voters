@@ -1305,6 +1305,9 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .fbc-txt > span:not(.fbc-btn) { color: var(--ink-2); font-size: .95rem; }
 .fbc-btn { justify-self: start; margin-top: .35rem; background: #0f63d1; color: #fff; font-weight: 700; padding: .65rem 1.1rem; border-radius: 10px; }
 .fbcard:hover .fbc-btn { background: #0b4fa8; }
+.rdcard { display: block; margin: .8rem 0 0; padding: .9rem 1rem; border-radius: var(--radius); background: #fff1eb; border: 2px solid #ff4500; color: var(--ink); text-decoration: none; }
+.rdcard .fbc-btn { background: #d93a00; }
+.rdcard:hover .fbc-btn { background: #b03000; }
 @media (min-width: 700px) { .fbcard { grid-template-columns: 300px minmax(0, 1fr); gap: 1.4rem; padding: 1rem; } }
 
 /* Have your say */

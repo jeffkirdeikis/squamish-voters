@@ -1,5 +1,5 @@
 // The Friday email. A full weekly roundup: council votes and what's coming up, What Squamish Wants results, readers'
-// top issues, the weekend, the promise scorecard, the Facebook group, news and what's new on the site. Built from the
+// top issues, the weekend, the promise scorecard, the Facebook group and subreddit, news and what's new on the site. Built from the
 // live site (this-week.json, /api/wants/, /api/priorities/, /api/today/) so the email and the site say the same thing.
 // Nothing goes to readers until Jeff approves it.
 //   node scripts/pipeline/digest.mjs                                   writes a preview to data/digest/<date>.html
@@ -174,13 +174,19 @@ function scorecard(p, prev) {
   return section('📋', 'Promise scorecard', `<div style="${S.card}"><p style="margin:0 0 10px">${esc(line)}</p><a href="${ORIGIN}/scorecard/" style="${S.more}">See every promise →</a></div>`);
 }
 
-const facebook = () => section('💬', 'Join us on Facebook', `<a href="https://www.facebook.com/groups/1090076830319905" style="display:block;background:#fff;border:1px solid #d9d5c8;border-radius:12px;overflow:hidden;margin:0 0 14px;color:#14211c;text-decoration:none">
-  <img src="${ORIGIN}/img/facebook-group.jpg" width="600" alt="Squamish Voters and Politics Facebook group" style="display:block;width:100%;height:auto;border:0">
+const REDDIT = 'https://www.reddit.com/r/Squamish_News/';
+const facebook = () => section('💬', 'Join the conversation', `<a href="https://www.facebook.com/groups/1090076830319905" style="display:block;background:#fff;border:1px solid #d9d5c8;border-radius:12px;overflow:hidden;margin:0 0 14px;color:#14211c;text-decoration:none">
+  <img src="${ORIGIN}/img/facebook-group.jpg" width="600" alt="Squamish Facebook group" style="display:block;width:100%;height:auto;border:0">
   <span style="display:block;padding:14px 16px">
-    <b style="display:block;font-size:18px;margin:0 0 4px">Squamish Voters and Politics</b>
+    <b style="display:block;font-size:18px;margin:0 0 4px">Squamish on Facebook</b>
     <span style="display:block;margin:0 0 10px">Talk about council decisions with other people in Squamish.</span>
     <span style="display:inline-block;background:#0f4c3a;color:#fff;font-weight:700;padding:9px 16px;border-radius:8px">Join the group</span>
   </span>
+</a>
+<a href="${REDDIT}" style="display:block;background:#fff;border:1px solid #d9d5c8;border-left:6px solid #ff4500;border-radius:12px;margin:0 0 14px;padding:14px 16px;color:#14211c;text-decoration:none">
+  <b style="display:block;font-size:18px;margin:0 0 4px">r/Squamish_News on Reddit</b>
+  <span style="display:block;margin:0 0 10px">Squamish news, all in one place. Post links, ask questions and vote up what matters.</span>
+  <span style="display:inline-block;background:#ff4500;color:#fff;font-weight:700;padding:9px 16px;border-radius:8px">Join the subreddit</span>
 </a>`);
 
 function news(W) {
