@@ -5,7 +5,7 @@
 //      drafts saved as 'pending' and emailed to him with Approve / Decline (api/news-review.js).
 // Every source here allows plain automated reading. We never get around a site's bot check: the District's own
 // news page blocks scripts, so District news comes in through its weekly E-News email instead (see district() below).
-// The Squamish Chief is not a source: its stories are its own reporting.
+// The Squamish Chief (since Nov 5 2026, Jeff's call): its local news is rewritten fully in our words, credited and linked, with our own photos.
 //   NEWS_DRAFT_ONE=1  draft the newest item from one source even if it was seen before (to test the email).
 import fs from 'node:fs';
 import path from 'node:path';
@@ -42,6 +42,8 @@ async function get(url, type = 'text') {
 }
 const pageText = async (url, max = 7000) => {
   const h = await get(url);
+  const body = h.indexOf('itemprop="articleBody"'); // news sites (the Chief): start at the story itself, not the menus
+  if (body > 0) return strip(h.slice(body + 23, body + 80000)).split(/Words missing in article\?|Have a story idea\?/)[0].slice(0, max);
   const main = (h.match(/<(article|main)[\s\S]*?<\/\1>/i) || [h])[0];
   return strip(main).slice(0, max);
 };
@@ -190,6 +192,15 @@ const SOURCES = {
     return rssItems(x, 6).filter(recent).map((i) => ({ key: `wlng-${i.url}`, source: 'woodfibre', label: 'Woodfibre LNG', ...i,
       text: `This is a post by Woodfibre LNG, the company building the LNG plant near Squamish. Report what it says as Woodfibre's statement, never as fact checked. Lead with anything residents can act on (comment deadlines, open houses, how to comment) and with what changes for people nearby (flaring, noise, light, marine traffic). Link our /issues/woodfibre-lng/ page.\n\n${i.text || ''}` }));
   },
+  async chief() { // The Squamish Chief's local news feed. Facts retold in our own words, credited to the Chief, never their text or photos.
+    const x = await get('https://www.squamishchief.com/rss/local-news');
+    const items = rssItems(x, 12).filter(recent).filter((i) => i.date >= '2026-11-05' && /\/local-news\//.test(i.url) && !/letter|opinion|sponsored|obituar/i.test(i.title));
+    if (!items.length) return [];
+    let ours = [];
+    try { ours = (readJson(NEWS_FILE).stories || []).filter((s) => s.date >= new Date(Date.now() - 10 * 864e5).toISOString().slice(0, 10)).map((s) => `- ${s.date}: ${s.head || s.title}`); } catch { /* no list */ }
+    return items.map((i) => ({ key: `chief-${i.url}`, source: 'chief', label: 'The Squamish Chief', ...i, text: '',
+      preface: `This is reporting by The Squamish Chief, a local newspaper. Retell the facts entirely in your own words and structure: never copy or closely paraphrase its sentences, and quote a person only briefly (under 15 words) when the quote matters. Say once in the body that The Squamish Chief reported it, with a [link](${i.url}). Skip it (publish=false) if one of our recent stories below already covers the same news, if it is an opinion piece, column or sponsored post, or if it is not about the Squamish area.\n\nOUR RECENT STORIES:\n${ours.join('\n') || '(none)'}\n\n` }));
+  },
   async nation() { // Sḵwx̱wú7mesh Úxwumixw (Squamish Nation) news posts
     const x = await get('https://www.squamish.net/feed/');
     return rssItems(x, 6).filter(recent).map((i) => ({ key: `nation-${i.url}`, source: 'nation', label: 'Sḵwx̱wú7mesh Úxwumixw (Squamish Nation)', ...i }));
@@ -290,7 +301,7 @@ async function draft(item) {
   if (!text || text.length < 200) { try { text = await pageText(item.url); } catch (e) { log('page text failed', item.url, e.message); } }
   const d = await claudeJson({
     system: SYSTEM, schema: SCHEMA, effort: 'medium', maxTokens: 8000,
-    content: `SITE PAGES (ours, to link to):\n${SITE_PAGES}\n\nToday is ${today()}.\nSource: ${item.label}\nURL: ${item.url}\nPublished: ${item.date}\nTitle: ${item.title}\n\n${(text || '').slice(0, 9000)}`,
+    content: `${item.preface || ''}SITE PAGES (ours, to link to):\n${SITE_PAGES}\n\nToday is ${today()}.\nSource: ${item.label}\nURL: ${item.url}\nPublished: ${item.date}\nTitle: ${item.title}\n\n${(text || '').slice(0, 9000)}`,
   });
   for (const k of ['head', 'dek', 'take', 'visual_big', 'visual_small']) d[k] = clean(d[k]);
   if (d.social) d.social = String(d.social).replace(/\s*[—–]\s*/g, ', ').trim().slice(0, 600);
@@ -467,7 +478,7 @@ if (process.env.NEWS_DRAFT_ONE === '1' && !fresh.length && found.length) { // te
   await sql`DELETE FROM sv_news WHERE id = ${idOf(pick.key)} AND status = 'skipped'`;
   fresh = [pick];
 }
-const drafted = [];
+const drafted = [], failures = [];
 for (const i of fresh) {
   const id = idOf(i.key);
   if (drafted.length >= MAX_DRAFTS) break; // the rest wait for the next run
@@ -486,7 +497,19 @@ for (const i of fresh) {
       ON CONFLICT (id) DO UPDATE SET status = EXCLUDED.status, token = EXCLUDED.token, draft = EXCLUDED.draft, decided_at = EXCLUDED.decided_at`;
     drafted.push({ id, token, item: i, draft: d });
     log('drafted:', d.head);
-  } catch (e) { log('draft failed:', i.title, e.message); }
+  } catch (e) { log('draft failed:', i.title, e.message); failures.push({ i, msg: String(e.message || e).slice(0, 400) }); }
+}
+// Alarm: a story that fails 3 passes in a row (about 30 minutes) emails Jeff once, so a broken drafter never sits silent again (Nov 3 to 5 2026).
+for (const f of failures) {
+  const [row] = await sql`INSERT INTO sv_news (id, source, source_url, title, status, item) VALUES (${idOf('fail-' + f.i.key)}, ${f.i.source}, ${f.i.url}, ${f.i.title}, 'failing', ${JSON.stringify({ count: 1, error: f.msg })})
+    ON CONFLICT (id) DO UPDATE SET item = jsonb_build_object('count', (sv_news.item->>'count')::int + 1, 'error', ${f.msg}::text) RETURNING (item->>'count')::int AS count`;
+  if (row?.count !== 3) continue;
+  const to = process.env.NEWS_REVIEW_TO;
+  if (!to || !process.env.RESEND_API_KEY) { log('alarm: no NEWS_REVIEW_TO or RESEND_API_KEY'); continue; }
+  const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from: process.env.EMAIL_FROM, to: [to], subject: `Squamish Voters News is stuck: "${f.i.title}" failed 3 times`,
+      text: `The News scanner has failed to write this story 3 passes in a row (about 30 minutes), so nothing new is publishing for it.\n\nStory: ${f.i.title}\nSource: ${f.i.label} ${f.i.url}\nError: ${f.msg}\n\nLogs: https://github.com/jeffkirdeikis/squamish-voters/actions/workflows/news.yml\nAsk Claude to look at it.` }) }).catch((e) => ({ ok: false, statusText: e.message }));
+  log(r.ok ? `alarm emailed: ${f.i.title}` : `alarm email failed: ${r.statusText}`);
 }
 const toEmail = drafted.filter((r) => !AUTO || r.item.tip);
 if (toEmail.length) await emailDrafts(toEmail);
