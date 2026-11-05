@@ -6,5 +6,34 @@
  "civicweb_name": "Special Business Meeting - 10 Nov 2026",
  "time": "09:00",
  "place": "Council Chambers, Municipal Hall, 37955 Second Avenue",
- "agenda_url": "https://squamish.civicweb.net/Portal/MeetingInformation.aspx?Id=2117"
+ "agenda_url": "https://squamish.civicweb.net/document/271796/",
+ "agenda_pdf": "https://squamish.civicweb.net/document/271796/?printPdf=true",
+ "attachments": [],
+ "agenda_place": "Council Chambers, Municipal Hall, 37955 Second Avenue",
+ "preview": "This short special meeting exists only so council can move into a closed session (a private meeting the public cannot attend) to receive legal advice from its lawyers. There is nothing for residents to watch after the opening.",
+ "has_public_hearing": false,
+ "closed_only": true,
+ "agenda_items": [
+  {
+   "plain": "Council will vote to close the meeting to the public so it can receive legal advice that is protected by solicitor and client privilege (the rule that keeps talks between a client and their lawyer private).",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "closed",
+   "topic": "other",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": []
+  }
+ ],
+ "agenda_hash": "8a16c6514f4decb2",
+ "agenda_checked": "2026-11-05T23:40:18.500Z"
 }
