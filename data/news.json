@@ -66,6 +66,80 @@
  ],
  "stories": [
   {
+   "slug": "library-kanopy-kids-unlimited",
+   "s": "community",
+   "tier": "brief",
+   "date": "2026-11-05",
+   "head": "Your library card now gets kids unlimited free movies and shows",
+   "dek": "Families with a Squamish Public Library card can now stream as much as they like on Kanopy Kids. The library says viewing is unlimited, with no tickets required. It includes children's movies, TV shows, educational videos and animated storybooks, in several languages including American Sign Language.",
+   "take": "Anyone with a Squamish Public Library card can now stream Kanopy Kids as much as they want, free and with no tickets.",
+   "body": "## What changed\n\nThe Squamish Public Library says its Kanopy Kids streaming service now offers unlimited viewing. You do not need tickets to watch. It is free with your library card.\n\n## What you can watch\n\nThe library describes Kanopy Kids as a curated collection for children. It includes:\n\n- Children's movies\n- TV shows\n- Educational videos\n- Animated storybooks, called Vooks\n\nThe collection comes in a variety of languages, including American Sign Language.\n\n## How to get it\n\n- You need a Squamish Public Library card.\n- Viewing is unlimited and free.\n- No tickets are required.\n\nFor details, visit the [Squamish Public Library website](https://www.squamishlibrary.ca/).",
+   "src": [
+    "Squamish Public Library",
+    "https://www.squamishlibrary.ca/"
+   ],
+   "social": "Looking for something for the kids to watch this winter that doesn't add another streaming bill?\n\nThe Squamish Public Library says Kanopy Kids is now unlimited with your library card, no tickets needed. What's on it and how to get it:",
+   "share": 3,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/library-kanopy-kids-unlimited.jpg",
+    "alt": "Close-up of a child's hands holding a tablet while sitting on a couch, face out of focus.",
+    "caption": "A child watches videos on a tablet.",
+    "credit": "Shixart1985, CC BY 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Young_boy_watching_cartoons_and_playing_games_on_a_tablet.jpg"
+   },
+   "og": "library-kanopy-kids-unlimited.png"
+  },
+  {
+   "slug": "library-saturday-social-winter",
+   "s": "community",
+   "tier": "brief",
+   "date": "2026-11-05",
+   "head": "Puzzles, tea and games: the library opens a cozy room every winter Saturday",
+   "dek": "Squamish Public Library is hosting a relaxed Saturday afternoon for all ages through the winter months. The next Saturday Social runs November 7 from 1 to 3 p.m. in the library's Community Meeting Room. There is no session on November 14.",
+   "take": "Drop in to the library's Community Meeting Room on Saturday, November 7 from 1 to 3 p.m., but note there is no session on November 14.",
+   "body": "## What happens\n\nThe Squamish Public Library is running a Saturday Social each Saturday over the winter months. It is a relaxed afternoon of connection and activities for all ages.\n\nThe library calls it a choose your own activity sort of afternoon. You can pick from what is set out, or bring something of your own.\n\n- Games\n- Puzzles\n- Colouring supplies\n- Tea\n- Or bring your own craft or book\n\n## Where and when\n\n- **Next session:** Saturday, November 7, 1 to 3 p.m.\n- **No session:** Saturday, November 14\n- **Where:** Community Meeting Room, Squamish Public Library\n- **Who:** All ages\n- **How often:** Each Saturday over the winter months\n\n## More information\n\nDetails are posted on the [Squamish Public Library website](https://www.squamishlibrary.ca/). For more local news by area, see our [neighbourhoods page](/neighbourhoods/).",
+   "visual": {
+    "type": "big",
+    "big": "Nov 7",
+    "small": "Next Saturday Social, 1 to 3 p.m."
+   },
+   "src": [
+    "Squamish Public Library",
+    "https://www.squamishlibrary.ca/"
+   ],
+   "social": "Looking for something to do on a grey winter Saturday that doesn't cost anything or need a plan?\n\nThe Squamish Public Library is setting out games, puzzles, colouring supplies and tea every Saturday afternoon this winter, starting November 7. Times, the one week it's off, and what you can bring:",
+   "share": 3,
+   "auto": true,
+   "areas": [
+    "downtown"
+   ],
+   "photo": {
+    "file": "/news/photos/library-saturday-social-winter.jpg",
+    "alt": "Downtown Squamish street with shops and snow-capped mountain in the distance",
+    "caption": "Downtown Squamish, home to the Squamish Public Library.",
+    "credit": "The original uploader was Damieng at English Wikipedia., CC BY-SA 3.0",
+    "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/library-saturday-social-winter-2.jpg",
+     "alt": "Squamish Town Centre stone sign with the Stawamus Chief behind",
+     "caption": "The Squamish Town Centre sign, with the Stawamus Chief behind.",
+     "credit": "Straitgate, CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_City_Centre.JPG"
+    },
+    {
+     "file": "/news/photos/library-saturday-social-winter-3.jpg",
+     "alt": "Aerial view of Squamish valley surrounded by forested mountains",
+     "caption": "Squamish, seen from above.",
+     "credit": "Madhumanti Mandal, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Downtown_Squamish.jpg"
+    }
+   ],
+   "og": "library-saturday-social-winter.png"
+  },
+  {
    "slug": "jenna-stoner-replaced-ubcm-president",
    "s": "council",
    "tier": "card",
