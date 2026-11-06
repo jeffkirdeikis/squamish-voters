@@ -75,6 +75,9 @@ if (r.ok && j.id) {
   log(`facebook: posted ${next.slug} (${j.id})`);
 } else {
   const err = String(j.error?.message || r.statusText).slice(0, 400);
+  // Account problems (Meta wants Jeff to confirm his identity, or the token lost permission) aren't the story's fault:
+  // don't use up its 3 tries, just wait and try again next pass.
+  if (/confirm your identity|access token|permission|session/i.test(err)) { log(`facebook: waiting on the Facebook account: ${err}`); process.exit(0); }
   const [row] = await sql`INSERT INTO sv_fb_posts (slug, status, tries, error) VALUES (${next.slug}, 'error', 1, ${err})
     ON CONFLICT (slug) DO UPDATE SET tries = sv_fb_posts.tries + 1, error = EXCLUDED.error, updated_at = now() RETURNING tries`;
   log(`facebook: failed ${next.slug}: ${err}`);
