@@ -272,16 +272,18 @@ Rules:
 - areas: the Squamish neighbourhoods the story is about, from this list only: ${HOOD_SLUGS.join(', ')}. Empty if it is town-wide or outside these areas.
 - body: the full story in markdown, shown under the summary on the story page. This is where the detail goes, so never leave it thin: 150 to 450 words in 2 to 5 sections, each starting with "## " and a plain heading (for example "What happens", "The details", "Who it affects", "What comes next", "How to take part"). Use "- " bullets for lists of dates, items, places or numbers. Put in every useful fact from the source: dates, times, places, amounts, names, deadlines, how to apply or comment. Do not repeat the dek word for word. Link to our own pages from the SITE PAGES list with [text](/path/) where they really help (a council member's page when you name them, the meeting page, an issue page), and to the source with its full https link. Only facts from the source or the SITE PAGES list; never guess.
 - Any story about an event or meeting people can attend or watch MUST have a "## How to take part" (or "## Where and when") section with "- " bullets covering everything the source gives: the start time AND the time the main part begins if different (e.g. doors 6 p.m., ceremony 6:30 p.m.); the full address; whether it is open to the public; seating limits, overflow rooms or registration; a direct link to watch live (District of Squamish meetings stream at https://www.youtube.com/@DistrictofSquamish/streams); phone or WebEx call in details; and links to the agenda and our meeting page. Never write just "it's live streamed" without the watch link. The take line should name the single most practical detail (for example limited seating, or when the main part starts).
+- poll: a question readers answer at the bottom of the story, to get Squamish thinking about what it means for them. Only when the story raises a real local choice or a matter of opinion (a project, a rule, a cost, a change to a service, how the town should respond). For events, markets, ceremonies, holiday notices, obituaries and plain announcements with nothing to weigh, set q to "" and options to []. When there is one: q is a short neutral question under 90 characters, ending in "?", that doesn't lead toward any answer. options are 3 or 4 distinct answers covering the real range of views (not just yes and no, and never a joke answer); label under 45 characters, means one short factual sentence on what that answer would lead to. Readers can also pick Not sure or write their own, so don't add those.
 - photo_queries: 3 or 4 short searches for openly licensed photos of the PLACE or TOPIC (not the event itself), most specific first and each a different angle so the story can carry more than one picture, e.g. "Howe Sound Squamish", "Sea to Sky Highway", "downtown Squamish".`;
 const SCHEMA = {
   type: 'object', additionalProperties: false,
-  required: ['publish', 'reason', 'section', 'weight', 'head', 'dek', 'social', 'share', 'take', 'body', 'visual_big', 'visual_small', 'slug', 'photo_queries', 'areas'],
+  required: ['publish', 'reason', 'section', 'weight', 'head', 'dek', 'social', 'share', 'take', 'body', 'visual_big', 'visual_small', 'slug', 'photo_queries', 'areas', 'poll'],
   properties: {
     publish: { type: 'boolean' }, reason: { type: 'string' }, section: { type: 'string', enum: SECTIONS }, weight: { type: 'string', enum: ['big', 'normal', 'brief'] },
     head: { type: 'string' }, dek: { type: 'string' }, social: { type: 'string', description: 'Facebook post text: personal hook, blank line, key fact + what tapping gets you' }, share: { type: 'integer', description: '1 to 5' }, take: { type: 'string' }, body: { type: 'string', description: 'full story in markdown (## headings, - bullets, [links](/path/))' }, visual_big: { type: 'string' }, visual_small: { type: 'string' },
     slug: { type: 'string', description: 'short url slug, lowercase words joined by hyphens, under 50 characters' },
     photo_queries: { type: 'array', items: { type: 'string' } },
     areas: { type: 'array', items: { type: 'string', enum: HOOD_SLUGS.length ? HOOD_SLUGS : ['downtown'] } },
+    poll: { type: 'object', additionalProperties: false, required: ['q', 'options'], properties: { q: { type: 'string', description: 'empty when the story has no real question to weigh' }, options: { type: 'array', description: '3 or 4 answers, or empty', items: { type: 'object', additionalProperties: false, required: ['label', 'means'], properties: { label: { type: 'string' }, means: { type: 'string' } } } } } },
   },
 };
 const clean = (s) => String(s || '').replace(/\s*[—–]\s*/g, ', ').replace(/\s+,/g, ',').trim();
@@ -430,6 +432,8 @@ for (const r of approved) {
     head: d.head, dek: d.dek, ...(d.take ? { take: esc(d.take) } : {}), ...(d.body ? { body: d.body } : {}),
     ...(d.visual_big ? { visual: { type: 'big', big: d.visual_big, small: d.visual_small } } : {}),
     src: [it.label, it.url], ...(it.more ? { more: it.more } : {}), ...(d.social ? { social: d.social } : {}), ...(d.share ? { share: Math.min(5, Math.max(1, Math.round(d.share))) } : {}), auto: true, ...(d.areas && d.areas.length ? { areas: d.areas } : {}),
+    // The vote under the story (build.mjs pollHtml): answer keys a, b, c, d; readers' own answers get x keys in the database.
+    ...(d.poll && clean(d.poll.q) && (d.poll.options || []).length >= 2 ? { poll: { q: clean(d.poll.q), options: d.poll.options.slice(0, 4).map((o, i) => ({ key: 'abcd'[i], label: clean(o.label), means: clean(o.means) })) } } : {}),
   };
   if (d.photo && d.photo.remote) {
     try {

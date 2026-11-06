@@ -1697,6 +1697,22 @@ if (TRACKED.length) {
     scripts: '<script src="/news.js"></script>',
   }));
 
+  // The vote at the bottom of a story: a few answers, Not sure, and Something else (the reader writes their own, which
+  // Claude checks before it joins the list). Votes go to api/wants.js as the ask news-<slug>; src/poll.js runs it and
+  // then shows how Squamish answered, plus other stories with a vote. The buttons are plain HTML so the question shows without JavaScript.
+  const pollHtml = (st) => {
+    if (!st.poll || (st.poll.options || []).length < 2) return '';
+    const more = S.filter((o) => o !== st && o.poll).slice(0, 3).map((o) => ({ url: nUrl(o), q: o.poll.q }));
+    return `<section class="nw-poll" id="vote" data-poll="news-${esc(st.slug)}" data-more="${esc(JSON.stringify(more))}" aria-labelledby="poll-h-${esc(st.slug)}">
+    <p class="nw-poll-k">Your say</p><h2 id="poll-h-${esc(st.slug)}">${esc(st.poll.q)}</h2>
+    <div class="nw-poll-opts" role="group" aria-label="Your answer">${st.poll.options.map((o) => `<button type="button" data-k="${esc(o.key)}"><b>${esc(o.label)}</b>${o.means ? `<span>${esc(o.means)}</span>` : ''}</button>`).join('')}
+    <button type="button" class="nw-poll-m" data-k="m"><b>Not sure</b></button>
+    <button type="button" class="nw-poll-own" data-own><b>Something else</b><span>Write your own answer</span></button></div>
+    <form class="nw-poll-form" data-own-form hidden><label for="poll-own-${esc(st.slug)}">Your answer, in a few words</label><textarea id="poll-own-${esc(st.slug)}" maxlength="300" rows="2" required></textarea><p class="small muted">We check it fits the rules (on topic, no names or insults), then add it as an answer others can pick.</p><button type="submit" class="btn">Add my answer</button> <button type="button" class="btn secondary" data-own-cancel>Cancel</button><p class="nw-poll-msg" data-msg role="status"></p></form>
+    <div class="nw-poll-res" data-res hidden></div>
+    <p class="small muted nw-poll-note">One answer per person. You can change it any time. No sign up, and we never show who answered what.</p>
+  </section>`;
+  };
   S.forEach((st, i) => {
     const others = S.filter((x) => x !== st).slice(0, 4);
     // On wide screens the number, What changes and More news sit in a sidebar beside the story (.nw-side); on phones
@@ -1713,11 +1729,12 @@ if (TRACKED.length) {
       body: `<div class="nw nw-story-page">
   <p class="crumbs"><a href="/news/">← All news</a></p>
   <article class="nw-full nw-art" data-s="${st.s}">${body}${fullBodyHtml(st)}<div class="nw-foot">${source(st)}${shareBtn(st)}</div></article>
+  ${pollHtml(st)}
   <section class="nw-next"><h2 class="nw-sechead">More news</h2><ul>${others.map((o) => `<li data-s="${o.s}"><span>${esc(SEC[o.s])}</span><a href="${nUrl(o)}">${esc(o.head)}</a></li>`).join('')}</ul>
   <p class="nw-more"><a href="/news/">All news →</a> · <a href="/meetings/">What council decided →</a></p></section>
   ${signupBox('news-story')}
 </div>`,
-      scripts: '<script src="/news.js"></script>',
+      scripts: st.poll ? '<script src="/news.js"></script><script src="/botid.js" defer></script><script src="/poll.js" defer></script>' : '<script src="/news.js"></script>',
     }));
   });
 }
@@ -1767,7 +1784,9 @@ if (TRACKED.length) {
 // with that ask's title and picture. Each ask's share picture is drawn by api/og.js (the question and its answer buttons).
 // api/_wants.json tells the API which starter ids and neighbourhoods exist.
 {
-  fs.writeFileSync(path.join(ROOT, 'api', '_wants.json'), JSON.stringify({ topics: WANTS.topics, hoods: WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => h.slug), hoodNames: Object.fromEntries(WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => [h.slug, h.name])), asks: WANTS.asks.map(({ id, title, why, options, status }) => ({ id, title, why, ...(status === 'done' ? { status } : {}), ...(options ? { options: options.map((o) => o.key), labels: options.map((o) => o.label) } : {}) })) }) + '\n');
+  fs.writeFileSync(path.join(ROOT, 'api', '_wants.json'), JSON.stringify({ topics: WANTS.topics, hoods: WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => h.slug), hoodNames: Object.fromEntries(WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => [h.slug, h.name])), asks: [...WANTS.asks.map(({ id, title, why, options, status }) => ({ id, title, why, ...(status === 'done' ? { status } : {}), ...(options ? { options: options.map((o) => o.key), labels: options.map((o) => o.label) } : {}) })),
+    // The vote at the bottom of a news story (story.poll) uses the same answer API, under the id news-<slug>. Kept off /wants/.
+    ...(NEWS.stories || []).filter((st) => st.poll && (st.poll.options || []).length >= 2).map((st) => ({ id: `news-${st.slug}`, news: st.slug, title: st.poll.q, why: String(st.dek || '').replace(/<[^>]+>/g, ''), options: st.poll.options.map((o) => o.key), labels: st.poll.options.map((o) => o.label) }))] }) + '\n');
   // Live pictures: the main page shows the 3 most wanted asks, a question's page shows its results (api/og.js). Facebook keeps
   // its own copy per address, so these refresh when it re-reads the page; a share from the site's buttons is always fresh.
   const IMG = `${ORIGIN}/api/og/?top=1&v=3`;
@@ -2536,7 +2555,7 @@ write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can�
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.writeFileSync(path.join(DIST, 'botid.js'), `(function(){${BOTID_JS}})();`);
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 

@@ -177,14 +177,14 @@ async function checkOption(text, seed, current) {
         output_config: { format: { type: 'json_schema', schema: { type: 'object', additionalProperties: false,
           required: ['publish', 'reason', 'label', 'means', 'same'],
           properties: { publish: { type: 'boolean' }, reason: { type: 'string' }, label: { type: 'string' }, means: { type: 'string' }, same: { type: 'string', enum: ['', ...current.map((o) => o.key)] } } } } },
-        system: `You review answers that residents add to a question on "What Squamish Wants", a public list on Squamish Voters (a non-partisan site about Squamish, B.C.).
+        system: `You review answers that residents add to a question on Squamish Voters${seed.news ? ' (asked under a news story)' : ' ("What Squamish Wants", a public list)'} (a non-partisan site about Squamish, B.C.).
 
 THE QUESTION: ${seed.title}
 ${seed.why ? `BACKGROUND: ${seed.why}\n` : ''}THE ANSWERS ALREADY THERE:
 ${current.map((o) => `${o.key}: ${o.label}`).join('\n')}
 
 1. publish: should this answer be added? Use these rules:
-${COMMENT_RULES.replace('It has to be about the question or the decision behind it.', 'It has to be a real answer to the question above, something the town or the Province could actually do.')}
+${COMMENT_RULES.replace('It has to be about the question or the decision behind it.', seed.news ? 'It has to be a real answer to the question above (this question sits under a news story).' : 'It has to be a real answer to the question above, something the town or the Province could actually do.')}
 If it breaks a rule, publish is false and "reason" is one short, friendly sentence telling the writer what to change. Otherwise reason is "".
 
 2. same: if it means the same as one of the answers already there (or is clearly covered by it), that answer's key. Otherwise "". A real difference in what would happen counts as different.
@@ -272,10 +272,10 @@ export default async function handler(req, res) {
     const [asks, t, ns, extras, mine, [{ people }], recent] = await Promise.all([
       residentAsks(), tallies(), notes(), extraOptions(),
       voter ? sql`SELECT wid, choice FROM sv_want_votes WHERE voter = ${voter}` : [],
-      sql`SELECT count(DISTINCT voter)::int AS people FROM sv_want_votes`,
+      sql`SELECT count(DISTINCT voter)::int AS people FROM sv_want_votes WHERE wid NOT LIKE 'news-%'`, // news story votes don't count toward /wants/
       // Activity for the live line and the Trending labels: answers given or changed in the last hour and the last day.
       sql`SELECT wid, count(*) FILTER (WHERE updated_at > now() - interval '1 hour')::int AS h, count(*)::int AS d
-        FROM sv_want_votes WHERE updated_at > now() - interval '1 day' GROUP BY wid`.catch(() => []),
+        FROM sv_want_votes WHERE updated_at > now() - interval '1 day' AND wid NOT LIKE 'news-%' GROUP BY wid`.catch(() => []),
     ]);
     const live = { hour: 0, day: 0, today: {} };
     for (const r of recent) { live.hour += r.h; live.day += r.d; live.today[r.wid] = r.d; }
@@ -317,7 +317,7 @@ export default async function handler(req, res) {
     const [{ n }] = await sql`SELECT count(*)::int AS n FROM sv_want_checks WHERE net = ${net} AND at > now() - interval '1 hour'`;
     if (n >= CHECKS_PER_HOUR) return res.status(429).json({ ok: false, error: 'That’s a lot of suggestions from your connection in the last hour. Please try again a bit later.' });
     await sql`INSERT INTO sv_want_checks (net) VALUES (${net})`;
-    const list = [...SEEDS.map((s) => ({ id: s.id, title: s.title, why: s.why })), ...(await residentAsks()).map((a) => ({ id: a.id, title: a.title, why: a.why }))];
+    const list = [...SEEDS.filter((s) => !s.news).map((s) => ({ id: s.id, title: s.title, why: s.why })), ...(await residentAsks()).map((a) => ({ id: a.id, title: a.title, why: a.why }))];
     const c = await check(text, list);
     return res.json({ ok: true, ...c, sig: sign({ text, title: c.draft.title, why: c.draft.why, topic: c.draft.topic, publish: c.publish, held: c.held }) });
   }
