@@ -1,6 +1,5 @@
 // Posts the most shareable new News stories to the Squamish Voters Facebook Page. Run by .github/workflows/news.yml
-// after each pass. Does nothing until the FB_PAGE_TOKEN secret is set (a long lived Page access token with
-// pages_manage_posts, from Jeff's Meta developer app).
+// after each pass. Does nothing until the Facebook secrets are set (see below), from Jeff's Meta developer app.
 //   Which stories: share score 4 or 5 (FB_MIN_SHARE changes it), dated today or yesterday, live on the site already
 //   (Facebook reads the picture and title from the page when it posts), at most FB_PER_DAY (4) in 24 hours, one per pass.
 //   Post text: the story's "social" text written by the drafter, then the link.
@@ -9,18 +8,49 @@ import path from 'node:path';
 import { neon } from '@neondatabase/serverless';
 import { ROOT, log, readJson } from './lib.mjs';
 
-const TOKEN = process.env.FB_PAGE_TOKEN;
-if (!TOKEN) { log('facebook: no FB_PAGE_TOKEN yet, skipping'); process.exit(0); }
-const ORIGIN = 'https://squamishvoters.com';
+// Two ways in. FB_PAGE_TOKEN: a Page token pasted directly. Or FB_APP_ID + FB_APP_SECRET + FB_USER_TOKEN (the
+// short lived token from the Graph API Explorer): the first pass trades it for a long lived one, then for the Page's
+// own token, which doesn't expire. That Page token is kept in sv_fb_auth, so the user token can expire afterwards.
+import crypto from 'node:crypto';
+const { FB_PAGE_TOKEN, FB_APP_ID, FB_APP_SECRET, FB_USER_TOKEN } = process.env;
+if (!FB_PAGE_TOKEN && !(FB_APP_ID && FB_APP_SECRET && FB_USER_TOKEN)) { log('facebook: no Facebook token yet, skipping'); process.exit(0); }
+const ORIGIN = 'https://squamishvoters.com', GRAPH = 'https://graph.facebook.com/v21.0';
 const MIN_SHARE = +(process.env.FB_MIN_SHARE || 4), PER_DAY = +(process.env.FB_PER_DAY || 4);
 const sql = neon(process.env.POSTGRES_URL || process.env.DATABASE_URL);
+const graph = async (u) => { const j = await (await fetch(u)).json(); if (j.error) throw new Error(j.error.message); return j; };
+async function pageToken() {
+  if (FB_PAGE_TOKEN) return FB_PAGE_TOKEN;
+  await sql`CREATE TABLE IF NOT EXISTS sv_fb_auth (id int PRIMARY KEY, page_id text, page_name text, page_token text, from_user text, updated_at timestamptz NOT NULL DEFAULT now())`;
+  const from = crypto.createHash('sha256').update(FB_USER_TOKEN).digest('hex').slice(0, 16);
+  const [have] = await sql`SELECT page_token, from_user FROM sv_fb_auth WHERE id = 1`;
+  if (have && have.from_user === from) return have.page_token;
+  const long = await graph(`${GRAPH}/oauth/access_token?grant_type=fb_exchange_token&client_id=${encodeURIComponent(FB_APP_ID)}&client_secret=${encodeURIComponent(FB_APP_SECRET)}&fb_exchange_token=${encodeURIComponent(FB_USER_TOKEN)}`);
+  const pages = (await graph(`${GRAPH}/me/accounts?fields=id,name,access_token&limit=100&access_token=${encodeURIComponent(long.access_token)}`)).data || [];
+  const page = pages.find((p) => p.id === process.env.FB_PAGE_ID) || pages.find((p) => /squamish voters/i.test(p.name)) || (pages.length === 1 ? pages[0] : null);
+  if (!page) throw new Error(`no Squamish Voters Page among this login's Pages (${pages.map((p) => p.name).join(', ') || 'none'}); tick the Page when granting access`);
+  await sql`INSERT INTO sv_fb_auth (id, page_id, page_name, page_token, from_user) VALUES (1, ${page.id}, ${page.name}, ${page.access_token}, ${from})
+    ON CONFLICT (id) DO UPDATE SET page_id = EXCLUDED.page_id, page_name = EXCLUDED.page_name, page_token = EXCLUDED.page_token, from_user = EXCLUDED.from_user, updated_at = now()`;
+  log(`facebook: connected to the Page "${page.name}"`);
+  return page.access_token;
+}
+let TOKEN;
+try { TOKEN = await pageToken(); } catch (e) {
+  log(`facebook: can't get a Page token: ${e.message}`);
+  // Once a day at most: tell Jeff the Facebook login needs redoing.
+  await sql`CREATE TABLE IF NOT EXISTS sv_fb_posts (slug text PRIMARY KEY, status text NOT NULL, post_id text, tries int NOT NULL DEFAULT 0, error text, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now())`;
+  const [r] = await sql`INSERT INTO sv_fb_posts (slug, status, error) VALUES ('_auth', 'error', ${e.message.slice(0, 400)}) ON CONFLICT (slug) DO UPDATE SET error = EXCLUDED.error,
+    updated_at = CASE WHEN sv_fb_posts.updated_at < now() - interval '1 day' THEN now() ELSE sv_fb_posts.updated_at END, tries = CASE WHEN sv_fb_posts.updated_at < now() - interval '1 day' THEN 0 ELSE sv_fb_posts.tries + 1 END RETURNING tries`;
+  if (r.tries === 0 && process.env.NEWS_REVIEW_TO && process.env.RESEND_API_KEY) await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from: process.env.EMAIL_FROM, to: [process.env.NEWS_REVIEW_TO], subject: 'Facebook Page posting needs a fresh login', text: `Squamish Voters News couldn't connect to the Facebook Page.\n\nError: ${e.message}\n\nMake a new user token in the Graph API Explorer and update the FB_USER_TOKEN secret in GitHub (Claude can walk you through it).` }) }).catch(() => {});
+  process.exit(0);
+}
 await sql`CREATE TABLE IF NOT EXISTS sv_fb_posts (slug text PRIMARY KEY, status text NOT NULL, post_id text, tries int NOT NULL DEFAULT 0, error text,
   created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now())`;
 
 const day = (offset) => new Date(Date.now() - offset * 864e5).toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' });
 const news = readJson(path.join(ROOT, 'data', 'news.json'));
 const rows = await sql`SELECT slug, status, created_at FROM sv_fb_posts`;
-const done = new Set(rows.filter((r) => r.status === 'posted' || r.status === 'failed').map((r) => r.slug));
+const done = new Set(rows.filter((r) => r.slug !== '_auth' && (r.status === 'posted' || r.status === 'failed')).map((r) => r.slug));
 const postedToday = rows.filter((r) => r.status === 'posted' && Date.now() - new Date(r.created_at) < 864e5).length;
 if (postedToday >= PER_DAY) { log(`facebook: ${postedToday} posts in the last day, waiting`); process.exit(0); }
 
@@ -34,7 +64,7 @@ const live = await fetch(url, { method: 'HEAD' }).then((r) => r.ok).catch(() => 
 if (!live) { log(`facebook: ${next.slug} isn't live yet, next pass`); process.exit(0); }
 
 const message = String(next.social || `${next.head}\n\n${String(next.dek || '').replace(/<[^>]+>/g, '')}`).trim();
-const r = await fetch('https://graph.facebook.com/me/feed', {
+const r = await fetch(`${GRAPH}/me/feed`, {
   method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   body: new URLSearchParams({ message, link: url, access_token: TOKEN }),
 });

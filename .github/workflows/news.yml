@@ -39,7 +39,10 @@ jobs:
           RESEND_INBOX_KEY: ${{ secrets.RESEND_INBOX_KEY }} # full access key: reads the District E-News sent to our Resend inbox
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           NEWS_REVIEW_TO: ${{ secrets.NEWS_REVIEW_TO }}
-          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }} # long lived Page token for the Squamish Voters Facebook Page (scripts/pipeline/facebook.mjs)
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }} # Facebook Page posting (scripts/pipeline/facebook.mjs): a Page token, or the three below
+          FB_APP_ID: ${{ secrets.FB_APP_ID }}
+          FB_APP_SECRET: ${{ secrets.FB_APP_SECRET }}
+          FB_USER_TOKEN: ${{ secrets.FB_USER_TOKEN }}
           GH_TOKEN: ${{ github.token }}
           DRAFT_ONE: ${{ github.event.inputs.draft_one == 'true' && '1' || '' }}
         run: |
@@ -63,7 +66,7 @@ jobs:
               gh workflow run indexnow.yml > /dev/null 2>&1 || true # tell Bing about the changed pages once live
             else echo 'Build failed; not committing, trying again next pass'
             fi
-            node scripts/pipeline/facebook.mjs || echo 'Facebook Page post skipped this pass' # waits for FB_PAGE_TOKEN; posts stories once they're live
+            node scripts/pipeline/facebook.mjs || echo 'Facebook Page post skipped this pass' # waits for the Facebook secrets; posts stories once they're live
             pass=$(( pass + 1 ))
             next=$(( began + 600 ))
             [ $next -ge $end ] && break
