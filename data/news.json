@@ -66,6 +66,60 @@
  ],
  "stories": [
   {
+   "slug": "brackendale-post-office-closes-120-years",
+   "s": "community",
+   "tier": "card",
+   "date": "2026-11-06",
+   "head": "After 120 years, Brackendale's post office is gone. Where mail goes now",
+   "dek": "Brackendale's post office closed for good on October 31, 2026, 120 years after it opened. Canada Post could not fill the job or find a local business to host an outlet, so the service moves to Garibaldi Highlands. The neighbourhood itself is named after its first postmaster.",
+   "take": "Brackendale postal service has moved to Garibaldi Highlands after the Brackendale post office closed October 31, 2026.",
+   "body": "## What happened\n\nThe Brackendale post office opened on August 1, 1906, and closed on October 31, 2026. [The Squamish Chief reported](https://www.squamishchief.com/local-news/the-history-of-the-brackendale-post-office-12991206) on the closure and the history of the office.\n\nPostal service for Brackendale has now moved to Garibaldi Highlands.\n\n## Why it closed\n\nThis summer, Brackendale residents wrote to the District of Squamish and spoke to the newspaper about staff shortages at the office.\n\n- Canada Post could not fill the open job.\n- The job paid $45,000 a year for six days of work each week.\n- The person in the job also had to cover the lease payments.\n\nBefore the closure, Canada Post wrote to the District saying it would keep service in Brackendale if a local business agreed to host a postal outlet. Mike Lee, who handles government and community affairs for Canada Post, said keeping a presence in the neighbourhood was the preferred outcome, but it depended on finding a willing retail partner. No partner was found.\n\n## How Brackendale got its name\n\nAccording to BC Geographical Names, the provincial database of place names, Brackendale is named after its first postmaster, Thomas Hirst Bracken. The database describes him as an elderly Englishman who also ran a general store and the Bracken Arms Hotel. He went back to England after the hotel burned down. The database lists the post office as closing July 18, 1912.\n\nSquamish Library archives say Hughie Mills rebuilt the post office building in 1916 after a fire. The lot was first bought from the Judd family when they divided up their land.\n\n## A century of mail\n\n- 2002: the office began using a special ink stamp reading \"winter home of the bald eagle.\"\n- 2004: longtime employee Joyce Berg retired after almost 27 years. She and her husband owned the building, then seen as Brackendale's commercial centre.\n- 2006: the office marked 100 years, noted by a postal history newsletter for stamp collectors.\n\nThe building once kept horse feed outside for farmers, and Government Road, where it sits, was once part of the Sea to Sky Highway.\n\nThe office faced closure before. Berg said residents started many petitions back then. \"I almost got fired, but we kept our post office,\" she told the paper in 2004.\n\nMore local news: [Brackendale and other neighbourhoods](/neighbourhoods/).",
+   "visual": {
+    "type": "big",
+    "big": "120 years",
+    "small": "Brackendale post office, 1906 to 2026"
+   },
+   "src": [
+    "The Squamish Chief",
+    "https://www.squamishchief.com/local-news/the-history-of-the-brackendale-post-office-12991206"
+   ],
+   "social": "Did you pick up your mail on Government Road in Brackendale? That counter has been part of the neighbourhood since 1906, and it closed on October 31.\n\nCanada Post could not find anyone to run it or a local shop to host it, so service moves to Garibaldi Highlands. Why it closed, and the history behind the building:",
+   "share": 4,
+   "auto": true,
+   "areas": [
+    "brackendale",
+    "garibaldi-highlands"
+   ],
+   "poll": {
+    "q": "How should Brackendale get postal service now that its post office has closed?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Find a local shop to host an outlet",
+      "means": "Canada Post would need a Brackendale business willing to run a postal counter."
+     },
+     {
+      "key": "b",
+      "label": "The District should help find a partner",
+      "means": "The District of Squamish would take a role in finding a host business."
+     },
+     {
+      "key": "c",
+      "label": "Garibaldi Highlands service is enough",
+      "means": "Brackendale residents would keep using the Garibaldi Highlands location."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/brackendale-post-office-closes-120-years.jpg",
+    "alt": "Close-up of two red Canada Post mailboxes with the Canada Post logo",
+    "caption": "Canada Post mailboxes (file photo, not in Brackendale).",
+    "credit": "Reg Natarajan from Vancouver, Bogotá, CC BY 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Canada_Post_Mailboxes_(8220719838).jpg"
+   },
+   "og": "brackendale-post-office-closes-120-years.png"
+  },
+  {
    "slug": "woodfibre-flaring-comment-nov-29",
    "s": "community",
    "tier": "lead",
