@@ -34,7 +34,9 @@ const S = {
   more: 'color:#0b5cab;font-weight:700',
   q: 'margin:0 0 4px;font-weight:700',
 };
-const section = (icon, title, inner) => `<h2 style="${S.h2}">${icon} ${esc(title)}</h2>\n${inner}`;
+// Each section gets an anchor so the "In this email" links at the top can jump to it (Apple Mail, Gmail on the web).
+const slugOf = (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const section = (icon, title, inner) => `<a name="${slugOf(title)}" id="${slugOf(title)}"></a><h2 style="${S.h2}">${icon} ${esc(title)}</h2>\n${inner}`;
 const bars = (rows) => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:15px;margin:0 0 14px">
 ${rows.map(([pct, label], i) => `    <tr><td width="44" style="padding:3px 0"><b>${pct}%</b></td><td style="padding:3px 0"><div style="background:${i ? '#7aa594' : '#0f4c3a'};height:10px;border-radius:5px;width:${Math.max(pct, 2)}%"></div></td><td width="200" style="padding:3px 0 3px 8px">${esc(label)}</td></tr>`).join('\n')}
   </table>`;
@@ -189,15 +191,84 @@ const facebook = () => section('💬', 'Join the conversation', `<a href="https:
   <span style="display:inline-block;background:#ff4500;color:#fff;font-weight:700;padding:9px 16px;border-radius:8px">Join the subreddit</span>
 </a>`);
 
-function news(W) {
-  const all = (W.news || []).slice().sort((a, b) => b.date.localeCompare(a.date));
-  const items = (all.filter((n) => Date.parse(n.date) > weekAgo).length >= 2 ? all.filter((n) => Date.parse(n.date) > weekAgo) : all).slice(0, 5);
+// ---------- news, ranked by how many people read each story on the site this week ----------
+const NEWS = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'news.json'), 'utf8'));
+const SEC = Object.fromEntries(NEWS.sections || []);
+const storyUrl = (st) => `${ORIGIN}/news/${st.slug}/`;
+const img = (f) => (/^https?:/.test(f) ? f : ORIGIN + f);
+
+// Page views per story over the last 7 days, from Vercel Web Analytics (the same numbers as the dashboard).
+// Needs VERCEL_ANALYTICS_TOKEN; without it the stories fall back to the site's own order (lead stories first, newest first).
+async function newsViews() {
+  const token = process.env.VERCEL_ANALYTICS_TOKEN;
+  if (!token) { log('no VERCEL_ANALYTICS_TOKEN, most read uses lead stories instead'); return null; }
+  const q = new URLSearchParams({ projectId: 'prj_olAlaP4zJkDgHr6zHh7KBJ0Ub2RE', teamId: 'team_iw1pUMSqkMZdMypdybTf0LIn',
+    since: new Date(weekAgo).toISOString(), until: new Date().toISOString(), by: 'requestPath', limit: '100' });
+  try {
+    const r = await fetch('https://api.vercel.com/v1/query/web-analytics/visits/aggregate?' + q, { headers: { Authorization: 'Bearer ' + token } });
+    if (!r.ok) throw new Error('analytics ' + r.status);
+    const views = {};
+    for (const row of (await r.json()).data || []) {
+      const m = /^\/news\/([^/]+)\/?$/.exec(row.requestPath || '');
+      if (m) { const v = views[m[1]] || (views[m[1]] = { pageviews: 0, visitors: 0 }); v.pageviews += row.pageviews; v.visitors += row.visitors; }
+    }
+    return views;
+  } catch (e) { log('news views failed:', e.message); return null; }
+}
+
+// This week's stories, most read first. A story pinned to the top of the site still counts while its pin lasts.
+function rankStories(views) {
+  const tier = { lead: 0, card: 1, brief: 2 };
+  const fresh = (NEWS.stories || []).filter((st) => Date.parse(st.date + 'T12:00:00') > weekAgo || (st.pin_until && Date.parse(st.pin_until + 'T23:59:00') > Date.now()));
+  const pv = (st) => views?.[st.slug]?.pageviews || 0;
+  return fresh.sort((a, b) => pv(b) - pv(a) || (tier[a.tier] ?? 1) - (tier[b.tier] ?? 1) || b.date.localeCompare(a.date));
+}
+
+const credit = (ph) => ph.credit ? `<p style="margin:4px 0 0;font-size:13px;color:#5d6661">${esc(ph.caption || '')}${ph.caption ? ' ' : ''}Photo: ${esc(ph.credit)}</p>` : '';
+const readBy = (v) => (v?.visitors >= 20 ? `<p style="margin:0 0 4px;font-size:14px;font-weight:700;color:#0f4c3a">Read by ${num(v.visitors)} people this week</p>` : '');
+
+// The top three, near the top of the email: a big photo each, and the most read story shows its other photos too.
+function mostRead(list, views) {
+  const top = list.filter((st) => st.photo?.file).slice(0, 3);
+  if (!top.length) return '';
+  const card = (st, i) => {
+    const more = i === 0 ? (st.photos || []).slice(0, 2) : [];
+    return `<div style="background:#fff;border:1px solid #d9d5c8;border-radius:12px;overflow:hidden;margin:0 0 14px">
+  <a href="${storyUrl(st)}"><img src="${img(st.photo.file)}" alt="${esc(st.photo.alt)}" width="600" style="display:block;width:100%;height:auto;border:0"></a>
+  <div style="padding:14px 16px">
+  ${readBy(views?.[st.slug])}<p style="margin:0 0 4px;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#5d6661">${esc(SEC[st.s] || '')}</p>
+  <a href="${storyUrl(st)}" style="display:block;color:#14211c;font-family:Georgia,serif;font-size:${i ? 20 : 23}px;line-height:1.3;font-weight:700;text-decoration:none;margin:0 0 8px">${esc(st.head)}</a>
+  <p style="margin:0 0 12px">${esc(st.dek)}</p>
+  ${more.length ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 12px"><tr>${more.map((ph, j) => `<td width="50%" valign="top" style="padding:0 ${j ? 0 : 4}px 0 ${j ? 4 : 0}px"><a href="${storyUrl(st)}"><img src="${img(ph.file)}" alt="${esc(ph.alt)}" width="280" style="display:block;width:100%;height:auto;border:0;border-radius:8px"></a><p style="margin:4px 0 0;font-size:13px;color:#5d6661">${esc(ph.caption || '')}</p></td>`).join('')}</tr></table>` : ''}
+  <a href="${storyUrl(st)}" style="display:inline-block;background:#0f4c3a;color:#fff;text-decoration:none;font-weight:700;padding:10px 18px;border-radius:8px">Read the story</a>
+  ${credit(st.photo)}
+  </div>
+</div>`;
+  };
+  return section('🔥', views ? 'Most read this week' : 'Top stories this week', top.map(card).join('\n'));
+}
+
+// The rest of the week's news, each with a small photo.
+function news(list, skip) {
+  const items = list.filter((st) => !skip.has(st.slug)).slice(0, 8);
   if (!items.length) return '';
   const short = (s) => { const t = String(s || '').split(/(?<=\.)\s/)[0]; return t.length > 160 ? '' : t; };
-  return section('📰', 'In the news', `<div style="${S.card}">
-${items.map((n) => `  <p style="margin:0 0 10px"><a href="${n.url}" style="color:#14211c;font-weight:700">${esc(n.head)}</a>${short(n.dek) ? `<br><span style="font-size:15px;color:#44504a">${esc(short(n.dek))}</span>` : ''}</p>`).join('\n')}
+  return section('📰', 'More news this week', `<div style="${S.card}">
+${items.map((st) => `  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 14px"><tr>
+    ${st.photo?.file ? `<td width="104" valign="top" style="padding:0 12px 0 0"><a href="${storyUrl(st)}"><img src="${img(st.photo.file)}" alt="${esc(st.photo.alt)}" width="104" height="70" style="display:block;width:104px;height:70px;object-fit:cover;border:0;border-radius:8px"></a></td>` : ''}
+    <td valign="top"><a href="${storyUrl(st)}" style="color:#14211c;font-weight:700">${esc(st.head)}</a>${short(st.dek) ? `<br><span style="font-size:15px;color:#44504a">${esc(short(st.dek))}</span>` : ''}</td>
+  </tr></table>`).join('\n')}
   <a href="${ORIGIN}/news/" style="${S.more}">All Squamish news →</a>
 </div>`);
+}
+
+// "In this email": tap a chip to jump to that part. Works in Apple Mail and Gmail on the web; other apps just scroll.
+function contents(parts) {
+  const links = parts.filter(Boolean).map((h) => /<a name="([^"]+)"[^>]*><\/a><h2[^>]*>(.*?)<\/h2>/.exec(h)).filter(Boolean);
+  if (links.length < 3) return '';
+  return `<div style="margin:0 0 18px"><p style="margin:0 0 6px;font-size:14px;font-weight:700;color:#5d6661">IN THIS EMAIL</p>
+${links.map(([, id, t]) => `<a href="#${id}" style="display:inline-block;margin:0 6px 8px 0;padding:7px 12px;border:1px solid #0f4c3a;border-radius:999px;color:#0f4c3a;font-size:15px;font-weight:700;text-decoration:none">${t}</a>`).join('')}
+</div>`;
 }
 
 function siteNew(items) {
@@ -246,16 +317,21 @@ if (arg('--html')) {
   const prev = await lastSnapshot();
   const rows = wantsRows(D);
   const people = D.wants?.people || 0;
+  const views = await newsViews();
+  const ranked = rankStories(views);
+  const most = mostRead(ranked, views);
+  const shown = new Set(ranked.filter((st) => st.photo?.file).slice(0, 3).map((st) => st.slug));
   const parts = {
-    council: council(D.W), coming: comingUp(D.W), wants: wantsSection(rows, people, prev), pri: priorities(D.pri),
-    weekend: weekend(D.today), score: scorecard(D.W.promises, prev), fb: facebook(), news: news(D.W),
+    most, council: council(D.W), coming: comingUp(D.W), wants: wantsSection(rows, people, prev), pri: priorities(D.pri),
+    weekend: weekend(D.today), score: scorecard(D.W.promises, prev), fb: facebook(), news: news(ranked, most ? shown : new Set()),
   };
   const facts = {
     subject_hint: D.W.recent.length ? `Council this week: ${D.W.recent[0].headline}` : `This week in Squamish: ${people} people on what Squamish wants`,
     council_decided: D.W.recent.map((m) => ({ date: m.date, headline: m.headline })),
     coming_up: D.W.soon.map((m) => ({ date: m.date, what: m.type })).concat((D.W.dates || []).slice(0, 4).map((d) => ({ date: d.date, what: d.title }))),
     wants_people: people, wants_top: rows.filter((r) => r.kind === 'choice').sort((a, b) => b.total - a.total).slice(0, 3).map((r) => ({ q: r.title, top: r.opts[0].label, pct: r.opts[0].pct })),
-    news: (D.W.news || []).filter((n) => Date.parse(n.date) > weekAgo).map((n) => n.head),
+    most_read_news: ranked.slice(0, 3).map((st) => ({ head: st.head, readers: views?.[st.slug]?.visitors || null })),
+    news: ranked.slice(3, 10).map((st) => st.head),
   };
   const w = await words(facts, weekCommits(), prev?.announced || ANNOUNCED_OCT30);
   subject = w.subject;
@@ -265,7 +341,7 @@ if (arg('--html')) {
 <p style="font-weight:700;color:#0f4c3a;margin:0 0 4px">Squamish Voters</p>
 <h1 style="font-family:Georgia,serif;font-size:26px;margin:0 0 10px">${esc(h1)}</h1>
 <p style="margin:0 0 18px">${esc(w.intro)}</p>
-${[parts.council, parts.coming, parts.wants, parts.pri, parts.weekend, parts.score, parts.fb, parts.news, siteNew(w.site_new)].filter(Boolean).join('\n\n')}
+${(() => { const body = [parts.most, parts.council, parts.coming, parts.wants, parts.pri, parts.weekend, parts.score, parts.news, parts.fb, siteNew(w.site_new)]; return contents(body) + body.filter(Boolean).join('\n\n'); })()}
 
 <p style="margin:22px 0 6px">Know someone who'd like this? Forward it on. They can sign up at <a href="${ORIGIN}/" style="${S.a}">squamishvoters.com</a>. And just hit reply if you have a question or spot something we got wrong.</p>
 <p style="font-size:14px;color:#5d6661;margin-top:26px">Squamish Voters is an independent, plain language guide to Squamish council, made by Jeff Kirdeikis in Squamish, British Columbia. You're getting this because you signed up at squamishvoters.com.

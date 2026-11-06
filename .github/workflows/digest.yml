@@ -30,6 +30,7 @@ jobs:
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          VERCEL_ANALYTICS_TOKEN: ${{ secrets.VERCEL_ANALYTICS_TOKEN }}
           HTML_FILE: ${{ inputs.html }}
           SUBJECT: ${{ inputs.subject }}
         run: |
