@@ -49,13 +49,15 @@
   }
   var S = shown.stories, M = shown.decided, MAX = 3;
   var html = '<div class="since-top"><p class="since-k">Since your last visit <span>' + esc(ago(shown.at)) + '</span></p><button type="button" class="since-x" data-since-x aria-label="Close">×</button></div>';
-  if (S.length) html += '<p class="since-n"><b>' + S.length + (S.length === 1 ? ' new story' : ' new stories') + '</b></p><ul class="since-list">' +
+  html += '<div class="since-cols">';
+  if (S.length) html += '<div class="since-g"><p class="since-n"><b>' + S.length + (S.length === 1 ? ' new story' : ' new stories') + '</b></p><ul class="since-list">' +
     S.slice(0, MAX).map(function (s) { return '<li><a href="/news/' + esc(s.slug) + '/" data-since-go="story">' + esc(s.head) + '</a>' + (s.poll ? ' <span class="since-tag">Vote</span>' : '') + '</li>'; }).join('') + '</ul>' +
-    (S.length > MAX ? '<p class="since-more"><a href="/news/" data-since-go="news">See all ' + S.length + ' new stories →</a></p>' : '');
-  if (M.length) html += '<p class="since-n"><b>Council decided</b></p><ul class="since-list">' +
-    M.slice(0, 1).map(function (m) { return '<li><a href="' + esc(m.url) + '" data-since-go="meeting">' + esc(m.head) + '</a></li>'; }).join('') + '</ul>';
-  if (D.soon.length) html += '<p class="since-n"><b>Coming up</b></p><ul class="since-list since-soon">' +
-    D.soon.map(function (x) { return '<li><a href="' + esc(x.url) + '" data-since-go="soon">' + esc(x.label) + '</a> <span>' + esc(until(x.date)) + '</span></li>'; }).join('') + '</ul>';
+    (S.length > MAX ? '<p class="since-more"><a href="/news/" data-since-go="news">See all ' + S.length + ' new stories →</a></p>' : '') + '</div>';
+  if (M.length) html += '<div class="since-g"><p class="since-n"><b>Council decided</b></p><ul class="since-list">' +
+    M.slice(0, 1).map(function (m) { return '<li><a href="' + esc(m.url) + '" data-since-go="meeting">' + esc(m.head) + '</a></li>'; }).join('') + '</ul></div>';
+  if (D.soon.length) html += '<div class="since-g"><p class="since-n"><b>Coming up</b></p><ul class="since-list since-soon">' +
+    D.soon.map(function (x) { return '<li><a href="' + esc(x.url) + '" data-since-go="soon">' + esc(x.label) + '</a> <span>' + esc(until(x.date)) + '</span></li>'; }).join('') + '</ul></div>';
+  html += '</div>';
   box.innerHTML = html; box.hidden = false;
   track('Since shown', { stories: S.length, meetings: M.length });
   box.addEventListener('click', function (e) {

@@ -2198,3 +2198,12 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .since-list { font-size: .93rem; line-height: 1.35; gap: .35rem; }
 .since-list a { text-decoration: none; color: var(--link); }
 .since-n { margin: .55rem 0 .2rem; font-size: .88rem; }
+@media (min-width: 900px) {
+  .since { padding: 1rem 1.3rem 1.1rem; }
+  .since-cols { display: grid; grid-template-columns: 1.6fr 1fr 1.2fr; gap: 1.6rem; }
+  .since-g .since-n:first-child { margin-top: .5rem; }
+  .nw-poll { max-width: 760px; margin-left: auto; margin-right: auto; padding: 1.4rem 1.6rem 1.2rem; }
+  .nw-poll h2 { font-size: 1.35rem; }
+  .nw-poll-opts { grid-template-columns: 1fr 1fr; }
+  .nw-poll-opts .nw-poll-m, .nw-poll-opts .nw-poll-own { padding: .6rem .9rem; }
+}
