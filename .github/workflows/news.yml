@@ -40,7 +40,7 @@ jobs:
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           NEWS_REVIEW_TO: ${{ secrets.NEWS_REVIEW_TO }}
           FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }} # Facebook Page posting (scripts/pipeline/facebook.mjs): a Page token, or the three below
-          FB_APP_ID: ${{ secrets.FB_APP_ID }}
+          FB_APP_ID: '1685840756242945' # the "Squamish Voters News" Meta app (public id, not a secret)
           FB_APP_SECRET: ${{ secrets.FB_APP_SECRET }}
           FB_USER_TOKEN: ${{ secrets.FB_USER_TOKEN }}
           GH_TOKEN: ${{ github.token }}

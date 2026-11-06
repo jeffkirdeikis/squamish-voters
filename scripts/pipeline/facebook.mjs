@@ -14,7 +14,7 @@ import { ROOT, log, readJson } from './lib.mjs';
 import crypto from 'node:crypto';
 const { FB_PAGE_TOKEN, FB_APP_ID, FB_APP_SECRET, FB_USER_TOKEN } = process.env;
 if (!FB_PAGE_TOKEN && !(FB_APP_ID && FB_APP_SECRET && FB_USER_TOKEN)) { log('facebook: no Facebook token yet, skipping'); process.exit(0); }
-const ORIGIN = 'https://squamishvoters.com', GRAPH = 'https://graph.facebook.com/v21.0';
+const ORIGIN = 'https://squamishvoters.com', GRAPH = 'https://graph.facebook.com/v27.0';
 const MIN_SHARE = +(process.env.FB_MIN_SHARE || 4), PER_DAY = +(process.env.FB_PER_DAY || 4);
 const sql = neon(process.env.POSTGRES_URL || process.env.DATABASE_URL);
 const graph = async (u) => { const j = await (await fetch(u)).json(); if (j.error) throw new Error(j.error.message); return j; };
