@@ -1103,6 +1103,31 @@ function heroMeet() {
 const TODAY_PT = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' });
 const pinned = (st) => !!st.pin_until && st.pin_until >= TODAY_PT;
 
+// Home: "Since your last visit". The page carries a short list of what's on the site now (story slugs, decided meetings,
+// dates coming up); src/since.js compares it with what this browser saw last time and shows only what's new. Nothing
+// leaves the browser, and first time visitors see nothing.
+function sinceData() {
+  const S = [...NEWS.stories].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 60);
+  const decided = MEETINGS.filter((m) => m.summary && m.summary.headline).slice(-6).reverse()
+    .map((m) => ({ id: m.id, url: `/meetings/${m.id}/`, head: `What council decided on ${new Date(m.date + 'T12:00:00').toLocaleDateString('en-CA', { month: 'long', day: 'numeric' })}`, date: m.date }));
+  const clock = (t) => { const m = String(t || '').match(/^(\d{1,2}):(\d{2})/); if (!m) return ''; const h = +m[1]; return `${h % 12 || 12}${m[2] === '00' ? '' : ':' + m[2]} ${h < 12 ? 'a.m.' : 'p.m.'}`; };
+  const MON = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+  const dayOf = (big) => { const m = String(big || '').match(/^([A-Za-z]{3})[a-z]*\.?\s+(\d{1,2})$/); if (!m || !(m[1].toLowerCase() in MON)) return null;
+    const t = new Date(TODAY_PT + 'T12:00:00'); let d = new Date(t.getFullYear(), MON[m[1].toLowerCase()], +m[2], 12);
+    if (d < t - 200 * 864e5) d = new Date(t.getFullYear() + 1, MON[m[1].toLowerCase()], +m[2], 12); return d.toLocaleDateString('en-CA'); };
+  // The next council meeting, then the next two deadlines (one line per page).
+  const later = (x) => x.date && x.date >= TODAY_PT, byDate = (a, b) => a.date.localeCompare(b.date);
+  const meet = MEETINGS.filter((m) => !m.summary && m.status !== 'cancelled').map((m) => ({ date: m.date, label: `${m.type === 'regular' ? 'Council' : m.type[0].toUpperCase() + m.type.slice(1) + ' council'} meeting${clock(m.time) ? `, ${clock(m.time)}` : ''}`, url: `/meetings/${m.id}/` })).filter(later).sort(byDate)[0];
+  const seenUrl = new Set(meet ? [meet.url] : []);
+  const dues = [
+    ...S.filter((st) => st.visual && /last day|deadline|closes|due/i.test(st.visual.small || '')).map((st) => ({ date: dayOf(st.visual.big), label: `${st.visual.small}: ${st.head.replace(/\.\s.*$/, '')}`, url: `/news/${st.slug}/` })),
+    ...(NEWS.coming || []).filter((c) => !String(c.url).startsWith('/meetings/')).map((c) => ({ date: c.date, label: c.title, url: c.url, late: 1 })),
+  ].filter(later).sort((a, b) => (a.late || 0) - (b.late || 0) || byDate(a, b)).filter((x) => !seenUrl.has(x.url) && seenUrl.add(x.url)).slice(0, 2).map(({ late, ...x }) => x);
+  const soon = [...(meet ? [meet] : []), ...dues].sort(byDate);
+  const data = { stories: S.map((st) => ({ slug: st.slug, head: st.head, poll: !!st.poll })), decided, soon };
+  return `<section class="since" data-since hidden aria-label="What's new since your last visit"></section><script type="application/json" id="since-data">${JSON.stringify(data).replace(/</g, '\\u003c')}</script><script src="/since.js" defer></script>`;
+}
+
 function homeNews() {
   const S = [...NEWS.stories].sort((a, b) => b.date.localeCompare(a.date)), SEC = Object.fromEntries(NEWS.sections);
   if (!S.length) return '';
@@ -1158,6 +1183,7 @@ ${HAVE_SAY_OPEN ? `    <a class="cc-tile cc-say" href="/have-your-say/"><span cl
   <p class="visit-count" data-visits hidden><span class="vc-dot" aria-hidden="true"></span><b>0</b> page views so far</p>
   </div></section>`,
     body: `
+  ${sinceData()}
   ${homeNews()}
   ${wantsShort('home')}
   ${wantsData()}
@@ -2555,7 +2581,7 @@ write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We canâ€
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js', 'since.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.writeFileSync(path.join(DIST, 'botid.js'), `(function(){${BOTID_JS}})();`);
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 

@@ -2182,3 +2182,19 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .nw-poll-wants { margin: .7rem 0 0; font-weight: 700; }
 .nw-poll-note { margin: .7rem 0 0; }
 @media (prefers-reduced-motion: reduce) { .nw-poll-bars li i { transition: none; } }
+
+/* Home: Since your last visit (build.mjs sinceData, src/since.js) */
+.since { margin: 1rem 0 1.2rem; padding: .9rem 1rem .8rem; background: var(--surface); border: 1.5px solid var(--brand); border-radius: 14px; box-shadow: var(--shadow); }
+.since-top { display: flex; justify-content: space-between; align-items: flex-start; gap: .6rem; }
+.since-k { margin: 0; font: 700 .72rem system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--brand); }
+.since-k span { text-transform: none; letter-spacing: 0; font-weight: 600; color: var(--muted); margin-left: .3rem; font-size: .8rem; }
+.since-x { background: none; border: 0; font-size: 1.4rem; line-height: 1; color: var(--muted); cursor: pointer; padding: 0 .2rem; margin: -.2rem -.2rem 0 0; }
+.since-n { margin: .7rem 0 .25rem; font-size: .95rem; }
+.since-list { margin: 0; padding-left: 1.1rem; display: grid; gap: .3rem; }
+.since-list a { font-weight: 600; }
+.since-soon span { color: var(--muted); font-size: .88rem; }
+.since-tag { display: inline-block; font: 700 .68rem system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; color: var(--brand); background: var(--brand-soft); border-radius: 999px; padding: .05rem .45rem; vertical-align: .1em; }
+.since-more { margin: .35rem 0 0; font-size: .92rem; }
+.since-list { font-size: .93rem; line-height: 1.35; gap: .35rem; }
+.since-list a { text-decoration: none; color: var(--link); }
+.since-n { margin: .55rem 0 .2rem; font-size: .88rem; }
