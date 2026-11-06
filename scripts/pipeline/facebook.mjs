@@ -13,6 +13,9 @@ import { ROOT, log, readJson } from './lib.mjs';
 // own token, which doesn't expire. That Page token is kept in sv_fb_auth, so the user token can expire afterwards.
 import crypto from 'node:crypto';
 const { FB_PAGE_TOKEN, FB_APP_ID, FB_APP_SECRET, FB_USER_TOKEN } = process.env;
+// Paused Nov 6 2026: Meta wants Jeff to confirm his identity (facebook.com/id) before any app can post as the Page, and he
+// chose not to. Set FB_POSTING to 'on' in news.yml once that's done; the connection itself already works.
+if (process.env.FB_POSTING !== 'on') { log('facebook: posting paused'); process.exit(0); }
 if (!FB_PAGE_TOKEN && !(FB_APP_ID && FB_APP_SECRET && FB_USER_TOKEN)) { log('facebook: no Facebook token yet, skipping'); process.exit(0); }
 const ORIGIN = 'https://squamishvoters.com', GRAPH = 'https://graph.facebook.com/v27.0';
 const MIN_SHARE = +(process.env.FB_MIN_SHARE || 4), PER_DAY = +(process.env.FB_PER_DAY || 4);
