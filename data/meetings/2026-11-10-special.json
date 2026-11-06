@@ -3,10 +3,10 @@
  "date": "2026-11-10",
  "type": "special",
  "civicweb_id": 2117,
- "civicweb_name": "Special Business Meeting - 10 Nov 2026",
+ "civicweb_name": "MEETING CANCELLED: Special Business Meeting - 10 Nov 2026",
  "time": "09:00",
  "place": "Council Chambers, Municipal Hall, 37955 Second Avenue",
- "agenda_url": "https://squamish.civicweb.net/document/271796/",
+ "agenda_url": "https://squamish.civicweb.net/Portal/MeetingInformation.aspx?Id=2117",
  "agenda_pdf": "https://squamish.civicweb.net/document/271796/?printPdf=true",
  "attachments": [],
  "agenda_place": "Council Chambers, Municipal Hall, 37955 Second Avenue",
@@ -35,5 +35,6 @@
   }
  ],
  "agenda_hash": "8a16c6514f4decb2",
- "agenda_checked": "2026-11-05T23:40:18.500Z"
+ "agenda_checked": "2026-11-05T23:40:18.500Z",
+ "status": "cancelled"
 }
