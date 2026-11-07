@@ -66,6 +66,123 @@
  ],
  "stories": [
   {
+   "slug": "corridor-trail-bridge-closure-nov-9-10",
+   "s": "move",
+   "tier": "brief",
+   "date": "2026-11-06",
+   "head": "Corridor Trail bridge by the Adventure Centre closes Monday and Tuesday",
+   "dek": "Walking or biking the Corridor Trail near the Squamish Adventure Centre next week? Expect a detour. The bridge between Robin Drive and the Adventure Centre closes during work hours on Monday, November 9 and Tuesday, November 10 for railing repairs.",
+   "take": "Plan for a trail detour near the Squamish Adventure Centre during work hours on November 9 and 10.",
+   "body": "## What is happening\n\nThe District of Squamish is repairing the railings on a bridge along the Corridor Trail. The bridge sits on the section of trail between Robin Drive and the Squamish Adventure Centre.\n\nWhile the work is done, the bridge will be closed to trail users.\n\n## When\n\n- Monday, November 9, during work hours\n- Tuesday, November 10, during work hours\n\nThe District notice does not give exact start and end times. It says the closure is during work hours on those two days.\n\n## What to expect\n\nThe District lists these impacts for people using or living near the trail:\n\n- A trail detour around the closed bridge\n- Noise from the repair work\n- Dust from the repair work\n\nIf you usually cross this bridge on foot or by bike, give yourself a little extra time on those two days and follow the detour.\n\n## More information\n\nThe notice was posted in the District of Squamish E-News on November 6. You can read it in the [District's E-News archive](https://squamish.ca/government-and-administration/district-information/enews-archives/).\n\nFor current conditions around town, including Highway 99, see our [Today page](/today/). For other news near you, see [neighbourhoods](/neighbourhoods/).",
+   "visual": {
+    "type": "big",
+    "big": "Nov 9 and 10",
+    "small": "Bridge closed during work hours"
+   },
+   "src": [
+    "District of Squamish E-News",
+    "https://squamish.ca/government-and-administration/district-information/enews-archives/"
+   ],
+   "social": "Do you walk, run or bike the Corridor Trail near the Squamish Adventure Centre? Your route changes for two days next week.\n\nThe trail bridge between Robin Drive and the Adventure Centre closes during work hours November 9 and 10 for railing repairs. What to expect on the trail:",
+   "share": 2,
+   "auto": true,
+   "areas": [
+    "downtown",
+    "loggers-east"
+   ],
+   "photo": {
+    "file": "/news/photos/corridor-trail-bridge-closure-nov-9-10.jpg",
+    "alt": "The Stawamus Chief seen from the Chief Overlook trail",
+    "caption": "The Stawamus Chief (Siyám Smánit), seen from the Chief Overlook trail.",
+    "credit": "Daniel Lu (User:dllu), CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Stawamus_Chief_from_Chief_Overlook_Panorama_Trail_Sea_to_Sky_Gondola_Squamish_dllu.jpg"
+   },
+   "og": "corridor-trail-bridge-closure-nov-9-10.png"
+  },
+  {
+   "slug": "paradise-valley-bailey-bridge-night-closures",
+   "s": "move",
+   "tier": "brief",
+   "date": "2026-11-06",
+   "head": "Paradise Valley Bailey Bridge closes overnight Monday and Tuesday",
+   "dek": "If you cross the Paradise Valley Bailey Bridge at night, plan ahead for next week. The bridge will close from 10 p.m. to 6 a.m. on Monday, November 9 and Tuesday, November 10. Friday night's planned closure was cancelled because the contractor finished early.",
+   "take": "The Paradise Valley Bailey Bridge is closed from 10 p.m. to 6 a.m. on Monday, November 9 and Tuesday, November 10, and Friday, November 6 is no longer a closure night.",
+   "body": "## What changes\n\nThe overnight closure of the Paradise Valley Bailey Bridge that was planned for Friday, November 6 has been cancelled. The District of Squamish says the contractor finished this phase of work ahead of schedule.\n\nTwo more overnight closures are confirmed for next week.\n\n## Closure dates and times\n\n- Monday, November 9: closed 10 p.m. to 6 a.m.\n- Tuesday, November 10: closed 10 p.m. to 6 a.m.\n\nEach closure starts at 10 p.m. and ends at 6 a.m. the next morning.\n\n## Dates could still shift\n\nThe District says the dates remain subject to change. Changes could depend on:\n\n- how the construction is going\n- conditions at the site\n- coordination needs\n\nIf you travel over the bridge at night, check for updates before you head out.\n\n## Where to find updates\n\nThe notice came from the [District of Squamish E-News](https://squamish.ca/government-and-administration/district-information/enews-archives/). For road and highway conditions right now, see our [today page](/today/). More on getting around is on our [transit and Highway 99 issue page](/issues/transit-and-highway-99/).",
+   "visual": {
+    "type": "big",
+    "big": "Nov 9 and 10",
+    "small": "Overnight closures, 10 p.m. to 6 a.m."
+   },
+   "src": [
+    "District of Squamish E-News",
+    "https://squamish.ca/government-and-administration/district-information/enews-archives/"
+   ],
+   "social": "Do you drive the Paradise Valley Bailey Bridge late at night or before dawn?\n\nThe bridge closes from 10 p.m. to 6 a.m. on Monday, November 9 and Tuesday, November 10. Friday's closure is off. The dates and what could still change:",
+   "share": 2,
+   "auto": true,
+   "areas": [
+    "squamish-north"
+   ],
+   "photo": {
+    "file": "/news/photos/paradise-valley-bailey-bridge-night-closures.jpg",
+    "alt": "Clear green river water flowing past a bank of shrubs and tall evergreen trees, with forested hills behind.",
+    "caption": "The Cheakamus River, which the Paradise Valley Bailey Bridge crosses near Squamish.",
+    "credit": "Sealnice, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Cheakamus_river.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/paradise-valley-bailey-bridge-night-closures-2.jpg",
+     "alt": "3D satellite terrain map showing Squamish, Brackendale and the highway corridor north toward Whistler through forested mountains.",
+     "caption": "Map view of Squamish, Brackendale and the Cheakamus valley to the north.",
+     "credit": "NASA & OSM, Public domain",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_%26_Cheakamus_World_Wind.png"
+    }
+   ],
+   "og": "paradise-valley-bailey-bridge-night-closures.png"
+  },
+  {
+   "slug": "bears-feeding-before-hibernation-trails",
+   "s": "safety",
+   "tier": "brief",
+   "date": "2026-11-06",
+   "head": "Why bears near Squamish rivers are easier to surprise right now",
+   "dek": "Bears getting ready to hibernate are busy eating and pay less attention to what is around them. The District of Squamish says they are often near berry bushes and along waterways feeding on spawning salmon. Trail users can easily spook them in a surprise encounter.",
+   "take": "Bears are feeding near berry bushes and salmon streams before hibernation, so trail users should expect them there and can find the District's tips on avoiding conflicts.",
+   "body": "## What is happening\n\nBears in the Squamish area are getting ready for winter hibernation. The District of Squamish shared this in its Wildlife Wednesday post on November 6, 2026.\n\nAt this time of year, bears spend much of their time eating. The District says they are often found:\n\n- Near berry bushes\n- Along waterways, feeding on spawning salmon\n\n## Why it matters on the trails\n\nWhen bears are focused on eating, they are less aware of what is going on around them. That means they may not notice a person coming until the last moment.\n\nThe District says bears in this state can be easily spooked by trail users in surprise encounters. A surprise meeting is what can lead to a conflict between people and wildlife.\n\n## Who it affects\n\nThis matters most for anyone using trails near berry patches, creeks and rivers where salmon are spawning. That includes people walking, running, biking or walking dogs.\n\n## Where to find the tips\n\nThe District has tips available on preventing conflicts between people and wildlife along trails. You can find them through the District's E-News at [squamish.ca](https://squamish.ca/government-and-administration/district-information/enews-archives/).\n\nFor current conditions around town, see our [today page](/today/). For more local safety news, see our [policing and safety](/issues/policing-and-safety/) page.",
+   "src": [
+    "District of Squamish E-News",
+    "https://squamish.ca/government-and-administration/district-information/enews-archives/"
+   ],
+   "social": "Heading out on a trail near a river or berry patch this week?\n\nBears are fattening up for winter on salmon and berries, and the District says they are so focused on eating that a surprise meeting with a hiker or rider can easily spook them. Where they tend to be and why it matters:",
+   "share": 3,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/bears-feeding-before-hibernation-trails.jpg",
+    "alt": "Wooden boardwalk trail through dense green rainforest with ferns and mossy trees",
+    "caption": "A boardwalk trail through the forest near Squamish.",
+    "credit": "Jennifer C., CC BY 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish_Trails_(20631296034).jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/bears-feeding-before-hibernation-trails-2.jpg",
+     "alt": "Granite dome of the Stawamus Chief with the Squamish valley and river behind",
+     "caption": "The Stawamus Chief and the Squamish valley, seen from the Sea to Sky Gondola area.",
+     "credit": "Daniel Lu (User:dllu), CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Stawamus_Chief_from_Chief_Overlook_Panorama_Trail_Sea_to_Sky_Gondola_Squamish_dllu.jpg"
+    },
+    {
+     "file": "/news/photos/bears-feeding-before-hibernation-trails-3.jpg",
+     "alt": "Moss-draped branches over thick ferns and undergrowth in a forest",
+     "caption": "Thick undergrowth along a Squamish trail.",
+     "credit": "Jennifer C., CC BY 2.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_Trails_(20631276004).jpg"
+    }
+   ],
+   "og": "bears-feeding-before-hibernation-trails.png"
+  },
+  {
    "slug": "remembrance-day-cleveland-avenue-closure",
    "s": "community",
    "tier": "card",
