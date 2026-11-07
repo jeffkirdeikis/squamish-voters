@@ -66,6 +66,72 @@
  ],
  "stories": [
   {
+   "slug": "garibaldi-volcano-observatory-proposal",
+   "s": "safety",
+   "tier": "card",
+   "date": "2026-11-07",
+   "head": "Scientists want to watch Mount Garibaldi closely. No, it isn't erupting",
+   "dek": "Federal scientists want to start Canada's first dedicated volcano watch on the peaks around Squamish, and the regional district has backed the idea. The Squamish-Lillooet Regional District board endorsed the proposal on October 30. The five-year project would cover Mount Garibaldi, Mount Cayley and Mount Meager from April 2027, if federal funding comes through.",
+   "take": "Nothing changes for residents now; the regional district endorsed a federal monitoring proposal that still needs funding approval.",
+   "body": "## What the project would do\n\nThe Geological Survey of Canada, part of Natural Resources Canada, wants to run a five-year project called VolCan: Towards a Canadian Volcano Observatory. It would focus on three volcanoes in the Sea to Sky: Mount Garibaldi, Mount Cayley and Mount Meager.\n\nUnder the plan, scientists would:\n\n- Set up baseline monitoring at priority volcanoes, so they know what normal looks like\n- Create notification steps and regular updates for emergency managers\n- Hold workshops and emergency exercises with regional, municipal and Indigenous governments\n\nThe work would also help the federal government decide whether to create a permanent national observatory. Canada does not have one today.\n\n## Why Squamish is in the picture\n\nIn an October 9 letter, the survey called the three peaks the most threatening volcanoes in Canada. It said debris flows and ash could reach Squamish, Whistler and Pemberton, along with Highway 99, the CN rail line, and power and communication lines.\n\nThe ratings are about possible impacts as well as activity. They do not mean an eruption is likely soon. Garibaldi and Meager are rated very high threat, and Cayley high threat.\n\n## No sign of an eruption\n\nEruptions in Canada are rare. Natural Resources Canada has reported no satellite evidence of magma moving the ground at the country's volcanoes. Scientists say eruptions usually give warning signs, sometimes months or years ahead. Mount Meager had Canada's last major explosive eruption about 2,350 years ago, with ash reaching Alberta.\n\n## What comes next\n\n- The Squamish-Lillooet Regional District board endorsed the plan on October 30 with no one opposed. Area A director Vivian Birch-Jones moved the motion.\n- The survey is applying to the Canadian Safety and Security Program for money. Funding is not confirmed.\n- If approved, the project would run from April 2027 to March 2032.\n\nThe plan builds on Canada's first volcanic hazard map workshop, held in Squamish on September 15 by the survey and Simon Fraser University's Centre for Natural Hazards Research.\n\nThe Squamish Chief [reported the endorsement](https://www.squamishchief.com/local-news/slrd-backs-proposal-for-canadas-first-volcano-observatory-12961715). For more on local hazards, see our [flood protection](/issues/flood-protection/) page.",
+   "visual": {
+    "type": "big",
+    "big": "Apr 2027",
+    "small": "Proposed volcano monitoring start"
+   },
+   "src": [
+    "The Squamish Chief",
+    "https://www.squamishchief.com/local-news/slrd-backs-proposal-for-canadas-first-volcano-observatory-12961715"
+   ],
+   "social": "Did you know Mount Garibaldi is rated one of Canada's highest threat volcanoes? Scientists stress that rating is about what could happen, not a sign of trouble now.\n\nThe regional district just backed a plan for Canada's first volcano observatory to watch Garibaldi, Cayley and Meager. What it would do, and what it means for Squamish:",
+   "share": 3,
+   "auto": true,
+   "poll": {
+    "q": "Should Canada set up a permanent volcano observatory for the Sea to Sky?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Yes, a permanent observatory",
+      "means": "Ongoing monitoring of Garibaldi, Cayley and Meager would continue past the five-year project."
+     },
+     {
+      "key": "b",
+      "label": "Try the five-year project first",
+      "means": "Ottawa would decide on a permanent observatory after the project ends in 2032."
+     },
+     {
+      "key": "c",
+      "label": "Existing monitoring is enough",
+      "means": "Earthquake stations and satellite checks would remain the main sources of information."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/garibaldi-volcano-observatory-proposal.jpg",
+    "alt": "Snow-covered summit of Mount Garibaldi under a clear blue sky",
+    "caption": "Mount Garibaldi, one of three volcanoes proposed for monitoring.",
+    "credit": "Psi4ce (talk · contribs), Public domain",
+    "link": "https://commons.wikimedia.org/wiki/File:Mount_Garibaldi.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/garibaldi-volcano-observatory-proposal-2.jpg",
+     "alt": "Downtown Squamish street with snow-capped Mount Garibaldi rising in the distance",
+     "caption": "Mount Garibaldi seen from downtown Squamish.",
+     "credit": "The original uploader was Damieng at English Wikipedia., CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+    },
+    {
+     "file": "/news/photos/garibaldi-volcano-observatory-proposal-3.jpg",
+     "alt": "Snowy peaks of the Mount Meager massif beyond a green field and trees",
+     "caption": "The Mount Meager massif, also included in the proposed volcano watch.",
+     "credit": "Seattle Skier, CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:MountMeagerPlinthCapricorn.jpg"
+    }
+   ],
+   "og": "garibaldi-volcano-observatory-proposal.png"
+  },
+  {
    "slug": "corridor-trail-bridge-closure-nov-9-10",
    "s": "move",
    "tier": "brief",
