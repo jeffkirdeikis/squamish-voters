@@ -66,6 +66,52 @@
  ],
  "stories": [
   {
+   "slug": "rainfall-warning-howe-sound-50-mm",
+   "s": "weather",
+   "tier": "card",
+   "date": "2026-11-07",
+   "head": "50 mm of rain heads for Squamish tonight. Here's where to watch out",
+   "dek": "Squamish could see about 50 mm of rain from tonight through Sunday. Environment Canada has issued a rainfall warning for Howe Sound and Metro Vancouver as another strong low pressure system reaches the South Coast. Water may pool on roads, and washouts and landslides are possible in some areas.",
+   "take": "Expect water pooling on roads from tonight through Sunday, and take care near rivers, creeks, culverts and steep slopes.",
+   "body": "## What is coming\n\nEnvironment Canada issued a rainfall warning on November 7, 2026 for Howe Sound, which includes Squamish. The same warning covers Metro Vancouver, including the North Shore, West Vancouver and North Vancouver.\n\n- **When:** tonight through Sunday\n- **How much:** about 50 mm of rain\n- **Why:** another strong low pressure system is heading toward the South Coast. The rain will continue until the system moves farther east.\n\n## Where to watch out\n\nEnvironment Canada says heavy rain like this can cause problems in a few kinds of places:\n\n- **Roads and low spots:** water will likely pool on roads and in low areas.\n- **Steep ground:** landslides may happen on steep slopes, in areas where trees have been cleared, and on land burned by recent fires.\n- **Near water:** watch for washouts near rivers, creeks and culverts.\n\n## Stay up to date\n\nEnvironment Canada asks people to keep checking its alerts and forecasts. You can see the current warning on the [Environment Canada warnings page](https://weather.gc.ca/warnings/index_e.html?prov=bc).\n\nFor local conditions in one place, including weather, Highway 99 and the rivers, see our [Today page](/today/). For background on how Squamish manages high water, see our [flood protection issue page](/issues/flood-protection/).\n\n## How to report severe weather\n\n- Email Environment Canada at BCstorm@ec.gc.ca\n- Or post on social media using #BCStorm",
+   "visual": {
+    "type": "big",
+    "big": "50 mm",
+    "small": "Rain expected through Sunday"
+   },
+   "src": [
+    "Environment Canada",
+    "https://weather.gc.ca/warnings/index_e.html?prov=bc"
+   ],
+   "social": "Driving the Sea to Sky or walking near a creek this weekend?\n\nEnvironment Canada has a rainfall warning for Howe Sound, with about 50 mm of rain expected tonight through Sunday. Where flooding, washouts and slides are most likely, and how to report what you see:",
+   "share": 3,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/rainfall-warning-howe-sound-50-mm.jpg",
+    "alt": "Heavy grey clouds hang low over the forested mountains and islands of Howe Sound",
+    "caption": "Low clouds over Howe Sound.",
+    "credit": "David Zhang, CC BY-SA 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Clouds_over_Howe_Sound_at_sunset.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/rainfall-warning-howe-sound-50-mm-2.jpg",
+     "alt": "Satellite image of a large swirling storm system over the northeast Pacific approaching the West Coast",
+     "caption": "A Pacific storm system approaching the West Coast, seen by satellite in January 2024.",
+     "credit": "MODIS Land Rapid Response Team, NASA GSFC, Public domain",
+     "link": "https://commons.wikimedia.org/wiki/File:Severe_Storms_Approaching_the_West_Coast_of_the_United_States_(MODIS_2024-01-01).jpg"
+    },
+    {
+     "file": "/news/photos/rainfall-warning-howe-sound-50-mm-3.jpg",
+     "alt": "Dark storm clouds lit orange at sunset above islands in Howe Sound",
+     "caption": "Storm clouds at sunset over Howe Sound.",
+     "credit": "David Zhang, CC BY-SA 2.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Howe_Sound_Sunset_2024-10.jpg"
+    }
+   ],
+   "og": "rainfall-warning-howe-sound-50-mm.png"
+  },
+  {
    "slug": "howe-sound-wind-warning-90-kmh",
    "s": "weather",
    "tier": "card",
