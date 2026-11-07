@@ -66,6 +66,36 @@
  ],
  "stories": [
   {
+   "slug": "howe-sound-wind-warning-90-kmh",
+   "s": "weather",
+   "tier": "card",
+   "date": "2026-11-07",
+   "head": "Gusts to 90 km/h hit Howe Sound this afternoon. Here's when they ease",
+   "dek": "Damaging winds are expected around Howe Sound from this afternoon until early Sunday. Environment Canada has issued a wind warning for southeasterly winds of 70 km/h gusting to 90 km/h. Power outages are possible, so secure loose objects now.",
+   "take": "Secure loose objects before this afternoon, when gusts up to 90 km/h are expected around Howe Sound until Sunday morning.",
+   "body": "## When the wind arrives and eases\n\nEnvironment Canada says another strong low pressure system is heading toward the South Coast. Here is the expected timing:\n\n- **This afternoon (Saturday, November 7):** strong southeasterly winds of 70 km/h, gusting to 90 km/h, develop.\n- **Overnight:** winds shift to come from the southwest.\n- **Sunday morning:** winds ease.\n\nThe warning runs from this afternoon through early Sunday.\n\n## Where the warning applies\n\nThe wind warning covers:\n\n- Howe Sound\n- Sunshine Coast\n- East Vancouver Island, Nanoose Bay to Fanny Bay\n- East Vancouver Island, Courtenay to Campbell River\n\n## What to watch for\n\nEnvironment Canada says damaging winds are expected. It warns that:\n\n- Local power and utility outages are possible.\n- There is a risk of injury from flying or falling debris.\n\nThe agency advises people to secure loose objects, such as outdoor furniture, garbage bins and other items that could blow around.\n\n## Stay up to date\n\nEnvironment Canada asks people to keep checking its alerts and forecasts. You can read the current warnings on the [Environment Canada warnings page](https://weather.gc.ca/warnings/index_e.html?prov=bc). For local conditions, including weather and Highway 99, see our [today page](/today/).\n\nTo report severe weather, email BCstorm@ec.gc.ca or post on social media using #BCStorm.",
+   "visual": {
+    "type": "big",
+    "big": "90 km/h",
+    "small": "Wind gusts"
+   },
+   "src": [
+    "Environment Canada",
+    "https://weather.gc.ca/warnings/index_e.html?prov=bc"
+   ],
+   "social": "Got patio furniture, bins or a trampoline in the yard? Today is the day to tie them down.\n\nEnvironment Canada has a wind warning for Howe Sound, with gusts to 90 km/h starting this afternoon and lasting into early Sunday. When the winds shift and ease, plus what to watch for:",
+   "share": 3,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/howe-sound-wind-warning-90-kmh.jpg",
+    "alt": "Howe Sound seen from above Squamish",
+    "caption": "Howe Sound, seen from above Squamish.",
+    "credit": "Shafik Diwan, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Howe_Sound,_Squamish.jpg"
+   },
+   "og": "howe-sound-wind-warning-90-kmh.png"
+  },
+  {
    "slug": "pokemon-card-show-today",
    "s": "community",
    "tier": "brief",
