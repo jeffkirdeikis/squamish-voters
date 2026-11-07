@@ -66,6 +66,55 @@
  ],
  "stories": [
   {
+   "slug": "pokemon-card-show-today",
+   "s": "community",
+   "tier": "brief",
+   "date": "2026-11-07",
+   "head": "Got old Pokémon cards? Squamish's first card show is today, and it's free",
+   "dek": "If you have a shoebox of Pokémon cards at home, there is a place to trade them today. Roundhouse Martial Arts & Fitness hosts what its owners call Squamish's first Pokémon Card Show on Saturday, November 7, from noon to 3 p.m. It is free for visitors and vendors, at 38147 Cleveland Avenue.",
+   "take": "The free show runs today, November 7, from noon to 3 p.m. on the second floor at 38147 Cleveland Avenue.",
+   "body": "## What's happening\n\nCole Smith and Candace Fan, who own Roundhouse Martial Arts & Fitness, are hosting a Pokémon Card Show at their gym today. They say it is the first of its kind in Squamish. Fans can buy, trade or just look at cards. Entry is free, and vendors do not pay to take part either.\n\nThe show is meant to be small. Half the space is set aside for vendors. The other half is for kids of all ages to trade cards and meet each other.\n\n## Cards locals can afford\n\nSome Pokémon cards sell for thousands of dollars, or even millions. Smith says he does not want cards like that at this show. He wants prices that make sense for local buyers, with cards at about:\n\n- $5 to $20 for most cards\n- maybe $50 for a few\n\n\"I don't want vendors with their $3,000 card,\" he said.\n\n## Why he's doing it\n\nSmith grew up with the cards. He was in Grade 4 when Pokémon came out. Like many kids, he stopped collecting, but his mom had kept his old cards in a bin. He got back into the hobby as an adult. The couple also collect Pokémon stuffed animals when they travel, and they now have a two month old daughter.\n\n## What could come next\n\nSmith says a few vendors from the city have already shown interest. If one or two small shows prove there is demand, he hopes to move to Totem Hall. He would like to hold a bigger convention there that also covers sports collections and other anime collectibles.\n\nThe Squamish Chief [reported on the show](https://www.squamishchief.com/local-news/on-today-squamish-pokemon-collectible-card-show-on-nov-7-12941202).\n\n## Where and when\n\n- Saturday, November 7, 2026\n- Noon to 3 p.m.\n- Second floor, 38147 Cleveland Avenue, Squamish (Roundhouse Martial Arts & Fitness)\n- Free for visitors and vendors\n- Open to collectors, new fans and kids of all ages",
+   "visual": {
+    "type": "big",
+    "big": "Nov 7",
+    "small": "Noon to 3 p.m., free"
+   },
+   "src": [
+    "The Squamish Chief",
+    "https://www.squamishchief.com/local-news/on-today-squamish-pokemon-collectible-card-show-on-nov-7-12941202"
+   ],
+   "social": "Is there a shoebox of Pokémon cards hiding in your closet? Today you can find out what it's worth to other fans, or let your kids trade their own.\n\nA free card show runs noon to 3 p.m. at a downtown gym, with vendors on one side and trading for kids on the other. Where it is, what the cards cost and what the owners hope comes next:",
+   "share": 3,
+   "auto": true,
+   "areas": [
+    "downtown"
+   ],
+   "photo": {
+    "file": "/news/photos/pokemon-card-show-today.jpg",
+    "alt": "Downtown Squamish street lined with shops and parked cars, with a snow-capped mountain in the distance under a clear blue sky",
+    "caption": "Downtown Squamish, with Mount Garibaldi in the distance.",
+    "credit": "The original uploader was Damieng at English Wikipedia., CC BY-SA 3.0",
+    "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/pokemon-card-show-today-2.jpg",
+     "alt": "Granite stone sign reading Squamish Town Centre beside a road, with the Stawamus Chief cliffs behind",
+     "caption": "The Squamish Town Centre sign, with the Stawamus Chief behind.",
+     "credit": "Straitgate, CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_City_Centre.JPG"
+    },
+    {
+     "file": "/news/photos/pokemon-card-show-today-3.jpg",
+     "alt": "Black Pokémon trading card game First Edition symbol, the number 1 in a circle under the word Edition",
+     "caption": "The First Edition symbol found on early Pokémon trading cards.",
+     "credit": "Wizards of the Coast/Creatures Inc./Media Factory, Public domain",
+     "link": "https://commons.wikimedia.org/wiki/File:Pok%C3%A9mon_TCG_First_Edition_symbol.png"
+    }
+   ],
+   "og": "pokemon-card-show-today.png"
+  },
+  {
    "slug": "garibaldi-volcano-observatory-proposal",
    "s": "safety",
    "tier": "card",
