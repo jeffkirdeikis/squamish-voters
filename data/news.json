@@ -66,6 +66,36 @@
  ],
  "stories": [
   {
+   "slug": "power-outage-squamish-nov-8",
+   "s": "safety",
+   "tier": "brief",
+   "date": "2026-11-08",
+   "head": "Power out for 2,152 Squamish customers since 2:38 a.m. Sunday",
+   "dek": "More than 2,000 BC Hydro customers in Squamish lost power early Sunday morning. The outage began at 2:38 a.m. on November 8 in the area south of Transit Place. The cause is under investigation, a crew is assigned, and there is no restoration estimate yet.",
+   "take": "Check BC Hydro's live outage map for updates, since there is no restoration estimate yet.",
+   "body": "## What happened\n\nBC Hydro reports a power outage in Squamish affecting 2,152 customers. The power went off on Sunday, November 8 at 2:38 a.m.\n\n- Customers affected: 2,152\n- Area: south of Transit Place\n- Power went off: Sunday, November 8 at 2:38 a.m.\n- Cause: under investigation\n- Crew status: crew assigned\n- Restoration estimate: none yet\n\n## The details\n\nBC Hydro has not said what caused the outage. It lists the cause as under investigation. A crew has been assigned to the outage, but BC Hydro has not yet given a time for when power should be back on.\n\nThis information was last updated by BC Hydro on Sunday, November 8 at 2:55 a.m. Outage numbers like these can change quickly as crews work and as power comes back to some areas before others.\n\n## Where to check for updates\n\nBC Hydro posts the latest details, including any restoration estimate, on its live outage map:\n\n- [BC Hydro live outage map](https://www.bchydro.com/power-outages/app/outage-map.html)\n\nFor current local conditions, including weather and Highway 99, see our [today page](/today/).",
+   "visual": {
+    "type": "big",
+    "big": "2,152",
+    "small": "Customers without power"
+   },
+   "src": [
+    "BC Hydro outage map",
+    "https://www.bchydro.com/power-outages/app/outage-map.html"
+   ],
+   "social": "Woke up to a dark house and a blinking clock this morning? You are not alone in Squamish.\n\nBC Hydro says 2,152 customers south of Transit Place lost power at 2:38 a.m. Sunday, and a crew is assigned. What we know so far and where to check the live map:",
+   "share": 3,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/power-outage-squamish-nov-8.jpg",
+    "alt": "Downtown Squamish street lined with shops and parked cars under a clear blue sky, with a snow-capped mountain in the distance",
+    "caption": "Downtown Squamish, with Mount Garibaldi in the background.",
+    "credit": "The original uploader was Damieng at English Wikipedia., CC BY-SA 3.0",
+    "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+   },
+   "og": "power-outage-squamish-nov-8.png"
+  },
+  {
    "slug": "rainfall-warning-howe-sound-50-mm",
    "s": "weather",
    "tier": "card",
