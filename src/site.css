@@ -2241,3 +2241,18 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .mrow .mtags { justify-self: start; }
 .mrow a { padding: .75rem 1rem; }
 @media (max-width: 420px) { .mrow .mtxt { grid-template-columns: 1fr; } }
+
+/* News on phones: short cards (photo, section, headline), whole story on its own page (review, Nov 9) */
+@media (max-width: 699px) {
+  .nw-main .nw-cards { gap: .6rem; }
+  .nw-main .nw-card, .nw-main .nw-feature { display: grid; grid-template-columns: 6.4rem minmax(0, 1fr); column-gap: .85rem; row-gap: .25rem; align-items: start; padding: .7rem; border-top-width: 1px; }
+  .nw-main :is(.nw-card, .nw-feature) > :not(.nw-photo, .nw-map, .nw-kicker, .nw-h) { display: none; }
+  .nw-main :is(.nw-card, .nw-feature) > :is(.nw-photo, .nw-map) { grid-column: 1; grid-row: 1 / span 2; margin: 0; }
+  .nw-main :is(.nw-card, .nw-feature) > :is(.nw-photo, .nw-map) img { aspect-ratio: 1 / 1; border-radius: 8px; object-fit: cover; }
+  .nw-main :is(.nw-card, .nw-feature) > :is(.nw-photo, .nw-map) figcaption { display: none; }
+  .nw-main :is(.nw-card, .nw-feature) > :is(.nw-kicker, .nw-h) { grid-column: 2; margin: 0; }
+  .nw-main :is(.nw-card, .nw-feature):not(:has(> .nw-photo, > .nw-map)) { grid-template-columns: minmax(0, 1fr); }
+  .nw-main :is(.nw-card, .nw-feature):not(:has(> .nw-photo, > .nw-map)) > * { grid-column: 1; }
+  .nw-main :is(.nw-card, .nw-feature) .nw-h { font-size: 1.05rem; line-height: 1.25; }
+  .nw-main .nw-lead > :is(.nw-panel, .nw-big, .nw-take, .nw-foot, .nw-readmore) { display: none; }
+}
