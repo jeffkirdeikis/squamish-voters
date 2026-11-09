@@ -309,6 +309,13 @@ const NAV_GROUPS = [
   { href: '/news/', label: 'News' },
   { href: '/today/', label: 'Today' },
 ];
+// Footer links in short groups, two columns on phones (review, Nov 9). Every page in MENU appears here.
+const FOOT_GROUPS = [
+  ['Council', [['/council/', 'Your mayor and council'], ['/meetings/', 'Meetings'], ['/scorecard/', 'Scorecard'], ['/this-week/', 'This week in Squamish'], ['/how-council-works/', 'How council works']]],
+  ['Your say', [['/your-say/', 'Your say'], ['/wants/', 'What Squamish Wants'], ['/have-your-say/', 'Before council votes'], ['/priorities/', 'Readers’ top issues']]],
+  ['Squamish', [['/', 'Home'], ['/news/', 'News'], ['/today/', 'Squamish today'], ['/neighbourhoods/', 'Your neighbourhood'], ['/issues/', 'Issues']]],
+  ['About', [['/about/', 'About and method'], ['/faq/', 'Quick answers'], ['/corrections/', 'Corrections'], ['/data/', 'Data downloads'], ['/results/', '2026 election results']]],
+];
 const NAV = [['/council/', 'Council'], ['/your-say/', 'Your say'], ['/wants/', 'What Squamish Wants'], ['/meetings/', 'Meetings'], ['/scorecard/', 'Scorecard'], ['/issues/', 'Issues'], ['/news/', 'News']];
 // The Menu lists everything; the top bar only has room for the essentials.
 const MENU = [...NAV, ['/have-your-say/', 'Before council votes'], ['/this-week/', 'This week in Squamish'], ['/priorities/', 'Readers’ top issues'], ['/neighbourhoods/', 'Your neighbourhood'], ['/today/', 'Squamish today'], ['/faq/', 'Quick answers'], ['/results/', '2026 election results']];
@@ -421,7 +428,7 @@ ${body}
 <footer class="site-footer"><div class="wrap">
   <div class="cols">
     <div><h2>${SITE.name}</h2><p>An independent, non-partisan guide to Squamish council made by <a href="https://jeffkirdeikis.com">Jeff Kirdeikis</a>, a Squamish resident. Not affiliated with the District of Squamish, any council member, or any party.</p>${updated ? `<p>This page last changed ${esc(fmtLong(updated))}.</p>` : ''}<p data-visits hidden><b>0</b> page views so far.</p></div>
-    <div><h2>Pages</h2><ul>${[['/', 'Home'], ...MENU, ['/data/', 'Data downloads'], ['/about/', 'About and method'], ['/corrections/', 'Corrections']].map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join('')}</ul></div>
+    ${FOOT_GROUPS.map(([g, links]) => `<div class="foot-g"><h2>${g}</h2><ul>${links.map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join('')}</ul></div>`).join('')}
     <div><h2>Official information</h2><ul><li><a href="https://squamish.ca/government-and-administration/council/" target="_blank" rel="noopener">District of Squamish: council</a></li><li><a href="https://squamish.civicweb.net/Portal/MeetingSchedule.aspx" target="_blank" rel="noopener">Official agendas and minutes</a></li><li><a href="https://www.youtube.com/@DistrictofSquamish/streams" target="_blank" rel="noopener">Meeting videos (YouTube)</a></li></ul>
     </div>
     <div><h2>Join the conversation</h2><ul><li><a href="https://www.facebook.com/groups/1090076830319905" target="_blank" rel="noopener">Squamish group on Facebook</a></li><li><a href="https://www.reddit.com/r/Squamish_News/" target="_blank" rel="noopener">r/Squamish_News on Reddit</a></li></ul></div>

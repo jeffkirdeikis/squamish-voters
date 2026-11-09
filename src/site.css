@@ -2264,3 +2264,12 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
   #foryou .topicpick::-webkit-scrollbar { display: none; }
   #foryou .topicpick .chip-btn { flex: none; white-space: nowrap; min-height: 2.6rem; padding: .3rem .85rem; scroll-snap-align: start; }
 }
+
+/* Footer: grouped links; on phones two columns (review, Nov 9) */
+.site-footer .foot-g a { text-decoration: none; }
+.site-footer .foot-g a:hover { text-decoration: underline; }
+@media (max-width: 620px) {
+  .site-footer .cols { grid-template-columns: 1fr 1fr; gap: 1.3rem 1rem; }
+  .site-footer .cols > div:not(.foot-g) { grid-column: 1 / -1; }
+  .site-footer .foot-g li { padding: .25rem 0; font-size: .9rem; }
+}
