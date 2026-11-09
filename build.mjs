@@ -2348,7 +2348,7 @@ for (const ic of ctx.issues || []) {
     <h2 id="background">The background</h2>
     <p>${escGl(paras.slice(0, mid).join(' '))}</p><p>${escGl(paras.slice(mid).join(' '))}</p>
     ${ic.key === 'environment_lng' || ic.key === 'taxes_spending' ? DEAL_IF_NO : ''}
-    ${(ic.key_facts || []).length ? `<h3 id="facts">Key facts</h3><ul class="facts">${ic.key_facts.map((f) => `<li>${esc(f.fact)}${src(f.source_url)}</li>`).join('')}</ul>` : ''}
+    ${(ic.key_facts || []).length ? `<h3 id="facts">Key facts</h3><ul class="facts${ic.key_facts.length > 5 ? ' kp-fold' : ''}">${ic.key_facts.map((f, i) => `<li${i >= 4 ? ' class="kp-more"' : ''}>${esc(f.fact)}${src(f.source_url)}</li>`).join('')}</ul>${ic.key_facts.length > 5 ? `<button type="button" class="kp-toggle" data-kp-more aria-expanded="false">Show all ${ic.key_facts.length} facts <span aria-hidden="true">▾</span></button>` : ''}` : ''}
     ${qs.length ? `<h2 id="agree">Agree or disagree?</h2><p>Where each council member lands on ${qs.length === 1 ? 'this statement' : `these ${qs.length} statements`}, from their own questionnaire answers or their public record. Tap a name for the detail.</p>${qs.map(spectrum).join('')}` : ''}
     ${iss ? `<h2 id="said">What each council member has said</h2>
     <p class="small">The mayor first, then council, in alphabetical order. Our summary of the public record; tap <b>[source]</b> to check it.</p>
