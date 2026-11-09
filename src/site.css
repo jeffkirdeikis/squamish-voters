@@ -2232,3 +2232,12 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .roles-list dt { font-weight: 700; }
 .roles-list dd { margin: 0; color: var(--muted); }
 @media (max-width: 560px) { .roles-list > div { grid-template-columns: 1fr; } }
+
+/* Meeting rows: weekday, time and type on one line (review, Nov 9) */
+.mrow .mtxt { gap: .2rem; }
+.mrow .mwhen { display: inline; margin: 0; }
+.mrow .mtxt { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: .6rem; }
+.mrow .mtxt > .mhead, .mrow .mtxt > .small { grid-column: 1 / -1; }
+.mrow .mtags { justify-self: start; }
+.mrow a { padding: .75rem 1rem; }
+@media (max-width: 420px) { .mrow .mtxt { grid-template-columns: 1fr; } }

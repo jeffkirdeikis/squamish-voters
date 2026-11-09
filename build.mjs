@@ -587,14 +587,24 @@ function decisionCard(d, m, { open = false } = {}) {
   ${d.why_it_matters ? `<p class="small"><b>Why it matters:</b> ${escGl(d.why_it_matters)}</p>` : ''}
   ${isUrl(d.video_url) ? `<p class="small"><a href="${esc(d.video_url)}" target="_blank" rel="noopener">▶ Watch this part of the meeting</a></p>` : ''}</div></details>`;
 }
+// Upcoming rows say what is on the agenda, not the same description of a council meeting on every row (review, Nov 9).
+const agendaReal = (m) => (m.agenda_items || []).filter((a) => a.kind !== 'procedural' && a.plain);
+const agendaPost = (m) => { const d = new Date(m.date + 'T12:00:00'); d.setDate(d.getDate() - ((d.getDay() + 3) % 7 || 7)); return d.toLocaleDateString('en-CA', { weekday: 'short', month: 'short', day: 'numeric' }).replace(/\./g, ''); }; // the Thursday before
+function upcomingLine(m) {
+  const a = agendaReal(m);
+  if (a.length) return clip(a[0].plain.replace(/^Council will (vote on|vote to|hear|discuss|consider) /i, (x, v) => v[0].toUpperCase() + v.slice(1) + ' '), 110);
+  if (m.preview && m.type !== 'regular') return m.preview;
+  return `Agenda out about ${agendaPost(m)}`;
+}
+const agendaMore = (m) => { const n = agendaReal(m).length - 1; return n > 0 ? `+ ${n} more item${n === 1 ? '' : 's'} on the agenda` : ''; };
 function meetingRow(m) {
   const done = !!m.summary;
   // A calendar chip shows the date (not an empty square that looks like a box to tick); the line beside it keeps the weekday.
   const x = new Date(m.date + 'T12:00:00'), yr = m.date.slice(0, 4) !== TODAY.slice(0, 4) ? `, ${m.date.slice(0, 4)}` : '';
   return `<li class="mrow ${mType(m).cls}${done ? ' done' : ''}"><a href="${mUrl(m)}"><span class="mcal" aria-hidden="true"><span>${x.toLocaleDateString('en-CA', { month: 'short' }).replace('.', '')}</span><b>${x.getDate()}</b></span>
   <span class="mtxt"><span class="mwhen"><span class="visually-hidden">${esc(fmtDay(m.date))}</span><b aria-hidden="true">${esc(x.toLocaleDateString('en-CA', { weekday: 'long' }))}${yr}</b>${m.time ? ` · ${esc(fmtTime(m.time))}` : ''}</span><span class="mtags">${mBadge(m)}${m.has_public_hearing ? `<span class="mtype ${MTYPE.hearing.cls}">Includes a public hearing</span>` : ''}${m.closed_only ? '<span class="mtype mt-special">Mostly behind closed doors</span>' : ''}</span>
-  <span class="mhead">${esc(done ? m.summary.headline : (m.preview || mType(m).plain))}</span>
-  ${done && (m.decisions || []).length ? `<span class="small">${m.decisions.filter((d) => d.votes).length} vote${m.decisions.filter((d) => d.votes).length === 1 ? '' : 's'} · tap to read</span>` : m.date >= TODAY ? '<span class="small">Coming up · tap for what’s on the agenda</span>' : '<span class="small">Summary coming soon</span>'}</span>
+  <span class="mhead">${esc(done ? m.summary.headline : upcomingLine(m))}</span>
+  ${done && (m.decisions || []).length ? `<span class="small">${m.decisions.filter((d) => d.votes).length} vote${m.decisions.filter((d) => d.votes).length === 1 ? '' : 's'} · tap to read</span>` : m.date >= TODAY ? (agendaMore(m) ? `<span class="small">${agendaMore(m)}</span>` : '') : '<span class="small">Summary coming soon</span>'}</span>
   <span class="go" aria-hidden="true">›</span></a></li>`;
 }
 // Positions: everything a member said they stand for during the campaign, checked against how they vote.
