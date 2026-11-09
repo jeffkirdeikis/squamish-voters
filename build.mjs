@@ -1223,7 +1223,8 @@ ${HAVE_SAY_OPEN ? `    <a class="cc-tile cc-say" href="/have-your-say/"><span cl
   <div class="faces faces-sm">${[...mayors, ...council].map(faceTile).join('')}</div>
   <p><a href="/council/">What each of them stands for, how they vote, and what they promised →</a></p>
 
-  <section class="card foryou-box no-print" id="foryou"><h2>What matters to you</h2>
+<div class="home-pair">
+    <section class="card foryou-box no-print" id="foryou"><h2>What matters to you</h2>
     <p class="small">Pick your neighbourhood and what you care about. We’ll show those first. It’s saved on this phone only.</p>
     <p class="small"><a href="/neighbourhoods/">See every neighbourhood: decisions, building projects and news on a map →</a></p>
     <label class="fld">Where you live<select data-pref="area"><option value="">Choose your neighbourhood</option>${HOODS.map((h) => `<option value="${esc(h.slug)}">${esc(h.name)}</option>`).join('')}</select></label>
@@ -1241,24 +1242,29 @@ ${HAVE_SAY_OPEN ? `    <a class="cc-tile cc-say" href="/have-your-say/"><span cl
     <div data-prio="3"></div>
     <p><a href="/priorities/">Every issue, and which way readers lean →</a></p>
   </section>
+  </div>
   <script>window.SV_SIDES=${JSON.stringify(SIDE_LABELS).replace(/</g, '\\u003c')};</script>
 
-  <section class="card nextup"><h2>Coming up</h2>
+<div class="home-pair">
+    <section class="card nextup"><h2>Coming up</h2>
   ${nx.length ? `<ul class="mlist">${nx.map(meetingRow).join('')}</ul><p><a href="/meetings/">All meetings →</a></p>` : '<p class="muted">No meetings are scheduled yet. Check back soon.</p>'}
   </section>
 
   ${last ? `<section class="card lastup"><h2>Last time council met</h2>
   <p class="mwhen"><b>${esc(fmtDay(last.date))}</b> ${mBadge(last)}</p>
   <p class="lede">${esc(last.summary.headline)}</p>
-  <ul class="keypoints">${(last.summary.key_points || []).map((k) => `<li>${escGl(k)}</li>`).join('')}</ul>
-  <a class="btn secondary" href="${mUrl(last)}">Read what they decided →</a></section>` : ''}
+  <ul class="keypoints">${(last.summary.key_points || []).slice(0, 3).map((k) => `<li>${escGl(k)}</li>`).join('')}</ul>
+  <a class="btn secondary" href="${mUrl(last)}">Read what they decided${(last.summary.key_points || []).length > 3 ? ` (${last.summary.key_points.length - 3} more)` : ''} →</a></section>` : ''}
+  </div>
 
+<div class="home-pair">
   <section class="card"><h2>Promise tracker</h2>
   <p>We wrote down <b>${PROMISES.length} promises</b> and <b>${all.reduce((a, c) => a + positionsOf(c).filter((p) => !p.ours).length, 0)} positions</b> the mayor and councillors took during the campaign. Every council vote is checked against them.</p>
   ${ANY_VOTES ? `<div class="pstats">${Object.entries(PSTATUS).map(([k, P]) => `<span class="pstatus ${P.cls}"><span aria-hidden="true">${P.icon}</span> ${allP[k]} ${esc(P.label.toLowerCase())}</span>`).join('')}</div>` : `<p class="small">Nothing to judge until the first votes${FIRST_VOTES ? ` on ${esc(fmtLong(FIRST_VOTES))}` : ''}.</p>`}
   <div class="btn-row"><a class="btn secondary" href="/scorecard/">See every promise →</a><a class="btn secondary" href="/scorecard/#positions">Do they vote the way they said? →</a></div></section>
 
   ${TRACKED.length ? `<section class="card"><h2>Issues we’re following</h2><p class="small">The big questions that keep coming back to council. Tap one to see where it stands.</p><ul class="mlist">${TRACKED.slice(0, 5).map(issueRow).join('')}</ul><p><a href="/issues/">All the issues →</a></p></section>` : ''}
+  </div>
   <div class="trust-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l7.5 3v5.6c0 4.6-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.2-7.5-9.8V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.6-5"/></svg><div>
     <h2>You can check our work</h2>
     <p>No endorsements. Every summary links to the official video, agenda and minutes, and every promise links to where it was said. The code is public.</p>
