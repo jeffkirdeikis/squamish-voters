@@ -259,6 +259,306 @@
   ]
  },
  {
+  "slug": "how-much-squamish-mayor-and-council-get-paid",
+  "track": "",
+  "question": "How much do the Squamish mayor and councillors get paid?",
+  "short": "Squamish mayor and council pay",
+  "published": "2026-11-09",
+  "checked": "2026-11-09",
+  "answer": "In 2025 the District of Squamish paid Mayor Armand Hurford $103,946 and most councillors $46,926 each, before expenses and benefits. By June 2026 the base pay was $106,193 for the mayor and $44,813 for a councillor. A bylaw council gave three readings on September 29, 2026 sets the pay at $125,000 for the mayor and $45,000 for each councillor starting in 2027, which covers the new council led by Mayor Sean Easton.",
+  "answer_src": [
+   1,
+   4,
+   3,
+   7
+  ],
+  "sections": [
+   {
+    "h": "What each member was paid in 2025",
+    "p": [
+     {
+      "t": "Every year the District must publish a Statement of Financial Information that lists what each council member was paid. The 2025 report, page 40, shows the amounts below.",
+      "s": [
+       1
+      ]
+     }
+    ],
+    "table": {
+     "head": [
+      "Name",
+      "Role",
+      "Pay",
+      "Expenses",
+      "Benefits"
+     ],
+     "rows": [
+      [
+       "Armand Hurford",
+       "Mayor",
+       "$103,946",
+       "$13,174",
+       "$12,823"
+      ],
+      [
+       "John French",
+       "Councillor",
+       "$46,926",
+       "$7,356",
+       "$9,777"
+      ],
+      [
+       "Chris Pettingill",
+       "Councillor",
+       "$46,926",
+       "$5,292",
+       "$9,777"
+      ],
+      [
+       "Jenna Stoner",
+       "Councillor",
+       "$46,926",
+       "$4,324",
+       "$9,777"
+      ],
+      [
+       "Eric Andersen",
+       "Councillor",
+       "$46,889",
+       "$3,616",
+       "$6,004"
+      ],
+      [
+       "Andrew Hamilton",
+       "Councillor",
+       "$46,926",
+       "$2,824",
+       "$9,777"
+      ],
+      [
+       "Lauren Greenlaw",
+       "Councillor",
+       "$46,926",
+       "$1,470",
+       "$9,777"
+      ],
+      [
+       "Total",
+       "",
+       "$385,465",
+       "$38,056",
+       "$67,712"
+      ]
+     ]
+    },
+    "after": [
+     {
+      "t": "Members who also sat on the Library Board or the Squamish Sustainability Corporation board were not paid extra for those seats.",
+      "s": [
+       1
+      ]
+     }
+    ]
+   },
+   {
+    "h": "How the pay is set",
+    "p": [
+     {
+      "t": "Pay is set in the Remuneration and Expenses Bylaw No. 1503, first adopted in 1998. Before the 2026 change, it set the mayor at $85,421 as of January 1, 2019, with a raise every January that follows the District's pay policy for its non union managers. Councillors get a fixed share of the mayor's pay, 42.2%. The acting mayor rate is 60% of the mayor's pay.",
+      "s": [
+       2
+      ]
+     },
+     {
+      "t": "A staff memo explains that the yearly raise for council matches the raise for those staff, and that raise is partly based on the consumer price index, a measure of inflation.",
+      "s": [
+       4
+      ]
+     }
+    ]
+   },
+   {
+    "h": "The 2026 pay review and the 2027 raise",
+    "p": [
+     {
+      "t": "On December 9, 2025, council moved $4,000 a year out of its contingency budget so that a pay review costing $15,000 to $20,000 could be done every four years, timed with elections. The District hired Western Compensation and Benefits Consultants, who surveyed 11 municipalities.",
+      "s": [
+       3,
+       4
+      ]
+     },
+     {
+      "t": "The review found Squamish pay slightly below average. The surveyed places paid mayors an average of $116,550 and councillors $45,479, while Squamish paid $106,193 and $44,813.",
+      "s": [
+       4
+      ]
+     },
+     {
+      "t": "Bylaw 3285 raises the mayor's pay to $125,000 as of January 1, 2027 and lowers the councillor share from 42.2% to 36%, which works out to $45,000. Pay then goes up for cost of living each January. The bylaw also adds life insurance to the listed benefits and lets members claim up to $2,000 a year for legal costs. It was set for adoption at the October 6, 2026 council meeting.",
+      "s": [
+       3,
+       8
+      ]
+     }
+    ],
+    "list": [
+     "Mayor: $106,193 in 2026, $125,000 from 2027 (about 18% more)",
+     "Councillor: $44,813 in 2026, $45,000 from 2027 (almost no change)"
+    ]
+   },
+   {
+    "h": "How council voted on its own pay",
+    "p": [
+     {
+      "t": "At the July 14, 2026 Committee of the Whole meeting, Councillor Hamilton moved and Councillor Greenlaw seconded the plan for a $125,000 mayor and a 36% share for councillors. Mayor Hurford and Councillor Andersen tried to raise the share to 40%, which would have meant about $50,000 for each councillor. That change failed, with Councillors Hamilton, Greenlaw, Pettingill and Stoner opposed. The main motion carried. A proposal for up to $2,000 a year for legal costs also carried, with Councillors Stoner, Andersen and French opposed.",
+      "s": [
+       5
+      ]
+     },
+     {
+      "t": "Council approved both ideas on September 1. On September 22 it reworded the legal costs item to cover legal fees related to council work. On September 29 the bylaw got first, second and third reading, moved by Councillor Hamilton and seconded by Councillor French.",
+      "s": [
+       12,
+       6,
+       7
+      ]
+     }
+    ]
+   },
+   {
+    "h": "Expenses, benefits and the old tax break",
+    "p": [
+     {
+      "t": "On top of their pay, members get travel costs back when they travel outside Squamish for District business: hotels at cost, the federal government's rate per kilometre for driving, and a $75 daily meal and small costs allowance with no receipts needed. The District pays for health, vision and dental coverage, accident insurance and the employer share of the Canada Pension Plan. Pay can be cut by 10% to 25% for a year if a member is found to have broken the code of conduct.",
+      "s": [
+       2
+      ]
+     },
+     {
+      "t": "The bylaw still says one third of each member's pay is an allowance for small costs of the job. That one third used to be tax free, but the federal 2017 budget made allowances like this taxable starting in the 2019 tax year.",
+      "s": [
+       2,
+       11
+      ]
+     }
+    ]
+   },
+   {
+    "h": "How Squamish compares with nearby places",
+    "p": [
+     {
+      "t": "These are 2025 amounts taken from each place's own financial report. North Vancouver District members are also paid separately for regional board seats, and that is not counted here.",
+      "s": [
+       1,
+       9,
+       10
+      ]
+     }
+    ],
+    "table": {
+     "head": [
+      "Place",
+      "Mayor 2025",
+      "Councillor 2025"
+     ],
+     "rows": [
+      [
+       "Squamish",
+       "$103,946",
+       "$46,926"
+      ],
+      [
+       "Whistler",
+       "$150,296",
+       "$56,896"
+      ],
+      [
+       "North Vancouver District",
+       "$172,340",
+       "$72,354 to $72,872"
+      ],
+      [
+       "Survey average, 11 places (2026 rates)",
+       "$116,550",
+       "$45,479"
+      ]
+     ]
+    }
+   }
+  ],
+  "faq": [
+   [
+    "How much does the mayor of Squamish get paid?",
+    "$103,946 in 2025 and $106,193 a year at 2026 rates. From January 1, 2027 the mayor's pay rises to $125,000 under Bylaw 3285, then goes up with cost of living each January."
+   ],
+   [
+    "How much do Squamish councillors get paid?",
+    "$46,926 each in 2025 and $44,813 a year at 2026 rates. From 2027 a councillor gets 36% of the mayor's pay, or $45,000."
+   ],
+   [
+    "Is being on Squamish council a full time job?",
+    "The District does not say. When council talked about pay in July 2026, members discussed whether the role is full time or part time and whether councillors can keep other jobs, but no rule was set."
+   ],
+   [
+    "Who decides council pay?",
+    "Council does, through a bylaw voted on in public. Since December 2025, an outside pay review is funded once every four years, ahead of each election."
+   ],
+   [
+    "Where can I see what each member is paid?",
+    "In the District's yearly Statement of Financial Information, which lists each member's pay, expenses and benefits."
+   ]
+  ],
+  "sources": [
+   [
+    "District of Squamish 2025 Statement of Financial Information (page 40)",
+    "https://squamish.ca/assets/Financial-statements/2025_SOFI_Report.pdf"
+   ],
+   [
+    "District of Squamish Remuneration and Expenses Bylaw No. 1503, consolidated",
+    "https://squamish.civicweb.net/document/174746/"
+   ],
+   [
+    "Staff report and redline, Amendment Bylaw No. 3285, September 29, 2026",
+    "https://squamish.civicweb.net/FileStorage/2E8EC38657C3471AB4930B30FC60CC79-District%20of%20Squamish%20Remuneration%20and%20Expenses%20Byl.pdf"
+   ],
+   [
+    "Human Resources memo, Council Remuneration, June 16, 2026",
+    "https://squamish.civicweb.net/FileStorage/3E9A0A1DA54744C491F17C40B6093847-Council%20Remuneration%20Memo.pdf"
+   ],
+   [
+    "Committee of the Whole minutes, July 14, 2026",
+    "https://squamish.civicweb.net/FileStorage/9866D6A9EC8C4BCF8A9EE6EDD18E911A-0714%20COW%20Minutes%202026.pdf"
+   ],
+   [
+    "Special Business Meeting minutes, September 22, 2026 (10 a.m.)",
+    "https://squamish.civicweb.net/FileStorage/41911D6DBF7E4F1895135CD93E8E7F5E-0922%20Special%20Minutes%202026%2010AM.pdf"
+   ],
+   [
+    "Special Business Meeting minutes, September 29, 2026",
+    "https://squamish.civicweb.net/FileStorage/F3DD5EDB1F66428CA78BC7BA458ED889-0929%20Special%20Minutes%202026.pdf"
+   ],
+   [
+    "Regular Council agenda, October 6, 2026",
+    "https://squamish.civicweb.net/document/270760/"
+   ],
+   [
+    "Resort Municipality of Whistler 2025 Statement of Financial Information",
+    "https://www.whistler.ca/wp-content/uploads/2025-RMOW-Statement-of-Financial-Information.pdf"
+   ],
+   [
+    "District of North Vancouver 2025 council remuneration and expenses",
+    "https://docs.dnv.org/documents/council-remuneration-2025.pdf"
+   ],
+   [
+    "Government of Canada Budget 2017, tax measures (allowances for municipal officials)",
+    "https://www.budget.canada.ca/2017/docs/tm-mf/si-rs-en.html"
+   ],
+   [
+    "Regular Business Meeting minutes, September 1, 2026",
+    "https://squamish.civicweb.net/FileStorage/5546015607B24507BB9272C2DFC09AC2-0901%20Regular%20Minutes%202026.pdf"
+   ]
+  ]
+ },
+ {
   "slug": "why-squamish-property-taxes-went-up-12-8-percent",
   "track": "budget-2027",
   "question": "Why did Squamish property taxes go up 12.8%?",
