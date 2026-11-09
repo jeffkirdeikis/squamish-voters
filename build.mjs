@@ -2195,7 +2195,7 @@ write('/your-say/', page({
   var road=document.querySelector('[data-tw-road]');
   fetch('/api/today/').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
     var h=d.highway;if(!h)return;
-    road.querySelector('[data-body]').innerHTML=h.events.length?h.events.slice(0,4).map(function(ev){return'<li><b>'+(ev.type==='INCIDENT'?'Incident':ev.severity==='MAJOR'?'Major roadwork':'Roadwork')+':</b> '+e(ev.text)+'</li>'}).join(''):'<li>No crashes, closures or major roadwork right now.</li>';
+    road.querySelector('[data-body]').innerHTML=h.events.length?h.events.slice(0,4).map(function(ev){var k=ev.type==='INCIDENT'?'Incident':ev.severity==='MAJOR'?'Major roadwork':'Roadwork';return ev.when?'<li'+(ev.long?' class="td-long"':'')+'><b>'+(k==='Roadwork'?'':k+': ')+e(ev.when)+'</b> '+e(ev.where)+' · '+e(ev.what)+'</li>':'<li><b>'+k+':</b> '+e(ev.text)+'</li>'}).join(''):'<li>No crashes, closures or major roadwork right now.</li>';
     road.hidden=false;
   }).catch(function(){});
   var w=document.querySelector('[data-tw-wants]');if(!w)return;

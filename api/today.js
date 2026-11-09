@@ -33,6 +33,46 @@ async function weather() {
   };
 }
 
+// DriveBC writes "Starting 9:00 AM PCT on Tuesday November 24, 2026 until 3:00 PM PCT on ..."; we turn each event into
+// "Nov 24, 9 a.m. to 3 p.m. · Lions Bay, near Kelvin Grove Way Underpass · Utility work, right shoulder" (review II, Nov 9).
+// Work that runs more than a week is marked long and listed last. Anything we can't read falls back to DriveBC's words.
+const MON = { jan: 'Jan', feb: 'Feb', mar: 'Mar', apr: 'Apr', may: 'May', jun: 'Jun', jul: 'Jul', aug: 'Aug', sep: 'Sep', oct: 'Oct', nov: 'Nov', dec: 'Dec' };
+const TOWNS = /^(Whistler|Squamish|Lions Bay|Britannia Beach|Furry Creek|Horseshoe Bay|Porteau Cove|Function Junction)$/;
+function roadPlain(e) {
+  const raw = String(e.description || '');
+  const out = { type: e.event_type, severity: e.severity, updated: e.updated, long: 0, start: '' };
+  const clean = raw.replace(/\s*Last update:[^.]*?\b(?:PCT|PDT|PST|PT)\.?/i, '').replace(/\s*\b(PCT|PDT|PST)\b/g, '').trim();
+  const m = raw.match(/^(.*?) (?:from|at) Highway 99,? ?(.*?)\. Starting (.+?) until (.+?)\.(.*)$/s);
+  if (!m) return { ...out, text: clean };
+  const [, kind, whereRaw, a, b, restRaw] = m;
+  const day = (x) => { const d = x.match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* (\d{1,2})\b/i); return d ? { mon: MON[d[1].slice(0, 3).toLowerCase()], d: +d[2] } : null; };
+  const hm = (x) => { const t = x.match(/(\d{1,2}):(\d{2}) ?([AP])M/i); return !t ? '' : +t[1] === 12 && t[2] === '00' ? (t[3].toUpperCase() === 'P' ? 'noon' : 'midnight') : `${+t[1]}${t[2] === '00' ? '' : ':' + t[2]} ${t[3].toLowerCase()}.m.`; };
+  const da = day(a), db = day(b);
+  if (!da || !db) return { ...out, text: clean };
+  const yr = new Date().getFullYear(), num = (x) => new Date(`${x.mon} ${x.d}, ${yr}`).getTime();
+  let endT = num(db); if (endT < num(da)) endT = new Date(`${db.mon} ${db.d}, ${yr + 1}`).getTime();
+  const today = new Date(new Date().toLocaleDateString('en-US', { timeZone: 'America/Vancouver' })).getTime();
+  const span = (endT - num(da)) / 864e5;
+  out.long = span > 7 ? 1 : 0;
+  out.start = new Date(num(da)).toISOString().slice(0, 10);
+  const daily = restRaw.match(/From (\d{1,2}:\d{2} ?[AP]M) to (\d{1,2}:\d{2} ?[AP]M)(?: P[CDS]T)?( the next day)?, ([^.]+)\.?/i);
+  const often = daily ? (/^every day$/i.test(daily[4].trim()) ? 'daily' : daily[4].trim().replace(/^Weekdays$/, 'weekdays')) : '';
+  const hours = daily ? `${hm(daily[1])} to ${hm(daily[2])}${daily[3] ? ' overnight' : ''}` : hm(a) && hm(b) ? `${hm(a)} to ${hm(b)}` : '';
+  const ds = (x) => `${x.mon} ${x.d}`;
+  let when;
+  if (span < 1) when = `${ds(da)}${hours ? ', ' + hours : ''}`;
+  else when = `${num(da) <= today ? `Until ${ds(db)}` : `${ds(da)} to ${ds(db)}`}${daily ? `, ${hours} ${often === 'daily' ? 'daily' : often}` : ''}`;
+  let where = whereRaw.replace(/\bexit to /gi, '').replace(/\b(In|At) /g, '').replace(/\b\d+ ?m (North|South|East|West) of /gi, 'near ')
+    .replace(/\bDr\b/g, 'Drive').replace(/\bRd\b/g, 'Road').replace(/\bFSR\b/g, 'Forest Service Road').replace(/\bHwy\b/g, 'Highway').replace(/\bSt\b/g, 'Street').replace(/\bLn\b/g, 'Lane').replace(/\bAve\b/g, 'Avenue').trim();
+  where = where.replace(/^(.+?) and near \1\b/, '$1').replace(/ and near /g, ', near ');
+  const tail = where.match(/^(.*) to (.+)$/);
+  if (tail && TOWNS.test(tail[2])) where = `${tail[2]}, ${tail[1]}`;
+  const rest = (daily ? restRaw.replace(daily[0], '') : restRaw).replace(/\s*Last update:[^.]*?\b(?:PCT|PDT|PST|PT)\.?/i, '').trim();
+  const effect = (rest.split(/(?<=\.)\s+/)[0] || '').replace(/\.$/, '').replace(/^Work on /i, '').trim();
+  const what = effect ? `${kind}, ${/^[A-Z][a-z]/.test(effect) ? effect.charAt(0).toLowerCase() + effect.slice(1) : effect}` : kind;
+  return { ...out, when, where, what, text: [when, where, what].filter(Boolean).join(' · ') };
+}
+
 // DriveBC: everything active on Highway 99 between Horseshoe Bay and Whistler. Incidents first, then roadwork.
 async function highway() {
   const d = await get('https://api.open511.gov.bc.ca/events?format=json&status=ACTIVE&road_name=Highway%2099&limit=200');
@@ -40,7 +80,8 @@ async function highway() {
   const rank = (e) => (e.event_type === 'INCIDENT' ? 0 : e.severity === 'MAJOR' ? 1 : 2);
   const events = (d.events || []).filter((e) => { const y = lat(e.geography); return y > 49.36 && y < 50.18; })
     .sort((a, b) => rank(a) - rank(b) || String(b.updated).localeCompare(String(a.updated)))
-    .map((e) => ({ type: e.event_type, severity: e.severity, text: String(e.description || '').replace(/\s*Last update:[^.]*?(?:PDT|PST)\.?/i, '').trim(), updated: e.updated }));
+    .map(roadPlain)
+    .sort((a, b) => (a.type === 'INCIDENT' ? 0 : 1) - (b.type === 'INCIDENT' ? 0 : 1) || a.long - b.long || a.start.localeCompare(b.start));
   const closed = events.some((e) => /closed|closure/i.test(e.text) && !/lane closure|single lane|shoulder/i.test(e.text) && e.type === 'INCIDENT');
   const incidents = events.filter((e) => e.type === 'INCIDENT' || e.severity === 'MAJOR');
   return { status: closed ? 'closed' : incidents.length ? 'delays' : 'clear', events, link: 'https://www.drivebc.ca/' };

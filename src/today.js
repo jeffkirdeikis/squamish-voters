@@ -131,7 +131,10 @@
     var s = HWY[h.status];
     var list = h.events.slice(0, 6).map(function (ev) {
       var kind = ev.type === 'INCIDENT' ? 'Incident' : ev.severity === 'MAJOR' ? 'Major roadwork' : 'Roadwork';
-      return '<li class="' + (ev.type === 'INCIDENT' || ev.severity === 'MAJOR' ? 'hot' : '') + '"><b>' + kind + '</b> ' + e(ev.text) + '</li>';
+      var hot = ev.type === 'INCIDENT' || ev.severity === 'MAJOR';
+      // Plain words from /api/today/: the date and time first, then where, then what (review II, Nov 9).
+      if (ev.when) return '<li class="' + (hot ? 'hot' : ev.long ? 'td-long' : '') + '"><b>' + (hot ? kind + ': ' : '') + e(ev.when) + '</b> ' + e(ev.where) + ' · ' + e(ev.what) + '</li>';
+      return '<li class="' + (hot ? 'hot' : '') + '"><b>' + kind + '</b> ' + e(ev.text) + '</li>';
     }).join('');
     return '<p class="td-pill ' + s[1] + '">' + s[0] + '</p>'
       + (h.status === 'clear' ? '<p>No crashes, closures or major roadwork between Horseshoe Bay and Whistler right now.</p>' : '')

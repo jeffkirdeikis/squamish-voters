@@ -1992,6 +1992,8 @@ body:has(.wa-ringtab) #totop { display: none !important; }
 .td-events li:first-child { border-top: 0; }
 .td-events li b { display: block; color: var(--ink); }
 .td-events li.hot b { color: var(--no); }
+/* Roadwork that runs for weeks goes last, in smaller text (review II, Nov 9). */
+li.td-long, .td-events li.td-long { font-size: .84rem; color: var(--muted); }
 .td-arrow { display: inline-block; font-weight: 800; color: var(--brand); }
 .td-bars { list-style: none; padding: 0; margin: .2rem 0 .5rem; display: flex; gap: 2px; align-items: flex-end; }
 .td-bars li { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; font-size: .72rem; }
