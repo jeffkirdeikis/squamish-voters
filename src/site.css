@@ -2283,3 +2283,10 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
   .td-dt { gap: .25rem; } .td-dt small { width: 1.5rem; } .td-dt b { width: 1.7rem; text-align: right; }
   .td-dn b { font-size: .9rem; }
 }
+
+/* Member pages: promises grouped by status (review, Nov 9) */
+.pgroup-h { display: flex; align-items: center; gap: .5rem; margin: 1rem 0 .4rem; }
+.pgroup-h b { font-size: .9rem; color: var(--muted); }
+.promise.pgrouped > summary > .pstatus { display: none; }
+.promise .whob { background: none; padding: 0; border-radius: 0; color: var(--muted); font-size: .82rem; font-weight: 500; }
+.pmore > summary { margin: .2rem 0; }

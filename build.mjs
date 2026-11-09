@@ -686,6 +686,16 @@ const posOursLede = (c, pr) => {
   const why = !isDirectQ(c) ? `${f} did not answer our questionnaire.` : skipped ? `${f} skipped ${skipped} of the statements in our questionnaire.` : `Some lines on file only describe how ${f} voted on the last council.`;
   return `${why} So we split the ${pr.rows.length} things on file: ${pr.own.length} ${isDirectQ(c) ? `in ${f}’s own words` : `${f} said in public`}, which get checked against new votes, and ${pr.ours.length} that ${pr.ours.length === 1 ? 'is' : 'are'} our reading of ${f}’s record, which ${pr.ours.length === 1 ? 'is' : 'are'} shown but never marked.`;
 };
+// Member page promise list: grouped by status under one heading each, instead of the same badge on every row (review, Nov 9).
+function promiseGroups(ps) {
+  const SHOW = 5;
+  return Object.keys(PSTATUS).map((k) => {
+    const g = ps.filter((p) => pKey(p) === k); if (!g.length) return '';
+    const st = PSTATUS[k], rows = g.map((p) => promiseRow(p).replace('<details class="promise"', '<details class="promise pgrouped"'));
+    return `<div class="pgroup-h"><span class="pstatus ${st.cls}"><span aria-hidden="true">${st.icon}</span> ${esc(st.label)}</span><b>${g.length}</b></div>
+    <div class="card stack">${rows.slice(0, SHOW).join('')}${rows.length > SHOW + 1 ? `<details class="drop pmore"><summary>Show ${rows.length - SHOW} more</summary><div class="stack">${rows.slice(SHOW).join('')}</div></details>` : rows.slice(SHOW).join('')}</div>`;
+  }).join('');
+}
 function profileRecord(c) {
   const f = esc(first(c)), ps = promisesOf(c), pc = pCounts(ps), vs = votesOf(c), pr = positionReport(c);
   const next = upcoming[0];
@@ -694,7 +704,7 @@ function profileRecord(c) {
   <p>Council hasn’t voted yet. We’re tracking <a href="#promises"><b>${ps.length} promises</b></a> and <a href="#said-did"><b>${pr.rows.length} positions</b></a> ${pr.ours.length ? `on file for ${f} (${pr.own.length} in ${f}’s own words)` : `${f} took during the campaign`}.${next ? ` First meeting: <a href="${mUrl(next)}">${esc(fmtLong(next.date))}</a>.` : ''}</p></section>
   ${ps.length ? `<h2 id="promises">${f}’s promises <span class="small">${ps.length}</span></h2>
   <p class="small">What ${f} promised during the campaign, in plain words. Tap one for the exact quote and source.</p>
-  <div class="card stack">${ps.map((p) => promiseRow(p)).join('')}</div>` : ''}
+  ${promiseGroups(ps)}` : ''}
   <h2 id="said-did">Do ${f}’s votes match what they said in the campaign?</h2>
   <p class="small">${pr.ours.length ? posOursLede(c, pr) : `${pr.rows.length} things ${f} said during the campaign. Each gets a mark once a council vote tests it.`}</p>
   <details class="drop"><summary>See all ${pr.rows.length}${pr.ours.length ? ` (${pr.own.length} checked against votes)` : ' positions'}</summary><div class="stack">${pr.ours.length ? posGroups(c, pr) : pr.rows.map((r) => posRow(c, r)).join('')}</div></details>`;
@@ -703,7 +713,7 @@ function profileRecord(c) {
   ${vs.length ? '' : `<p class="small">${TODAY < '2026-11-03' ? 'The new council is sworn in on November 3, 2026.' : 'This council was sworn in on November 3, 2026.'} ${next && next.date !== '2026-11-03' ? `The next meeting is <a href="${mUrl(next)}">${esc(fmtDay(next.date))}</a>.` : ''} Votes will appear here after each meeting.</p>`}</section>
   ${ps.length ? `<h2 id="promises">${f}’s promises <span class="small">${pSum}</span></h2>
   <p class="small">What ${f} promised during the campaign, in plain words, with the exact quote and source. Tap any promise to see the details.</p>
-  <div class="card stack">${ps.map((p) => promiseRow(p)).join('')}</div>` : ''}
+  ${promiseGroups(ps)}` : ''}
   ${vs.length ? `<h2 id="votes">How ${f} has voted</h2>
   <div class="card stack">${vs.slice(0, 8).map((d) => `<div class="vrow"><span class="vme v-${d.votes[c.slug]}">${esc(VOTE_WORD[d.votes[c.slug]] || d.votes[c.slug])}</span><span><a href="${mUrl(d.m)}">${escGl(d.title)}</a><span class="small"> · ${esc(fmtLong(d.m.date))} · ${esc(RESULT_WORD[d.result] || '')}</span></span></div>`).join('')}</div>
   ${vs.length > 8 ? `<details class="drop"><summary>All ${vs.length} votes</summary>${vs.slice(8).map((d) => `<div class="vrow"><span class="vme v-${d.votes[c.slug]}">${esc(VOTE_WORD[d.votes[c.slug]] || d.votes[c.slug])}</span><span><a href="${mUrl(d.m)}">${escGl(d.title)}</a><span class="small"> · ${esc(fmtLong(d.m.date))}</span></span></div>`).join('')}</details>` : ''}` : ''}
