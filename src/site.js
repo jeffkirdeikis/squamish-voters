@@ -498,3 +498,19 @@
     }).catch(function () { pcount.textContent = 'The totals didn’t load. Try again in a minute.'; });
   }
 })();
+
+// Phones: the top bar slides away while scrolling down and comes back on any scroll up (review, Nov 9).
+(function () {
+  var hdr = document.querySelector('.site-header'); if (!hdr || !window.matchMedia) return;
+  var mq = window.matchMedia('(max-width: 620px)'), lastY = window.scrollY, ticking = false, root = document.documentElement;
+  function menuOpen() { var b = document.querySelector('[data-menu-open]'); return b && b.getAttribute('aria-expanded') === 'true'; }
+  function upd() {
+    ticking = false;
+    var y = window.scrollY, dy = y - lastY;
+    if (!mq.matches || y < 80 || menuOpen() || document.activeElement && hdr.contains(document.activeElement)) root.classList.remove('hdr-off');
+    else if (dy > 6) root.classList.add('hdr-off');
+    else if (dy < -6) root.classList.remove('hdr-off');
+    if (Math.abs(dy) > 6 || y < 80) lastY = y;
+  }
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(upd); } }, { passive: true });
+})();
