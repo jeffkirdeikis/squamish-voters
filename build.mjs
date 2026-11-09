@@ -2310,6 +2310,17 @@ for (const ic of ctx.issues || []) {
   const name = TOPIC_NAME[ic.key];
   const paras = ic.explainer.split(/(?<=[.!?])\s+/), mid = Math.ceil(paras.length / 2);
   const url = `/issues/${slug}/`, ans = ISSUE_ANSWERS[ic.key];
+  // Side box on wide screens (review II, Nov 9): where it stands step by step, the next council date, and jump links.
+  // It stays in view while reading; on narrower screens it is hidden, since the same steps are in the page itself.
+  const tsx = TRACKED.filter((t) => t.topic === ic.key);
+  const onAgenda = upcoming.find((m) => (m.agenda_items || []).some((a) => a.topic === ic.key || (a.issues || []).some((sl) => tsx.some((t) => t.slug === sl))));
+  const nextM = onAgenda || upcoming[0];
+  const jumps = [[tsx.length, 'now', 'What council is doing now'], [1, 'background', 'The background'], [(ic.key_facts || []).length, 'facts', 'Key facts'], [qs.length, 'agree', 'Agree or disagree'], [iss, 'said', 'What each member has said']].filter(([on]) => on);
+  const side = `<aside class="issue-side no-print" aria-label="On this page">
+    ${tsx.map((t) => `<div class="is-box"><p class="is-h">Where it stands</p><a class="is-q" href="/track/${t.slug}/">${esc(t.question)}</a><ol class="is-steps">${(t.steps || []).map((x) => `<li class="is-${x.status}">${esc(x.label)}</li>`).join('')}</ol></div>`).join('')}
+    ${nextM ? `<div class="is-box"><p class="is-h">${onAgenda ? 'On the agenda' : 'Next at council'}</p><a href="${mUrl(nextM)}">${esc(fmtDay(nextM.date).replace(/, \d{4}$/, ''))}${nextM.time ? `, ${esc(fmtTime(nextM.time))}` : ''}</a></div>` : ''}
+    <div class="is-box"><p class="is-h">On this page</p><ul class="is-jump">${jumps.map(([, id, label]) => `<li><a href="#${id}">${label}</a></li>`).join('')}</ul></div>
+  </aside>`;
   write(url, page({
     url: '/issues/', title: `Squamish council on ${name}: where each member stands`,
     desc: iss || !TOPIC_DESC[ic.key] ? `${iss ? `${withS.length} of ${all.length} Squamish council members have a public position on ${name}. ` : ''}What each one has said, with sources, plus plain language background.` : TOPIC_DESC[ic.key],
@@ -2317,21 +2328,23 @@ for (const ic of ctx.issues || []) {
     jsonld: crumbLd([['Home', '/'], ['The issues', '/issues/'], [ic.title, url]]),
     body: `<p class="crumbs"><a href="/issues/">← All the issues</a></p>
     <h1>Squamish council on ${esc(name)}</h1>
+    <div class="issue-layout"><div class="issue-main">
     ${ans ? `<p class="notice info issue-answer"><b>As of <time datetime="${esc(ans.as_of)}">${esc(fmtLong(ans.as_of))}</time>,</b> ${escGl(ans.text)}</p>` : ''}
     ${ic.short_explainer && !ic.explainer.startsWith(ic.short_explainer.slice(0, 40)) ? `<p class="lede">${esc(ic.short_explainer)}</p>` : ''}
     ${ic.key === 'taxes_spending' ? '<p class="notice info"><b>Your 2027 property tax, in one place:</b> <a href="/track/budget-2027/">the budget, when council votes, and what your BC Assessment notice means →</a></p>' : ''}
-    ${TRACKED.some((t) => t.topic === ic.key) ? `<h2>What council is doing now</h2><ul class="mlist">${TRACKED.filter((t) => t.topic === ic.key).map(issueRow).join('')}</ul>` : ''}
-    <h2>The background</h2>
+    ${TRACKED.some((t) => t.topic === ic.key) ? `<h2 id="now">What council is doing now</h2><ul class="mlist">${TRACKED.filter((t) => t.topic === ic.key).map(issueRow).join('')}</ul>` : ''}
+    <h2 id="background">The background</h2>
     <p>${escGl(paras.slice(0, mid).join(' '))}</p><p>${escGl(paras.slice(mid).join(' '))}</p>
     ${ic.key === 'environment_lng' || ic.key === 'taxes_spending' ? DEAL_IF_NO : ''}
-    ${(ic.key_facts || []).length ? `<h3>Key facts</h3><ul class="facts">${ic.key_facts.map((f) => `<li>${esc(f.fact)}${src(f.source_url)}</li>`).join('')}</ul>` : ''}
-    ${qs.length ? `<h2>Agree or disagree?</h2><p>Where each council member lands on ${qs.length === 1 ? 'this statement' : `these ${qs.length} statements`}, from their own questionnaire answers or their public record. Tap a name for the detail.</p>${qs.map(spectrum).join('')}` : ''}
-    ${iss ? `<h2>What each council member has said</h2>
+    ${(ic.key_facts || []).length ? `<h3 id="facts">Key facts</h3><ul class="facts">${ic.key_facts.map((f) => `<li>${esc(f.fact)}${src(f.source_url)}</li>`).join('')}</ul>` : ''}
+    ${qs.length ? `<h2 id="agree">Agree or disagree?</h2><p>Where each council member lands on ${qs.length === 1 ? 'this statement' : `these ${qs.length} statements`}, from their own questionnaire answers or their public record. Tap a name for the detail.</p>${qs.map(spectrum).join('')}` : ''}
+    ${iss ? `<h2 id="said">What each council member has said</h2>
     <p class="small">The mayor first, then council, in alphabetical order. Our summary of the public record; tap <b>[source]</b> to check it.</p>
     <ul class="plainlist tstances">${withS.map((c) => stanceBlock(c, ic.key)).join('')}</ul>
     ${without.length ? `<p class="muted"><b>No public position found for:</b> ${nameList(without)}. If you are one of these council members, <a href="mailto:${SITE.contact}?subject=${encodeURIComponent('Position on ' + name)}">send us your position</a>.</p>` : ''}` : ''}
     <div class="btn-row no-print"><a class="btn" href="/quiz/">Take the ${QUESTIONS.length}-question quiz →</a><a class="btn secondary" href="/compare/">Compare everyone</a></div>
-    <h2>Other issues</h2><ul class="namechips">${(ctx.issues || []).filter((o) => o.key !== ic.key && TOPIC_SLUG[o.key]).map((o) => `<li><a href="/issues/${TOPIC_SLUG[o.key]}/">${esc(TOPIC_NAME[o.key])}</a></li>`).join('')}<li><a href="/issues/woodfibre-tax-deal/">the Woodfibre tax deal</a></li></ul>`,
+    <h2>Other issues</h2><ul class="namechips">${(ctx.issues || []).filter((o) => o.key !== ic.key && TOPIC_SLUG[o.key]).map((o) => `<li><a href="/issues/${TOPIC_SLUG[o.key]}/">${esc(TOPIC_NAME[o.key])}</a></li>`).join('')}<li><a href="/issues/woodfibre-tax-deal/">the Woodfibre tax deal</a></li></ul>
+    </div>${side}</div>`,
   }));
 }
 { // The single hottest question of the campaign gets its own page.
