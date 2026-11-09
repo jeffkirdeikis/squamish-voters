@@ -2213,3 +2213,11 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
   .nw-poll-opts { grid-template-columns: 1fr 1fr; }
   .nw-poll-opts .nw-poll-m, .nw-poll-opts .nw-poll-own { padding: .6rem .9rem; }
 }
+
+/* Home: Your council fits on one row on desktop (7 people) */
+@media (min-width: 900px) {
+  .faces-sm { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: .6rem; }
+  .faces-sm .face { padding: .9rem .4rem; }
+  .faces-sm .face .avatar { width: 5.2rem; height: 5.2rem; }
+  .faces-sm .face b { font-size: .95rem; line-height: 1.25; }
+}
