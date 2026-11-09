@@ -2110,7 +2110,7 @@ write('/your-say/', page({
   <p class="hd-legend small"><span class="lg st-review"></span>Under review <span class="lg st-ok"></span>Approved <span class="lg st-new"></span>Application received</p>
 
   <section class="card"><h2>What council decided here</h2>
-  ${dc.length ? dc.slice(0, 12).map((d) => decisionCard(d, d.m)).join('') : `<p class="muted">Nothing yet. The new council’s first meeting is ${esc(fmtLong((MEETINGS.find((m) => m.type === 'inaugural') || {}).date || '2026-11-03'))}, and decisions about ${esc(h.name)} will show up here as they happen.</p>`}
+  ${dc.length ? dc.slice(0, 12).map((d) => decisionCard(d, d.m)).join('') : `<p class="muted">Nothing about ${esc(h.name)} yet.${upcoming[0] ? ` Next council meeting: <a href="${mUrl(upcoming[0])}">${esc(fmtDay(upcoming[0].date))}</a>.` : ''}</p>`}
   ${cu.length ? `<h3>Coming up at council</h3><ul class="mlist">${cu.map(({ a, m }) => `<li class="mrow"><a href="${mUrl(m)}"><span class="mtxt"><b class="mhead">${esc(a.plain)}</b><span class="small">${esc(fmtDay(m.date))}</span></span><span class="go" aria-hidden="true">›</span></a></li>`).join('')}</ul>` : ''}
   </section>
 
@@ -2141,7 +2141,8 @@ write('/your-say/', page({
   // With nothing in the next 10 days, still show the next meeting; then one line for the one after.
   const shown = soon.length ? soon : upcoming.slice(0, 1), after = upcoming.find((m) => !shown.includes(m));
   // Dates and deadlines: the news page's calendar, plus any tracked issue whose current step is open for comments.
-  const dates = NEWS.coming.filter((c) => c.date >= TODAY).sort((a, b) => a.date.localeCompare(b.date));
+  // A deadline that is one of the meetings listed just above is left out, so it doesn't show twice (review II, Nov 9).
+  const dates = NEWS.coming.filter((c) => c.date >= TODAY && !shown.some((m) => mUrl(m) === c.url)).sort((a, b) => a.date.localeCompare(b.date));
   const open = TRACKED.flatMap((t) => (t.steps || []).filter((s) => s.status === 'current' && /input|comment|feedback|survey|hearing/i.test(s.label)).map((s) => ({ t, s })));
   // Top stories: the last 10 days, lead and feature stories first, then the newest.
   const since = new Date(Date.now() - 10 * 864e5).toISOString().slice(0, 10), TIER = { lead: 0, feature: 1 };
