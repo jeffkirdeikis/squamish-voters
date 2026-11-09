@@ -2256,3 +2256,11 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
   .nw-main :is(.nw-card, .nw-feature) .nw-h { font-size: 1.05rem; line-height: 1.25; }
   .nw-main .nw-lead > :is(.nw-panel, .nw-big, .nw-take, .nw-foot, .nw-readmore) { display: none; }
 }
+
+/* Topic buttons: a gap after the emoji everywhere; on phones the "What matters to you" topics are one sideways row (review, Nov 9) */
+.chip-btn { gap: .4rem; }
+@media (max-width: 620px) {
+  #foryou .topicpick { flex-wrap: nowrap; overflow-x: auto; margin-left: 0; margin-right: 0; padding: .1rem 0 .4rem; scrollbar-width: none; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; mask-image: linear-gradient(90deg, #000 88%, transparent); }
+  #foryou .topicpick::-webkit-scrollbar { display: none; }
+  #foryou .topicpick .chip-btn { flex: none; white-space: nowrap; min-height: 2.6rem; padding: .3rem .85rem; scroll-snap-align: start; }
+}
