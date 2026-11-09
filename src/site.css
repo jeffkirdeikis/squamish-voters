@@ -2530,3 +2530,9 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 
 /* Quiz on phones: smaller statement so all five answers fit on the first screen (review II, Nov 9). */
 @media (max-width: 640px) { h2.q-text { font-size: 1.15rem; } }
+
+/* Home: the conditions bar stays in view under the header while scrolling, on desktop and phones (Nov 9). */
+.td-strip { position: sticky; top: var(--hdr, 64px); z-index: 45; transition: top .25s ease; }
+@media (max-width: 899px) { .hdr-off .td-strip { top: 0; } }
+@media (prefers-reduced-motion: reduce) { .td-strip { transition: none; } }
+

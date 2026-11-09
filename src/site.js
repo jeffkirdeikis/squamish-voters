@@ -331,6 +331,11 @@
     draw();
   }
 
+  // The header's height, for bars that stick just below it (the home conditions bar).
+  var hdrEl = document.querySelector('.site-header');
+  function setHdr() { if (hdrEl) document.documentElement.style.setProperty('--hdr', hdrEl.offsetHeight + 'px'); }
+  setHdr(); window.addEventListener('resize', setHdr);
+
   // Copy a ready-made post (for Facebook groups), and print with every section opened.
   document.addEventListener('click', function (e) {
     var c = e.target.closest('[data-copy]');
