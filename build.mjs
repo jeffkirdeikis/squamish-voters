@@ -1751,7 +1751,7 @@ if (TRACKED.length) {
       url: nUrl(st), title: st.head,
       desc: st.dek.replace(/<[^>]+>/g, ''),
       image: ogUrl(st),
-      jsonld: [crumbLd([['Home', '/'], ['News', '/news/'], [st.head, nUrl(st)]]), { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: st.head, datePublished: st.date, inLanguage: 'en-CA', image: ogUrl(st), author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/`, sameAs: ['https://jeffkirdeikis.com'] }, publisher: { '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/` }, isBasedOn: st.src[1] }],
+      jsonld: [crumbLd([['Home', '/'], ['News', '/news/'], [st.head, nUrl(st)]]), { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: st.head, datePublished: st.date, inLanguage: 'en-CA', image: ogUrl(st), dateModified: st.updated || st.date, description: st.dek.replace(/<[^>]+>/g, ''), mainEntityOfPage: `${ORIGIN}${nUrl(st)}`, articleSection: SEC[st.s] || undefined, author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/`, sameAs: ['https://jeffkirdeikis.com'] }, publisher: { '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/`, logo: { '@type': 'ImageObject', url: `${ORIGIN}/icon-512.png` } }, isBasedOn: st.src[1] }],
       body: `<div class="nw nw-story-page">
   <p class="crumbs"><a href="/news/">← All news</a></p>
   <article class="nw-full nw-art" data-s="${st.s}">${body}${fullBodyHtml(st)}<div class="nw-foot">${source(st)}${shareBtn(st)}</div></article>
@@ -2727,6 +2727,16 @@ ${TRACKED.map((t) => `- [${t.title}](${U(`/track/${t.slug}/`)}): ${t.question}`)
 // ---------- sitemap (every indexable page written above; lastmod = the page's own content date, left out when unknown) ----------
 const prio = (u) => (u === '/' || u === '/meetings/' ? '1.0' : ['/council/', '/scorecard/', '/quiz/', '/faq/'].includes(u) || u.startsWith('/meetings/') ? '0.8' : '0.6');
 fs.writeFileSync(path.join(DIST, 'sitemap.xml'), sitemapXml(ORIGIN, [...new Set(SITEMAP)], LASTMOD, prio));
+// ---------- Google News sitemap (/news-sitemap.xml): only stories from the last two days, as Google asks. The news
+// scanner rebuilds every few minutes, so the window stays current. news:name must stay "Squamish Voters".
+{
+  const xe = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const since = new Date(Date.now() - 2 * 864e5).toISOString().slice(0, 10);
+  const recent = NEWS.stories.filter((st) => isoDay(st.date) && st.date >= since && st.date <= TODAY).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 1000);
+  const rows = recent.map((st) => `<url><loc>${ORIGIN}/news/${xe(st.slug)}/</loc><news:news><news:publication><news:name>Squamish Voters</news:name><news:language>en</news:language></news:publication><news:publication_date>${st.date}</news:publication_date><news:title>${xe(st.head)}</news:title></news:news></url>`);
+  fs.writeFileSync(path.join(DIST, 'news-sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">\n${rows.join('\n')}\n</urlset>\n`);
+  console.log(`News sitemap: ${recent.length} stories since ${since}`);
+}
 // ---------- RSS feed (/feed.xml): news stories and meeting summaries, newest first, for feed readers and tools that
 // repost new stories. Every page's head links to it.
 {

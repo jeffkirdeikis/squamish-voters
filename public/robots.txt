@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://squamishvoters.com/sitemap.xml
+Sitemap: https://squamishvoters.com/news-sitemap.xml
