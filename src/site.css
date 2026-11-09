@@ -820,10 +820,16 @@ summary:hover .more-btn { background: var(--brand); color: #fff; }
 .r-passed .dres { background: var(--yes-bg); color: var(--yes); }
 .r-failed .dres { background: var(--no-bg); color: var(--no); }
 .dtitle { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.decision > summary .dtitle { flex: 1; }
+.dfaces { flex: none; display: flex; gap: 2px; align-self: center; }
+.dface .avatar.xs { margin: 0; width: 1.45rem; height: 1.45rem; font-size: .55rem; border: 2px solid var(--line); box-sizing: border-box; }
+.dface.v-yes .avatar { border-color: var(--yes); } .dface.v-no .avatar { border-color: var(--no); } .dface.v-away .avatar { opacity: .35; }
+.vsum { margin: .2rem 0 .6rem; }
 /* Phones: the result tag sits above the title so long titles get the full width (review II, Nov 9). */
 @media (max-width: 620px) {
   .decision > summary { flex-direction: column; gap: .35rem; }
   .dres { min-width: 0; text-align: left; }
+  .dfaces { align-self: flex-start; }
 }
 .dbody { padding: 0 1rem 1rem; }
 .vchips { display: grid; gap: .45rem; margin: .6rem 0; }

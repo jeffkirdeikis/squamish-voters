@@ -589,8 +589,17 @@ function tallyWord(d) {
   const extra = [away ? `${away} away` : '', out ? `${out} stepped out` : ''].filter(Boolean).join(', ');
   return no === 0 && yes > 1 ? `All ${yes} there agreed${extra ? ` (${extra})` : ''}` : `${yes} to ${no}${extra ? ` (${extra})` : ''}`;
 }
+// A split vote shows each member's face, ringed green for yes and red for no, so it stands out in the list (review II, Nov 9).
+const splitFaces = (d) => { const v = d.votes || {}; if (!Object.values(v).includes('no')) return ''; return `<span class="dfaces" aria-label="${esc(all.filter((c) => v[c.slug] === 'no').map((c) => c.name).join(', '))} voted no">${all.filter((c) => v[c.slug]).map((c) => `<span class="dface v-${v[c.slug] === 'yes' ? 'yes' : v[c.slug] === 'no' ? 'no' : 'away'}" title="${esc(c.name)}: ${esc(VOTE_WORD[v[c.slug]] || v[c.slug])}">${avatar(c, 'xs')}</span>`).join('')}</span>`; };
+// One line above the votes: how many, how they went, and how many split (review II, Nov 9).
+function voteSummary(votes) {
+  const passed = votes.filter((d) => d.result === 'passed').length, failed = votes.filter((d) => d.result === 'failed').length;
+  const split = votes.filter((d) => Object.values(d.votes || {}).includes('no')).length;
+  const res = failed === 0 && passed === votes.length ? (votes.length === 1 ? 'it passed' : 'all passed') : `${passed} passed, ${failed} failed`;
+  return `${res}, ${split === 0 ? 'no one opposed' : `${split} split vote${split === 1 ? '' : 's'}`}`;
+}
 function decisionCard(d, m, { open = false } = {}) {
-  return `<details class="decision r-${esc(d.result || 'info')}"${open ? ' open' : ''}><summary><span class="dres">${esc(resultWord(d))}${d.result === 'passed' || d.result === 'failed' ? ` <span class="small">${esc(tallyWord(d))}</span>` : ''}</span><span class="dtitle">${esc(d.title)}</span></summary>
+  return `<details class="decision r-${esc(d.result || 'info')}"${open ? ' open' : ''}><summary><span class="dres">${esc(resultWord(d))}${d.result === 'passed' || d.result === 'failed' ? ` <span class="small">${esc(tallyWord(d))}</span>` : ''}</span><span class="dtitle">${esc(d.title)}</span>${splitFaces(d)}</summary>
   <div class="dbody">${d.for_you ? `<p class="foryou"><b>What it means for you:</b> ${escGl(d.for_you)}</p>` : ''}<p>${escGl(d.what)}</p>${d.votes ? voteChips(d) : ''}${corrNote(d)}
   ${areaTags(d.areas)}${(d.issues || []).map((sl) => TRACKED.find((t) => t.slug === sl)).filter(Boolean).map((t) => `<p class="small">Part of: <a href="/track/${t.slug}/">${esc(t.title)}</a></p>`).join('')}
   ${d.why_it_matters ? `<p class="small"><b>Why it matters:</b> ${escGl(d.why_it_matters)}</p>` : ''}
@@ -1604,7 +1613,7 @@ for (const m of MEETINGS) {
       <p class="lede">${escGl(S.headline)}</p>
       <ul class="keypoints">${(S.key_points || []).map((k) => `<li>${escGl(k)}</li>`).join('')}</ul>
       ${shareBar(m)}</section>
-    ${votes.length ? `<h2 id="votes">The votes <span class="small">${votes.length}</span></h2><p class="small">Tap any vote to see what it means and who voted which way.</p>
+    ${votes.length ? `<h2 id="votes">The votes <span class="small">${votes.length}</span></h2><p class="vsum"><b>${votes.length} vote${votes.length === 1 ? '' : 's'}, ${esc(voteSummary(votes))}.</b> <span class="small">Tap any vote to see what it means and who voted which way.</span></p>
     <div class="stack">${votes.slice(0, 6).map((d) => decisionCard(d, m)).join('')}</div>
     ${votes.length > 6 ? `<details class="drop"><summary>Show ${votes.length - 6} more votes, mostly routine</summary><div class="stack">${votes.slice(6).map((d) => decisionCard(d, m)).join('')}</div></details>` : ''}` : '<p class="muted">Council didn’t take any recorded votes at this meeting.</p>'}
     ${consent.length ? `<details class="drop"><summary>Routine items passed together in one vote (consent agenda, ${consent.length})</summary><p class="small">Council approves routine items, like minutes and reports for information, in one vote. Any member can pull one out for its own vote.</p><div class="stack">${consent.map((d) => decisionCard(d, m)).join('')}</div></details>` : ''}
