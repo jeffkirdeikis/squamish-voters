@@ -1511,17 +1511,30 @@ const MEET_HOW = `<p class="small"><a href="/how-council-works/">How council wor
   <p><b>Go in person:</b> meetings are open to anyone at Council Chambers, Municipal Hall, 37955 Second Avenue. You don’t need to sign up to watch. Council meetings are usually the 1st and 3rd Tuesday of the month at 6 p.m.; council workshops (official name: Committee of the Whole) are usually the 2nd and 4th Tuesday, often in the morning.</p>
   <p><b>Watch from home:</b> meetings are streamed live on the <a href="https://www.youtube.com/@DistrictofSquamish/streams" target="_blank" rel="noopener">District’s YouTube channel</a> and stay there afterward. Each meeting below links to its own video.</p>
   <p><b>Have your say:</b> you can write to council before a meeting, or speak at a public hearing. The District explains how on its <a href="https://squamish.ca/government-and-administration/council/" target="_blank" rel="noopener">council page</a>.</p></details>`;
+// Quick answers for /meetings/ (shown on the page and as FAQPage markup): the questions people search, with the next
+// council meeting filled in from the calendar so the answer is always current.
+function MEET_FAQ() {
+  const nextReg = upcoming.find((m) => m.type === 'regular');
+  return [
+    ['When is the next Squamish council meeting?', nextReg ? `The next regular council meeting is ${new Date(nextReg.date + 'T12:00:00').toLocaleDateString('en-CA', { weekday: 'long' })}, ${fmtLong(nextReg.date)}${nextReg.time ? ` at ${fmtTime(nextReg.time)}` : ''}, at Council Chambers, Municipal Hall, 37955 Second Avenue. Dates can change, so check the District of Squamish calendar.` : 'No regular council meeting is posted yet. Council meetings are usually the 1st and 3rd Tuesday of the month at 6 p.m.'],
+    ['When does Squamish council meet?', 'Regular council meetings are usually the 1st and 3rd Tuesday of the month at 6 p.m. Council workshops (official name: Committee of the Whole) are usually the 2nd and 4th Tuesday, often in the morning. Special meetings can be called with 24 hours notice.'],
+    ['How can I watch a Squamish council meeting?', 'Go in person to Council Chambers at Municipal Hall, 37955 Second Avenue (no sign up needed), or watch live on the District of Squamish YouTube channel, where recordings stay afterward.'],
+    ['Where are the agendas and minutes?', 'The District posts agendas and minutes on its meeting portal at squamish.civicweb.net. Squamish Voters links each meeting to its agenda, minutes and video, with a plain language summary of what council decided and how each member voted.'],
+    ['Can I speak to Squamish council?', 'You can write to council before a meeting, or speak at a public hearing on a rezoning or bylaw. The District council page explains how.'],
+  ];
+}
 const typeLegend = () => `<div class="mlegend">${['regular', 'cow', 'hearing', 'special'].map((k) => `<span><span class="mtype ${MTYPE[k].cls}">${esc(MTYPE[k].label)}</span> ${esc(MTYPE[k].plain)}${MTYPE[k].official ? ` <span class="small">Official name: ${esc(MTYPE[k].official)}.</span>` : ''}</span>`).join('')}</div>`;
 write('/meetings/', page({
   url: '/meetings/', title: 'Squamish council meetings: what’s next and what they decided',
   desc: 'Every upcoming Squamish council meeting, Committee of the Whole and public hearing, and a plain-language summary of every past one: what was decided and who voted yes or no.',
-  jsonld: crumbLd([['Home', '/'], ['Meetings', '/meetings/']]),
+  jsonld: [crumbLd([['Home', '/'], ['Meetings', '/meetings/']]), { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: MEET_FAQ().map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }],
   body: `<h1>Council meetings</h1>
   <p class="lede">What’s coming up, and what council decided. Tap any meeting for more.</p>
   <h2 id="next">Coming up <span class="small">${upcoming.length}</span></h2>
   ${upcoming.length ? `<ul class="mlist">${upcoming.map(meetingRow).join('')}</ul>` : '<p class="muted">No upcoming meetings are posted yet.</p>'}
   <details class="drop"><summary>What do the colours mean?</summary>${typeLegend()}</details>
   ${MEET_HOW}
+  <details class="drop"><summary>Quick answers about Squamish council meetings</summary>${MEET_FAQ().map(([q, a]) => `<p><b>${esc(q)}</b><br>${esc(a)}</p>`).join('')}</details>
   <h2 id="past">Already happened <span class="small">${past.length}</span></h2>
   ${past.length ? `<ul class="mlist">${past.map(meetingRow).join('')}</ul>` : '<p class="muted">The new council hasn’t met yet. After each meeting, a summary appears here within a day or two.</p>'}
   <p class="small">Meeting dates come from the District of Squamish’s official calendar and can change. Summaries are written automatically from the official video, agenda and minutes, and every one links back to them. <a href="/about/#meetings">How our summaries are made</a>.</p>`,
