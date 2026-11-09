@@ -805,6 +805,8 @@ function haveSay(m, item, t) {
     <p><b>Watch.</b> Live and afterward on the <a href="https://www.youtube.com/@DistrictofSquamish/streams" target="_blank" rel="noopener">District’s YouTube channel</a>.</p></section>`;
 }
 const shareText = (m) => `${m.summary.headline}\n\n${(m.summary.key_points || []).slice(0, 4).map((k) => '• ' + k).join('\n')}\n\nWho voted which way, in plain words: ${ORIGIN}${mUrl(m)}`;
+// Key points: on phones the first four show and the rest sit behind "N more" (review II, Nov 9). Wide screens show all.
+const kpList = (ks, n = 4) => `<ul class="keypoints${ks.length > n + 1 ? ' kp-fold' : ''}">${ks.map((k, i) => `<li${i >= n ? ' class="kp-more"' : ''}>${escGl(k)}</li>`).join('')}</ul>${ks.length > n + 1 ? `<button type="button" class="kp-toggle" data-kp-more aria-expanded="false">${ks.length - n} more <span aria-hidden="true">▾</span></button>` : ''}`;
 // Small buttons beside the date (review II, Nov 9). Share opens the phone's own share menu, or Facebook where there is
 // none. Print is left off phones.
 const shareBar = (m) => `<div class="mshare no-print"><a class="ms-btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(ORIGIN + mUrl(m))}" target="_blank" rel="noopener" data-natshare="${esc(ORIGIN + mUrl(m))}" data-title="${esc(`Squamish council, ${fmtLong(m.date)}`)}"><span aria-hidden="true">↗</span> Share</a>
@@ -1613,7 +1615,7 @@ for (const m of MEETINGS) {
     ${done ? `
     <section class="card layer1"><h2>What happened, in short</h2>
       <p class="lede">${escGl(S.headline)}</p>
-      <ul class="keypoints">${(S.key_points || []).map((k) => `<li>${escGl(k)}</li>`).join('')}</ul></section>
+      ${kpList(S.key_points || [])}</section>
     ${votes.length ? `<h2 id="votes">The votes <span class="small">${votes.length}</span></h2><p class="vsum"><b>${votes.length} vote${votes.length === 1 ? '' : 's'}, ${esc(voteSummary(votes))}.</b> <span class="small">Tap any vote to see what it means and who voted which way.</span></p>
     <div class="stack">${votes.slice(0, 6).map((d) => decisionCard(d, m)).join('')}</div>
     ${votes.length > 6 ? `<details class="drop"><summary>Show ${votes.length - 6} more votes, mostly routine</summary><div class="stack">${votes.slice(6).map((d) => decisionCard(d, m)).join('')}</div></details>` : ''}` : '<p class="muted">Council didn’t take any recorded votes at this meeting.</p>'}
