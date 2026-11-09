@@ -2300,3 +2300,20 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
   .side-jump a:hover, .side-jump a.on { color: var(--brand); border-left-color: var(--brand); }
   .profile-side .avatar.lg { width: 8.5rem; height: 8.5rem; }
 }
+
+/* /council/ on desktop: big faces in a card grid, topics in one sideways row (review, Nov 9) */
+@media (min-width: 900px) {
+  #council-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; background: none; border: 0; box-shadow: none; overflow: visible; }
+  #council-grid .crow { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  #council-grid .crow + .crow { border-top: 1px solid var(--line); }
+  #council-grid .crow-hit { flex-direction: column; text-align: center; padding: 1.2rem 1rem 1.1rem; height: 100%; justify-content: flex-start; }
+  #council-grid .crow-hit .avatar, #mayor + .cand-list .crow-hit .avatar { width: 6.5rem; height: 6.5rem; font-size: 1.6rem; }
+  #council-grid .crow-txt { align-items: center; gap: .25rem; }
+  #council-grid .crow-sub { -webkit-line-clamp: 3; }
+  #council-grid .crow-growth { -webkit-line-clamp: 3; font-weight: 600; }
+  #council-grid .crow .go { display: none; }
+  #mayor + .cand-list .crow-hit { gap: 1.3rem; padding: 1.1rem 1.3rem; }
+  .cmp-wrap .picker { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; scroll-behavior: smooth; mask-image: linear-gradient(90deg, transparent, #000 2%, #000 94%, transparent); padding: .2rem .4rem; }
+  .cmp-wrap .picker::-webkit-scrollbar { display: none; }
+  .cmp-wrap .picker .chip-btn { flex: none; white-space: nowrap; }
+}

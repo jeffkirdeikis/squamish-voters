@@ -89,6 +89,8 @@
     function show(id, push) {
       if (ids.indexOf(id) < 0) id = ids[0];
       btns.forEach(function (b) { var on = b.getAttribute('data-show') === id; b.setAttribute('aria-selected', String(on)); b.classList.toggle('on', on); });
+      // the chips are one sideways row on wide screens: bring the chosen one into view without moving the page
+      btns.forEach(function (b) { if (b.getAttribute('data-show') === id && p.scrollWidth > p.clientWidth) { var l = b.offsetLeft - (p.clientWidth - b.offsetWidth) / 2; p.scrollTo({ left: Math.max(0, l), behavior: 'smooth' }); } });
       panels.forEach(function (s) { s.hidden = (s.getAttribute('data-with') || s.id) !== id; });
       if (nav) {
         var i = ids.indexOf(id);
