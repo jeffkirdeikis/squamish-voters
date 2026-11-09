@@ -493,7 +493,7 @@
   function drawProgress() {
     var d = done(), n = asks.length;
     var pe = $('[data-wa-people]');
-    if (pe && loaded) pe.innerHTML = (people ? '<b>' + people.toLocaleString('en-CA') + ' neighbour' + (people === 1 ? '' : 's') + '</b> ' + (people === 1 ? 'has' : 'have') + ' answered. ' + (d ? 'Keep going.' : 'Your turn.') : 'Be one of the first to answer.') + ' <a href="#wa-how">How it works</a>';
+    if (pe && loaded) pe.innerHTML = (people ? '<b>' + people.toLocaleString('en-CA') + ' neighbour' + (people === 1 ? '' : 's') + '</b> ' + (people === 1 ? 'has' : 'have') + ' answered. ' + (d ? 'Keep going.' : 'Your turn.') : 'Be one of the first to answer.'); // one How it works link, in the note below
     var rp = $('[data-wa-railprog]');
     if (rp) rp.innerHTML = '<div class="wa-railring">' + ringSvg(d, n, 64) + '<p class="wa-railbig"><span><b>' + d + '</b> of ' + n + ' answered</span><span class="small muted">' + (d < UNLOCK ? 'The Top 10 opens after ' + UNLOCK + ' (' + (UNLOCK - d) + ' to go)' : d < n ? (n - d) + ' to go' : 'All done. Thank you') + '</span></p></div>' +
       (d < n ? '<button type="button" class="btn block" data-nextq>Next unanswered</button>' : '') +
@@ -538,7 +538,8 @@
     var el = $('[data-wa-board]'); if (!el || !desk.matches) return;
     var WHY = '<details class="wa-why"><summary>How is this ranked?</summary><p class="small">The share of yes among people who said yes or no. “Don’t mind” is counted but left out of the share, so an ask that matters to one neighbourhood isn’t buried by people it doesn’t affect. Asks need 10 people with a side to show here.</p></details>';
     if (d < UNLOCK) {
-      el.innerHTML = '<h2>Most wanted, live</h2><ol class="wa-board locked" aria-hidden="true">' + [80, 64, 72, 56, 68].map(function (w, i) { return '<li><span class="wa-rk">' + (i + 1) + '</span><span class="wa-bt" style="width:' + w + '%"></span></li>'; }).join('') + '</ol><p class="small"><b>Answer ' + (UNLOCK - d) + ' more to see it.</b> It updates as you answer.</p>' + WHY;
+      // Locked: a clear lock with progress, not grey bars that look like a page still loading (review, Nov 9)
+      el.innerHTML = '<h2>Most wanted, live</h2><div class="wa-lockbox"><span class="wa-lockic" aria-hidden="true">🔒</span><div><p><b>Opens after ' + UNLOCK + ' answers.</b> Then it shows the five asks with the most yes, moving as people answer.</p><div class="wa-lockbar" role="progressbar" aria-valuemin="0" aria-valuemax="' + UNLOCK + '" aria-valuenow="' + d + '"><i style="width:' + Math.round(d / UNLOCK * 100) + '%"></i></div><p class="small muted">' + d + ' of ' + UNLOCK + ' answered</p></div></div>' + WHY;
       boardPos = {}; return;
     }
     var L = asks.filter(function (a) { return !multi(a) && a.status !== 'done' && opinions(a, t(a.id)) >= 10; }).sort(function (p, q) { return score(q) - score(p) || opinions(q, t(q.id)) - opinions(p, t(p.id)); }).slice(0, 5);

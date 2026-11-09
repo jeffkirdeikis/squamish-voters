@@ -2317,3 +2317,16 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
   .cmp-wrap .picker::-webkit-scrollbar { display: none; }
   .cmp-wrap .picker .chip-btn { flex: none; white-space: nowrap; }
 }
+
+/* What Squamish Wants: locked board as a lock with progress; asks in two columns on wide screens (review, Nov 9) */
+.wa-lockbox { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .8rem; align-items: start; padding: .9rem; border-radius: 12px; background: var(--surface-2); margin: .4rem 0 .6rem; }
+.wa-lockbox p { margin: 0 0 .5rem; font-size: .92rem; line-height: 1.4; }
+.wa-lockic { font-size: 1.6rem; line-height: 1; }
+.wa-lockbar { height: 8px; border-radius: 99px; background: var(--surface); overflow: hidden; margin-bottom: .35rem; }
+.wa-lockbar i { display: block; height: 100%; background: var(--brand); border-radius: 99px; transition: width .4s; }
+@media (min-width: 1000px) {
+  .wa[data-wants="page"] .wa-rows { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .wa[data-wants="page"] .wa-rows > .wa-row { grid-template-columns: minmax(0, 1fr); height: 100%; align-content: start; }
+  .wa[data-wants="page"] .wa-rows > .wa-row > .wa-ans { grid-column: 1; grid-row: auto; align-self: end; }
+  .wa[data-wants="page"] .wa-rows > .wa-row.choice, .wa[data-wants="page"] .wa-rows > .wa-row.open, .wa[data-wants="page"] .wa-rows > .wa-empty { grid-column: 1 / -1; }
+}
