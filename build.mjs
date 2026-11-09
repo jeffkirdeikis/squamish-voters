@@ -363,7 +363,7 @@ function page({ url, title, desc, body, hero = '', scripts = '', noindex = false
   if (SIGNUP_ON.some((u) => url.startsWith(u)) && !body.includes('id="signup"')) body += signupBox(url.split('/')[1] || 'home');
   const img = image || 'https://squamishvoters.com/og.png?v=4';
   const cur = (href) => ((href === '/' ? url === '/' : url.startsWith(href)) ? ' aria-current="page"' : '');
-  const inGroup = (g) => [g.href, ...g.items.map(([h]) => h)].some((h) => url.startsWith(h));
+  const inGroup = (g) => [g.href, ...g.items.map(([h]) => h).filter((h) => !NAV_GROUPS.some((x) => x !== g && x.href === h))].some((h) => url.startsWith(h)); // a page with its own top item (Meetings) lights only that item
   const full = title ? (title.length > 52 ? title : `${title} | ${SITE.name}`) : 'Squamish Voters: council votes, meetings and promises';
   desc = clip(desc, 158);
   return `<!doctype html>

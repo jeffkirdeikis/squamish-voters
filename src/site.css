@@ -1218,7 +1218,7 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .top-nav a.nav-news { background: var(--focus); color: #14211c; display: inline-flex; align-items: center; gap: .35rem; margin-left: .35rem; padding: .5rem .85rem; border-radius: 999px; font-weight: 800; }
 .top-nav a.nav-news svg { width: 18px; height: 18px; }
 .top-nav a.nav-news:hover { background: #ffc933; }
-.top-nav a.nav-news[aria-current="page"] { background: #fff; color: var(--brand); }
+.top-nav a.nav-news[aria-current="page"] { background: var(--focus); color: #14211c; box-shadow: 0 0 0 2px #fff; }
 
 /* ---------- neighbourhoods ---------- */
 .hd { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.2rem; }
@@ -2221,3 +2221,6 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
   .faces-sm .face .avatar { width: 5.2rem; height: 5.2rem; }
   .faces-sm .face b { font-size: .95rem; line-height: 1.25; }
 }
+
+/* One clear "you are here" in the top menu: tint plus a yellow underline */
+.top-nav > a[aria-current="page"]:not(.nav-news), .top-nav .nav-dd > a[aria-current="page"] { background: rgba(255,255,255,.16); box-shadow: inset 0 -3px 0 var(--focus); }
