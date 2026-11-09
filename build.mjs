@@ -1109,8 +1109,9 @@ const wantsShort = (where) => `<section class="card wa-short" data-wants="short"
   <p class="wa-kicker">New: What Squamish Wants</p>
   <h2 id="wa-short-h-${where}">What should Squamish do?</h2>
   <p class="small">Say yes, no or don’t mind on specific asks, then see what everyone else said. <span data-wa-people></span></p>
-  <ul class="wa-rows" data-wa-rows>${wantsStatic(WANTS.asks.slice(0, 3))}</ul>
-  <a class="btn block" href="/wants/">See all the asks and add your own</a>
+  <ul class="wa-rows" data-wa-rows>${wantsStatic(WANTS.asks.slice(0, 1))}</ul>
+  <div class="wa-shortnav" data-wa-shortnav hidden><span class="small muted" data-wa-shortpos></span><button type="button" class="btn" data-wa-snext>Next question →</button></div>
+  <a class="wa-shortall" href="/wants/">See all the asks and add your own →</a>
 </section>`;
 // Home hero: the next meeting as a calendar card, or the last one once nothing is scheduled.
 function heroMeet() {

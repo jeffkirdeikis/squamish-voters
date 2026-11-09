@@ -75,8 +75,9 @@
   // The answers on screen: all of them up to 6, then the first 6 unless the list is open (or your pick is further down).
   function shown(a) {
     var o = opts(a);
-    if (o.length <= SHOW || expanded[a.id]) return o;
-    var my = mine[a.id], v = o.slice(0, SHOW);
+    var lim = mode === 'short' ? 4 : SHOW; // Home shows the four most picked answers; the rest sit behind "Show more"
+    if (o.length <= lim || expanded[a.id]) return o;
+    var my = mine[a.id], v = o.slice(0, lim);
     return my && my !== 'm' && !v.some(function (x) { return x.key === my; }) ? o : v;
   }
   function col(a, k) { if (!isChoice(a) && (k === 'y' || k === 'n')) return k; var o = opts(a); for (var i = 0; i < o.length; i++) if (o[i].key === k) return 'o' + ((i % 8) + 1); return 'm'; }
@@ -275,7 +276,7 @@
       var sh = shown(a), more = opts(a).length - sh.length;
       return '<div class="wa-ans choice n' + sh.length + (big ? ' big' : '') + '" role="group" aria-label="Your answer">' + sh.map(function (o, i) {
         return '<button type="button" class="wa-b opt" data-ans="' + esc(o.key) + '" data-id="' + esc(a.id) + '" aria-pressed="' + (my === o.key) + '"' + lab(a, o.key, (big && desk.matches && i < 9 ? '<kbd>' + (i + 1) + '</kbd> ' : '') + esc(o.label)) + '</button>';
-      }).join('') + (more ? '<button type="button" class="wa-more" data-more="' + esc(a.id) + '">Show ' + more + ' more answer' + (more === 1 ? '' : 's') + ', most picked first</button>' : '') +
+      }).join('') + (more ? '<button type="button" class="wa-more" data-more="' + esc(a.id) + '">Show ' + more + ' more answer' + (more === 1 ? '' : 's') + (mode === 'short' ? '' : ', most picked first') + '</button>' : '') +
         '<div class="wa-ans-extra"><button type="button" class="wa-b m" data-ans="m" data-id="' + esc(a.id) + '" aria-pressed="' + (my === 'm') + '"' + lab(a, 'm', 'Don’t mind') + '</button>' +
         (canAdd(a) ? '<button type="button" class="wa-b other" data-sug="' + esc(a.id) + '" aria-expanded="' + (sug.id === a.id) + '">Other…</button>' : '') + '</div></div>';
     }
@@ -618,14 +619,20 @@
     var pe = $('[data-wa-people]'); if (pe && loaded && people) pe.textContent = people.toLocaleString('en-CA') + (people === 1 ? ' person has' : ' people have') + ' answered so far.';
     var area = prefs.area, n = parseInt(root.getAttribute('data-count') || '3', 10);
     if (only) { var oa = byId(only); el.innerHTML = oa ? row(oa) : ''; return; }
-    if (shortOrder) { el.innerHTML = shortOrder.map(byId).filter(Boolean).map(row).join(''); return; }
-    var L = asks.slice().sort(function (p, q) {
+    // One question at a time with "Next question" (review, Nov 9). The order is fixed once they start, so the card
+    // they just answered stays put until they move on.
+    var L = shortOrder ? shortOrder.map(byId).filter(Boolean) : asks.slice().sort(function (p, q) {
       var mp = mine[p.id] ? 1 : 0, mq = mine[q.id] ? 1 : 0, lp = p.area && p.area === area ? 0 : 1, lq = q.area && q.area === area ? 0 : 1;
       return mp - mq || lp - lq || total(t(q.id)) - total(t(p.id));
-    }).slice(0, n);
-    if (touched) shortOrder = L.map(function (a) { return a.id; });
-    el.innerHTML = L.map(row).join('');
+    });
+    if (touched && !shortOrder) shortOrder = L.map(function (a) { return a.id; });
+    if (!L.length) return;
+    shortIdx = shortIdx % L.length;
+    el.innerHTML = row(L[shortIdx]);
+    var nav = $('[data-wa-shortnav]'), pos = $('[data-wa-shortpos]');
+    if (nav) { nav.hidden = L.length < 2; if (pos) pos.textContent = (shortIdx + 1) + ' of ' + L.length; }
   }
+  var shortIdx = 0;
 
   // ---------- server ----------
   function load() {
@@ -725,6 +732,7 @@
     if ((b = e.target.closest('[data-wa-topsort]'))) { topSort = b.getAttribute('data-wa-topsort'); drawTop(); return; }
     if ((b = e.target.closest('[data-topic]'))) { topic = b.getAttribute('data-topic'); focusId = null; order = null; draw(); return; }
     if (e.target.closest('[data-nextq]')) { nextUnanswered(); return; }
+    if (e.target.closest('[data-wa-snext]')) { if (!shortOrder) { touched = true; shortOrder = [].concat(asks).sort(function (p, q) { var mp = mine[p.id] ? 1 : 0, mq = mine[q.id] ? 1 : 0; return mp - mq || total(t(q.id)) - total(t(p.id)); }).map(function (a) { return a.id; }); var cur = root.querySelector('[data-wa-rows] > .wa-row'); if (cur) { var ci = shortOrder.indexOf(cur.id.slice(4)); if (ci > -1) shortIdx = ci; } } shortIdx += 1; openId = null; draw(); track('Wants next', { on: location.pathname }); return; }
     if (e.target.closest('[data-sheetx]')) { closeSheet(); return; }
     if (e.target.closest('[data-areax]')) { areaAsk = null; draw(); return; }
     if (e.target.closest('[data-gosignup]')) { closeSheet(); var s = document.getElementById('signup'); if (s) { s.scrollIntoView({ behavior: 'smooth', block: 'center' }); var inp = s.querySelector('input[type=email]'); if (inp) setTimeout(function () { inp.focus({ preventScroll: true }); }, 400); } return; }

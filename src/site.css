@@ -2330,3 +2330,15 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
   .wa[data-wants="page"] .wa-rows > .wa-row > .wa-ans { grid-column: 1; grid-row: auto; align-self: end; }
   .wa[data-wants="page"] .wa-rows > .wa-row.choice, .wa[data-wants="page"] .wa-rows > .wa-row.open, .wa[data-wants="page"] .wa-rows > .wa-empty { grid-column: 1 / -1; }
 }
+
+/* Home "What should Squamish do?": one question at a time (review, Nov 9) */
+.wa-shortnav { display: flex; justify-content: space-between; align-items: center; gap: .8rem; flex-wrap: wrap; margin-top: .8rem; }
+.wa-shortnav[hidden] { display: none; }
+.wa-shortall { display: inline-block; margin-top: .7rem; font-weight: 600; }
+@media (max-width: 620px) {
+  .wa-short .wa-ans.choice { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; }
+  .wa-short .wa-ans.choice > .wa-more, .wa-short .wa-ans.choice > .wa-ans-extra { grid-column: 1 / -1; }
+  .wa-short .wa-ans.choice .wa-b.opt { font-size: .86rem; padding: .5rem .55rem; min-height: 3rem; }
+  .wa-shortnav { flex-wrap: nowrap; } .wa-shortnav .btn { min-height: 2.8rem; padding: .4rem .9rem; }
+}
+.wa-shortnav .btn { white-space: nowrap; }
