@@ -45,7 +45,7 @@
   function until(iso) {
     var p = iso.split('-'), t = new Date(), a = new Date(t.getFullYear(), t.getMonth(), t.getDate()), b = new Date(+p[0], +p[1] - 1, +p[2]);
     var n = Math.round((b - a) / 864e5);
-    return n <= 0 ? 'today' : n === 1 ? 'tomorrow' : 'in ' + n + ' days';
+    return n <= 0 ? 'Today' : n === 1 ? 'Tomorrow' : 'In ' + n + ' days';
   }
   var S = shown.stories, M = shown.decided, MAX = 3;
   var html = '<div class="since-top"><p class="since-k">Since your last visit <span>' + esc(ago(shown.at)) + '</span></p><button type="button" class="since-x" data-since-x aria-label="Close">×</button></div>';
@@ -56,7 +56,7 @@
   if (M.length) html += '<div class="since-g"><p class="since-n"><b>Council decided</b></p><ul class="since-list">' +
     M.slice(0, 1).map(function (m) { return '<li><a href="' + esc(m.url) + '" data-since-go="meeting">' + esc(m.head) + '</a></li>'; }).join('') + '</ul></div>';
   if (D.soon.length) html += '<div class="since-g"><p class="since-n"><b>Coming up</b></p><ul class="since-list since-soon">' +
-    D.soon.map(function (x) { return '<li><a href="' + esc(x.url) + '" data-since-go="soon">' + esc(x.label) + '</a> <span>' + esc(until(x.date)) + '</span></li>'; }).join('') + '</ul></div>';
+    D.soon.map(function (x) { return '<li><span class="since-when">' + esc(until(x.date)) + '</span><a href="' + esc(x.url) + '" data-since-go="soon">' + esc(x.label) + '</a></li>'; }).join('') + '</ul></div>';
   html += '</div>';
   box.innerHTML = html; box.hidden = false;
   track('Since shown', { stories: S.length, meetings: M.length });
