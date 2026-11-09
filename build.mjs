@@ -1660,14 +1660,14 @@ if (TRACKED.length) {
   const story = (st) => {
     if (st.tier === 'lead') return `<article ${attrs(st, st.visual && st.visual.type === 'bars' ? 'nw-lead' : 'nw-lead solo')}>${photo(st, true)}${kicker(st)}${hLink(st)}${visual(st)}<p class="nw-dek">${esc(st.dek)}</p>${take(st)}${foot(st)}</article>`;
     if (st.tier === 'feature') return `<article ${attrs(st, 'nw-feature')}>${photo(st)}${kicker(st)}${hLink(st)}<p class="nw-dek">${esc(st.dek)}</p>${visual(st)}${take(st)}${foot(st)}</article>`;
-    if (st.tier === 'brief') return `<article ${attrs(st, 'nw-brief')}>${kicker(st)}${hLink(st, 'h3')}<p class="nw-dek">${dekHtml(st)}</p>${foot(st)}</article>`;
+    if (st.tier === 'brief') return `<article ${attrs(st, 'nw-brief')}>${kicker(st)}${hLink(st, 'h3')}</article>`; // In brief rail: headlines only (review, Nov 9)
     const isMap = st.visual && st.visual.type === 'map';
     return `<article ${attrs(st, 'nw-card')}>${isMap ? visual(st) : photo(st)}${kicker(st)}${hLink(st, 'h3')}${isMap ? '' : visual(st)}<p class="nw-dek">${esc(st.dek)}</p>${take(st)}${foot(st)}</article>`;
   };
   const chips = `<div class="nw-chips-wrap no-print"><div class="nw-chips" role="group" aria-label="Show stories about">
     <button type="button" class="nw-chip" aria-pressed="true" data-f="all">All</button>${NEWS.sections.filter(([k]) => NEWS.stories.some((s) => s.s === k)).map(([k, l]) => `<button type="button" class="nw-chip" aria-pressed="false" data-f="${k}" data-s="${k}"><i></i>${esc(l)}</button>`).join('')}</div></div>`;
   const cal = (d) => { const x = new Date(d + 'T12:00:00'); return `<div class="nw-cal" aria-hidden="true"><span>${x.toLocaleDateString('en-CA', { month: 'short' }).replace('.', '')}</span><b>${x.getDate()}</b></div>`; };
-  const coming = `<section class="nw-coming"><h2 class="nw-rail-h">Coming up</h2><ol>${NEWS.coming.map((c) => `<li data-until="${c.date}">${cal(c.date)}<div><a href="${esc(c.url)}"${isUrl(c.url) ? ' target="_blank" rel="noopener"' : ''}>${esc(c.title)}</a><p>${esc(fmtLong(c.date))}. ${esc(c.text)}</p></div></li>`).join('')}</ol><p class="nw-more"><a href="/meetings/">All council meetings →</a></p></section>`;
+  const coming = `<section class="nw-coming"><h2 class="nw-rail-h">Coming up</h2><ol>${[...NEWS.coming].sort((a, b) => a.date.localeCompare(b.date)).map((c) => `<li data-until="${c.date}">${cal(c.date)}<div><a href="${esc(c.url)}"${isUrl(c.url) ? ' target="_blank" rel="noopener"' : ''}>${esc(c.title)}</a><p>${esc(fmtLong(c.date))}. ${esc(c.text)}</p></div></li>`).join('')}</ol><p class="nw-more"><a href="/meetings/">All council meetings →</a></p></section>`;
   // Newest first. The lead is the newest big story near the top; the rest fall into Latest and Earlier by date.
   const S = [...NEWS.stories].sort((a, b) => b.date.localeCompare(a.date));
   const main = S.filter((s) => s.tier !== 'brief'), briefs = S.filter((s) => s.tier === 'brief').slice(0, 5);
