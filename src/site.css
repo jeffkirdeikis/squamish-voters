@@ -959,7 +959,8 @@ span.vmark.ps-kept, span.vmark.ps-broken { display: inline-block; }
 .kp-toggle { display: none; }
 @media (max-width: 620px) {
   .kp-fold:not(.kp-open) .kp-more { display: none; }
-  .layer1 .lede { font-size: 1.05rem; }
+  .layer1 .lede, .tw-meet .lede { font-size: 1.05rem; }
+  .tw-road li:nth-child(n+3) { display: none; }
   .kp-toggle { display: inline-flex; gap: .3rem; font: inherit; font-weight: 700; color: var(--brand); background: none; border: 0; padding: .2rem 0; cursor: pointer; }
 }
 @media print { .kp-more { display: list-item !important; } }

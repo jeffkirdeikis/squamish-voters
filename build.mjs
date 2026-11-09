@@ -2181,7 +2181,7 @@ write('/your-say/', page({
   const cut = (s, n = 220) => (s.length > n ? s.slice(0, s.lastIndexOf(' ', n)) + '…' : s);
   const cal = (d) => { const x = new Date(d + 'T12:00:00'); return `<div class="nw-cal" aria-hidden="true"><span>${x.toLocaleDateString('en-CA', { month: 'short' }).replace('.', '')}</span><b>${x.getDate()}</b></div>`; };
   const council = recent.length
-    ? recent.map((m) => `<section class="card"><p class="mwhen"><b>${esc(fmtDay(m.date))}</b> ${mBadge(m)}</p><p class="lede">${escGl(m.summary.headline)}</p><ul class="keypoints">${(m.summary.key_points || []).map((k) => `<li>${escGl(k)}</li>`).join('')}</ul><a class="btn secondary" href="${mUrl(m)}">Every vote →</a></section>`).join('')
+    ? recent.map((m) => `<section class="card tw-meet"><p class="mwhen"><b>${esc(fmtDay(m.date))}</b> ${mBadge(m)}</p><p class="lede">${escGl(m.summary.headline)}</p>${kpList(m.summary.key_points || [], 3)}<p><a class="btn secondary" href="${mUrl(m)}">Every vote →</a></p></section>`).join('')
     : `<p>Council didn’t meet in the last week.${shown[0] ? ` The next meeting is ${esc(fmtDay(shown[0].date))}.` : ''}</p>`;
   write('/this-week/', page({
     url: '/this-week/', jsonld: crumbLd([['Home', '/'], ['This week in Squamish', '/this-week/']]), title: 'This week in Squamish: council, news, roads and dates', updated: TODAY,
@@ -2194,7 +2194,7 @@ write('/your-say/', page({
     ${after ? `<p>After that: <a href="${mUrl(after)}">${esc(fmtDay(after.date))}</a>, ${esc(mType(after).label.toLowerCase())}. ${esc(after.preview || mType(after).plain)}</p>` : ''}
     ${dates.length || open.length ? `<h2>Dates and deadlines</h2>
     <section class="card nw-coming"><ol>${dates.map((c) => `<li data-until="${c.date}">${cal(c.date)}<div><a href="${esc(c.url)}"${isUrl(c.url) ? ' target="_blank" rel="noopener"' : ''}>${esc(c.title)}</a><p>${esc(fmtLong(c.date))}. ${esc(c.text)}</p></div></li>`).join('')}${open.map(({ t, s }) => `<li><div class="nw-cal" aria-hidden="true"><span>Now</span><b>✉</b></div><div><a href="/track/${t.slug}/">${esc(s.label)}</a><p>${esc(s.note || '')}</p></div></li>`).join('')}</ol></section>` : ''}
-    <div data-tw-road hidden><h2>On the road</h2><section class="card"><ul data-body></ul><p class="small muted">Highway 99 between Horseshoe Bay and Whistler, from DriveBC. Live on <a href="/today/">Squamish today</a>.</p></section></div>
+    <div data-tw-road hidden><h2>On the road</h2><section class="card"><ul data-body class="tw-road"></ul><p class="small muted">Highway 99 between Horseshoe Bay and Whistler, from DriveBC. Live on <a href="/today/">Squamish today</a>.</p></section></div>
     ${top.length ? `<h2>In the news</h2>
     <div class="nw"><div class="nw-cards">${top.map((s) => `<article class="nw-card" data-s="${s.s}"><div class="nw-kicker"><span>${esc(SEC[s.s])}</span><time datetime="${s.date}">${esc(fmtLong(s.date))}</time></div><h3 class="nw-h"><a href="/news/${s.slug}/">${esc(s.head)}</a></h3><p class="nw-dek">${esc(cut(s.dek))}</p><p class="nw-src">Source: <a href="${esc(s.src[1])}" target="_blank" rel="noopener">${esc(s.src[0])}</a></p></article>`).join('')}</div>
     <p><a href="/news/">All Squamish news →</a></p></div>` : ''}
