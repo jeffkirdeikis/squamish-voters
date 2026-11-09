@@ -882,6 +882,30 @@ span.vmark.ps-kept, span.vmark.ps-broken { display: inline-block; }
 .ptxt { font-weight: 600; color: var(--ink); line-height: 1.4; }
 @media (min-width: 700px) { .promise > summary { flex-direction: row; align-items: flex-start; } .promise > summary .pstatus { min-width: 9.5rem; justify-content: flex-start; } }
 .scards { display: grid; gap: .6rem; margin: .8rem 0 1rem; }
+/* Scorecard at a glance: one row per member (review II, Nov 9). A table on desktop, two short lines per member on phones. */
+.sc-list { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); margin: .8rem 0 .6rem; overflow: hidden; }
+.sc-head, .sc-row { display: grid; grid-template-columns: 2.8rem minmax(10rem, 1.1fr) 1.4fr 1.4fr 1rem; gap: .4rem 1rem; align-items: center; padding: .6rem 1rem; }
+.sc-head { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); background: var(--surface-2); padding-block: .45rem; }
+.sc-row { border-top: 1px solid var(--line); text-decoration: none; color: inherit; }
+.sc-row:hover { background: var(--surface-2); }
+.sc-name, .sc-col { display: flex; flex-direction: column; min-width: 0; }
+.sc-name b { font-size: 1rem; }
+.sc-n b { font-size: 1.05rem; }
+.sc-st { color: var(--muted); }
+.sc-st .ps-kept { color: var(--yes); font-weight: 700; } .sc-st .ps-broken { color: var(--no); font-weight: 700; }
+.sc-row .sbar { height: .45rem; margin: .3rem 0 0; }
+.sc-row .go { font-size: 1.4rem; color: var(--muted); }
+@media (max-width: 700px) {
+  .sc-head { display: none; }
+  .sc-row { grid-template-columns: 2.6rem 1fr 1rem; padding: .55rem .8rem; gap: .1rem .7rem; }
+  .sc-row .avatar { grid-row: span 3; align-self: start; margin-top: .15rem; }
+  .sc-row .go { grid-column: 3; grid-row: 1 / span 3; }
+  .sc-name { flex-direction: row; gap: .4rem; align-items: baseline; }
+  .sc-col { grid-column: 2; flex-direction: row; flex-wrap: wrap; gap: 0 .35rem; align-items: baseline; font-size: .88rem; }
+  .sc-n b { font-size: inherit; }
+  .sc-col .sc-st::before { content: "· "; }
+  .sc-row .sbar { flex-basis: 100%; }
+}
 @media (min-width: 760px) { .scards { grid-template-columns: 1fr 1fr; } }
 .scard { display: flex; gap: .8rem; align-items: flex-start; padding: .9rem 1rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); text-decoration: none; color: inherit; }
 .scard:hover { border-color: var(--brand); }

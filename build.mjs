@@ -653,15 +653,17 @@ function votedAnswers(c) {
 const ANY_VOTES = DECISIONS.some((d) => d.votes);
 const FIRST_VOTES = (upcoming.find((m) => m.type !== 'inaugural') || {}).date;
 // One member's track record as a card: replaces wide tables that fell apart on phones.
-function scoreCard(c, { promises = true, positions = true } = {}) {
+// At a glance: one short row per member (review II, Nov 9). Only the groups that have something in them are named,
+// so before votes test anything a row reads "11 promises · none tested yet" instead of a line of zeros.
+function scoreRow(c) {
   const ps = promisesOf(c), pc = pCounts(ps), pr = positionReport(c);
-  const bar = (parts, total) => `<span class="sbar" aria-hidden="true">${parts.filter(([n]) => n).map(([n, cls]) => `<i class="${cls}" style="flex:${n}"></i>`).join('')}${total - parts.reduce((a, [n]) => a + n, 0) > 0 ? `<i class="ps-notyet" style="flex:${total - parts.reduce((a, [n]) => a + n, 0)}"></i>` : ''}</span>`;
-  const line = (label, parts, total, untested) => `<div class="sline"><p><b>${label}</b></p>${bar(parts, total)}<p class="small">${parts.map(([n, , w]) => `${n} ${w}`).join(' · ')} · ${untested} not tested yet</p></div>`;
-  // Before any votes there is nothing to score: one quiet line instead of rows of zeros.
-  if (!ANY_VOTES) return `<a class="scard" href="/council/${c.slug}/#record">${avatar(c, 'sm')}<span class="sbody"><span class="sname"><b>${esc(c.name)}</b><span class="small">${[promises && `${ps.length} promises`, positions && `${pr.rows.length} positions`].filter(Boolean).join(' · ')} tracked${positions && pr.ours.length ? ` (${pr.own.length} checked against votes)` : ''}</span></span></span><span class="go" aria-hidden="true">›</span></a>`;
-  return `<a class="scard" href="/council/${c.slug}/#record">${avatar(c, 'sm')}<span class="sbody"><span class="sname"><b>${esc(c.name)}</b><span class="small">${c.office === 'mayor' ? 'Mayor' : 'Councillor'}</span></span>
-  ${promises ? line('Promises', [[pc.kept, 'ps-kept', 'kept'], [pc.not_kept, 'ps-broken', 'not kept'], [pc.mixed, 'ps-progress', 'mixed'], [pc.progress, 'ps-progress', 'in progress'], [pc.early, 'ps-early', 'early sign']], ps.length, pc.not_yet) : ''}
-  ${positions ? line('Positions', [[pr.inLine, 'ps-kept', 'voted the way they said'], [pr.against, 'ps-broken', 'voted against'], [pr.mixed, 'ps-progress', 'mixed'], [pr.early, 'ps-early', 'early sign']], pr.own.length, pr.untested) : ''}</span></a>`;
+  const said = (parts, untested) => { const got = parts.filter(([n]) => n); return got.length ? `${got.map(([n, cls, w]) => `<span class="${cls}">${n} ${w}</span>`).join(' · ')}${untested ? ` · ${untested} not tested yet` : ''}` : 'none tested yet'; };
+  const bar = (parts, total) => parts.some(([n]) => n) ? `<span class="sbar" aria-hidden="true">${parts.filter(([n]) => n).map(([n, cls]) => `<i class="${cls}" style="flex:${n}"></i>`).join('')}<i class="ps-notyet" style="flex:${Math.max(0, total - parts.reduce((a, [n]) => a + n, 0))}"></i></span>` : '';
+  const pP = [[pc.kept, 'ps-kept', 'kept'], [pc.not_kept, 'ps-broken', 'not kept'], [pc.mixed, 'ps-progress', 'mixed'], [pc.progress, 'ps-progress', 'in progress'], [pc.early, 'ps-early', 'early sign']];
+  const pQ = [[pr.inLine, 'ps-kept', 'voted the way they said'], [pr.against, 'ps-broken', 'voted against'], [pr.mixed, 'ps-progress', 'mixed'], [pr.early, 'ps-early', 'early sign']];
+  return `<a class="sc-row" href="/council/${c.slug}/#record">${avatar(c, 'sm')}<span class="sc-name"><b>${esc(c.name)}</b><span class="small">${c.office === 'mayor' ? 'Mayor' : 'Councillor'}</span></span>
+  <span class="sc-col"><span class="sc-n"><b>${ps.length}</b> promises</span><span class="small sc-st">${said(pP, pc.not_yet)}</span>${bar(pP, ps.length)}</span>
+  <span class="sc-col"><span class="sc-n"><b>${pr.own.length}</b> positions</span><span class="small sc-st">${said(pQ, pr.untested)}</span>${bar(pQ, pr.own.length)}</span><span class="go" aria-hidden="true">›</span></a>`;
 }
 const noVotesNote = () => ANY_VOTES ? '' : `<div class="notice info"><b>No votes yet.</b> The new council is sworn in on November 3${FIRST_VOTES ? ` and its first regular meeting is ${esc(fmtLong(FIRST_VOTES))}` : ''}. Every vote after that is checked here automatically, and nothing is marked red until the official minutes confirm the vote.</div>`;
 // Red ("voted against") needs 2 or more votes confirmed by the official minutes (scripts/pipeline/status.mjs).
@@ -2235,13 +2237,14 @@ const AI_NOTE = 'An AI model (Anthropic’s Claude) reads each vote and decides 
     <div class="notice info"><b>An AI makes the calls.</b> ${esc(AI_NOTE)} <a href="/corrections/">See every correction</a>.</div>
     <h2 id="scoreboard">At a glance</h2>
     ${noVotesNote()}
-    <div class="scards">${all.map((c) => scoreCard(c)).join('')}</div>
+    <div class="sc-list"><div class="sc-head" aria-hidden="true"><span></span><span>Member</span><span>Promises</span><span>Positions</span><span></span></div>${all.map(scoreRow).join('')}</div>
+    ${all.every((c) => pCounts(promisesOf(c)).not_yet === promisesOf(c).length && !positionReport(c).tested.length) ? '<p class="small muted">None tested yet. Kept and not kept show up here once council votes test them.</p>' : ''}
     <nav class="sc-tabs no-print" aria-label="Scorecard sections"><a href="#promises" data-sctab="promises" aria-current="true">Promises</a><a href="#positions" data-sctab="positions">Positions</a></nav>
 
     <section id="promises" data-scpanel="promises">
     <h2>Promises</h2>
     <p class="small">Specific things they said they would do. Each one says in advance what <b>their part</b> is: what they move, second or vote for. Only that part gets a label.</p>
-    ${ANY_VOTES ? '' : '<!--'}<div class="pstats">${Object.entries(PSTATUS).map(([k, P]) => `<button type="button" class="chip-btn" data-pf="${k}" aria-pressed="false"><span class="pstatus ${P.cls}"><span aria-hidden="true">${P.icon}</span> ${c0[k]}</span> ${esc(P.label)}</button>`).join('')}<button type="button" class="chip-btn" data-pf="" aria-pressed="true">Show all</button></div>${ANY_VOTES ? '' : '-->'}
+    ${ANY_VOTES ? '' : '<!--'}<div class="pstats">${Object.entries(PSTATUS).filter(([k]) => c0[k]).map(([k, P]) => `<button type="button" class="chip-btn" data-pf="${k}" aria-pressed="false"><span class="pstatus ${P.cls}"><span aria-hidden="true">${P.icon}</span> ${c0[k]}</span> ${esc(P.label)}</button>`).join('')}<button type="button" class="chip-btn" data-pf="" aria-pressed="true">Show all</button></div>${ANY_VOTES ? '' : '-->'}
     ${all.map((c) => { const ps = promisesOf(c); return ps.length ? `<h3 id="${c.slug}" class="phead">${avatar(c, 'sm')} <a href="/council/${c.slug}/">${esc(c.name)}</a> <span class="small">${c.office === 'mayor' ? 'Mayor' : 'Councillor'} · ${ps.length} promises</span></h3>
     <div class="card stack">${ps.map((p) => promiseRow(p).replace('<details class="promise"', `<details class="promise" data-ps="${pKey(p)}"`)).join('')}</div>` : ''; }).join('')}
     </section>
