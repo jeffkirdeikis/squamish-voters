@@ -1204,7 +1204,7 @@ const v = ctx.voting || {};
     <a class="cc-tile" href="/neighbourhoods/"><span class="cc-ico">${ICON.pin}</span><b>Your neighbourhood</b><span>Decisions and building near you</span></a>
 ${HAVE_SAY_OPEN ? `    <a class="cc-tile cc-say" href="/have-your-say/"><span class="cc-ico">${ICON.hand}</span><b>Have your say <span class="cc-new">${HAVE_SAY_OPEN ? 'Vote now' : 'New'}</span></b><span>${HAVE_SAY_OPEN ? `${HAVE_SAY_OPEN} question${HAVE_SAY_OPEN === 1 ? '' : 's'} open: vote before council does` : 'Vote on what council votes on'}</span></a>` : `<a class="cc-tile cc-say" href="/wants/"><span class="cc-ico">${ICON.hand}</span><b>What Squamish Wants <span class="cc-new">New</span></b><span>Say yes or no to what people want changed in town</span></a>`}
   </div>
-  <form class="herosign cc-sign" id="signup" data-subscribe="home-hero" novalidate>
+  <form class="herosign cc-sign hero-sign-desk" id="signup" data-subscribe="home-hero" novalidate>
     <label for="hs-email"><b>Get a short email every Friday:</b> what council decided and what’s coming up.</label>
     <div class="hs-row"><input id="hs-email" type="email" name="email" autocomplete="email" required placeholder="Enter your email"><button class="btn" type="submit">Sign up</button></div>
     <p class="hs-note">We’ll email you a link to confirm. Unsubscribe any time.</p>
@@ -1215,6 +1215,12 @@ ${HAVE_SAY_OPEN ? `    <a class="cc-tile cc-say" href="/have-your-say/"><span cl
     body: `
   ${sinceData()}
   ${homeNews()}
+  <form class="herosign home-sign-phone" id="signup-phone" data-subscribe="home-phone" novalidate>
+    <label for="hs-email-m"><b>Get a short email every Friday:</b> what council decided and what’s coming up.</label>
+    <div class="hs-row"><input id="hs-email-m" type="email" name="email" autocomplete="email" required placeholder="Enter your email"><button class="btn" type="submit">Sign up</button></div>
+    <p class="hs-note">We’ll email you a link to confirm. Unsubscribe any time.</p>
+    <p class="small" data-msg role="status"></p>
+  </form>
   ${wantsShort('home')}
   ${wantsData()}
   <script src="/botid.js" defer></script><script src="/wants.js" defer></script>
