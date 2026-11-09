@@ -16,6 +16,7 @@
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function focusTop() { var h = root.querySelector('h2, .q-text'); if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); } window.scrollTo(0, root.getBoundingClientRect().top + window.scrollY - 90); }
 
+  var WIDE = !window.matchMedia || window.matchMedia('(min-width: 621px)').matches;
   function renderQuestion() {
     var q = Q[state.i], a = state.answers[q.id];
     root.innerHTML =
@@ -23,7 +24,8 @@
       '<p class="q-count"><b>' + (state.i + 1) + ' of ' + Q.length + '</b> · ' + esc(q.topic) + (Q.length - state.i - 1 > 0 && Q.length - state.i - 1 <= 3 ? ' · <b>' + (Q.length - state.i - 1) + ' to go</b>' : '') + '</p>' +
       '<h2 class="q-text">“' + esc(q.text) + '”</h2>' +
       (q.what ? '<p class="q-what"><b>' + esc(q.what.term) + '</b>: ' + esc(q.what.def) + '</p>' : '') +
-      '<p class="q-why">' + esc(q.why) + '</p>' +
+      // On phones the background folds behind "Why it matters" so the answers start on the first screen (review II, Nov 9).
+      (WIDE ? '<p class="q-why">' + esc(q.why) + '</p>' : '<details class="q-whyd"><summary>Why it matters</summary><p class="q-why">' + esc(q.why) + '</p></details>') +
       // Above the answers: tapping an answer moves on, so anything below it can never be reached.
       '<label class="important"><input type="checkbox" id="imp"' + (state.important[q.id] ? ' checked' : '') + '><span>★ This one matters a lot to me <small>(counts double)</small></span></label>' +
       '<div class="answers" role="group" aria-label="Your answer: tap one to continue">' +

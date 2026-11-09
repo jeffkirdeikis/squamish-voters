@@ -1557,7 +1557,7 @@ write('/quiz/', page({
   url: '/quiz/', jsonld: crumbLd([['Home', '/'], ['Quiz', '/quiz/']]), title: 'Squamish council quiz: who on council thinks like you?',
   desc: `Answer ${QUESTIONS.length} plain-language questions and see which members of Squamish council think most like you.`,
   body: `<div class="quiz-shell"><div id="quiz-intro"><h1>Who on council thinks like you?</h1>
-  <p class="lede">${QUESTIONS.length} statements. Tell us if you agree or disagree. It takes about three minutes, and your answers never leave your device.</p></div>
+  <p class="lede">${QUESTIONS.length} statements. Agree or disagree?<span class="q-lede-more"> It takes about three minutes, and your answers never leave your device.</span></p></div>
   <div id="quiz" class="card"><noscript>The quiz needs JavaScript turned on. You can still <a href="/compare/">compare the mayor and council issue by issue</a>.</noscript></div>
   <p class="small" style="margin-top:1rem">How matching works: we compare your answers to each council member’s public positions and votes. Questions you mark as important count double. Where a member has no public position, that question is left out for them. <a href="/about/#quiz">Full method</a>.</p></div>
   <template id="tpl-compass">${miniCompass({ heading: 'Where you land', you: false, maps: ['classic'] })}</template>`,
