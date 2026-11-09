@@ -1,6 +1,111 @@
 {
   "_about": "Roles on council for each member: acting mayor months, the Squamish-Lillooet Regional District board seat, committee and liaison appointments. Empty until the District publishes the appointments, which council usually makes at or soon after the swearing in on November 3, 2026. Fill members.<slug> with [{ \"role\": \"Acting mayor\", \"when\": \"January to March 2027\", \"source_url\": \"https://...\" }]. Every role needs a source_url.",
   "note": "Appointed Nov 3",
-  "source_url": null,
-  "members": {}
+  "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true",
+  "members": {
+    "sean-easton": [
+      {
+        "role": "Squamish-Lillooet Regional District board (5 votes)",
+        "when": "From November 3, 2026",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      }
+    ],
+    "sarah-ellis": [
+      {
+        "role": "Squamish-Lillooet Regional District board (4 votes)",
+        "when": "From November 3, 2026",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      },
+      {
+        "role": "Acting mayor",
+        "when": "December 2026, February 2027, August 2027",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      },
+      {
+        "role": "Community Forest Board",
+        "when": "to December 31, 2027",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      }
+    ],
+    "eric-andersen": [
+      {
+        "role": "Squamish-Lillooet Regional District board (4 votes)",
+        "when": "From November 3, 2026",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      },
+      {
+        "role": "Acting mayor",
+        "when": "November 2026, January 2027, July 2027",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      },
+      {
+        "role": "Land Back Task Force",
+        "when": "to December 31, 2027",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      }
+    ],
+    "laura-prosko": [
+      {
+        "role": "Squamish-Lillooet Regional District board, alternate",
+        "when": "From November 3, 2026",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      },
+      {
+        "role": "Acting mayor",
+        "when": "March 2027, September 2027",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      },
+      {
+        "role": "Land Back Task Force",
+        "when": "to December 31, 2027",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      }
+    ],
+    "luc-perreault": [
+      {
+        "role": "Squamish-Lillooet Regional District board, alternate",
+        "when": "From November 3, 2026",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      },
+      {
+        "role": "Acting mayor",
+        "when": "April 2027, October 2027",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      },
+      {
+        "role": "Community Forest Board",
+        "when": "to December 31, 2027",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      }
+    ],
+    "shaun-veltkamp": [
+      {
+        "role": "Squamish-Lillooet Regional District board, alternate",
+        "when": "From November 3, 2026",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      },
+      {
+        "role": "Acting mayor",
+        "when": "May 2027, November 2027",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      },
+      {
+        "role": "Land Back Task Force",
+        "when": "to December 31, 2027",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      }
+    ],
+    "janice-desjardins": [
+      {
+        "role": "Acting mayor",
+        "when": "June 2027, December 2027",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      },
+      {
+        "role": "Squamish Library Board",
+        "when": "November 3, 2026 to December 31, 2027",
+        "source_url": "https://squamish.civicweb.net/document/271675/?printPdf=true"
+      }
+    ]
+  }
 }

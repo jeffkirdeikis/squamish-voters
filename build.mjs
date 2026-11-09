@@ -2518,7 +2518,7 @@ write('/subscribers/', page({ url: '/subscribers/', title: 'Admin', noindex: tru
 function rolesBox(c) {
   const rs = ((ROLES.members || {})[c.slug] || []).filter((r) => r.role && isUrl(r.source_url));
   return `<section class="card roles" id="roles"><h2>${esc(first(c))}’s roles on council</h2>${rs.length
-    ? `<ul class="linklist">${rs.map((r) => `<li><b>${esc(r.role)}</b>${r.when ? ` <span class="small">${esc(r.when)}</span>` : ''}${src(r.source_url)}</li>`).join('')}</ul>`
+    ? `<dl class="roles-list">${rs.map((r) => `<div><dt>${esc(r.role)}</dt><dd>${esc(r.when || '')}</dd></div>`).join('')}</dl><p class="small">Appointed by council on November 3, 2026. Source: <a href="${esc(rs[0].source_url)}" target="_blank" rel="noopener">inaugural meeting agenda</a> and <a href="/meetings/2026-11-03-inaugural/">what council decided</a>.</p>`
     : `<p class="muted">Not appointed yet. Council usually decides who serves as acting mayor, who sits on the Squamish-Lillooet Regional District board, and who joins which committees at or soon after the swearing in on November 3, 2026. We’ll list ${esc(first(c))}’s roles here once the District publishes them.</p>`}
   <p class="small"><a href="/how-council-works/">How council works</a>: no one on council, not even the mayor, decides alone.</p></section>`;
 }

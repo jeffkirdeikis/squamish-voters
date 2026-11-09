@@ -2224,3 +2224,11 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 
 /* One clear "you are here" in the top menu: tint plus a yellow underline */
 .top-nav > a[aria-current="page"]:not(.nav-news), .top-nav .nav-dd > a[aria-current="page"] { background: rgba(255,255,255,.16); box-shadow: inset 0 -3px 0 var(--focus); }
+
+/* Councillor pages: roles appointed Nov 3 (data/roles.json) */
+.roles-list { margin: .2rem 0 .6rem; display: grid; gap: 0; }
+.roles-list > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .2rem 1rem; padding: .55rem 0; border-top: 1px solid var(--line); }
+.roles-list > div:first-child { border-top: 0; }
+.roles-list dt { font-weight: 700; }
+.roles-list dd { margin: 0; color: var(--muted); }
+@media (max-width: 560px) { .roles-list > div { grid-template-columns: 1fr; } }
