@@ -66,6 +66,121 @@
  ],
  "stories": [
   {
+   "slug": "rainfall-warning-160-mm-squamish-2",
+   "s": "weather",
+   "tier": "lead",
+   "date": "2026-11-09",
+   "head": "Up to 160 mm of rain hits Squamish Tuesday. Here's what to expect",
+   "dek": "Squamish could get 120 to 160 mm of rain, or more, starting early Tuesday morning. Environment Canada has issued a rainfall warning for Howe Sound and the Sea to Sky from Squamish to Whistler. Heavy rain lasts until Wednesday night, with more rain into Thursday morning.",
+   "take": "Expect 120 to 160 mm of rain from early Tuesday to Wednesday night, with flooding likely and some roads possibly impassable; check DriveBC before you travel.",
+   "body": "## What to expect\n\nEnvironment Canada has issued a rainfall warning for Howe Sound and the Sea to Sky from Squamish to Whistler. Very heavy rain is expected.\n\n- **How much:** 120 to 160 mm, possibly more\n- **Starts:** early Tuesday morning\n- **Heaviest rain:** Tuesday until overnight Wednesday\n- **Ends:** moderate rain continues until Thursday morning\n\nEnvironment Canada says a very strong weather front is set to reach Vancouver Island overnight Monday. Rain, at times heavy, will last until overnight Wednesday. Even after the heaviest rain eases, moderate rain will continue into Thursday morning. That could push the total to 150 mm or higher.\n\n## The risks\n\nThe warning lists several possible effects:\n\n- Local flooding is likely\n- Some roads may become impassable\n- Visibility may suddenly drop at times\n- Landslides may happen in vulnerable areas, such as steep slopes, areas where trees have been cut, or recent burn scars\n\nWeather in the mountains can change suddenly, which can make driving hazardous.\n\n## Before you travel\n\n- Check road conditions at [DriveBC](https://www.drivebc.ca/)\n- See current weather, Highway 99, river and air conditions on our [Today page](/today/)\n- Read more about local flood risk on our [flood protection issue page](/issues/flood-protection/)\n\n## Stay updated\n\nEnvironment Canada asks people to keep watching its alerts and forecasts. You can report severe weather by emailing BCstorm@ec.gc.ca or posting on social media with #BCStorm.\n\nRead the full warning on the [Environment Canada website](https://weather.gc.ca/warnings/index_e.html?prov=bc).",
+   "visual": {
+    "type": "big",
+    "big": "160 mm",
+    "small": "Rain possible Tuesday to Wednesday night"
+   },
+   "src": [
+    "Environment Canada",
+    "https://weather.gc.ca/warnings/index_e.html?prov=bc"
+   ],
+   "social": "Driving Highway 99 or heading out with the kids Tuesday or Wednesday? Squamish is in for a very wet few days.\n\nEnvironment Canada says 120 to 160 mm of rain could fall from Tuesday morning to Wednesday night, with local flooding likely and some roads possibly impassable. When it starts, what the risks are and where to check roads:",
+   "share": 4,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/rainfall-warning-160-mm-squamish-2.jpg",
+    "alt": "Howe Sound seen from above Squamish",
+    "caption": "Howe Sound, seen from above Squamish.",
+    "credit": "Shafik Diwan, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Howe_Sound,_Squamish.jpg"
+   },
+   "og": "rainfall-warning-160-mm-squamish-2.png"
+  },
+  {
+   "slug": "rainfall-warning-160-mm-squamish",
+   "s": "weather",
+   "tier": "lead",
+   "date": "2026-11-09",
+   "head": "Up to 160 mm of rain is coming Tuesday. Here's what to watch for",
+   "dek": "Environment Canada says very heavy rain will soak Squamish from Tuesday morning to Wednesday night, with 120 to 160 mm or more. A rainfall warning covers Howe Sound and the Sea to Sky from Squamish to Whistler. Localized flooding is likely and some roads may become impassable.",
+   "take": "Expect very heavy rain from early Tuesday until overnight Wednesday, with moderate rain into Thursday morning, and watch for flooded or impassable roads.",
+   "body": "## What is coming\n\nEnvironment Canada issued a rainfall warning on November 9 for Howe Sound and the Sea to Sky, from Squamish to Whistler. A very strong frontal system is set to reach Vancouver Island overnight Monday.\n\n- **When:** heavy rain begins early Tuesday morning and lasts until overnight Wednesday\n- **After that:** the heaviest rain eases overnight Wednesday, but moderate rain continues until Thursday morning\n- **How much:** 120 to 160 mm, possibly more, with totals around 150 mm or higher\n\n## What it could mean in Squamish\n\nEnvironment Canada says:\n\n- Localized flooding is likely\n- Some roads may become impassable\n- Visibility will likely drop suddenly at times\n- Landslides may happen in vulnerable areas such as steep slopes, areas where trees have been cut and recent burn scars\n\nIf you drive Highway 99 or local roads during the storm, expect changing conditions and poor visibility in heavy bursts of rain.\n\n## How to stay informed\n\n- Check current weather, Highway 99 and river conditions on our [Today page](/today/)\n- Read the latest warning from [Environment Canada](https://weather.gc.ca/warnings/index_e.html?prov=bc)\n- Background on local flood risk is on our [flood protection issue page](/issues/flood-protection/)\n\nEnvironment Canada asks people to keep watching its alerts and forecasts, as warnings can change.\n\n## How to report severe weather\n\nEnvironment Canada collects reports from the public:\n\n- Email BCstorm@ec.gc.ca\n- Or post on social media using #BCStorm",
+   "visual": {
+    "type": "big",
+    "big": "160 mm",
+    "small": "Rain possible by Thursday morning"
+   },
+   "src": [
+    "Environment Canada",
+    "https://weather.gc.ca/warnings/index_e.html?prov=bc"
+   ],
+   "social": "Driving the highway or heading out with the kids this week? Squamish could get 120 to 160 mm of rain, possibly more, starting early Tuesday.\n\nEnvironment Canada says localized flooding is likely, some roads may become impassable and landslides may happen on steep slopes. When it starts, when it eases and how to report what you see:",
+   "share": 4,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/rainfall-warning-160-mm-squamish.jpg",
+    "alt": "Grey clouds hang over snow-capped peaks and the forested Squamish valley, with a river winding past the town below.",
+    "caption": "Clouds over the Squamish valley, seen from Stawamus Chief Provincial Park.",
+    "credit": "Trougnouf, CC BY 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Stawamus_Chief_Provincial_Park,_BC_(DSCF7884).jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/rainfall-warning-160-mm-squamish-2.jpg",
+     "alt": "Aerial view of downtown Squamish beside the river, surrounded by forest.",
+     "caption": "Downtown Squamish, seen from the Chief hike.",
+     "credit": "trougnouf (Benoit Brummer), CC BY 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:View_of_Squamish_from_the_Chief_Hike_in_Stawamus_Chief_Provincial_Park,_BC_(DSCF7786).jpg"
+    }
+   ],
+   "og": "rainfall-warning-160-mm-squamish.png"
+  },
+  {
+   "slug": "whistler-rainfall-warning-highway-99",
+   "s": "weather",
+   "tier": "brief",
+   "date": "2026-11-09",
+   "head": "Driving to Whistler Tuesday? Up to 100 mm of rain is on the way",
+   "dek": "Heavy rain could make the drive to Whistler harder this week. Environment Canada has issued a rainfall warning for Whistler, with 50 to 100 mm expected from Tuesday morning, November 10, until overnight Wednesday, November 11. Water may pool on roads and visibility may drop suddenly.",
+   "take": "If you are heading to Whistler Tuesday or Wednesday, expect heavy rain, water on roads and sudden low visibility, and keep checking Environment Canada alerts.",
+   "body": "## What is coming\n\nEnvironment Canada issued a rainfall warning for Whistler on November 9, 2026. The warning covers Whistler, not Squamish, but it matters for anyone travelling north on Highway 99.\n\n- **How much:** 50 to 100 mm of rain\n- **Starts:** Tuesday morning, November 10\n- **Heaviest:** Tuesday afternoon, when rain will be heavy at times\n- **Eases:** overnight Wednesday, November 11\n\nEnvironment Canada says a very strong frontal system will reach Vancouver Island very early Tuesday morning. The rain will build through the morning and is expected to keep going until overnight Wednesday.\n\n## What it could mean on the road\n\nThe warning lists these risks:\n\n- Water will likely pool on roads and in low areas.\n- Visibility will likely drop suddenly at times.\n- Landslides may happen in places that are at risk, such as steep slopes, areas where trees have been cut, or places burned by recent wildfires.\n\nIf you commute to Whistler or plan a trip there Tuesday or Wednesday, these are the conditions to plan for.\n\n## Stay up to date\n\nEnvironment Canada asks people to keep watching its alerts and forecasts. You can see the latest warnings on the [Environment Canada warnings page](https://weather.gc.ca/warnings/index_e.html?prov=bc).\n\nTo report severe weather, email BCstorm@ec.gc.ca or post on social media using #BCStorm.\n\nFor current weather, Highway 99 and river conditions closer to home, check our [Today page](/today/). More on the corridor is on our [transit and Highway 99 page](/issues/transit-and-highway-99/).",
+   "visual": {
+    "type": "big",
+    "big": "100 mm",
+    "small": "Rain expected in Whistler"
+   },
+   "src": [
+    "Environment Canada",
+    "https://weather.gc.ca/warnings/index_e.html?prov=bc"
+   ],
+   "social": "Do you drive up to Whistler for work or play? This week could be a wet one on the road.\n\nEnvironment Canada expects 50 to 100 mm of rain in Whistler from Tuesday morning until overnight Wednesday, with the heaviest rain Tuesday afternoon. What to watch for on the drive:",
+   "share": 2,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/whistler-rainfall-warning-highway-99.jpg",
+    "alt": "Sea to Sky Highway curving past rock cuts and forest with snow-capped mountains behind",
+    "caption": "Highway 99, the Sea to Sky Highway, between Squamish and Whistler.",
+    "credit": "Vince Alongi from Delta, B.C., Canada, CC BY 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Hwy_99_(5965627597).jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/whistler-rainfall-warning-highway-99-2.jpg",
+     "alt": "Green highway sign listing Whistler 23 km and Pemberton 57 km with Indigenous place names, beside forest",
+     "caption": "A Highway 99 sign showing the distance to Whistler and Pemberton.",
+     "credit": "Vince Alongi from Delta, B.C., Canada, CC BY 2.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Whistler,_23_Km_(5968722581).jpg"
+    },
+    {
+     "file": "/news/photos/whistler-rainfall-warning-highway-99-3.jpg",
+     "alt": "Sea to Sky Highway winding along Howe Sound with a forested mountain across the water",
+     "caption": "The Sea to Sky Highway and Howe Sound at Porteau Road.",
+     "credit": "Ruth Hartnup, CC BY 2.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Sea_to_Sky_Highway_and_Howe_Sound_at_Porteau_Road.jpg"
+    }
+   ],
+   "og": "whistler-rainfall-warning-highway-99.png"
+  },
+  {
    "slug": "nov-10-closed-meeting-cancelled",
    "s": "council",
    "tier": "card",
