@@ -294,6 +294,8 @@ const SIDES = {
 // The same labels for every page that shows them: { key: { t: title, i: icon, q: question, o: [[value, side], [value, side]] } }
 const SIDE_LABELS = Object.fromEntries(SIGNUP_ISSUES.filter((i) => SIDES[i.key]).map((i) => [i.key, { t: i.title, i: i.icon, q: SIDES[i.key][0], o: [SIDES[i.key][1], SIDES[i.key][2]] }]));
 // Each topic's own page at /issues/<slug>/, named the way people search for it.
+// One picture per topic for the cards on /issues/ (review II, Nov 9).
+const TOPIC_EMOJI = { growth: '🏗️', housing_affordability: '🏠', homelessness: '⛺', policing: '🚓', taxes_spending: '💵', climate: '🌲', environment_lng: '🚢', transportation: '🚌', parking: '🅿️', economy: '💼', recreation_facilities: '🏊', flood_hazards_climate_resilience: '🌊', other_campaign_topics: '🧸' };
 const TOPIC_SLUG = { growth: 'growth-and-development', housing_affordability: 'housing', homelessness: 'homelessness', policing: 'policing-and-safety', taxes_spending: 'property-taxes', climate: 'climate-and-environment', environment_lng: 'woodfibre-lng', transportation: 'transit-and-highway-99', parking: 'parking', economy: 'jobs-and-economy', recreation_facilities: 'brennan-park-and-recreation', flood_hazards_climate_resilience: 'flood-protection', other_campaign_topics: 'childcare-rentals-and-vanlife' };
 const TOPIC_NAME = { growth: 'growth and development', housing_affordability: 'housing', homelessness: 'homelessness and supportive housing', policing: 'policing and community safety', taxes_spending: 'property taxes and spending', climate: 'climate and the environment', environment_lng: 'the Woodfibre LNG plant', transportation: 'transit and Highway 99', parking: 'parking', economy: 'jobs and the local economy', recreation_facilities: 'Brennan Park and recreation', flood_hazards_climate_resilience: 'flood protection', other_campaign_topics: 'childcare, short-term rentals and vanlife' };
 const issueCtx = (key) => (ctx.issues || []).find((i) => i.key === key) || {};
@@ -1522,9 +1524,9 @@ write('/issues/', page({
   desc: 'Housing, growth, taxes, Woodfibre LNG, homelessness, policing, parking and more: what Squamish council is doing on each one, the background in plain words, and where each member stands.',
   body: `<h1>The issues</h1>
   <p class="lede">Each topic in plain words: what council is doing about it now, the background, and where each member stands. Tap a topic to open it.</p>
-  <ul class="plainlist stack">${(ctx.issues || []).filter((i) => TOPIC_SLUG[i.key]).map((i) => { const ts = TRACKED.filter((t) => t.topic === i.key); return `<li class="card issue-hub" id="${i.key}"><h2><a href="/issues/${TOPIC_SLUG[i.key]}/">${esc(i.title)}</a></h2><p>${esc(i.teaser)}</p>
-    ${ts.length ? `<p class="small"><b>What we’re following:</b></p><ul class="mlist">${ts.map(issueRow).join('')}</ul>` : ''}</li>`; }).join('')}
-  <li class="card issue-hub"><h2><a href="/issues/woodfibre-tax-deal/">The Woodfibre LNG tax deal</a></h2><p>Council said no to a 10 year tax agreement in September 2026. What it would have meant, and where each member stands.</p></li></ul>`,
+  <ul class="plainlist issue-grid">${(ctx.issues || []).filter((i) => TOPIC_SLUG[i.key]).map((i) => { const ts = TRACKED.filter((t) => t.topic === i.key); return `<li class="card issue-hub" id="${i.key}"><h2><a href="/issues/${TOPIC_SLUG[i.key]}/"><span class="ih-ico" aria-hidden="true">${TOPIC_EMOJI[i.key] || '📌'}</span>${esc(i.title)}</a></h2><p class="ih-sum">${esc(clip(i.teaser, 125))}</p>
+    ${ts.length ? `<ul class="ih-follow">${ts.map((t) => { const now = stepNow(t); return `<li><a href="/track/${t.slug}/">${esc(t.question)}</a>${now ? `<span class="small">Step ${now.i + 1} of ${now.n}: ${esc(now.step.label)}</span>` : ''}</li>`; }).join('')}</ul>` : '<p class="small muted ih-none">Nothing we’re following step by step yet.</p>'}</li>`; }).join('')}
+  <li class="card issue-hub"><h2><a href="/issues/woodfibre-tax-deal/"><span class="ih-ico" aria-hidden="true">🧾</span>The Woodfibre LNG tax deal</a></h2><p class="ih-sum">Council said no to a 10 year tax agreement in September 2026. What it would have meant, and where each member stands.</p></li></ul>`,
 }));
 
 // ---------- QUIZ ----------
