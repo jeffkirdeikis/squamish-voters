@@ -2396,3 +2396,14 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
   .hdr-off .picker-bar, .hdr-off .wa-tabs, .hdr-off .chapters { top: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .site-header, .picker-bar, .wa-tabs, .chapters { transition: none !important; } }
+
+/* Facebook and Reddit boxes side by side on desktop (Nov 9) */
+@media (min-width: 900px) {
+  .social-pair { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 1rem; margin: 1.5rem 0 0; align-items: stretch; }
+  .social-pair .fbcard, .social-pair .rdcard { margin: 0; }
+  .social-pair .fbcard { grid-template-columns: 13rem minmax(0, 1fr); gap: 1rem; align-items: center; }
+  .social-pair .fbcard img { width: 100%; height: auto; }
+  .social-pair .rdcard { display: grid; align-items: center; }
+  .social-pair .fbc-txt b { font-size: 1.15rem; }
+  .social-pair .fbc-txt > span:not(.fbc-btn) { font-size: .9rem; }
+}
