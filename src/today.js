@@ -106,7 +106,7 @@
     var rows = days.map(function (d, i) {
       var dt = new Date(d.date + 'T12:00:00'), w = WX(d.code);
       var name = d.date === todayStr ? 'Today' : i === 0 || (i === 1 && days[0].date === todayStr) ? 'Tomorrow' : dt.toLocaleDateString('en-CA', { weekday: 'short' });
-      var wet = d.snow >= 1 ? d.snow + ' cm snow' : d.rain >= 1 ? d.rain + ' mm' : d.pop >= 30 ? d.pop + '%' : '';
+      var wet = d.snow >= 1 ? d.snow + ' cm snow' : d.rain >= 1 ? Math.round(d.rain) + ' mm' : d.pop >= 30 ? d.pop + '%' : '';
       return '<li' + (i >= SHOW ? ' class="td-more" hidden' : '') + '><span class="td-dn"><b>' + name + '</b><small>' + dt.toLocaleDateString('en-CA', { month: 'short', day: 'numeric' }) + '</small></span>'
         + '<span class="td-dw" title="' + w[1] + '"><span aria-hidden="true">' + w[0] + '</span><small>' + w[1] + '</small></span>'
         + '<span class="td-dr">' + e(wet) + '</span>'
@@ -226,7 +226,13 @@
     var warn = (d.weather && d.weather.warnings) || [];
     var box = page.querySelector('[data-td-alerts]');
     if (box && warn.length) {
-      box.innerHTML = warn.map(function (w) { return '<p><b>' + e(w.type || 'Weather alert') + '</b> ' + e(w.text) + ' <a href="' + e(d.weather.link) + '" target="_blank" rel="noopener">Details →</a></p>'; }).join('');
+      // Environment Canada sends type "statement" and text "SPECIAL WEATHER STATEMENT": show it once, in plain case.
+      var plain = function (t) { t = String(t || '').trim().toLowerCase(); return t.charAt(0).toUpperCase() + t.slice(1); };
+      box.innerHTML = warn.map(function (w) {
+        var t = w.text || '', head = plain(t && t.length < 60 ? t : (w.type ? w.type : 'Weather alert'));
+        var rest = t.length >= 60 ? ' ' + e(t) : '';
+        return '<p><span aria-hidden="true">⚠️</span> <b>' + e(head) + '</b>' + rest + ' <a href="' + e(d.weather.link) + '" target="_blank" rel="noopener">Details →</a></p>';
+      }).join('');
       box.hidden = false;
     }
   }).catch(function () {

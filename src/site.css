@@ -2273,3 +2273,13 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
   .site-footer .cols > div:not(.foot-g) { grid-column: 1 / -1; }
   .site-footer .foot-g li { padding: .25rem 0; font-size: .9rem; }
 }
+
+/* Today, 14 day list on phones: everything fits inside the card, high temperature never clipped (review, Nov 9) */
+@media (max-width: 420px) {
+  .td-days li { grid-template-columns: 4.5rem 1.4rem minmax(0, 1fr) 4.4rem; gap: .35rem; }
+  .td-dt .td-range { display: none; }
+  .td-days li > * { min-width: 0; }
+  .td-dr { font-size: .78rem; overflow: hidden; text-overflow: ellipsis; }
+  .td-dt { gap: .25rem; } .td-dt small { width: 1.5rem; } .td-dt b { width: 1.7rem; text-align: right; }
+  .td-dn b { font-size: .9rem; }
+}
