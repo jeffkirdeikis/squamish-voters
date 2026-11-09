@@ -949,6 +949,13 @@ span.vmark.ps-kept, span.vmark.ps-broken { display: inline-block; }
 .areas { margin: .3rem 0; display: flex; flex-wrap: wrap; gap: .3rem; }
 .area { font-size: .8rem; font-weight: 700; background: var(--surface-2); border-radius: 999px; padding: .1rem .55rem; }
 .sharebar { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
+/* Meeting pages: small share buttons beside the date and place (review II, Nov 9). */
+.mhead-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .4rem 1rem; margin: 0 0 1rem; }
+.mhead-row > p { margin: 0; }
+.mshare { display: flex; gap: .4rem; flex-wrap: wrap; }
+.ms-btn { display: inline-flex; align-items: center; gap: .3rem; font: inherit; font-size: .85rem; font-weight: 600; padding: .3rem .7rem; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); text-decoration: none; cursor: pointer; }
+.ms-btn:hover { border-color: var(--brand); }
+@media (max-width: 620px) { .ms-print, .ms-long { display: none; } }
 .sharebar .btn { flex: 1 1 auto; }
 .havesay { margin: 1rem 0; border-left: 6px solid var(--focus); }
 .havesay h2 { margin-top: 0; }

@@ -340,6 +340,8 @@
       return;
     }
     if (e.target.closest('[data-print]')) window.print();
+    var ns = e.target.closest('[data-natshare]');
+    if (ns && navigator.share) { e.preventDefault(); navigator.share({ title: ns.getAttribute('data-title') || document.title, url: ns.getAttribute('data-natshare') }).catch(function () {}); }
   });
   window.addEventListener('beforeprint', function () { document.querySelectorAll('main details').forEach(function (d) { d.setAttribute('open', ''); }); });
 

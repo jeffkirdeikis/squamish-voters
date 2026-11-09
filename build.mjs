@@ -805,9 +805,11 @@ function haveSay(m, item, t) {
     <p><b>Watch.</b> Live and afterward on the <a href="https://www.youtube.com/@DistrictofSquamish/streams" target="_blank" rel="noopener">District’s YouTube channel</a>.</p></section>`;
 }
 const shareText = (m) => `${m.summary.headline}\n\n${(m.summary.key_points || []).slice(0, 4).map((k) => '• ' + k).join('\n')}\n\nWho voted which way, in plain words: ${ORIGIN}${mUrl(m)}`;
-const shareBar = (m) => `<div class="sharebar no-print"><a class="btn secondary" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(ORIGIN + mUrl(m))}" target="_blank" rel="noopener">Share on Facebook</a>
-  <button class="btn secondary" type="button" data-copy="${esc(shareText(m))}">Copy a post to paste</button>
-  <button class="btn secondary" type="button" data-print>🖨 Print one page</button></div>`;
+// Small buttons beside the date (review II, Nov 9). Share opens the phone's own share menu, or Facebook where there is
+// none. Print is left off phones.
+const shareBar = (m) => `<div class="mshare no-print"><a class="ms-btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(ORIGIN + mUrl(m))}" target="_blank" rel="noopener" data-natshare="${esc(ORIGIN + mUrl(m))}" data-title="${esc(`Squamish council, ${fmtLong(m.date)}`)}"><span aria-hidden="true">↗</span> Share</a>
+  <button class="ms-btn" type="button" data-copy="${esc(shareText(m))}"><span aria-hidden="true">⧉</span> Copy a post<span class="ms-long"> to paste</span></button>
+  <button class="ms-btn ms-print" type="button" data-print><span aria-hidden="true">🖨</span> Print</button></div>`;
 const shareImg = (m) => (fs.existsSync(path.join(ROOT, 'public', 'share', `${m.id}.png`)) ? `${ORIGIN}/share/${m.id}.png` : null);
 
 // ---------- PROFILES ----------
@@ -1607,12 +1609,11 @@ for (const m of MEETINGS) {
     body: `<p class="crumbs"><a href="/meetings/">← All meetings</a></p>
     <p class="mwhen">${mBadge(m)}</p>
     <h1>${esc(fmtDay(m.date))}</h1>
-    <p class="small">${m.time ? esc(fmtTime(m.time)) + ' · ' : ''}${esc(m.place || 'Council Chambers, Municipal Hall, 37955 Second Avenue')}${m.status === 'cancelled' ? ' · <b>Cancelled</b>' : ''}</p>
+    <div class="mhead-row"><p class="small">${m.time ? esc(fmtTime(m.time)) + ' · ' : ''}${esc(m.place || 'Council Chambers, Municipal Hall, 37955 Second Avenue')}${m.status === 'cancelled' ? ' · <b>Cancelled</b>' : ''}</p>${done ? shareBar(m) : ''}</div>
     ${done ? `
     <section class="card layer1"><h2>What happened, in short</h2>
       <p class="lede">${escGl(S.headline)}</p>
-      <ul class="keypoints">${(S.key_points || []).map((k) => `<li>${escGl(k)}</li>`).join('')}</ul>
-      ${shareBar(m)}</section>
+      <ul class="keypoints">${(S.key_points || []).map((k) => `<li>${escGl(k)}</li>`).join('')}</ul></section>
     ${votes.length ? `<h2 id="votes">The votes <span class="small">${votes.length}</span></h2><p class="vsum"><b>${votes.length} vote${votes.length === 1 ? '' : 's'}, ${esc(voteSummary(votes))}.</b> <span class="small">Tap any vote to see what it means and who voted which way.</span></p>
     <div class="stack">${votes.slice(0, 6).map((d) => decisionCard(d, m)).join('')}</div>
     ${votes.length > 6 ? `<details class="drop"><summary>Show ${votes.length - 6} more votes, mostly routine</summary><div class="stack">${votes.slice(6).map((d) => decisionCard(d, m)).join('')}</div></details>` : ''}` : '<p class="muted">Council didn’t take any recorded votes at this meeting.</p>'}
