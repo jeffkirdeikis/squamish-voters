@@ -18,13 +18,24 @@
     poly.on('click', function () { if (!me) location.href = h.url; });
     if (!one || me) h.outline.forEach(function (r) { bounds = bounds.concat(flip(r)); });
   });
+  var layers = [];
   if (one) {
-    D.devs.forEach(function (d) {
-      var c = COL[d.status] || '#5d6661';
-      (d.shape || []).forEach(function (r) { L.polygon(flip(r), { color: c, weight: 2, fillColor: c, fillOpacity: 0.35 }).addTo(map).bindPopup('<b>' + d.name + '</b><br>' + d.type + ': ' + d.status.toLowerCase() + (d.homes ? '<br>' + d.homes + ' homes planned' : '')); });
+    D.devs.forEach(function (d, i) {
+      var c = COL[d.status] || '#5d6661', pop = '<b>' + d.name + '</b><br>' + d.type + ': ' + d.status.toLowerCase() + (d.homes ? '<br>' + d.homes + ' homes planned' : '');
+      layers[i] = (d.shape || []).map(function (r) { return L.polygon(flip(r), { color: c, weight: 2, fillColor: c, fillOpacity: 0.35 }).addTo(map).bindPopup(pop); });
       if (d.centre) bounds.push(d.centre);
     });
   }
+  // Clicking a project in the list shows it on the map (review II, Nov 9).
+  var lastOn = null;
+  document.addEventListener('click', function (e) {
+    var li = e.target.closest && e.target.closest('[data-dev-i]'); if (!li || e.target.closest('a')) return;
+    var ls = layers[+li.getAttribute('data-dev-i')] || []; if (!ls.length) return;
+    if (lastOn) lastOn.classList.remove('on'); li.classList.add('on'); lastOn = li;
+    var g = L.featureGroup(ls); map.flyToBounds(g.getBounds(), { padding: [40, 40], maxZoom: 16, duration: 0.6 });
+    ls[0].openPopup();
+    if (el.getBoundingClientRect().bottom < 0 || el.getBoundingClientRect().top > innerHeight) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
   if (one && bounds.length) map.fitBounds(bounds, { padding: [18, 18] });
   else map.setView([49.722, -123.138], el.clientWidth > 600 ? 13 : 12); // the whole town
 })();

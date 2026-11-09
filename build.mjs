@@ -2074,7 +2074,7 @@ write('/your-say/', page({
   const issuesIn = (slug) => TRACKED.filter((t) => (t.areas || []).includes(slug));
   const newsIn = (slug) => NEWS.stories.filter((s) => (s.areas || []).includes(slug)).sort((a, b) => b.date.localeCompare(a.date));
   const homes = (n) => n.toLocaleString('en-CA');
-  const devRow = (d) => `<li class="hd-dev" data-dev="${esc(d.name)}"><b>${esc(titleCase(d.name))}</b>
+  const devRow = (d, i) => `<li class="hd-dev" data-dev="${esc(d.name)}" data-dev-i="${i}"><i class="hd-dot ${STATUS_CLS[d.status] || ''}" aria-hidden="true"></i><b>${esc(titleCase(d.name))}</b>
     <span class="hd-tags"><span class="hd-st ${STATUS_CLS[d.status] || ''}">${esc(d.type)}: ${esc(d.status.toLowerCase())}</span>${d.homes ? `<span class="hd-homes">${homes(d.homes)} home${d.homes === 1 ? '' : 's'} planned</span>` : ''}</span>
     <span class="small muted">${[d.address ? titleCase(d.address) : '', d.housing.map((h) => h.toLowerCase()).join(', ')].filter(Boolean).map(esc).join(' · ')}</span></li>`;
   const mapData = (list, devs) => JSON.stringify({
@@ -2121,18 +2121,20 @@ write('/your-say/', page({
     ${dv.length ? `<div><b>${dv.length}</b><span>development project${dv.length === 1 ? '' : 's'}</span></div>` : ''}
     ${total ? `<div><b>${homes(total)}</b><span>homes planned</span></div>` : ''}
   </div>`}
-  <div class="hd-map" id="hoodmap" data-mode="one" data-slug="${h.slug}" role="img" aria-label="Map of ${esc(h.name)} with development projects"></div>
+  <div class="hd-split">
+  <div class="hd-mapcol"><div class="hd-map" id="hoodmap" data-mode="one" data-slug="${h.slug}" role="img" aria-label="Map of ${esc(h.name)} with development projects"></div>
   <script type="application/json" id="hoodmap-data">${mapData([h, ...others], dv)}</script>
-  <p class="hd-legend small"><span class="lg st-review"></span>Under review <span class="lg st-ok"></span>Approved <span class="lg st-new"></span>Application received</p>
+  <p class="hd-legend small"><span class="lg st-review"></span>Under review <span class="lg st-ok"></span>Approved <span class="lg st-new"></span>Application received</p></div>
 
-  <section class="card"><h2>What council decided here</h2>
+  <section class="card hd-decided"><h2>What council decided here</h2>
   ${dc.length ? dc.slice(0, 12).map((d) => decisionCard(d, d.m)).join('') : `<p class="muted">Nothing about ${esc(h.name)} yet.${upcoming[0] ? ` Next council meeting: <a href="${mUrl(upcoming[0])}">${esc(fmtDay(upcoming[0].date))}</a>.` : ''}</p>`}
   ${cu.length ? `<h3>Coming up at council</h3><ul class="mlist">${cu.map(({ a, m }) => `<li class="mrow"><a href="${mUrl(m)}"><span class="mtxt"><b class="mhead">${esc(a.plain)}</b><span class="small">${esc(fmtDay(m.date))}</span></span><span class="go" aria-hidden="true">›</span></a></li>`).join('')}</ul>` : ''}
   </section>
 
-  <section class="card"><h2>Development projects</h2>
-  ${dv.length ? `<p class="small muted">Rezonings, development permits and community plan changes the District is reviewing or has approved, biggest first.</p><ul class="hd-devs">${dv.map(devRow).join('')}</ul>` : `<p class="muted">The District’s list has no large projects in ${esc(h.name)} right now.</p>`}
+  <section class="card hd-projects"><h2>Development projects</h2>
+  ${dv.length ? `<p class="small muted">Rezonings, development permits and community plan changes the District is reviewing or has approved, biggest first.<span class="hd-tip"> Click one to find it on the map.</span></p><ul class="hd-devs">${dv.map(devRow).join('')}</ul>` : `<p class="muted">The District’s list has no large projects in ${esc(h.name)} right now.</p>`}
   ${SRC_NOTE}</section>
+  </div>
 
   ${is.length ? `<section class="card"><h2>Issues we’re following here</h2><ul class="mlist">${is.map(issueRow).join('')}</ul></section>` : ''}
 

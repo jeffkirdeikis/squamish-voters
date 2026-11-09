@@ -1320,6 +1320,29 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .hd-others p { margin: 0; line-height: 1.9; }
 @media (min-width: 700px) { .hd-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } .hd-map { height: 420px; } .hd-map-all { height: 520px; } }
 .leaflet-container { font: inherit; }
+/* Neighbourhood pages on wide screens: the map stays in view on the left, projects as a short list on the right (review II, Nov 9). */
+.hd-dot { display: none; }
+.hd-dev[data-dev-i] { cursor: pointer; }
+.hd-dev.on { background: var(--brand-soft); }
+@media (min-width: 1000px) {
+  .hd-split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); grid-template-areas: "map proj" "dec dec"; gap: 1rem 1.5rem; align-items: start; }
+  .hd-mapcol { grid-area: map; position: sticky; top: 5.5rem; }
+  .hd-mapcol .hd-map { height: min(640px, calc(100vh - 9rem)); }
+  .hd-mapcol .hd-legend { margin: .4rem 0 0; }
+  .hd-projects { grid-area: proj; margin: 0; }
+  .hd-decided { grid-area: dec; }
+  .hd-projects .hd-devs { gap: 0; }
+  .hd-projects .hd-dev { grid-template-columns: .7rem minmax(0, 1fr) auto; column-gap: .6rem; row-gap: .05rem; padding: .5rem .4rem; border-radius: 8px; }
+  .hd-projects .hd-dev:hover { background: var(--surface-2); }
+  .hd-projects .hd-dev.on { background: var(--brand-soft); }
+  .hd-dot { display: block; grid-column: 1; grid-row: 1; width: .65rem; height: .65rem; border-radius: 50%; background: var(--st, var(--muted)); align-self: center; }
+  .hd-dot.st-review { --st: #c77700; } .hd-dot.st-ok { --st: #0f6b4f; } .hd-dot.st-new { --st: #2457a6; }
+  .hd-projects .hd-dev > b { grid-column: 2; grid-row: 1; font-size: .95rem; }
+  .hd-projects .hd-tags { grid-column: 3; grid-row: 1; }
+  .hd-projects .hd-st { display: none; }
+  .hd-projects .hd-dev > .small { grid-column: 2 / span 2; grid-row: 2; font-size: .8rem; }
+}
+@media (max-width: 999px) { .hd-tip { display: none; } }
 .hd-label { background: rgba(255,255,255,.85); border: 0; box-shadow: none; font: 700 11px system-ui, sans-serif; color: #0f4c3a; padding: 1px 4px; }
 .hd-label::before { display: none; }
 
