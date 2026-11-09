@@ -709,7 +709,8 @@ function profileRecord(c) {
   <p class="small">${pr.ours.length ? posOursLede(c, pr) : `${pr.rows.length} things ${f} said during the campaign. Each gets a mark once a council vote tests it.`}</p>
   <details class="drop"><summary>See all ${pr.rows.length}${pr.ours.length ? ` (${pr.own.length} checked against votes)` : ' positions'}</summary><div class="stack">${pr.ours.length ? posGroups(c, pr) : pr.rows.map((r) => posRow(c, r)).join('')}</div></details>`;
   return `<section class="card record" id="record"><h2>${f}’s record on council</h2>
-  <div class="statrow"><div><b>${ps.length}</b><span>campaign promises we track</span></div><div><b>${vs.filter((d) => ['yes', 'no'].includes(d.votes[c.slug])).length}</b><span>votes cast so far</span></div><div><b>${pc.kept} / ${pc.not_kept}</b><span>promises kept / not kept</span></div><div><b>${pr.inLine} / ${pr.against}</b><span>positions voted in line / against</span></div></div>
+  <div class="statrow"><div><b>${ps.length}</b><span>campaign promises we track</span></div><div><b>${vs.filter((d) => ['yes', 'no'].includes(d.votes[c.slug])).length}</b><span>votes cast so far</span></div>${pc.kept + pc.not_kept ? `<div><b>${pc.kept} / ${pc.not_kept}</b><span>promises kept / not kept</span></div>` : ''}${pr.inLine + pr.against ? `<div><b>${pr.inLine} / ${pr.against}</b><span>positions voted in line / against</span></div>` : ''}</div>
+  ${pc.kept + pc.not_kept + pr.inLine + pr.against ? '' : `<p class="small muted">Kept and broken promises show up here once a council vote tests one. None has yet.</p>`}
   ${vs.length ? '' : `<p class="small">${TODAY < '2026-11-03' ? 'The new council is sworn in on November 3, 2026.' : 'This council was sworn in on November 3, 2026.'} ${next && next.date !== '2026-11-03' ? `The next meeting is <a href="${mUrl(next)}">${esc(fmtDay(next.date))}</a>.` : ''} Votes will appear here after each meeting.</p>`}</section>
   ${ps.length ? `<h2 id="promises">${f}’s promises <span class="small">${pSum}</span></h2>
   <p class="small">What ${f} promised during the campaign, in plain words, with the exact quote and source. Tap any promise to see the details.</p>
@@ -924,6 +925,7 @@ for (const c of all) {
       <h1>${esc(c.name)}</h1><p class="role">${officeLabel(c)}${c.incumbent && c.office === 'council' ? ' · re-elected 2026' : ' · elected 2026'}</p>
       <p class="growth-line">${growthSentence(c)}</p>
       <p class="lede tagline">${escGl(c.tagline)}</p>
+      <nav class="side-jump" aria-label="On this page"><h2 class="side-h">On this page</h2><ul>${[['roles', 'Roles on council'], ['record', 'Record'], ['promises', 'Promises'], ...(votesOf(c).length && ANY_VOTES ? [['votes', 'Votes']] : []), ['said-did', 'Do votes match their words?'], ['campaign', 'Campaign']].map(([h, l]) => `<li><a href="#${h}">${l}</a></li>`).join('')}</ul></nav>
       ${links ? `<h2 class="side-h">${esc(first(c))}’s own pages</h2><ul class="linklist">${links}</ul>` : ''}
       ${hasPhoto(c) ? `<p class="small muted">Photo: ${esc(c.photo_credit || 'candidate’s campaign')}.</p>` : ''}
     </aside>

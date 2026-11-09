@@ -2290,3 +2290,13 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .promise.pgrouped > summary > .pstatus { display: none; }
 .promise .whob { background: none; padding: 0; border-radius: 0; color: var(--muted); font-size: .82rem; font-weight: 500; }
 .pmore > summary { margin: .2rem 0; }
+
+/* Member pages: jump links in the sticky side column on desktop (review, Nov 9) */
+.side-jump { display: none; }
+@media (min-width: 960px) {
+  .side-jump { display: block; margin: .4rem 0 1rem; }
+  .side-jump ul { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--line); }
+  .side-jump a { display: block; padding: .3rem .8rem; text-decoration: none; color: var(--ink-2); font-weight: 600; font-size: .95rem; margin-left: -2px; border-left: 2px solid transparent; }
+  .side-jump a:hover, .side-jump a.on { color: var(--brand); border-left-color: var(--brand); }
+  .profile-side .avatar.lg { width: 8.5rem; height: 8.5rem; }
+}
