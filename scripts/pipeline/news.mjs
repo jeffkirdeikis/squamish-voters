@@ -321,6 +321,51 @@ async function draft(item) {
   if (d.social) d.social = String(d.social).replace(/\s*[—–]\s*/g, ', ').trim().slice(0, 600);
   d.body = String(d.body || '').replace(/\s*[—–]\s*/g, ', ').trim();
   d.slug = String(d.slug || '').toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || `story-${Date.now()}`;
+  if (!d.publish) return d;
+  return reviewLoops(d, item, text);
+}
+
+// ---------- review loops (Jeff, Nov 9 2026: every story gets two rounds of reviewers, then fixes) ----------
+// A panel of local readers and a fact checker score the draft and list what stops it from a 9 out of 10; the writer
+// fixes those and the panel reads it again. Two rounds. A loop that fails keeps the last good draft (never blocks news).
+const PANEL = `You are a review panel for one local news story on Squamish Voters, an independent site about Squamish, B.C. Read it as each of these people, separately and honestly:
+1. A resident directly affected by the story (who exactly depends on the story: a neighbour of the site, a parent, a commuter, a business owner).
+2. An expert on the subject (a hydrologist for rivers, a planner for development, an accountant for budgets, and so on).
+3. A veteran local news editor: headline, first lines, order, repetition, length, attribution, burying what matters.
+4. A skeptical local scrolling Facebook on a phone with 10 seconds, allergic to hype and jargon. They see the "social" text first.
+5. An adversarial fact checker who compares every fact, number, date, name and quote with the SOURCE text. Anything not in the source is an error.
+Each gives a score out of 10 (9 means a reader would trust it, understand it fast and know what to do) and the problems that stop it from a 9, each with the exact words and the fix.
+Pay special attention to: a headline that claims more than the source supports or that a first time reader cannot understand; what matters to readers (who is affected, what to do, when) not being near the top; facts not in the source; em dashes; jargon and unexplained abbreviations.`;
+const PANEL_SCHEMA = {
+  type: 'object', additionalProperties: false, required: ['reviews', 'fixes'],
+  properties: {
+    reviews: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['who', 'score', 'problems'], properties: { who: { type: 'string' }, score: { type: 'number', description: '0 to 10' }, problems: { type: 'array', items: { type: 'string' } } } } },
+    fixes: { type: 'array', description: 'every change the writer must make, most important first; errors against the source first', items: { type: 'string' } },
+  },
+};
+async function reviewLoops(d, item, text) {
+  const source = `Source: ${item.label}\nURL: ${item.url}\nPublished: ${item.date}\nTitle: ${item.title}\n\n${(text || '').slice(0, 9000)}`;
+  const story = (x) => JSON.stringify({ section: x.section, head: x.head, dek: x.dek, take: x.take, social: x.social, visual_big: x.visual_big, visual_small: x.visual_small, body: x.body, poll: x.poll }, null, 1);
+  const scores = [];
+  for (let round = 1; round <= 2; round++) {
+    try {
+      const r = await claudeJson({ system: PANEL, schema: PANEL_SCHEMA, effort: 'medium', maxTokens: 6000, content: `Today is ${today()}.\n\nSOURCE:\n${source}\n\nSTORY (round ${round}):\n${story(d)}` });
+      const avg = r.reviews.length ? r.reviews.reduce((s, x) => s + (+x.score || 0), 0) / r.reviews.length : 0;
+      scores.push(+avg.toFixed(1));
+      log(`review round ${round}: ${r.reviews.map((x) => `${x.who.split(/[ ,(]/)[0]} ${x.score}`).join(', ')} (avg ${avg.toFixed(1)})`);
+      if (!r.fixes.length) break;
+      const v = await claudeJson({
+        system: SYSTEM, schema: SCHEMA, effort: 'medium', maxTokens: 8000,
+        content: `${alreadyRan()}SITE PAGES (ours, to link to):\n${SITE_PAGES}\n\nToday is ${today()}.\n${source}\n\nYOUR DRAFT:\n${story(d)}\n\nA review panel read your draft. Make every fix below that is true to the source and to the rules, then return the whole story again (all fields). Keep publish=true, the same section, slug and photo_queries unless a fix says otherwise. Never add a fact that is not in the source.\n\nFIXES:\n${r.fixes.map((f, i) => `${i + 1}. ${f}`).join('\n')}`,
+      });
+      if (!v.publish || !v.head || !v.body) { log(`review round ${round}: revision came back empty; keeping the earlier draft`); break; }
+      for (const k of ['head', 'dek', 'take', 'visual_big', 'visual_small']) v[k] = clean(v[k]);
+      v.social = String(v.social || d.social).replace(/\s*[—–]\s*/g, ', ').trim().slice(0, 600);
+      v.body = String(v.body || '').replace(/\s*[—–]\s*/g, ', ').trim();
+      d = { ...d, ...v, slug: d.slug, photo_queries: d.photo_queries?.length ? d.photo_queries : v.photo_queries };
+    } catch (e) { log(`review round ${round} failed, keeping the draft so far: ${e.message}`); break; }
+  }
+  d.review_scores = scores;
   return d;
 }
 
