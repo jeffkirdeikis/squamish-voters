@@ -2570,3 +2570,30 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .fl-chart .k:first-child { margin-left: 0; }
 .fl-chart .k.fc { border-top: 3px dashed #c23a2b; }
 .fl-chart .k.band { height: 9px; border: 0; background: rgba(42, 120, 214, .16); }
+
+/* Live gauge band at the top of a flood story (src/flood-live.js): now → forecast peak on the province's flood size scale. */
+.fl-band { margin: .9rem 0 1.1rem; padding: 1rem 1.1rem 1.1rem; border-radius: var(--radius); background: #10263a; color: #f2f6fa; display: grid; gap: .9rem; min-width: 0; }
+.nw-art > .fl-band { grid-column: 1 / -1; }
+.fl-band-wait { margin: 0; color: #b9c8d6; font-size: .95rem; min-height: 6.5rem; }
+.fl-nums { display: flex; flex-wrap: wrap; align-items: flex-end; gap: .4rem 1.4rem; }
+.fl-num { display: grid; gap: .1rem; }
+.fl-num .k { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #a9bccd; }
+.fl-num b { font: 800 clamp(2.2rem, 7vw, 3.3rem)/1 Georgia, serif; font-variant-numeric: tabular-nums; }
+.fl-num.peak b { color: #ff8b78; }
+.fl-num small { font-size: .82rem; color: #c9d6e2; }
+.fl-arrow { font: 700 2rem/1 system-ui, sans-serif; color: #7f97ad; padding-bottom: 1.4rem; }
+.fl-pill { align-self: center; margin-left: auto; font-size: .82rem; font-weight: 700; padding: .3rem .7rem; border-radius: 99px; background: #3a4f63; color: #fff; }
+.fl-pill.lv1, .fl-pill.lv2 { background: #f0b429; color: #2b1d00; }
+.fl-pill.lv3 { background: #e5484d; }
+.fl-scale { position: relative; height: 14px; border-radius: 7px; margin: 1.5rem .2rem 1.7rem; }
+.fl-scale .z { position: absolute; top: 0; bottom: 0; }
+.fl-scale .rng { position: absolute; top: -4px; bottom: -4px; border: 2px solid #ff8b78; border-radius: 6px; opacity: .75; }
+.fl-scale .t { position: absolute; bottom: 20px; transform: translateX(-50%); font-size: .7rem; color: #a9bccd; white-space: nowrap; }
+.fl-scale .t::after { content: ""; position: absolute; left: 50%; top: 100%; height: 6px; border-left: 1px solid #a9bccd; }
+.fl-scale .m { position: absolute; top: -7px; width: 4px; height: 28px; margin-left: -2px; border-radius: 2px; background: #fff; }
+.fl-scale .m span { position: absolute; top: 31px; left: 50%; transform: translateX(-50%); font-size: .74rem; font-weight: 700; white-space: nowrap; }
+.fl-scale .m.peak { background: #ff8b78; } .fl-scale .m.peak span { color: #ff8b78; }
+.fl-when { margin: 0; font-size: .98rem; line-height: 1.45; color: #e6edf3; }
+.fl-when b { color: #fff; }
+.fl-band a { color: #9fd0ff; }
+@media (max-width: 560px) { .fl-scale .t.mid, .fl-scale .t.y2 { display: none; } .fl-nums { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); gap: .3rem .6rem; } .fl-pill { grid-column: 1 / -1; justify-self: start; } .fl-num b { font-size: 2.1rem; } .fl-num .k { font-size: .66rem; white-space: nowrap; } .fl-num small { font-size: .74rem; } .fl-arrow { font-size: 1.5rem; padding-bottom: 1.1rem; } .fl-pill { margin-left: 0; } .fl-band { padding: .9rem .9rem 1rem; } }

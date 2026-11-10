@@ -1818,9 +1818,11 @@ if (TRACKED.length) {
     // On wide screens the number, What changes and More news sit in a sidebar beside the story (.nw-side); on phones
     // the sidebar box disappears (display: contents) and everything stays in the same single column as before.
     const sideMore = `<nav class="nw-side-more" aria-label="More news"><h2 class="nw-sechead">More news</h2><ul>${others.map((o) => `<li data-s="${o.s}"><span>${esc(SEC[o.s])}</span><a href="${nUrl(o)}">${esc(o.head)}</a></li>`).join('')}</ul><p class="nw-more"><a href="/news/">All news →</a></p></nav>`;
+    // Flood stories open with the live gauge band (src/flood-live.js fills it): river now, forecast peak, flood sizes.
+    const band = st.live === 'flood' ? '<section class="fl-band" data-flood-band aria-label="Squamish River now and forecast" aria-live="polite"><p class="fl-band-wait">Loading the newest river reading…</p></section>' : '';
     const body = st.tier === 'lead'
-      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p><aside class="nw-side">${visual(st)}${take(st)}${sideMore}</aside>`
-      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${st.visual && st.visual.type === 'map' ? visual(st) : photo(st, true)}<p class="nw-dek">${dekHtml(st)}</p><aside class="nw-side">${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}${sideMore}</aside>`;
+      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${band}${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p><aside class="nw-side">${visual(st)}${take(st)}${sideMore}</aside>`
+      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${band}${st.visual && st.visual.type === 'map' ? visual(st) : photo(st, true)}<p class="nw-dek">${dekHtml(st)}</p><aside class="nw-side">${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}${sideMore}</aside>`;
     write(nUrl(st), page({
       url: nUrl(st), title: st.head,
       desc: st.dek.replace(/<[^>]+>/g, ''),

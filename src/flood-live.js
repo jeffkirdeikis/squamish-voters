@@ -3,8 +3,9 @@
 // small chart of the last three days and the next ten. If the province has issued a newer forecast than the one the
 // story was written from (data-issued), the panel says so, because the story text keeps the older numbers.
 (function () {
-  const box = document.querySelector('[data-flood-live]');
-  if (!box) return;
+  const box = document.querySelector('[data-flood-live]') || document.createElement('div');
+  const band = document.querySelector('[data-flood-band]');
+  if (!box.isConnected && !band) return;
   const TZ = 'America/Vancouver';
   const storyIssued = box.dataset.issued || '';
   const n0 = (x) => (x == null ? '?' : Math.round(x).toLocaleString('en-CA'));
@@ -19,6 +20,8 @@
   // Forecast hours are good to about an hour, so the peak is shown as a part of the day.
   const partOfDay = (t) => { const h = +fmt(t, { hour: 'numeric', hourCycle: 'h23' }); return `${fmt(t, { weekday: 'long' })} ${h < 5 ? 'overnight' : h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening'}`; };
   const r10 = (x) => Math.round(x / 10) * 10;
+  const hourDay = (t) => fmt(t, { hour: 'numeric', hour12: true }).replace(/\s*([ap])\.?m\.?/i, (m, a) => ` ${a.toLowerCase()}.m.`) + ' ' + fmt(t, { weekday: 'long' });
+  const inHours = (t) => { const h = Math.round((t - Date.now()) / 36e5); return h <= 1 ? 'within the hour' : `in about ${h} hours`; };
   const NOTICE = ['No flood notice', 'High Streamflow Advisory', 'Flood Watch', 'Flood Warning'];
 
   function chart(d) {
@@ -60,6 +63,48 @@
       ${chart(d)}`;
   }
 
+
+  // The band at the top of the story: now → forecast peak, both placed on the province's flood size scale.
+  function renderBand(d) {
+    if (!band) return;
+    const g = d.gauge, f = d.forecast, nt = d.notices, S = d.sizes;
+    if (!g && !f) { band.innerHTML = '<p class="fl-band-wait">The river numbers did not load. They are retried every five minutes.</p>'; return; }
+    const lvl = nt?.here?.level || 0;
+    const top = Math.max(3300, (f?.high || 0) * 1.05, (g?.flow || 0) * 1.05);
+    const pc = (v) => `${Math.min(100, Math.max(0, v / top * 100)).toFixed(2)}%`;
+    const zones = [[0, S.y2, '#3f7fb8'], [S.y2, S.y10, '#d9a21b'], [S.y10, S.y50, '#e0623f'], [S.y50, top, '#a3222b']]
+      .map(([a, b, c]) => `<span class="z" style="left:${pc(a)};width:calc(${pc(b)} - ${pc(a)});background:${c}"></span>`).join('');
+    const ticks = [[S.y2, 'Every 2 years', ' y2'], [S.y10, '1 in 10', ''], [S.y20, '1 in 20', ' mid'], [S.y50, '1 in 50', ''], [S.record, '2003 record', ' mid']]
+      .filter(([v]) => v < top).map(([v, l, c]) => `<span class="t${c}" style="left:${pc(v)}">${l}</span>`).join('');
+    const rng = f ? `<span class="rng" style="left:${pc(f.low)};width:calc(${pc(f.high)} - ${pc(f.low)})" title="Possible range"></span>` : '';
+    const marks = (g ? `<span class="m" style="left:${pc(g.flow)}"><span>Now</span></span>` : '') + (f ? `<span class="m peak" style="left:${pc(f.peak.flow)}"><span>Peak</span></span>` : '');
+    // When does it happen: first forecast hour over each flood size, if the river is not there yet.
+    let line = '';
+    if (f) {
+      const ahead = f.rows.filter((r) => r[0] >= Date.now());
+      const cross = (v) => (g && g.flow >= v ? null : ahead.find((r) => r[1] >= v)?.[0] ?? null);
+      const peakPast = f.peak.t < Date.now() - 36e5;
+      const c2 = cross(S.y2), c10 = cross(S.y10);
+      if (peakPast) line = g && g.flow >= S.y2 ? 'The forecast peak has passed. The river is still above the size it reaches every second year.' : 'The forecast peak has passed.';
+      else {
+        const parts = [];
+        if (c2) parts.push(`Forecast to pass the every second year mark <b>${inHours(c2)}</b>, about ${esc(hourDay(c2))}`);
+        else if (g && g.flow >= S.y2) parts.push('<b>Above the every second year mark now</b>');
+        if (c10) parts.push(`the 1 in 10 year mark about ${esc(hourDay(c10))}`);
+        line = `${parts.join(', and ')}${parts.length ? '. ' : ''}Peak near <b>${n0(f.peak.flow)}</b> ${esc(partOfDay(f.peak.t))}, ${esc(sizeName(f.peak.flow, S))}.`;
+      }
+    }
+    band.innerHTML = `
+      <div class="fl-nums">
+        <div class="fl-num"><span class="k">River now</span><b>${g ? n0(g.flow) : '?'}</b><small>${g ? `Read ${esc(when(g.t))}.` : 'Gauge did not answer'}</small></div>
+        <span class="fl-arrow" aria-hidden="true">→</span>
+        <div class="fl-num peak"><span class="k">Forecast peak</span><b>${f ? n0(f.peak.flow) : '?'}</b><small>${f ? `Range about ${n0(r10(f.low))} to ${n0(f.high)}` : 'Forecast did not load'}</small></div>
+        ${nt ? `<span class="fl-pill lv${lvl}">${NOTICE[lvl]}</span>` : ''}
+      </div>
+      <div class="fl-scale" role="img" aria-label="Flood size scale. Now ${g ? n0(g.flow) : 'unknown'}, forecast peak ${f ? n0(f.peak.flow) : 'unknown'}, cubic metres per second.">${zones}${rng}${ticks}${marks}</div>
+      <p class="fl-when">${line} <span style="color:#a9bccd">Cubic metres per second at the gauge near Brackendale. Updates every five minutes.</span></p>`;
+  }
+
   const good = {};
   async function load() {
     try {
@@ -67,7 +112,7 @@
       const d = await r.json();
       // Keep the last good reading of any source that failed this time, and try again soon.
       for (const k of ['gauge', 'forecast', 'notices', 'slrd']) { if (d[k]) good[k] = d[k]; else if (good[k]) d[k] = good[k]; }
-      render(d);
+      render(d); renderBand(d);
       if (!d.gauge || !d.forecast) setTimeout(load, 40 * 1000);
     }
     catch (e) { if (!box.dataset.loaded) box.innerHTML = '<div class="fl-head"><h2>Live: river, forecast and alerts</h2><p>The live numbers did not load. Try refreshing in a minute.</p></div>'; }
