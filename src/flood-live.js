@@ -14,6 +14,11 @@
   const sizeName = (f, S) => f < S.y2 ? 'under the size the river reaches every second year' : f < S.y5 ? 'between a 1 in 2 and a 1 in 5 year flood'
     : f < S.y10 ? 'between a 1 in 5 and a 1 in 10 year flood' : f < S.y20 ? 'between a 1 in 10 and a 1 in 20 year flood'
     : f < S.y50 ? 'between a 1 in 20 and a 1 in 50 year flood' : f < S.y100 ? 'between a 1 in 50 and a 1 in 100 year flood' : 'bigger than a 1 in 100 year flood';
+  // The province writes "10:11 AM Monday 2026-11-09"; readers get "10:11 a.m. Monday".
+  const issuedPlain = (x) => String(x || '').replace(/^(\d{1,2}:\d\d) ?([AP])M (\w+).*$/i, (m, t, ap, day) => `${t} ${ap.toLowerCase()}.m. ${day}`);
+  // Forecast hours are good to about an hour, so the peak is shown as a part of the day.
+  const partOfDay = (t) => { const h = +fmt(t, { hour: 'numeric', hourCycle: 'h23' }); return `${fmt(t, { weekday: 'long' })} ${h < 5 ? 'overnight' : h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening'}`; };
+  const r10 = (x) => Math.round(x / 10) * 10;
   const NOTICE = ['No flood notice', 'High Streamflow Advisory', 'Flood Watch', 'Flood Warning'];
 
   function chart(d) {
@@ -44,13 +49,13 @@
     const lvl = nt?.here?.level || 0;
     box.innerHTML = `
       <div class="fl-head"><h2>Live: river, forecast and alerts</h2><p>Updates every five minutes. Checked ${esc(when(d.at))}.</p></div>
-      ${newer ? `<p class="fl-flag">The province has issued a newer forecast (${esc(f.issued)}) since this story was written. The numbers in this panel are the newest. The story below uses the forecast from ${esc(storyIssued)}.</p>` : ''}
+      ${newer ? `<p class="fl-flag">The province has issued a newer forecast (${esc(issuedPlain(f.issued))}) since this story was written. The numbers in this panel are the newest. The story below uses the forecast from ${esc(issuedPlain(storyIssued))}.</p>` : ''}
       ${past ? '<p class="fl-flag ok">The forecast peak has passed and the river is back under the size it reaches every second year.</p>' : ''}
       <div class="fl-tiles">
         <div class="fl-tile"><span class="k">Squamish River now</span><b>${g ? n0(g.flow) : '?'}</b><span>${g ? `${esc(trend)}. Read ${esc(when(g.t))}.` : 'The gauge did not answer. Try again shortly.'}</span></div>
-        <div class="fl-tile"><span class="k">Newest forecast peak</span><b>${f ? n0(f.peak.flow) : '?'}</b><span>${f ? `${esc(fmt(f.peak.t, { weekday: 'long', hour: 'numeric' }))}, ${esc(sizeName(f.peak.flow, S))}. Range ${n0(f.low)} to ${n0(f.high)}. Issued ${esc(f.issued)}.` : 'The forecast did not load.'}</span></div>
+        <div class="fl-tile"><span class="k">Newest forecast peak</span><b>${f ? n0(f.peak.flow) : '?'}</b><span>${f ? `${esc(partOfDay(f.peak.t))}, ${esc(sizeName(f.peak.flow, S))}. Range about ${n0(r10(f.low))} to ${n0(f.high)}. Issued ${esc(issuedPlain(f.issued))}.` : 'The forecast did not load.'}</span></div>
         <div class="fl-tile lv${lvl}"><span class="k">Province's flood notice</span><b class="fl-word">${nt ? NOTICE[lvl] : '?'}</b><span>${nt?.here ? `Issued ${esc(nt.here.issued)}. <a href="${esc(nt.here.url)}" target="_blank" rel="noopener">Read it</a>` : nt ? `<a href="${esc(nt.page)}" target="_blank" rel="noopener">Notice page</a>` : 'Could not reach the province.'}</span></div>
-        <div class="fl-tile${sl?.active ? ' lv3' : ''}"><span class="k">Evacuation alerts, regional district</span><b class="fl-word">${sl ? (sl.active ? 'Active' : 'None listed') : '?'}</b><span>${sl ? (sl.active ? `${sl.items.map(esc).join('. ')} <a href="${esc(sl.page)}" target="_blank" rel="noopener">Details</a>` : `Upper Squamish Valley and upper Paradise Valley. <a href="${esc(sl.page)}" target="_blank" rel="noopener">Check</a>`) : 'Could not reach the regional district.'} For town, check <a href="https://squamish.ca/alert" target="_blank" rel="noopener">Squamish Alert</a>.</span></div>
+        <div class="fl-tile${sl?.active ? ' lv3' : ''}"><span class="k">Evacuation alerts, regional district</span><b class="fl-word">${sl ? (sl.active ? 'Active' : 'None found') : 'Check unavailable'}</b><span>${sl ? (sl.active ? `${sl.items.map(esc).join('. ')} <a href="${esc(sl.page)}" target="_blank" rel="noopener">Details</a>` : `In our last check of the regional district's list (Upper Squamish Valley, upper Paradise Valley). Our check can miss things: <a href="${esc(sl.page)}" target="_blank" rel="noopener">confirm here</a>.`) : `We could not reach the regional district. <a href="https://www.slrd.bc.ca/emergency-program/evacuation-alerts-orders" target="_blank" rel="noopener">Check its list</a>.`} For town, check <a href="https://squamish.ca/alert" target="_blank" rel="noopener">Squamish Alert</a>.</span></div>
       </div>
       ${chart(d)}`;
   }
