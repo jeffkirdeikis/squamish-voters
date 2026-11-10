@@ -2650,6 +2650,10 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .fl-alert-msg.good { color: var(--yes); font-weight: 600; } .fl-alert-msg.bad { color: var(--no); font-weight: 600; }
 
 .fl-num.top b { color: #ffb4a6; }
+.fl-num .u { font-style: normal; font-size: .78rem; font-weight: 700; color: #e6edf3; }
+.fl-unit { margin: 0; font-size: .9rem; line-height: 1.45; color: #c9d6e2; }
+.fl-unit b { color: #fff; }
+@media (max-width: 560px) { .fl-num .u { font-size: .68rem; } .fl-unit { font-size: .84rem; } }
 .fl-nums { align-items: flex-start; } .fl-arrow { align-self: center; padding-bottom: 0; }
 .fl-scale .brk { position: absolute; top: 44px; height: 8px; border: 2px solid #ff8b78; border-top: 0; border-radius: 0 0 4px 4px; }
 .fl-scale .brk span { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: .74rem; color: #ffb4a6; white-space: nowrap; }

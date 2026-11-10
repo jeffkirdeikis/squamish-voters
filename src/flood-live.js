@@ -143,14 +143,15 @@
     }
     band.innerHTML = `
       <div class="fl-nums">
-        <div class="fl-num"><span class="k">River now</span><b>${g ? n0(g.flow) : '?'}</b><small>${g ? `Read ${esc(when(g.t))}.` : 'Gauge did not answer'}</small></div>
+        <div class="fl-num"><span class="k">River flow now</span><b>${g ? n0(g.flow) : '?'}</b><em class="u">cubic metres a second</em><small>${g ? `Read ${esc(when(g.t))}.` : 'Gauge did not answer'}</small></div>
         <span class="fl-arrow" aria-hidden="true">→</span>
-        <div class="fl-num peak"><span class="k">Most likely peak</span><b>${f ? n0(f.peak.flow) : '?'}</b><small>${f ? esc(partOfDay(f.peak.t)) : 'Forecast did not load'}</small></div>
-        ${f ? `<div class="fl-num top"><span class="k">Could reach</span><b>${n0(f.high)}</b><small>${esc(nearSize(f.high, S))}</small></div>` : ''}
+        <div class="fl-num peak"><span class="k">Most likely peak</span><b>${f ? n0(f.peak.flow) : '?'}</b><em class="u">cubic metres a second</em><small>${f ? esc(partOfDay(f.peak.t)) : 'Forecast did not load'}</small></div>
+        ${f ? `<div class="fl-num top"><span class="k">Could reach</span><b>${n0(f.high)}</b><em class="u">cubic metres a second</em><small>${esc(nearSize(f.high, S))}</small></div>` : ''}
         ${nt ? `<span class="fl-pill lv${lvl}">${NOTICE[lvl]}</span>` : ''}
       </div>
+      <p class="fl-unit"><b>What the numbers mean:</b> how many cubic metres of water flow past the gauge near Brackendale every second. One cubic metre is 1,000 litres, about five full bathtubs. At 2,500 the river moves a whole Olympic swimming pool of water every second.</p>
       <div class="fl-scale" role="img" aria-label="Flood size scale. Now ${g ? n0(g.flow) : 'unknown'}, forecast peak ${f ? n0(f.peak.flow) : 'unknown'}, cubic metres per second.">${zones}${rng}${ticks}${marks}</div>
-      <p class="fl-when">${line} <span style="color:#c2d1de">Cubic metres per second at the gauge near Brackendale. Updates every five minutes.</span></p>`;
+      <p class="fl-when">${line} <span style="color:#c2d1de">Updates every five minutes.</span></p>`;
   }
 
   // Rain on the mountains for this storm: so far (model hours already passed) and still to come, from data-rain-from to data-rain-to.
@@ -220,14 +221,15 @@
     const day = ss > now ? `<div><small>Daylight left today</small><b>${span(ss - now)}</b><span>Sunset ${esc(clock(ss))}</span></div>` : `<div><small>Daylight</small><b>Dark now</b><span>Sunset was ${esc(clock(ss))}</span></div>`;
     let next = '';
     if (m) {
-      const c = m.c2000 && m.c2000 !== 'now' ? [m.c2000, 'River passes 2,000'] : m.cy10 && m.cy10 !== 'now' ? [m.cy10, 'Passes 1 in 10 year size'] : null;
-      next = c ? `<div><small>${c[1]}</small><b>in ${span(c[0] - now)}</b><span>about ${esc(dayHour(c[0]))}</span></div>` : m.c2000 === 'now' ? '<div><small>River</small><b>Above 2,000 now</b><span>Stay off banks and dikes</span></div>' : '';
+      const c = m.c2000 && m.c2000 !== 'now' ? [m.c2000, 'River flow passes 2,000', ''] : m.cy10 && m.cy10 !== 'now' ? [m.cy10, 'Passes 1 in 10 year size', ''] : null;
+      next = c ? `<div><small>${c[1]}</small><b>in ${span(c[0] - now)}</b><span>${c[2]}about ${esc(dayHour(c[0]))}</span></div>` : m.c2000 === 'now' ? '<div><small>River flow</small><b>Above 2,000 now</b><span>Stay off banks and dikes</span></div>' : '';
       const pk = m.peak.t > now - 36e5 ? `<div><small>Forecast peak</small><b>${esc(dayHour(m.peak.t))}</b><span>near ${n0(m.peak.flow)}</span></div>` : `<div><small>Forecast peak</small><b>Passed</b><span>${n0(m.peak.flow)}, ${esc(dayHour(m.peak.t))}</span></div>`;
       next += pk;
     }
     statusBox.innerHTML = `<div class="fl-st-row"><span class="fl-st-b lv${lvl}">${nt ? NOTICE[lvl] : 'Notice not checked'}</span><span>${nt ? esc(MEANS[lvl]) : 'We could not reach the province just now.'}</span></div>
       <div class="fl-st-row"><span class="fl-st-b ${sl?.active ? 'lv3' : 'ok'}">${sl ? (sl.active ? 'Evacuation alert or order' : 'No evacuation alerts found') : 'Alerts not checked'}</span><span>${sl?.active ? `<a href="${esc(sl.page)}" target="_blank" rel="noopener">See the regional district's list</a>.` : 'Regional district list.'} Checked ${esc(clock(d.at))}, again every 5 minutes.</span></div>
       <div class="fl-st-clock">${day}${next}</div>
+      ${m ? '<p class="fl-st-note">River numbers such as 2,000 are cubic metres of water flowing past the gauge near Brackendale every second.</p>' : ''}
       <p class="fl-st-note">If anything here differs from the <a href="https://www.slrd.bc.ca/emergency-program" target="_blank" rel="noopener">regional district</a>, the <a href="https://squamish.ca/alert" target="_blank" rel="noopener">District of Squamish</a> or the <a href="https://bcrfc.env.gov.bc.ca/warnings/index.htm" target="_blank" rel="noopener">River Forecast Centre</a>, follow them.</p>`;
     // The date under the section name says when the numbers were last checked, not "Yesterday".
     const k = document.querySelector('.nw-art .nw-kicker time'); if (k) { k.removeAttribute('data-rel'); k.textContent = `Live, checked ${clock(d.at)}`; }
