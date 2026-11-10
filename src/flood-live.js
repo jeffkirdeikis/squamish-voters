@@ -158,18 +158,19 @@
   }
 
   // "Share the river now": the same numbers as a picture (api/og.js ?flood=1), shared as an image file where the phone allows it.
+  // The picture is fetched ahead of the tap, because phones only open the share sheet straight from a tap, not after a wait.
+  let shareFile = null, shareSrc = '';
+  const prepShare = () => {
+    shareSrc = `/api/og/?flood=1&t=${Math.floor(Date.now() / 3e5)}`;
+    fetch(shareSrc).then((r) => (r.ok ? r.blob() : null)).then((blob) => { shareFile = blob ? new File([blob], 'squamish-river-now.png', { type: 'image/png' }) : null; }).catch(() => {});
+  };
   if (band) band.addEventListener('click', async (e) => {
     const b = e.target.closest('[data-flood-share]'); if (!b) return;
-    const msg = band.querySelector('.fl-share-msg'), src = `/api/og/?flood=1&t=${Math.floor(Date.now() / 3e5)}`;
-    b.disabled = true; msg.textContent = 'Making the picture…';
-    try {
-      const blob = await (await fetch(src)).blob();
-      const file = new File([blob], 'squamish-river-now.png', { type: 'image/png' });
-      const data = { files: [file], title: 'Squamish River right now', text: `Squamish River right now: live numbers and what to do. ${location.origin}${location.pathname}` };
-      if (navigator.canShare && navigator.canShare(data)) { await navigator.share(data); msg.textContent = ''; }
-      else { msg.innerHTML = `<a href="${src}" target="_blank" rel="noopener">Open the picture</a> to save or post it.`; }
-    } catch (err) { msg.textContent = err && err.name === 'AbortError' ? '' : 'The picture did not load. Try again in a minute.'; }
-    b.disabled = false;
+    const msg = band.querySelector('.fl-share-msg');
+    const fallback = () => { msg.innerHTML = `<a href="${shareSrc}" target="_blank" rel="noopener">Open the picture</a> to save or post it.`; };
+    const data = shareFile && { files: [shareFile], title: 'Squamish River right now', text: `Squamish River right now: live numbers and what to do. ${location.origin}${location.pathname}` };
+    if (!data || !navigator.canShare || !navigator.canShare(data)) return fallback();
+    try { await navigator.share(data); msg.textContent = ''; } catch (err) { if (!err || err.name !== 'AbortError') fallback(); }
   });
 
   const good = {};
@@ -179,7 +180,7 @@
       const d = await r.json();
       // Keep the last good reading of any source that failed this time, and try again soon.
       for (const k of ['gauge', 'forecast', 'notices', 'slrd', 'rain']) { if (d[k]) good[k] = d[k]; else if (good[k]) d[k] = good[k]; }
-      render(d); renderBand(d);
+      render(d); renderBand(d); prepShare();
       if (!d.gauge || !d.forecast) setTimeout(load, 40 * 1000);
     }
     catch (e) { if (!box.dataset.loaded) box.innerHTML = '<div class="fl-head"><h2>Live: river, forecast and alerts</h2><p>The live numbers did not load. Try refreshing in a minute.</p></div>'; }
