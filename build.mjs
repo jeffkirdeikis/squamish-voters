@@ -1819,10 +1819,15 @@ if (TRACKED.length) {
     // the sidebar box disappears (display: contents) and everything stays in the same single column as before.
     const sideMore = `<nav class="nw-side-more" aria-label="More news"><h2 class="nw-sechead">More news</h2><ul>${others.map((o) => `<li data-s="${o.s}"><span>${esc(SEC[o.s])}</span><a href="${nUrl(o)}">${esc(o.head)}</a></li>`).join('')}</ul><p class="nw-more"><a href="/news/">All news →</a></p></nav>`;
     // Flood stories open with the live gauge band (src/flood-live.js fills it): river now, forecast peak, flood sizes.
+    // "What does this mean for me?": tap an area, get that area's risk and what to do (st.local; src/news.js runs the taps).
+    const LVL = { high: 'Most exposed', mid: 'Take care', low: 'Lower risk' };
+    const meHtml = (st.local || []).length ? `<section class="fl-me" data-me aria-labelledby="me-h-${esc(st.slug)}"><h2 id="me-h-${esc(st.slug)}">What does this mean for me?</h2><p class="fl-me-sub">Tap where you live or where you are going.</p>
+      <div class="fl-me-chips" role="group" aria-label="Your area">${st.local.map((a, i) => `<button type="button" class="fl-me-chip lv-${esc(a.level)}" aria-pressed="false" aria-controls="me-${i}" data-i="${i}">${esc(a.chip || a.area)}</button>`).join('')}</div>
+      ${st.local.map((a, i) => `<div class="fl-me-out lv-${esc(a.level)}" id="me-${i}" data-me-out="${i}"><p class="fl-me-head"><span class="fl-me-lv">${LVL[a.level] || ''}</span> <b>${esc(a.area)}.</b> ${esc(a.head)}</p>${mdToHtml(a.items.map((x) => '- ' + x).join('\n'))}</div>`).join('')}</section>` : '';
     const band = st.live === 'flood' ? '<section class="fl-band" data-flood-band aria-label="Squamish River now and forecast" aria-live="polite"><p class="fl-band-wait">Loading the newest river reading…</p></section>' : '';
     const body = st.tier === 'lead'
-      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${band}${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p><aside class="nw-side">${visual(st)}${take(st)}${sideMore}</aside>`
-      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${band}${st.visual && st.visual.type === 'map' ? visual(st) : photo(st, true)}<p class="nw-dek">${dekHtml(st)}</p><aside class="nw-side">${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}${sideMore}</aside>`;
+      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${band}${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p>${meHtml}<aside class="nw-side">${visual(st)}${take(st)}${sideMore}</aside>`
+      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${band}${st.visual && st.visual.type === 'map' ? visual(st) : photo(st, true)}<p class="nw-dek">${dekHtml(st)}</p>${meHtml}<aside class="nw-side">${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}${sideMore}</aside>`;
     write(nUrl(st), page({
       url: nUrl(st), title: st.head,
       desc: st.dek.replace(/<[^>]+>/g, ''),

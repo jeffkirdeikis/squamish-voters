@@ -186,7 +186,86 @@
    "og": "squamish-river-flood-forecast-nov-12-v5.png",
    "live": "flood",
    "live_issued": "10:11 AM Monday 2026-11-09",
-   "updated": "2026-11-10"
+   "updated": "2026-11-10",
+   "local": [
+    {
+     "area": "Upper Squamish Valley",
+     "level": "high",
+     "head": "Highest risk. No dikes, and Squamish Valley Road is the only way in and out.",
+     "items": [
+      "**Move animals, vehicles, trailers and feed** off low ground in daylight on Tuesday. Aim to be done by mid afternoon.",
+      "**If being cut off would put you at risk** (medical needs, small children, no supplies), leave in daylight on Tuesday. Do not count on leaving Wednesday. This is general advice, not an evacuation order.",
+      "**Otherwise, be ready to be cut off:** three days of food, water, medicine and fuel, and charged phones.",
+      "**Alerts:** sign up for [SLRD Alert](https://www.slrd.bc.ca/SLRDAlert). Regional district: 1-800-298-7753."
+     ]
+    },
+    {
+     "area": "Paradise Valley",
+     "level": "high",
+     "head": "Exposed. The Cheakamus River is forecast to peak near 393 on Thursday afternoon. An evacuation alert was issued here in November 2021.",
+     "items": [
+      "**Move animals, vehicles, trailers and feed** off low ground in daylight on Tuesday.",
+      "**If being cut off would put you at risk,** leave in daylight on Tuesday.",
+      "**Alerts:** upper Paradise Valley, [SLRD Alert](https://www.slrd.bc.ca/SLRDAlert). Lower Paradise Valley, [Squamish Alert](https://squamish.ca/alert). Not sure? Sign up for both."
+     ]
+    },
+    {
+     "area": "Brackendale",
+     "level": "mid",
+     "head": "Behind dikes, which lower the risk but do not remove it. The river gauge is named for Brackendale; that does not mean Brackendale is forecast to flood.",
+     "items": [
+      "**Stay off dikes, riverbanks and gravel bars** from Tuesday night to Friday. Banks can give way under fast water.",
+      "**Expect closed river trails** and pooled water in low spots.",
+      "**Alerts:** sign up for [Squamish Alert](https://squamish.ca/alert).",
+      "**Flooding on your street:** District public works, 604-815-6868, after hours 604-815-4040."
+     ]
+    },
+    {
+     "area": "Downtown and near the Mamquam",
+     "level": "mid",
+     "head": "Behind dikes. The Mamquam River is forecast to peak near 358 late Wednesday, 83% of its record.",
+     "items": [
+      "**Clear leaves from the storm drains** near your home before the heavy rain, never in moving water.",
+      "**Never drive through water on a road.** You cannot see how deep it is.",
+      "**Stay off dikes and riverbanks** from Tuesday night to Friday.",
+      "**Flooding on your street:** District public works, 604-815-6868, after hours 604-815-4040."
+     ],
+     "chip": "Downtown and Mamquam"
+    },
+    {
+     "area": "Near the Stawamus or a small creek",
+     "level": "mid",
+     "head": "No forecast. The province does not publish one for these. Small, steep creeks rise and fall within hours.",
+     "items": [
+      "**Stay away from creek banks** during the heaviest rain, Tuesday into Wednesday night.",
+      "**Clear storm drains and culverts** near your home before the rain, never in moving water.",
+      "**Alerts:** sign up for [Squamish Alert](https://squamish.ca/alert)."
+     ],
+     "chip": "Near a creek"
+    },
+    {
+     "area": "Higher ground (Garibaldi Highlands, Valleycliffe)",
+     "level": "low",
+     "head": "The river is not your risk. The drive, blocked storm drains and power cuts are.",
+     "items": [
+      "**Driving Wednesday or Thursday:** check [DriveBC](https://www.drivebc.ca/) first, or call 1-800-550-4997.",
+      "**Clear the storm drains** near your home before the rain.",
+      "**Power out or a line down:** BC Hydro, 1-800-224-9376.",
+      "**Thursday school:** any closure is posted by 7 a.m. at [sd48seatosky.org](https://www.sd48seatosky.org/)."
+     ],
+     "chip": "Higher ground"
+    },
+    {
+     "area": "Squamish Nation communities",
+     "level": "mid",
+     "head": "Several Squamish Nation reserves sit beside these rivers. The Nation runs its own alert system for members.",
+     "items": [
+      "**Check the Nation's own channels** for its updates.",
+      "**Stay off riverbanks and gravel bars** from Tuesday night to Friday."
+     ],
+     "chip": "Squamish Nation"
+    }
+   ]
   },
   {
    "slug": "nov-10-closed-meeting-cancelled",

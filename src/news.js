@@ -97,3 +97,20 @@
     else window.prompt('Copy this link:', url);
   });
 })();
+
+// "What does this mean for me?" on flood stories: one area at a time, remembered on this device.
+(function () {
+  var box = document.querySelector('[data-me]');
+  if (!box) return;
+  var KEY = 'sv-flood-area';
+  var chips = box.querySelectorAll('.fl-me-chip'), outs = box.querySelectorAll('[data-me-out]');
+  function show(i, save) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.getAttribute('data-i') === String(i))); });
+    outs.forEach(function (o) { o.hidden = o.getAttribute('data-me-out') !== String(i); });
+    if (save) try { localStorage.setItem(KEY, chips[i] ? chips[i].textContent : ''); } catch (e) {}
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { show(c.getAttribute('data-i'), true); }); });
+  var saved = null; try { saved = localStorage.getItem(KEY); } catch (e) {}
+  var start = -1; chips.forEach(function (c, i) { if (c.textContent === saved) start = i; });
+  show(start, false);
+})();

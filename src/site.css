@@ -2597,3 +2597,20 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .fl-when b { color: #fff; }
 .fl-band a { color: #9fd0ff; }
 @media (max-width: 560px) { .fl-scale .t.mid, .fl-scale .t.y2 { display: none; } .fl-nums { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); gap: .3rem .6rem; } .fl-pill { grid-column: 1 / -1; justify-self: start; } .fl-num b { font-size: 2.1rem; } .fl-num .k { font-size: .66rem; white-space: nowrap; } .fl-num small { font-size: .74rem; } .fl-arrow { font-size: 1.5rem; padding-bottom: 1.1rem; } .fl-pill { margin-left: 0; } .fl-band { padding: .9rem .9rem 1rem; } }
+
+/* "What does this mean for me?" area picker on flood stories (src/news.js). */
+.fl-me { margin: 1.1rem 0 .4rem; padding: 1rem 1.05rem 1.1rem; background: var(--surface-2); border-radius: var(--radius); display: grid; gap: .6rem; min-width: 0; }
+.fl-me h2 { margin: 0; font-size: 1.2rem; }
+.fl-me-sub { margin: -.3rem 0 0; color: var(--muted); font-size: .9rem; }
+.fl-me-chips { display: flex; flex-wrap: wrap; gap: .45rem; }
+.fl-me-chip { font: 600 .9rem/1.2 system-ui, sans-serif; padding: .55rem .8rem; min-height: 44px; border-radius: 99px; border: 1.5px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; text-align: left; }
+.fl-me-chip::before { content: ""; display: inline-block; width: .6rem; height: .6rem; border-radius: 50%; margin-right: .45rem; background: #d9a21b; vertical-align: .05rem; }
+.fl-me-chip.lv-high::before { background: #c0392b; } .fl-me-chip.lv-low::before { background: #3f7fb8; }
+.fl-me-chip[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
+.fl-me-chip:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.fl-me-out { background: var(--surface); border-radius: 10px; border-left: 5px solid #d9a21b; padding: .8rem .95rem; }
+.fl-me-out.lv-high { border-left-color: #c0392b; } .fl-me-out.lv-low { border-left-color: #3f7fb8; }
+.fl-me-head { margin: 0 0 .4rem; }
+.fl-me-lv { display: inline-block; font: 700 .68rem system-ui, sans-serif; letter-spacing: .07em; text-transform: uppercase; padding: .15rem .5rem; border-radius: 99px; background: #fbe3c4; color: #6b4300; vertical-align: .1rem; }
+.fl-me-out.lv-high .fl-me-lv { background: var(--no-bg); color: var(--no); } .fl-me-out.lv-low .fl-me-lv { background: #e3edfa; color: #1c4f8f; }
+.fl-me-out ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .3rem; font-size: .95rem; }
