@@ -66,6 +66,52 @@
  ],
  "stories": [
   {
+   "slug": "squamish-nation-overdoses-help-naloxone",
+   "s": "safety",
+   "tier": "card",
+   "date": "2026-11-10",
+   "head": "Recent overdoses hit Squamish Nation. Where to get help and free naloxone",
+   "dek": "Squamish Nation, under a State of Emergency since December 2024, shares where to get free naloxone, counselling and weekly drug checking, including a Monday mobile service in the Squamish Valley.",
+   "take": "Anyone affected by the toxic drug crisis, including grief or loss, can call Squamish Nation's Háhalhi7iwan (Wellness) Department at 604-982-7816; in an overdose, call 911.",
+   "body": "## If you need help now\n\n- In an overdose: call 911 right away, give naloxone if you have it and follow the emergency instructions. Do not leave the person alone.\n- Support from Squamish Nation's Háhalhi7iwan (Wellness) Department: 604-982-7816\n\n## What is happening\n\nSquamish Nation (Sḵwx̱wú7mesh Úxwumixw) says its community continues to feel the impact of the toxic drug crisis, including several recent overdoses. The Nation is still operating under the State of Emergency its Council declared in December 2024 to support public safety measures.\n\nThe Nation says recent losses are a reminder of how serious the crisis is. It says the unregulated drug supply has become more unpredictable, often with unexpected and very dangerous contaminants, so anyone using unregulated substances may be at risk of drug poisoning.\n\n## Where to get support\n\nThe Háhalhi7iwan (Wellness) Department offers therapy and counselling and weekly programs, including Wellness Wednesdays on the North Shore and in the Squamish Valley. It can also help people get into treatment and detox. It welcomes anyone affected, including people going through grief or loss.\n\n- Phone: 604-982-7816\n- Email: Wellness@squamish.net\n\n## How to lower the risk\n\n- Carry naloxone, which can reverse an opioid overdose. It is free from the vending machine or front desk at 380 Welch Street, Unit 4.\n- Avoid using alone. If possible, have someone nearby who can respond in an emergency. If you are alone, call the National Overdose Response Service at 1-888-688-6677 or use the LifeGuard App.\n- Know the signs of an overdose: slow or irregular breathing, not responding, gurgling, choking or unusual snoring sounds, and blue, grey or pale lips or fingertips.\n\n## Weekly drug checking\n\nDrug checking means testing a drug sample for dangerous contents. Only the Monday service is in the Squamish Valley. The Wednesday and Friday sessions are on the Capilano Reserve.\n\n- Mondays, 1:30 to 3:30 p.m.: mobile drug checking in the Squamish Valley. Call 604-982-7816 to arrange.\n- Wednesdays, 1:30 to 3:30 p.m.: Ikwiks and Kwumkwum, under the Lions Gate Bridge, Capilano Reserve.\n- Fridays, 1:30 to 3:30 p.m.: Lower Capilano Road and Lawa Road, next to Estítkw Place, Capilano Reserve.\n\nRead the Nation's full notice at [squamish.net](https://www.squamish.net/toxicdrugcrisisresponse/). More local safety news is on our [policing and safety page](/issues/policing-and-safety/).",
+   "visual": {
+    "type": "big",
+    "big": "604-982-7816",
+    "small": "Squamish Nation Wellness line"
+   },
+   "src": [
+    "Sḵwx̱wú7mesh Úxwumixw (Squamish Nation)",
+    "https://www.squamish.net/toxicdrugcrisisresponse/"
+   ],
+   "social": "Squamish Nation says its community has seen several recent overdoses and losses, and it is still under a State of Emergency declared in December 2024.\n\nIn an overdose, call 911. Squamish Nation Wellness line: 604-982-7816. Using alone? National Overdose Response Service: 1-888-688-6677. Where to get free naloxone and when drug checking runs:",
+   "share": 3,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/squamish-nation-overdoses-help-naloxone.jpg",
+    "alt": "An open black naloxone kit case with a vial, syringes, gloves, alcohol swabs and a CPR face shield laid out on a table.",
+    "caption": "A take-home naloxone kit, like those available free in B.C.",
+    "credit": "James Heilman, MD, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:NaloxoneKit.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/squamish-nation-overdoses-help-naloxone-2.jpg",
+     "alt": "The Squamish River winding through a forested valley with a snow-capped mountain in the distance under clear blue sky.",
+     "caption": "The Squamish Valley and Squamish River.",
+     "credit": "McKay Savage, CC BY 2.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_valley.jpg"
+    },
+    {
+     "file": "/news/photos/squamish-nation-overdoses-help-naloxone-3.jpg",
+     "alt": "A downtown Squamish street lined with shops, banners and parked cars, with mountains in the background.",
+     "caption": "Downtown Squamish.",
+     "credit": "Guerinf, CC0",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_(5).jpg"
+    }
+   ],
+   "og": "squamish-nation-overdoses-help-naloxone.png"
+  },
+  {
    "slug": "squamish-river-flood-forecast-nov-12",
    "s": "weather",
    "tier": "lead",
@@ -406,10 +452,10 @@
      }
     ],
     "notes": {
-     "now": "Measured at the gauge near Brackendale.",
      "1000": "Climbing fast.",
-     "y2": "Past the size of high water the river sees every second year.",
      "2000": "January 2024's 2,010 put water over Squamish Valley Road.",
+     "now": "Measured at the gauge near Brackendale.",
+     "y2": "Past the size of high water the river sees every second year.",
      "y10": "Past a 1 in 10 year flood.",
      "y20": "Past a 1 in 20 year flood.",
      "y50": "Past a 1 in 50 year flood.",
