@@ -2694,3 +2694,62 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .fl-share { font: 700 .9rem system-ui, sans-serif; padding: .6rem 1rem; min-height: 44px; border-radius: 99px; border: 0; background: #f0b429; color: #2b1d00; cursor: pointer; }
 .fl-share:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
 .fl-share-msg { font-size: .85rem; color: #c9d6e2; }
+
+/* Story blocks inside long news stories (build.mjs blocks(), api/_md.js). */
+.nw-glance { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; margin: .4rem 0 1rem; }
+.nw-tile { background: var(--surface-2); border-radius: 12px; padding: .7rem .8rem; display: grid; gap: .15rem; align-content: start; min-width: 0; }
+.nw-tile small { font: 700 .68rem/1.2 system-ui, sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.nw-tile b { font-size: .92rem; line-height: 1.3; font-weight: 650; }
+.nw-tile.lv-high { background: var(--no-bg); } .nw-tile.lv-high small { color: var(--no); }
+.nw-tile.lv-mid { background: #fbe9cc; } .nw-tile.lv-mid small { color: #8a5300; }
+.nw-tile.lv-low { background: var(--yes-bg); } .nw-tile.lv-low small { color: var(--yes); }
+@media (min-width: 700px) { .nw-glance { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.nw-warn { background: var(--warn-bg); color: var(--warn-ink); border-radius: 10px; padding: .7rem .85rem; font-weight: 600; }
+.nw-tl { margin: .4rem 0 1rem; }
+.nw-tl figcaption { font: 700 .95rem/1.3 system-ui, sans-serif; margin-bottom: .5rem; display: flex; flex-wrap: wrap; gap: .3rem .8rem; align-items: center; }
+.nw-tl-key { font-weight: 500; font-size: .8rem; color: var(--muted); }
+.nw-tl-key i { display: inline-block; width: 3px; height: .9rem; background: var(--no); vertical-align: -.15rem; margin-right: .3rem; }
+.nw-tl ol { list-style: none; margin: 0; padding: 0; display: grid; gap: .4rem; }
+.nw-tl li { display: grid; grid-template-columns: 7.2rem minmax(0, 1fr); gap: .15rem .6rem; align-items: center; margin: 0; }
+.nw-tl-when { font-size: .85rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.nw-tl-bar { position: relative; height: 1.6rem; background: var(--surface-2); border-radius: 6px; overflow: hidden; }
+.nw-tl-bar i { position: absolute; inset: 0 auto 0 0; background: #8fb7e3; border-radius: 6px; }
+.nw-tl li.over .nw-tl-bar i { background: #2a78d6; }
+.nw-tl-bar s { position: absolute; top: 0; bottom: 0; width: 3px; background: var(--no); text-decoration: none; }
+.nw-tl-bar em { position: absolute; left: .5rem; top: 50%; transform: translateY(-50%); font: 700 .8rem/1 system-ui, sans-serif; font-style: normal; color: var(--ink); background: rgba(255,255,255,.85); padding: .15rem .3rem; border-radius: 4px; white-space: nowrap; }
+.nw-tl-note { grid-column: 2; font-size: .82rem; color: var(--muted); line-height: 1.35; }
+.nw-ruler { margin: .6rem 0 1rem; }
+.nw-ruler-scale { position: relative; display: block; height: 7.2rem; margin: 0 1.6rem; }
+.nw-ruler-track { position: absolute; left: 0; right: 0; top: 2.2rem; height: .9rem; border-radius: 99px; background: linear-gradient(90deg, var(--yes-bg), #fbe9cc 50%, var(--no-bg)); border: 1px solid var(--line); }
+.nw-ruler-range { position: absolute; top: 1.95rem; height: 1.4rem; border-radius: 99px; background: rgba(42,120,214,.18); border: 2px solid #2a78d6; }
+.nw-ruler-pin { position: absolute; top: 1.4rem; width: 4px; height: 2.6rem; margin-left: -2px; background: #1c5cab; border-radius: 2px; }
+.nw-ruler-pin b { position: absolute; bottom: 2.75rem; left: 50%; transform: translateX(-50%); font: 700 .82rem/1 system-ui, sans-serif; color: #1c5cab; white-space: nowrap; }
+.nw-ruler-mark { position: absolute; top: 3.5rem; transform: translateX(-50%); font: .7rem/1.25 system-ui, sans-serif; color: var(--muted); text-align: center; white-space: nowrap; }
+.nw-ruler-mark::before { content: ""; display: block; width: 1px; height: .45rem; background: var(--muted); margin: 0 auto .15rem; }
+.nw-ruler-mark.lo { top: 5.5rem; } .nw-ruler-mark.lo::before { height: 2.45rem; margin-top: -2rem; }
+.nw-ruler figcaption, .nw-rv-note { font-size: .85rem; color: var(--muted); margin: .3rem 0 0; }
+.nw-rivers { margin: .4rem 0 1rem; }
+.nw-rivers figcaption { font-size: .95rem; margin-bottom: .5rem; }
+.nw-rivers ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; }
+.nw-rivers li { display: grid; grid-template-columns: 6.2rem minmax(0, 1fr) 2.8rem; gap: .15rem .6rem; align-items: center; margin: 0; }
+.nw-rv-name { font-weight: 600; font-size: .92rem; }
+.nw-rv-bar { position: relative; height: .85rem; background: var(--surface-2); border-radius: 99px; border-right: 3px solid var(--no); }
+.nw-rv-bar i { position: absolute; inset: 0 auto 0 0; background: #2a78d6; border-radius: 99px; }
+.nw-rv-bar s { position: absolute; top: -.25rem; bottom: -.25rem; width: 2px; background: #1c5cab; text-decoration: none; }
+.nw-rv-pct { font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+.nw-rv-say { grid-column: 2 / -1; font-size: .82rem; color: var(--muted); line-height: 1.35; }
+.nw-note { margin: 1rem 0; padding: .75rem .9rem; border: 1px dashed var(--line); border-radius: 10px; font-size: .88rem; color: var(--ink-2); }
+.nw-note p { margin: 0 0 .45rem; } .nw-note p:last-child { margin: 0; }
+.nw-note .nw-note-k { font: 700 .72rem system-ui, sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.nw-fold, .nw-fsec { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: .8rem 0; }
+.nw-fold + .nw-fold, .nw-fsec + .nw-fsec { margin-top: -.8rem; border-top: 0; }
+.nw-fold summary, .nw-fsec summary { cursor: pointer; list-style: none; padding: .75rem 2rem .75rem 0; position: relative; display: grid; gap: .2rem; }
+.nw-fold summary::-webkit-details-marker, .nw-fsec summary::-webkit-details-marker { display: none; }
+.nw-fold summary::after, .nw-fsec summary::after { content: "+"; position: absolute; right: .2rem; top: .6rem; font: 400 1.5rem/1 system-ui, sans-serif; color: var(--brand); }
+.nw-fold[open] > summary::after, .nw-fsec[open] > summary::after { content: "−"; }
+.nw-fold summary span, .nw-fsec summary span { font-size: .9rem; font-weight: 400; color: var(--muted); line-height: 1.4; }
+.nw-fold summary b { color: var(--brand); }
+.nw-fsec summary h2 { margin: 0; }
+.nw-fold summary:focus-visible, .nw-fsec summary:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+.nw-fold-in { padding-bottom: .4rem; }
+@media print { .nw-fold > .nw-fold-in, .nw-fsec > .nw-fold-in { display: block; } }

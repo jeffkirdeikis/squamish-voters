@@ -114,3 +114,16 @@
   var start = -1; chips.forEach(function (c, i) { if (c.textContent === saved) start = i; });
   show(start, false);
 })();
+
+// Folded story sections (details.nw-fsec / .nw-fold): a jump link or a #link straight to one opens it first.
+(function () {
+  function openTo(id) {
+    var el = id && document.getElementById(id); if (!el) return;
+    for (var d = el; d; d = d.parentElement) if (d.tagName === 'DETAILS') d.open = true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]'); if (a) openTo(decodeURIComponent(a.getAttribute('href').slice(1)));
+  });
+  window.addEventListener('hashchange', function () { openTo(decodeURIComponent(location.hash.slice(1))); });
+  if (location.hash) openTo(decodeURIComponent(location.hash.slice(1)));
+})();

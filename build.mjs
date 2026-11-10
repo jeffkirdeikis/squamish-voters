@@ -1698,7 +1698,50 @@ if (TRACKED.length) {
   const take = (st) => (st.take ? `<p class="nw-take"><b>What changes</b>${st.take}</p>` : '');
   const bodyHtml = (st) => (st.body ? `<div class="nw-body">${mdToHtml(st.body)}</div>` : '');
   // Full story page: the extra photos go inside the story, between its sections.
-  const fullBodyHtml = (st) => (st.body || (st.photos || []).length ? `<div class="nw-body">${placePhotos(mdToHtml(st.body), (st.photos || []).map((p) => p.chart
+  // Story blocks a long story can drop into its body with [[name]] (api/_md.js), each drawn from story data:
+  //   st.glance   [{level: high|mid|low|'' , k: label, v: text}]  colour tiles that say the whole story in five seconds
+  //   st.timeline {mark: [value, label], max, rows: [{when, v, say, note}]}  one bar per moment, so the rise is visible
+  //   st.ruler    {lo, hi, value, from, to, label, marks: [[value, label]], note}  where a number sits on its scale
+  //   st.rivers   {title, note, rows: [{name, v, top, record, say}]}  each river's forecast against its own record
+  //   st.warn     one line in a yellow box
+  const n0 = (x) => Number(x).toLocaleString('en-CA');
+  const blocks = (st) => {
+    const w = {};
+    if ((st.glance || []).length) w.glance = `<div class="nw-glance">${st.glance.map((g) => `<div class="nw-tile${g.level ? ` lv-${esc(g.level)}` : ''}"><small>${esc(g.k)}</small><b>${esc(g.v)}</b></div>`).join('')}</div>`;
+    if (st.timeline) {
+      const t = st.timeline, max = t.max || Math.max(...t.rows.map((r) => r.v)) * 1.15, pc = (v) => `${Math.min(100, v / max * 100).toFixed(1)}%`;
+      w.timeline = `<figure class="nw-tl"><figcaption>${esc(t.title || '')}${t.mark ? ` <span class="nw-tl-key"><i></i>${esc(t.mark[1])}, ${n0(t.mark[0])}</span>` : ''}</figcaption><ol>${t.rows.map((r) => `<li${r.v >= (t.mark ? t.mark[0] : Infinity) ? ' class="over"' : ''}><span class="nw-tl-when">${esc(r.when)}</span><span class="nw-tl-bar" role="img" aria-label="${esc(r.say || n0(r.v))}"><i style="width:${pc(r.v)}"></i>${t.mark ? `<s style="left:${pc(t.mark[0])}"></s>` : ''}<em>${esc(r.say || n0(r.v))}</em></span>${r.note ? `<span class="nw-tl-note">${esc(r.note)}</span>` : ''}</li>`).join('')}</ol></figure>`;
+    }
+    if (st.ruler) {
+      const r = st.ruler, pc = (v) => `${((v - r.lo) / (r.hi - r.lo) * 100).toFixed(1)}%`;
+      w.ruler = `<figure class="nw-ruler"><div class="nw-ruler-scale" role="img" aria-label="${esc(`${r.label} ${n0(r.value)}, possible range ${n0(r.from)} to ${n0(r.to)}. ${r.marks.map(([v, l]) => `${l} ${n0(v)}`).join(', ')}.`)}"><span class="nw-ruler-track"></span><span class="nw-ruler-range" style="left:${pc(r.from)};width:calc(${pc(r.to)} - ${pc(r.from)})"></span><span class="nw-ruler-pin" style="left:${pc(r.value)}"><b>${esc(r.label)} ${n0(r.value)}</b></span>${r.marks.map(([v, l], i) => `<span class="nw-ruler-mark${i % 2 ? ' lo' : ''}" style="left:${pc(v)}">${esc(l)}<br>${n0(v)}</span>`).join('')}</div>${r.note ? `<figcaption>${esc(r.note)}</figcaption>` : ''}</figure>`;
+    }
+    if (st.rivers) {
+      const R = st.rivers;
+      w.rivers = `<figure class="nw-rivers"><figcaption><b>${esc(R.title)}</b></figcaption><ul>${R.rows.map((r) => { const p = Math.round(r.v / r.record * 100), tp = r.top ? Math.min(100, r.top / r.record * 100) : 0; return `<li><span class="nw-rv-name">${esc(r.name)}</span><span class="nw-rv-bar" role="img" aria-label="${esc(`${r.name}: forecast ${n0(r.v)}, ${p}% of its record of ${n0(r.record)}${r.top ? `; top of range ${n0(r.top)}` : ''}`)}"><i style="width:${Math.min(100, p)}%"></i>${r.top ? `<s style="left:${tp.toFixed(1)}%"></s>` : ''}</span><span class="nw-rv-pct">${p}%</span>${r.say ? `<span class="nw-rv-say">${esc(r.say)}</span>` : ''}</li>`; }).join('')}</ul>${R.note ? `<p class="nw-rv-note">${esc(R.note)}</p>` : ''}</figure>`;
+    }
+    if (st.warn) w.warn = `<p class="nw-warn">${esc(st.warn)}</p>`;
+    return w;
+  };
+  // st.fold: {"Section heading": "one line answer"}. Those sections fold shut on the story page, with the answer showing,
+  // so a reader who only skims still gets it. Folded text stays in the page for search and AI.
+  const foldSections = (html, st) => {
+    const F = st.fold || {}; if (!Object.keys(F).length) return html;
+    const plain = (t) => t.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&#39;|&rsquo;/g, "'").trim();
+    const marks = [...html.matchAll(/<h2 id="([^"]+)">([\s\S]*?)<\/h2>/g)];
+    let out = '', at = 0;
+    marks.forEach((m, i) => {
+      const gist = F[plain(m[2])];
+      if (gist === undefined) return;
+      let end = i + 1 < marks.length ? marks[i + 1].index : html.lastIndexOf('</div>');
+      const cut = html.slice(m.index, end).search(/<figure class="fm"|<section class="rp"/); // the flood map and reader photo box stay outside
+      if (cut > 0) end = m.index + cut;
+      out += html.slice(at, m.index) + `<details class="nw-fsec" id="${m[1]}"><summary><h2>${m[2]}</h2>${gist ? `<span>${esc(gist)}</span>` : ''}</summary><div class="nw-fold-in">${html.slice(m.index + m[0].length, end)}</div></details>`;
+      at = end;
+    });
+    return out + html.slice(at);
+  };
+  const fullBodyHtml = (st) => (st.body || (st.photos || []).length ? `<div class="nw-body">${placePhotos(mdToHtml(st.body, blocks(st)), (st.photos || []).map((p) => p.chart
     // A chart is shown whole (never cropped) and opens full size on a tap, so phone readers can zoom in on the numbers.
     ? `<figure class="nw-photo nw-chart"><a href="${esc(p.file)}" target="_blank" rel="noopener" aria-label="Open this chart full size"><img src="${esc(p.file)}" alt="${esc(p.alt)}" width="1200" height="800" loading="lazy"></a><figcaption>${esc(p.caption)} Tap the chart to enlarge. <span>Source: <a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.credit)}</a></span></figcaption></figure>`
     : `<figure class="nw-photo"><img src="${esc(newsThumb(p.file, 800))}" alt="${esc(p.alt)}" width="1200" height="800" loading="lazy"><figcaption>${esc(p.caption)} <span>Photo: <a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.credit)}</a></span></figcaption></figure>`))}</div>` : '');
@@ -1837,7 +1880,8 @@ if (TRACKED.length) {
       <p>Photos of the river, Squamish Valley Road, trails or streets, with where and when you took them. We check each one before it goes up. Never go near the water to get a picture.</p>
       <p><a class="btn" href="/tip/?about=flood">Send a photo</a></p>
       ${rp.length ? `<div class="rp-strip">${rp.map((p) => `<figure><img src="${esc(p.file)}" alt="${esc(p.alt)}" loading="lazy"><figcaption><b>${esc(p.place)}</b>, ${esc(p.when)}. ${esc(p.caption || '')} Photo: ${esc(p.credit || 'a reader')}</figcaption></figure>`).join('')}</div>` : ''}</section>` : '';
-    const storyBody = (st.toc || []).length ? fullBodyHtml(st).replace(/<h2>([\s\S]*?)<\/h2>/g, (m, t) => `${mapHtml && t === st.map_before ? mapHtml : ''}${readerHtml && t === st.photos_before ? readerHtml : ''}<h2 id="${slugId(t)}">${t}</h2>`) : fullBodyHtml(st);
+    const storyBody0 = (st.toc || []).length ? fullBodyHtml(st).replace(/<h2>([\s\S]*?)<\/h2>/g, (m, t) => `${mapHtml && t === st.map_before ? mapHtml : ''}${readerHtml && t === st.photos_before ? readerHtml : ''}<h2 id="${slugId(t)}">${t}</h2>`) : fullBodyHtml(st);
+    const storyBody = foldSections(storyBody0, st);
     // Flood alert sign up under the live panel (api/flood-alert.js; emails sent by api/flood-watch.js).
     const floodAlertBox = `<section class="fl-alert" data-flood-alert><h2>Email me if this changes</h2>
       <p>One email when the province issues a Flood Warning or ends its notice, the regional district lists an evacuation alert or order, or the forecast peak moves by 10% or more. Nothing else.</p>
