@@ -21,6 +21,8 @@
   const partOfDay = (t) => { const h = +fmt(t, { hour: 'numeric', hourCycle: 'h23' }); return `${fmt(t, { weekday: 'long' })} ${h < 5 ? 'overnight' : h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening'}`; };
   const r10 = (x) => Math.round(x / 10) * 10;
   const hourDay = (t) => fmt(t, { hour: 'numeric', hour12: true }).replace(/\s*([ap])\.?m\.?/i, (m, a) => ` ${a.toLowerCase()}.m.`) + ' ' + fmt(t, { weekday: 'long' });
+  // "just under a 1 in 50 year flood" when within 5% below a size, else the plain size band.
+  const nearSize = (f, S) => { for (const [v, l] of [[S.y100, '1 in 100'], [S.y50, '1 in 50'], [S.y20, '1 in 20'], [S.y10, '1 in 10'], [S.y5, '1 in 5']]) if (f < v && f >= v * 0.95) return `just under a ${l} year flood`; return sizeName(f, S); };
   const inHours = (t) => { const h = Math.round((t - Date.now()) / 36e5); return h <= 1 ? 'within the hour' : `in about ${h} hours`; };
   const NOTICE = ['No flood notice', 'High Streamflow Advisory', 'Flood Watch', 'Flood Warning'];
 
@@ -101,8 +103,8 @@
       .map(([a, b, c]) => `<span class="z" style="left:${pc(a)};width:calc(${pc(b)} - ${pc(a)});background:${c}"></span>`).join('');
     const ticks = [[S.y2, 'Every 2 years', ' y2'], [S.y10, '1 in 10', ''], [S.y20, '1 in 20', ' mid'], [S.y50, '1 in 50', ''], [S.record, '2003 record', ' mid']]
       .filter(([v]) => v < top).map(([v, l, c]) => `<span class="t${c}" style="left:${pc(v)}">${l}</span>`).join('');
-    const rng = f ? `<span class="rng" style="left:${pc(f.low)};width:calc(${pc(f.high)} - ${pc(f.low)})" title="Possible range"></span>` : '';
-    const marks = (g ? `<span class="m" style="left:${pc(g.flow)}"><span>Now</span></span>` : '') + (f ? `<span class="m peak" style="left:${pc(f.peak.flow)}"><span>Peak</span></span>` : '');
+    const rng = f ? `<span class="rng" style="left:${pc(f.low)};width:calc(${pc(f.high)} - ${pc(f.low)})"></span><span class="brk" style="left:${pc(f.low)};width:calc(${pc(f.high)} - ${pc(f.low)})"><span>Possible range ${n0(r10(f.low))} to ${n0(f.high)}</span></span>` : '';
+    const marks = (g ? `<span class="m" style="left:${pc(g.flow)}"><span>Now</span></span>` : '') + (f ? `<span class="m peak" style="left:${pc(f.peak.flow)}"><span>Most likely</span></span>` : '');
     // When does it happen: first forecast hour over each flood size, if the river is not there yet.
     let line = '';
     if (f) {
@@ -116,14 +118,15 @@
         if (c2) parts.push(`Forecast to pass the every second year mark <b>${inHours(c2)}</b>, about ${esc(hourDay(c2))}`);
         else if (g && g.flow >= S.y2) parts.push('<b>Above the every second year mark now</b>');
         if (c10) parts.push(`the 1 in 10 year mark about ${esc(hourDay(c10))}`);
-        line = `${parts.join(', and ')}${parts.length ? '. ' : ''}Peak near <b>${n0(f.peak.flow)}</b> ${esc(partOfDay(f.peak.t))}, ${esc(sizeName(f.peak.flow, S))}.`;
+        line = `${parts.join(', and ')}${parts.length ? '. ' : ''}Most likely peak near <b>${n0(f.peak.flow)}</b> ${esc(partOfDay(f.peak.t))}, ${esc(sizeName(f.peak.flow, S))}. The top of the range, <b>${n0(f.high)}</b>, is ${esc(nearSize(f.high, S))}, and the province says the river can go above its range.`;
       }
     }
     band.innerHTML = `
       <div class="fl-nums">
         <div class="fl-num"><span class="k">River now</span><b>${g ? n0(g.flow) : '?'}</b><small>${g ? `Read ${esc(when(g.t))}.` : 'Gauge did not answer'}</small></div>
         <span class="fl-arrow" aria-hidden="true">→</span>
-        <div class="fl-num peak"><span class="k">Forecast peak</span><b>${f ? n0(f.peak.flow) : '?'}</b><small>${f ? `Range about ${n0(r10(f.low))} to ${n0(f.high)}` : 'Forecast did not load'}</small></div>
+        <div class="fl-num peak"><span class="k">Most likely peak</span><b>${f ? n0(f.peak.flow) : '?'}</b><small>${f ? esc(partOfDay(f.peak.t)) : 'Forecast did not load'}</small></div>
+        ${f ? `<div class="fl-num top"><span class="k">Could reach</span><b>${n0(f.high)}</b><small>${esc(nearSize(f.high, S))}</small></div>` : ''}
         ${nt ? `<span class="fl-pill lv${lvl}">${NOTICE[lvl]}</span>` : ''}
       </div>
       <div class="fl-scale" role="img" aria-label="Flood size scale. Now ${g ? n0(g.flow) : 'unknown'}, forecast peak ${f ? n0(f.peak.flow) : 'unknown'}, cubic metres per second.">${zones}${rng}${ticks}${marks}</div>
@@ -145,4 +148,27 @@
   }
   load();
   setInterval(load, 5 * 60 * 1000);
+})();
+
+// "Email me if this changes" form under the live panel (api/flood-alert.js).
+(function () {
+  const f = document.querySelector('[data-flood-alert] form');
+  if (!f) return;
+  const msg = f.querySelector('.fl-alert-msg'), btn = f.querySelector('button');
+  f.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = f.querySelector('#fl-alert-email').value.trim(), consent = f.querySelector('#fl-alert-consent').checked;
+    msg.className = 'fl-alert-msg';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { msg.textContent = 'That email address doesn’t look right.'; msg.classList.add('bad'); return; }
+    if (!consent) { msg.textContent = 'Please tick the box to say we can email you.'; msg.classList.add('bad'); return; }
+    btn.disabled = true; msg.textContent = 'Sending…';
+    try {
+      const r = await fetch('/api/flood-alert/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, consent: true }) });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok || !d.ok) throw new Error(d.error || 'Something went wrong. Try again in a minute.');
+      msg.textContent = d.already ? 'You’re already signed up for flood alerts.' : 'Check your email and tap the link to turn alerts on. Look in spam if it isn’t there in a minute.';
+      msg.classList.add('good'); f.querySelector('#fl-alert-email').value = '';
+    } catch (err) { msg.textContent = err.message; msg.classList.add('bad'); }
+    btn.disabled = false;
+  });
 })();

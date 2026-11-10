@@ -3,6 +3,7 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": true,
+  "crons": [{ "path": "/api/flood-watch/", "schedule": "*/10 * * * *" }],
   "redirects": [
     {
       "source": "/(.*)",

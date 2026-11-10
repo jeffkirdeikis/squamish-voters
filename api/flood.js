@@ -27,7 +27,7 @@ async function gauge() {
 
 // The province's CLEVER model: hourly forecast, low and high bound for 10 days. The hour column is read as Pacific
 // Standard Time (UTC-8); British Columbia's clocks are UTC-7 since 2026, so times are good to about an hour.
-async function forecast() {
+export async function forecast() {
   const t = await get('https://bcrfc.env.gov.bc.ca/freshet/clever/08GA022.CSV', 'text');
   const issued = (t.match(/ISSUED AT:\s*(.+)/) || [])[1]?.trim() || '';
   const rows = [];
@@ -48,7 +48,7 @@ async function forecast() {
 }
 
 // Flood notices "currently in effect" on the River Forecast Centre's page. Squamish is in the South Coast region.
-async function notices() {
+export async function notices() {
   const base = 'https://bcrfc.env.gov.bc.ca/warnings/';
   const h = await get(base + 'index.htm', 'text');
   const a = h.search(/Currently in Effect/i), b = h.search(/Previously issued/i);
@@ -69,7 +69,7 @@ async function notices() {
 }
 
 // Squamish Lillooet Regional District evacuation alerts and orders (covers the Upper Squamish Valley and upper Paradise Valley).
-async function slrd() {
+export async function slrd() {
   const page = 'https://www.slrd.bc.ca/emergency-program/evacuation-alerts-orders';
   const h = await get(page, 'text');
   const main = (h.match(/<main[\s\S]*?<\/main>/i) || [h])[0];

@@ -1828,6 +1828,13 @@ if (TRACKED.length) {
     const slugId = (t) => 'sec-' + String(t).toLowerCase().replace(/<[^>]+>/g, '').replace(/&[a-z]+;/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     const tocHtml = (st.toc || []).length ? `<nav class="nw-toc" aria-label="Jump to a section">${st.toc.map(([h, l], i) => `<a href="#${slugId(h)}"${i === 0 ? ' class="go"' : ''}>${esc(l)}</a>`).join('')}</nav>` : '';
     const storyBody = (st.toc || []).length ? fullBodyHtml(st).replace(/<h2>([\s\S]*?)<\/h2>/g, (m, t) => `<h2 id="${slugId(t)}">${t}</h2>`) : fullBodyHtml(st);
+    // Flood alert sign up under the live panel (api/flood-alert.js; emails sent by api/flood-watch.js).
+    const floodAlertBox = `<section class="fl-alert" data-flood-alert><h2>Email me if this changes</h2>
+      <p>One email when the province issues a Flood Warning or ends its notice, the regional district lists an evacuation alert or order, or the forecast peak moves by 10% or more. Nothing else.</p>
+      <form class="fl-alert-form" novalidate><label for="fl-alert-email">Your email</label><div class="fl-alert-row"><input id="fl-alert-email" type="email" autocomplete="email" inputmode="email" required placeholder="you@example.com"><button class="btn" type="submit">Email me changes</button></div>
+      <label class="fl-alert-ok"><input id="fl-alert-consent" type="checkbox"> Yes, email me flood alerts. I can turn them off any time.</label>
+      <p class="fl-alert-msg" role="status"></p></form>
+      <p class="small muted">We email a link to confirm first. These do not replace official alerts: also sign up for <a href="https://www.slrd.bc.ca/SLRDAlert" target="_blank" rel="noopener">SLRD Alert</a> or <a href="https://squamish.ca/alert" target="_blank" rel="noopener">Squamish Alert</a>.</p></section>`;
     const band = st.live === 'flood' ? '<section class="fl-band" data-flood-band aria-label="Squamish River now and forecast" aria-live="polite"><p class="fl-band-wait">Loading the newest river reading…</p></section>' : '';
     const body = st.tier === 'lead'
       ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${band}${tocHtml}${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p>${meHtml}<aside class="nw-side">${visual(st)}${take(st)}${sideMore}</aside>`
@@ -1839,7 +1846,7 @@ if (TRACKED.length) {
       jsonld: [crumbLd([['Home', '/'], ['News', '/news/'], [st.head, nUrl(st)]]), { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: st.head, datePublished: st.date, inLanguage: 'en-CA', image: ogUrl(st), dateModified: st.updated || st.date, description: st.dek.replace(/<[^>]+>/g, ''), mainEntityOfPage: `${ORIGIN}${nUrl(st)}`, articleSection: SEC[st.s] || undefined, author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/`, sameAs: ['https://jeffkirdeikis.com'] }, publisher: { '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/`, logo: { '@type': 'ImageObject', url: `${ORIGIN}/icon-512.png` } }, isBasedOn: st.src[1] }],
       body: `<div class="nw nw-story-page">
   <p class="crumbs"><a href="/news/">← All news</a></p>
-  <article class="nw-full nw-art" data-s="${st.s}">${body}${st.live === 'flood' ? `<section class="fl-live" data-flood-live data-issued="${esc(st.live_issued || '')}" aria-live="polite"><div class="fl-head"><h2>Live: river, forecast and alerts</h2><p>Loading the newest readings…</p></div></section>` : ''}${storyBody}<div class="nw-foot">${source(st)}${shareBtn(st)}</div></article>
+  <article class="nw-full nw-art" data-s="${st.s}">${body}${st.live === 'flood' ? `<section class="fl-live" data-flood-live data-issued="${esc(st.live_issued || '')}" aria-live="polite"><div class="fl-head"><h2>Live: river, forecast and alerts</h2><p>Loading the newest readings…</p></div></section>${floodAlertBox}` : ''}${storyBody}<div class="nw-foot">${source(st)}${shareBtn(st)}</div></article>
   ${pollHtml(st)}
   <section class="nw-next"><h2 class="nw-sechead">More news</h2><ul>${others.map((o) => `<li data-s="${o.s}"><span>${esc(SEC[o.s])}</span><a href="${nUrl(o)}">${esc(o.head)}</a></li>`).join('')}</ul>
   <p class="nw-more"><a href="/news/">All news →</a> · <a href="/meetings/">What council decided →</a></p></section>
