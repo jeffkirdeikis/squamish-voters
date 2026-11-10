@@ -2614,3 +2614,12 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .fl-me-lv { display: inline-block; font: 700 .68rem system-ui, sans-serif; letter-spacing: .07em; text-transform: uppercase; padding: .15rem .5rem; border-radius: 99px; background: #fbe3c4; color: #6b4300; vertical-align: .1rem; }
 .fl-me-out.lv-high .fl-me-lv { background: var(--no-bg); color: var(--no); } .fl-me-out.lv-low .fl-me-lv { background: #e3edfa; color: #1c4f8f; }
 .fl-me-out ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .3rem; font-size: .95rem; }
+
+/* Jump links under a long story's headline. */
+.nw-toc { display: flex; gap: .45rem; overflow-x: auto; padding: .1rem 0 .5rem; margin: 0 0 .9rem; scrollbar-width: thin; }
+.nw-art > .nw-toc { grid-column: 1 / -1; flex-wrap: wrap; }
+.nw-toc a { flex: none; font: 600 .86rem/1 system-ui, sans-serif; padding: .6rem .85rem; border-radius: 99px; background: var(--surface-2); color: var(--ink); text-decoration: none; white-space: nowrap; }
+.nw-toc a:hover { background: var(--line); }
+.nw-toc a.go { background: var(--no); color: #fff; }
+.nw-toc a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+@media (max-width: 899px) { .nw-art > .nw-toc { flex-wrap: nowrap; } }

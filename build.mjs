@@ -1824,10 +1824,14 @@ if (TRACKED.length) {
     const meHtml = (st.local || []).length ? `<section class="fl-me" data-me aria-labelledby="me-h-${esc(st.slug)}"><h2 id="me-h-${esc(st.slug)}">What does this mean for me?</h2><p class="fl-me-sub">Tap where you live or where you are going.</p>
       <div class="fl-me-chips" role="group" aria-label="Your area">${st.local.map((a, i) => `<button type="button" class="fl-me-chip lv-${esc(a.level)}" aria-pressed="false" aria-controls="me-${i}" data-i="${i}">${esc(a.chip || a.area)}</button>`).join('')}</div>
       ${st.local.map((a, i) => `<div class="fl-me-out lv-${esc(a.level)}" id="me-${i}" data-me-out="${i}"><p class="fl-me-head"><span class="fl-me-lv">${LVL[a.level] || ''}</span> <b>${esc(a.area)}.</b> ${esc(a.head)}</p>${mdToHtml(a.items.map((x) => '- ' + x).join('\n'))}</div>`).join('')}</section>` : '';
+    // Jump links under the headline (st.toc: [heading, chip label]; the first chip is the one to act on, shown in red).
+    const slugId = (t) => 'sec-' + String(t).toLowerCase().replace(/<[^>]+>/g, '').replace(/&[a-z]+;/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const tocHtml = (st.toc || []).length ? `<nav class="nw-toc" aria-label="Jump to a section">${st.toc.map(([h, l], i) => `<a href="#${slugId(h)}"${i === 0 ? ' class="go"' : ''}>${esc(l)}</a>`).join('')}</nav>` : '';
+    const storyBody = (st.toc || []).length ? fullBodyHtml(st).replace(/<h2>([\s\S]*?)<\/h2>/g, (m, t) => `<h2 id="${slugId(t)}">${t}</h2>`) : fullBodyHtml(st);
     const band = st.live === 'flood' ? '<section class="fl-band" data-flood-band aria-label="Squamish River now and forecast" aria-live="polite"><p class="fl-band-wait">Loading the newest river reading…</p></section>' : '';
     const body = st.tier === 'lead'
-      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${band}${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p>${meHtml}<aside class="nw-side">${visual(st)}${take(st)}${sideMore}</aside>`
-      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${band}${st.visual && st.visual.type === 'map' ? visual(st) : photo(st, true)}<p class="nw-dek">${dekHtml(st)}</p>${meHtml}<aside class="nw-side">${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}${sideMore}</aside>`;
+      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${band}${tocHtml}${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p>${meHtml}<aside class="nw-side">${visual(st)}${take(st)}${sideMore}</aside>`
+      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${band}${tocHtml}${st.visual && st.visual.type === 'map' ? visual(st) : photo(st, true)}<p class="nw-dek">${dekHtml(st)}</p>${meHtml}<aside class="nw-side">${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}${sideMore}</aside>`;
     write(nUrl(st), page({
       url: nUrl(st), title: st.head,
       desc: st.dek.replace(/<[^>]+>/g, ''),
@@ -1835,7 +1839,7 @@ if (TRACKED.length) {
       jsonld: [crumbLd([['Home', '/'], ['News', '/news/'], [st.head, nUrl(st)]]), { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: st.head, datePublished: st.date, inLanguage: 'en-CA', image: ogUrl(st), dateModified: st.updated || st.date, description: st.dek.replace(/<[^>]+>/g, ''), mainEntityOfPage: `${ORIGIN}${nUrl(st)}`, articleSection: SEC[st.s] || undefined, author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/`, sameAs: ['https://jeffkirdeikis.com'] }, publisher: { '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/`, logo: { '@type': 'ImageObject', url: `${ORIGIN}/icon-512.png` } }, isBasedOn: st.src[1] }],
       body: `<div class="nw nw-story-page">
   <p class="crumbs"><a href="/news/">← All news</a></p>
-  <article class="nw-full nw-art" data-s="${st.s}">${body}${st.live === 'flood' ? `<section class="fl-live" data-flood-live data-issued="${esc(st.live_issued || '')}" aria-live="polite"><div class="fl-head"><h2>Live: river, forecast and alerts</h2><p>Loading the newest readings…</p></div></section>` : ''}${fullBodyHtml(st)}<div class="nw-foot">${source(st)}${shareBtn(st)}</div></article>
+  <article class="nw-full nw-art" data-s="${st.s}">${body}${st.live === 'flood' ? `<section class="fl-live" data-flood-live data-issued="${esc(st.live_issued || '')}" aria-live="polite"><div class="fl-head"><h2>Live: river, forecast and alerts</h2><p>Loading the newest readings…</p></div></section>` : ''}${storyBody}<div class="nw-foot">${source(st)}${shareBtn(st)}</div></article>
   ${pollHtml(st)}
   <section class="nw-next"><h2 class="nw-sechead">More news</h2><ul>${others.map((o) => `<li data-s="${o.s}"><span>${esc(SEC[o.s])}</span><a href="${nUrl(o)}">${esc(o.head)}</a></li>`).join('')}</ul>
   <p class="nw-more"><a href="/news/">All news →</a> · <a href="/meetings/">What council decided →</a></p></section>
