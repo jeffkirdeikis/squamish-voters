@@ -1827,7 +1827,11 @@ if (TRACKED.length) {
     // Jump links under the headline (st.toc: [heading, chip label]; the first chip is the one to act on, shown in red).
     const slugId = (t) => 'sec-' + String(t).toLowerCase().replace(/<[^>]+>/g, '').replace(/&[a-z]+;/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     const tocHtml = (st.toc || []).length ? `<nav class="nw-toc" aria-label="Jump to a section">${st.toc.map(([h, l], i) => `<a href="#${slugId(h)}"${i === 0 ? ' class="go"' : ''}>${esc(l)}</a>`).join('')}</nav>` : '';
-    const storyBody = (st.toc || []).length ? fullBodyHtml(st).replace(/<h2>([\s\S]*?)<\/h2>/g, (m, t) => `<h2 id="${slugId(t)}">${t}</h2>`) : fullBodyHtml(st);
+    // Flood map (src/flood-map.js), placed before the section named in st.map_before.
+    const mapHtml = st.map_before ? `<figure class="fm"><div id="flood-map" class="fm-map" role="img" aria-label="Map of the Squamish River floodplain, Squamish Valley Road and the river gauge"></div>
+      <figcaption><span class="fm-k fp"></span>Province's designated floodplain <span class="fm-k fan"></span>Alluvial fan <span class="fm-k road"></span>Squamish Valley Road, the only way in and out <span class="fm-k g"></span>River gauge (tap for the live reading)
+      <span class="fm-note">The province mapped these floodplains in 1983 (Squamish River) and 1986 (Cheakamus), for a 1 in 200 year flood. They are the official designated floodplains, but they are old: town dikes have been raised since, and they do not show water depth. The regional district's newer <a href="https://slrd.bc.ca/media/file/squamishfloodhazardreportfinalr4-maps-and-appendixpdf" target="_blank" rel="noopener">2018 Upper Squamish flood study</a> maps depths for each flood size, but is only published as PDF maps. Source: <a href="https://delivery.maps.gov.bc.ca/arcgis/rest/services/mpcm/bcgwpub/MapServer/321" target="_blank" rel="noopener">Mapped Floodplains in BC</a>; road from OpenStreetMap.</span></figcaption></figure>` : '';
+    const storyBody = (st.toc || []).length ? fullBodyHtml(st).replace(/<h2>([\s\S]*?)<\/h2>/g, (m, t) => `${mapHtml && t === st.map_before ? mapHtml : ''}<h2 id="${slugId(t)}">${t}</h2>`) : fullBodyHtml(st);
     // Flood alert sign up under the live panel (api/flood-alert.js; emails sent by api/flood-watch.js).
     const floodAlertBox = `<section class="fl-alert" data-flood-alert><h2>Email me if this changes</h2>
       <p>One email when the province issues a Flood Warning or ends its notice, the regional district lists an evacuation alert or order, or the forecast peak moves by 10% or more. Nothing else.</p>
@@ -1852,7 +1856,7 @@ if (TRACKED.length) {
   <p class="nw-more"><a href="/news/">All news →</a> · <a href="/meetings/">What council decided →</a></p></section>
   ${signupBox('news-story')}
 </div>`,
-      scripts: (st.poll ? '<script src="/news.js"></script><script src="/botid.js" defer></script><script src="/poll.js" defer></script>' : '<script src="/news.js"></script>') + (st.live === 'flood' ? '<script src="/flood-live.js" defer></script>' : ''),
+      scripts: (st.poll ? '<script src="/news.js"></script><script src="/botid.js" defer></script><script src="/poll.js" defer></script>' : '<script src="/news.js"></script>') + (st.live === 'flood' ? '<script src="/flood-live.js" defer></script>' : '') + (st.map_before ? '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script><script src="/flood-map.js" defer></script>' : ''),
     }));
   });
 }
@@ -2690,7 +2694,7 @@ write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can�
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js', 'since.js', 'flood-live.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js', 'since.js', 'flood-live.js', 'flood-map.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.writeFileSync(path.join(DIST, 'botid.js'), `(function(){${BOTID_JS}})();`);
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
