@@ -133,7 +133,8 @@
         ${nt ? `<span class="fl-pill lv${lvl}">${NOTICE[lvl]}</span>` : ''}
       </div>
       <div class="fl-scale" role="img" aria-label="Flood size scale. Now ${g ? n0(g.flow) : 'unknown'}, forecast peak ${f ? n0(f.peak.flow) : 'unknown'}, cubic metres per second.">${zones}${rng}${ticks}${marks}</div>
-      <p class="fl-when">${line} <span style="color:#a9bccd">Cubic metres per second at the gauge near Brackendale. Updates every five minutes.</span></p>`;
+      <p class="fl-when">${line} <span style="color:#a9bccd">Cubic metres per second at the gauge near Brackendale. Updates every five minutes.</span></p>
+      <p class="fl-share-row"><button type="button" class="fl-share" data-flood-share>Share the river now</button> <span class="fl-share-msg" role="status"></span></p>`;
   }
 
   // Rain on the mountains for this storm: so far (model hours already passed) and still to come, from data-rain-from to data-rain-to.
@@ -155,6 +156,21 @@
     if (runs.length < 2) return '';
     return `<p class="fl-moves"><b>How the forecast peak has moved:</b> ${runs.map((h) => `${n0(h.peak)} <span>(${esc(issuedPlain(h.issued))})</span>`).join(' → ')}</p>`;
   }
+
+  // "Share the river now": the same numbers as a picture (api/og.js ?flood=1), shared as an image file where the phone allows it.
+  if (band) band.addEventListener('click', async (e) => {
+    const b = e.target.closest('[data-flood-share]'); if (!b) return;
+    const msg = band.querySelector('.fl-share-msg'), src = `/api/og/?flood=1&t=${Math.floor(Date.now() / 3e5)}`;
+    b.disabled = true; msg.textContent = 'Making the picture…';
+    try {
+      const blob = await (await fetch(src)).blob();
+      const file = new File([blob], 'squamish-river-now.png', { type: 'image/png' });
+      const data = { files: [file], title: 'Squamish River right now', text: `Squamish River right now: live numbers and what to do. ${location.origin}${location.pathname}` };
+      if (navigator.canShare && navigator.canShare(data)) { await navigator.share(data); msg.textContent = ''; }
+      else { msg.innerHTML = `<a href="${src}" target="_blank" rel="noopener">Open the picture</a> to save or post it.`; }
+    } catch (err) { msg.textContent = err && err.name === 'AbortError' ? '' : 'The picture did not load. Try again in a minute.'; }
+    b.disabled = false;
+  });
 
   const good = {};
   async function load() {

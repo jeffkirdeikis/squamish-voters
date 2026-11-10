@@ -10,7 +10,7 @@ const get = (u, kind = 'json') => once(u, kind).catch(() => new Promise((ok) => 
 export const SIZES = { y2: 1351, y5: 1809, y10: 2129, y20: 2441, y50: 2843, y100: 3137, record: 3140 };
 
 // Water Survey of Canada real time gauge, last 3 days, one point per hour.
-async function gauge() {
+export async function gauge() {
   const since = new Date(Date.now() - 3 * 864e5).toISOString().slice(0, 13) + ':00:00Z';
   // Two ways to ask the same service; the second (newest first) is the one the Today page uses and rarely fails.
   let d = await get(`https://api.weather.gc.ca/collections/hydrometric-realtime/items?f=json&STATION_NUMBER=08GA022&datetime=${since}/..&limit=3000&sortby=DATETIME&properties=DATETIME,LEVEL,DISCHARGE&skipGeometry=true`).catch(() => null);

@@ -15,7 +15,7 @@ const n0 = (x) => Math.round(x).toLocaleString('en-CA');
 const sizeName = (f) => f < SIZES.y2 ? 'under the size the river reaches every second year' : f < SIZES.y5 ? 'between a 1 in 2 and a 1 in 5 year flood'
   : f < SIZES.y10 ? 'between a 1 in 5 and a 1 in 10 year flood' : f < SIZES.y20 ? 'between a 1 in 10 and a 1 in 20 year flood'
   : f < SIZES.y50 ? 'between a 1 in 20 and a 1 in 50 year flood' : f < SIZES.y100 ? 'between a 1 in 50 and a 1 in 100 year flood' : 'bigger than a 1 in 100 year flood';
-const when = (t) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Vancouver', weekday: 'long', hour: 'numeric', minute: '2-digit' }).format(new Date(t));
+const when = (t) => new Intl.DateTimeFormat('en-CA', { timeZone: 'Etc/GMT+7', weekday: 'long', hour: 'numeric', minute: '2-digit' }).format(new Date(t));
 
 export function compare(prev, now) {
   const out = [];

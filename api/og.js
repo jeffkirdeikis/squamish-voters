@@ -11,6 +11,7 @@
 // Starter asks come from _wants.json; residents' asks (r-...) from sv_wants. An unknown or hidden id gets the general picture.
 import { ImageResponse } from '@vercel/og';
 import fs from 'node:fs';
+import { gauge as floodGauge, forecast as floodForecast, notices as floodNotices, SIZES } from './flood.js';
 import { findAsk, answerLabel, results, pctOf, topAsks, meSummary, HOOD_NAMES, SETS, setRows } from './_wants-ask.js';
 
 const font = (f) => fs.readFileSync(new globalThis.URL(`./_fonts/${f}`, import.meta.url));
@@ -170,7 +171,49 @@ function setPicture(set, rows) {
     footer('Say yes, no or don’t mind. Not a scientific poll.', NOTE));
 }
 
+// "The river now" picture for flood stories (?flood=1): river now, most likely peak, could reach, the flood size scale and the
+// province's notice, as of this minute. Shared from the gauge band's Share button as an image file.
+async function floodPicture() {
+  const [g, f, nt] = await Promise.all([floodGauge().catch(() => null), floodForecast().catch(() => null), floodNotices().catch(() => null)]);
+  if (!g && !f) return null;
+  const n0 = (x) => Math.round(x).toLocaleString('en-CA'), S = SIZES;
+  const ahead = f ? f.rows.filter((r) => r[0] >= Date.now()) : [];
+  const pk = ahead.length ? ahead.reduce((a, b) => (b[1] > a[1] ? b : a)) : null;
+  const high = ahead.length ? Math.max(...ahead.map((r) => r[3])) : null;
+  const top = Math.max(3300, (high || 0) * 1.05), W = 1056, X = (v) => Math.min(W, Math.max(0, v / top * W));
+  const lvl = nt?.here?.level || 0, NOTICE = ['No flood notice', 'High Streamflow Advisory', 'Flood Watch', 'Flood Warning'];
+  const when = (t, o) => new Intl.DateTimeFormat('en-CA', { timeZone: 'Etc/GMT+7', ...o }).format(new Date(t)).replace(/\s*([ap])\.?m\.?/i, (m, a) => ` ${a.toLowerCase()}.m.`);
+  const num = (k, v, c, sub) => h('div', { flexDirection: 'column', marginRight: 46 }, h('div', { fontSize: 22, fontWeight: 800, letterSpacing: 2, color: '#a9bccd' }, k), h('div', { fontFamily: 'Serif', fontSize: 96, color: c, lineHeight: 1.05 }, v), h('div', { fontSize: 24, color: '#c9d6e2' }, sub));
+  const zones = [[0, S.y2, '#3f7fb8'], [S.y2, S.y10, '#d9a21b'], [S.y10, S.y50, '#e0623f'], [S.y50, top, '#a3222b']];
+  const tick = (v, l) => h('div', { position: 'absolute', left: X(v) - 90, width: 180, top: -34, justifyContent: 'center', fontSize: 20, color: '#a9bccd' }, l);
+  const mark = (v, c, l) => h('div', { position: 'absolute', left: X(v) - 3, top: -10, width: 6, height: 40, background: c, borderRadius: 3 }, h('div', { position: 'absolute', top: 44, left: -80, width: 166, justifyContent: 'center', fontSize: 22, fontWeight: 800, color: c }, l));
+  return h('div', { width: 1200, height: 630, flexDirection: 'column', background: '#10263a', color: '#f2f6fa', padding: '44px 72px 40px', fontFamily: 'Sans' },
+    h('div', { justifyContent: 'space-between', alignItems: 'center' },
+      h('div', { fontFamily: 'Serif', fontSize: 40 }, 'Squamish River right now'),
+      h('div', { fontSize: 26, fontWeight: 800, padding: '8px 20px', borderRadius: 30, background: lvl >= 3 ? '#e5484d' : lvl ? '#f0b429' : '#3a4f63', color: lvl >= 3 || !lvl ? '#fff' : '#2b1d00' }, NOTICE[lvl])),
+    h('div', { marginTop: 26 },
+      num('RIVER NOW', g ? n0(g.flow) : '?', '#ffffff', g ? `Read ${when(g.t, { weekday: 'short', hour: 'numeric', minute: '2-digit' })}` : ''),
+      num('MOST LIKELY PEAK', pk ? n0(pk[1]) : '?', '#ff8b78', pk ? when(pk[0], { weekday: 'long', hour: 'numeric' }) : ''),
+      high ? num('COULD REACH', n0(high), '#ffb4a6', high >= S.y50 * 0.95 && high < S.y50 ? 'just under a 1 in 50 year flood' : 'top of the range') : null),
+    h('div', { position: 'relative', width: W, height: 20, marginTop: 70, borderRadius: 10, overflow: 'visible' },
+      ...zones.map(([a, b, c]) => h('div', { position: 'absolute', left: X(a), width: X(b) - X(a), top: 0, height: 20, background: c })),
+      tick(S.y2, 'Every 2 years'), tick(S.y10, '1 in 10'), tick(S.y20, '1 in 20'), tick(S.y50, '1 in 50'),
+      high && f ? h('div', { position: 'absolute', left: X(f.rows.length ? Math.max(...ahead.map((r) => r[2])) : 0), width: X(high) - X(Math.max(...ahead.map((r) => r[2]))), top: 84, height: 14, borderLeft: '3px solid #ff8b78', borderRight: '3px solid #ff8b78', borderBottom: '3px solid #ff8b78' }) : null,
+      high && f ? h('div', { position: 'absolute', left: X(Math.max(...ahead.map((r) => r[2]))), width: X(high) - X(Math.max(...ahead.map((r) => r[2]))), top: 106, justifyContent: 'center', fontSize: 22, color: '#ffb4a6' }, `Possible range ${n0(Math.round(Math.max(...ahead.map((r) => r[2])) / 10) * 10)} to ${n0(high)}`) : null,
+      g ? mark(g.flow, '#ffffff', 'Now') : null, pk ? mark(pk[1], '#ff8b78', 'Most likely') : null),
+    h('div', { marginTop: 'auto', justifyContent: 'space-between', fontSize: 22, color: '#a9bccd' },
+      h('div', {}, 'Cubic metres per second at the gauge near Brackendale. BC River Forecast Centre, Water Survey of Canada.'),
+      h('div', { fontWeight: 800, color: '#fff' }, 'squamishvoters.com')));
+}
+
 export default async function handler(req, res) {
+  if (req.query.flood) {
+    const el = await floodPicture();
+    if (!el) return res.status(503).send('river data unavailable');
+    const img = new ImageResponse(el, { width: 1200, height: 630, fonts: FONTS });
+    res.setHeader('Content-Type', 'image/png'); res.setHeader('Cache-Control', 'public, max-age=120, s-maxage=300');
+    return res.send(Buffer.from(await img.arrayBuffer()));
+  }
   const id = String(req.query.id || '').replace(/\/$/, ''), said = String(req.query.said || '');
   let el = null;
   if (req.query.set && SETS[req.query.set]) { const rows = await setRows(req.query.set).catch(() => []); if (rows.length) el = setPicture(SETS[req.query.set], rows); }

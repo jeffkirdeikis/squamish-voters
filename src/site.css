@@ -2690,3 +2690,7 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .rp-strip img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; }
 .rp-strip figcaption { font-size: .8rem; color: var(--ink-2); }
 .tip-form { min-width: 0; } .tip-form > * { min-width: 0; } .tip-form input[type=file] { max-width: 100%; width: 100%; }
+.fl-share-row { margin: 0; display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.fl-share { font: 700 .9rem system-ui, sans-serif; padding: .6rem 1rem; min-height: 44px; border-radius: 99px; border: 0; background: #f0b429; color: #2b1d00; cursor: pointer; }
+.fl-share:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+.fl-share-msg { font-size: .85rem; color: #c9d6e2; }
