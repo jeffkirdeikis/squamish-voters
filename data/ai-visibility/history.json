@@ -28,5 +28,29 @@
       "input_tokens": 0,
       "output_tokens": 0
     }
+  },
+  {
+    "date": "2026-11-09",
+    "model": "claude-opus-5-5",
+    "asked": 23,
+    "answered": 23,
+    "searched": 23,
+    "cited": 0,
+    "named": 2,
+    "found": 5,
+    "top_cited": [
+      {
+        "site": "squamish.civicweb.net",
+        "n": 2
+      },
+      {
+        "site": "cbc.ca",
+        "n": 1
+      }
+    ],
+    "tokens": {
+      "input_tokens": 941764,
+      "output_tokens": 34221
+    }
   }
 ]
