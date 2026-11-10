@@ -60,8 +60,16 @@
       ${chart(d)}`;
   }
 
+  const good = {};
   async function load() {
-    try { const r = await fetch('/api/flood/', { cache: 'no-store' }); if (!r.ok) throw new Error(r.status); render(await r.json()); }
+    try {
+      const r = await fetch('/api/flood/', { cache: 'no-store' }); if (!r.ok) throw new Error(r.status);
+      const d = await r.json();
+      // Keep the last good reading of any source that failed this time, and try again soon.
+      for (const k of ['gauge', 'forecast', 'notices', 'slrd']) { if (d[k]) good[k] = d[k]; else if (good[k]) d[k] = good[k]; }
+      render(d);
+      if (!d.gauge || !d.forecast) setTimeout(load, 40 * 1000);
+    }
     catch (e) { if (!box.dataset.loaded) box.innerHTML = '<div class="fl-head"><h2>Live: river, forecast and alerts</h2><p>The live numbers did not load. Try refreshing in a minute.</p></div>'; }
     box.dataset.loaded = '1';
   }

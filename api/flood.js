@@ -3,7 +3,7 @@
 // Every source is free public data. One that fails comes back null and the page says so; nothing here is fatal.
 //   GET -> { at, gauge, forecast, notices, slrd }
 const UA = { 'User-Agent': 'squamishvoters.com (flood panel)' };
-const once = (u, kind) => fetch(u, { headers: UA, signal: AbortSignal.timeout(8000) }).then((r) => { if (!r.ok) throw new Error(`${r.status} ${u}`); return kind === 'json' ? r.json() : r.text(); });
+const once = (u, kind) => fetch(u, { headers: UA, signal: AbortSignal.timeout(15000) }).then((r) => { if (!r.ok) throw new Error(`${r.status} ${u}`); return kind === 'json' ? r.json() : r.text(); });
 const get = (u, kind = 'json') => once(u, kind).catch(() => new Promise((ok) => setTimeout(ok, 1000)).then(() => once(u, kind)));
 
 // Flood sizes the BC River Forecast Centre uses for the Squamish River near Brackendale (08GA022), cubic metres per second.
@@ -12,8 +12,10 @@ export const SIZES = { y2: 1351, y5: 1809, y10: 2129, y20: 2441, y50: 2843, y100
 // Water Survey of Canada real time gauge, last 3 days, one point per hour.
 async function gauge() {
   const since = new Date(Date.now() - 3 * 864e5).toISOString().slice(0, 13) + ':00:00Z';
-  const d = await get(`https://api.weather.gc.ca/collections/hydrometric-realtime/items?f=json&STATION_NUMBER=08GA022&datetime=${since}/..&limit=3000&sortby=DATETIME&properties=DATETIME,LEVEL,DISCHARGE&skipGeometry=true`);
-  const pts = (d.features || []).map((f) => f.properties).filter((p) => p.DISCHARGE != null);
+  // Two ways to ask the same service; the second (newest first) is the one the Today page uses and rarely fails.
+  let d = await get(`https://api.weather.gc.ca/collections/hydrometric-realtime/items?f=json&STATION_NUMBER=08GA022&datetime=${since}/..&limit=3000&sortby=DATETIME&properties=DATETIME,LEVEL,DISCHARGE&skipGeometry=true`).catch(() => null);
+  if (!d?.features?.length) d = await get('https://api.weather.gc.ca/collections/hydrometric-realtime/items?f=json&STATION_NUMBER=08GA022&sortby=-DATETIME&limit=900&properties=DATETIME,LEVEL,DISCHARGE&skipGeometry=true');
+  const pts = (d.features || []).map((f) => f.properties).filter((p) => p.DISCHARGE != null).sort((a, b) => Date.parse(a.DATETIME) - Date.parse(b.DATETIME));
   if (!pts.length) return null;
   const hourly = new Map();
   for (const p of pts) hourly.set(Math.floor(Date.parse(p.DATETIME) / 36e5), [Date.parse(p.DATETIME), Math.round(p.DISCHARGE)]);
@@ -81,6 +83,8 @@ export default async function handler(req, res) {
   const parts = { gauge, forecast, notices, slrd };
   const out = { at: new Date().toISOString(), sizes: SIZES };
   await Promise.all(Object.entries(parts).map(async ([k, fn]) => { out[k] = await fn().catch((e) => { console.error(k, e.message); return null; }); }));
-  res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=300, stale-while-revalidate=600');
+  // A reply with a missing source is cached for only 30 seconds, so one slow answer does not blank the panel for minutes.
+  const whole = Object.keys(parts).every((k) => out[k]);
+  res.setHeader('Cache-Control', whole ? 'public, max-age=60, s-maxage=300, stale-while-revalidate=600' : 'public, max-age=15, s-maxage=30');
   res.json(out);
 }
