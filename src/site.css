@@ -2536,3 +2536,7 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 @media (max-width: 899px) { .hdr-off .td-strip { top: 0; } }
 @media (prefers-reduced-motion: reduce) { .td-strip { transition: none; } }
 
+
+/* News charts: shown whole, never cropped like photos, with a thin frame. */
+.nw-full .nw-photo.nw-chart img, .nw-photo.nw-chart img { aspect-ratio: 3 / 2; object-fit: contain; background: #fff; border: 1px solid var(--line, #d9dfdc); }
+.nw-photo.nw-chart a { display: block; }
