@@ -24,6 +24,7 @@
   const inHours = (t) => { const h = Math.round((t - Date.now()) / 36e5); return h <= 1 ? 'within the hour' : `in about ${h} hours`; };
   const NOTICE = ['No flood notice', 'High Streamflow Advisory', 'Flood Watch', 'Flood Warning'];
 
+  let scale = null, pick = null; // pick = the forecast hour the reader dragged to (kept across five minute refreshes)
   function chart(d) {
     const g = d.gauge, f = d.forecast, S = d.sizes;
     if (!g && !f) return '';
@@ -33,6 +34,7 @@
     const top = Math.max(3300, ...fc.map((r) => r[3]), ...obs.map((p) => p[1])) * 1.03;
     const W = 640, H = 230, L = 44, R = 8, T = 8, B = 22;
     const X = (t) => L + (t - x0) / (x1 - x0) * (W - L - R), Y = (v) => H - B - v / top * (H - T - B);
+    scale = { X, Y, fc };
     const P = (a) => a.map((p, i) => `${i ? 'L' : 'M'}${X(p[0]).toFixed(1)} ${Y(p[1]).toFixed(1)}`).join('');
     let s = '';
     for (const v of [0, 1000, 2000, 3000]) s += `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" class="fl-grid"/><text x="${L - 6}" y="${Y(v) + 4}" text-anchor="end">${n0(v)}</text>`;
@@ -41,6 +43,7 @@
     for (; t < x1; t += 864e5, i++) if (i % 2 === 0) s += `<text x="${X(t)}" y="${H - 6}" text-anchor="middle">${fmt(t, { weekday: 'short', day: 'numeric' })}</text>`;
     if (fc.length) s += `<path d="${P(fc.map((r) => [r[0], r[3]]))}${P(fc.map((r) => [r[0], r[2]]).reverse()).replace('M', 'L')}Z" class="fl-band"/><path d="${P([...(last ? [last] : []), ...fc.map((r) => [r[0], r[1]])])}" class="fl-fc"/>`;
     if (obs.length) s += `<path d="${P(obs)}" class="fl-obs"/><circle cx="${X(last[0])}" cy="${Y(last[1])}" r="4.5" class="fl-dot"/><line x1="${X(last[0])}" x2="${X(last[0])}" y1="${T}" y2="${H - B}" class="fl-now"/>`;
+    if (fc.length) s += `<g class="fl-cur" data-cur><line x1="0" x2="0" y1="${T}" y2="${H - B}"/><circle r="6" cx="0" cy="0"/></g>`;
     return `<figure class="fl-chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Squamish River flow: measured for the last three days and the province's newest forecast">${s}</svg><figcaption><span class="k obs"></span>Measured <span class="k fc"></span>Newest forecast <span class="k band"></span>Possible range. Cubic metres per second at the gauge near Brackendale.</figcaption></figure>`;
   }
 
@@ -60,7 +63,29 @@
         <div class="fl-tile lv${lvl}"><span class="k">Province's flood notice</span><b class="fl-word">${nt ? NOTICE[lvl] : '?'}</b><span>${nt?.here ? `Issued ${esc(nt.here.issued)}. <a href="${esc(nt.here.url)}" target="_blank" rel="noopener">Read it</a>` : nt ? `<a href="${esc(nt.page)}" target="_blank" rel="noopener">Notice page</a>` : 'Could not reach the province.'}</span></div>
         <div class="fl-tile${sl?.active ? ' lv3' : ''}"><span class="k">Evacuation alerts, regional district</span><b class="fl-word">${sl ? (sl.active ? 'Active' : 'None found') : 'Check unavailable'}</b><span>${sl ? (sl.active ? `${sl.items.map(esc).join('. ')} <a href="${esc(sl.page)}" target="_blank" rel="noopener">Details</a>` : `In our last check of the regional district's list (Upper Squamish Valley, upper Paradise Valley). Our check can miss things: <a href="${esc(sl.page)}" target="_blank" rel="noopener">confirm here</a>.`) : `We could not reach the regional district. <a href="https://www.slrd.bc.ca/emergency-program/evacuation-alerts-orders" target="_blank" rel="noopener">Check its list</a>.`} For town, check <a href="https://squamish.ca/alert" target="_blank" rel="noopener">Squamish Alert</a>.</span></div>
       </div>
-      ${chart(d)}`;
+      ${chart(d)}${scale && scale.fc.length > 1 ? `<div class="fl-scrub"><label for="fl-scrub-r">Drag through the forecast</label><input id="fl-scrub-r" type="range" min="0" max="${scale.fc.length - 1}" step="1"><p class="fl-scrub-out" aria-live="polite"></p></div>` : ''}`;
+    scrub(d);
+  }
+
+  // "Wednesday November 11, 6 a.m.", with noon and midnight in words.
+  const stamp = (t) => { const h = +fmt(t, { hour: 'numeric', hourCycle: 'h23' }); return `${fmt(t, { weekday: 'long', month: 'long', day: 'numeric' }).replace(',', '')}, ${h === 0 ? 'midnight' : h === 12 ? 'noon' : `${h % 12} ${h < 12 ? 'a.m.' : 'p.m.'}`}`; };
+  // The slider under the chart: pick any forecast hour, see the flow, its flood size and which way the river is going.
+  function scrub(d) {
+    const r = box.querySelector('#fl-scrub-r'); if (!r) return;
+    const fc = scale.fc, S = d.sizes, cur = box.querySelector('[data-cur]'), out = box.querySelector('.fl-scrub-out');
+    const peakI = fc.reduce((a, x, i) => (x[1] > fc[a][1] ? i : a), 0);
+    let i = pick == null ? peakI : fc.findIndex((x) => x[0] >= pick); if (i < 0) i = peakI;
+    r.value = i;
+    const show = () => {
+      const k = +r.value, row = fc[k]; pick = row[0];
+      cur.setAttribute('transform', `translate(${scale.X(row[0]).toFixed(1)},0)`); cur.querySelector('circle').setAttribute('cy', scale.Y(row[1]).toFixed(1));
+      const prev = fc[Math.max(0, k - 3)][1], dir = (row[1] - prev) / Math.min(3, Math.max(1, k));
+      const peak = fc[peakI][1];
+      const how = k === peakI ? 'the forecast peak' : row[1] >= peak * 0.96 ? 'close to the peak' : Math.abs(dir) < Math.max(3, row[1] * 0.005) ? 'about steady' : dir > 0 ? `rising about ${n0(dir)} an hour` : `falling about ${n0(-dir)} an hour`;
+      const big = row[1] >= S.y10 ? ' hot' : row[1] >= S.y2 ? ' warm' : '';
+      out.innerHTML = `<b>${esc(stamp(row[0]))}</b> <span class="fl-scrub-n${big}">${n0(row[1])}</span> ${esc(how)}, ${esc(sizeName(row[1], S))}. Possible range ${n0(row[2])} to ${n0(row[3])}.`;
+    };
+    r.addEventListener('input', show); show();
   }
 
 
