@@ -1828,13 +1828,13 @@ if (TRACKED.length) {
       jsonld: [crumbLd([['Home', '/'], ['News', '/news/'], [st.head, nUrl(st)]]), { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: st.head, datePublished: st.date, inLanguage: 'en-CA', image: ogUrl(st), dateModified: st.updated || st.date, description: st.dek.replace(/<[^>]+>/g, ''), mainEntityOfPage: `${ORIGIN}${nUrl(st)}`, articleSection: SEC[st.s] || undefined, author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/`, sameAs: ['https://jeffkirdeikis.com'] }, publisher: { '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/`, logo: { '@type': 'ImageObject', url: `${ORIGIN}/icon-512.png` } }, isBasedOn: st.src[1] }],
       body: `<div class="nw nw-story-page">
   <p class="crumbs"><a href="/news/">← All news</a></p>
-  <article class="nw-full nw-art" data-s="${st.s}">${body}${fullBodyHtml(st)}<div class="nw-foot">${source(st)}${shareBtn(st)}</div></article>
+  <article class="nw-full nw-art" data-s="${st.s}">${body}${st.live === 'flood' ? `<section class="fl-live" data-flood-live data-issued="${esc(st.live_issued || '')}" aria-live="polite"><div class="fl-head"><h2>Live: river, forecast and alerts</h2><p>Loading the newest readings…</p></div></section>` : ''}${fullBodyHtml(st)}<div class="nw-foot">${source(st)}${shareBtn(st)}</div></article>
   ${pollHtml(st)}
   <section class="nw-next"><h2 class="nw-sechead">More news</h2><ul>${others.map((o) => `<li data-s="${o.s}"><span>${esc(SEC[o.s])}</span><a href="${nUrl(o)}">${esc(o.head)}</a></li>`).join('')}</ul>
   <p class="nw-more"><a href="/news/">All news →</a> · <a href="/meetings/">What council decided →</a></p></section>
   ${signupBox('news-story')}
 </div>`,
-      scripts: st.poll ? '<script src="/news.js"></script><script src="/botid.js" defer></script><script src="/poll.js" defer></script>' : '<script src="/news.js"></script>',
+      scripts: (st.poll ? '<script src="/news.js"></script><script src="/botid.js" defer></script><script src="/poll.js" defer></script>' : '<script src="/news.js"></script>') + (st.live === 'flood' ? '<script src="/flood-live.js" defer></script>' : ''),
     }));
   });
 }
@@ -2672,7 +2672,7 @@ write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can�
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js', 'since.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js', 'since.js', 'flood-live.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.writeFileSync(path.join(DIST, 'botid.js'), `(function(){${BOTID_JS}})();`);
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 

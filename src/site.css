@@ -2540,3 +2540,33 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 /* News charts: shown whole, never cropped like photos, with a thin frame. */
 .nw-full .nw-photo.nw-chart img, .nw-photo.nw-chart img { aspect-ratio: 3 / 2; object-fit: contain; background: #fff; border: 1px solid var(--line, #d9dfdc); }
 .nw-photo.nw-chart a { display: block; }
+
+/* Live flood panel on flood stories (src/flood-live.js, api/flood.js). */
+.fl-live { margin: 1.2rem 0 .4rem; padding: 1rem 1.05rem; background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--brand); border-radius: var(--radius); box-shadow: var(--shadow); display: grid; gap: .8rem; min-width: 0; }
+.fl-head h2 { margin: 0; font-size: 1.15rem; }
+.fl-head p { margin: .15rem 0 0; font-size: .85rem; color: var(--muted); }
+.fl-flag { margin: 0; padding: .6rem .8rem; border-radius: 10px; background: var(--warn-bg); color: var(--warn-ink); font-size: .92rem; }
+.fl-flag.ok { background: var(--yes-bg); color: var(--yes); }
+.fl-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
+.fl-tile { display: grid; gap: .15rem; align-content: start; padding: .65rem .75rem; background: var(--surface-2); border-radius: 10px; border-left: 4px solid var(--neutral); min-width: 0; font-size: .85rem; color: var(--ink-2); }
+.fl-tile .k { font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.fl-tile b { font-size: 1.6rem; line-height: 1.1; color: var(--ink); font-variant-numeric: tabular-nums; }
+.fl-tile b.fl-word { font-size: 1.1rem; }
+.fl-tile.lv1, .fl-tile.lv2 { border-left-color: #d08a00; }
+.fl-tile.lv3 { border-left-color: var(--no); }
+.fl-chart { margin: 0; }
+.fl-chart svg { width: 100%; height: auto; display: block; }
+.fl-chart text { font-size: 11px; fill: var(--muted); }
+.fl-chart .fl-grid { stroke: var(--line); stroke-width: 1; }
+.fl-chart .fl-size { stroke: #c27800; stroke-width: 1.2; stroke-dasharray: 2 4; }
+.fl-chart .fl-sizet { fill: #a15f00; font-weight: 700; }
+.fl-chart .fl-band { fill: rgba(42, 120, 214, .16); }
+.fl-chart .fl-fc { fill: none; stroke: #c23a2b; stroke-width: 2.4; stroke-dasharray: 6 4; }
+.fl-chart .fl-obs { fill: none; stroke: var(--series-1); stroke-width: 2.8; stroke-linejoin: round; }
+.fl-chart .fl-dot { fill: var(--series-1); stroke: var(--surface); stroke-width: 2; }
+.fl-chart .fl-now { stroke: var(--muted); stroke-dasharray: 3 3; }
+.fl-chart figcaption { font-size: .78rem; color: var(--muted); margin-top: .25rem; }
+.fl-chart .k { display: inline-block; width: 16px; height: 0; border-top: 3px solid var(--series-1); vertical-align: middle; margin: 0 .3rem 0 .6rem; }
+.fl-chart .k:first-child { margin-left: 0; }
+.fl-chart .k.fc { border-top: 3px dashed #c23a2b; }
+.fl-chart .k.band { height: 9px; border: 0; background: rgba(42, 120, 214, .16); }
