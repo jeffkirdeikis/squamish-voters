@@ -4,6 +4,9 @@
   if (!f) return;
   const file = f.querySelector('input[type=file]'), prev = f.querySelector('[data-tip-preview]'), msg = f.querySelector('[data-tip-msg]'), btn = f.querySelector('button');
   let image = '';
+  // /tip/?about=flood starts the note for a high water photo, so readers say where and when it was taken.
+  const about = new URLSearchParams(location.search).get('about');
+  if (about === 'flood' && !f.elements.text.value) f.elements.text.value = 'High water photo. Where: \nWhen (day and time): ';
   const shrink = (blob) => new Promise((ok, no) => {
     const img = new Image();
     img.onload = () => {

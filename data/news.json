@@ -314,7 +314,8 @@
    ],
    "rain_from": "2026-11-10T00:00:00-07:00",
    "rain_to": "2026-11-14T00:00:00-07:00",
-   "map_before": "Who is most exposed"
+   "map_before": "Who is most exposed",
+   "photos_before": "What these flows did last time"
   },
   {
    "slug": "nov-10-closed-meeting-cancelled",

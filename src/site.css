@@ -2680,3 +2680,13 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .fm-note { display: block; margin-top: .3rem; color: var(--muted); line-height: 1.5; }
 .fm-label { font: 700 12px system-ui, sans-serif; color: #14211c; background: rgba(255,255,255,.85); padding: 2px 6px; border-radius: 4px; white-space: nowrap; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
 .fm-fail { padding: 1rem; margin: 0; }
+
+/* Reader high water photos on flood stories. */
+.rp { margin: 1.3rem 0; padding: 1rem 1.05rem; border-radius: var(--radius); background: var(--surface-2); display: grid; gap: .5rem; }
+.rp h3 { margin: 0; font-size: 1.1rem; }
+.rp p { margin: 0; }
+.rp-strip { display: flex; gap: .7rem; overflow-x: auto; padding-bottom: .3rem; }
+.rp-strip figure { flex: none; width: min(16rem, 75vw); margin: 0; }
+.rp-strip img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; }
+.rp-strip figcaption { font-size: .8rem; color: var(--ink-2); }
+.tip-form { min-width: 0; } .tip-form > * { min-width: 0; } .tip-form input[type=file] { max-width: 100%; width: 100%; }
