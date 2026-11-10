@@ -298,12 +298,24 @@ const SITE_PAGES = (() => {
   return [...members, ...meets, ...issues, '/scorecard/ every promise and campaign position checked against votes', '/have-your-say/ residents vote on the questions before council does', '/how-council-works/ plain guide to council', '/today/ weather, Highway 99, river and air right now', '/neighbourhoods/ news and projects by neighbourhood'].join('\n');
 })();
 
+// One story per event: every draft sees what we ran in the last 5 days (plus this pass's drafts), so a second
+// warning for the same storm, a nearby forecast zone or a repeat notice is skipped (Nov 9 2026: three rain stories in one day).
+const draftedHeads = [];
+function alreadyRan() {
+  const since = new Date(Date.now() - 5 * 864e5).toISOString().slice(0, 10);
+  let ours = [];
+  try { ours = (readJson(NEWS_FILE).stories || []).filter((s) => s.date >= since).map((s) => `- ${s.date}: ${s.head}. ${String(s.dek || '').slice(0, 200)}`); } catch { /* no list */ }
+  ours.push(...draftedHeads.map((h) => `- ${today()}: ${h}`));
+  if (!ours.length) return '';
+  return `ONE STORY PER EVENT. Skip this item (publish=false, reason "already covered") if one of our stories below already covers the same event: the same storm, weather system, outage, closure, meeting or announcement. That includes a second warning for the same weather (rain then more rain, a nearby zone such as Whistler or the Sea to Sky, an updated or extended warning) and a repeat or reminder of the same notice. Only write a new story when this item is a clearly different event, or the situation has changed in a major way residents must act on (an evacuation, a highway closure, a flood).\n\nSTORIES WE ALREADY RAN:\n${ours.join('\n')}\n\n`;
+}
+
 async function draft(item) {
   let text = item.text;
   if (!text || text.length < 200) { try { text = await pageText(item.url); } catch (e) { log('page text failed', item.url, e.message); } }
   const d = await claudeJson({
     system: SYSTEM, schema: SCHEMA, effort: 'medium', maxTokens: 8000,
-    content: `${item.preface || ''}SITE PAGES (ours, to link to):\n${SITE_PAGES}\n\nToday is ${today()}.\nSource: ${item.label}\nURL: ${item.url}\nPublished: ${item.date}\nTitle: ${item.title}\n\n${(text || '').slice(0, 9000)}`,
+    content: `${item.preface || ''}${alreadyRan()}SITE PAGES (ours, to link to):\n${SITE_PAGES}\n\nToday is ${today()}.\nSource: ${item.label}\nURL: ${item.url}\nPublished: ${item.date}\nTitle: ${item.title}\n\n${(text || '').slice(0, 9000)}`,
   });
   for (const k of ['head', 'dek', 'take', 'visual_big', 'visual_small']) d[k] = clean(d[k]);
   if (d.social) d.social = String(d.social).replace(/\s*[—–]\s*/g, ', ').trim().slice(0, 600);
@@ -500,6 +512,7 @@ for (const i of fresh) {
     await sql`INSERT INTO sv_news (id, source, source_url, title, status, token, item, draft, decided_at) VALUES (${id}, ${i.source}, ${i.url}, ${i.title}, ${status}, ${token}, ${JSON.stringify(i)}, ${JSON.stringify(d)}, ${auto ? new Date().toISOString() : null})
       ON CONFLICT (id) DO UPDATE SET status = EXCLUDED.status, token = EXCLUDED.token, draft = EXCLUDED.draft, decided_at = EXCLUDED.decided_at`;
     drafted.push({ id, token, item: i, draft: d });
+    draftedHeads.push(`${d.head}. ${String(d.dek || '').slice(0, 200)}`);
     log('drafted:', d.head);
   } catch (e) { log('draft failed:', i.title, e.message); failures.push({ i, msg: String(e.message || e).slice(0, 400) }); }
 }
