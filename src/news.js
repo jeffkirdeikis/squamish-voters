@@ -112,7 +112,64 @@
   chips.forEach(function (c) { c.addEventListener('click', function () { show(c.getAttribute('data-i'), true); }); });
   var saved = null; try { saved = localStorage.getItem(KEY); } catch (e) {}
   var start = -1; chips.forEach(function (c, i) { if (c.textContent === saved) start = i; });
-  show(start, false);
+  // A link ending #area-brackendale opens that area's card (each card's Share button makes one).
+  function fromHash() {
+    var m = /^#area-(.+)$/.exec(location.hash); if (!m) return false;
+    var hit = -1; outs.forEach(function (o, i) { if (o.getAttribute('data-area') === m[1]) hit = i; });
+    if (hit < 0) return false;
+    show(hit, true); box.scrollIntoView({ block: 'start' }); return true;
+  }
+  if (!fromHash()) show(start, false);
+  window.addEventListener('hashchange', fromHash);
+})();
+
+// Share bar (.sv-share): the phone's share sheet (with the river picture when the flood script has made one), a ready
+// made text message, WhatsApp, Facebook and Copy link. Area cards share a link that opens that area's card.
+(function () {
+  function say(el, html) { if (el) el.innerHTML = html; }
+  function copy(url, msg) {
+    var ok = function () { say(msg, 'Link copied. Paste it into a text, Facebook or an email.'); };
+    var manual = function () { say(msg, 'Copy this link: <input class="sv-sh-url" readonly value="' + url.replace(/"/g, '&quot;') + '">'); var i = msg.querySelector('input'); if (i) { i.focus(); i.select(); } };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(ok, manual); else manual();
+  }
+  function share(title, text, url, msg, withPic) {
+    var file = withPic && window.svShareFile;
+    var data = file && navigator.canShare && navigator.canShare({ files: [file] }) ? { files: [file], title: title, text: text + ' ' + url } : { title: title, text: text, url: url };
+    if (navigator.share) { navigator.share(data).catch(function (err) { if (!err || err.name !== 'AbortError') copy(url, msg); }); return; }
+    copy(url, msg);
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-sh]'); var bar = b && b.closest('[data-share-bar]');
+    if (bar) {
+      var msg = bar.querySelector('.sv-sh-msg'), url = bar.getAttribute('data-url'), text = bar.getAttribute('data-text') || '', title = bar.getAttribute('data-title') || '';
+      var k = b.getAttribute('data-sh');
+      if (k === 'share') { e.preventDefault(); share(title, text, url, msg, true); }
+      else if (k === 'copy') { e.preventDefault(); copy(url, msg); }
+      if (window.va) try { window.va('event', { name: 'share', data: { how: k } }); } catch (x) {}
+      return;
+    }
+    var a = e.target.closest && e.target.closest('[data-area-share]'); if (!a) return;
+    var card = a.closest('[data-area]'), m = card.querySelector('.fl-me-msg');
+    var link = location.origin + location.pathname + '#area-' + card.getAttribute('data-area');
+    var head = card.querySelector('.fl-me-head'), line = head ? head.textContent.replace(/\s+/g, ' ').trim() : '';
+    var text = 'Squamish River flood, ' + line + ' What to do and live river numbers:';
+    if (a.getAttribute('data-area-share') === 'sms') { location.href = 'sms:?&body=' + encodeURIComponent(text + ' ' + link); return; }
+    share(document.title, text, link, m, false);
+  });
+})();
+
+// Story tiles with a deadline (data-until): once it passes, the tile shows what still applies.
+(function () {
+  function swap() {
+    document.querySelectorAll('.nw-tile[data-until]').forEach(function (t) {
+      if (Date.now() < Date.parse(t.getAttribute('data-until'))) return;
+      t.querySelector('small').textContent = t.getAttribute('data-after-k');
+      t.querySelector('b').textContent = t.getAttribute('data-after-v');
+      t.className = 'nw-tile' + (t.getAttribute('data-after-level') ? ' lv-' + t.getAttribute('data-after-level') : '');
+      t.removeAttribute('data-until');
+    });
+  }
+  swap(); setInterval(swap, 60000);
 })();
 
 // Folded story sections (details.nw-fsec / .nw-fold): a jump link or a #link straight to one opens it first.

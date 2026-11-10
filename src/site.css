@@ -2738,9 +2738,9 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .nw-rv-bar s { position: absolute; top: -.25rem; bottom: -.25rem; width: 2px; background: #1c5cab; text-decoration: none; }
 .nw-rv-pct { font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
 .nw-rv-say { grid-column: 2 / -1; font-size: .82rem; color: var(--muted); line-height: 1.35; }
-.nw-note { margin: 1rem 0; padding: .75rem .9rem; border: 1px dashed var(--line); border-radius: 10px; font-size: .88rem; color: var(--ink-2); }
-.nw-note p { margin: 0 0 .45rem; } .nw-note p:last-child { margin: 0; }
-.nw-note .nw-note-k { font: 700 .72rem system-ui, sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.nw-aside { margin: 1rem 0; padding: .75rem .9rem; border: 1px dashed var(--line); border-radius: 10px; font-size: .88rem; color: var(--ink-2); }
+.nw-aside p { margin: 0 0 .45rem; } .nw-aside p:last-child { margin: 0; }
+.nw-aside .nw-aside-k { font: 700 .72rem system-ui, sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
 .nw-fold, .nw-fsec { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: .8rem 0; }
 .nw-fold + .nw-fold, .nw-fsec + .nw-fsec { margin-top: -.8rem; border-top: 0; }
 .nw-fold summary, .nw-fsec summary { cursor: pointer; list-style: none; padding: .75rem 2rem .75rem 0; position: relative; display: grid; gap: .2rem; }
@@ -2753,3 +2753,50 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .nw-fold summary:focus-visible, .nw-fsec summary:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
 .nw-fold-in { padding-bottom: .4rem; }
 @media print { .nw-fold > .nw-fold-in, .nw-fsec > .nw-fold-in { display: block; } }
+
+/* Flood story: status strip under the headline (src/flood-live.js renderStatus). */
+.fl-status { margin: .6rem 0 .2rem; padding: .8rem .95rem; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); display: grid; gap: .55rem; min-width: 0; }
+.nw-art > .fl-status, .nw-art > .fl-hero-chart, .nw-art > .sv-share { grid-column: 1 / -1; }
+.fl-status-wait { margin: 0; color: var(--muted); font-size: .92rem; min-height: 3rem; }
+.fl-st-row { display: flex; flex-wrap: wrap; gap: .3rem .6rem; align-items: center; font-size: .93rem; line-height: 1.4; }
+.fl-st-b { font: 700 .78rem/1 system-ui, sans-serif; padding: .4rem .6rem; border-radius: 99px; background: var(--surface-2); color: var(--ink); white-space: nowrap; }
+.fl-st-b.lv1 { background: #e3edfa; color: #1c4f8f; } .fl-st-b.lv2 { background: #f6c34a; color: #3a2700; } .fl-st-b.lv3 { background: var(--no); color: #fff; } .fl-st-b.ok { background: var(--yes-bg); color: var(--yes); }
+.fl-st-clock { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .4rem; }
+@media (max-width: 560px) { .fl-st-clock div { padding: .45rem .5rem; } .fl-st-clock b { font-size: 1rem; } .fl-st-clock small { font-size: .6rem; letter-spacing: .03em; } .fl-st-clock span { font-size: .74rem; } }
+.fl-st-clock div { background: var(--surface-2); border-radius: 10px; padding: .5rem .65rem; display: grid; gap: .05rem; }
+.fl-st-clock small { font: 700 .66rem/1.2 system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.fl-st-clock b { font: 800 1.15rem/1.2 system-ui, sans-serif; font-variant-numeric: tabular-nums; }
+.fl-st-clock span { font-size: .8rem; color: var(--ink-2); }
+.fl-st-note { margin: 0; font-size: .82rem; color: var(--muted); }
+
+/* Flood story: the big live chart (src/flood-live.js renderChart). */
+.fl-hero-chart { margin: .9rem 0; padding: .9rem .9rem .8rem; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); display: grid; gap: .6rem; min-width: 0; }
+.fl-hc-h { margin: 0; font-size: 1.15rem; }
+.fl-hero-chart .fl-chart svg { width: 100%; height: auto; max-width: 100%; }
+.fl-hero-chart .fl-chart text { font-size: 13px; fill: var(--ink-2); }
+.fl-hero-chart .fl-chart .fl-sizet { font-size: 12.5px; fill: #8a4b00; font-weight: 700; }
+.fl-chart .fl-zone.z1 { fill: #fbe9b0; opacity: .45; } .fl-chart .fl-zone.z2 { fill: #f6b38f; opacity: .38; } .fl-chart .fl-zone.z3 { fill: #e98583; opacity: .32; }
+.fl-chart .fl-nowt { font-weight: 700; fill: var(--series-1) !important; }
+.fl-chart .fl-pkt { font-weight: 800; fill: #b0281b !important; font-size: 13.5px !important; }
+.fl-chart figcaption .k.zone { background: linear-gradient(90deg, #fbe9b0, #f6b38f, #e98583); }
+.fl-hero-chart .fl-scrub-out { font-size: 1rem; }
+
+/* Share bar (src/news.js). */
+.sv-share { display: flex; flex-wrap: wrap; gap: .45rem; align-items: center; margin: .7rem 0; }
+.sv-sh { display: inline-flex; align-items: center; gap: .35rem; font: 600 .9rem/1 system-ui, sans-serif; min-height: 44px; padding: 0 .95rem; border-radius: 99px; border: 1.5px solid var(--line); background: var(--surface); color: var(--ink); text-decoration: none; cursor: pointer; }
+.sv-sh:hover { background: var(--surface-2); }
+.sv-sh.main { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
+.sv-sh svg { width: 18px; height: 18px; }
+.sv-sh:focus-visible, .fl-me-share button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.sv-sh-msg { flex-basis: 100%; font-size: .88rem; color: var(--yes); min-height: 0; }
+.sv-sh-msg:empty { display: none; }
+.sv-sh-url { width: 100%; max-width: 32rem; font: inherit; padding: .4rem .5rem; margin-top: .3rem; }
+.fl-me-share { margin: .55rem 0 0; display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
+.fl-me-share button { font: 600 .82rem/1 system-ui, sans-serif; padding: .6rem .8rem; min-height: 40px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); cursor: pointer; }
+.fl-me-msg { flex-basis: 100%; font-size: .85rem; color: var(--yes); }
+.fl-me-msg:empty { display: none; }
+
+/* Timeline step matching the chart slider. */
+.nw-tl li.here .nw-tl-when { font-weight: 800; color: var(--ink); }
+.nw-tl li.here .nw-tl-bar { outline: 3px solid #f6c34a; outline-offset: 1px; }
+.nw-art > .fl-me { grid-column: 1 / -1; }

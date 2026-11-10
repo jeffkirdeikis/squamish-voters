@@ -1707,20 +1707,20 @@ if (TRACKED.length) {
   const n0 = (x) => Number(x).toLocaleString('en-CA');
   const blocks = (st) => {
     const w = {};
-    if ((st.glance || []).length) w.glance = `<div class="nw-glance">${st.glance.map((g) => `<div class="nw-tile${g.level ? ` lv-${esc(g.level)}` : ''}"><small>${esc(g.k)}</small><b>${esc(g.v)}</b></div>`).join('')}</div>`;
+    if ((st.glance || []).length) w.glance = `<div class="nw-glance">${st.glance.map((g) => `<div class="nw-tile${g.level ? ` lv-${esc(g.level)}` : ''}"${g.until ? ` data-until="${esc(g.until)}" data-after-k="${esc(g.after.k)}" data-after-v="${esc(g.after.v)}" data-after-level="${esc(g.after.level || '')}"` : ''}><small>${esc(g.k)}</small><b>${esc(g.v)}</b></div>`).join('')}</div>`;
     if (st.timeline) {
       const t = st.timeline, max = t.max || Math.max(...t.rows.map((r) => r.v)) * 1.15, pc = (v) => `${Math.min(100, v / max * 100).toFixed(1)}%`;
-      w.timeline = `<figure class="nw-tl"><figcaption>${esc(t.title || '')}${t.mark ? ` <span class="nw-tl-key"><i></i>${esc(t.mark[1])}, ${n0(t.mark[0])}</span>` : ''}</figcaption><ol>${t.rows.map((r) => `<li${r.v >= (t.mark ? t.mark[0] : Infinity) ? ' class="over"' : ''}><span class="nw-tl-when">${esc(r.when)}</span><span class="nw-tl-bar" role="img" aria-label="${esc(r.say || n0(r.v))}"><i style="width:${pc(r.v)}"></i>${t.mark ? `<s style="left:${pc(t.mark[0])}"></s>` : ''}<em>${esc(r.say || n0(r.v))}</em></span>${r.note ? `<span class="nw-tl-note">${esc(r.note)}</span>` : ''}</li>`).join('')}</ol></figure>`;
+      w.timeline = `<figure class="nw-tl"${st.live ? ` data-live-tl data-notes="${esc(JSON.stringify(t.notes || {}))}"` : ''}><figcaption>${esc(t.title || '')}${t.mark ? ` <span class="nw-tl-key"><i></i>${esc(t.mark[1])}, ${n0(t.mark[0])}</span>` : ''}</figcaption><ol>${t.rows.map((r) => `<li${r.v >= (t.mark ? t.mark[0] : Infinity) ? ' class="over"' : ''}><span class="nw-tl-when">${esc(r.when)}</span><span class="nw-tl-bar" role="img" aria-label="${esc(r.say || n0(r.v))}"><i style="width:${pc(r.v)}"></i>${t.mark ? `<s style="left:${pc(t.mark[0])}"></s>` : ''}<em>${esc(r.say || n0(r.v))}</em></span>${r.note ? `<span class="nw-tl-note">${esc(r.note)}</span>` : ''}</li>`).join('')}</ol></figure>`;
     }
     if (st.ruler) {
       const r = st.ruler, pc = (v) => `${((v - r.lo) / (r.hi - r.lo) * 100).toFixed(1)}%`;
-      w.ruler = `<figure class="nw-ruler"><div class="nw-ruler-scale" role="img" aria-label="${esc(`${r.label} ${n0(r.value)}, possible range ${n0(r.from)} to ${n0(r.to)}. ${r.marks.map(([v, l]) => `${l} ${n0(v)}`).join(', ')}.`)}"><span class="nw-ruler-track"></span><span class="nw-ruler-range" style="left:${pc(r.from)};width:calc(${pc(r.to)} - ${pc(r.from)})"></span><span class="nw-ruler-pin" style="left:${pc(r.value)}"><b>${esc(r.label)} ${n0(r.value)}</b></span>${r.marks.map(([v, l], i) => `<span class="nw-ruler-mark${i % 2 ? ' lo' : ''}" style="left:${pc(v)}">${esc(l)}<br>${n0(v)}</span>`).join('')}</div>${r.note ? `<figcaption>${esc(r.note)}</figcaption>` : ''}</figure>`;
+      w.ruler = `<figure class="nw-ruler"${st.live ? ` data-live-ruler data-lo="${r.lo}" data-hi="${r.hi}"` : ''}><div class="nw-ruler-scale" role="img" aria-label="${esc(`${r.label} ${n0(r.value)}, possible range ${n0(r.from)} to ${n0(r.to)}. ${r.marks.map(([v, l]) => `${l} ${n0(v)}`).join(', ')}.`)}"><span class="nw-ruler-track"></span><span class="nw-ruler-range" style="left:${pc(r.from)};width:calc(${pc(r.to)} - ${pc(r.from)})"></span><span class="nw-ruler-pin" style="left:${pc(r.value)}"><b>${esc(r.label)} ${n0(r.value)}</b></span>${r.marks.map(([v, l], i) => `<span class="nw-ruler-mark${i % 2 ? ' lo' : ''}" style="left:${pc(v)}">${esc(l)}<br>${n0(v)}</span>`).join('')}</div>${r.note ? `<figcaption>${esc(r.note)}</figcaption>` : ''}</figure>`;
     }
     if (st.rivers) {
       const R = st.rivers;
-      w.rivers = `<figure class="nw-rivers"><figcaption><b>${esc(R.title)}</b></figcaption><ul>${R.rows.map((r) => { const p = Math.round(r.v / r.record * 100), tp = r.top ? Math.min(100, r.top / r.record * 100) : 0; return `<li><span class="nw-rv-name">${esc(r.name)}</span><span class="nw-rv-bar" role="img" aria-label="${esc(`${r.name}: forecast ${n0(r.v)}, ${p}% of its record of ${n0(r.record)}${r.top ? `; top of range ${n0(r.top)}` : ''}`)}"><i style="width:${Math.min(100, p)}%"></i>${r.top ? `<s style="left:${tp.toFixed(1)}%"></s>` : ''}</span><span class="nw-rv-pct">${p}%</span>${r.say ? `<span class="nw-rv-say">${esc(r.say)}</span>` : ''}</li>`; }).join('')}</ul>${R.note ? `<p class="nw-rv-note">${esc(R.note)}</p>` : ''}</figure>`;
+      w.rivers = `<figure class="nw-rivers"><figcaption><b>${esc(R.title)}</b></figcaption><ul>${R.rows.map((r) => { const p = Math.round(r.v / r.record * 100), tp = r.top ? Math.min(100, r.top / r.record * 100) : 0; return `<li${r.live ? ` data-live-river data-record="${r.record}"` : ''}><span class="nw-rv-name">${esc(r.name)}</span><span class="nw-rv-bar" role="img" aria-label="${esc(`${r.name}: forecast ${n0(r.v)}, ${p}% of its record of ${n0(r.record)}${r.top ? `; top of range ${n0(r.top)}` : ''}`)}"><i style="width:${Math.min(100, p)}%"></i>${r.top ? `<s style="left:${tp.toFixed(1)}%"></s>` : ''}</span><span class="nw-rv-pct">${p}%</span>${r.say ? `<span class="nw-rv-say">${esc(r.say)}</span>` : ''}</li>`; }).join('')}</ul>${R.note ? `<p class="nw-rv-note">${esc(R.note)}</p>` : ''}</figure>`;
     }
-    if (st.warn) w.warn = `<p class="nw-warn">${esc(st.warn)}</p>`;
+    if (st.warn) w.warn = `<p class="nw-warn">${esc(st.warn)}</p>`; // may hold {{live}} numbers
     return w;
   };
   // st.fold: {"Section heading": "one line answer"}. Those sections fold shut on the story page, with the answer showing,
@@ -1741,10 +1741,20 @@ if (TRACKED.length) {
     });
     return out + html.slice(at);
   };
-  const fullBodyHtml = (st) => (st.body || (st.photos || []).length ? `<div class="nw-body">${placePhotos(mdToHtml(st.body, blocks(st)), (st.photos || []).map((p) => p.chart
+  const figHtml = (p) => (p.chart
     // A chart is shown whole (never cropped) and opens full size on a tap, so phone readers can zoom in on the numbers.
     ? `<figure class="nw-photo nw-chart"><a href="${esc(p.file)}" target="_blank" rel="noopener" aria-label="Open this chart full size"><img src="${esc(p.file)}" alt="${esc(p.alt)}" width="1200" height="800" loading="lazy"></a><figcaption>${esc(p.caption)} Tap the chart to enlarge. <span>Source: <a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.credit)}</a></span></figcaption></figure>`
-    : `<figure class="nw-photo"><img src="${esc(newsThumb(p.file, 800))}" alt="${esc(p.alt)}" width="1200" height="800" loading="lazy"><figcaption>${esc(p.caption)} <span>Photo: <a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.credit)}</a></span></figcaption></figure>`))}</div>` : '');
+    : `<figure class="nw-photo"><img src="${esc(newsThumb(p.file, 800))}" alt="${esc(p.alt)}" width="1200" height="800" loading="lazy"><figcaption>${esc(p.caption)} <span>Photo: <a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.credit)}</a></span></figcaption></figure>`);
+  // st.photos: in order between sections, or with p.in (a section heading) at the end of that section.
+  const placeIn = (html, ps) => ps.reduce((h, p) => {
+    const at = h.indexOf(`<h2>${esc(p.in)}</h2>`); if (at < 0) return h + figHtml(p);
+    const next = h.indexOf('<h2', at + 4); return next < 0 ? h + figHtml(p) : h.slice(0, next) + figHtml(p) + h.slice(next);
+  }, html);
+  // {{key}} in story text, tiles and cards: a number the live flood script (src/flood-live.js) keeps current from the
+  // newest forecast. The page ships with st.live_text[key] so it reads right before the script runs or without it.
+  const liveFill = (html, st) => (st.live_text ? html.replace(/\{\{(\w+)\}\}/g, (m, k) => `<span data-live="${k}">${esc(st.live_text[k] ?? '')}</span>`) : html);
+  const fillTpl = (t, st) => String(t || '').replace(/\{\{(\w+)\}\}/g, (m, k) => (st.live_text || {})[k] ?? '');
+  const fullBodyHtml = (st) => (st.body || (st.photos || []).length ? `<div class="nw-body">${placeIn(placePhotos(mdToHtml(st.body, blocks(st)), (st.photos || []).filter((p) => !p.in).map(figHtml)), (st.photos || []).filter((p) => p.in))}</div>` : '');
   const readMore = (st) => (st.body ? `<p class="nw-readmore"><a href="${nUrl(st)}">Read the full story →</a></p>` : '');
   const source = (st) => `<p class="nw-src">Source: <a href="${esc(st.src[1])}" target="_blank" rel="noopener">${esc(st.src[0])}</a>${st.more ? ` · <a href="${esc(st.more[1])}">${esc(st.more[0])} →</a>` : ''}</p>`;
   const shareBtn = (st) => `<button class="nw-share no-print" type="button" data-nw-share="${esc(ORIGIN + nUrl(st))}" data-title="${esc(st.head)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7.5 7.5L12 3l4.5 4.5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>Share</button>`;
@@ -1864,9 +1874,10 @@ if (TRACKED.length) {
     // Flood stories open with the live gauge band (src/flood-live.js fills it): river now, forecast peak, flood sizes.
     // "What does this mean for me?": tap an area, get that area's risk and what to do (st.local; src/news.js runs the taps).
     const LVL = { high: 'Most exposed', mid: 'Take care', low: 'Lower risk' };
+    const slugA = (a) => String(a.chip || a.area).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     const meHtml = (st.local || []).length ? `<section class="fl-me" data-me aria-labelledby="me-h-${esc(st.slug)}"><h2 id="me-h-${esc(st.slug)}">What does this mean for me?</h2><p class="fl-me-sub">Tap where you live or where you are going.</p>
       <div class="fl-me-chips" role="group" aria-label="Your area">${st.local.map((a, i) => `<button type="button" class="fl-me-chip lv-${esc(a.level)}" aria-pressed="false" aria-controls="me-${i}" data-i="${i}">${esc(a.chip || a.area)}</button>`).join('')}</div>
-      ${st.local.map((a, i) => `<div class="fl-me-out lv-${esc(a.level)}" id="me-${i}" data-me-out="${i}"><p class="fl-me-head"><span class="fl-me-lv">${LVL[a.level] || ''}</span> <b>${esc(a.area)}.</b> ${esc(a.head)}</p>${mdToHtml(a.items.map((x) => '- ' + x).join('\n'))}</div>`).join('')}</section>` : '';
+      ${st.local.map((a, i) => `<div class="fl-me-out lv-${esc(a.level)}" id="me-${i}" data-me-out="${i}" data-area="${esc(slugA(a))}" data-area-name="${esc(a.area)}"><p class="fl-me-head"><span class="fl-me-lv">${LVL[a.level] || ''}</span> <b>${esc(a.area)}.</b> ${esc(a.head)}</p>${mdToHtml(a.items.map((x) => '- ' + x).join('\n'))}<p class="fl-me-share"><button type="button" data-area-share>Share this for my area</button> <button type="button" data-area-share="sms">Text it to a neighbour</button> <span class="fl-me-msg" role="status"></span></p></div>`).join('')}</section>` : '';
     // Jump links under the headline (st.toc: [heading, chip label]; the first chip is the one to act on, shown in red).
     const slugId = (t) => 'sec-' + String(t).toLowerCase().replace(/<[^>]+>/g, '').replace(/&[a-z]+;/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     const tocHtml = (st.toc || []).length ? `<nav class="nw-toc" aria-label="Jump to a section">${st.toc.map(([h, l], i) => `<a href="#${slugId(h)}"${i === 0 ? ' class="go"' : ''}>${esc(l)}</a>`).join('')}</nav>` : '';
@@ -1881,7 +1892,7 @@ if (TRACKED.length) {
       <p><a class="btn" href="/tip/?about=flood">Send a photo</a></p>
       ${rp.length ? `<div class="rp-strip">${rp.map((p) => `<figure><img src="${esc(p.file)}" alt="${esc(p.alt)}" loading="lazy"><figcaption><b>${esc(p.place)}</b>, ${esc(p.when)}. ${esc(p.caption || '')} Photo: ${esc(p.credit || 'a reader')}</figcaption></figure>`).join('')}</div>` : ''}</section>` : '';
     const storyBody0 = (st.toc || []).length ? fullBodyHtml(st).replace(/<h2>([\s\S]*?)<\/h2>/g, (m, t) => `${mapHtml && t === st.map_before ? mapHtml : ''}${readerHtml && t === st.photos_before ? readerHtml : ''}<h2 id="${slugId(t)}">${t}</h2>`) : fullBodyHtml(st);
-    const storyBody = foldSections(storyBody0, st);
+    const storyBody = liveFill(foldSections(storyBody0, st), st);
     // Flood alert sign up under the live panel (api/flood-alert.js; emails sent by api/flood-watch.js).
     const floodAlertBox = `<section class="fl-alert" data-flood-alert><h2>Email me if this changes</h2>
       <p>One email when the province issues a Flood Warning or ends its notice, the regional district lists an evacuation alert or order, or the forecast peak moves by 10% or more. Nothing else.</p>
@@ -1889,9 +1900,21 @@ if (TRACKED.length) {
       <label class="fl-alert-ok"><input id="fl-alert-consent" type="checkbox"> Yes, email me flood alerts. I can turn them off any time.</label>
       <p class="fl-alert-msg" role="status"></p></form>
       <p class="small muted">We email a link to confirm first. These do not replace official alerts: also sign up for <a href="https://www.slrd.bc.ca/SLRDAlert" target="_blank" rel="noopener">SLRD Alert</a> or <a href="https://squamish.ca/alert" target="_blank" rel="noopener">Squamish Alert</a>.</p></section>`;
+    // Share bar (src/news.js): the phone's share sheet (with the river picture on flood stories), a ready made text,
+    // WhatsApp, Facebook and Copy link. st.share_text may hold {{live}} numbers; src/flood-live.js keeps them current.
+    const shareUrl = ORIGIN + nUrl(st), shareText = fillTpl(st.share_text || st.head, st);
+    const shareBar = `<div class="sv-share no-print" data-share-bar data-url="${esc(shareUrl)}" data-title="${esc(st.head)}" data-text="${esc(shareText)}"${st.share_text ? ` data-tpl="${esc(st.share_text.replace(/\{\{(\w+)\}\}/g, '[[$1]]'))}"` : ''}>
+      <button type="button" class="sv-sh main" data-sh="share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7.5 7.5L12 3l4.5 4.5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>Share</button>
+      <a class="sv-sh" data-sh="sms" href="sms:?&amp;body=${esc(encodeURIComponent(`${shareText} ${shareUrl}`))}">Text it</a>
+      <a class="sv-sh" data-sh="wa" href="https://wa.me/?text=${esc(encodeURIComponent(`${shareText} ${shareUrl}`))}" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="sv-sh" data-sh="fb" href="https://www.facebook.com/sharer/sharer.php?u=${esc(encodeURIComponent(shareUrl))}" target="_blank" rel="noopener">Facebook</a>
+      <button type="button" class="sv-sh" data-sh="copy">Copy link</button>
+      <span class="sv-sh-msg" role="status"></span></div>`;
+    const status = st.live === 'flood' ? '<section class="fl-status" data-flood-status aria-label="Official status and timing"><p class="fl-status-wait">Checking the official flood notice and evacuation alerts…</p></section>' : '';
+    const heroChart = st.live === 'flood' ? '<section class="fl-hero-chart" data-flood-chart aria-label="Squamish River flow chart"><p class="fl-status-wait">Loading the river chart…</p></section>' : '';
     const band = st.live === 'flood' ? '<section class="fl-band" data-flood-band aria-label="Squamish River now and forecast" aria-live="polite"><p class="fl-band-wait">Loading the newest river reading…</p></section>' : '';
     const body = st.tier === 'lead'
-      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${band}${tocHtml}${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p>${meHtml}<aside class="nw-side">${visual(st)}${take(st)}${sideMore}</aside>`
+      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${status}${band}${meHtml ? `${meHtml}${shareBar}` : ''}${heroChart}${tocHtml}${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p>${meHtml ? '' : shareBar}<aside class="nw-side">${visual(st)}${take(st)}${sideMore}</aside>`
       : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${band}${tocHtml}${st.visual && st.visual.type === 'map' ? visual(st) : photo(st, true)}<p class="nw-dek">${dekHtml(st)}</p>${meHtml}<aside class="nw-side">${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}${sideMore}</aside>`;
     write(nUrl(st), page({
       url: nUrl(st), title: st.head,
@@ -1900,7 +1923,7 @@ if (TRACKED.length) {
       jsonld: [crumbLd([['Home', '/'], ['News', '/news/'], [st.head, nUrl(st)]]), { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: st.head, datePublished: st.date, inLanguage: 'en-CA', image: ogUrl(st), dateModified: st.updated || st.date, description: st.dek.replace(/<[^>]+>/g, ''), mainEntityOfPage: `${ORIGIN}${nUrl(st)}`, articleSection: SEC[st.s] || undefined, author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/`, sameAs: ['https://jeffkirdeikis.com'] }, publisher: { '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/`, logo: { '@type': 'ImageObject', url: `${ORIGIN}/icon-512.png` } }, isBasedOn: st.src[1] }],
       body: `<div class="nw nw-story-page">
   <p class="crumbs"><a href="/news/">← All news</a></p>
-  <article class="nw-full nw-art" data-s="${st.s}">${body}${st.live === 'flood' ? `<section class="fl-live" data-flood-live data-issued="${esc(st.live_issued || '')}" data-rain-from="${esc(st.rain_from || '')}" data-rain-to="${esc(st.rain_to || '')}" aria-live="polite"><div class="fl-head"><h2>Live: river, forecast and alerts</h2><p>Loading the newest readings…</p></div></section>${floodAlertBox}` : ''}${storyBody}<div class="nw-foot">${source(st)}${shareBtn(st)}</div></article>
+  <article class="nw-full nw-art" data-s="${st.s}">${liveFill(body, st)}${st.live === 'flood' ? `<section class="fl-live" data-flood-live data-issued="${esc(st.live_issued || '')}" data-rain-from="${esc(st.rain_from || '')}" data-rain-to="${esc(st.rain_to || '')}" aria-live="polite"><div class="fl-head"><h2>Live: river, forecast and alerts</h2><p>Loading the newest readings…</p></div></section>${floodAlertBox}` : ''}${storyBody}<div class="nw-foot">${source(st)}${shareBtn(st)}</div></article>
   ${pollHtml(st)}
   <section class="nw-next"><h2 class="nw-sechead">More news</h2><ul>${others.map((o) => `<li data-s="${o.s}"><span>${esc(SEC[o.s])}</span><a href="${nUrl(o)}">${esc(o.head)}</a></li>`).join('')}</ul>
   <p class="nw-more"><a href="/news/">All news →</a> · <a href="/meetings/">What council decided →</a></p></section>

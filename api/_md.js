@@ -21,7 +21,7 @@ export function mdToHtml(md, widgets = {}) {
       if (name === 'fold') {
         if (close) out.push('</div></details>');
         else { const [lab, gist] = String(arg || 'More detail').split('|').map((x) => x.trim()); out.push(`<details class="nw-fold"><summary><b>${inline(lab)}</b>${gist ? `<span>${inline(gist)}</span>` : ''}</summary><div class="nw-fold-in">`); }
-      } else if (name === 'note') out.push(close ? '</aside>' : '<aside class="nw-note"><p class="nw-note-k">About these numbers</p>');
+      } else if (name === 'note') out.push(close ? '</aside>' : '<aside class="nw-aside"><p class="nw-aside-k">About these numbers</p>');
       else if (!close && widgets[name]) out.push(widgets[name]);
       continue;
     }
