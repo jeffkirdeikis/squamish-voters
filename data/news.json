@@ -81,7 +81,7 @@
     "note": "Forecast from the BC River Forecast Centre, issued 10:11 a.m. November 9. Possible range about 1,360 to 2,784. Past peaks from Water Survey of Canada.",
     "rows": [
      [
-      "Forecast peak",
+      "Most likely peak",
       2231,
       "",
       "2,231"
@@ -311,7 +311,9 @@
      "What could change",
      "What could change"
     ]
-   ]
+   ],
+   "rain_from": "2026-11-10T00:00:00-07:00",
+   "rain_to": "2026-11-14T00:00:00-07:00"
   },
   {
    "slug": "nov-10-closed-meeting-cancelled",

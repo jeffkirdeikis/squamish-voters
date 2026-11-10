@@ -79,11 +79,32 @@ export async function slrd() {
   return { active: true, items, page };
 }
 
+// Rain on the mountains that feed the river: Open-Meteo model, hourly, averaged over three points in the watershed
+// (Elaho, upper Squamish, Ashlu). Past 3 days and the next 5, so the page can add up "so far" and "still to come".
+const RAIN_PTS = [[50.30, -123.70], [50.20, -123.45], [50.00, -123.40]];
+export async function rain() {
+  const d = await get(`https://api.open-meteo.com/v1/forecast?latitude=${RAIN_PTS.map((p) => p[0]).join(',')}&longitude=${RAIN_PTS.map((p) => p[1]).join(',')}&hourly=precipitation,freezing_level_height&past_days=3&forecast_days=5&timezone=GMT`);
+  const list = Array.isArray(d) ? d : [d];
+  const t = list[0].hourly.time.map((x) => Date.parse(x + 'Z'));
+  const mm = t.map((_, i) => +(list.reduce((a, p) => a + (p.hourly.precipitation[i] || 0), 0) / list.length).toFixed(2));
+  const fz = t.map((_, i) => Math.round(list.reduce((a, p) => a + (p.hourly.freezing_level_height[i] || 0), 0) / list.length));
+  return { hourly: t.map((x, i) => [x, mm[i], fz[i]]), points: RAIN_PTS, link: 'https://open-meteo.com/' };
+}
+
+// Earlier provincial forecast runs, saved by api/flood-watch.js each time the province issues a new one.
+async function history() {
+  const URL = process.env.DATABASE_URL || process.env.POSTGRES_URL; if (!URL) return [];
+  const { neon } = await import('@neondatabase/serverless');
+  const rows = await neon(URL)`SELECT issued, peak, peak_t, series FROM sv_flood_runs ORDER BY at DESC LIMIT 6`.catch(() => []);
+  return rows.map((r) => ({ issued: r.issued, peak: r.peak, peakT: Number(r.peak_t), series: r.series }));
+}
+
 export default async function handler(req, res) {
-  const parts = { gauge, forecast, notices, slrd };
+  const parts = { gauge, forecast, notices, slrd, rain };
   const out = { at: new Date().toISOString(), sizes: SIZES };
   await Promise.all(Object.entries(parts).map(async ([k, fn]) => { out[k] = await fn().catch((e) => { console.error(k, e.message); return null; }); }));
   // A reply with a missing source is cached for only 30 seconds, so one slow answer does not blank the panel for minutes.
+  out.history = await history().catch(() => []);
   const whole = Object.keys(parts).every((k) => out[k]);
   res.setHeader('Cache-Control', whole ? 'public, max-age=60, s-maxage=300, stale-while-revalidate=600' : 'public, max-age=15, s-maxage=30');
   res.json(out);

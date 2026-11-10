@@ -72,6 +72,11 @@ export default async function handler(req, res) {
     issued: f?.issued || null, peak: pk ? pk[1] : null, peakT: pk ? pk[0] : null,
     low: ahead.length ? Math.max(...ahead.map((r) => r[2])) : null, high: ahead.length ? Math.max(...ahead.map((r) => r[3])) : null,
   };
+  // Save each new provincial run (median every 3 hours) so the story can show how the forecast has moved.
+  if (f && pk && !dry) {
+    await sql`CREATE TABLE IF NOT EXISTS sv_flood_runs (issued text PRIMARY KEY, peak int, peak_t bigint, series jsonb, at timestamptz NOT NULL DEFAULT now())`;
+    await sql`INSERT INTO sv_flood_runs (issued, peak, peak_t, series) VALUES (${f.issued}, ${f.peak.flow}, ${f.peak.t}, ${JSON.stringify(f.rows.filter((r, i) => i % 3 === 0).map((r) => [r[0], r[1]]))}) ON CONFLICT (issued) DO NOTHING`;
+  }
   const [row] = await sql`SELECT v FROM sv_flood_state WHERE k = 'squamish'`;
   const prev = row?.v || null;
   const alerts = prev ? compare(prev, now) : [];

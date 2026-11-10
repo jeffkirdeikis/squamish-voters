@@ -2654,3 +2654,14 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .fl-scale .brk { position: absolute; top: 44px; height: 8px; border: 2px solid #ff8b78; border-top: 0; border-radius: 0 0 4px 4px; }
 .fl-scale .brk span { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: .74rem; color: #ffb4a6; white-space: nowrap; }
 @media (max-width: 560px) { .fl-num.top { grid-column: 3; } .fl-num .k { font-size: .6rem; letter-spacing: .03em; } }
+
+/* Earlier forecasts, rain tile and forecast moves in the live flood panel. */
+.fl-chart .fl-old { fill: none; stroke: #8a8f99; stroke-width: 1.6; stroke-dasharray: 3 3; }
+.fl-chart .k.old { border-top: 2px dashed #8a8f99; }
+.fl-tile.fl-rain { grid-column: 1 / -1; border-left-color: var(--series-1); }
+.fl-tile.fl-rain b small { font: 600 .85rem system-ui, sans-serif; color: var(--muted); }
+.fl-rainbar { display: block; height: 8px; border-radius: 4px; background: #d6e4f3; overflow: hidden; margin: .2rem 0 .25rem; }
+.fl-rainbar i { display: block; height: 100%; background: var(--series-1); border-radius: 4px; }
+.fl-tile b.fl-inl { font-size: inherit; display: inline; }
+.fl-moves { margin: 0; font-size: .9rem; } .fl-moves span { color: var(--muted); font-size: .82rem; }
+@media (max-width: 560px) { .fl-tiles { grid-template-columns: minmax(0, 1fr); } }

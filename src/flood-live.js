@@ -43,10 +43,12 @@
     for (const [v, name] of [[S.y2, 'Every 2 years'], [S.y10, '1 in 10 years'], [S.y50, '1 in 50 years']]) s += `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" class="fl-size"/><text x="${L + 4}" y="${Y(v) - 4}" class="fl-sizet">${name}</text>`;
     let t = x0 - (x0 % 864e5) + 864e5 + 8 * 36e5; let i = 0;
     for (; t < x1; t += 864e5, i++) if (i % 2 === 0) s += `<text x="${X(t)}" y="${H - 6}" text-anchor="middle">${fmt(t, { weekday: 'short', day: 'numeric' })}</text>`;
+    const old = (d.history || []).filter((h) => f && h.issued !== f.issued).slice(0, 4);
+    old.forEach((h, k) => { const pts = h.series.filter((p) => p[0] >= x0 && p[0] <= x1); if (pts.length > 1) s += `<path d="${P(pts)}" class="fl-old" style="opacity:${(0.65 - k * 0.13).toFixed(2)}"/>`; });
     if (fc.length) s += `<path d="${P(fc.map((r) => [r[0], r[3]]))}${P(fc.map((r) => [r[0], r[2]]).reverse()).replace('M', 'L')}Z" class="fl-band"/><path d="${P([...(last ? [last] : []), ...fc.map((r) => [r[0], r[1]])])}" class="fl-fc"/>`;
     if (obs.length) s += `<path d="${P(obs)}" class="fl-obs"/><circle cx="${X(last[0])}" cy="${Y(last[1])}" r="4.5" class="fl-dot"/><line x1="${X(last[0])}" x2="${X(last[0])}" y1="${T}" y2="${H - B}" class="fl-now"/>`;
     if (fc.length) s += `<g class="fl-cur" data-cur><line x1="0" x2="0" y1="${T}" y2="${H - B}"/><circle r="6" cx="0" cy="0"/></g>`;
-    return `<figure class="fl-chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Squamish River flow: measured for the last three days and the province's newest forecast">${s}</svg><figcaption><span class="k obs"></span>Measured <span class="k fc"></span>Newest forecast <span class="k band"></span>Possible range. Cubic metres per second at the gauge near Brackendale.</figcaption></figure>`;
+    return `<figure class="fl-chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Squamish River flow: measured for the last three days and the province's newest forecast">${s}</svg><figcaption><span class="k obs"></span>Measured <span class="k fc"></span>Newest forecast <span class="k band"></span>Possible range${(d.history || []).some((h) => f && h.issued !== f.issued) ? ' <span class="k old"></span>Earlier forecasts' : ''}. Cubic metres per second at the gauge near Brackendale.</figcaption></figure>`;
   }
 
   function render(d) {
@@ -64,8 +66,9 @@
         <div class="fl-tile"><span class="k">Newest forecast peak</span><b>${f ? n0(f.peak.flow) : '?'}</b><span>${f ? `${esc(partOfDay(f.peak.t))}, ${esc(sizeName(f.peak.flow, S))}. Range about ${n0(r10(f.low))} to ${n0(f.high)}. Issued ${esc(issuedPlain(f.issued))}.` : 'The forecast did not load.'}</span></div>
         <div class="fl-tile lv${lvl}"><span class="k">Province's flood notice</span><b class="fl-word">${nt ? NOTICE[lvl] : '?'}</b><span>${nt?.here ? `Issued ${esc(nt.here.issued)}. <a href="${esc(nt.here.url)}" target="_blank" rel="noopener">Read it</a>` : nt ? `<a href="${esc(nt.page)}" target="_blank" rel="noopener">Notice page</a>` : 'Could not reach the province.'}</span></div>
         <div class="fl-tile${sl?.active ? ' lv3' : ''}"><span class="k">Evacuation alerts, regional district</span><b class="fl-word">${sl ? (sl.active ? 'Active' : 'None found') : 'Check unavailable'}</b><span>${sl ? (sl.active ? `${sl.items.map(esc).join('. ')} <a href="${esc(sl.page)}" target="_blank" rel="noopener">Details</a>` : `In our last check of the regional district's list (Upper Squamish Valley, upper Paradise Valley). Our check can miss things: <a href="${esc(sl.page)}" target="_blank" rel="noopener">confirm here</a>.`) : `We could not reach the regional district. <a href="https://www.slrd.bc.ca/emergency-program/evacuation-alerts-orders" target="_blank" rel="noopener">Check its list</a>.`} For town, check <a href="https://squamish.ca/alert" target="_blank" rel="noopener">Squamish Alert</a>.</span></div>
+        ${rainTile(d)}
       </div>
-      ${chart(d)}${scale && scale.fc.length > 1 ? `<div class="fl-scrub"><label for="fl-scrub-r">Drag through the forecast</label><input id="fl-scrub-r" type="range" min="0" max="${scale.fc.length - 1}" step="1"><p class="fl-scrub-out" aria-live="polite"></p></div>` : ''}`;
+      ${chart(d)}${moves(d)}${scale && scale.fc.length > 1 ? `<div class="fl-scrub"><label for="fl-scrub-r">Drag through the forecast</label><input id="fl-scrub-r" type="range" min="0" max="${scale.fc.length - 1}" step="1"><p class="fl-scrub-out" aria-live="polite"></p></div>` : ''}`;
     scrub(d);
   }
 
@@ -133,13 +136,33 @@
       <p class="fl-when">${line} <span style="color:#a9bccd">Cubic metres per second at the gauge near Brackendale. Updates every five minutes.</span></p>`;
   }
 
+  // Rain on the mountains for this storm: so far (model hours already passed) and still to come, from data-rain-from to data-rain-to.
+  function rainTile(d) {
+    const r = d.rain, a = Date.parse(box.dataset.rainFrom || ''), b = Date.parse(box.dataset.rainTo || '');
+    if (!r || !a || !b) return '';
+    const now = Date.now(), h = r.hourly.filter((x) => x[0] >= a && x[0] < b);
+    const done = h.filter((x) => x[0] <= now).reduce((s, x) => s + x[1], 0), left = h.filter((x) => x[0] > now).reduce((s, x) => s + x[1], 0);
+    const fzNow = (r.hourly.filter((x) => x[0] <= now).pop() || [])[2];
+    const pct = done + left ? Math.round(done / (done + left) * 100) : 0;
+    const end = fmt(b - 1, { weekday: 'long' });
+    return `<div class="fl-tile fl-rain"><span class="k">Rain on the mountains this storm</span><b>${n0(done)} mm <small>so far</small></b>
+      <span class="fl-rainbar" role="img" aria-label="${n0(done)} of about ${n0(done + left)} millimetres"><i style="width:${pct}%"></i></span>
+      <span>${left >= 1 ? `About <b class="fl-inl">${n0(left)} mm</b> more forecast through ${esc(end)}.` : 'The forecast rain for this storm has fallen.'}${fzNow ? ` Freezing level now about ${n0(Math.round(fzNow / 100) * 100)} metres: ${fzNow > 2400 ? 'rain falls on nearly the whole watershed' : 'above that, it falls as snow and stays on the mountain for now'}.` : ''} Open-Meteo weather model, average of three points in the watershed.</span></div>`;
+  }
+  // How the province's forecast peak has moved from run to run (runs saved since this story went up).
+  function moves(d) {
+    const runs = [...(d.history || [])].reverse();
+    if (runs.length < 2) return '';
+    return `<p class="fl-moves"><b>How the forecast peak has moved:</b> ${runs.map((h) => `${n0(h.peak)} <span>(${esc(issuedPlain(h.issued))})</span>`).join(' → ')}</p>`;
+  }
+
   const good = {};
   async function load() {
     try {
       const r = await fetch('/api/flood/', { cache: 'no-store' }); if (!r.ok) throw new Error(r.status);
       const d = await r.json();
       // Keep the last good reading of any source that failed this time, and try again soon.
-      for (const k of ['gauge', 'forecast', 'notices', 'slrd']) { if (d[k]) good[k] = d[k]; else if (good[k]) d[k] = good[k]; }
+      for (const k of ['gauge', 'forecast', 'notices', 'slrd', 'rain']) { if (d[k]) good[k] = d[k]; else if (good[k]) d[k] = good[k]; }
       render(d); renderBand(d);
       if (!d.gauge || !d.forecast) setTimeout(load, 40 * 1000);
     }
