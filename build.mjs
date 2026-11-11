@@ -444,6 +444,7 @@ ${body}
 <a class="totop no-print" href="#main" id="totop" hidden>↑ Top</a>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="/site.js"></script>
+<script src="/pulse.js" defer></script>
 ${scripts}${noindex && noindex !== 'thin' ? '' : '\n<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script><script defer src="/_vercel/insights/script.js"></script>'}
 </body></html>`;
 }
@@ -2687,6 +2688,45 @@ write('/subscribers/', page({ url: '/subscribers/', title: 'Admin', noindex: tru
 <script>window.SV_SUBS=${JSON.stringify({ issues: Object.fromEntries(SIGNUP_ISSUES.map((i) => [i.key, { t: i.title, i: i.icon, o: SIDES[i.key] ? [SIDES[i.key][1], SIDES[i.key][2]] : [] }])), hoods: Object.fromEntries(WELCOME_HOODS.map((h) => [h.slug, h.name])) }).replace(/</g, '\\u003c')};</script>
 <script src="/subscribers.js" defer></script>`,
 }));
+// ---------- /insights/: Jeff's private view of the reading stats (src/pulse.js -> api/pulse.js -> api/insights.js, ADMIN_TOKEN) ----------
+write('/insights/', page({ url: '/insights/', title: 'Reader stats', noindex: true,
+  body: `<div class="ad in">
+<h1>Reader stats</h1>
+<p class="lede" id="in-sum" aria-live="polite">Loading…</p>
+<div class="in-bar"><div class="in-range" role="group" aria-label="Dates">
+<button type="button" data-range="today" aria-pressed="true">Today</button><button type="button" data-range="yesterday">Yesterday</button><button type="button" data-range="7d">7 days</button><button type="button" data-range="30d">30 days</button></div>
+<button type="button" class="btn small" id="in-refresh">Refresh</button> <a class="small" href="/subscribers/">Admin</a></div>
+<div id="in-out"></div>
+</div>
+<style>
+.in-bar { display: flex; gap: .8rem; align-items: center; flex-wrap: wrap; margin: 1rem 0; }
+.in-range { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.in-range button { font: inherit; font-weight: 700; border: 0; background: var(--surface); padding: .5rem .9rem; cursor: pointer; color: var(--ink-2); }
+.in-range button[aria-pressed="true"] { background: var(--brand); color: #fff; }
+.in h2 { margin: 2rem 0 .3rem; } .in h3 { margin: 1.4rem 0 .4rem; font-size: 1.05rem; }
+.in-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: .6rem; margin: .8rem 0; }
+.in-tile { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: .7rem .8rem; }
+.in-tile b { display: block; font-size: 1.55rem; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.in-tile span { font-size: .85rem; color: var(--ink-2); display: block; line-height: 1.3; }
+.in-tile.goal { border-color: var(--brand); border-width: 2px; }
+.in-note { background: var(--warn-bg); color: var(--warn-ink); border-radius: 10px; padding: .7rem .9rem; margin: .8rem 0; }
+.in-read { background: var(--surface-2); border-radius: 10px; padding: .7rem .9rem; margin: .5rem 0 1rem; }
+.in-read p { margin: .2rem 0; }
+.in-tablewrap { overflow-x: auto; margin: .4rem 0 1rem; }
+.in table { border-collapse: collapse; width: 100%; font-size: .92rem; }
+.in th, .in td { text-align: right; padding: .4rem .5rem; border-bottom: 1px solid var(--line); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.in th:first-child, .in td:first-child { text-align: left; white-space: normal; min-width: 9rem; overflow-wrap: anywhere; }
+.in th { font-size: .8rem; color: var(--ink-2); vertical-align: bottom; white-space: normal; }
+.in select { font: inherit; padding: .5rem; max-width: 100%; border-radius: 8px; border: 1px solid var(--line); }
+.in .sb-row { grid-template-columns: minmax(8rem, 17rem) 1fr auto; }
+.in-drop .sb-fill { background: #b4532a; }
+.in-visit { border-top: 1px solid var(--line); padding: .6rem 0; font-size: .92rem; }
+.in-visit p { margin: 0 0 .15rem; }
+.in-pill { display: inline-block; background: var(--brand); color: #fff; border-radius: 999px; padding: 0 .5rem; font-size: .78rem; font-weight: 700; margin-right: .3rem; }
+@media (max-width: 600px) { .in .sb-row { grid-template-columns: 1fr auto; } }
+</style>
+<script src="/insights.js" defer></script>`,
+}));
 // "Roles on council": filled from data/roles.json once the District publishes appointments; until then, a plain note.
 function rolesBox(c) {
   const rs = ((ROLES.members || {})[c.slug] || []).filter((r) => r.role && isUrl(r.source_url));
@@ -2767,7 +2807,7 @@ write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can�
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js', 'since.js', 'flood-live.js', 'flood-map.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js', 'since.js', 'flood-live.js', 'flood-map.js', 'pulse.js', 'insights.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.writeFileSync(path.join(DIST, 'botid.js'), `(function(){${BOTID_JS}})();`);
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 

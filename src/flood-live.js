@@ -331,7 +331,7 @@
       const d = await r.json().catch(() => ({}));
       if (!r.ok || !d.ok) throw new Error(d.error || 'Something went wrong. Try again in a minute.');
       msg.textContent = d.already ? 'You’re already signed up for flood alerts.' : 'Check your email and tap the link to turn alerts on. Look in spam if it isn’t there in a minute.';
-      msg.classList.add('good'); f.querySelector('#fl-alert-email').value = '';
+      msg.classList.add('good'); f.querySelector('#fl-alert-email').value = ''; if (!d.already && window.SVpulse) SVpulse.signup('flood alert', 'flood story');
     } catch (err) { msg.textContent = err.message; msg.classList.add('bad'); }
     btn.disabled = false;
   });
