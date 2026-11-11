@@ -33,8 +33,9 @@
     sum.textContent = s.visits + ' visits and ' + s.views + ' pages read, ' + ({ today: 'today', yesterday: 'yesterday', '7d': 'in the last 7 days', '30d': 'in the last 30 days' })[d.range] + '. Updated ' + new Date().toLocaleTimeString('en-CA', { hour: 'numeric', minute: '2-digit' }) + '.';
     if (d.since) out.append(el('p', 'in-note', 'Counting started ' + when(d.since) + '. Visits before that are not in these numbers.'));
     (d.ab || []).forEach(function (t) {
-      var A = t.A, B = t.B, NAMES = { join1: 'Test 1: “Stay in the loop” box partway down news stories' };
-      out.append(h('h2', NAMES[t.name] || 'Test: ' + t.name, 'A is the story as it was. B adds the box. Half of readers get each. Counted since ' + when(t.since) + ', whatever dates are picked above.'));
+      var A = t.A, B = t.B, NAMES = { join2: 'Test: “Stay in the loop” box high on news stories' };
+      if (!NAMES[t.name]) return; // older tests are kept in the data but not shown
+      out.append(h('h2', NAMES[t.name] || 'Test: ' + t.name, 'A is the story as it was. B adds the box (above the live river panel on the flood story, after the first section on others). Half of readers get each. Counted since ' + when(t.since) + ', whatever dates are picked above.'));
       function rt(n, tot) { return n + ' (' + (tot ? (Math.round(1000 * n / tot) / 10) : 0) + '%)'; }
       function verdict(sure, a, b) { if (A.visits < 100 || B.visits < 100) return 'Too early'; var w = b > a ? 'B' : a > b ? 'A' : ''; if (!w) return 'Even'; return sure >= 95 ? w + ' wins (' + sure + '% sure)' : sure >= 80 ? w + ' ahead (' + sure + '% sure)' : 'No clear difference yet'; }
       out.append(table(['Score', 'A: as it was', 'B: with the box', 'Result'], [

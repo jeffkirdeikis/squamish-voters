@@ -33,8 +33,9 @@
   var w = window.innerWidth || 0, dev = w < 700 ? 'phone' : w < 1100 ? 'tablet' : 'computer';
 
   // ----- A/B test (one at a time). Half of browsers get version B, picked once and kept. Set TEST to null to stop. -----
-  // join1: on news stories, B adds a "Stay in the loop" box (weekly email + Facebook group + Reddit) partway down the story.
-  var TEST = 'join1', ab = '';
+  // join2: on news stories, B adds a compact "Stay in the loop" box (weekly email + Facebook group + Reddit) high on the page:
+  // above the live river panel on a flood story, else after the first section. (join1, Nov 10: same box lower down, where 6% of readers got to.)
+  var TEST = 'join2', ab = '';
   var body = /^\/news\/[^/]+/.test(path) ? document.querySelector('.nw-body') : null;
   if (TEST && body) {
     var arm = ls('sv_ab_' + TEST); if (arm !== 'A' && arm !== 'B') { arm = Math.random() < 0.5 ? 'A' : 'B'; ls('sv_ab_' + TEST, arm); }
@@ -45,13 +46,13 @@
   function loopBox(body) {
     var box = document.createElement('aside'); box.className = 'sv-loop no-print'; box.setAttribute('aria-label', 'Stay in the loop');
     box.innerHTML = '<h3>Stay in the loop on Squamish</h3>' +
-      '<p>One email every Friday morning: what council decided and what is coming up. Plain words. Unsubscribe any time.</p>' +
-      '<form novalidate><label class="sv-loop-l" for="sv-loop-e">Your email</label><div class="sv-loop-row"><input id="sv-loop-e" type="email" name="email" autocomplete="email" required placeholder="you@example.com"><button class="btn" type="submit">Send it to me</button></div><p class="small sv-loop-msg" role="status"></p></form>' +
-      '<p class="sv-loop-or">Or talk about it with your neighbours</p>' +
-      '<div class="sv-loop-btns"><a class="sv-loop-fb" href="https://www.facebook.com/groups/1090076830319905" target="_blank" rel="noopener">Join the Facebook group</a><a class="sv-loop-rd" href="https://www.reddit.com/r/Squamish_News/" target="_blank" rel="noopener">Join r/Squamish_News</a></div>';
-    // after the first section of the story; short stories: after the third paragraph; else at the end
+      '<p>One short email every Friday: what council decided and what is coming up.</p>' +
+      '<form novalidate><div class="sv-loop-row"><input type="email" name="email" autocomplete="email" required placeholder="Your email" aria-label="Your email"><button class="btn" type="submit">Sign up</button></div><p class="small sv-loop-msg" role="status"></p></form>' +
+      '<div class="sv-loop-btns"><span>Or join in:</span><a class="sv-loop-fb" href="https://www.facebook.com/groups/1090076830319905" target="_blank" rel="noopener">Facebook group</a><a class="sv-loop-rd" href="https://www.reddit.com/r/Squamish_News/" target="_blank" rel="noopener">Reddit</a></div>';
+    // flood story: above the live river panel (most readers stop inside it). Others: after the first section; short stories after the third paragraph.
+    var live = document.querySelector('section[data-flood-live]');
     var h2s = body.querySelectorAll('h2'), ps = [].filter.call(body.children, function (x) { return x.tagName === 'P'; });
-    var before = h2s.length > 1 ? h2s[1] : ps.length > 4 ? ps[3] : null;
+    var before = live || (h2s.length > 1 ? h2s[1] : ps.length > 4 ? ps[3] : null);
     if (before) before.parentNode.insertBefore(box, before); else body.appendChild(box);
     var f = box.querySelector('form'), msg = box.querySelector('.sv-loop-msg'), btn = f.querySelector('button');
     f.addEventListener('submit', function (e) {
