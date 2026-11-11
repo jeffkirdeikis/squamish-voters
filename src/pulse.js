@@ -65,6 +65,7 @@
       fetch('/api/subscribe/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, consent: true, from: 'story-loop', area: prefs.area || '', topics: prefs.topics || [] }) })
         .then(function (r) { return r.json(); })
         .then(function (r) {
+          if (r.ok && window.SVdone) SVdone('email');
           msg.textContent = r.ok ? (!r.pending ? 'You’re already on the list. Thanks!' : 'Almost done: check your inbox and tap the link to confirm.') : (r.error || 'Something went wrong. Please try again.');
           if (r.ok) { f.reset(); if (r.pending) ev('signup', { kind: 'weekly email', from: 'story-loop' }); }
         })

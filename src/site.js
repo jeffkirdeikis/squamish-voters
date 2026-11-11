@@ -362,7 +362,7 @@
       f.querySelector('button').disabled = true; msg.textContent = 'Signing you up…';
       fetch('/api/subscribe/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, consent: true, from: f.getAttribute('data-subscribe'), area: p.area, topics: p.topics }) })
         .then(function (r) { return r.json(); })
-        .then(function (r) { msg.textContent = r.ok ? (!r.pending ? 'You’re already on the list. Thanks!' : r.sent ? 'Almost done: check your inbox and tap the link to confirm.' : 'Thanks! We’ll email you a link to confirm before the first one goes out.') : (r.error || 'Something went wrong. Please try again.'); if (r.ok) f.reset(); if (r.ok && r.pending && window.SVpulse) SVpulse.signup('weekly email', f.getAttribute('data-subscribe')); })
+        .then(function (r) { if (r.ok && window.SVdone) SVdone('email'); msg.textContent = r.ok ? (!r.pending ? 'You’re already on the list. Thanks!' : r.sent ? 'Almost done: check your inbox and tap the link to confirm.' : 'Thanks! We’ll email you a link to confirm before the first one goes out.') : (r.error || 'Something went wrong. Please try again.'); if (r.ok) f.reset(); if (r.ok && r.pending && window.SVpulse) SVpulse.signup('weekly email', f.getAttribute('data-subscribe')); })
         .catch(function () { msg.textContent = 'Something went wrong. Please try again.'; })
         .then(function () { f.querySelector('button').disabled = false; });
       if (window.SV && SV.track) SV.track('Email signup', { from: f.getAttribute('data-subscribe') });
@@ -525,3 +525,9 @@
 })();
 // Inside the phone app only: load the alerts code (src/app.js). A normal browser never fetches it.
 if (/SquamishVotersApp/.test(navigator.userAgent)) { var svApp = document.createElement('script'); svApp.src = '/app.js'; svApp.defer = true; document.head.appendChild(svApp); }
+// Remember a tap on the Facebook group or the Reddit link, so those buttons are gone on the next page (head script + site.css).
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('a[href]'); if (!a || !window.SVdone) return;
+  if (/facebook\.com\/groups\/1090076830319905/.test(a.href)) SVdone('fb');
+  else if (/reddit\.com\/r\/Squamish_News/i.test(a.href)) SVdone('reddit');
+}, true);

@@ -2834,3 +2834,11 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .fl-sticky[hidden] { display: none; }
 .fl-sticky:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 @media (min-width: 900px) { .fl-sticky { bottom: 1.2rem; } }
+
+/* ---------- Join prompts hidden once the visitor has done them (sv_done in this browser; set by the head script) ---------- */
+html.sv-has-email section.signup, html.sv-has-email form.herosign, html.sv-has-email .sv-loop form, html.sv-has-email .sv-loop > p { display: none; }
+html.sv-has-fb .fbcard, html.sv-has-fb .sv-loop-fb { display: none; }
+html.sv-has-reddit .rdcard, html.sv-has-reddit .sv-loop-rd { display: none; }
+html.sv-has-fb.sv-has-reddit .social-pair, html.sv-has-fb.sv-has-reddit .sv-loop-btns { display: none; }
+html.sv-has-email.sv-has-fb.sv-has-reddit .sv-loop { display: none; }
+html.sv-has-fb .social-pair, html.sv-has-reddit .social-pair { grid-template-columns: minmax(0, 1fr); }

@@ -395,6 +395,9 @@ function page({ url, title, desc, body, hero = '', scripts = '', noindex = false
 <meta name="twitter:image" content="${img}">
 <link rel="canonical" href="https://squamishvoters.com__PATH__">
 <meta name="theme-color" content="#0f4c3a">${BUILD_SHA ? `\n<meta name="build" content="${BUILD_SHA}">` : ''}${noindex ? `\n<meta name="robots" content="${noindex === 'thin' ? 'noindex, follow' : 'noindex, nofollow'}">` : ''}${jsonld ? `\n<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
+<script>/* Hide join prompts a visitor has already acted on (weekly email, Facebook group, Reddit): remembered in this browser only. */
+window.SVdone=function(k){try{var d=JSON.parse(localStorage.getItem('sv_done')||'{}');if(k){d[k]=1;localStorage.setItem('sv_done',JSON.stringify(d))}return d}catch(e){return{}}};
+(function(){var d=SVdone(),c=document.documentElement.classList;if(d.email)c.add('sv-has-email');if(d.fb)c.add('sv-has-fb');if(d.reddit)c.add('sv-has-reddit')})();</script>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">

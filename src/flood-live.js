@@ -357,6 +357,7 @@
         if (!d.ok) throw new Error(d.error || 'Something went wrong. Try again in a minute.');
         m.textContent = d.pending ? 'Done. Check your inbox for a second link to confirm the Friday email.' : 'You’re already on the Friday email. Thanks!';
         m.classList.add('good'); b.hidden = true;
+        if (window.SVdone) SVdone('email');
         if (d.pending && window.SVpulse) SVpulse.signup('weekly email', 'flood alert');
       } catch (err) { m.textContent = err.message; m.classList.add('bad'); b.disabled = false; }
     });
