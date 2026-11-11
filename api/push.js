@@ -1,7 +1,7 @@
 // Phone alerts for the Squamish Voters app (iPhone and Android). The app shows this site in a frame; src/app.js asks
 // the phone for a push token and posts it here. scripts/pipeline/push.mjs sends the alerts when a story goes live.
 //   POST { token, platform: 'ios' | 'android', level: 'big' | 'all' | 'off' }
-//   big = floods, closures and the day's top stories only. all = every new story. off = forget this phone.
+//   big = the day's top stories only (major council decisions and the biggest local news). all = every new story. off = forget this phone.
 // Nothing here identifies a person: only the token the phone hands out, which is useless anywhere else.
 import { neon } from '@neondatabase/serverless';
 

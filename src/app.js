@@ -50,7 +50,7 @@
     var btn = function (level, label, primary) { return '<button type="button" class="btn block' + (primary ? '' : ' secondary') + '" data-level="' + level + '" style="margin-top:.6rem">' + label + '</button>'; };
     sheet.innerHTML = '<div style="background:var(--surface);color:var(--ink);width:100%;border-radius:18px 18px 0 0;padding:1.25rem 1.1rem calc(1.25rem + env(safe-area-inset-bottom));box-shadow:0 -6px 24px rgba(0,0,0,.2)">' +
       '<h2 style="margin:0 0 .35rem;font-size:1.35rem">Get Squamish alerts on this phone</h2>' +
-      '<p style="margin:0 0 .5rem;color:var(--ink-2)">Floods, road closures and big council news, the moment we publish. No account needed. Change it any time from the Menu.</p>' +
+      '<p style="margin:0 0 .5rem;color:var(--ink-2)">Big council decisions and major Squamish news, the moment we publish. No account needed. Change it any time from the Menu.</p>' +
       btn('big', 'Big news only' + (state.level === 'big' ? ' (on now)' : ''), true) +
       btn('all', 'Every new story' + (state.level === 'all' ? ' (on now)' : ''), false) +
       btn(on ? 'off' : 'later', on ? 'Turn alerts off' : 'Not now', false) + '</div>';
