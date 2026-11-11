@@ -10,6 +10,13 @@
   var toast = function (m) { if (window.SV && SV.toast) SV.toast(m); };
   var track = function (name, data) { if (window.SV && SV.track) SV.track(name, data); };
   var state = read() || {};
+  // Automated check only (the simulator opens the app with ?svpushtest=1): ask the phone for a token without the
+  // offer sheet and file it as a test phone, which never gets real alerts.
+  if (/[?&]svpushtest=1/.test(location.search)) {
+    P.addListener('registration', function (t) { send(t.value, 'test').then(function (r) { document.title = 'push test ' + (r.ok ? 'ok' : 'failed'); toast('Push test: token ' + (r.ok ? 'saved' : 'not saved')); }); });
+    P.addListener('registrationError', function (e) { toast('Push test: no token (' + ((e && e.error) || 'error') + ')'); });
+    P.register(); return;
+  }
 
   function send(token, level) {
     return fetch('/api/push/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: token, platform: platform, level: level }) })
