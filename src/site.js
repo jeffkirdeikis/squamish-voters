@@ -523,3 +523,5 @@
   }
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(upd); } }, { passive: true });
 })();
+// Inside the phone app only: load the alerts code (src/app.js). A normal browser never fetches it.
+if (/SquamishVotersApp/.test(navigator.userAgent)) { var svApp = document.createElement('script'); svApp.src = '/app.js'; svApp.defer = true; document.head.appendChild(svApp); }

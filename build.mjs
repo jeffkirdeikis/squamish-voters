@@ -2807,7 +2807,7 @@ write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We canâ€
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js', 'since.js', 'flood-live.js', 'flood-map.js', 'pulse.js', 'insights.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js', 'since.js', 'flood-live.js', 'flood-map.js', 'pulse.js', 'insights.js', 'app.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.writeFileSync(path.join(DIST, 'botid.js'), `(function(){${BOTID_JS}})();`);
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 

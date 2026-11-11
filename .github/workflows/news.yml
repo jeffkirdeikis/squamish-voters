@@ -44,6 +44,10 @@ jobs:
           FB_APP_ID: '1685840756242945' # the "Squamish Voters News" Meta app (public id, not a secret)
           FB_APP_SECRET: ${{ secrets.FB_APP_SECRET }}
           FB_USER_TOKEN: ${{ secrets.FB_USER_TOKEN }}
+          APNS_KEY_P8: ${{ secrets.APNS_KEY_P8 }} # phone alerts (scripts/pipeline/push.mjs): Apple push key, its id and the team id
+          APNS_KEY_ID: ${{ secrets.APNS_KEY_ID }}
+          APNS_TEAM_ID: 'PV5Y7YNUV6'
+          FCM_SERVICE_ACCOUNT: ${{ secrets.FCM_SERVICE_ACCOUNT }} # Android alerts, once the Firebase project exists
           GH_TOKEN: ${{ github.token }}
           DRAFT_ONE: ${{ github.event.inputs.draft_one == 'true' && '1' || '' }}
         run: |
@@ -68,6 +72,7 @@ jobs:
             else echo 'Build failed; not committing, trying again next pass'
             fi
             node scripts/pipeline/facebook.mjs || echo 'Facebook Page post skipped this pass' # waits for the Facebook secrets; posts stories once they're live
+            node scripts/pipeline/push.mjs || echo 'Phone alerts skipped this pass' # app alerts for stories once they're live; waits for the Apple and Google push secrets
             pass=$(( pass + 1 ))
             next=$(( began + 600 ))
             [ $next -ge $end ] && break
