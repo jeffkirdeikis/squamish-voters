@@ -1,6 +1,19 @@
 // Only runs inside the Squamish Voters phone app (site.js loads it when the app's name is in the browser string).
 // Offers phone alerts, remembers the choice, hands the phone's push token to /api/push, and opens the story when an
 // alert is tapped. The website in a normal browser never loads this file.
+// The direct download copy of the Android app (its browser string ends "SVSide") shows a one line notice once the
+// Google Play version is live. Set PLAY_URL to the Play listing link on that day; empty means not yet.
+(function () {
+  var PLAY_URL = '';
+  if (!PLAY_URL || !/SquamishVotersApp/.test(navigator.userAgent) || !/SVSide/.test(navigator.userAgent)) return;
+  try { if (sessionStorage.getItem('sv_play_later')) return; } catch (e) {}
+  var bar = document.createElement('div');
+  bar.setAttribute('role', 'status');
+  bar.style.cssText = 'position:fixed;left:0;right:0;bottom:4.2rem;z-index:70;margin:0 .6rem;padding:.8rem 1rem;border-radius:14px;background:var(--brand);color:#fff;display:flex;gap:.8rem;align-items:center;box-shadow:0 4px 16px rgba(0,0,0,.25)';
+  bar.innerHTML = '<span style="flex:1">The official app is now on Google Play.</span><a href="' + PLAY_URL + '" style="color:#14211c;background:var(--focus);font-weight:700;padding:.5rem .9rem;border-radius:10px;text-decoration:none">Switch</a><button type="button" aria-label="Not now" style="background:none;border:0;color:#fff;font:inherit;font-size:1.3rem;padding:.2rem .4rem">×</button>';
+  bar.querySelector('button').addEventListener('click', function () { bar.remove(); try { sessionStorage.setItem('sv_play_later', '1'); } catch (e) {} });
+  document.body.appendChild(bar);
+})();
 (function () {
   var UA = navigator.userAgent, C = window.Capacitor;
   if (!/SquamishVotersApp/.test(UA) || !/SVPush/.test(UA) || !C || !C.Plugins || !C.Plugins.PushNotifications) return;

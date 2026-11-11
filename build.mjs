@@ -2564,6 +2564,25 @@ for (const c of all.filter((x) => x.paper)) {
     <div class="btn-row"><a class="btn secondary" href="/council/${c.slug}/">← Back to ${f}’s profile</a></div>`,
   }));
 }
+// ---------- /app/: the phone app. Android: direct download (public/app/SquamishVoters.apk) until the Google Play listing is live;
+// iPhone: waiting on Apple's review. Not linked from the menu yet, and kept out of search until it is. ----------
+write('/app/', page({ url: '/app/', noindex: true, title: 'Get the Squamish Voters app', desc: 'Squamish Voters as an app for Android phones, with the iPhone version on its way.',
+  body: `<h1>Get the Squamish Voters app</h1>
+  <p class="lead">Everything on this site, one tap from your home screen. Free, no account, no ads.</p>
+  <section class="card"><h2>Android phones</h2>
+    <p>The app is waiting on Google Play. Until it is there, you can install it straight from this page.</p>
+    <p><a class="btn big block" href="/app/SquamishVoters.apk" download>Download the Android app</a></p>
+    <ol>
+      <li>Tap the button above. Your phone downloads a file called SquamishVoters.apk.</li>
+      <li>Open the file from the download notice or from your Files app.</li>
+      <li>Your phone asks if it can install apps from your browser. Tap Settings, switch on Allow from this source, then go back.</li>
+      <li>Tap Install, then Open.</li>
+    </ol>
+    <p class="small muted">That warning appears for every app that does not come from Google Play. When the Play version is ready, the app will tell you, and it will update over this one without losing anything.</p>
+  </section>
+  <section class="card"><h2>iPhone</h2>
+    <p>The iPhone app is on its way to the App Store. Until it is there, open this site in Safari, tap Share, then Add to Home Screen.</p>
+  </section>` }));
 write('/about/', page({ url: '/about/', jsonld: crumbLd([['Home', '/'], ['About', '/about/']]), title: 'About this site', desc: 'Who makes Squamish Voters, how meeting summaries and the promise tracker work, and how to send a correction. Independent and not affiliated with the District or any council member.', body: pageFile('about.html').replaceAll('<!--CONTACT-->', SITE.contact ? `<a href="mailto:${esc(SITE.contact)}">${esc(SITE.contact)}</a>` : 'a contact address will be posted here shortly.').replace('{{COUNT}}', String(all.length)).replace('{{UPDATED}}', esc(SITE.updated)) }));
 // ---------- /welcome/: where the email confirm link lands (api/subscribe.js redirects here with ?t=<token>) ----------
 // Two optional questions: up to 3 top issues (each asks which way they lean, or Other with a write-in) and their
