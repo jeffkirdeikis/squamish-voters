@@ -1894,13 +1894,16 @@ if (TRACKED.length) {
       ${rp.length ? `<div class="rp-strip">${rp.map((p) => `<figure><img src="${esc(p.file)}" alt="${esc(p.alt)}" loading="lazy"><figcaption><b>${esc(p.place)}</b>, ${esc(p.when)}. ${esc(p.caption || '')} Photo: ${esc(p.credit || 'a reader')}</figcaption></figure>`).join('')}</div>` : ''}</section>` : '';
     const storyBody0 = (st.toc || []).length ? fullBodyHtml(st).replace(/<h2>([\s\S]*?)<\/h2>/g, (m, t) => `${mapHtml && t === st.map_before ? mapHtml : ''}${readerHtml && t === st.photos_before ? readerHtml : ''}<h2 id="${slugId(t)}">${t}</h2>`) : fullBodyHtml(st);
     const storyBody = liveFill(foldSections(storyBody0, st), st);
-    // Flood alert sign up under the live panel (api/flood-alert.js; emails sent by api/flood-watch.js).
-    const floodAlertBox = `<section class="fl-alert" data-flood-alert><h2>Email me if this changes</h2>
-      <p>One email when the province issues a Flood Warning or ends its notice, the regional district lists an evacuation alert or order, or the forecast peak moves by 10% or more. Nothing else.</p>
-      <form class="fl-alert-form" novalidate><label for="fl-alert-email">Your email</label><div class="fl-alert-row"><input id="fl-alert-email" type="email" autocomplete="email" inputmode="email" required placeholder="you@example.com"><button class="btn" type="submit">Email me changes</button></div>
-      <label class="fl-alert-ok"><input id="fl-alert-consent" type="checkbox"> Yes, email me flood alerts. I can turn them off any time.</label>
-      <p class="fl-alert-msg" role="status"></p></form>
-      <p class="small muted">We email a link to confirm first. These do not replace official alerts: also sign up for <a href="https://www.slrd.bc.ca/SLRDAlert" target="_blank" rel="noopener">SLRD Alert</a> or <a href="https://squamish.ca/alert" target="_blank" rel="noopener">Squamish Alert</a>.</p></section>`;
+    // Flood alert sign up, right under the official status at the top of the story (api/flood-alert.js; emails sent by
+    // api/flood-watch.js). Moved up Nov 10 2026: two in three readers never scrolled to its old spot under the live panel.
+    // Pressing the button is the consent (the words beside it say exactly what they get). After it goes through, src/flood-live.js
+    // offers the Friday email as a separate one tap choice. A sticky "Get flood alerts" button shows while this box is off screen.
+    const floodAlertBox = `<section class="fl-alert no-print" id="flood-alerts" data-flood-alert aria-labelledby="fl-alert-h"><h2 id="fl-alert-h">Get an email if this gets worse</h2>
+      <p>One email if it becomes a Flood Warning, an evacuation alert is issued, or the forecast peak moves 10% or more.</p>
+      <form class="fl-alert-form" novalidate><label for="fl-alert-email" class="visually-hidden">Your email</label><div class="fl-alert-row"><input id="fl-alert-email" type="email" autocomplete="email" inputmode="email" required placeholder="Your email"><button class="btn" type="submit">Email me flood alerts</button></div>
+      <p class="fl-alert-msg" role="status"></p><div class="fl-alert-more" hidden></div></form>
+      <p class="small muted">We email a link to confirm first. Turn them off any time. These do not replace official alerts: also sign up for <a href="https://www.slrd.bc.ca/SLRDAlert" target="_blank" rel="noopener">SLRD Alert</a> or <a href="https://squamish.ca/alert" target="_blank" rel="noopener">Squamish Alert</a>.</p></section>`;
+    const floodSticky = st.live === 'flood' ? '<a class="fl-sticky no-print" href="#flood-alerts" data-flood-sticky hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>Get flood alerts</a>' : '';
     // Share bar (src/news.js): the phone's share sheet (with the river picture on flood stories), a ready made text,
     // WhatsApp, Facebook and Copy link. st.share_text may hold {{live}} numbers; src/flood-live.js keeps them current.
     const shareUrl = ORIGIN + nUrl(st), shareText = fillTpl(st.share_text || st.head, st);
@@ -1915,8 +1918,8 @@ if (TRACKED.length) {
     const heroChart = st.live === 'flood' ? '<section class="fl-hero-chart" data-flood-chart aria-label="Squamish River flow chart"><p class="fl-status-wait">Loading the river chart…</p></section>' : '';
     const band = st.live === 'flood' ? '<section class="fl-band" data-flood-band aria-label="Squamish River now and forecast" aria-live="polite"><p class="fl-band-wait">Loading the newest river reading…</p></section>' : '';
     const body = st.tier === 'lead'
-      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${status}${band}${meHtml ? `${meHtml}${shareBar}` : ''}${heroChart}${tocHtml}${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p>${meHtml ? '' : shareBar}<aside class="nw-side">${visual(st)}${take(st)}${sideMore}</aside>`
-      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${band}${tocHtml}${st.visual && st.visual.type === 'map' ? visual(st) : photo(st, true)}<p class="nw-dek">${dekHtml(st)}</p>${meHtml}<aside class="nw-side">${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}${sideMore}</aside>`;
+      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${status}${st.live === 'flood' ? floodAlertBox : ''}${band}${meHtml ? `${meHtml}${shareBar}` : ''}${heroChart}${tocHtml}${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p>${meHtml ? '' : shareBar}<aside class="nw-side">${visual(st)}${take(st)}${sideMore}</aside>`
+      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${st.live === 'flood' ? floodAlertBox : ''}${band}${tocHtml}${st.visual && st.visual.type === 'map' ? visual(st) : photo(st, true)}<p class="nw-dek">${dekHtml(st)}</p>${meHtml}<aside class="nw-side">${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}${sideMore}</aside>`;
     write(nUrl(st), page({
       url: nUrl(st), title: st.head,
       desc: st.dek.replace(/<[^>]+>/g, ''),
@@ -1924,11 +1927,12 @@ if (TRACKED.length) {
       jsonld: [crumbLd([['Home', '/'], ['News', '/news/'], [st.head, nUrl(st)]]), { '@context': 'https://schema.org', '@type': 'NewsArticle', headline: st.head, datePublished: st.date, inLanguage: 'en-CA', image: ogUrl(st), dateModified: st.updated || st.date, description: st.dek.replace(/<[^>]+>/g, ''), mainEntityOfPage: `${ORIGIN}${nUrl(st)}`, articleSection: SEC[st.s] || undefined, author: { '@type': 'Person', name: 'Jeff Kirdeikis', url: `${ORIGIN}/about/`, sameAs: ['https://jeffkirdeikis.com'] }, publisher: { '@type': 'Organization', name: 'Squamish Voters', url: `${ORIGIN}/`, logo: { '@type': 'ImageObject', url: `${ORIGIN}/icon-512.png` } }, isBasedOn: st.src[1] }],
       body: `<div class="nw nw-story-page">
   <p class="crumbs"><a href="/news/">← All news</a></p>
-  <article class="nw-full nw-art" data-s="${st.s}">${liveFill(body, st)}${st.live === 'flood' ? `<section class="fl-live" data-flood-live data-issued="${esc(st.live_issued || '')}" data-rain-from="${esc(st.rain_from || '')}" data-rain-to="${esc(st.rain_to || '')}" aria-live="polite"><div class="fl-head"><h2>Live: river, forecast and alerts</h2><p>Loading the newest readings…</p></div></section>${floodAlertBox}` : ''}${storyBody}<div class="nw-foot">${source(st)}${shareBtn(st)}</div></article>
+  <article class="nw-full nw-art" data-s="${st.s}">${liveFill(body, st)}${st.live === 'flood' ? `<section class="fl-live" data-flood-live data-issued="${esc(st.live_issued || '')}" data-rain-from="${esc(st.rain_from || '')}" data-rain-to="${esc(st.rain_to || '')}" aria-live="polite"><div class="fl-head"><h2>Live: river, forecast and alerts</h2><p>Loading the newest readings…</p></div></section>` : ''}${storyBody}<div class="nw-foot">${source(st)}${shareBtn(st)}</div></article>
   ${pollHtml(st)}
   <section class="nw-next"><h2 class="nw-sechead">More news</h2><ul>${others.map((o) => `<li data-s="${o.s}"><span>${esc(SEC[o.s])}</span><a href="${nUrl(o)}">${esc(o.head)}</a></li>`).join('')}</ul>
   <p class="nw-more"><a href="/news/">All news →</a> · <a href="/meetings/">What council decided →</a></p></section>
   ${signupBox('news-story')}
+  ${floodSticky}
 </div>`,
       scripts: (st.poll ? '<script src="/news.js"></script><script src="/botid.js" defer></script><script src="/poll.js" defer></script>' : '<script src="/news.js"></script>') + (st.live === 'flood' ? '<script src="/flood-live.js" defer></script>' : '') + (st.map_before ? '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script><script src="/flood-map.js" defer></script>' : ''),
     }));

@@ -2819,3 +2819,18 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 @media (max-width: 600px) { .sv-loop-btns span { flex: 1 0 100%; margin-bottom: -.2rem; } }
 .sv-loop-btns a { flex: 1 1 auto; text-align: center; text-decoration: none; font-weight: 700; color: #fff; padding: .6rem .5rem; border-radius: 10px; white-space: nowrap; }
 .sv-loop-fb { background: #0f63d1; } .sv-loop-rd { background: #d93a00; }
+
+/* Flood alert box at the top of the flood story + sticky "Get flood alerts" button (src/flood-live.js), Nov 10 2026 */
+.nw-art > .fl-alert { grid-column: 1 / -1; }
+.fl-alert { border: 2px solid var(--brand); }
+.fl-alert p { font-size: .95rem; line-height: 1.4; }
+.fl-alert-row .btn { flex: 1 0 auto; min-height: 3rem; }
+.fl-alert-row input { min-height: 3rem; box-sizing: border-box; }
+.fl-alert-msg:empty { display: none; }
+.fl-alert-more { display: grid; gap: .5rem; padding-top: .6rem; border-top: 1px solid #c4ddd1; }
+.fl-alert-more .btn { justify-self: start; }
+.fl-sticky { position: fixed; z-index: 59; left: 1rem; bottom: calc(4.6rem + env(safe-area-inset-bottom)); display: inline-flex; align-items: center; gap: .45rem; background: var(--brand); color: #fff; font-weight: 800; text-decoration: none; padding: .75rem 1.2rem; border-radius: 999px; box-shadow: 0 4px 16px rgba(20,33,28,.3); white-space: nowrap; }
+.fl-sticky svg { width: 20px; height: 20px; flex: none; }
+.fl-sticky[hidden] { display: none; }
+.fl-sticky:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+@media (min-width: 900px) { .fl-sticky { bottom: 1.2rem; } }

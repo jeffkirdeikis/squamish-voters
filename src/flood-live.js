@@ -314,25 +314,63 @@
   let rw = 0, lastW = 0; window.addEventListener('resize', () => { clearTimeout(rw); rw = setTimeout(() => { if (lastData && chartBox && chartBox.clientWidth !== lastW) { lastW = chartBox.clientWidth; renderChart(lastData); } }, 200); });
 })();
 
-// "Email me if this changes" form under the live panel (api/flood-alert.js).
+// Flood alert form at the top of the flood story (api/flood-alert.js). Pressing "Email me flood alerts" is the consent.
+// After it goes through: a one tap offer of the Friday email (api/subscribe.js) for the same address, and the sticky button goes away.
 (function () {
-  const f = document.querySelector('[data-flood-alert] form');
+  const box = document.querySelector('[data-flood-alert]'), f = box && box.querySelector('form');
   if (!f) return;
-  const msg = f.querySelector('.fl-alert-msg'), btn = f.querySelector('button');
+  const msg = f.querySelector('.fl-alert-msg'), btn = f.querySelector('button'), input = f.querySelector('#fl-alert-email'), more = f.querySelector('.fl-alert-more');
+  const sticky = document.querySelector('[data-flood-sticky]');
+  let done = false;
+  try { done = localStorage.getItem('sv_flood_alert') === '1'; } catch (e) {}
   f.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = f.querySelector('#fl-alert-email').value.trim(), consent = f.querySelector('#fl-alert-consent').checked;
+    const email = input.value.trim();
     msg.className = 'fl-alert-msg';
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { msg.textContent = 'That email address doesn’t look right.'; msg.classList.add('bad'); return; }
-    if (!consent) { msg.textContent = 'Please tick the box to say we can email you.'; msg.classList.add('bad'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { msg.textContent = 'That email address doesn’t look right.'; msg.classList.add('bad'); input.focus(); return; }
     btn.disabled = true; msg.textContent = 'Sending…';
+    if (window.SVpulse) SVpulse.ev('signup try', { kind: 'flood alert', from: 'flood story' });
     try {
       const r = await fetch('/api/flood-alert/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, consent: true }) });
       const d = await r.json().catch(() => ({}));
       if (!r.ok || !d.ok) throw new Error(d.error || 'Something went wrong. Try again in a minute.');
       msg.textContent = d.already ? 'You’re already signed up for flood alerts.' : 'Check your email and tap the link to turn alerts on. Look in spam if it isn’t there in a minute.';
-      msg.classList.add('good'); f.querySelector('#fl-alert-email').value = ''; if (!d.already && window.SVpulse) SVpulse.signup('flood alert', 'flood story');
+      msg.classList.add('good'); input.value = '';
+      if (!d.already && window.SVpulse) SVpulse.signup('flood alert', 'flood story');
+      done = true; try { localStorage.setItem('sv_flood_alert', '1'); } catch (x) {}
+      if (sticky) sticky.hidden = true;
+      offerWeekly(email);
     } catch (err) { msg.textContent = err.message; msg.classList.add('bad'); }
     btn.disabled = false;
   });
+  // One tap: also get the Friday email. A separate choice (not a pre ticked box), so the consent stays clear.
+  function offerWeekly(email) {
+    more.hidden = false;
+    more.innerHTML = '<p><b>Want the rest of Squamish news too?</b> One short email every Friday: what council decided and what is coming up.</p><button type="button" class="btn secondary">Yes, add the Friday email</button><p class="fl-alert-msg" role="status"></p>';
+    const b = more.querySelector('button'), m = more.querySelector('.fl-alert-msg');
+    b.addEventListener('click', async () => {
+      b.disabled = true; m.className = 'fl-alert-msg'; m.textContent = 'Adding you…';
+      if (window.SVpulse) SVpulse.ev('signup try', { kind: 'weekly email', from: 'flood alert' });
+      try {
+        const r = await fetch('/api/subscribe/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, consent: true, from: 'flood-alert' }) });
+        const d = await r.json().catch(() => ({}));
+        if (!d.ok) throw new Error(d.error || 'Something went wrong. Try again in a minute.');
+        m.textContent = d.pending ? 'Done. Check your inbox for a second link to confirm the Friday email.' : 'You’re already on the Friday email. Thanks!';
+        m.classList.add('good'); b.hidden = true;
+        if (d.pending && window.SVpulse) SVpulse.signup('weekly email', 'flood alert');
+      } catch (err) { m.textContent = err.message; m.classList.add('bad'); b.disabled = false; }
+    });
+  }
+  // Sticky "Get flood alerts" button: shows once the reader has scrolled past the box, hides while the box is on screen
+  // or once they have signed up. Tapping it scrolls back up and puts the cursor in the email field.
+  if (sticky && 'IntersectionObserver' in window) {
+    let passed = false;
+    new IntersectionObserver((es) => { es.forEach((x) => { passed = !x.isIntersecting && x.boundingClientRect.top < 0; sticky.hidden = done || !passed; }); }).observe(box);
+    sticky.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (window.SVpulse) SVpulse.ev('opened', { what: 'Sticky Get flood alerts button' });
+      box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => input.focus({ preventScroll: true }), 450);
+    });
+  }
 })();

@@ -9,7 +9,7 @@ import { mailReady, ORIGIN, REPLY_TO } from './_mail.js';
 
 const URL = process.env.DATABASE_URL || process.env.POSTGRES_URL;
 const sql = URL ? neon(URL) : null;
-export const CONSENT = 'Entered email and pressed "Email me changes" on a Squamish Voters flood story: one email when the province issues a Flood Warning or ends its notice, the regional district lists an evacuation alert or order, or the forecast peak moves by 10% or more. Confirmed by email link; unsubscribe any time.';
+export const CONSENT = 'Entered email and pressed "Email me flood alerts" on a Squamish Voters flood story: one email when the province issues a Flood Warning or ends its notice, the regional district lists an evacuation alert or order, or the forecast peak moves by 10% or more. Confirmed by email link; unsubscribe any time.';
 let ready = null;
 export const initFlood = () => (ready ||= sql`CREATE TABLE IF NOT EXISTS sv_flood_alerts (
   email text PRIMARY KEY, status text NOT NULL DEFAULT 'pending', token text NOT NULL, consent_text text NOT NULL,
