@@ -1,0 +1,31 @@
+# Every 5 minutes: run the flood alert checker (api/flood-watch.js), which emails confirmed flood alert subscribers
+# when the official picture changes. Vercel's own cron for it only fired about once a day on this plan (Nov 10 2026),
+# so this calls it instead. Same pattern as news.yml: GitHub's schedule only really fires every few hours, so each run
+# loops itself for about 5.5 hours and the concurrency group queues the next run behind it, so one is always going.
+# No secrets needed: the checker only emails when something official changed, and it saves what it saw each time.
+name: Flood alerts
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+concurrency:
+  group: flood-watch
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - name: Check the river, flood notices and evacuation list every 5 minutes
+        run: |
+          end=$(( $(date +%s) + 330 * 60 ))
+          while :; do
+            began=$(date +%s)
+            out=$(curl -s --max-time 120 'https://squamishvoters.com/api/flood-watch/' || echo 'request failed')
+            echo "$(date -u +%H:%MZ) $(echo "$out" | head -c 400)"
+            next=$(( began + 300 ))
+            [ $next -ge $end ] && break
+            sleep $(( next - $(date +%s) > 0 ? next - $(date +%s) : 0 ))
+          done

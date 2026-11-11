@@ -75,7 +75,7 @@ export async function slrd() {
   const main = (h.match(/<main[\s\S]*?<\/main>/i) || [h])[0];
   if (/no active Evacuation Alerts or Orders/i.test(main)) return { active: false, page };
   const items = [...main.matchAll(/<a[^>]+href="([^"]+)"[^>]*>([^<]{12,160})<\/a>/gi)]
-    .map((m) => m[2].replace(/&amp;/g, '&').trim()).filter((s) => /alert|order|evacu/i.test(s)).slice(0, 4);
+    .map((m) => m[2].replace(/&amp;/g, '&').trim()).filter((s) => /alert|order|evacu/i.test(s) && !/sign ?up|subscribe|slrd ?alert|notification/i.test(s)).slice(0, 8);
   return { active: true, items, page };
 }
 

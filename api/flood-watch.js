@@ -1,7 +1,9 @@
 // Runs every 10 minutes (Vercel cron, vercel.json). Compares the official flood picture with the last one it saw and
 // emails confirmed flood alert subscribers (api/flood-alert.js) when one of these changes:
-//   - the province's flood notice for the South Coast goes up to a Flood Warning, or ends after a Watch or Warning
-//   - the regional district's evacuation list goes from none to active
+//   - the province's flood notice for the South Coast goes up to a Flood Warning, steps down from a Warning, or ends after a Watch or Warning
+//   - the regional district's evacuation list goes from none to active, adds a listing (a new area, or an alert becoming an order),
+//     or goes back to none
+
 //   - a new provincial forecast moves the coming peak by 10% or more from the last peak we emailed (or first saw)
 // Fixed wording, facts only, every email links the story and the official source. A copy goes to the site inbox.
 // The first run only records the state; it never emails. ?dry=1 reports what it would send without sending or saving.
@@ -15,6 +17,7 @@ const n0 = (x) => Math.round(x).toLocaleString('en-CA');
 const sizeName = (f) => f < SIZES.y2 ? 'under the size the river reaches every second year' : f < SIZES.y5 ? 'between a 1 in 2 and a 1 in 5 year flood'
   : f < SIZES.y10 ? 'between a 1 in 5 and a 1 in 10 year flood' : f < SIZES.y20 ? 'between a 1 in 10 and a 1 in 20 year flood'
   : f < SIZES.y50 ? 'between a 1 in 20 and a 1 in 50 year flood' : f < SIZES.y100 ? 'between a 1 in 50 and a 1 in 100 year flood' : 'bigger than a 1 in 100 year flood';
+const itemKey = (x) => String(x).toLowerCase().replace(/\s+/g, ' ').trim();
 const when = (t) => new Intl.DateTimeFormat('en-CA', { timeZone: 'Etc/GMT+7', weekday: 'long', hour: 'numeric', minute: '2-digit' }).format(new Date(t));
 
 export function compare(prev, now) {
@@ -22,8 +25,21 @@ export function compare(prev, now) {
   if (now.level != null && prev.level != null) {
     if (now.level === 3 && prev.level < 3) out.push({ subject: 'Flood Warning issued for the Squamish area', lines: [`The BC River Forecast Centre has issued a Flood Warning covering the South Coast, including Squamish. A Flood Warning means rivers are over their banks, or will be very soon.`], link: now.noticeUrl });
     else if (now.level === 0 && prev.level >= 2) out.push({ subject: 'Squamish flood notice has ended', lines: ['The BC River Forecast Centre no longer lists a flood notice for the South Coast. Rivers can stay high for a while; stay off riverbanks until the water drops.'], link: now.noticeUrl });
+    else if (prev.level === 3 && now.level >= 1 && now.level < 3) out.push({ subject: `Flood Warning for the Squamish area stepped down to ${NOTICE[now.level].replace(/^an? /, '')}`, lines: [`The BC River Forecast Centre has replaced the Flood Warning for the South Coast, including Squamish, with ${NOTICE[now.level]}. The worst looks to be past, but rivers can stay high for a while. Stay off riverbanks, and follow any evacuation alert or order until it is lifted.`], link: now.noticeUrl });
   }
-  if (now.slrd === true && prev.slrd === false) out.push({ subject: 'Evacuation alert or order listed by the regional district', lines: ['The Squamish Lillooet Regional District now lists an active evacuation alert or order.', ...(now.slrdItems || []).map((x) => `Listed: ${x}`), 'An evacuation alert means be ready to leave. An evacuation order means leave now. Check the regional district page for the exact area.'], link: 'https://www.slrd.bc.ca/emergency-program/evacuation-alerts-orders' });
+  const EVAC = 'https://www.slrd.bc.ca/emergency-program/evacuation-alerts-orders';
+  const LEAVE = 'An evacuation alert means be ready to leave. An evacuation order means leave now. Check the regional district page for the exact area.';
+  if (now.slrd === true && prev.slrd === false) out.push({ subject: 'Evacuation alert or order listed by the regional district', lines: ['The Squamish Lillooet Regional District now lists an active evacuation alert or order.', ...(now.slrdItems || []).map((x) => `Listed: ${x}`), LEAVE], link: EVAC });
+  // Already active and a listing appears that was not there last time: a new area, or an alert that became an order.
+  // Only when last time's listings were saved (older saved states have none, so they never count as "new").
+  else if (now.slrd === true && prev.slrd === true && Array.isArray(prev.slrdItems) && (now.slrdItems || []).length) {
+    const seen = new Set(prev.slrdItems.map(itemKey)), added = now.slrdItems.filter((x) => !seen.has(itemKey(x)));
+    if (added.length) {
+      const order = added.some((x) => /\border\b/i.test(x));
+      out.push({ subject: order ? 'Evacuation ORDER listed by the regional district' : 'New evacuation alert listed by the regional district', lines: [order ? 'The Squamish Lillooet Regional District has listed an evacuation order. An order means leave now.' : 'The Squamish Lillooet Regional District has added an evacuation listing.', ...added.map((x) => `New: ${x}`), ...(now.slrdItems.length > added.length ? ['Still listed: ' + now.slrdItems.filter((x) => seen.has(itemKey(x))).join('; ')] : []), LEAVE], link: EVAC });
+    }
+  }
+  if (now.slrd === false && prev.slrd === true) out.push({ subject: 'Regional district evacuation alerts and orders lifted', lines: ['The Squamish Lillooet Regional District no longer lists any active evacuation alert or order. Return home only when it is safe, and stay off riverbanks while the water is high.'], link: EVAC });
   if (now.peak && prev.sentPeak && now.issued && now.issued !== prev.issued && now.peakT > Date.now() && prev.sentPeakT > Date.now()) {
     const ch = (now.peak - prev.sentPeak) / prev.sentPeak;
     if (Math.abs(ch) >= 0.1) out.push({ peakMove: true, subject: `Squamish River forecast peak ${ch > 0 ? 'up' : 'down'} to ${n0(now.peak)}`, lines: [`The province's new forecast (issued ${now.issued}) has the Squamish River peaking near ${n0(now.peak)} cubic metres per second, ${when(now.peakT)}. That is ${sizeName(now.peak)}.`, `The last peak we sent you was ${n0(prev.sentPeak)}, so that is ${Math.round(Math.abs(ch) * 100)}% ${ch > 0 ? 'higher' : 'lower'}. Possible range about ${n0(now.low)} to ${n0(now.high)}.`], link: 'https://bcrfc.env.gov.bc.ca/freshet/clever/08GA022.PDF' });
@@ -82,7 +98,8 @@ export default async function handler(req, res) {
   const alerts = prev ? compare(prev, now) : [];
   // Keep the last good value of any source that failed this time, so a failed check never looks like a change.
   const next = {
-    level: now.level ?? prev?.level ?? null, slrd: now.slrd ?? prev?.slrd ?? null, issued: now.issued ?? prev?.issued ?? null,
+    level: now.level ?? prev?.level ?? null, slrd: now.slrd ?? prev?.slrd ?? null,
+    slrdItems: now.slrd != null ? (now.slrd ? now.slrdItems : []) : prev?.slrdItems ?? null, issued: now.issued ?? prev?.issued ?? null,
     sentPeak: alerts.some((a) => a.peakMove) || !prev?.sentPeak ? now.peak ?? prev?.sentPeak ?? null : prev.sentPeak,
     sentPeakT: alerts.some((a) => a.peakMove) || !prev?.sentPeakT ? now.peakT ?? prev?.sentPeakT ?? null : prev.sentPeakT,
   };
