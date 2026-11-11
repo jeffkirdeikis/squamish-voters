@@ -97,7 +97,7 @@
   });
   document.addEventListener('toggle', function (e) {
     var d = e.target; if (!d || !d.open || d.tagName !== 'DETAILS' || !main.contains(d)) return;
-    var sm = d.querySelector('summary'); ev('opened', { what: sm ? label(sm) : '' });
+    var sm = d.querySelector('summary'), st = sm && (sm.querySelector('b, strong, span') || sm); ev('opened', { what: st ? label(st) : '' });
   }, true);
   // a sign-up that the server accepted (site.js and flood-live.js call this)
   window.SVpulse = { ev: ev, signup: function (kind, from) { ev('signup', { kind: kind, from: from || '' }); } };

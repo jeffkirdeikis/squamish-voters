@@ -43,9 +43,9 @@ export default async function handler(req, res) {
   const from = pacificMidnight(range === 'today' ? 0 : range === 'yesterday' ? 1 : range === '7d' ? 6 : 29);
   const to = range === 'yesterday' ? pacificMidnight(0) : new Date(Date.now() + 6e4);
   const [pvs, evs, first] = await Promise.all([
-    sql`SELECT pv, sid, at, path, title, ref, utm, app, dev, n, ret, country, city, secs, scroll, sec, secname FROM sv_pv WHERE at >= ${from} AND at < ${to} ORDER BY at LIMIT 150000`,
-    sql`SELECT sid, pv, at, path, name, data, secs FROM sv_ev WHERE at >= ${from} AND at < ${to} ORDER BY at LIMIT 300000`,
-    sql`SELECT min(at) AS at FROM sv_pv`,
+    sql`SELECT pv, sid, at, path, title, ref, utm, app, dev, n, ret, country, city, secs, scroll, sec, secname FROM sv_pv WHERE at >= ${from} AND at < ${to} AND sid NOT LIKE 'svtest%' ORDER BY at LIMIT 150000`,
+    sql`SELECT sid, pv, at, path, name, data, secs FROM sv_ev WHERE at >= ${from} AND at < ${to} AND sid NOT LIKE 'svtest%' ORDER BY at LIMIT 300000`,
+    sql`SELECT min(at) AS at FROM sv_pv WHERE sid NOT LIKE 'svtest%'`,
   ]);
 
   // visits
