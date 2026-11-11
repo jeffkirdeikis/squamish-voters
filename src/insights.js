@@ -32,6 +32,24 @@
     var s = d.site;
     sum.textContent = s.visits + ' visits and ' + s.views + ' pages read, ' + ({ today: 'today', yesterday: 'yesterday', '7d': 'in the last 7 days', '30d': 'in the last 30 days' })[d.range] + '. Updated ' + new Date().toLocaleTimeString('en-CA', { hour: 'numeric', minute: '2-digit' }) + '.';
     if (d.since) out.append(el('p', 'in-note', 'Counting started ' + when(d.since) + '. Visits before that are not in these numbers.'));
+    (d.ab || []).forEach(function (t) {
+      var A = t.A, B = t.B, NAMES = { join1: 'Test 1: “Stay in the loop” box partway down news stories' };
+      out.append(h('h2', NAMES[t.name] || 'Test: ' + t.name, 'A is the story as it was. B adds the box. Half of readers get each. Counted since ' + when(t.since) + ', whatever dates are picked above.'));
+      function rt(n, tot) { return n + ' (' + (tot ? (Math.round(1000 * n / tot) / 10) : 0) + '%)'; }
+      function verdict(sure, a, b) { if (A.visits < 100 || B.visits < 100) return 'Too early'; var w = b > a ? 'B' : a > b ? 'A' : ''; if (!w) return 'Even'; return sure >= 95 ? w + ' wins (' + sure + '% sure)' : sure >= 80 ? w + ' ahead (' + sure + '% sure)' : 'No clear difference yet'; }
+      out.append(table(['Score', 'A: as it was', 'B: with the box', 'Result'], [
+        ['Visits in the test', A.visits, B.visits, ''],
+        ['Time on site (typical)', dur(A.medSecs), dur(B.medSecs), verdict(t.sure.time, A.medSecs, B.medSecs)],
+        ['Pages per visit', A.pages, B.pages, verdict(t.sure.pages, A.pages, B.pages)],
+        ['Opened a second page', rt(A.second, A.visits), rt(B.second, B.visits), verdict(t.sure.second, A.second / (A.visits || 1), B.second / (B.visits || 1))],
+        ['Email sign-ups', rt(A.signups, A.visits), rt(B.signups, B.visits), verdict(t.sure.signups, A.signups / (A.visits || 1), B.signups / (B.visits || 1))],
+        ['Facebook group taps', rt(A.fb, A.visits), rt(B.fb, B.visits), verdict(t.sure.fb, A.fb / (A.visits || 1), B.fb / (B.visits || 1))],
+        ['Reddit group taps', rt(A.reddit, A.visits), rt(B.reddit, B.visits), verdict(t.sure.reddit, A.reddit / (A.visits || 1), B.reddit / (B.visits || 1))],
+        ['Did at least one of: second page, email, group', rt(A.any, A.visits), rt(B.any, B.visits), verdict(t.sure.any, A.any / (A.visits || 1), B.any / (B.visits || 1))],
+      ]));
+      var need = Math.max(0, 1000 - Math.min(A.visits, B.visits));
+      out.append(el('p', 'small muted', need ? 'A result on the rarer scores (email, groups) needs roughly 1,000 to 2,000 visits per version. About ' + need + ' more per version to reach the low end.' : 'Enough visits for a first read. “Wins” means 95% sure or better.'));
+    });
     if (!s.visits) { out.append(el('p', 'muted', 'No visits counted in these dates yet.')); return; }
 
     out.append(h('h2', 'Whole site'));

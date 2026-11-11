@@ -32,12 +32,52 @@
   var app = /FBAN|FBAV|FB_IAB/.test(ua) ? 'facebook app' : /Instagram/.test(ua) ? 'instagram app' : /Reddit/i.test(ua) ? 'reddit app' : '';
   var w = window.innerWidth || 0, dev = w < 700 ? 'phone' : w < 1100 ? 'tablet' : 'computer';
 
+  // ----- A/B test (one at a time). Half of browsers get version B, picked once and kept. Set TEST to null to stop. -----
+  // join1: on news stories, B adds a "Stay in the loop" box (weekly email + Facebook group + Reddit) partway down the story.
+  var TEST = 'join1', ab = '';
+  var body = /^\/news\/[^/]+/.test(path) ? document.querySelector('.nw-body') : null;
+  if (TEST && body) {
+    var arm = ls('sv_ab_' + TEST); if (arm !== 'A' && arm !== 'B') { arm = Math.random() < 0.5 ? 'A' : 'B'; ls('sv_ab_' + TEST, arm); }
+    if (/[?&]ab=([AB])\b/.test(location.search)) arm = RegExp.$1; // ?ab=B to preview a version
+    ab = TEST + ':' + arm;
+    if (arm === 'B') try { loopBox(body); } catch (e) { ab = TEST + ':A'; }
+  }
+  function loopBox(body) {
+    var box = document.createElement('aside'); box.className = 'sv-loop no-print'; box.setAttribute('aria-label', 'Stay in the loop');
+    box.innerHTML = '<h3>Stay in the loop on Squamish</h3>' +
+      '<p>One email every Friday morning: what council decided and what is coming up. Plain words. Unsubscribe any time.</p>' +
+      '<form novalidate><label class="sv-loop-l" for="sv-loop-e">Your email</label><div class="sv-loop-row"><input id="sv-loop-e" type="email" name="email" autocomplete="email" required placeholder="you@example.com"><button class="btn" type="submit">Send it to me</button></div><p class="small sv-loop-msg" role="status"></p></form>' +
+      '<p class="sv-loop-or">Or talk about it with your neighbours</p>' +
+      '<div class="sv-loop-btns"><a class="sv-loop-fb" href="https://www.facebook.com/groups/1090076830319905" target="_blank" rel="noopener">Join the Facebook group</a><a class="sv-loop-rd" href="https://www.reddit.com/r/Squamish_News/" target="_blank" rel="noopener">Join r/Squamish_News</a></div>';
+    // after the first section of the story; short stories: after the third paragraph; else at the end
+    var h2s = body.querySelectorAll('h2'), ps = [].filter.call(body.children, function (x) { return x.tagName === 'P'; });
+    var before = h2s.length > 1 ? h2s[1] : ps.length > 4 ? ps[3] : null;
+    if (before) before.parentNode.insertBefore(box, before); else body.appendChild(box);
+    var f = box.querySelector('form'), msg = box.querySelector('.sv-loop-msg'), btn = f.querySelector('button');
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = f.email.value.trim();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { msg.textContent = 'Please check your email address.'; return; }
+      var prefs = {}; try { prefs = JSON.parse(ls('sv_prefs') || '{}') || {}; } catch (x) {}
+      btn.disabled = true; msg.textContent = 'Signing you up…';
+      ev('signup try', { kind: 'weekly email', from: 'story-loop', at: 'Stay in the loop box' });
+      fetch('/api/subscribe/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, consent: true, from: 'story-loop', area: prefs.area || '', topics: prefs.topics || [] }) })
+        .then(function (r) { return r.json(); })
+        .then(function (r) {
+          msg.textContent = r.ok ? (!r.pending ? 'You’re already on the list. Thanks!' : 'Almost done: check your inbox and tap the link to confirm.') : (r.error || 'Something went wrong. Please try again.');
+          if (r.ok) { f.reset(); if (r.pending) ev('signup', { kind: 'weekly email', from: 'story-loop' }); }
+        })
+        .catch(function () { msg.textContent = 'Something went wrong. Please try again.'; })
+        .then(function () { btn.disabled = false; });
+    });
+  }
+
   // sections: the headings inside the page's main part, in order
   var main = document.querySelector('main') || document.body;
   var heads = [].slice.call(main.querySelectorAll('h2')).filter(function (x) { return x.offsetParent !== null; });
   function label(x) { return (x.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 60); }
 
-  send({ t: 'view', ref: ref, utm: utm.slice(0, 40), app: app, dev: dev, n: s.n, ret: ret, title: document.title.slice(0, 90), secs_all: heads.map(label).slice(0, 40) });
+  send({ t: 'view', ab: ab, ref: ref, utm: utm.slice(0, 40), app: app, dev: dev, n: s.n, ret: ret, title: document.title.slice(0, 90), secs_all: heads.map(label).slice(0, 40) });
 
   // seconds spent with the page showing and the reader doing something (stops counting after 45 s of nothing)
   var secs = 0, lastAct = Date.now(), maxScroll = 0, maxSec = -1, dirty = false;
@@ -67,6 +107,7 @@
   // taps
   function ev(name, data) { send({ t: 'ev', name: name, data: data || {}, secs: secs }); }
   function zone(el) {
+    if (el.closest('.sv-loop')) return 'Stay in the loop box';
     if (el.closest('.tabbar')) return 'bottom bar'; if (el.closest('#menu-panel')) return 'menu'; if (el.closest('header')) return 'top bar';
     if (el.closest('footer')) return 'footer';
     var sec = el.closest('section, .card, article, details'), hd = sec && sec.querySelector('h2, h3, summary');

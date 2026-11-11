@@ -43,7 +43,7 @@ export default async function handler(req, res) {
   const from = pacificMidnight(range === 'today' ? 0 : range === 'yesterday' ? 1 : range === '7d' ? 6 : 29);
   const to = range === 'yesterday' ? pacificMidnight(0) : new Date(Date.now() + 6e4);
   const [pvs, evs, first] = await Promise.all([
-    sql`SELECT pv, sid, at, path, title, ref, utm, app, dev, n, ret, country, city, secs, scroll, sec, secname FROM sv_pv WHERE at >= ${from} AND at < ${to} AND sid NOT LIKE 'svtest%' ORDER BY at LIMIT 150000`,
+    sql`SELECT pv, sid, at, path, title, ref, utm, app, dev, n, ret, country, city, secs, scroll, sec, secname, ab FROM sv_pv WHERE at >= ${from} AND at < ${to} AND sid NOT LIKE 'svtest%' ORDER BY at LIMIT 150000`,
     sql`SELECT sid, pv, at, path, name, data, secs FROM sv_ev WHERE at >= ${from} AND at < ${to} AND sid NOT LIKE 'svtest%' ORDER BY at LIMIT 300000`,
     sql`SELECT min(at) AS at FROM sv_pv WHERE sid NOT LIKE 'svtest%'`,
   ]);
@@ -116,6 +116,29 @@ export default async function handler(req, res) {
     };
   }
 
+  // A/B tests: every visit that saw a tested page, split by the version it got. Always counted from the test's first day, not the date buttons.
+  const abRows = await sql`SELECT p.sid, p.ab, p.at, p.secs, p.path, p.ret FROM sv_pv p WHERE p.sid IN (SELECT sid FROM sv_pv WHERE ab IS NOT NULL) AND p.sid NOT LIKE 'svtest%' ORDER BY p.at LIMIT 200000`;
+  const abEv = await sql`SELECT sid, name FROM sv_ev WHERE name IN ('signup', 'facebook group', 'reddit group', 'share') AND sid IN (SELECT sid FROM sv_pv WHERE ab IS NOT NULL) AND sid NOT LIKE 'svtest%'`;
+  const did = new Map(); for (const e of abEv) (did.get(e.sid) || did.set(e.sid, new Set()).get(e.sid)).add(e.name);
+  const abV = new Map();
+  for (const p of abRows) { let v = abV.get(p.sid); if (!v) abV.set(p.sid, v = { ab: null, at: p.at, secs: 0, paths: new Set(), n: 0, ret: false }); if (!v.ab && p.ab) v.ab = p.ab; v.secs += p.secs; v.paths.add(p.path); v.n += 1; v.ret = v.ret || p.ret; }
+  const tests = new Map();
+  for (const [sid, v] of abV) { if (!v.ab) continue; const [t, arm] = v.ab.split(':'); const T = tests.get(t) || tests.set(t, { A: [], B: [], since: v.at }).get(t); v.did = did.get(sid) || new Set(); T[arm].push(v); }
+  // chance that B really differs from A: two sided z test (rates) and Welch test on log seconds / pages
+  const phi = (z) => { const t = 1 / (1 + 0.2316419 * Math.abs(z)), d = 0.3989423 * Math.exp(-z * z / 2); const p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274)))); return z > 0 ? 1 - p : p; };
+  const conf = (z) => (Number.isFinite(z) ? Math.round(100 * (1 - 2 * (1 - phi(Math.abs(z))))) : 0);
+  const zRate = (a, na, b, nb) => { if (!na || !nb) return NaN; const p = (a + b) / (na + nb), se = Math.sqrt(p * (1 - p) * (1 / na + 1 / nb)); return se ? (b / nb - a / na) / se : NaN; };
+  const zMean = (xa, xb) => { const m = (x) => x.reduce((s, v) => s + v, 0) / x.length, va = (x, mu) => x.reduce((s, v) => s + (v - mu) ** 2, 0) / (x.length - 1); if (xa.length < 2 || xb.length < 2) return NaN; const ma = m(xa), mb = m(xb), se = Math.sqrt(va(xa, ma) / xa.length + va(xb, mb) / xb.length); return se ? (mb - ma) / se : NaN; };
+  const armStats = (l) => { const c = (k) => l.filter((v) => v.did.has(k)).length, any = l.filter((v) => v.paths.size > 1 || v.did.has('signup') || v.did.has('facebook group') || v.did.has('reddit group')).length;
+    return { visits: l.length, medSecs: med(l.map((v) => v.secs)), avgSecs: avg(l.map((v) => v.secs)), pages: l.length ? Math.round(100 * l.reduce((s, v) => s + v.n, 0) / l.length) / 100 : 0,
+      second: l.filter((v) => v.paths.size > 1).length, signups: c('signup'), fb: c('facebook group'), reddit: c('reddit group'), shares: c('share'), any }; };
+  const ab = [...tests.entries()].map(([name, T]) => {
+    const A = armStats(T.A), B = armStats(T.B), na = A.visits, nb = B.visits, lg = (l) => l.map((v) => Math.log(1 + v.secs));
+    return { name, since: T.since, A, B, sure: {
+      time: conf(zMean(lg(T.A), lg(T.B))), pages: conf(zMean(T.A.map((v) => v.n), T.B.map((v) => v.n))), second: conf(zRate(A.second, na, B.second, nb)),
+      signups: conf(zRate(A.signups, na, B.signups, nb)), fb: conf(zRate(A.fb, na, B.fb, nb)), reddit: conf(zRate(A.reddit, na, B.reddit, nb)), any: conf(zRate(A.any, na, B.any, nb)) } };
+  });
+
   const recent = V.slice(-60).reverse().map((v) => ({
     at: v.at, src: v.src, dev: v.dev, city: v.city, ret: v.ret, secs: v.secs,
     pages: v.pages.map((p) => ({ path: p.path, secs: p.secs, scroll: p.scroll, sec: p.secname || '' })),
@@ -125,6 +148,6 @@ export default async function handler(req, res) {
   return res.json({
     ok: true, range, from, to, since: first[0]?.at || null, capped: pvs.length >= 150000,
     site: { views: pvs.length, ...rate(V), sources: group(V, (v) => v.src), entries: top(V.reduce((m, v) => bump(m, v.pages[0].path), new Map()), 10) },
-    timeline: [...tl.entries()].map(([k, n]) => ({ k, n })), pages, focus, recent,
+    timeline: [...tl.entries()].map(([k, n]) => ({ k, n })), pages, focus, recent, ab,
   });
 }

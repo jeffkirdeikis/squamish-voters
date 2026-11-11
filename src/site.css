@@ -2804,3 +2804,17 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 .nw-tl li.here .nw-tl-when { font-weight: 800; color: var(--ink); }
 .nw-tl li.here .nw-tl-bar { outline: 3px solid #f6c34a; outline-offset: 1px; }
 .nw-art > .fl-me { grid-column: 1 / -1; }
+
+/* A/B test join1, version B: "Stay in the loop" box partway down a news story (src/pulse.js) */
+.sv-loop { margin: 1.6rem 0; padding: 1rem 1.1rem 1.1rem; border-radius: var(--radius); background: var(--brand-soft); border: 2px solid var(--brand); }
+.sv-loop h3 { margin: 0 0 .3rem; font: 700 1.3rem/1.2 Georgia, serif; }
+.sv-loop p { margin: 0 0 .6rem; }
+.sv-loop-l { font-weight: 700; display: block; margin-bottom: .3rem; }
+.sv-loop-row { display: flex; gap: .5rem; flex-wrap: wrap; }
+.sv-loop-row input { flex: 1 1 12rem; min-width: 0; font: inherit; padding: .7rem .8rem; border: 2px solid var(--line); border-radius: 10px; min-height: 3.25rem; background: #fff; color: #14211c; }
+.sv-loop-row .btn { flex: 1 0 auto; }
+.sv-loop-msg { font-weight: 600; margin: .4rem 0 0; } .sv-loop-msg:empty { display: none; }
+.sv-loop-or { margin: .9rem 0 .5rem !important; font-weight: 700; }
+.sv-loop-btns { display: flex; gap: .5rem; flex-wrap: wrap; }
+.sv-loop-btns a { flex: 1 1 11rem; text-align: center; text-decoration: none; font-weight: 700; color: #fff; padding: .75rem .9rem; border-radius: 10px; }
+.sv-loop-fb { background: #0f63d1; } .sv-loop-rd { background: #d93a00; }

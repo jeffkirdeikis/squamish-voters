@@ -17,6 +17,7 @@ export const initPulse = () => (ready ||= sql`CREATE TABLE IF NOT EXISTS sv_pv (
   .then(() => sql`CREATE TABLE IF NOT EXISTS sv_ev (
   id bigserial PRIMARY KEY, at timestamptz NOT NULL DEFAULT now(), sid text NOT NULL, pv text, path text, name text NOT NULL, data jsonb, secs int)`)
   .then(() => sql`CREATE INDEX IF NOT EXISTS sv_ev_at ON sv_ev (at)`)
+  .then(() => sql`ALTER TABLE sv_pv ADD COLUMN IF NOT EXISTS ab text`)
   .catch((e) => { ready = null; throw e; }));
 export { sql };
 
@@ -39,9 +40,9 @@ export default async function handler(req, res) {
       const dec = (v) => { try { return decodeURIComponent(v || ''); } catch (e) { return v || ''; } };
       const country = str(req.headers['x-vercel-ip-country'], 4), city = str(dec(req.headers['x-vercel-ip-city']), 60);
       const heads = Array.isArray(b.secs_all) ? b.secs_all.slice(0, 40).map((x) => str(x, 60)) : [];
-      await sql`INSERT INTO sv_pv (pv, sid, path, title, ref, utm, app, dev, n, ret, country, city, secs_all)
+      await sql`INSERT INTO sv_pv (pv, sid, path, title, ref, utm, app, dev, n, ret, country, city, secs_all, ab)
         VALUES (${b.pv}, ${b.sid}, ${path}, ${str(b.title, 90)}, ${str(b.ref, 80)}, ${str(b.utm, 40)}, ${str(b.app, 20)}, ${str(b.dev, 10)},
-          ${int(b.n, 1, 500)}, ${!!b.ret}, ${country}, ${city}, ${JSON.stringify(heads)}::jsonb)
+          ${int(b.n, 1, 500)}, ${!!b.ret}, ${country}, ${city}, ${JSON.stringify(heads)}::jsonb, ${/^[a-z0-9]{1,12}:[AB]$/.test(b.ab || '') ? b.ab : null})
         ON CONFLICT (pv) DO NOTHING`;
     } else if (b.t === 'leave') {
       const secs = int(b.secs, 0, 7200), scroll = int(b.scroll, 0, 100), sec = int(b.sec, -1, 60);
