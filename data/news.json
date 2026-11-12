@@ -66,6 +66,36 @@
  ],
  "stories": [
   {
+   "slug": "squamish-valley-flood-evacuations-roads-closed",
+   "s": "safety",
+   "tier": "lead",
+   "date": "2026-11-12",
+   "head": "Close to 40 evacuated in Squamish Valley as flooding closes two roads",
+   "dek": "Close to 40 Squamish Nation community members in the Squamish Valley have been evacuated because of flooding, and roads are closed at the Paradise Valley Bailey Bridge and the Pilchuck Bailey Bridge. The Nation said Thursday, November 12, that it has activated an Emergency Operations Centre as the Cheakamus River runs dangerously high.",
+   "take": "Paradise Valley Road is closed at the Paradise Valley Bailey Bridge, and Squamish Valley Road is closed at the Pilchuck Bailey Bridge. For flooding concerns, call the Squamish Nation Public Safety Line at 604-982-9938, open 24 hours a day.",
+   "body": "## What is happening\n\nA flood warning in Squamish Nation territory has led the Nation to activate an Emergency Operations Centre to support its community. The Nation said Thursday, November 12, that it has activated the centre. The Cheakamus River is dangerously high, and several roads and bridges are flooded.\n\n## Closed roads and places to watch\n\n- Paradise Valley Road is closed at the Paradise Valley Bailey Bridge.\n- Squamish Valley Road is closed at the Pilchuck Bailey Bridge.\n- Take care around Lewis Drive and Moody Lane, where water levels keep rising.\n- Other Squamish Nation residential roads are open, but be careful around all flood water.\n\n## Who has been evacuated\n\nClose to 40 community members in the Squamish Valley have been evacuated because of flooding risks. The Nation went door to door to reach members affected by the flooding. Fergie's Bridge (the Squamish Valley Road bridge) is not reported closed, but people who could be cut off if it closes were contacted.\n\nThe Nation's post does not say where evacuees are staying. Call the Public Safety Line for help.\n\n## Who is working on it\n\nThe Nation's Community Safety Team is in the area. It is working with Squamish Valley Operations and the Nation's People Services supports. Crews are sandbagging in several areas. The team is watching communities, buildings and river levels.\n\n## Staying safe and getting help\n\n- Do not walk or drive through floodwater.\n- If your home is at risk of flooding, move to higher ground.\n- Stay away from fast moving water and riverbanks.\n- Flooding concerns: Squamish Nation Public Safety Line, 604-982-9938, open 24 hours a day, or email public_safety@squamish.net.\n- Emergencies or downed power lines: call 9-1-1.\n- Emergency alerts: sign up for the Nation's Voyent Alert! at [squamish.net](https://www.squamish.net/stay-connected/voyent-alert/).\n- Weather and flood warnings: the BC River Forecast Centre.\n\nFor river levels and Highway 99 right now, see our [today page](/today/). More on local flood risk is on our [flood protection page](/issues/flood-protection/). The Nation says it will keep updating its post as things change. Read the full post at [squamish.net](https://www.squamish.net/emergency-operations-centre-activated-due-to-flooding-2/).",
+   "visual": {
+    "type": "big",
+    "big": "Close to 40",
+    "small": "People evacuated in the Squamish Valley"
+   },
+   "src": [
+    "Sḵwx̱wú7mesh Úxwumixw (Squamish Nation)",
+    "https://www.squamish.net/emergency-operations-centre-activated-due-to-flooding-2/"
+   ],
+   "social": "Close to 40 Squamish Nation members in the Squamish Valley have been evacuated because of flooding. The Cheakamus River is dangerously high, and several roads and bridges are under water.\n\nParadise Valley Road is closed at the Paradise Valley Bailey Bridge, and Squamish Valley Road is closed at the Pilchuck Bailey Bridge. The Nation's Public Safety Line for flooding concerns is 604-982-9938, open 24/7. The full list of roads to avoid and how to stay safe is in the story.",
+   "share": 4,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/squamish-valley-flood-evacuations-roads-closed.jpg",
+    "alt": "The Squamish River winding through a forested valley",
+    "caption": "The Squamish River valley, part of Area D.",
+    "credit": "Tim Gage, CC BY-SA 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish_River_Valley_101.jpg"
+   },
+   "og": "squamish-valley-flood-evacuations-roads-closed.png"
+  },
+  {
    "slug": "paradise-valley-shelter-in-place-flood",
    "s": "safety",
    "tier": "card",
