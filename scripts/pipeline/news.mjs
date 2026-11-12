@@ -325,7 +325,7 @@ async function draft(item) {
   return reviewLoops(d, item, text);
 }
 
-// ---------- review loops (Jeff, Nov 9 2026: every story gets two rounds of reviewers, then fixes) ----------
+// ---------- review loops (Jeff, Nov 9 2026: every story gets two rounds of reviewers, then fixes; Nov 12: six reviewers, the sixth for depth and shareability) ----------
 // A panel of local readers and a fact checker score the draft and list what stops it from a 9 out of 10; the writer
 // fixes those and the panel reads it again. Two rounds. A loop that fails keeps the last good draft (never blocks news).
 const PANEL = `You are a review panel for one local news story on Squamish Voters, an independent site about Squamish, B.C. Read it as each of these people, separately and honestly:
@@ -334,7 +334,8 @@ const PANEL = `You are a review panel for one local news story on Squamish Voter
 3. A veteran local news editor: headline, first lines, order, repetition, length, attribution, burying what matters.
 4. A skeptical local scrolling Facebook on a phone with 10 seconds, allergic to hype and jargon. They see the "social" text first.
 5. An adversarial fact checker who compares every fact, number, date, name and quote with the SOURCE text. Anything not in the source is an error.
-Each gives a score out of 10 (9 means a reader would trust it, understand it fast and know what to do) and the problems that stop it from a 9, each with the exact words and the fix.
+6. A data loving local who forwards one story a week because it explained something nobody else did (Jeff, Nov 12 2026: "data is good ... we want people to read our news stories and be like, wow, that's really good, and I want to share this"). Judges depth and shareability: does it use every number, date, place, comparison and bit of history the source gives, and link our own pages that add data (river levels on /today/, the issue pages, council members)? Does it say more than the press release? Would they share it? Their fixes may only use facts in the SOURCE or our SITE PAGES, never outside facts.
+Each gives a score out of 10 (9 means a reader would trust it, understand it fast, know what to do and want to share it) and the problems that stop it from a 9, each with the exact words and the fix.
 Pay special attention to: a headline that claims more than the source supports or that a first time reader cannot understand; what matters to readers (who is affected, what to do, when) not being near the top; facts not in the source; em dashes; jargon and unexplained abbreviations.`;
 const PANEL_SCHEMA = {
   type: 'object', additionalProperties: false, required: ['reviews', 'fixes'],
