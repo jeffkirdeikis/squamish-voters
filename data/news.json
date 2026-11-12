@@ -66,6 +66,47 @@
  ],
  "stories": [
   {
+   "slug": "paradise-valley-shelter-in-place-flood",
+   "s": "safety",
+   "tier": "card",
+   "date": "2026-11-12",
+   "head": "Paradise Valley residents told to shelter in place under flood alert",
+   "dek": "Stay where you are and watch for official updates, The Squamish Chief reported Thursday.",
+   "take": "We will update this story as official information comes in.",
+   "body": "## What we know\n\nIf you are in immediate danger, call 911.\n\n[The Squamish Chief reported](https://www.squamishchief.com/local-news/flood-alert-residents-told-to-shelter-in-place-in-paradise-valley-12935070) on Thursday, November 12, 2026, that residents in Paradise Valley have been told to shelter in place under a flood alert.\n\nShelter in place means staying indoors where you are rather than leaving.\n\n## What we don't know yet\n\nThe information available to us so far does not say:\n\n- who issued the alert\n- what is causing the flooding\n- how many homes it covers\n- how long it is expected to last\n\nWe will not guess. The Squamish Chief report linked above may have more details, and we will update this story if we learn more.\n\n## Where to check\n\n- Read the full report from [The Squamish Chief](https://www.squamishchief.com/local-news/flood-alert-residents-told-to-shelter-in-place-in-paradise-valley-12935070)\n- Follow official emergency alerts for your area.\n- See river levels, weather and Highway 99 conditions on our [today page](/today/)\n- Background on local flood risk is on our [flood protection page](/issues/flood-protection/)",
+   "src": [
+    "The Squamish Chief",
+    "https://www.squamishchief.com/local-news/flood-alert-residents-told-to-shelter-in-place-in-paradise-valley-12935070"
+   ],
+   "social": "Do you live in Paradise Valley, or have family or friends up there?\n\nResidents have been told to shelter in place under a flood alert, The Squamish Chief reported Thursday. What we know so far and where to check for updates. Details at the link.",
+   "share": 4,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/paradise-valley-shelter-in-place-flood.jpg",
+    "alt": "Calm green-blue river flowing past a bank of shrubs and tall conifers, with forested hills behind",
+    "caption": "The Cheakamus River, which runs through Paradise Valley north of Squamish.",
+    "credit": "Sealnice, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Cheakamus_river.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/paradise-valley-shelter-in-place-flood-2.jpg",
+     "alt": "3D satellite terrain map showing Squamish, Brackendale and the river valleys running north toward Whistler",
+     "caption": "Map view of Squamish and the Cheakamus valley.",
+     "credit": "NASA & OSM, Public domain",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_%26_Cheakamus_World_Wind.png"
+    },
+    {
+     "file": "/news/photos/paradise-valley-shelter-in-place-flood-3.jpg",
+     "alt": "Rail bridge crossing a rocky river in a steep forested canyon",
+     "caption": "The Cheakamus River in Cheakamus Canyon, upstream of Paradise Valley.",
+     "credit": "Kevin Teague, CC BY 2.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Cheakamus_Canyon_with_view_of_rail_that_goes_over_Cheakamus_River.jpg"
+    }
+   ],
+   "og": "paradise-valley-shelter-in-place-flood.png"
+  },
+  {
    "slug": "britannia-tree-lighting-nov-27",
    "s": "community",
    "tier": "card",
