@@ -669,7 +669,7 @@
     {
       "key": "climate",
       "title": "Climate and the environment",
-      "explainer": "In 2019 the District of Squamish declared a climate emergency and set out to write a Community Climate Action Plan, which council adopted in 2020. Its goal is that by 2030 the town’s emissions will be at least 45% below 2010 levels, with Squamish on track for net zero by 2050. The plan is built around six “Big Moves” covering waste, getting around without a car, cleaner vehicles, existing buildings and new buildings, plus the District’s own work. By the District’s estimate, carrying out every action in the plan would cut about 38,300 tonnes of emissions a year by 2030, which is 38% below 2010 levels, short of the 45% goal. Council’s 2023 to 2026 Strategic Plan commits to the 45% goal. Council’s own tools are local: energy rules for new buildings, transportation spending, and waste and composting; most other levers sit with the Province and Ottawa. The debate on council is mostly about priority and cost: how much to spend on climate action, and how fast, compared with other needs such as roads, housing and taxes. Flood protection and the Woodfibre LNG plant each have their own page.",
+      "explainer": "In 2019 the District of Squamish declared a climate emergency and set out to write a Community Climate Action Plan, which council adopted in 2020. Its goal is that by 2030 the town’s emissions will be at least 45% below 2010 levels, with Squamish on track for net zero by 2050. The plan is built around six “Big Moves” covering waste, getting around without a car, cleaner vehicles, existing buildings and new buildings, plus the District’s own work. The District’s 2020 estimate was that every action in the plan would bring emissions 38% below 2010 levels by 2030. Its 2025 update lowered that: community emissions rose 19% from 2010 to 2022 as the town grew, and even with every updated action done, emissions would be about 7% below 2010 by 2030, far short of the 45% goal. Council’s 2023 to 2026 Strategic Plan commits to the 45% goal. Council’s own tools are local: energy rules for new buildings, transportation spending, and waste and composting; most other levers sit with the Province and Ottawa. The debate on council is mostly about priority and cost: how much to spend on climate action, and how fast, compared with other needs such as roads, housing and taxes. Flood protection and the Woodfibre LNG plant each have their own page.",
       "key_facts": [
         {
           "fact": "In 2019 the District declared a climate emergency and resolved to create a Community Climate Action Plan.",
@@ -680,8 +680,8 @@
           "source_url": "https://squamish.ca/assets/e42d66502f/2020_04_28_CCAP_Executive_Summary.pdf"
         },
         {
-          "fact": "The District estimates that the plan’s actions would cut emissions by 38,300 tonnes of CO2e a year by 2030, which is 38% below 2010 levels.",
-          "source_url": "https://squamish.ca/assets/e42d66502f/2020_04_28_CCAP_Executive_Summary.pdf"
+          "fact": "The District’s 2025 Climate Action Plan update says community emissions rose 19% from 2010 to 2022, and that with every action done Squamish would be about 7% below 2010 levels by 2030, not 45%. The 2020 plan had estimated 38% below.",
+          "source_url": "https://squamish.civicweb.net/FileStorage/3E1C46DD003B47DBB712DAC86AA892F9-Community%20Climate%20Action%20Plan%20Update%20-%20Report%20to%20C.pdf"
         },
         {
           "fact": "Council’s 2023 to 2026 Strategic Plan sets a goal of cutting community greenhouse gas emissions 45% by 2030 through the Community Climate Action Plan.",

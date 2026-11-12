@@ -13,6 +13,9 @@
 //        On any ask, a resident can add an answer that's missing ("Other"). Claude checks the rules, writes a short
 //        label and says if it means the same as an answer already there. The writer's answer moves to the new option.
 //   POST { action: 'report', wid, okey, voter }        -> { ok }   (three reports hide a resident's answer)
+//   GET  ?talk=<story>&voter=<id>                      -> { ok, comments: [{ id, parent, text, at, likes, liked, mine, stance }], waiting: [my comments waiting or held back] }
+//   POST { action: 'comment', story, text, parent?, voter }  -> { ok, comment } | { ok, held: reason }   (Claude checks the rules first)
+//   POST { action: 'comment-like' | 'comment-report' | 'comment-delete', cid, voter } -> { ok }
 //   GET  ?admin=1, POST { admin: 'hide' | 'show', wid [, nid | okey] }, both with Authorization: Bearer <ADMIN_TOKEN>
 //   POST { admin: 'rename', wid [, nid | okey], title, why? }  fixes the wording of an ask, added words or an added answer (votes stay)
 //   POST { admin: 'merge', wid, from, into, label? }  moves every vote from one added answer to another (and can rename it)
@@ -48,7 +51,13 @@ const init = () => (ready ||= sql`CREATE TABLE IF NOT EXISTS sv_wants (
   .then(() => sql`CREATE TABLE IF NOT EXISTS sv_want_checks (net text NOT NULL, at timestamptz NOT NULL DEFAULT now())`)
   .then(() => sql`CREATE TABLE IF NOT EXISTS sv_want_options (wid text NOT NULL, key text NOT NULL, label text NOT NULL, means text, body text,
     status text NOT NULL DEFAULT 'ok', voter text, net text, reports int NOT NULL DEFAULT 0, created_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY (wid, key))`)
+  .then(() => sql`CREATE TABLE IF NOT EXISTS sv_news_comments (id text PRIMARY KEY, story text NOT NULL, parent text, voter text NOT NULL, net text,
+    body text NOT NULL, status text NOT NULL DEFAULT 'ok', note text, reports int NOT NULL DEFAULT 0, created_at timestamptz NOT NULL DEFAULT now())`)
+  .then(() => sql`CREATE TABLE IF NOT EXISTS sv_news_comment_marks (cid text NOT NULL, voter text NOT NULL, kind text NOT NULL, at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY (cid, voter, kind))`)
   .catch((e) => { ready = null; throw e; }));
+
+const TALK = SEED.talk || {}; // stories that take comments: { slug: { head, stance } }
+const COMMENTS_PER_DAY = 20; // comments from one internet connection in 24 hours, across all stories
 
 const SEEDS = SEED.asks || [];
 const TOPICS = (SEED.topics || []).map((t) => t.key);
@@ -205,6 +214,46 @@ If it breaks a rule, publish is false and "reason" is one short, friendly senten
   }
 }
 
+// Claude checks a story comment against COMMENT_RULES. 'pending' when the check can't run (held until Jeff looks).
+async function checkComment(story, text, parentText) {
+  if (!process.env.ANTHROPIC_API_KEY) return { status: 'pending', note: '' };
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST', signal: AbortSignal.timeout(20000),
+      headers: { 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-haiku-5-5', max_tokens: 1500,
+        output_config: { format: { type: 'json_schema', schema: { type: 'object', additionalProperties: false, required: ['publish', 'reason'], properties: { publish: { type: 'boolean' }, reason: { type: 'string' } } } } },
+        system: `You check public comments under a news story on Squamish Voters, a non-partisan site about Squamish, B.C.\n${COMMENT_RULES.replace('It has to be about the question or the decision behind it.', 'It has to be about the story or the issues it raises (replies may answer another comment).')}`,
+        messages: [{ role: 'user', content: `STORY: ${story.head}\n${parentText ? `REPLYING TO: ${parentText}\n` : ''}\nCOMMENT:\n${text}` }],
+      }),
+    });
+    if (!r.ok) throw new Error(`${r.status} ${(await r.text()).slice(0, 200)}`);
+    const j = await r.json();
+    const o = JSON.parse(j.content.filter((x) => x.type === 'text').map((x) => x.text).join(''));
+    return o.publish ? { status: 'ok', note: '' } : { status: 'hidden', note: clean(o.reason, 300) };
+  } catch (e) { console.error('comment check', e.message); return { status: 'pending', note: '' }; }
+}
+const cidPublic = (id) => id; // comment ids are random, so they say nothing about who wrote them
+
+async function storyComments(story, voter) {
+  const t = TALK[story];
+  const all = await sql`SELECT id, parent, voter, body, status, note, created_at FROM sv_news_comments WHERE story = ${story} AND status <> 'removed' ORDER BY created_at DESC LIMIT 1500`;
+  const rows = all.filter((r) => r.status === 'ok' || (voter && r.voter === voter)), ids = rows.map((r) => r.id);
+  const [likes, liked, stances] = ids.length ? await Promise.all([
+    sql`SELECT cid, count(*)::int AS n FROM sv_news_comment_marks WHERE kind = 'like' AND cid = ANY(${ids}) GROUP BY cid`,
+    voter ? sql`SELECT cid FROM sv_news_comment_marks WHERE kind = 'like' AND voter = ${voter} AND cid = ANY(${ids})` : [],
+    t?.stance ? sql`SELECT voter, choice FROM sv_want_votes WHERE wid = ${t.stance} AND voter = ANY(${[...new Set(rows.map((r) => r.voter))]})` : [],
+  ]) : [[], [], []];
+  const L = Object.fromEntries(likes.map((x) => [x.cid, x.n])), LK = new Set(liked.map((x) => x.cid)), STN = Object.fromEntries(stances.map((x) => [x.voter, x.choice]));
+  rows.forEach((r) => { r.likes = L[r.id] || 0; r.liked = LK.has(r.id); r.stance = STN[r.voter] || ''; });
+  // The answer each writer gave to the story's main question, as its label (starter answers, then ones readers added).
+  const seed = t?.stance ? SEEDS.find((x) => x.id === t.stance) : null, labels = {};
+  if (seed) { (seed.options || []).forEach((k, i) => { labels[k] = seed.labels?.[i] || k; }); labels.m = 'Not sure'; for (const o of await sql`SELECT key, label FROM sv_want_options WHERE wid = ${t.stance} AND status = 'ok'`) labels[o.key] = o.label; }
+  const pub = (r) => ({ id: cidPublic(r.id), parent: r.parent || '', text: r.body, at: r.created_at, likes: r.likes, liked: !!r.liked, mine: !!voter && r.voter === voter, stance: r.stance && labels[r.stance] ? labels[r.stance] : '' });
+  return { comments: rows.filter((r) => r.status === 'ok').map(pub), held: rows.filter((r) => r.status !== 'ok' && r.status !== 'removed').map((r) => ({ ...pub(r), status: r.status, note: r.note || '' })) };
+}
+
 export default async function handler(req, res) {
   if (!sql) return res.status(503).json({ ok: false, error: 'This isn’t open yet.' });
   await init();
@@ -221,13 +270,24 @@ export default async function handler(req, res) {
         sql`SELECT wid, count(*)::int AS n FROM sv_want_votes GROUP BY wid`,
       ]);
       // Starter question titles and answer counts, so the admin page can group everything under its question.
-      return res.json({ ok: true, asks, titles: Object.fromEntries(SEEDS.map((s) => [s.id, s.title])), answers: Object.fromEntries(vs.map((v) => [v.wid, v.n])), notes: ns.map((n) => ({ wid: n.wid, nid: hash(`n|${n.wid}|${n.voter}`).slice(0, 12), text: n.body, status: n.status, at: n.created_at })),
+      const nc = await sql`SELECT id, story, parent, body, status, note, reports, created_at FROM sv_news_comments ORDER BY created_at DESC LIMIT 1000`;
+      return res.json({ ok: true, storyComments: nc.map((c) => ({ ncid: c.id, story: c.story, head: TALK[c.story]?.head || c.story, reply: !!c.parent, text: c.body, status: c.status, note: c.note || '', reports: c.reports, at: c.created_at })), asks, titles: Object.fromEntries(SEEDS.map((s) => [s.id, s.title])), answers: Object.fromEntries(vs.map((v) => [v.wid, v.n])), notes: ns.map((n) => ({ wid: n.wid, nid: hash(`n|${n.wid}|${n.voter}`).slice(0, 12), text: n.body, status: n.status, at: n.created_at })),
         options: os.map((o) => {
           const seed = SEEDS.find((s) => s.id === o.wid);
           const base = seed?.options ? seed.options.map((k, i) => ({ key: k, label: seed.labels?.[i] || k })) : [{ key: 'y', label: 'Yes' }, { key: 'n', label: 'No' }];
           const others = [...base, ...os.filter((x) => x.wid === o.wid && x.key !== o.key && x.status === 'ok').map((x) => ({ key: x.key, label: x.label }))];
           return { wid: o.wid, okey: o.key, label: o.label, text: o.body, status: o.status, reports: o.reports, at: o.created_at, question: seed?.title || o.wid, others };
         }) });
+    }
+    if (b.ncid) { // a comment under a story: accept, decline or fix its wording
+      const id = String(b.ncid);
+      if (b.admin === 'edit' || b.admin === 'rename') {
+        const text = clean(b.text || b.title, 1000); if (!text) return res.status(400).json({ ok: false, error: 'Write the new wording.' });
+        await sql`UPDATE sv_news_comments SET body = ${text} WHERE id = ${id}`; return res.json({ ok: true });
+      }
+      if (b.admin === 'show') await sql`DELETE FROM sv_news_comment_marks WHERE cid = ${id} AND kind = 'report'`;
+      await sql`UPDATE sv_news_comments SET status = ${b.admin === 'show' ? 'ok' : 'removed'}, reports = CASE WHEN ${b.admin === 'show'} THEN 0 ELSE reports END WHERE id = ${id}`;
+      return res.json({ ok: true });
     }
     if (b.admin === 'rename') {
       // Fix the wording of a resident's ask, an added answer or added words. Votes stay, so only for changes that keep the meaning.
@@ -268,6 +328,10 @@ export default async function handler(req, res) {
 
   if (req.method === 'GET') {
     if (req.query.where) return res.json({ ok: true, ...whereOf(req) });
+    if (req.query.talk) {
+      if (!TALK[req.query.talk]) return res.status(404).json({ ok: false, error: 'Comments aren’t open on this story.' });
+      { const x = await storyComments(String(req.query.talk), voterOk(req.query.voter) ? hash(req.query.voter) : null); return res.json({ ok: true, comments: x.comments, waiting: x.held }); }
+    }
     const voter = voterOk(req.query.voter) ? hash(req.query.voter) : null;
     const [asks, t, ns, extras, mine, [{ people }], recent] = await Promise.all([
       residentAsks(), tallies(), notes(), extraOptions(),
@@ -286,6 +350,47 @@ export default async function handler(req, res) {
   if (await isBot(req)) return res.status(403).json({ ok: false, error: 'We couldn’t tell this came from a person. Reload the page and try again.' });
   const voter = hash(b.voter), net = netOf(req), dev = devOf(b.dev), { km } = whereOf(req);
   const exists = async (wid) => SEEDS.some((s) => s.id === wid) || (await sql`SELECT 1 FROM sv_wants WHERE id = ${wid} AND status = 'ok'`).length > 0;
+
+  if (b.action === 'comment') {
+    const story = String(b.story || ''), t = TALK[story];
+    if (!t) return res.status(404).json({ ok: false, error: 'Comments aren’t open on this story.' });
+    const text = clean(b.text, 1000);
+    if (text.length < 2) return res.status(400).json({ ok: false, error: 'Write a comment first.' });
+    const [{ n }] = await sql`SELECT count(*)::int AS n FROM sv_news_comments WHERE net = ${net} AND created_at > now() - interval '1 day'`;
+    if (n >= COMMENTS_PER_DAY) return res.status(429).json({ ok: false, error: 'Lots of comments have come from your internet connection today. Please try again tomorrow.' });
+    let parent = null, parentText = '';
+    if (b.parent) {
+      const [p] = await sql`SELECT id, parent, body FROM sv_news_comments WHERE id = ${String(b.parent)} AND story = ${story} AND status = 'ok'`;
+      if (!p) return res.status(404).json({ ok: false, error: 'That comment isn’t there any more.' });
+      parent = p.parent || p.id; parentText = p.body; // replies stay one level deep
+    }
+    const [dupe] = await sql`SELECT 1 FROM sv_news_comments WHERE story = ${story} AND voter = ${voter} AND body = ${text}`;
+    if (dupe) return res.status(409).json({ ok: false, error: 'You already posted that.' });
+    const mod = await checkComment(t, text, parentText);
+    const id = randomBytes(6).toString('hex');
+    await sql`INSERT INTO sv_news_comments (id, story, parent, voter, net, body, status, note) VALUES (${id}, ${story}, ${parent}, ${voter}, ${net}, ${text}, ${mod.status}, ${mod.note})`;
+    if (mod.status !== 'ok') return res.json({ ok: true, held: mod.status === 'hidden' ? (mod.note || 'This one breaks a rule, so it isn’t showing.') : '', pending: mod.status === 'pending', id });
+    const all = await storyComments(story, voter);
+    return res.json({ ok: true, comment: all.comments.find((c) => c.id === id), comments: all.comments, waiting: all.held });
+  }
+  if (b.action === 'comment-like' || b.action === 'comment-report' || b.action === 'comment-delete') {
+    const id = String(b.cid || '');
+    const [c] = await sql`SELECT id, voter, status FROM sv_news_comments WHERE id = ${id}`;
+    if (!c) return res.status(404).json({ ok: false, error: 'That comment isn’t there any more.' });
+    if (b.action === 'comment-delete') {
+      if (c.voter !== voter) return res.status(403).json({ ok: false, error: 'You can only delete your own comments.' });
+      await sql`UPDATE sv_news_comments SET status = 'removed', note = 'Deleted by its writer.' WHERE id = ${id}`; return res.json({ ok: true });
+    }
+    if (c.voter === voter) return res.json({ ok: true }); // no liking or reporting your own
+    const kind = b.action === 'comment-like' ? 'like' : 'report';
+    if (kind === 'like' && b.undo) await sql`DELETE FROM sv_news_comment_marks WHERE cid = ${id} AND voter = ${voter} AND kind = 'like'`;
+    else await sql`INSERT INTO sv_news_comment_marks (cid, voter, kind) VALUES (${id}, ${voter}, ${kind}) ON CONFLICT DO NOTHING`;
+    if (kind === 'report') {
+      const [{ r }] = await sql`SELECT count(*)::int AS r FROM sv_news_comment_marks WHERE cid = ${id} AND kind = 'report'`;
+      await sql`UPDATE sv_news_comments SET reports = ${r}, status = CASE WHEN ${r} >= ${REPORTS_TO_HIDE} AND status = 'ok' THEN 'reported' ELSE status END WHERE id = ${id}`;
+    }
+    return res.json({ ok: true });
+  }
 
   if (b.action === 'vote') {
     const wid = String(b.wid || '');

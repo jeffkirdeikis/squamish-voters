@@ -2,10 +2,12 @@
 // with the same saved id as What Squamish Wants, so one person is one answer. After answering, the reader sees how
 // Squamish answered and the next stories that have a vote. "Something else" lets them write their own answer: Claude
 // checks it, and it joins the list for the next reader (or counts them under an answer that already means the same).
+// A deep story can hold several questions (build.mjs [[poll id]], ask news-<slug>--<id>): each box runs on its own, one
+// shared fetch fills them all, and after an answer the box points to the next unanswered question in the story.
 (function () {
-  var box = document.querySelector('[data-poll]');
-  if (!box || !window.fetch) return;
-  var wid = box.getAttribute('data-poll');
+  var boxes = [].slice.call(document.querySelectorAll('[data-poll]'));
+  if (!boxes.length || !window.fetch) return;
+  var setups = [], loaded = null;
   function get(k, d) { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } }
   function put(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
@@ -20,6 +22,21 @@
     return h.toString(36) + str.length.toString(36);
   })();
   var area = (get('sv_prefs', {}) || {}).area || '';
+  var answered = {};
+  function nextOpen(from) { // the next question in this story not answered yet (wrapping round), or null
+    var i = boxes.indexOf(from);
+    for (var k = 1; k < boxes.length; k++) { var b = boxes[(i + k) % boxes.length]; if (!answered[b.getAttribute('data-poll')]) return b; }
+    return null;
+  }
+  function progress(from) {
+    if (boxes.length < 2) return '';
+    var n = boxes.filter(function (b) { return answered[b.getAttribute('data-poll')]; }).length, nx = nextOpen(from);
+    return '<p class="nw-poll-prog"><b>' + n + ' of ' + boxes.length + '</b> questions in this story answered' +
+      (nx ? ' · <a href="#' + esc(nx.id) + '" data-goto="' + esc(nx.id) + '">Next question: ' + esc(nx.querySelector('.nw-poll-h, h2, h3').textContent) + ' ↓</a>' : '. Thanks for weighing in on all of them.') + '</p>';
+  }
+  boxes.forEach(function (box) { setups.push(setup(box)); });
+  function setup(box) {
+  var wid = box.getAttribute('data-poll');
   var more = []; try { more = JSON.parse(box.getAttribute('data-more') || '[]'); } catch (e) {}
 
   var optsEl = box.querySelector('.nw-poll-opts'), ownBtn = box.querySelector('[data-own]'), form = box.querySelector('[data-own-form]');
@@ -44,9 +61,9 @@
       var n = tally[o.key] || 0, me = o.key === mine;
       return '<li' + (me ? ' class="me"' : '') + '><span class="nw-poll-l">' + esc(o.label) + (me ? ' <small>Your answer</small>' : '') + '</span><b>' + pct(n) + '%</b><i style="width:' + pct(n) + '%"></i></li>';
     }).join('') + '</ul>' +
-      '<p class="small muted">' + total + (total === 1 ? ' person has' : ' people have') + ' answered so far. <button type="button" class="linkish" data-change>Change my answer</button></p>' +
+      '<p class="small muted">' + total + (total === 1 ? ' person has' : ' people have') + ' answered so far. <button type="button" class="linkish" data-change>Change my answer</button></p>' + progress(box) +
       (more.length ? '<div class="nw-poll-next"><b>Have your say on more stories</b><ul>' + more.map(function (m) { return '<li><a href="' + esc(m.url) + '#vote" data-next>' + esc(m.q) + '</a></li>'; }).join('') + '</ul></div>' : '') +
-      '<p class="nw-poll-wants"><a href="/wants/" data-wants>What else does Squamish want? Answer the questions on What Squamish Wants →</a></p>';
+      (box.classList.contains('nw-poll-in') ? '' : '<p class="nw-poll-wants"><a href="/wants/" data-wants>What else does Squamish want? Answer the questions on What Squamish Wants →</a></p>');
     optsEl.hidden = true; form.hidden = true; resEl.hidden = false;
   }
   function post(body) {
@@ -56,10 +73,10 @@
   }
   function vote(k) {
     if (busy) return; busy = true;
-    var was = mine; mine = k; tally[k] = (tally[k] || 0) + 1; if (was) tally[was] = Math.max(0, (tally[was] || 0) - 1);
+    var was = mine; mine = k; answered[wid] = k; tally[k] = (tally[k] || 0) + 1; if (was) tally[was] = Math.max(0, (tally[was] || 0) - 1);
     showResults(); // right away; the real counts land a moment later
     post({ action: 'vote', choice: k }).then(function (j) { tally = j.tally || tally; showResults(); track('News poll vote', { wid: wid, choice: k }); })
-      .catch(function (e) { mine = was; if (window.SV && SV.toast) SV.toast(e.message); showVote(); })
+      .catch(function (e) { mine = was; answered[wid] = was; if (window.SV && SV.toast) SV.toast(e.message); showVote(); })
       .then(function () { busy = false; });
   }
 
@@ -85,18 +102,27 @@
   });
   resEl.addEventListener('click', function (e) {
     if (e.target.closest('[data-change]')) { showVote(); return; }
+    var go = e.target.closest('[data-goto]');
+    if (go) { e.preventDefault(); var t = document.getElementById(go.getAttribute('data-goto')); if (t) { t.scrollIntoView({ block: 'start', behavior: 'smooth' }); history.replaceState(null, '', '#' + t.id); } track('News poll next question', { from: wid }); return; }
     if (e.target.closest('[data-next]')) track('News poll next story', { from: wid });
     if (e.target.closest('[data-wants]')) track('News poll to wants', { from: wid });
   });
 
-  // Arriving from another story's "Have your say on more stories" link: bring the vote into view.
-  if (location.hash === '#vote') setTimeout(function () { box.scrollIntoView({ block: 'center' }); }, 300);
-
-  fetch('/api/wants/?voter=' + encodeURIComponent(voter)).then(function (r) { return r.json(); }).then(function (j) {
-    if (!j || !j.ok) return;
+  return { box: box, wid: wid, fill: function (j) {
     ((j.extras || {})[wid] || []).forEach(addExtra);
     tally = (j.tallies || {})[wid] || {};
     mine = (j.mine || {})[wid] || '';
-    if (mine) showResults();
+    if (mine) answered[wid] = mine;
+  }, show: function () { if (mine) showResults(); } };
+  }
+
+  // Arriving from another story's "Have your say on more stories" link (#vote) or a shared question link (#q-a): bring it into view.
+  var h = location.hash.slice(1);
+  if (h && boxes.some(function (b) { return b.id === h; })) setTimeout(function () { document.getElementById(h).scrollIntoView({ block: 'center' }); }, 300);
+
+  fetch('/api/wants/?voter=' + encodeURIComponent(voter)).then(function (r) { return r.json(); }).then(function (j) {
+    if (!j || !j.ok) return;
+    setups.forEach(function (x) { x.fill(j); });
+    setups.forEach(function (x) { x.show(); }); // after all are filled, so each one's progress line is right
   }).catch(function () {});
 })();

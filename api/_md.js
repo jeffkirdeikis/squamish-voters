@@ -1,7 +1,7 @@
 // Tiny, safe markdown for news story bodies (shared by build.mjs, api/news-live.js and api/news-review.js).
 // Supports: "## Heading", "- bullet" lists, paragraphs, **bold** and [links](/site/path/ or https://...). Everything else is escaped.
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const inline = (s) => esc(s)
+export const inline = (s) => esc(s)
   .replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
   .replace(/\[([^\]]+)\]\(((?:\/|https:\/\/)[^)\s]*)\)/g, (m, t, u) => `<a href="${u}"${u.startsWith('/') ? '' : ' target="_blank" rel="noopener"'}>${t}</a>`);
 // Story blocks, one per line: [[fold Label | one line gist]] ... [[/fold]] folds that part shut behind a tap;
@@ -22,7 +22,7 @@ export function mdToHtml(md, widgets = {}) {
         if (close) out.push('</div></details>');
         else { const [lab, gist] = String(arg || 'More detail').split('|').map((x) => x.trim()); out.push(`<details class="nw-fold"><summary><b>${inline(lab)}</b>${gist ? `<span>${inline(gist)}</span>` : ''}</summary><div class="nw-fold-in">`); }
       } else if (name === 'note') out.push(close ? '</aside>' : '<aside class="nw-aside"><p class="nw-aside-k">About these numbers</p>');
-      else if (!close && widgets[name]) out.push(widgets[name]);
+      else if (!close && widgets[name]) out.push(typeof widgets[name] === 'function' ? widgets[name]((arg || '').trim()) : widgets[name]); // [[poll a]], [[table cost]]: a function gets the word after the name
       continue;
     }
     const h = line.match(/^#{2,3}\s+(.*)$/);

@@ -66,6 +66,951 @@
  ],
  "stories": [
   {
+   "slug": "squamish-2027-budget-tax-freeze-explained",
+   "s": "money",
+   "tier": "lead",
+   "date": "2026-11-12",
+   "pin_until": "2026-11-19",
+   "head": "The draft adds $342. The mayor promised $0. Here's what decides your bill",
+   "dek": "District staff's draft 2027 budget needs 10.4% more property tax, about $342 for an average home. Mayor Sean Easton and two councillors promised a freeze. Here is where the money goes, what a freeze would take, and five questions you can answer before the new council decides.",
+   "take": "A freeze on the total tax means finding at least $5.7 million in one year. Staff haven't published a list of cuts, and none of the three who promised a freeze has put a dollar figure on how.",
+   "visual": {
+    "type": "big",
+    "big": "$5.7M+",
+    "small": "What a freeze on the District's total tax would have to cut, delay or find"
+   },
+   "src": [
+    "District of Squamish, 2027 to 2036 Financial Plan staff report, September 29, 2026",
+    "https://letstalksquamish.ca/download_file/805/684"
+   ],
+   "photo": {
+    "file": "/news/photos/budget-2027.jpg",
+    "alt": "Aerial view of Squamish with mountains behind",
+    "caption": "Squamish from above.",
+    "credit": "Madhumanti Mandal, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Downtown_Squamish.jpg"
+   },
+   "share": 5,
+   "share_text": "The draft 2027 budget adds about $342 to the average Squamish District tax bill. The mayor promised $0. Try it with your own bill and say what you'd do:",
+   "social": "Would you rather pay about $342 more in District taxes next year, or see services cut to hold the line?\n\nTap to try it with your own bill, see where the extra money goes and who promised a freeze, and answer five quick questions before council decides.",
+   "toc": [
+    [
+     "What it means for your bill",
+     "Your bill"
+    ],
+    [
+     "Where the extra $5.7 million goes",
+     "Where it goes"
+    ],
+    [
+     "Who promised a freeze",
+     "Who promised what"
+    ],
+    [
+     "What a freeze would take",
+     "What a freeze takes"
+    ],
+    [
+     "The bigger picture",
+     "Other towns"
+    ],
+    [
+     "What happens next",
+     "Dates"
+    ]
+   ],
+   "glance": [
+    {
+     "k": "Staff's base increase",
+     "v": "10.4%"
+    },
+    {
+     "k": "Average home",
+     "v": "$342 more a year"
+    },
+    {
+     "k": "A total freeze must find",
+     "v": "At least $5.7 million"
+    },
+    {
+     "k": "Promised a 2027 freeze",
+     "v": "3 of 7 on council"
+    }
+   ],
+   "calc": {
+    "title": "Try it with your own bill",
+    "sub": "Type in the District of Squamish part of your 2026 property tax notice. We start with the average home, $3,294.",
+    "label": "My 2026 District of Squamish tax, in dollars",
+    "default": 3294,
+    "hint": "On your notice it's the District of Squamish (municipal) line. Don't count school, regional district or hospital taxes. What you type stays on this phone or computer. If your home's value rose faster than most in town, your bill rises more than this; slower, less.",
+    "rows": [
+     {
+      "label": "Tax freeze",
+      "pct": 0,
+      "note": "What Easton, DesJardins and Prosko promised"
+     },
+     {
+      "label": "Staff's base plan",
+      "pct": 10.4,
+      "note": "Costs already committed, plus repair savings"
+     },
+     {
+      "label": "Base plus what council kept in September",
+      "pct": 11.9,
+      "note": "Our estimate from the staff tables, not an official number"
+     },
+     {
+      "label": "If the safety package comes back too",
+      "pct": 13,
+      "note": "Our estimate: adds about 1.1%"
+     }
+    ],
+    "foot": "2026 average from the District: $3,294 on an average $1.2 million home. The 11.9% and 13% are our arithmetic from the September 29 staff report tables. 55 or older, a surviving spouse, a person with a disability, or supporting a child under 18? B.C.'s [Property Tax Deferment program](https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/defer-taxes) lets you put off paying as a low interest loan. And don't forget the [Home Owner Grant](https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/home-owner-grant)."
+   },
+   "tables": {
+    "drivers": {
+     "caption": "How staff built the 10.4% (2027 compared with 2026)",
+     "head": [
+      "Cost",
+      "Share of increase",
+      "Average home",
+      "Dollars"
+     ],
+     "rows": [
+      [
+       "Wages and benefits under signed union and staff contracts",
+       "2.2%",
+       "$71",
+       "$1,175,468"
+      ],
+      [
+       "Debt payments, mostly the new Public Works Facility",
+       "1.8%",
+       "$58",
+       "$968,802"
+      ],
+      [
+       "Royal Canadian Mounted Police contract and support staff",
+       "1.1%",
+       "$36",
+       "$594,441"
+      ],
+      [
+       "Other (technology, staff hired in 2026, facilities)",
+       "0.6%",
+       "$19",
+       "$322,458"
+      ],
+      [
+       "Cheekye debris flow barrier reserves",
+       "0.5%",
+       "$17",
+       "$278,400"
+      ],
+      [
+       "Transit",
+       "0.5%",
+       "$16",
+       "$264,154"
+      ],
+      [
+       "**Already committed**",
+       "**6.6%**",
+       "**$217**",
+       "**$3,603,723**"
+      ],
+      [
+       "Saving for future repairs and replacement (asset reserve)",
+       "2.4%",
+       "$79",
+       "$1,311,117"
+      ],
+      [
+       "Services council already endorsed, plus critical ones (two firefighters, pedestrian bridge staffing and more)",
+       "1.3%",
+       "$43",
+       "$710,577"
+      ],
+      [
+       "Critical one time projects",
+       "0.1%",
+       "$2",
+       "$38,689"
+      ],
+      [
+       "**Base total**",
+       "**10.4%**",
+       "**$342**",
+       "**$5.66 million more**"
+      ]
+     ],
+     "hl": [
+      6,
+      10
+     ],
+     "note": "Source: [staff report, September 29, 2026](https://letstalksquamish.ca/download_file/805/684), Attachment 1. Dollar total is our subtraction: $60.29 million needed in 2027 minus a $54.63 million base."
+    },
+    "council": {
+     "caption": "Where the mayor and councillors stand on 2027 taxes",
+     "head": [
+      "Member",
+      "What they said",
+      "Promised a freeze?"
+     ],
+     "rows": [
+      [
+       "[Mayor Sean Easton](/council/sean-easton/)",
+       "\"I'm freezing property tax increases for 2027, while working to improve services and amenities.\" Also pledged to cut wasteful spending. ([source](https://www.seaneaston.com/vision))",
+       "**Yes, 2027**"
+      ],
+      [
+       "[Janice DesJardins](/council/janice-desjardins/)",
+       "Direct staff to bring a budget with no increase over last year; zero based budgeting, fewer middle managers, referendums on big projects. ([source](/candidates/janice-desjardins/#questionnaire), [source](https://www.squamishreporter.com/2026/09/14/desjardins-squamish-council-platform/))",
+       "**Yes, 2027**"
+      ],
+      [
+       "[Laura Prosko](/council/laura-prosko/)",
+       "Hold property taxes flat in 2027 and 2028 \"and build the council support needed to get it done\", through budget efficiencies, grants from other governments and partnerships; plus a yearly budget town hall. ([source](https://www.lauraprosko.com/priorities), [source](https://www.squamishchief.com/2026-civic-election/where-does-laura-prosko-stand-on-the-issues-facing-squamish-read-her-full-qa-here-12880470))",
+       "**Yes, 2027 and 2028**"
+      ],
+      [
+       "[Luc Perreault](/council/luc-perreault/)",
+       "A full review of the 10 year budget plan to find savings and delay spending that isn't essential, but not by cutting core infrastructure. ([source](https://www.squamishchief.com/2026-civic-election/where-does-luc-perreault-stand-on-the-issues-facing-squamish-read-his-full-qa-here-12875977))",
+       "No, wants a review"
+      ],
+      [
+       "[Eric Andersen](/council/eric-andersen/)",
+       "The only member who was on the last council. Voted with the rest of council for the 12.8% plan in January 2026; wants a bigger industrial and business tax base to take pressure off homeowners. ([record](/council/eric-andersen/))",
+       "No"
+      ],
+      [
+       "[Sarah Ellis](/council/sarah-ellis/)",
+       "Wants clearer reporting on where tax dollars go; open to borrowing for Brennan Park within legal limits. ([record](/council/sarah-ellis/))",
+       "No"
+      ],
+      [
+       "[Shaun Veltkamp](/council/shaun-veltkamp/)",
+       "Spend carefully with cost and benefit tests; bring back a grant writer to win provincial and federal money. ([source](https://shaunveltkamp.com/))",
+       "No"
+      ]
+     ],
+     "hl": [
+      0,
+      1,
+      2
+     ],
+     "note": "A decision needs a majority of the members at the meeting: four when all seven are there. Our [promise tracker](/promises/) will mark each pledge kept or broken once council votes."
+    },
+    "levers": {
+     "caption": "Where a lower number could come from",
+     "head": [
+      "Option",
+      "Roughly how much",
+      "The catch"
+     ],
+     "rows": [
+      [
+       "Drop or delay new staff and services",
+       "About $1.2 million",
+       "$0.71 million is in staff's base (two firefighters, pedestrian bridge staff and more), plus about $0.49 million council kept in September (a labour relations advisor, a fleet mechanic and more)."
+      ],
+      [
+       "Pause the step up in repair savings (asset reserve)",
+       "$1.31 million (2.4%)",
+       "This is the yearly increase, not all repair savings. It's a policy council chose in 2023, and the main capital reserve already starts 2027 at $3.9 million against a $13.1 million target. On October 6 council asked staff for options to raise it, not lower it (unofficial Council Watch summary)."
+      ],
+      [
+       "Cut existing services",
+       "Up to council",
+       "Staff haven't priced any. After the 2024 union agreement, council cut about $600,000 (according to an unofficial Council Watch summary)."
+      ],
+      [
+       "Shift more of the tax to business and industry",
+       "Up to council",
+       "Doesn't lower the total, it moves who pays: homes less, businesses and industry more. Raising the major industry rate mostly lands on Woodfibre, and District policy sets that money aside, so it wouldn't help the daily budget unless the policy changes."
+      ],
+      [
+       "Use Woodfibre LNG's tax for daily costs",
+       "Up to $7.24 million",
+       "District policy keeps it out of daily spending so the town doesn't depend on one company. It already pays for one time projects in the 10 year plan, Woodfibre is challenging its 2025 and 2026 taxes, and its 2027 assessment isn't known until spring."
+      ],
+      [
+       "Raise utility or user fees",
+       "Not known",
+       "Moves the cost from your tax bill to other bills, like water, sewer or program fees."
+      ],
+      [
+       "Committed costs (contracts, police, debt, transit)",
+       "$3.6 million (6.6%)",
+       "Signed contracts, loans and reserves already promised. Very hard to change in one year."
+      ]
+     ],
+     "note": "Amounts from the [September 29](https://letstalksquamish.ca/download_file/805/684) and [October 6](https://squamish.civicweb.net/FileStorage/29FAAEA5B2BA4D758A8067109A22B35E-2027-2036%20Financial%20Plan%20-%20Capital%20Projects%20-%20Repo.pdf) staff reports. 1% of District property tax is about $546,000 in 2027."
+    },
+    "towns": {
+     "caption": "2026 municipal tax increases nearby",
+     "head": [
+      "Town",
+      "2026 increase"
+     ],
+     "rows": [
+      [
+       "Langford",
+       "15.1% (draft in February; final not confirmed)"
+      ],
+      [
+       "**Squamish**",
+       "**12.8%**"
+      ],
+      [
+       "Whistler",
+       "About 6.7% to 6.9%"
+      ],
+      [
+       "Kamloops",
+       "5.7% (after delaying new police hires)"
+      ],
+      [
+       "Port Moody",
+       "About 4%"
+      ],
+      [
+       "North Vancouver District",
+       "3.53%"
+      ],
+      [
+       "West Vancouver",
+       "3.43%"
+      ],
+      [
+       "Vancouver",
+       "0%"
+      ]
+     ],
+     "hl": [
+      1
+     ],
+     "note": "Each town's own budget pages and local reporting; see sources at the end. Towns count growth and special levies differently, so treat these as a rough guide."
+    },
+    "pending": {
+     "head": [
+      "Item",
+      "2027 tax",
+      "What council did"
+     ],
+     "rows": [
+      [
+       "Two bylaw officers (community safety)",
+       "$259,450",
+       "Sent back for public input"
+      ],
+      [
+       "Community Safety Plan",
+       "$200,000",
+       "Sent back with the bylaw officers"
+      ],
+      [
+       "BC Housing support work for people without homes",
+       "$121,000",
+       "Sent back with the bylaw officers"
+      ],
+      [
+       "Labour relations advisor",
+       "$142,887",
+       "Kept"
+      ],
+      [
+       "Fleet apprentice mechanic",
+       "$125,699",
+       "Kept"
+      ],
+      [
+       "Infrastructure, housing and job space team (5.5 staff, mostly paid by fees)",
+       "$122,650",
+       "Removed; asked for a business case"
+      ],
+      [
+       "Annex office lease",
+       "$65,571",
+       "Kept"
+      ],
+      [
+       "Service maintenance staff (2.1)",
+       "$58,421",
+       "Removed; asked for a business case"
+      ],
+      [
+       "Roads labourer for new waste bins (half time)",
+       "$48,835",
+       "Kept"
+      ],
+      [
+       "Squamish Off Road Cycling Association partnership increase",
+       "$36,250",
+       "Kept"
+      ],
+      [
+       "More porta potties (3 all year, 3 seasonal)",
+       "$20,000",
+       "Kept"
+      ],
+      [
+       "Hiring the next chief administrative officer",
+       "$75,000",
+       "Kept"
+      ],
+      [
+       "Smaller items (police clerk lead, software, partnerships, free transit from the Welcome Centre and more)",
+       "About $67,000",
+       "Kept"
+      ]
+     ],
+     "note": "From Attachments 2 and 4 of the [staff report](https://letstalksquamish.ca/download_file/805/684); what council did from an [unofficial Council Watch summary](https://squamish.councilwatchnews.com/archive/council-watch-special-business-meeting-29-sep-2026/) until official minutes are posted."
+    }
+   },
+   "bars": {
+    "history": {
+     "title": "How much more property tax the District collected each year",
+     "rows": [
+      {
+       "label": "2022",
+       "v": 3.76,
+       "say": "3.8%"
+      },
+      {
+       "label": "2023",
+       "v": 8.9,
+       "say": "8.9%"
+      },
+      {
+       "label": "2024",
+       "v": 12,
+       "say": "12%"
+      },
+      {
+       "label": "2025",
+       "v": 12.5,
+       "say": "12.5%"
+      },
+      {
+       "label": "2026",
+       "v": 12.8,
+       "say": "12.8%"
+      },
+      {
+       "label": "2027 draft",
+       "v": 10.4,
+       "say": "10.4%+",
+       "hl": true
+      },
+      {
+       "label": "2028 forecast",
+       "v": 12.7,
+       "say": "12.7%"
+      }
+     ],
+     "note": "Total tax collected, including tax from new buildings. Existing owners saw less in some years: 4.2% in 2023 and 8.9% in 2024. Sources: District tax inserts and reports, [Squamish Reporter](https://www.squamishreporter.com/2026/01/16/squamish-approves-10-year-financial-plan/)."
+    }
+   },
+   "polls": [
+    {
+     "id": "target",
+     "q": "What should council aim for on 2027 District taxes?",
+     "why": "Every 1% is about $546,000 of services, or about $33 on an average home.",
+     "options": [
+      {
+       "key": "a",
+       "label": "A freeze, 0%",
+       "means": "At least $5.7 million cut, delayed or found elsewhere."
+      },
+      {
+       "key": "b",
+       "label": "Small, up to 5%",
+       "means": "Finding about $3 million or more."
+      },
+      {
+       "key": "c",
+       "label": "Middle, 5% to 9%",
+       "means": "Trimming some new items or the repair savings step up."
+      },
+      {
+       "key": "d",
+       "label": "Staff's 10.4% or more",
+       "means": "Committed costs, repair savings and possibly the new services."
+      }
+     ]
+    },
+    {
+     "id": "lever",
+     "q": "If council lowers the increase, where should it look first?",
+     "options": [
+      {
+       "key": "a",
+       "label": "Trim new hires and services",
+       "means": "Up to about $1.2 million; some new staff wait a year."
+      },
+      {
+       "key": "b",
+       "label": "Pause the repair savings step up",
+       "means": "$1.31 million now; bigger repair bills or borrowing later."
+      },
+      {
+       "key": "c",
+       "label": "Shift more tax to business and industry",
+       "means": "Homes pay less, local businesses pay more."
+      },
+      {
+       "key": "d",
+       "label": "Cut existing services",
+       "means": "Shorter hours, fewer programs or slower upkeep."
+      }
+     ],
+     "why": "Each one has a trade off. Woodfibre LNG's money gets its own question below."
+    },
+    {
+     "id": "wlng",
+     "q": "Should Woodfibre LNG's tax money help pay for everyday costs?",
+     "why": "Today the District keeps the $7.24 million it gets from the plant for one time projects only.",
+     "options": [
+      {
+       "key": "a",
+       "label": "Yes, use it to keep taxes down",
+       "means": "Lower bills now, but money comes off one time projects and the budget relies on one company."
+      },
+      {
+       "key": "b",
+       "label": "Some of it",
+       "means": "A share for daily costs, the rest for one time projects."
+      },
+      {
+       "key": "c",
+       "label": "No, keep it for one time projects",
+       "means": "The current rule: the town doesn't depend on one taxpayer."
+      }
+     ]
+    },
+    {
+     "id": "repairs",
+     "q": "Squamish is behind on saving for repairs. How fast should it catch up?",
+     "why": "The main capital reserve starts 2027 at $3.9 million, below a $13.1 million target, and won't reach it until 2034 on the current plan.",
+     "options": [
+      {
+       "key": "a",
+       "label": "Faster, even if taxes rise more",
+       "means": "Fewer surprise repair bills and less borrowing later."
+      },
+      {
+       "key": "b",
+       "label": "Keep the current plan",
+       "means": "2.4% a year of tax goes to the repair fund until 2032."
+      },
+      {
+       "key": "c",
+       "label": "Slower, to keep taxes down now",
+       "means": "Lower bills now; more risk of borrowing or failures later."
+      }
+     ]
+    },
+    {
+     "id": "safety",
+     "q": "Should the $580,000 community safety package go in the 2027 budget?",
+     "why": "Two bylaw officers, a Community Safety Plan and BC Housing support work, about $35 on an average home.",
+     "options": [
+      {
+       "key": "a",
+       "label": "Yes, all of it",
+       "means": "About $35 more on an average home, about 1.1%."
+      },
+      {
+       "key": "b",
+       "label": "Bylaw officers only",
+       "means": "About $259,000, roughly half the cost."
+      },
+      {
+       "key": "c",
+       "label": "Support work and plan only",
+       "means": "About $321,000: the $200,000 Community Safety Plan and BC Housing support work, without new bylaw officers."
+      },
+      {
+       "key": "d",
+       "label": "No, leave it out",
+       "means": "No added cost; bylaw and police staffing stay as they are."
+      }
+     ]
+    }
+   ],
+   "talk": {
+    "q": "If you had the deciding vote on council, what would you keep, and what would you cut?",
+    "sub": "Comments are public, so council and your neighbours can read them. Your comment shows the answer you gave to the first question in this story.",
+    "placeholder": "Be specific: a service, a project, a number.",
+    "stance": "target"
+   },
+   "body": "## The short version\n\n- District staff's draft 2027 budget needs **10.4% more property tax** in total than 2026. That's about **$342 more** for an average home, before new services council already said yes to.\n- **Mayor Sean Easton**, **Councillor Janice DesJardins** and **Councillor Laura Prosko** each promised a 2027 tax freeze. A decision needs four votes when all seven are there, so they need one more.\n- Freezing the District's total tax means cutting, delaying or finding **at least $5.7 million**, or about $6.5 million counting what council kept in September. Staff haven't published a list of cuts, and none of the three has put a dollar figure on how.\n- **Renters can feel this too.** B.C. caps yearly rent increases for current tenants, so a tax rise can't push their rent past the cap. Rent for new tenants and business rents isn't capped, and landlords factor taxes in.\n- No date is set for the new council's first budget meeting or the public information night. Last year's budget passed in January.\n\n[[glance]]\n\n## What it means for your bill\n\n[[calc]]\n\nThe percentages here are increases in the total tax the District collects. That total includes tax from new buildings, which is one reason the average home's bill rose 10.8% in 2026 while the total rose 12.8%. Your own bill also moves with how your home's value changed compared with others in town.\n\n## Where the extra $5.7 million goes\n\nAbout two thirds of the increase is already committed: union and staff contracts, the police contract, transit, the Cheekye debris barrier reserve and loan payments, mostly for the new Public Works Facility. The biggest choice left is how much more to save for future repairs.\n\n[[table drivers]]\n\nThe \"critical\" items include two new firefighters ($345,957) and $125,000 to staff the new pedestrian bridge, which Transport Canada rules require to be staffed for at least a year (staff expect about 18 months). Staff also kept $7.24 million, the tax paid by Woodfibre LNG (liquefied natural gas), out of the daily budget entirely. More on that below.\n\n[[poll target]]\n\n## Who promised a freeze\n\nThree of the seven people now on council promised zero. One more wants a full review to find savings. The other three made no freeze promise.\n\n[[table council]]\n\nEaston's campaign page says the freeze is meant \"to create constraints and accountability for government.\" Prosko wrote that she'd hold taxes flat without cutting projects or services. Each has named an approach, like cutting waste, zero based budgeting, fewer middle managers or more grants. As of November 12 we found no new statement from the mayor or council on how a freeze would work.\n\n## What a freeze would take\n\nFirst, \"freeze\" can mean three things: no increase in the total tax the District collects, no increase for existing owners once tax from new buildings is counted, or a flat bill for the average home. The promises don't say which.\n\nHolding the total at the 2026 level means about $5.66 million less spending, or the same amount from somewhere other than property tax, and about $6.5 million counting what council kept in September. A freeze for existing owners could need less. In 2024, staff counted tax from new buildings first, which turned a 12% total into 8.9% for existing owners. The 2027 draft doesn't show that step yet, and staff haven't published the 2027 figure.\n\nStaff's report lists no service cuts to choose from: the space for alternatives is a blank placeholder.\n\n[[table levers]]\n\n[[poll lever]]\n\n## The Woodfibre LNG money\n\nIn 2026 Woodfibre LNG paid the District about $7.24 million in property tax (the District's frequently asked questions page says $7.7 million). District policy keeps that money out of daily spending and uses it for one time projects, so the town doesn't come to depend on a single company. The 10.4% is worked out without it.\n\nOn September 22 the previous council turned down a 10 year tax deal with Woodfibre, 5 to 2. Andersen voted for the deal. Regular taxation continues, and the District is defending Woodfibre's legal challenges to its 2025 and 2026 taxes. Easton, Prosko, DesJardins and Veltkamp said during the campaign they want a better deal. Ellis said Woodfibre should help pay for the capital plan through regular taxes or a fair deal. Andersen voted for the old deal, and Perreault said he would have supported it. The plant's 2027 assessment, and so its 2027 tax, won't be known until spring. Separate Woodfibre and FortisBC payments of $1.35 million each fund a District major projects team in 2027 and are expected to end after that.\n\n[[poll wlng]]\n\n## Behind on repairs\n\nStaff wrote in their October 6 report: \"following decades of insufficient investment in capital infrastructure and reserve building, available reserves remain constrained.\" The District's main capital reserve starts 2027 at $3.9 million, against a minimum target of about $13.1 million. Under the current plan it drops to about $2 million in 2028 and doesn't reach the target until 2034.\n\nBig bills are coming. The landfill fills up in late 2029 or early 2030, and construction on a $27.8 million expansion has to start by the end of 2027. The 10 year capital plan is $357 million, and another $58.7 million of priority projects have no funding source yet. Debt payments rise to 14% of revenue, under the District's own 20% limit.\n\n[[poll repairs]]\n\n## The community safety package\n\nOn September 29 the previous council voted unanimously to send a $580,000 package back for public input: two bylaw officers ($259,450), a Community Safety Plan ($200,000) and BC Housing support work for people without homes ($121,000). It would add about 1.1%, or $35 on an average home. The new council decides whether it comes back.\n\n[[poll safety]]\n\n[[fold Main new items council looked at | What was kept, removed or sent back on September 29]]\n\n[[table pending]]\n\n[[/fold]]\n\n## The bigger picture\n\n[[bars history]]\n\nSquamish has raised its total property tax by about 12% or more for three years running. Staff point to a fast growing town that put off saving for repairs for years, new firefighters and police, loans for the Public Works Facility, and more loans coming for the dikes and the Mamquam Bridge deck.\n\n[[table towns]]\n\nDuring the campaign Easton called 12.8% \"the highest in the province.\" Langford's 2026 draft was higher, but Squamish was well above every nearby town we checked.\n\n**And 2028 looks bigger.** Staff forecast **12.7% for 2028**. New police positions that a reserve has partly covered until now land fully on the tax bill (2.3%). Loans for the Mamquam Bridge deck, the Xwu'nekw Park sea dike and raising the Squamish River dikes add 2.8%, and transit expansion adds 1.5%. A 2027 freeze paid for with one time money or a pause in repair savings would carry into 2028, on top of that forecast. After 2028 the forecast eases: 7.9% in 2029, 5.7% to 7.1% through 2032, and about 4% a year from 2033. Prosko's promise covers both 2027 and 2028.\n\n## What happens next\n\n- **Council budget workshop for the new council:** date not set. A November 10 meeting was cancelled.\n- **Public information night:** staff said it was planned for November. No date is posted yet.\n- **Adoption:** an unofficial summary of staff's early timeline pointed to December. Last year's plan passed January 13. The new council sets the pace.\n- **Tax rates and bills:** rates are set in spring 2027, after BC Assessment's revised roll, and bills follow.\n- **Hear when dates are set:** [get the free Friday email](#signup).\n- **Next regular council meeting:** [Tuesday, November 17 at 6 p.m.](/meetings/2026-11-17-regular/) Its agenda isn't out yet.\n\n## How to have your say\n\n- Answer the questions on this page, and say what you'd keep or cut in the comments below.\n- Email the District at budgetfeedback@squamish.ca. It goes to council and into a What We Heard report.\n- Read the reports and answer the District's questions at [Let's Talk Squamish: Budget 2027](https://letstalksquamish.ca/budget-2027).\n- [Write to council or speak at a meeting](/have-your-say/).\n\nWe'll update this story when the new council's budget dates are set. Background: [Will Squamish property taxes go up in 2027?](/explained/will-squamish-property-taxes-go-up-in-2027/) and [Why taxes went up 12.8% in 2026](/explained/why-squamish-property-taxes-went-up-12-8-percent/).\n\n[[note]]\n\nMost numbers come from the District's staff reports of [September 29](https://letstalksquamish.ca/download_file/805/684) and [October 6, 2026](https://squamish.civicweb.net/FileStorage/29FAAEA5B2BA4D758A8067109A22B35E-2027-2036%20Financial%20Plan%20-%20Capital%20Projects%20-%20Repo.pdf). The $342 is staff's figure for an average home. The $5.66 million, the $546,000 per 1%, the $6.5 million and the 11.9% and 13% estimates are our own arithmetic from those tables. What council kept or sent back comes from an [unofficial Council Watch summary](https://squamish.councilwatchnews.com/archive/council-watch-special-business-meeting-29-sep-2026/) until minutes are posted. Other towns: [Whistler](https://www.whistler.ca/news/budget-2026-what-you-need-to-know/), [West Vancouver](https://westvancouver.ca/government-administration/financial-information/budget), [North Vancouver District](https://docs.dnv.org/documents/tax-newsletter-2026.pdf), [Langford](https://langford.ca/wp-content/uploads/2026/02/Reduction-Options-for-the-2026-Tax-Increase.pdf), [Port Moody](https://www.portmoody.ca/news-and-notices/posts/council-approves-provisional-budget-with-reductions-to-lower-tax-rate-increase-for-port-moody-residents/), [Kamloops](https://cfjctoday.com/2026/04/15/kamloops-council-finalizes-financial-plan-tax-increase-amid-opposition-from-mayor/), [Vancouver](https://www.ctvnews.ca/vancouver/article/vancouver-council-votes-for-0-per-cent-property-tax-increase-in-2026/). Woodfibre vote: [Squamish Reporter](https://www.squamishreporter.com/2026/09/23/squamish-council-rejects-woodfibre-lng-tax-deal/).\n\n[[/note]]",
+   "og": "squamish-2027-budget-tax-freeze-explained.png"
+  },
+  {
+   "slug": "squamish-council-strategic-plan-2027",
+   "s": "council",
+   "tier": "lead",
+   "date": "2026-11-12",
+   "head": "Council writes its four year to do list this winter. Here's how the last one did",
+   "dek": "Squamish's new council plans to set its priorities for 2027 to 2030 early next year. The last council's plan delivered on parks and the Squamish Nation relationship, came in late on others, and is well off its climate target. Here is the scorecard, what each of the seven promised, and your chance to say what should come first.",
+   "take": "Last time, the plan was adopted 192 days after election day. It was drafted in council workshops with senior staff and shown in public a week before the vote. We found no survey or public input step before that. It then shaped every budget for four years.",
+   "visual": {
+    "type": "big",
+    "big": "Early 2027",
+    "small": "When the new council writes its four year plan"
+   },
+   "src": [
+    "District of Squamish, 2023 to 2026 Strategic Plan Summary of Results, October 2026",
+    "https://squamish.civicweb.net/FileStorage/10AAC49C89EA49C7A14F1591FB0A05E3-Summary%20Results%20Report%20-%202023-2026%20Strategic%20Plan.pdf"
+   ],
+   "photo": {
+    "file": "/news/library/council-2026.jpg",
+    "alt": "Mayor Sean Easton and Councillors Eric Andersen, Janice DesJardins, Sarah Ellis, Luc Perreault, Laura Prosko and Shaun Veltkamp",
+    "caption": "Squamish council for 2026 to 2030.",
+    "credit": "Campaign photos and District of Squamish; background Straitgate, CC BY-SA 3.0",
+    "link": "/council/",
+    "og": "/news/library/council-2026-share.jpg"
+   },
+   "share": 5,
+   "share_text": "Squamish council sets its four year priorities this winter. Here's how the last plan did, what each member promised, and where you can vote on what comes first:",
+   "social": "If you could pick one thing Squamish council fixes in the next four years, what would it be?\n\nTap to see how the last council's plan actually did, what each of the seven new members promised, and vote on what should come first.",
+   "toc": [
+    [
+     "How the last plan did",
+     "Scorecard"
+    ],
+    [
+     "What the seven promised",
+     "Who promised what"
+    ],
+    [
+     "Where they agree, and where they split",
+     "Agree and split"
+    ],
+    [
+     "How the plan gets made",
+     "How it's made"
+    ],
+    [
+     "What happens next",
+     "Dates"
+    ]
+   ],
+   "glance": [
+    {
+     "k": "New plan expected",
+     "v": "January to March 2027"
+    },
+    {
+     "k": "Last plan took",
+     "v": "192 days after election day"
+    },
+    {
+     "k": "Public input before adoption last time",
+     "v": "None found"
+    },
+    {
+     "k": "All seven have a position on",
+     "v": "Recreation and Brennan Park"
+    }
+   ],
+   "tables": {
+    "scorecard": {
+     "caption": "The 2023 to 2026 plan: main goals and what happened",
+     "head": [
+      "Goal and deadline",
+      "What happened",
+      "Our read"
+     ],
+     "rows": [
+      [
+       "More parks, trails and gathering spaces by September 2026",
+       "Sp'akw'us Feather Park; Miyíw̓ts Park phase 2; six pickleball courts and three rebuilt tennis courts at Brennan Park. The splash park was delayed.",
+       "Mostly done (splash park delayed)"
+      ],
+      [
+       "Relationship agreement with the Sḵwx̱wú7mesh Úxwumixw (Squamish Nation)",
+       "Protocol agreement July 2023, memorandum of understanding July 2025, a Land Back task force and a formal apology.",
+       "Done"
+      ],
+      [
+       "Cut community greenhouse gas emissions 45% below 2010 by 2030",
+       "Emissions rose 19% from 2010 to 2022. The District's 2025 update says even if every action is done, Squamish reaches about 7% below 2010 by 2030.",
+       "Off track, by the District's own numbers"
+      ],
+      [
+       "More housing types every year; housing supply rate up 15%",
+       "Garibaldi Estates neighbourhood plan, new development charges, the federally funded Housing Action Plan finished. The task carrying the 15% target was moved off the priority list in 2024, and the number isn't reported in any progress report we found.",
+       "Work done; results not reported"
+      ],
+      [
+       "Double transit ridership and walking and cycling trips by 2030",
+       "More frequent buses on four routes, on demand service, Victoria Street protected bike lanes started, bike share. No ridership or trip counts were reported against the goal.",
+       "Work done; results not reported"
+      ],
+      [
+       "Net increase in land for jobs (on land and water) by September 2026",
+       "A land data tool. Council ranked the employment land model \"may not do\" in 2025. Lots 38 and 39, the top priority, were sold partly to help pay for the new Public Works facility. Whether the buyer will add job space isn't reported.",
+       "No increase reported"
+      ],
+      [
+       "Brennan Park expansion and Civic Block (library, arts) ready to build",
+       "Civic Block planning was 90% done but delayed (as of September 2025). Brennan Park went to a staff task force.",
+       "Not delivered"
+      ],
+      [
+       "A 20 year financial and asset plan by June 2025",
+       "A 10 year plan, adopted January 13, 2026.",
+       "Delivered, but 10 years instead of 20, and 7 months late"
+      ],
+      [
+       "New Public Works facility working by fall 2024",
+       "Built; still being moved into and tested in October 2026.",
+       "Built, about two years late"
+      ],
+      [
+       "Woodfibre LNG (liquefied natural gas) tax agreement (listed for 2023)",
+       "A 10 year deal came to council in September 2026 and was turned down 5 to 2.",
+       "Deal negotiated; council voted 5 to 2 not to advance it"
+      ]
+     ],
+     "note": "Sources: the District's [Summary of Results (October 2026)](https://squamish.civicweb.net/FileStorage/10AAC49C89EA49C7A14F1591FB0A05E3-Summary%20Results%20Report%20-%202023-2026%20Strategic%20Plan.pdf), [2025 Annual Report](https://squamish.civicweb.net/FileStorage/FBA935DD30F343E8B1028895B86132C9-2025%20District%20of%20Squamish%20Annual%20Report.pdf), [Climate Action Plan update (April 2025)](https://squamish.civicweb.net/FileStorage/3E1C46DD003B47DBB712DAC86AA892F9-Community%20Climate%20Action%20Plan%20Update%20-%20Report%20to%20C.pdf) and the [March 2025 progress report](https://squamish.civicweb.net/FileStorage/EFE5721FAAE040178F9693A70F5B1712-Strategic%20Plan%202022%20%E2%80%93%202026%20Update%20-%20Report%20to%20Coun.pdf). \"Our read\" is our summary of those documents. The District's summary also lists work under its inclusion, community group, staff training and flood protection goals. The Woodfibre agreement was a promise in the plan's appendix rather than one of its 16 goals."
+    },
+    "members": {
+     "caption": "What each member said they would do",
+     "head": [
+      "Member",
+      "Top campaign priorities"
+     ],
+     "rows": [
+      [
+       "[Mayor Sean Easton](/council/sean-easton/)",
+       "Housing locals can afford, including a bigger share of affordable homes from developers; a 2027 tax freeze; a pool and ice rink negotiated with Woodfibre LNG; measure success by results for residents; an express highway bus and a pause on new bike lanes until residents are asked. ([source](https://www.seaneaston.com/vision))"
+      ],
+      [
+       "[Eric Andersen](/council/eric-andersen/) (the only returning member)",
+       "Jobs and businesses that keep pace with population; bring back a downtown police office, Crime Stoppers and Block Watch; parking decided case by case; a full parks and recreation plan with Brennan Park. ([source](https://www.squamishchief.com/2026-civic-election/where-does-eric-andersen-stand-on-the-issues-facing-squamish-read-his-full-qa-here-12874695), [source](https://www.squamishreporter.com/2026/03/03/local-elections-2026-will-squamish-councillors-run-again/))"
+      ],
+      [
+       "[Janice DesJardins](/council/janice-desjardins/)",
+       "Zero based budgets and no tax increase; referendums on big projects like a Brennan Park expansion; a land bank for worker housing; no parking variances; a reset with Woodfibre LNG. ([source](https://janicedesjardins.com/))"
+      ],
+      [
+       "[Sarah Ellis](/council/sarah-ellis/)",
+       "Rental and ownership homes people can afford, with a bigger housing fund; safe routes for walking, cycling and wheelchairs; no wider growth boundary without a plan to pay for it; keep carrying out the climate plan; speed up Brennan Park. ([source](https://www.sarahellisforsquamish.ca/priorities))"
+      ],
+      [
+       "[Luc Perreault](/council/luc-perreault/)",
+       "Core infrastructure first, with a full review of the 10 year budget for savings; a new chief administrative officer with clear expectations; growth that pays its share; tested emergency plans; a funding plan before any big Brennan Park expansion. ([source](https://www.lucperreault.ca/))"
+      ],
+      [
+       "[Laura Prosko](/council/laura-prosko/)",
+       "Fast track rental and workforce housing and review the Official Community Plan; permits in under 8 weeks; a stronger Woodfibre deal; start a second Brennan Park ice rink in 2027; tax freeze in 2027 and 2028, a project dashboard and a yearly budget town hall. ([source](https://www.lauraprosko.com/priorities))"
+      ],
+      [
+       "[Shaun Veltkamp](/council/shaun-veltkamp/)",
+       "Housing options near transit and protection for renters; a wide search for a new chief administrative officer and reviews for top managers; rebuild economic development and bring back a grant writer; a new community centre; keep the growth boundary until planned areas are built. ([source](https://shaunveltkamp.com/))"
+      ]
+     ],
+     "note": "Summaries of each member's own campaign material and published answers. Full records on each [member's page](/council/) and in our [promise tracker](/promises/)."
+    },
+    "agree": {
+     "caption": "What the seven made campaign priorities",
+     "head": [
+      "Priority",
+      "Who",
+      "How many"
+     ],
+     "rows": [
+      [
+       "Recreation and Brennan Park",
+       "Easton, Andersen, DesJardins, Ellis, Perreault, Prosko, Veltkamp (they differ on how fast and how to pay)",
+       "7 of 7"
+      ],
+      [
+       "How the District is run: results, transparency, staff leadership",
+       "Easton, DesJardins, Ellis, Perreault, Prosko, Veltkamp",
+       "6 of 7"
+      ],
+      [
+       "Transit, traffic and the highway",
+       "Easton, DesJardins, Ellis, Perreault, Prosko, Veltkamp",
+       "6 of 7"
+      ],
+      [
+       "Local jobs and business",
+       "Andersen, DesJardins, Ellis, Perreault, Prosko, Veltkamp",
+       "6 of 7"
+      ],
+      [
+       "Housing people can afford",
+       "Easton, DesJardins, Ellis, Prosko, Veltkamp",
+       "5 of 7"
+      ],
+      [
+       "Holding down property taxes",
+       "Easton, DesJardins, Perreault (a budget review for savings), Prosko",
+       "4 of 7"
+      ],
+      [
+       "No new buildings with less parking than the rules require",
+       "Easton, DesJardins, Perreault, Prosko",
+       "4 of 7"
+      ],
+      [
+       "Relationship with the Squamish Nation",
+       "Easton, Andersen, Ellis, Prosko",
+       "4 of 7"
+      ],
+      [
+       "Keep carrying out the climate plan",
+       "Ellis",
+       "1 of 7"
+      ]
+     ],
+     "hl": [
+      0
+     ],
+     "note": "Our count from each member's campaign website, news interviews and answers to our questionnaire, as recorded in our [promise tracker](/promises/) and [member pages](/council/). Several members said more in their swearing in remarks."
+    }
+   },
+   "polls": [
+    {
+     "id": "top",
+     "q": "What should council put first for 2027 to 2030?",
+     "why": "Pick the one that matters most to you. You can add your own.",
+     "options": [
+      {
+       "key": "a",
+       "label": "Housing people can afford",
+       "means": "More rental, workforce and below market homes."
+      },
+      {
+       "key": "b",
+       "label": "Holding down property taxes",
+       "means": "Freeze or slow tax increases."
+      },
+      {
+       "key": "c",
+       "label": "Brennan Park and recreation",
+       "means": "Pool, ice, gyms and programs for a bigger town."
+      },
+      {
+       "key": "d",
+       "label": "Traffic, transit and the highway",
+       "means": "Getting around town and to Vancouver and Whistler."
+      },
+      {
+       "key": "e",
+       "label": "Jobs and local business",
+       "means": "Land for employers, faster permits, less commuting out."
+      },
+      {
+       "key": "f",
+       "label": "Street safety and homelessness",
+       "means": "Housing and support, enforcement, or both."
+      },
+      {
+       "key": "g",
+       "label": "Health care and social services",
+       "means": "Doctors, childcare, seniors and youth support."
+      },
+      {
+       "key": "h",
+       "label": "Floods, fire and climate",
+       "means": "Dikes, wildfire protection and cutting emissions."
+      }
+     ]
+    },
+    {
+     "id": "measure",
+     "q": "How should council show whether its plan is working?",
+     "why": "Last time progress was reported as the share of planned projects finished, not results like homes built or trips taken.",
+     "options": [
+      {
+       "key": "a",
+       "label": "Hard numbers each year",
+       "means": "Homes, bus riders, emissions, permit times."
+      },
+      {
+       "key": "b",
+       "label": "Percent of projects done, as now",
+       "means": "Shows how much of the plan is finished."
+      },
+      {
+       "key": "c",
+       "label": "A live online dashboard",
+       "means": "Updated every few months, open to everyone."
+      },
+      {
+       "key": "d",
+       "label": "A plain language report card",
+       "means": "A grade on each goal, once a year."
+      }
+     ]
+    },
+    {
+     "id": "climate",
+     "q": "The 2030 climate target is far off track. What should the new plan do?",
+     "why": "The goal was 45% below 2010. The District's own 2025 modelling says about 7% below if every action is done, mainly because the town is growing.",
+     "options": [
+      {
+       "key": "a",
+       "label": "Keep 45% and push harder",
+       "means": "More rules and spending to cut emissions."
+      },
+      {
+       "key": "b",
+       "label": "Lower it to match the modelling",
+       "means": "A goal near what the District projects."
+      },
+      {
+       "key": "c",
+       "label": "Measure per person instead",
+       "means": "Counts how efficient the town is as it grows."
+      },
+      {
+       "key": "d",
+       "label": "Drop it, focus on floods and fire",
+       "means": "Spend on protecting the town rather than cutting emissions."
+      }
+     ]
+    },
+    {
+     "id": "input",
+     "q": "Should residents get a say before council adopts its plan?",
+     "why": "Last time the draft was shown in public a week before the vote, with no survey first. B.C. law requires public consultation on the budget, not on a strategic plan, so it's council's choice.",
+     "options": [
+      {
+       "key": "a",
+       "label": "Yes, a survey and open sessions first",
+       "means": "Slower, but residents shape the priorities."
+      },
+      {
+       "key": "b",
+       "label": "Yes, a chance to comment on a draft",
+       "means": "Council writes it, residents react before the vote."
+      },
+      {
+       "key": "c",
+       "label": "No, council was elected to decide",
+       "means": "Faster; residents judge the plan at the next election."
+      }
+     ]
+    }
+   ],
+   "talk": {
+    "q": "What did the last plan miss that this council must fix?",
+    "sub": "Pick one thing and be specific: a street, a program, a number. Comments are public, so council and your neighbours can read them. Your comment shows the answer you picked as your top priority above.",
+    "placeholder": "One thing this council must fix, and why",
+    "stance": "top"
+   },
+   "body": "## The short version\n\n- A strategic plan is council's to do list for its four year term. It doesn't need a bylaw, but it drives what goes in every budget.\n- The District says the new council's strategic planning happens **January to March 2027**. No dates are posted yet.\n- Last time it was adopted **192 days after election day** (175 days after council was sworn in). It was drafted in workshops with senior staff and shown in public a week before the vote. We found **no survey or public input step** before it was adopted.\n- The last plan's report card is mixed. Parks and the Squamish Nation relationship were delivered. Brennan Park, the Civic Block and new jobs land weren't. The climate target is far off track by the District's own numbers.\n\n[[glance]]\n\n[[poll top]]\n\n## How the last plan did\n\nThe 2023 to 2026 plan had four themes (a connected and livable community, resilient people and relationships, reliable services, and being prepared for the future) and 16 goals. Here are ten of the biggest commitments.\n\n[[table scorecard]]\n\nThe District's final Summary of Results, presented to the outgoing council in October, lists completed projects. It doesn't mention the emissions numbers or the Woodfibre agreement, and the only item it lists under the jobs land goal is a data tool. Community emissions include things the District doesn't control, like highway traffic and provincial building rules. Progress through the term was reported as the share of planned projects finished (about 40% complete and 40% on track by September 2025), not as numbers like homes built or bus riders.\n\nPlans also change mid term. In April 2024 council narrowed more than 115 tasks down to 38 priorities, after a staff report said \"the solution is not more resources in the form of higher budgets or more Staff\". In early 2025 it scored the list again, and in May it dropped the items ranked \"may do\" and \"may not do\".\n\n[[poll measure]]\n\n## What the seven promised\n\nSix of the seven were not on the last council. Only Eric Andersen was.\n\n[[table members]]\n\nAt the swearing in on November 3, Mayor Easton named four needs he'd heard from residents: housing locals can afford; more recreation, culture and arts; social and health services for all ages; and transportation that works. He asked to be judged on one question: \"Did we meaningfully and measurably improve the quality of life for residents?\"\n\n## Where they agree, and where they split\n\n[[table agree]]\n\nA decision needs a majority of the members at the meeting, four when all seven are there. So items with four or more names are the likeliest to make the new plan.\n\nWhere they differ:\n\n- **Parking:** Easton, DesJardins, Perreault and Prosko want to stop letting new buildings provide less parking than the rules require. Andersen would judge each case. Ellis wants the rules matched to how many cars people actually own.\n- **The growth boundary and the Cheema lands:** Andersen and DesJardins are open to housing there. Ellis opposes widening the boundary without a plan to service it and land for affordable homes. Veltkamp would wait until already planned areas are built.\n- **Brennan Park:** Prosko wants a second ice rink started in 2027, Ellis wants the task force sped up, and Easton wants Woodfibre to help pay for a pool and rink. Perreault wants a funding plan first. DesJardins wants a referendum on a big expansion.\n- **Bike lanes and sidewalks:** Easton would pause new upgrades until residents are consulted. Ellis would add safe routes.\n\n[[poll climate]]\n\n## How the plan gets made\n\nIn the last round, council was sworn in November 1, 2022 and endorsed its plan on April 25, 2023. Staff describe the process as \"several facilitated workshops that take into account individual Council member agendas, the OCP, current pressing community issues and ongoing District initiatives.\" (The OCP is the Official Community Plan, the town's long term land use bylaw.)\n\nThe public record shows closed council sessions in those months, including a four and a half hour session on March 20, 2023, held under section 90(1)(l) of the Community Charter, which covers \"municipal objectives, measures and progress reports.\" B.C. councils commonly use that section for planning sessions, and closing them is legal. The minutes don't name the topic, so we can't confirm those were the planning workshops. The draft was then presented in public on April 18 and adopted a week later. We found no survey or public input step before adoption. A June 2023 District release, which we could only see in a search index, listed events to share it after adoption: the farmers market, a Chamber of Commerce lunch and a drop in with the mayor.\n\nB.C. law requires a public consultation on the five year financial plan, which council adopts each year, but not on a strategic plan, so whether residents get a say first is up to council. The District did run a random sample Citizen Satisfaction Survey in spring 2025, which it said would help inform strategic planning and budgets.\n\n[[poll input]]\n\n## Why it matters for your tax bill\n\nStaff write that \"the Strategic Plan informs the Financial Plan.\" The draft 2027 budget, with its 10.4% base increase, says it is \"aligned with the District's 2023-2026 Strategic Plan\", the old council's plan. So the new council will likely vote on its first budget before it has written its own priorities. That's normal: the last council's first budget came in December 2022, months before its plan, and a budget can be amended later in the year. Read more: [Staff say $342 more. The mayor promised $0. Here's what decides your bill](/news/squamish-2027-budget-tax-freeze-explained/).\n\nThe draft budget also carries $75,000 to recruit a new chief administrative officer, the District's top staff job and the one staff member who reports directly to council, because the current one, Linda Glenday, plans to retire ([staff report, September 29](https://letstalksquamish.ca/download_file/805/684)). Perreault and Veltkamp both campaigned on hiring a new one.\n\n## What happens next\n\n- **Strategic planning:** January to March 2027, according to the District's briefing for candidates. No workshop dates are posted.\n- **Budget:** the new council's first budget workshop and a public information night are still to be scheduled.\n- **Next regular council meeting:** [Tuesday, November 17 at 6 p.m.](/meetings/2026-11-17-regular/)\n- **Council meetings in 2027:** the first and third Tuesday of most months, starting January 5.\n\n## Have your say\n\n- Answer the questions on this page and add your comment below. It's all public, so council can read it too.\n- Tell council directly: email council@squamish.ca, or [write to council or speak at a meeting](/have-your-say/).\n- Add specific asks to [What Squamish Wants](/wants/), where residents vote yes or no on things like pickleball courts and crosswalks.\n\nWe'll follow the plan as it's written and track each goal once it's adopted.\n\n[[note]]\n\nWhat the old plan said: the [2023 to 2026 Strategic Plan](https://squamish.civicweb.net/FileStorage/C630560314404001B031B22500BDB004-Strategic%20Plan%20Final%20Draft%20April%2025%202023%20with%20Appe.pdf) and the [April 25, 2023 minutes](https://squamish.civicweb.net/FileStorage/F1D31B55C64F49319BDD38FE730568E6-0425%20Special%20Minutes%202023.pdf). Changes during the term: [April 2024 update](https://squamish.civicweb.net/FileStorage/CB34C5E034B4480484F655C80464E484-Strategic%20Plan%202022%20-%202026%20Update%20-%20Report%20to%20Coun.pdf), [March 2025 update](https://squamish.civicweb.net/FileStorage/EFE5721FAAE040178F9693A70F5B1712-Strategic%20Plan%202022%20%E2%80%93%202026%20Update%20-%20Report%20to%20Coun.pdf), [September 2025 update](https://squamish.civicweb.net/FileStorage/F2FC6973A5D94393B90F5C9BAC0BD7F5-Updated%20Council%20Priority%20Tactic%20Update%20Q3%202025.pdf). Emissions: [Climate Action Plan update, April 2025](https://squamish.civicweb.net/FileStorage/3E1C46DD003B47DBB712DAC86AA892F9-Community%20Climate%20Action%20Plan%20Update%20-%20Report%20to%20C.pdf). Closed session of March 20, 2023: [minutes](https://squamish.civicweb.net/FileStorage/E600764288FF48DB97B85949D812B35B-0320%20Special%20Minutes%202023.pdf). Timeline for 2027: the District's [2026 candidate information session](https://squamish.ca/assets/elections/Candidate-Information-Session-_General-Election-2026.pdf). Budget link: [2027 staff report](https://letstalksquamish.ca/download_file/805/684). The events after adoption come from a June 2023 District news release we could only see in a search index. The counts of who agrees come from each member's campaign material as recorded in our [promise tracker](/promises/).\n\n[[/note]]",
+   "og": "squamish-council-strategic-plan-2027.png"
+  },
+  {
    "slug": "squamish-valley-flood-evacuations-roads-closed",
    "s": "safety",
    "tier": "lead",

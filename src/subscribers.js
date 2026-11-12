@@ -132,7 +132,7 @@
 
   // ---------- Shared item card ----------
   var ST = { ok: ['Live', 'ad-live'], pending: ['Live, not checked', 'ad-warn'], hidden: ['Held by the check', 'ad-warn'], reported: ['Hidden by reports', 'ad-bad'], removed: ['Hidden by you', 'ad-off'], merged: ['Merged', 'ad-off'] };
-  var KIND = { ask: 'Resident’s ask', answer: 'Added answer', words: 'Added words', comment: 'Have your say comment' };
+  var KIND = { ask: 'Resident’s ask', answer: 'Added answer', words: 'Added words', comment: 'Have your say comment', scomment: 'Story comment', sreply: 'Story reply' };
   function ago(t) {
     if (!t) return '';
     var m = (Date.now() - new Date(t)) / 60000;
@@ -160,7 +160,7 @@
     if (x.text && x.text.trim() !== String(x.title).trim()) h += '<details class="ad-orig"><summary>What they wrote</summary><p>' + esc(x.text) + '</p></details>';
     var w = why(x); if (w && opts.context) h += '<p class="ad-why">' + esc(w) + '</p>';
     h += '</div><div class="ad-acts">';
-    var ids = ' data-src="' + x.src + '" data-wid="' + esc(x.wid || '') + '" data-nid="' + esc(x.nid || '') + '" data-okey="' + esc(x.okey || '') + '" data-qid="' + esc(x.qid || '') + '" data-cid="' + esc(x.cid || '') + '"';
+    var ids = ' data-src="' + x.src + '" data-wid="' + esc(x.wid || '') + '" data-nid="' + esc(x.nid || '') + '" data-okey="' + esc(x.okey || '') + '" data-qid="' + esc(x.qid || '') + '" data-cid="' + esc(x.cid || '') + '" data-ncid="' + esc(x.ncid || '') + '"';
     if (x.status === 'merged') h += '<span class="ad-done">Merged into another answer</span>';
     else {
       // Accept: public and checked, readers' reports cleared. Decline: off the site. Edit: fix the wording.
@@ -172,9 +172,9 @@
       if (x.kind === 'ask' && live(x)) h += '<a class="ad-btn" href="/wants/' + esc(x.wid) + '/" target="_blank" rel="noopener">View</a>';
     }
     h += '</div>';
-    var max = { ask: 120, answer: 60, words: 2000, comment: 600 }[x.kind];
-    if (x.status !== 'merged') h += '<div class="ad-panel" data-panel="edit" hidden><p class="small muted">' + (x.kind === 'comment' ? 'Fix the wording. Keep what they meant.' : 'Answers stay with it, so keep the meaning the same. If the meaning was unclear, decline it instead.') + '</p>' +
-      '<label>' + ({ ask: 'Ask', answer: 'Answer', words: 'Their words', comment: 'Comment' }[x.kind]) + (x.kind === 'ask' || x.kind === 'answer' ? '<input type="text" data-rtitle maxlength="' + max + '" value="' + esc(x.title) + '">' : '<textarea data-rtitle rows="3" maxlength="' + max + '">' + esc(x.title) + '</textarea>') + '</label>' +
+    var max = { ask: 120, answer: 60, words: 2000, comment: 600, scomment: 1000, sreply: 1000 }[x.kind];
+    if (x.status !== 'merged') h += '<div class="ad-panel" data-panel="edit" hidden><p class="small muted">' + (/comment|reply/.test(x.kind) ? 'Fix the wording. Keep what they meant.' : 'Answers stay with it, so keep the meaning the same. If the meaning was unclear, decline it instead.') + '</p>' +
+      '<label>' + ({ ask: 'Ask', answer: 'Answer', words: 'Their words', comment: 'Comment', scomment: 'Comment', sreply: 'Reply' }[x.kind]) + (x.kind === 'ask' || x.kind === 'answer' ? '<input type="text" data-rtitle maxlength="' + max + '" value="' + esc(x.title) + '">' : '<textarea data-rtitle rows="3" maxlength="' + max + '">' + esc(x.title) + '</textarea>') + '</label>' +
       (x.kind === 'ask' ? '<label>Background (optional)<input type="text" data-rwhy maxlength="300" value="' + esc(x.why || '') + '"></label>' : '') +
       '<div class="ad-acts"><button type="button" class="ad-btn ad-primary" data-rename' + ids + ' data-kind="' + x.kind + '">Save</button><button type="button" class="ad-btn" data-open="edit">Cancel</button></div></div>';
     if (x.kind === 'answer' && x.others && x.others.length) h += '<div class="ad-panel" data-panel="merge" hidden><label>Same as which answer? Votes move over.<select data-minto>' + x.others.map(function (o) { return '<option value="' + esc(o.key) + '">' + esc(o.label) + '</option>'; }).join('') + '</select></label>' +
@@ -203,6 +203,8 @@
           .concat((d.options || []).map(function (o) { return { src: 'w', kind: 'answer', wid: o.wid, okey: o.okey, title: o.label, text: o.text, status: o.status, reports: o.reports, at: o.at, others: o.others, question: o.question }; }));
       }
       if (cd.ok) C = cd.comments.map(function (c) { return { src: 'c', kind: 'comment', qid: c.qid, cid: c.cid, title: c.text, text: '', note: c.note, status: c.status, reports: c.reports, at: c.at, question: c.ask, choice: c.choice }; });
+      // Comments under news stories (api/wants.js), in the same Comments tab.
+      if (d.ok) C = C.concat((d.storyComments || []).map(function (c) { return { src: 'n', kind: c.reply ? 'sreply' : 'scomment', ncid: c.ncid, title: c.text, text: '', note: c.note, status: c.status, reports: c.reports, at: c.at, question: c.head }; }));
       draw();
     }).catch(function () { document.getElementById('a-sum').textContent = 'Could not load. Reload the page.'; });
   }
@@ -247,7 +249,7 @@
 
     // Have your say comments
     var cs = C.filter(function (x) { return pass(x, cFilter); }).sort(newest);
-    document.getElementById('c-out').innerHTML = '<div class="ad-bar">' + chips('c', cFilter) + '</div><p class="small muted ad-count">' + cs.length + ' comment' + (cs.length === 1 ? '' : 's') + '. Live ones are public on Have your say.</p>' +
+    document.getElementById('c-out').innerHTML = '<div class="ad-bar">' + chips('c', cFilter) + '</div><p class="small muted ad-count">' + cs.length + ' comment' + (cs.length === 1 ? '' : 's') + '. Live ones are public on Have your say or under their story.</p>' +
       (cs.length ? cs.map(function (x) { return card(x, { context: true }); }).join('') : '<div class="ad-empty"><p>Nothing here.</p></div>');
   }
 
@@ -261,7 +263,7 @@
     if (rb) {
       var box = rb.closest('.ad-panel'), val = box.querySelector('[data-rtitle]').value.trim(), g = function (k) { return rb.getAttribute(k) || undefined; }; rb.disabled = true;
       var w = box.querySelector('[data-rwhy]');
-      (g('data-src') === 'c' ? api('c', { admin: 'edit', qid: g('data-qid'), cid: g('data-cid'), text: val })
+      (g('data-src') === 'c' ? api('c', { admin: 'edit', qid: g('data-qid'), cid: g('data-cid'), text: val }) : g('data-src') === 'n' ? api('w', { admin: 'edit', ncid: g('data-ncid'), text: val })
         : api('w', { admin: 'rename', wid: g('data-wid'), nid: g('data-nid'), okey: g('data-okey'), title: val, why: w ? w.value.trim() : undefined }))
         .then(function (j) { if (!j.ok) { rb.disabled = false; rb.textContent = j.error || 'Could not save'; return; } loadAll(); });
       return;
@@ -277,7 +279,7 @@
     if (b) {
       b.disabled = true; b.textContent = '…';
       var a = function (k) { return b.getAttribute(k) || undefined; };
-      api(a('data-src'), a('data-src') === 'c' ? { admin: a('data-mod'), qid: a('data-qid'), cid: a('data-cid') } : { admin: a('data-mod'), wid: a('data-wid'), nid: a('data-nid'), okey: a('data-okey') }).then(loadAll);
+      api(a('data-src'), a('data-src') === 'c' ? { admin: a('data-mod'), qid: a('data-qid'), cid: a('data-cid') } : a('data-src') === 'n' ? { admin: a('data-mod'), ncid: a('data-ncid') } : { admin: a('data-mod'), wid: a('data-wid'), nid: a('data-nid'), okey: a('data-okey') }).then(loadAll);
     }
   });
   var qt;

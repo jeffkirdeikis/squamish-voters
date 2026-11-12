@@ -1,6 +1,6 @@
 // Static site generator for Squamish Voters 2026. No dependencies.
 //   node build.mjs   ->  dist/
-import { mdToHtml, placePhotos } from './api/_md.js';
+import { mdToHtml, placePhotos, inline as inl } from './api/_md.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -1725,6 +1725,16 @@ if (TRACKED.length) {
       w.rivers = `<figure class="nw-rivers"><figcaption><b>${esc(R.title)}</b></figcaption><ul>${R.rows.map((r) => { const p = Math.round(r.v / r.record * 100), tp = r.top ? Math.min(100, r.top / r.record * 100) : 0; return `<li${r.live ? ` data-live-river data-record="${r.record}"` : ''}><span class="nw-rv-name">${esc(r.name)}</span><span class="nw-rv-bar" role="img" aria-label="${esc(`${r.name}: forecast ${n0(r.v)}, ${p}% of its record of ${n0(r.record)}${r.top ? `; top of range ${n0(r.top)}` : ''}`)}"><i style="width:${Math.min(100, p)}%"></i>${r.top ? `<s style="left:${tp.toFixed(1)}%"></s>` : ''}</span><span class="nw-rv-pct">${p}%</span>${r.say ? `<span class="nw-rv-say">${esc(r.say)}</span>` : ''}</li>`; }).join('')}</ul>${R.note ? `<p class="nw-rv-note">${esc(R.note)}</p>` : ''}</figure>`;
     }
     if (st.warn) w.warn = `<p class="nw-warn">${esc(st.warn)}</p>`; // may hold {{live}} numbers
+    // Deep stories: [[poll a]] puts the vote st.polls[a] right there in the story; [[table x]] and [[bars x]] draw
+    // st.tables[x] / st.bars[x]; [[calc]] is the "what it means for my bill" box (src/talk.js runs it).
+    if ((st.polls || []).length) w.poll = (id) => { const p = st.polls.find((x) => x.id === id); return p ? pollBox(st, p, `news-${st.slug}--${p.id}`, { inline: true, anchor: `q-${p.id}`, kicker: p.kicker || 'Your say' }) : ''; };
+    if (st.tables) w.table = (id) => { const t = st.tables[id]; if (!t) return ''; const hl = new Set(t.hl || []);
+      return `<figure class="nw-tbl"><div class="nw-tbl-scroll"><table>${t.caption ? `<caption>${esc(t.caption)}</caption>` : ''}<thead><tr>${t.head.map((h) => `<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${t.rows.map((r, i) => `<tr${hl.has(i) ? ' class="hl"' : ''}>${r.map((c, j) => (j ? `<td data-l="${esc(t.head[j] || '')}">${inl(c)}</td>` : `<th scope="row">${inl(c)}</th>`)).join('')}</tr>`).join('')}</tbody></table></div>${t.note ? `<figcaption>${inl(t.note)}</figcaption>` : ''}</figure>`; };
+    if (st.bars) w.bars = (id) => { const B = st.bars[id]; if (!B) return ''; const max = B.max || Math.max(...B.rows.map((r) => Math.abs(r.v))) * 1.08;
+      return `<figure class="nw-bars"><figcaption><b>${esc(B.title)}</b></figcaption><ul>${B.rows.map((r) => `<li${r.hl ? ' class="hl"' : ''}><span class="nw-bars-l">${esc(r.label)}</span><span class="nw-bars-bar" role="img" aria-label="${esc(`${r.label}: ${r.say || r.v}`)}"><i style="width:${Math.max(1.5, Math.abs(r.v) / max * 100).toFixed(1)}%"></i></span><span class="nw-bars-v">${esc(r.say || String(r.v))}</span></li>`).join('')}</ul>${B.note ? `<p class="nw-bars-note">${inl(B.note)}</p>` : ''}</figure>`; };
+    if (st.calc) { const c = st.calc; w.calc = `<section class="nw-calc no-print" data-calc="${esc(JSON.stringify(c))}" aria-labelledby="calc-h-${esc(st.slug)}"><h3 id="calc-h-${esc(st.slug)}">${esc(c.title)}</h3><p class="nw-calc-sub">${inl(c.sub || '')}</p>
+      <label class="nw-calc-in"><span>${esc(c.label)}</span><span class="nw-calc-box">$<input type="number" inputmode="decimal" min="0" step="1" value="${c.default}" data-calc-in aria-describedby="calc-hint-${esc(st.slug)}"></span></label><p class="small muted" id="calc-hint-${esc(st.slug)}">${inl(c.hint || '')}</p>
+      <ul class="nw-calc-out" data-calc-out>${c.rows.map((r) => `<li><span><b>${esc(r.label)}</b>${r.note ? `<small>${esc(r.note)}</small>` : ''}</span><em data-pct="${r.pct}">${r.pct}%</em></li>`).join('')}</ul>${c.foot ? `<p class="small muted">${inl(c.foot)}</p>` : ''}</section>`; }
     return w;
   };
   // st.fold: {"Section heading": "one line answer"}. Those sections fold shut on the story page, with the answer showing,
@@ -1857,19 +1867,30 @@ if (TRACKED.length) {
   // The vote at the bottom of a story: a few answers, Not sure, and Something else (the reader writes their own, which
   // Claude checks before it joins the list). Votes go to api/wants.js as the ask news-<slug>; src/poll.js runs it and
   // then shows how Squamish answered, plus other stories with a vote. The buttons are plain HTML so the question shows without JavaScript.
+  const pollBox = (st, p, wid, o = {}) => `<section class="nw-poll${o.inline ? ' nw-poll-in' : ''}" id="${esc(o.anchor || 'vote')}" data-poll="${esc(wid)}" data-more="${esc(JSON.stringify(o.more || []))}" aria-labelledby="poll-h-${esc(wid)}">
+    <p class="nw-poll-k">${esc(o.kicker || 'Your say')}</p><h3 class="nw-poll-h" id="poll-h-${esc(wid)}">${esc(p.q)}</h3>${p.why ? `<p class="nw-poll-why">${inl(p.why)}</p>` : ''}
+    <div class="nw-poll-opts" role="group" aria-label="Your answer">${p.options.map((x) => `<button type="button" data-k="${esc(x.key)}"><b>${esc(x.label)}</b>${x.means ? `<span>${esc(x.means)}</span>` : ''}</button>`).join('')}
+    <button type="button" class="nw-poll-m" data-k="m"><b>Not sure</b></button>
+    <button type="button" class="nw-poll-own" data-own><b>Something else</b><span>Write your own answer</span></button></div>
+    <form class="nw-poll-form" data-own-form hidden><label for="poll-own-${esc(wid)}">Your answer, in a few words</label><textarea id="poll-own-${esc(wid)}" maxlength="300" rows="2" required></textarea><p class="small muted">We check it fits the rules (on topic, no names or insults), then add it as an answer others can pick.</p><button type="submit" class="btn">Add my answer</button> <button type="button" class="btn secondary" data-own-cancel>Cancel</button><p class="nw-poll-msg" data-msg role="status"></p></form>
+    <div class="nw-poll-res" data-res hidden></div>
+    ${o.inline ? '' : '<p class="small muted nw-poll-note">One answer per person. You can change it any time. No sign up, and we never show who answered what.</p>'}
+  </section>`;
   const pollHtml = (st) => {
     if (!st.poll || (st.poll.options || []).length < 2) return '';
     const more = S.filter((o) => o !== st && o.poll).slice(0, 3).map((o) => ({ url: nUrl(o), q: o.poll.q }));
-    return `<section class="nw-poll" id="vote" data-poll="news-${esc(st.slug)}" data-more="${esc(JSON.stringify(more))}" aria-labelledby="poll-h-${esc(st.slug)}">
-    <p class="nw-poll-k">Your say</p><h2 id="poll-h-${esc(st.slug)}">${esc(st.poll.q)}</h2>
-    <div class="nw-poll-opts" role="group" aria-label="Your answer">${st.poll.options.map((o) => `<button type="button" data-k="${esc(o.key)}"><b>${esc(o.label)}</b>${o.means ? `<span>${esc(o.means)}</span>` : ''}</button>`).join('')}
-    <button type="button" class="nw-poll-m" data-k="m"><b>Not sure</b></button>
-    <button type="button" class="nw-poll-own" data-own><b>Something else</b><span>Write your own answer</span></button></div>
-    <form class="nw-poll-form" data-own-form hidden><label for="poll-own-${esc(st.slug)}">Your answer, in a few words</label><textarea id="poll-own-${esc(st.slug)}" maxlength="300" rows="2" required></textarea><p class="small muted">We check it fits the rules (on topic, no names or insults), then add it as an answer others can pick.</p><button type="submit" class="btn">Add my answer</button> <button type="button" class="btn secondary" data-own-cancel>Cancel</button><p class="nw-poll-msg" data-msg role="status"></p></form>
-    <div class="nw-poll-res" data-res hidden></div>
-    <p class="small muted nw-poll-note">One answer per person. You can change it any time. No sign up, and we never show who answered what.</p>
-  </section>`;
+    return pollBox(st, st.poll, `news-${st.slug}`, { more });
   };
+  // Comments under a deep story (st.talk; src/talk.js and api/wants.js action "comment"). Each comment shows the answer its
+  // writer gave to the story's main question (st.talk.stance = a poll id), so readers see where people are coming from.
+  const talkHtml = (st) => !st.talk ? '' : `<section class="nw-talk" id="talk" data-talk="${esc(st.slug)}" aria-labelledby="talk-h-${esc(st.slug)}">
+    <p class="nw-poll-k">Comments</p><h2 id="talk-h-${esc(st.slug)}">${esc(st.talk.q || 'What do you think?')}</h2>${st.talk.sub ? `<p class="nw-talk-sub">${inl(st.talk.sub)}</p>` : ''}
+    <form class="nw-talk-form" data-talk-form><label for="talk-in-${esc(st.slug)}" class="visually-hidden">Your comment</label><textarea id="talk-in-${esc(st.slug)}" maxlength="1000" rows="3" placeholder="${esc(st.talk.placeholder || 'Say what you think. Be kind to your neighbours.')}" required></textarea>
+    <div class="nw-talk-row"><button type="submit" class="btn">Post comment</button><span class="small muted">No sign up. Comments are public without your name, and checked against <a href="#talk-rules">the rules</a> before they show.</span></div><p class="nw-poll-msg" data-talk-msg role="status"></p></form>
+    <div class="nw-talk-bar" data-talk-bar hidden><span data-talk-count></span><span class="nw-talk-sort" role="group" aria-label="Sort comments"><button type="button" data-sort="top" aria-pressed="true">Top</button><button type="button" data-sort="new" aria-pressed="false">Newest</button></span></div>
+    <ol class="nw-talk-list" data-talk-list><li class="nw-talk-wait small muted">Loading comments…</li></ol>
+    <details class="nw-talk-rules" id="talk-rules"><summary>The rules</summary><p>Sharp disagreement with a decision, a plan or someone’s public record is welcome. No insults or personal attacks on anyone (council, staff or neighbours), no hate or threats, no private people’s names or details, no spam or links. A quick automatic check reads each comment first. Three reports from readers hide a comment until we look at it.</p></details>
+  </section>`;
   S.forEach((st, i) => {
     const others = S.filter((x) => x !== st).slice(0, 4);
     // On wide screens the number, What changes and More news sit in a sidebar beside the story (.nw-side); on phones
@@ -1931,13 +1952,14 @@ if (TRACKED.length) {
       body: `<div class="nw nw-story-page">
   <p class="crumbs"><a href="/news/">← All news</a></p>
   <article class="nw-full nw-art" data-s="${st.s}">${liveFill(body, st)}${st.live === 'flood' ? `<section class="fl-live" data-flood-live data-issued="${esc(st.live_issued || '')}" data-rain-from="${esc(st.rain_from || '')}" data-rain-to="${esc(st.rain_to || '')}" aria-live="polite"><div class="fl-head"><h2>Live: river, forecast and alerts</h2><p>Loading the newest readings…</p></div></section>` : ''}${storyBody}<div class="nw-foot">${source(st)}${shareBtn(st)}</div></article>
+  ${talkHtml(st)}
   ${pollHtml(st)}
   <section class="nw-next"><h2 class="nw-sechead">More news</h2><ul>${others.map((o) => `<li data-s="${o.s}"><span>${esc(SEC[o.s])}</span><a href="${nUrl(o)}">${esc(o.head)}</a></li>`).join('')}</ul>
   <p class="nw-more"><a href="/news/">All news →</a> · <a href="/meetings/">What council decided →</a></p></section>
   ${signupBox('news-story')}
   ${floodSticky}
 </div>`,
-      scripts: (st.poll ? '<script src="/news.js"></script><script src="/botid.js" defer></script><script src="/poll.js" defer></script>' : '<script src="/news.js"></script>') + (st.live === 'flood' ? '<script src="/flood-live.js" defer></script>' : '') + (st.map_before ? '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script><script src="/flood-map.js" defer></script>' : ''),
+      scripts: '<script src="/news.js"></script>' + (st.poll || (st.polls || []).length || st.talk ? '<script src="/botid.js" defer></script>' : '') + (st.poll || (st.polls || []).length ? '<script src="/poll.js" defer></script>' : '') + (st.talk || st.calc ? '<script src="/talk.js" defer></script>' : '') + (st.live === 'flood' ? '<script src="/flood-live.js" defer></script>' : '') + (st.map_before ? '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script><script src="/flood-map.js" defer></script>' : ''),
     }));
   });
 }
@@ -1989,7 +2011,11 @@ if (TRACKED.length) {
 {
   fs.writeFileSync(path.join(ROOT, 'api', '_wants.json'), JSON.stringify({ topics: WANTS.topics, hoods: WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => h.slug), hoodNames: Object.fromEntries(WANT_HOODS.filter((h) => h.slug !== 'outside').map((h) => [h.slug, h.name])), asks: [...WANTS.asks.map(({ id, title, why, options, status }) => ({ id, title, why, ...(status === 'done' ? { status } : {}), ...(options ? { options: options.map((o) => o.key), labels: options.map((o) => o.label) } : {}) })),
     // The vote at the bottom of a news story (story.poll) uses the same answer API, under the id news-<slug>. Kept off /wants/.
-    ...(NEWS.stories || []).filter((st) => st.poll && (st.poll.options || []).length >= 2).map((st) => ({ id: `news-${st.slug}`, news: st.slug, title: st.poll.q, why: String(st.dek || '').replace(/<[^>]+>/g, ''), options: st.poll.options.map((o) => o.key), labels: st.poll.options.map((o) => o.label) }))] }) + '\n');
+    ...(NEWS.stories || []).filter((st) => st.poll && (st.poll.options || []).length >= 2).map((st) => ({ id: `news-${st.slug}`, news: st.slug, title: st.poll.q, why: String(st.dek || '').replace(/<[^>]+>/g, ''), options: st.poll.options.map((o) => o.key), labels: st.poll.options.map((o) => o.label) })),
+    // Questions placed through a deep story (st.polls, [[poll id]] in the body): the ask news-<slug>--<id>.
+    ...(NEWS.stories || []).flatMap((st) => (st.polls || []).filter((p) => (p.options || []).length >= 2).map((p) => ({ id: `news-${st.slug}--${p.id}`, news: st.slug, title: p.q, why: String(p.why || st.dek || '').replace(/<[^>]+>/g, '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1'), options: p.options.map((o) => o.key), labels: p.options.map((o) => o.label) })))],
+    // Stories that take comments (st.talk): the headline for the comment check, and which question's answer shows beside each comment.
+    talk: Object.fromEntries((NEWS.stories || []).filter((st) => st.talk).map((st) => [st.slug, { head: st.head, stance: st.talk.stance ? `news-${st.slug}--${st.talk.stance}` : '' }])) }) + '\n');
   // Live pictures: the main page shows the 3 most wanted asks, a question's page shows its results (api/og.js). Facebook keeps
   // its own copy per address, so these refresh when it re-reads the page; a share from the site's buttons is always fresh.
   const IMG = `${ORIGIN}/api/og/?top=1&v=3`;
@@ -2833,7 +2859,7 @@ write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can�
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js', 'since.js', 'flood-live.js', 'flood-map.js', 'pulse.js', 'insights.js', 'app.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js', 'talk.js', 'since.js', 'flood-live.js', 'flood-map.js', 'pulse.js', 'insights.js', 'app.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.writeFileSync(path.join(DIST, 'botid.js'), `(function(){${BOTID_JS}})();`);
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
