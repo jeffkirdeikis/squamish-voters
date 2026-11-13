@@ -66,6 +66,52 @@
  ],
  "stories": [
   {
+   "slug": "squamish-valley-boat-incident-two-dead",
+   "s": "safety",
+   "tier": "lead",
+   "date": "2026-11-13",
+   "head": "Two dead, one missing in Squamish Valley boat incident. Stay off the water",
+   "dek": "Two people have died and one person is still missing after a boat incident in the Squamish Valley on the afternoon of November 12. High water and bad weather made the first day's search extremely difficult and unsafe for responders, and search, rescue and recovery work is continuing today (Friday). Squamish RCMP are asking everyone to stay off the water.",
+   "take": "Squamish RCMP are asking everyone to stay off the water because of dangerous flow rates and debris throughout the river systems.",
+   "body": "## What happened\n\nSquamish RCMP responded to a boat incident in the Squamish Valley at about 1:52 p.m. on Thursday, November 12, 2026. Several people were involved.\n\nPolice say two people have been confirmed dead and one person is still missing. Everyone else involved has been accounted for.\n\nSearch, rescue and recovery operations are continuing on Friday, November 13.\n\nPolice have not said which river or where in the valley it happened, or how many people were on board. They say no more information will be released at this time.\n\n## What police are asking\n\n\"We are asking the public to stay off the water at this time due to dangerous flow rates and debris throughout the river systems,\" said Cpl. Ashley MacKay of the Squamish RCMP.\n\nFor current river levels, see our [today page](/today/).\n\n## Why the search is hard\n\nWater levels were high and the weather was poor on November 12. Police say this made search, rescue and recovery work extremely difficult and unsafe for emergency crews, so the work carried on the next day.\n\n\"The weather and river conditions have played a significant role in the response efforts,\" MacKay said. She called it \"a very dynamic and evolving incident\" and said \"the safety of responders and the public remains paramount.\"\n\nMacKay said weather, water levels and river conditions can change quickly. Those conditions are being checked all the time as the search goes on.\n\n## Who is helping\n\nRCMP call this a time-sensitive and complex response. Squamish RCMP have brought in:\n\n- Squamish Search and Rescue\n- RCMP Air Services\n- Lower Mainland District Integrated Emergency Response Team\n- RCMP Underwater Recovery Team\n- West Coast Marine Services\n\nRead the [RCMP news release](https://rcmp.ca/en/bc/squamish/news/2026/11/4358753) (file 2026-10050). Media contact: Cpl. Ashley MacKay, 604-892-6100.",
+   "visual": {
+    "type": "big",
+    "big": "2 dead, 1 missing",
+    "small": "Search continues after boat incident"
+   },
+   "src": [
+    "Squamish RCMP",
+    "https://rcmp.ca/en/bc/squamish/news/2026/11/4358753"
+   ],
+   "social": "Two people have died and one is still missing after a boat incident in the Squamish Valley. RCMP are asking everyone to stay off the water because of dangerous flows and debris throughout the river systems.\n\nHigh water and bad weather made Thursday's search unsafe for crews. The work continues today with Squamish Search and Rescue and RCMP Air Services. What police have said so far and who is helping:",
+   "share": 4,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/squamish-valley-boat-incident-two-dead.jpg",
+    "alt": "Braided grey river winding through a forested valley under low cloud, seen from a mossy rock slope",
+    "caption": "The Squamish River winding through the Squamish Valley.",
+    "credit": "James Abbott, CC BY-SA 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish_River_Valley_001.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/squamish-valley-boat-incident-two-dead-2.jpg",
+     "alt": "View over evergreen trees of a winding river in a broad valley with a snow-capped peak in the distance",
+     "caption": "The Squamish Valley and river, seen from above.",
+     "credit": "McKay Savage, CC BY 2.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_valley.jpg"
+    },
+    {
+     "file": "/news/photos/squamish-valley-boat-incident-two-dead-3.jpg",
+     "alt": "Wide grey-green river flowing between gravel bars and forested banks in a steep mountain valley",
+     "caption": "The Squamish River in the Squamish Valley.",
+     "credit": "James Abbott, CC BY-SA 2.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_River_Valley_003.jpg"
+    }
+   ],
+   "og": "squamish-valley-boat-incident-two-dead.png"
+  },
+  {
    "slug": "ottawa-200-million-woodfibre-lng",
    "s": "money",
    "tier": "card",
