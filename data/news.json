@@ -66,6 +66,31 @@
  ],
  "stories": [
   {
+   "slug": "notcho-whale-moved-inland",
+   "s": "recon",
+   "tier": "card",
+   "date": "2026-11-13",
+   "head": "Squamish Nation asks people to stay away as Notcho the whale moves inland",
+   "dek": "The Squamish Nation says the area where Notcho has been resting is now an active work site and is no longer safe to visit. The Nation has begun moving Notcho, a humpback whale struck and killed by a BC Ferry, from his resting spot on the beach to a new spot further inland using heavy machinery. A ceremony for his final burial on Squamish Nation territory will follow once the work is done.",
+   "take": "The Squamish Nation will hold a ceremony for Notcho's final burial on its territory once the move is finished, and says it will share the ceremony details as soon as they are available.",
+   "body": "## What is happening\n\nThe area where Notcho has been resting is now an active work site and is no longer safe to visit, so the Squamish Nation asks people to stay away. In an update posted Nov. 13, Chairperson Sxwíxwtn Wilson Williams said the Nation has begun the challenging work of moving Notcho, a humpback whale, from his resting spot on the beach to a new spot further inland.\n\nMoving Notcho is a difficult job that needs heavy machinery. The request is worded to \"Community,\" asking them to respect the work and not go to the area. The Nation says that respect and patience will ensure Notcho can provide ongoing gifts and teachings for its community for years to come.\n\nThe update does not name the beach, give an end date for the work, or set a date for the ceremony.\n\n## Why the Nation is caring for Notcho\n\nNotcho was struck and killed by a BC Ferry in the Nation's territorial waters. In Sḵwx̱wú7mesh sníchim (the Squamish language), whales are called Ḵwenís, and the Nation calls them sacred relatives.\n\nThe update says it was the Nation's responsibility to support Notcho on his new journey. It says Squamish People have been stewards of these waters since time immemorial, and that caring for Notcho is that stewardship in action. It also says Notcho has given the community a chance to reconnect with ancient cultural practices and keep learning.\n\n## Who is helping\n\nVolunteers are coming together to help with the next phase of the work:\n\n- The University of British Columbia\n- The Beatty Biodiversity Museum\n- The Vancouver Aquarium\n- Several members of the Squamish Nation community\n\n## What comes next\n\nThe work must be finished before the Nation can hold a ceremony to mark Notcho's final burial on its territory. The Nation says it will share ceremony details as soon as they are available.\n\nRead the full update from the [Squamish Nation](https://www.squamish.net/caring-for-notcho-a-journey-of-stewardship-and-respect/). For more local environment stories, see our [climate and environment](/issues/climate-and-environment/) page.",
+   "src": [
+    "Sḵwx̱wú7mesh Úxwumixw (Squamish Nation)",
+    "https://www.squamish.net/caring-for-notcho-a-journey-of-stewardship-and-respect/"
+   ],
+   "social": "The Squamish Nation is asking people to stay away from the beach where Notcho the humpback whale has been resting. Heavy machinery is now moving him further inland, and the Nation says the area is no longer safe to visit.\n\nNotcho was struck and killed by a BC Ferry. Volunteers from the University of British Columbia, the Beatty Biodiversity Museum, the Vancouver Aquarium and Nation members are helping with the next phase of the work, which must be finished before a final burial ceremony.",
+   "share": 4,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/notcho-whale-moved-inland.jpg",
+    "alt": "The Stawamus Chief seen from the Chief Overlook trail",
+    "caption": "The Stawamus Chief (Siyám Smánit), seen from the Chief Overlook trail.",
+    "credit": "Daniel Lu (User:dllu), CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Stawamus_Chief_from_Chief_Overlook_Panorama_Trail_Sea_to_Sky_Gondola_Squamish_dllu.jpg"
+   },
+   "og": "notcho-whale-moved-inland.png"
+  },
+  {
    "slug": "squamish-valley-boat-incident-two-dead",
    "s": "safety",
    "tier": "lead",
