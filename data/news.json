@@ -66,6 +66,77 @@
  ],
  "stories": [
   {
+   "slug": "ottawa-200-million-woodfibre-lng",
+   "s": "money",
+   "tier": "card",
+   "date": "2026-11-13",
+   "head": "Ottawa's $200 million for Woodfibre LNG aims to raise output up to 24%",
+   "dek": "Will a bigger plant mean more tankers in Howe Sound, or changes to flaring near the site? The federal announcement Woodfibre LNG posted on November 13 does not say, and it mentions no comment period. Energy Minister Tim Hodgson's investment targets 2.5 to 2.6 million tonnes a year and opens the door to a possible second phase.",
+   "take": "The announcement says the money also lets Woodfibre explore a possible second phase of the plant, but gives no details on what that would include.",
+   "body": "## What we know and don't know\n\nWoodfibre LNG posted a federal announcement that Tim Hodgson, Minister of Energy and Natural Resources, is investing $200 million in its liquefied natural gas (LNG) plant near Squamish. The claims below come from that announcement and the quotes in it, and have not been checked independently.\n\nThe post does not say:\n\n- What form the $200 million takes, such as a loan, a grant or a stake, or what Canada gets in return\n- Whether higher output means more LNG carrier trips in Howe Sound\n- Whether flaring (burning off gas), noise or light near the plant will change\n- What a possible second phase would include\n\nIt mentions no comment period, open house or new review. Background is on our [Woodfibre LNG issue page](/issues/woodfibre-lng/).\n\n## What the money is for\n\nThe announcement says the investment will:\n\n- Raise output from its original design of 2.1 million tonnes a year to a target of 2.5 to 2.6 million tonnes, a 19 to 24% increase\n- Help the plant run more reliably and efficiently\n- Allow exploration of a possible second phase\n\nIt says the added output could power hundreds of thousands of homes. The announcement ties the money to Budget 2026 and to Canada's goal of doubling trade with countries other than the U.S.\n\n## Timeline\n\n- 2017: Canada approved a natural gas export licence for Woodfibre lasting 40 years\n- Now: about three quarters complete, says Lorne Doerkson, Premier designate of British Columbia, who expects the first cargo to sail from Howe Sound in 2027\n- Late 2027: operations expected to begin, according to the federal announcement posted by Woodfibre\n\n## Other claims in the announcement\n\n- About 1,500 jobs on site at peak construction and 100 full time jobs during operations, in the Squamish region\n- Parliamentary Secretary Corey Hogan says the investment will support \"hundreds of skilled workers\"\n- The plant will run on B.C. hydroelectricity\n- Woodfibre says its emissions intensity will be about nine times lower than the global average for LNG export plants, equal to avoiding the emissions of about 140,000 cars a year compared with a typical plant\n\n## The Squamish Nation's role\n\nThe announcement calls Woodfibre the first major industrial project in Canadian history approved through an environmental assessment led by an Indigenous nation outside of a treaty. The Squamish Nation's assessment set 25 legally binding conditions. Chairperson Sxwíxwtn Wilson Williams says the Nation holds an independent regulatory role and that its agreement \"will apply to every aspect of this project, today and into the future.\" He says the conditions \"protect our territory, waters, air and people.\"\n\n## Read more\n\n- [The full post from Woodfibre LNG](https://woodfibrelng.ca/news/2026/11/13/canada-invests-to-diversify-trade-create-jobs-and-lower-global-emissions-by-expanding-low-carbon-lng-exports/)\n- [The Woodfibre tax deal](/issues/woodfibre-tax-deal/)",
+   "visual": {
+    "type": "big",
+    "big": "$200M",
+    "small": "Federal investment in Woodfibre LNG"
+   },
+   "src": [
+    "Woodfibre LNG",
+    "https://woodfibrelng.ca/news/2026/11/13/canada-invests-to-diversify-trade-create-jobs-and-lower-global-emissions-by-expanding-low-carbon-lng-exports/"
+   ],
+   "social": "Will a bigger LNG plant near Squamish mean more tankers in Howe Sound? The announcement does not say.\n\nOttawa is putting $200 million into Woodfibre LNG, aiming to raise its yearly output by 19 to 24% and explore a possible second phase. What the money buys, and what the post doesn't say:",
+   "share": 3,
+   "auto": true,
+   "poll": {
+    "q": "How do you feel about Woodfibre LNG exploring a second phase?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Support a second phase",
+      "means": "The plant could grow beyond the expanded output now planned."
+     },
+     {
+      "key": "b",
+      "label": "Fine with the expanded plant, no second phase",
+      "means": "The plant would stay at the 2.5 to 2.6 million tonne target."
+     },
+     {
+      "key": "c",
+      "label": "Keep it at the original size",
+      "means": "Output would stay at the original 2.1 million tonne design."
+     },
+     {
+      "key": "d",
+      "label": "Oppose the project overall",
+      "means": "You would rather the plant not operate at any size."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/ottawa-200-million-woodfibre-lng.jpg",
+    "alt": "Wide blue expanse of Howe Sound surrounded by forested, snow-capped mountains, seen from above",
+    "caption": "Howe Sound, seen from above Squamish.",
+    "credit": "Shafik Diwan, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Howe_Sound,_Squamish.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/ottawa-200-million-woodfibre-lng-2.jpg",
+     "alt": "Aerial view of the north end of Howe Sound with the Squamish valley and mountains beyond",
+     "caption": "The north end of Howe Sound and Squamish, seen from the air.",
+     "credit": "Shawn from Airdrie, Canada, CC BY-SA 2.0",
+     "link": "https://commons.wikimedia.org/wiki/File:The_North_end_of_Howe_Sound_and_Squamish,_BC_(3828051167).jpg"
+    },
+    {
+     "file": "/news/photos/ottawa-200-million-woodfibre-lng-3.jpg",
+     "alt": "Turquoise waters of Howe Sound below forested slopes, with a band of low cloud along the mountains",
+     "caption": "Howe Sound from Sky Pilot Mountain near Squamish.",
+     "credit": "Keely Hill, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Howe_Sound_from_Sky_Pilot_Mountain.jpg"
+    }
+   ],
+   "og": "ottawa-200-million-woodfibre-lng.png"
+  },
+  {
    "slug": "squamish-nation-december-distribution",
    "s": "community",
    "tier": "card",
