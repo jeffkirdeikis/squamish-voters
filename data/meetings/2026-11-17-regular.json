@@ -7,5 +7,177 @@
  "source": "District of Squamish 2026 meeting schedule",
  "civicweb_id": 2119,
  "civicweb_name": "Regular Council - 17 Nov 2026",
- "agenda_url": "https://squamish.civicweb.net/Portal/MeetingInformation.aspx?Id=2119"
+ "agenda_url": "https://squamish.civicweb.net/document/272109/",
+ "agenda_pdf": "https://squamish.civicweb.net/document/272109/?printPdf=true",
+ "attachments": [
+  {
+   "url": "https://squamish.civicweb.net/FileStorage/EE781DEEADA343BF9DB5294E36925FF6-1006%20Special%20Minutes%202026.pdf",
+   "name": ""
+  },
+  {
+   "url": "https://squamish.civicweb.net/FileStorage/9F6C39368B85463D9D9EA9638A7B35BB-1006%20Regular%20Minutes%202026.pdf",
+   "name": ""
+  },
+  {
+   "url": "https://squamish.civicweb.net/FileStorage/FCDC2CE15C4B41B49A559EF0CC99C0F2-1020%20Special%20Minutes%202026.pdf",
+   "name": ""
+  },
+  {
+   "url": "https://squamish.civicweb.net/FileStorage/F118C0896F404984BB6840BD343718AC-1103%20Inaugural%20Minutes%202026.pdf",
+   "name": ""
+  },
+  {
+   "url": "https://squamish.civicweb.net/FileStorage/3E887D6D0FEB4CE899ED922745348277-District%20of%20Squamish%20Business%20Licence%20Bylaw%20No.%2024.pdf",
+   "name": ""
+  },
+  {
+   "url": "https://squamish.civicweb.net/FileStorage/06A9E7A61C6A482D81715ECDC849532A-District%20of%20Squamish%20Business%20Licence%20Bylaw%20No.%2024.pdf",
+   "name": ""
+  },
+  {
+   "url": "https://squamish.civicweb.net/FileStorage/F7372B6FFD10461B993D528546EDF10E-District%20of%20Squamish%20Official%20Community%20Plan%20Bylaw.pdf",
+   "name": ""
+  },
+  {
+   "url": "https://squamish.civicweb.net/FileStorage/5A9E49612A884EC18B8736A828511C0F-District%20of%20Squamish%20Land%20Development%20Procedures%20B.pdf",
+   "name": ""
+  },
+  {
+   "url": "https://squamish.civicweb.net/FileStorage/BB64F8816C1742478A6FA04C20ABDEFB-2026%20Election%20Results%20Summary%20Report.pdf",
+   "name": ""
+  },
+  {
+   "url": "https://squamish.civicweb.net/FileStorage/A3C8494A5647403E8B9511C97F48B557-Community%20Emergency%20Preparedness%20Fund%20Grant%20Approv.pdf",
+   "name": ""
+  }
+ ],
+ "preview": "This is a short meeting of the newly elected council. Council will finish two changes to the rules for building on steep slopes, update business licence rules for co-living, and decide whether to apply for a grant to update the flood plan. Mayor Easton will also give notice of a motion asking for a 2027 budget with no property tax revenue increase.",
+ "has_public_hearing": false,
+ "closed_only": false,
+ "agenda_items": [
+  {
+   "plain": "Mayor Easton gives notice that he will ask council to have staff prepare a revised 2027 budget with no increase in property tax revenue over 2026, with no layoffs and no cuts to services residents use. Council will debate and vote on it at the December 1, 2026 meeting, not at this meeting.",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "discussion",
+   "topic": "taxes_spending",
+   "for_you": "If passed later, staff would have to propose a 2027 budget that collects no more property tax than in 2026.",
+   "areas": [
+    "all"
+   ],
+   "issues": [
+    "budget-2027"
+   ]
+  },
+  {
+   "plain": "Council will vote on final approval of a change to the Official Community Plan (the town's long term plan for land use) that updates the rules for building on steep slopes.",
+   "ask": "Should the District give final approval to the updated steep slopes rules in the Official Community Plan?",
+   "yes_means": "The new steep slopes rules become part of the Official Community Plan and apply to future building on steep land.",
+   "no_means": "The current steep slopes rules stay in place.",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "vote",
+   "topic": "growth",
+   "for_you": "Affects people who want to build on steep land in Squamish.",
+   "areas": [
+    "all"
+   ],
+   "issues": [
+    "ocp-and-growth"
+   ]
+  },
+  {
+   "plain": "Council will vote on final approval of a change to the land development procedures bylaw that sets who can approve permits for building in the steep slopes area, a step called delegation.",
+   "ask": "Should council give final approval to the change that sets who can approve steep slopes development permits?",
+   "yes_means": "The new process for approving steep slopes development permits takes effect.",
+   "no_means": "The current approval process for these permits stays the same.",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "vote",
+   "topic": "growth",
+   "for_you": "Affects how quickly and by whom building permits on steep land are decided.",
+   "areas": [
+    "all"
+   ],
+   "issues": [
+    "ocp-and-growth"
+   ]
+  },
+  {
+   "plain": "Council will vote on whether to apply for a provincial emergency preparedness grant to pay for updating the Integrated Flood Hazard Management Plan, and to have the District manage the grant.",
+   "ask": "Should the District apply for a provincial grant to update its flood hazard plan?",
+   "yes_means": "The District sends the grant application and will manage the money if it is approved.",
+   "no_means": "The District does not apply for this grant for the flood plan update.",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "vote",
+   "topic": "flood_hazards_climate_resilience",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": [
+    "flood-protection"
+   ]
+  },
+  {
+   "plain": "Council will vote on the first three readings of a change to the business licence bylaw to update the rules for co-living, where several people rent rooms and share a home.",
+   "ask": "Should the District update its business licence rules for co-living homes?",
+   "yes_means": "The bylaw change moves forward and comes back later for final approval.",
+   "no_means": "The current business licence rules for co-living stay as they are.",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "vote",
+   "topic": "housing_affordability",
+   "for_you": "May affect people who rent out rooms in shared homes or live in one.",
+   "areas": [
+    "all"
+   ],
+   "issues": []
+  },
+  {
+   "plain": "Council will receive the Chief Election Officer's report on the results of the 2026 local election, for information only.",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "presentation",
+   "topic": "other",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": []
+  }
+ ],
+ "agenda_hash": "620381cbde8dbae7",
+ "agenda_checked": "2026-11-13T17:22:56.592Z"
 }
