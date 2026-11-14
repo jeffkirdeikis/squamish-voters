@@ -236,7 +236,7 @@ function mostRead(list, views) {
     return `<div style="background:#fff;border:1px solid #d9d5c8;border-radius:12px;overflow:hidden;margin:0 0 14px">
   <a href="${storyUrl(st)}"><img src="${img(st.photo.file)}" alt="${esc(st.photo.alt)}" width="600" style="display:block;width:100%;height:auto;border:0"></a>
   <div style="padding:14px 16px">
-  ${readBy(views?.[st.slug])}<p style="margin:0 0 4px;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#5d6661">${esc(SEC[st.s] || '')}</p>
+  ${st.s === 'safety' ? '' : readBy(views?.[st.slug])}<p style="margin:0 0 4px;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#5d6661">${esc(SEC[st.s] || '')}</p>
   <a href="${storyUrl(st)}" style="display:block;color:#14211c;font-family:Georgia,serif;font-size:${i ? 20 : 23}px;line-height:1.3;font-weight:700;text-decoration:none;margin:0 0 8px">${esc(st.head)}</a>
   <p style="margin:0 0 12px">${esc(st.dek)}</p>
   ${more.length ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 12px"><tr>${more.map((ph, j) => `<td width="50%" valign="top" style="padding:0 ${j ? 0 : 4}px 0 ${j ? 4 : 0}px"><a href="${storyUrl(st)}"><img src="${img(ph.file)}" alt="${esc(ph.alt)}" width="280" style="display:block;width:100%;height:auto;border:0;border-radius:8px"></a><p style="margin:4px 0 0;font-size:13px;color:#5d6661">${esc(ph.caption || '')}</p></td>`).join('')}</tr></table>` : ''}
@@ -245,7 +245,10 @@ function mostRead(list, views) {
   </div>
 </div>`;
   };
-  return section('🔥', views ? 'Most read this week' : 'Top stories this week', top.map(card).join('\n'));
+  // A week led by a death, injury or emergency gets a plain heading: no fire emoji, no "top" or "most read" framing.
+  const grave = top.some((st) => st.s === 'safety' || /\b(dead|died|dies|death|killed|missing|drown|fatal|injur|evacuat|search and rescue|emergency|washed out|flood)/i.test(`${st.head} ${st.dek}`));
+  return grave ? section('🗞️', 'This week in Squamish', top.map(card).join('\n'))
+    : section('🗞️', views ? 'Most read this week' : 'The week\'s news', top.map(card).join('\n'));
 }
 
 // The rest of the week's news, each with a small photo.
