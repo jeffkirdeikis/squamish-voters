@@ -66,6 +66,36 @@
  ],
  "stories": [
   {
+   "slug": "rainfall-warning-70-mm-soaked-ground",
+   "s": "weather",
+   "tier": "card",
+   "date": "2026-11-14",
+   "head": "Up to 70 mm more rain possible by Sunday night. Why soaked ground matters",
+   "dek": "Ground already soaked by this week's storms can't absorb as much water, which could make this next round of heavy rain worse. Environment Canada has a rainfall warning for Howe Sound and the Sea-to-Sky. 40 to 70 mm is possible from late Saturday afternoon through Sunday night.",
+   "take": "From late Saturday afternoon through Sunday night, drive with care and watch for pooled water, visibility that can drop suddenly, and washouts near rivers, creeks and culverts.",
+   "body": "Environment Canada issued a rainfall warning Saturday, November 14 for Howe Sound and the Sea-to-Sky. 40 to 70 mm of rain is possible, starting late Saturday afternoon and continuing through Sunday night.\n\nCheck river levels, Highway 99 and current weather on our [today page](/today/).\n\n## What to watch for\n\nThe warning lists these risks during the heavy rain:\n\n- Water pooling on roads and in low spots\n- Visibility that can drop suddenly at times\n- Washouts near rivers, creeks and culverts\n\n## Why this round matters\n\nThis is a new storm system full of moisture heading for the B.C. coast, bringing another round of significant rain to the west coast. The heavy rain is expected to begin late Saturday afternoon and keep going through Sunday.\n\nThe ground is already saturated from a series of storms earlier in the week. Soaked ground can't absorb as much water, which the forecasters say could make the impacts of this rain worse. You can read more about local flood risk on our [flood protection issue page](/issues/flood-protection/).\n\n## Stay up to date\n\nForecasters ask people to keep checking alerts and forecasts as the system moves in.\n\nTo report severe weather, email BCstorm@ec.gc.ca or post on social media using #BCStorm.\n\nRead the full warning on the [Environment Canada website](https://weather.gc.ca/warnings/index_e.html?prov=bc).",
+   "visual": {
+    "type": "big",
+    "big": "40 to 70 mm",
+    "small": "Possible rain, late Saturday afternoon to Sunday night"
+   },
+   "src": [
+    "Environment Canada",
+    "https://weather.gc.ca/warnings/index_e.html?prov=bc"
+   ],
+   "social": "Environment Canada rainfall warning for Squamish and the Sea-to-Sky: 40 to 70 mm possible from late Saturday afternoon through Sunday night.\n\nThe ground is already soaked from this week's storms, so it can't absorb as much water. Watch for pooled water on roads, sudden low visibility and washouts near rivers, creeks and culverts. What to watch for, plus a link to river levels and Highway 99 on our today page:",
+   "share": 3,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/rainfall-warning-70-mm-soaked-ground.jpg",
+    "alt": "Howe Sound seen from above Squamish",
+    "caption": "Howe Sound, seen from above Squamish.",
+    "credit": "Shafik Diwan, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Howe_Sound,_Squamish.jpg"
+   },
+   "og": "rainfall-warning-70-mm-soaked-ground.png"
+  },
+  {
    "slug": "holiday-wreath-workshop-december-10",
    "s": "community",
    "tier": "brief",
