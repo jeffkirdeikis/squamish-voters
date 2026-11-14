@@ -66,6 +66,82 @@
  ],
  "stories": [
   {
+   "slug": "holiday-wreath-workshop-december-10",
+   "s": "community",
+   "tier": "brief",
+   "date": "2026-11-13",
+   "head": "Make your own holiday wreath December 10; registration closes December 3",
+   "dek": "Professional florist Bernadette will help you build your own holiday wreath to take home. The workshop is Thursday, December 10, 6:30 to 8:15 p.m. at The 55 Activity Centre. The notice gives no cost or registration link, so check with the District of Squamish.",
+   "take": "Registration closes one week early, Thursday, December 3, so the right amount of fresh materials and greens can be pre-ordered.",
+   "body": "## What happens\n\nProfessional florist Bernadette will lead a holiday wreath making workshop at The 55 Activity Centre. Each student makes their own holiday wreath to take home.\n\nThe workshop uses fresh materials and greens. Registration closes one week before the workshop, on Thursday, December 3, so the District of Squamish can pre-order the right amount of fresh materials and greens.\n\n## Where and when\n\n- Date: Thursday, December 10\n- Time: 6:30 p.m. to 8:15 p.m.\n- Length: 1 hour 45 minutes\n- Place: The 55 Activity Centre\n- Leader: professional florist Bernadette\n- Registration closes: Thursday, December 3\n\n## How to take part\n\n- The notice does not give a cost, a registration link or a supply list. Check with the District of Squamish for those details.\n- The notice was shared in the District of Squamish E-News. Read it at [squamish.ca](https://squamish.ca/government-and-administration/district-information/enews-archives/).\n\nFor more local recreation news, see our [recreation issue page](/issues/brennan-park-and-recreation/).",
+   "visual": {
+    "type": "big",
+    "big": "Dec 3",
+    "small": "Registration deadline"
+   },
+   "src": [
+    "District of Squamish E-News",
+    "https://squamish.ca/government-and-administration/district-information/enews-archives/"
+   ],
+   "social": "Ever wanted to make your own holiday wreath instead of buying one? A professional florist is leading a workshop at The 55 Activity Centre on Thursday, December 10, 6:30 to 8:15 p.m.\n\nRegistration closes Thursday, December 3, so fresh greens can be ordered in time. The notice gives no cost or sign-up link; here is what we know:",
+   "share": 2,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/holiday-wreath-workshop-december-10.jpg",
+    "alt": "Evergreen holiday wreath decorated with apples, oranges, pears, berries and a red bow hanging on a dark front door",
+    "caption": "A holiday wreath decorated with fruit and a red bow.",
+    "credit": "NPS Photo, Public domain",
+    "link": "https://commons.wikimedia.org/wiki/File:Christmas_at_Eisenhower_National_Historic_Site_(30f9666c-4364-4874-891e-423b91722e0f).jpeg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/holiday-wreath-workshop-december-10-2.jpg",
+     "alt": "Handmade wreath of fresh ivy, leaves, pink berries and small toadstool decorations on a dark door",
+     "caption": "A handmade wreath of fresh greenery and berries.",
+     "credit": "Helenaver, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Christmas_wreath_on_front_door.jpg"
+    },
+    {
+     "file": "/news/photos/holiday-wreath-workshop-december-10-3.jpg",
+     "alt": "Wreath made of shiny pink, green, blue and gold ornament balls hanging on a carved wooden door",
+     "caption": "A holiday wreath made from coloured ornament balls.",
+     "credit": "Sneha G Gupta, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Christmas_wreath_at_front_door.jpg"
+    }
+   ],
+   "og": "holiday-wreath-workshop-december-10.png"
+  },
+  {
+   "slug": "home-alone-course-waitlist",
+   "s": "community",
+   "tier": "brief",
+   "date": "2026-11-13",
+   "head": "Home Alone course for kids 10 to 12 filled fast, but the waitlist is open",
+   "dek": "The Brennan Park course teaches kids aged 10 to 12 how to stay safe and solve problems when home alone. Spots went fast, and the waitlist is open now.",
+   "take": "Spots in the Home Alone course at Brennan Park filled up fast, but parents can still get on the waitlist.",
+   "body": "## What the course covers\n\nThe Home Alone course runs at Brennan Park Recreation Centre. It is for children aged 10 to 12. The goal is to give them the skills and knowledge to be safe and feel confident when they are home alone for short periods of time.\n\nParticipants practise solving problems by handling real life situations, the District says.\n\nOur [Brennan Park and recreation](/issues/brennan-park-and-recreation/) page covers other programs and plans at the centre.\n\n## At a glance\n\n- Who it is for: children aged 10 to 12\n- Where: Brennan Park Recreation Centre\n- Status: spots filled up fast, but the waitlist is open\n- Not in the District's notice: how to join the waitlist, course dates, times and cost\n\n## Next step\n\nThe District shared the waitlist news in its November 13 E-News. Parents who want to learn more can start with the District's E-News page at [squamish.ca](https://squamish.ca/government-and-administration/district-information/enews-archives/).",
+   "visual": {
+    "type": "big",
+    "big": "10 to 12",
+    "small": "Ages for the Home Alone course"
+   },
+   "src": [
+    "District of Squamish E-News",
+    "https://squamish.ca/government-and-administration/district-information/enews-archives/"
+   ],
+   "social": "Thinking about letting your 10, 11 or 12 year old stay home alone for a bit?\n\nBrennan Park's Home Alone course filled up fast, but the waitlist is open now. What kids practise, and where to find details:",
+   "share": 2,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/home-alone-course-waitlist.jpg",
+    "alt": "Shops along Cleveland Avenue in downtown Squamish",
+    "caption": "Cleveland Avenue, downtown Squamish.",
+    "credit": "Guerinf, CC0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish_(5).jpg"
+   },
+   "og": "home-alone-course-waitlist.png"
+  },
+  {
    "slug": "mini-sneakers-brennan-park-babies",
    "s": "community",
    "tier": "brief",
