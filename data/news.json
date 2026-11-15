@@ -66,6 +66,36 @@
  ],
  "stories": [
   {
+   "slug": "flood-help-livestock-owners",
+   "s": "safety",
+   "tier": "card",
+   "date": "2026-11-15",
+   "head": "Animals or farm hit by flooding or evacuation? Call this number for help",
+   "dek": "Flooding and evacuation measures can leave farm animals and livestock in trouble. Farmers, ranchers and livestock owners can call the Squamish-Lillooet Regional District's Agricultural Coordinator directly for help.",
+   "take": "If flooding or an evacuation affects your animals or farm, call the Agricultural Coordinator at 604-384-7329.",
+   "body": "## Who to call\n\nThe Squamish-Lillooet Regional District (SLRD) announced this on November 15. Farmers, ranchers and livestock owners affected by flooding or evacuation measures can contact the SLRD's Agricultural Coordinator directly. The coordinator helps with moving and caring for livestock and other animals, and other farm emergency needs.\n\n- Phone: SLRD Agricultural Coordinator, 604-384-7329\n- Who can call: farmers, ranchers and livestock owners affected by flooding or evacuation measures\n- What for: coordinating livestock, animals or other agriculture-related emergency needs\n\n## Check conditions now\n\nIf you are deciding whether to move animals, check [current river levels, weather and Highway 99 on our today page](/today/). For background on flooding in our area, see [our flood protection issue page](/issues/flood-protection/).\n\n## Planning help online\n\nThe SLRD has an Agricultural Emergency Preparedness page on its website. It includes:\n\n- Premises ID sign up\n- Evacuation checklists\n- Livestock relocation information\n\n## Source\n\nRead the original [SLRD news release](https://e1.envoke.com/ext/click/go/72b42360f6f117b691464136292515ef/208354e17f0578d1a016afa1289bcee0/6cd9fbfbbbbeeabe00dc6e15657d2f75).",
+   "visual": {
+    "type": "big",
+    "big": "604-384-7329",
+    "small": "Agricultural Coordinator"
+   },
+   "src": [
+    "News release",
+    "https://e1.envoke.com/ext/click/go/72b42360f6f117b691464136292515ef/208354e17f0578d1a016afa1289bcee0/6cd9fbfbbbbeeabe00dc6e15657d2f75"
+   ],
+   "social": "Do you keep horses, chickens or other livestock, or know someone in the valley who does? Flooding and evacuations can make moving animals hard.\n\nThere is now a direct phone line to a regional district coordinator who helps owners with livestock and other farm emergency needs. The story has the number plus where to find evacuation checklists and livestock relocation information.",
+   "share": 3,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/flood-help-livestock-owners.jpg",
+    "alt": "The Squamish River winding through a forested valley",
+    "caption": "The Squamish River valley, part of Area D.",
+    "credit": "Tim Gage, CC BY-SA 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish_River_Valley_101.jpg"
+   },
+   "og": "flood-help-livestock-owners.png"
+  },
+  {
    "slug": "power-outage-east-of-highway-99",
    "s": "safety",
    "tier": "brief",
