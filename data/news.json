@@ -66,6 +66,52 @@
  ],
  "stories": [
   {
+   "slug": "power-outage-east-of-highway-99",
+   "s": "safety",
+   "tier": "brief",
+   "date": "2026-11-15",
+   "head": "319 BC Hydro customers east of Highway 99 without power in Squamish",
+   "dek": "BC Hydro blames a transmission circuit failure for the outage that began at 3:51 a.m. Sunday. It has a crew assigned but no restoration time yet.",
+   "take": "BC Hydro has a crew assigned but no restoration time yet; check the live outage map to see if your street is affected.",
+   "body": "## What we know\n\nThis is based on BC Hydro's update at 4:03 a.m. Sunday, 12 minutes after the power went off. BC Hydro has not said which streets are affected. It gives only a broad area, east of Highway 99. To check your street, use the [BC Hydro live outage map](https://www.bchydro.com/power-outages/app/outage-map.html). These numbers can change quickly.\n\n## The details\n\n- Customers affected: 319\n- Area: east of Highway 99\n- Power went off: Sunday, November 15 at 3:51 a.m.\n- Cause: transmission circuit failure, according to BC Hydro\n- Crew status: crew assigned\n- Restoration estimate: none yet\n- Last update from BC Hydro: Sunday, November 15 at 4:03 a.m.\n\n## Where to check for updates\n\nBC Hydro posts changes to the number of customers affected, the crew status and any restoration time on its [live outage map](https://www.bchydro.com/power-outages/app/outage-map.html).",
+   "visual": {
+    "type": "big",
+    "big": "319",
+    "small": "Customers without power"
+   },
+   "src": [
+    "BC Hydro outage map",
+    "https://www.bchydro.com/power-outages/app/outage-map.html"
+   ],
+   "social": "BC Hydro says 319 customers in Squamish east of Highway 99 lost power at 3:51 a.m. Sunday because of a transmission circuit failure.\n\nA crew is assigned, but there is no restoration time yet. As of 4:03 a.m.; numbers can change quickly. The details and the live map to check your street:",
+   "share": 2,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/power-outage-east-of-highway-99.jpg",
+    "alt": "View over Squamish valley with Highway 99 and neighbourhoods below forested mountains",
+    "caption": "Squamish and the valley north of town, seen from Stawamus Chief Provincial Park.",
+    "credit": "Trougnouf, CC BY 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Stawamus_Chief_Provincial_Park,_BC_(DSCF7884).jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/power-outage-east-of-highway-99-2.jpg",
+     "alt": "Highway 99 near Squamish with a transmission tower beside the road",
+     "caption": "Transmission line along Highway 99 near Squamish.",
+     "credit": "Gerdel, Public domain",
+     "link": "https://commons.wikimedia.org/wiki/File:Hwy_99_Squamish_1.jpg"
+    },
+    {
+     "file": "/news/photos/power-outage-east-of-highway-99-3.jpg",
+     "alt": "Highway 99 winding past rock cuts with a transmission tower and snowy peaks",
+     "caption": "Highway 99 and a transmission tower in the Sea to Sky corridor.",
+     "credit": "Vince Alongi from Delta, B.C., Canada, CC BY 2.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Hwy_99_(5965627597).jpg"
+    }
+   ],
+   "og": "power-outage-east-of-highway-99.png"
+  },
+  {
    "slug": "rainfall-warning-70-mm-soaked-ground",
    "s": "weather",
    "tier": "card",
