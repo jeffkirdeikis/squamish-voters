@@ -2685,11 +2685,29 @@ write('/subscribers/', page({ url: '/subscribers/', title: 'Admin', noindex: tru
 <button type="button" role="tab" data-tab="wants"><span class="ad-long">What Squamish </span>Wants <span class="ad-n"></span></button>
 <button type="button" role="tab" data-tab="comments">Comments <span class="ad-n"></span></button>
 <button type="button" role="tab" data-tab="signups">Sign-ups <span class="ad-n"></span></button>
+<button type="button" role="tab" data-tab="emails">Emails <span class="ad-n"></span></button>
 </nav>
 <section id="tab-review"><p class="small muted">Only what needs you: things the automatic check held back, things readers reported, and anything that went up unchecked.</p><div id="r-out" class="ad-list"><p class="muted">Loading…</p></div></section>
 <section id="tab-wants" hidden><p class="small muted">Everything residents added on /wants/, grouped under its question. Newest activity first. Three reader reports hide an item on their own.</p><div id="w-out" class="ad-list"><p class="muted">Loading…</p></div></section>
 <section id="tab-comments" hidden><p class="small muted">Comments on Have your say questions.</p><div id="c-out" class="ad-list"><p class="muted">Loading…</p></div></section>
 <section id="tab-signups" hidden><p class="small" id="s-status" aria-live="polite">Loading…</p><div id="s-out" class="sb"></div></section>
+<section id="tab-emails" hidden><p class="small muted">Every email sent to readers: how many got it, opened it and clicked, which links they tapped, and visits to the site from it. Opens run high: Apple Mail opens every email on its own, so clicks are the number to trust.</p><div id="e-out" class="ad-list"><p class="muted">Loading…</p></div></section>
+<style>
+.em-card { background: var(--card, #fff); border: 1px solid var(--line); border-radius: 14px; padding: 1rem; }
+.em-card h3 { font: 700 1.1rem/1.3 Georgia, serif; margin: .2rem 0 .7rem; }
+.em-k { font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); margin: 0; }
+.em-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr)); gap: .5rem; margin: 0 0 .8rem; }
+.em-tile { border: 1px solid var(--line); border-radius: 10px; padding: .55rem .7rem; }
+.em-tile b { display: block; font-size: 1.35rem; line-height: 1.2; }
+.em-tile span { font-size: .82rem; color: var(--ink-2); }
+.em-tile.em-bad b { color: #b42318; }
+.em-links { list-style: none; padding: 0; margin: .4rem 0 0; display: grid; gap: .35rem; }
+.em-links li { display: flex; justify-content: space-between; gap: .8rem; font-size: .92rem; border-top: 1px solid var(--line); padding-top: .35rem; }
+.em-links li span:first-child { overflow-wrap: anywhere; }
+.em-links li span:last-child { white-space: nowrap; color: var(--ink-2); }
+.em-card details { margin-top: .6rem; }
+.em-card summary { cursor: pointer; font-weight: 700; }
+</style>
 </div>
 <style>
 .sb { display: grid; gap: 1.2rem; }

@@ -10,6 +10,7 @@
 import { forecast, notices, slrd, SIZES } from './flood.js';
 import { sql, initFlood } from './flood-alert.js';
 import { mailReady, ORIGIN, REPLY_TO } from './_mail.js';
+import { tagLinks, tags, recordSends } from './_track.js';
 
 const STORY = `${ORIGIN}/news/squamish-river-flood-forecast-nov-12/`;
 const NOTICE = ['no flood notice', 'a High Streamflow Advisory', 'a Flood Watch', 'a Flood Warning'];
@@ -66,10 +67,17 @@ ${a.lines.map((l) => `<p>${esc(l)}</p>`).join('')}
 }
 
 async function send(list) {
+  // Each alert is its own email in the stats (api/_track.js): campaign flood-<date>-<subject words>.
+  const day = new Date().toISOString().slice(0, 10);
+  const camp = (m) => `flood-${day}-${String(m.subject).replace(/^\[Copy[^\]]*\]\s*/, '')}`;
+  list = list.map((m) => ({ ...m, html: tagLinks(m.html, camp(m)), tags: tags(camp(m), 'flood') }));
   // Resend batch: up to 100 emails a call.
   for (let i = 0; i < list.length; i += 100) {
-    const r = await fetch('https://api.resend.com/emails/batch', { method: 'POST', headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify(list.slice(i, i + 100)) });
+    const part = list.slice(i, i + 100);
+    const r = await fetch('https://api.resend.com/emails/batch', { method: 'POST', headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify(part) });
     if (!r.ok) throw new Error(`Resend ${r.status}: ${await r.text()}`);
+    const ids = ((await r.json().catch(() => ({}))).data || []).map((x) => x && x.id);
+    await recordSends(part.map((m, j) => ({ id: ids[j], campaign: camp(m), kind: 'flood', subject: m.subject, to: m.to[0] })).filter((x) => x.id && x.to !== REPLY_TO));
   }
 }
 

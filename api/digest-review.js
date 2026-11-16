@@ -3,6 +3,7 @@
 //   POST id, t, action       -> approve sends it to every confirmed subscriber through Resend; skip drops it
 // The link alone never sends anything: mail apps open links to scan them, so sending needs the button press (POST).
 import { neon } from '@neondatabase/serverless';
+import { tagLinks, tags, recordSends } from './_track.js';
 
 const URL = process.env.DATABASE_URL || process.env.POSTGRES_URL;
 const sql = URL ? neon(URL) : null;
@@ -24,13 +25,17 @@ iframe{width:100%;height:75vh;border:1px solid #d9d5c8;border-radius:12px;backgr
 async function sendAll(r) {
   const subs = await sql`SELECT email, token FROM sv_subscribers WHERE status = 'subscribed' ORDER BY email`;
   let sent = 0;
+  // Stats: every link to the site carries this email's tag, and Resend tags each email so opens and clicks come back (api/resend-events.js).
+  const campaign = `digest-${r.id}`, html = tagLinks(r.html, campaign), tg = tags(campaign, 'digest');
   for (let i = 0; i < subs.length; i += 100) {
     const batch = subs.slice(i, i + 100).map((s) => {
       const unsub = `${ORIGIN}/api/subscribe/?unsubscribe=${s.token}`;
-      return { from: process.env.EMAIL_FROM, to: [s.email], subject: r.subject, html: r.html.replaceAll('%%UNSUB%%', unsub), reply_to: 'squamishvoters@gmail.com', headers: { 'List-Unsubscribe': `<${unsub}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } };
+      return { from: process.env.EMAIL_FROM, to: [s.email], subject: r.subject, html: html.replaceAll('%%UNSUB%%', unsub), reply_to: 'squamishvoters@gmail.com', tags: tg, headers: { 'List-Unsubscribe': `<${unsub}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } };
     });
     const res = await fetch('https://api.resend.com/emails/batch', { method: 'POST', headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': `digest-${r.id}-${i}` }, body: JSON.stringify(batch) });
     if (!res.ok) return { sent, total: subs.length, error: `Resend ${res.status}: ${(await res.text()).slice(0, 300)}` };
+    const ids = ((await res.json().catch(() => ({}))).data || []).map((x) => x && x.id);
+    await recordSends(batch.map((b, j) => ({ id: ids[j], campaign, kind: 'digest', subject: r.subject, to: b.to[0] })).filter((x) => x.id));
     sent += batch.length;
   }
   return { sent, total: subs.length };

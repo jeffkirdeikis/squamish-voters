@@ -113,7 +113,7 @@
 
 
   // ---------- Tabs ----------
-  var TABS = ['review', 'wants', 'comments', 'signups'];
+  var TABS = ['review', 'wants', 'comments', 'signups', 'emails'];
   function show(t) {
     if (TABS.indexOf(t) < 0) t = 'review';
     TABS.forEach(function (k) {
@@ -288,4 +288,34 @@
     clearTimeout(qt); qt = setTimeout(function () { wQuery = e.target.value; draw(); var s = document.querySelector('[data-wq]'); s.focus(); s.setSelectionRange(s.value.length, s.value.length); }, 200);
   });
   loadAll();
+
+  // ---------- Emails: opens, clicks and visits for every email sent to readers (api/email-stats.js) ----------
+  function pct(n, of) { return of ? Math.round(100 * n / of) + '%' : '–'; }
+  function niceLink(u) {
+    try { var x = new URL(u); ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (k) { x.searchParams.delete(k); }); var s = (x.host === 'squamishvoters.com' ? '' : x.host) + x.pathname + (x.search || ''); return s === '/' ? 'Home page' : s; } catch (e) { return u; }
+  }
+  function tile(n, label, bad) { return '<div class="em-tile' + (bad && n ? ' em-bad' : '') + '"><b>' + esc(n) + '</b><span>' + esc(label) + '</span></div>'; }
+  function emailCard(m) {
+    var base = m.delivered || m.sent;
+    var h = '<article class="em-card"><p class="em-k">' + esc(m.name) + ' · ' + esc(m.kind === 'digest' || m.kind === 'flood' ? when(m.first_at) : 'last sent ' + ago(m.last_at)) + '</p>' +
+      '<h3>' + esc(m.subject || m.campaign) + '</h3><div class="em-tiles">' +
+      tile(m.sent, 'sent') + tile(m.delivered, 'delivered') +
+      tile(pct(m.opened, base), m.opened + ' opened') + tile(pct(m.clicked, base), m.clicked + ' clicked') +
+      tile(m.visitors, 'visitors to the site (' + m.views + ' pages)') +
+      (m.bounced ? tile(m.bounced, 'bounced', true) : '') + (m.complained ? tile(m.complained, 'marked spam', true) : '') + '</div>';
+    if (m.links.length) h += '<p class="em-k">Links tapped</p><ul class="em-links">' + m.links.map(function (l) { return '<li><span>' + esc(niceLink(l.link)) + '</span><span>' + l.clicks + ' tap' + (l.clicks === 1 ? '' : 's') + ' · ' + l.people + ' ' + (l.people === 1 ? 'person' : 'people') + '</span></li>'; }).join('') + '</ul>';
+    if (m.people.length) h += '<details><summary>Who opened or clicked (' + m.people.length + ')</summary><ul class="em-links">' + m.people.map(function (p) {
+      var w = p.complained ? 'marked spam' : p.bounced ? 'bounced' : p.clicked ? 'clicked ' + p.clicks + '×' : 'opened';
+      return '<li><span>' + esc(p.email) + '</span><span>' + w + '</span></li>'; }).join('') + '</ul></details>';
+    return h + '</article>';
+  }
+  fetch('/api/email-stats/', { headers: { Authorization: 'Bearer ' + token }, cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
+    var o = document.getElementById('e-out');
+    if (!d.ok) { o.innerHTML = '<p class="muted">' + esc(d.error || 'Could not load') + '</p>'; return; }
+    badge('emails', d.emails.filter(function (m) { return m.kind === 'digest'; }).length, false);
+    var big = d.emails.filter(function (m) { return m.kind === 'digest' || m.kind === 'flood'; }), small = d.emails.filter(function (m) { return m.kind !== 'digest' && m.kind !== 'flood'; });
+    o.innerHTML = (d.emails.length ? '' : '<div class="ad-empty"><p><b>No tracked emails yet.</b> Stats start with the next email sent to readers.</p></div>') +
+      big.map(emailCard).join('') +
+      (small.length ? '<p class="em-k" style="margin-top:.6rem">Sign-up emails (all time)</p>' + small.map(emailCard).join('') : '');
+  }).catch(function () { document.getElementById('e-out').innerHTML = '<p class="muted">Could not load. Reload the page.</p>'; });
 })();

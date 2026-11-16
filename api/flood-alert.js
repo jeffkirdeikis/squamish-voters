@@ -6,6 +6,7 @@
 import { neon } from '@neondatabase/serverless';
 import { randomBytes } from 'node:crypto';
 import { mailReady, ORIGIN, REPLY_TO } from './_mail.js';
+import { sendTracked } from './_track.js';
 
 const URL = process.env.DATABASE_URL || process.env.POSTGRES_URL;
 const sql = URL ? neon(URL) : null;
@@ -20,10 +21,7 @@ export { sql };
 
 async function sendConfirm(email, token) {
   const link = `${ORIGIN}/api/flood-alert/?confirm=${token}`;
-  const r = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
+  await sendTracked({
       from: process.env.EMAIL_FROM, to: [email], reply_to: REPLY_TO,
       subject: 'Confirm: Squamish River flood alerts',
       html: `<!doctype html><html><body style="margin:0;background:#f7f5ef;font:17px/1.55 -apple-system,Helvetica,Arial,sans-serif;color:#14211c"><div style="max-width:560px;margin:0 auto;padding:28px 18px">
@@ -35,9 +33,7 @@ async function sendConfirm(email, token) {
 <p style="font-size:14px;color:#5d6661">These alerts do not replace official alerts. Also sign up for SLRD Alert or Squamish Alert. Didn’t ask for this? Ignore it and you won’t hear from us.</p>
 </div></body></html>`,
       text: `Turn on Squamish River flood alerts from Squamish Voters:\n${link}\n\nWe email only when the province issues a Flood Warning or ends its notice, the regional district lists an evacuation alert or order, or the forecast peak moves by 10% or more.\nDidn't ask for this? Ignore this email.`,
-    }),
-  });
-  if (!r.ok) throw new Error(`Resend ${r.status}: ${await r.text()}`);
+    }, { campaign: 'flood-confirm', kind: 'flood-confirm' });
 }
 
 export default async function handler(req, res) {

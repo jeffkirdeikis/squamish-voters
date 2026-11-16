@@ -1,6 +1,8 @@
 // The "please confirm" email sent after someone signs up. Used by api/subscribe.js (right away, once an email
 // service is connected) and by scripts/pipeline/confirm-pending.mjs (for sign-ups that came in before that).
 // Files starting with _ in api/ are not served as endpoints.
+import { sendTracked } from './_track.js';
+
 export const ORIGIN = 'https://squamishvoters.com';
 export const REPLY_TO = 'squamishvoters@gmail.com';
 export const mailReady = () => Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_FROM);
@@ -53,20 +55,10 @@ export function welcomeEmail(token) {
 
 export async function sendWelcome(email, token) {
   const m = welcomeEmail(token);
-  const r = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: process.env.EMAIL_FROM, to: [email], reply_to: REPLY_TO, headers: { 'List-Unsubscribe': `<${ORIGIN}/api/subscribe/?unsubscribe=${token}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' }, ...m }),
-  });
-  if (!r.ok) throw new Error(`Resend ${r.status}: ${await r.text()}`);
+  await sendTracked({ from: process.env.EMAIL_FROM, to: [email], reply_to: REPLY_TO, headers: { 'List-Unsubscribe': `<${ORIGIN}/api/subscribe/?unsubscribe=${token}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' }, ...m }, { campaign: 'welcome', kind: 'welcome' });
 }
 
 export async function sendConfirm(email, token) {
   const m = confirmEmail(token);
-  const r = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: process.env.EMAIL_FROM, to: [email], reply_to: REPLY_TO, ...m }),
-  });
-  if (!r.ok) throw new Error(`Resend ${r.status}: ${await r.text()}`);
+  await sendTracked({ from: process.env.EMAIL_FROM, to: [email], reply_to: REPLY_TO, ...m }, { campaign: 'confirm', kind: 'confirm' });
 }
