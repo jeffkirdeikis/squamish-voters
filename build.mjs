@@ -370,12 +370,13 @@ const clip = (s, n) => (!s || s.length <= n ? s : `${s.slice(0, n - 1).replace(/
 // until it has real content (scripts/seo.mjs), but links on it are still followed and visits still counted.
 // ---------- Phone app links ----------
 // iPhone: approved Nov 12 2026, availability (Canada + US) switched on Nov 15. Set IOS_APP_LIVE = true once the App Store lists it;
-// that turns on Safari's own Smart App Banner and the iPhone "Get the app" menu row. Android row links the direct download (/app/).
+// that turns on Safari's own Smart App Banner and the iPhone "Get the app" menu row.
 const IOS_APP_LIVE = false;
 const IOS_APP_ID = '6833308116';
 const IOS_APP_URL = `https://apps.apple.com/ca/app/squamish-voters/id${IOS_APP_ID}`;
 const appRow = (cls, href, sub, ext) => `<a class="menu-app ${cls}" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ''}><img src="/icon-96.png" alt="" width="30" height="30"><span>Get the app<small>${sub}</small></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>`;
-const APP_MENU_ROWS = (IOS_APP_LIVE ? appRow('menu-app-ios', IOS_APP_URL, 'Free for iPhone', true) : '') + appRow('menu-app-android', '/app/', 'Free for Android', false);
+// Android row removed Nov 15 2026 (Jeff): no menu link to the direct download; add a Play row once the app is on Google Play.
+const APP_MENU_ROWS = IOS_APP_LIVE ? appRow('menu-app-ios', IOS_APP_URL, 'Free for iPhone', true) : '';
 
 function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null, image = null, imageAlt = null, updated = null, lastmod = null }) {
   // Review item 21: the pages search sends people to end with the weekly email sign up, unless they have one already.
