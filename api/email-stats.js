@@ -24,13 +24,17 @@ export default async function handler(req, res) {
     sql`SELECT s.campaign, s.recipient, bool_or(e.type = 'opened') AS opened, bool_or(e.type = 'clicked') AS clicked,
         bool_or(e.type = 'bounced') AS bounced, bool_or(e.type = 'complained') AS complained, count(*) FILTER (WHERE e.type = 'clicked')::int AS clicks
       FROM sv_email_sends s LEFT JOIN sv_email_events e USING (email_id) GROUP BY s.campaign, s.recipient`,
-    sql`SELECT substring(utm from 7) AS campaign, count(*)::int AS views, count(DISTINCT sid)::int AS visitors
-      FROM sv_pv WHERE utm LIKE 'email-%' GROUP BY 1`.catch(() => []),
+    // Sign-up and flood emails: utm_source=email-<campaign> (api/_track.js). Friday emails: scripts/pipeline/digest.mjs tags
+    // utm_campaign=weekly-<date>, stored as 'squamish-voters-email:weekly-<date>' (src/pulse.js); the digest id starts with that date.
+    sql`SELECT CASE WHEN utm LIKE 'email-%' THEN substring(utm from 7) ELSE 'weekly:' || substring(utm from 'weekly-(.*)$') END AS campaign,
+        count(*)::int AS views, count(DISTINCT sid)::int AS visitors
+      FROM sv_pv WHERE utm LIKE 'email-%' OR utm LIKE '%:weekly-%' GROUP BY 1`.catch(() => []),
     sql`SELECT min(at) AS at FROM sv_email_events`,
   ]);
   const emails = camps.map((c) => {
     const t = {}; ev.filter((x) => x.campaign === c.campaign).forEach((x) => { t[x.type] = x.people; });
-    const v = visits.find((x) => x.campaign === c.campaign) || {};
+    const key = c.kind === 'digest' ? 'weekly:' + c.campaign.slice(7, 17) : c.campaign;
+    const v = visits.find((x) => x.campaign === key) || {};
     const who = people.filter((p) => p.campaign === c.campaign);
     return {
       campaign: c.campaign, kind: c.kind, name: NAMES[c.kind] || c.kind, subject: c.subject, first_at: c.first_at, last_at: c.last_at,

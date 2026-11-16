@@ -28,6 +28,8 @@
   // where the visit came from
   var ref = ''; try { var h = document.referrer ? new URL(document.referrer).hostname.replace(/^www\./, '') : ''; if (h && h !== location.hostname) ref = h; } catch (e) {}
   var qs = new URLSearchParams(location.search), utm = qs.get('utm_source') || (qs.get('fbclid') ? 'fbclid' : '') || '';
+  // Email links also carry which email (utm_campaign), so api/email-stats.js can count visits per Friday email.
+  if (utm && qs.get('utm_medium') === 'email' && qs.get('utm_campaign')) utm = utm + ':' + qs.get('utm_campaign');
   var ua = navigator.userAgent || '';
   var app = /FBAN|FBAV|FB_IAB/.test(ua) ? 'facebook app' : /Instagram/.test(ua) ? 'instagram app' : /Reddit/i.test(ua) ? 'reddit app' : '';
   var w = window.innerWidth || 0, dev = w < 700 ? 'phone' : w < 1100 ? 'tablet' : 'computer';
