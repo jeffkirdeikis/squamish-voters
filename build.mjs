@@ -368,6 +368,15 @@ const clip = (s, n) => (!s || s.length <= n ? s : `${s.slice(0, n - 1).replace(/
 // updated: the date this page's own content last changed (from its data), shown in the footer instead of the build date.
 // lastmod: the same kind of date for the sitemap only, on pages that don't show one. noindex 'thin': kept out of search
 // until it has real content (scripts/seo.mjs), but links on it are still followed and visits still counted.
+// ---------- Phone app links ----------
+// iPhone: approved Nov 12 2026, availability (Canada + US) switched on Nov 15. Set IOS_APP_LIVE = true once the App Store lists it;
+// that turns on Safari's own Smart App Banner and the iPhone "Get the app" menu row. Android row links the direct download (/app/).
+const IOS_APP_LIVE = false;
+const IOS_APP_ID = '6833308116';
+const IOS_APP_URL = `https://apps.apple.com/ca/app/squamish-voters/id${IOS_APP_ID}`;
+const appRow = (cls, href, sub, ext) => `<a class="menu-app ${cls}" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ''}><img src="/icon-96.png" alt="" width="30" height="30"><span>Get the app<small>${sub}</small></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>`;
+const APP_MENU_ROWS = (IOS_APP_LIVE ? appRow('menu-app-ios', IOS_APP_URL, 'Free for iPhone', true) : '') + appRow('menu-app-android', '/app/', 'Free for Android', false);
+
 function page({ url, title, desc, body, hero = '', scripts = '', noindex = false, jsonld = null, image = null, imageAlt = null, updated = null, lastmod = null }) {
   // Review item 21: the pages search sends people to end with the weekly email sign up, unless they have one already.
   if (SIGNUP_ON.some((u) => url.startsWith(u)) && !body.includes('id="signup"')) body += signupBox(url.split('/')[1] || 'home');
@@ -396,6 +405,8 @@ function page({ url, title, desc, body, hero = '', scripts = '', noindex = false
 <meta name="twitter:image" content="${img}">
 <link rel="canonical" href="https://squamishvoters.com__PATH__">
 <meta name="theme-color" content="#0f4c3a">${BUILD_SHA ? `\n<meta name="build" content="${BUILD_SHA}">` : ''}${noindex ? `\n<meta name="robots" content="${noindex === 'thin' ? 'noindex, follow' : 'noindex, nofollow'}">` : ''}${jsonld ? `\n<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
+${IOS_APP_LIVE ? `<meta name="apple-itunes-app" content="app-id=${IOS_APP_ID}">\n` : ''}<script>/* Phone app: html.sv-in-app inside the app (its user agent), sv-ios / sv-android on phones, for the "Get the app" menu row. */
+(function(){var u=navigator.userAgent,c=document.documentElement.classList;if(/SquamishVotersApp/.test(u))c.add('sv-in-app');else if(/iPhone|iPod/.test(u))c.add('sv-ios');else if(/Android/.test(u))c.add('sv-android')})();</script>
 <script>/* Hide join prompts a visitor has already acted on (weekly email, Facebook group, Reddit): remembered in this browser only. */
 window.SVdone=function(k){try{var d=JSON.parse(localStorage.getItem('sv_done')||'{}');if(k){d[k]=1;localStorage.setItem('sv_done',JSON.stringify(d))}return d}catch(e){return{}}};
 (function(){var d=SVdone(),c=document.documentElement.classList;if(d.email)c.add('sv-has-email');if(d.fb)c.add('sv-has-fb');if(d.reddit)c.add('sv-has-reddit')})();</script>
@@ -423,7 +434,7 @@ window.SVdone=function(k){try{var d=JSON.parse(localStorage.getItem('sv_done')||
   </div>
   <div class="menu-panel" id="menu-panel">
     <nav class="wrap" aria-label="All pages">
-      ${MOBILE_MENU.map(([h, l, i]) => `<a href="${h}"${cur(h)}>${MENU_ICON[i] || ICON[i] || ''}<span>${l}</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>`).join('')}
+      ${MOBILE_MENU.map(([h, l, i], n) => `<a href="${h}"${cur(h)}>${MENU_ICON[i] || ICON[i] || ''}<span>${l}</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>${n === 0 ? APP_MENU_ROWS : ''}`).join('')}
     </nav>
   </div>
 </header>

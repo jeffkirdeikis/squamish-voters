@@ -2943,3 +2943,9 @@ html.sv-has-fb .social-pair, html.sv-has-reddit .social-pair { grid-template-col
   .nw-tbl tbody th { font-size: 1.02rem; padding-bottom: .3rem; }
   .nw-tbl td[data-l]::before { content: attr(data-l) ": "; font-weight: 700; color: var(--muted); font-size: .85rem; }
 }
+
+/* "Get the app" row in the phone menu (build.mjs APP_MENU_ROWS): only on the matching phone, never inside the app. */
+.menu-panel a.menu-app { display: none; }
+html.sv-ios:not(.sv-in-app) .menu-panel a.menu-app-ios, html.sv-android:not(.sv-in-app) .menu-panel a.menu-app-android { display: flex; }
+.menu-panel a.menu-app img { flex: none; width: 1.9rem; height: 1.9rem; border-radius: .45rem; margin: 0 -.2rem; }
+.menu-panel a.menu-app small { display: block; font-size: .85rem; font-weight: 500; opacity: .8; }
