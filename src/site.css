@@ -2545,6 +2545,7 @@ h3.td-sub { font-size: 1.05rem; margin: 1.1rem 0 .3rem; }
 /* News charts: shown whole, never cropped like photos, with a thin frame. */
 .nw-full .nw-photo.nw-chart img, .nw-photo.nw-chart img { aspect-ratio: 3 / 2; object-fit: contain; background: #fff; border: 1px solid var(--line, #d9dfdc); }
 .nw-photo.nw-chart a { display: block; }
+.nw-photo.nw-chart.nw-tall img { aspect-ratio: auto; height: auto; max-height: none; } /* tall maps show whole at full width */
 
 /* Live flood panel on flood stories (src/flood-live.js, api/flood.js). */
 .fl-live { margin: 1.2rem 0 .4rem; padding: 1rem 1.05rem; background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--brand); border-radius: var(--radius); box-shadow: var(--shadow); display: grid; gap: .8rem; min-width: 0; }

@@ -1763,7 +1763,7 @@ if (TRACKED.length) {
   };
   const figHtml = (p) => (p.chart
     // A chart is shown whole (never cropped) and opens full size on a tap, so phone readers can zoom in on the numbers.
-    ? `<figure class="nw-photo nw-chart"><a href="${esc(p.file)}" target="_blank" rel="noopener" aria-label="Open this chart full size"><img src="${esc(p.file)}" alt="${esc(p.alt)}" width="1200" height="800" loading="lazy"></a><figcaption>${esc(p.caption)} Tap the chart to enlarge. <span>Source: <a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.credit)}</a></span></figcaption></figure>`
+    ? `<figure class="nw-photo nw-chart${p.tall ? ' nw-tall' : ''}"><a href="${esc(p.file)}" target="_blank" rel="noopener" aria-label="Open this chart full size"><img src="${esc(p.file)}" alt="${esc(p.alt)}" width="1200" height="800" loading="lazy"></a><figcaption>${esc(p.caption)} Tap the chart to enlarge. <span>Source: <a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.credit)}</a></span></figcaption></figure>`
     : `<figure class="nw-photo"><img src="${esc(newsThumb(p.file, 800))}" alt="${esc(p.alt)}" width="1200" height="800" loading="lazy"><figcaption>${esc(p.caption)} <span>Photo: <a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.credit)}</a></span></figcaption></figure>`);
   // st.photos: in order between sections, or with p.in (a section heading) at the end of that section.
   const placeIn = (html, ps) => ps.reduce((h, p) => {
