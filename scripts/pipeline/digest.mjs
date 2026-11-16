@@ -13,6 +13,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
 import { ROOT, log, claudeJson, STYLE } from './lib.mjs';
+import { isPolitics } from './politics.mjs';
 
 const ORIGIN = 'https://squamishvoters.com';
 const arg = (k) => { const i = process.argv.indexOf(k); return i > 0 ? process.argv[i + 1] : null; };
@@ -251,16 +252,37 @@ function mostRead(list, views) {
     : section('🗞️', views ? 'Most read this week' : 'The week\'s news', top.map(card).join('\n'));
 }
 
+// Politics first (Jeff, Nov 15 2026): this week's council, election, budget and tax stories open the email, ahead of
+// the most read news. The first one gets a big photo; the rest are rows with a small photo.
+function politics(list) {
+  const items = list.filter(isPolitics).slice(0, 5);
+  if (!items.length) return '';
+  const [first, ...more] = items;
+  const big = `<div style="background:#fff;border:1px solid #d9d5c8;border-radius:12px;overflow:hidden;margin:0 0 14px">
+  ${first.photo?.file ? `<a href="${storyUrl(first)}"><img src="${img(first.photo.file)}" alt="${esc(first.photo.alt)}" width="600" style="display:block;width:100%;height:auto;border:0"></a>` : ''}
+  <div style="padding:14px 16px">
+  <p style="margin:0 0 4px;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#5d6661">${esc(SEC[first.s] || '')}</p>
+  <a href="${storyUrl(first)}" style="display:block;color:#14211c;font-family:Georgia,serif;font-size:23px;line-height:1.3;font-weight:700;text-decoration:none;margin:0 0 8px">${esc(first.head)}</a>
+  <p style="margin:0 0 12px">${esc(first.dek)}</p>
+  <a href="${storyUrl(first)}" style="display:inline-block;background:#0f4c3a;color:#fff;text-decoration:none;font-weight:700;padding:10px 18px;border-radius:8px">Read the story</a>
+  ${first.photo ? credit(first.photo) : ''}
+  </div>
+</div>`;
+  return { html: section('🏛️', 'Politics this week', big + (more.length ? `\n<div style="${S.card}">\n${more.map(row).join('\n')}\n</div>` : '')), slugs: items.map((st) => st.slug) };
+}
+
+const short = (s) => { const t = String(s || '').split(/(?<=\.)\s/)[0]; return t.length > 160 ? '' : t; };
+const row = (st) => `  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 14px"><tr>
+    ${st.photo?.file ? `<td width="104" valign="top" style="padding:0 12px 0 0"><a href="${storyUrl(st)}"><img src="${img(st.photo.file)}" alt="${esc(st.photo.alt)}" width="104" height="70" style="display:block;width:104px;height:70px;object-fit:cover;border:0;border-radius:8px"></a></td>` : ''}
+    <td valign="top"><a href="${storyUrl(st)}" style="color:#14211c;font-weight:700">${esc(st.head)}</a>${short(st.dek) ? `<br><span style="font-size:15px;color:#44504a">${esc(short(st.dek))}</span>` : ''}</td>
+  </tr></table>`;
+
 // The rest of the week's news, each with a small photo.
 function news(list, skip) {
   const items = list.filter((st) => !skip.has(st.slug)).slice(0, 8);
   if (!items.length) return '';
-  const short = (s) => { const t = String(s || '').split(/(?<=\.)\s/)[0]; return t.length > 160 ? '' : t; };
   return section('📰', 'More news this week', `<div style="${S.card}">
-${items.map((st) => `  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 14px"><tr>
-    ${st.photo?.file ? `<td width="104" valign="top" style="padding:0 12px 0 0"><a href="${storyUrl(st)}"><img src="${img(st.photo.file)}" alt="${esc(st.photo.alt)}" width="104" height="70" style="display:block;width:104px;height:70px;object-fit:cover;border:0;border-radius:8px"></a></td>` : ''}
-    <td valign="top"><a href="${storyUrl(st)}" style="color:#14211c;font-weight:700">${esc(st.head)}</a>${short(st.dek) ? `<br><span style="font-size:15px;color:#44504a">${esc(short(st.dek))}</span>` : ''}</td>
-  </tr></table>`).join('\n')}
+${items.map(row).join('\n')}
   <a href="${ORIGIN}/news/" style="${S.more}">All Squamish news →</a>
 </div>`);
 }
@@ -289,8 +311,8 @@ async function words(facts, commits, announced) {
       system: `${STYLE}
 You are writing parts of the weekly Squamish Voters email to subscribers. The voice is neutral and friendly, signed by Squamish Voters, never by a person. Never use an em dash or a hyphenated compound. Never invent a fact: use only what is in the facts given.`,
       content: `Facts for this week's email (JSON):\n${JSON.stringify(facts)}\n\nThis week's site changes (git commit subjects, newest first):\n${commits.join('\n') || '(none)'}\n\nAlready announced in an earlier email, so leave these out of site_new unless something new was added to them:\n${announced.join('\n') || '(none)'}\n\nWrite:
-1. subject: an email subject line under 70 characters naming the two or three biggest things in this email. No clickbait, no emoji.
-2. intro: two or three short sentences that open the email, starting "Hi!", saying what is in it this week.
+1. subject: an email subject line under 70 characters naming the two or three biggest things in this email, leading with the political news when there is any. No clickbait, no emoji.
+2. intro: two or three short sentences that open the email, starting "Hi!", saying what is in it this week. The email opens with political news (politics_news_first), so mention that first when there is any.
 3. site_new: up to 6 things a resident would notice or use that were added or clearly improved on the site this week, from the commits. Skip fixes, admin pages, search engine work, internal tools, and anything private. Each has name (2 to 5 words), text (one plain sentence on what it does for them) and path (the site path it lives at, starting and ending with /, such as /today/). Empty list if nothing qualifies.`,
       schema: { type: 'object', additionalProperties: false, required: ['subject', 'intro', 'site_new'], properties: {
         subject: { type: 'string' }, intro: { type: 'string' },
@@ -322,19 +344,23 @@ if (arg('--html')) {
   const people = D.wants?.people || 0;
   const views = await newsViews();
   const ranked = rankStories(views);
-  const most = mostRead(ranked, views);
-  const shown = new Set(ranked.filter((st) => st.photo?.file).slice(0, 3).map((st) => st.slug));
+  // Political stories go in their own section first; Most read and More news carry the rest.
+  const pol = politics(ranked) || { html: '', slugs: [] };
+  const nonPol = ranked.filter((st) => !pol.slugs.includes(st.slug));
+  const most = mostRead(nonPol, views);
+  const shown = new Set([...pol.slugs, ...(most ? nonPol.filter((st) => st.photo?.file).slice(0, 3).map((st) => st.slug) : [])]);
   const parts = {
-    most, council: council(D.W), coming: comingUp(D.W), wants: wantsSection(rows, people, prev), pri: priorities(D.pri),
-    weekend: weekend(D.today), score: scorecard(D.W.promises, prev), fb: facebook(), news: news(ranked, most ? shown : new Set()),
+    pol: pol.html, most, council: council(D.W), coming: comingUp(D.W), wants: wantsSection(rows, people, prev), pri: priorities(D.pri),
+    weekend: weekend(D.today), score: scorecard(D.W.promises, prev), fb: facebook(), news: news(ranked, shown),
   };
   const facts = {
     subject_hint: D.W.recent.length ? `Council this week: ${D.W.recent[0].headline}` : `This week in Squamish: ${people} people on what Squamish wants`,
     council_decided: D.W.recent.map((m) => ({ date: m.date, headline: m.headline })),
     coming_up: D.W.soon.map((m) => ({ date: m.date, what: m.type })).concat((D.W.dates || []).slice(0, 4).map((d) => ({ date: d.date, what: d.title }))),
     wants_people: people, wants_top: rows.filter((r) => r.kind === 'choice').sort((a, b) => b.total - a.total).slice(0, 3).map((r) => ({ q: r.title, top: r.opts[0].label, pct: r.opts[0].pct })),
-    most_read_news: ranked.slice(0, 3).map((st) => ({ head: st.head, readers: views?.[st.slug]?.visitors || null })),
-    news: ranked.slice(3, 10).map((st) => st.head),
+    politics_news_first: ranked.filter(isPolitics).slice(0, 5).map((st) => st.head),
+    most_read_news: nonPol.slice(0, 3).map((st) => ({ head: st.head, readers: views?.[st.slug]?.visitors || null })),
+    news: nonPol.slice(3, 10).map((st) => st.head),
   };
   const w = await words(facts, weekCommits(), prev?.announced || ANNOUNCED_OCT30);
   subject = w.subject;
@@ -344,7 +370,7 @@ if (arg('--html')) {
 <p style="font-weight:700;color:#0f4c3a;margin:0 0 4px">Squamish Voters</p>
 <h1 style="font-family:Georgia,serif;font-size:26px;margin:0 0 10px">${esc(h1)}</h1>
 <p style="margin:0 0 18px">${esc(w.intro)}</p>
-${(() => { const body = [parts.most, parts.council, parts.coming, parts.wants, parts.pri, parts.weekend, parts.score, parts.news, parts.fb, siteNew(w.site_new)]; return contents(body) + body.filter(Boolean).join('\n\n'); })()}
+${(() => { const body = [parts.pol, parts.most, parts.council, parts.coming, parts.wants, parts.pri, parts.weekend, parts.score, parts.news, parts.fb, siteNew(w.site_new)]; return contents(body) + body.filter(Boolean).join('\n\n'); })()}
 
 <p style="margin:22px 0 6px">Know someone who'd like this? Forward it on. They can sign up at <a href="${ORIGIN}/" style="${S.a}">squamishvoters.com</a>. And just hit reply if you have a question or spot something we got wrong.</p>
 <p style="font-size:14px;color:#5d6661;margin-top:26px">Squamish Voters is an independent, plain language guide to Squamish council, made by Jeff Kirdeikis in Squamish, British Columbia. You're getting this because you signed up at squamishvoters.com.

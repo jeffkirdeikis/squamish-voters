@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { promiseTally, tallyText, positionStatus, confirmedByMinutes, isBudgetAdoption } from './scripts/pipeline/status.mjs';
+import { isPolitics } from './scripts/pipeline/politics.mjs';
 import { thinMeeting, thinHood, latestDate, pageDate, LASTMOD_MARK, sitemapXml, feedXml } from './scripts/seo.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
@@ -1186,8 +1187,11 @@ function homeNews() {
   const pic = (st) => st.photo?.file || st.visual?.img || (fs.existsSync(path.join(ROOT, 'public', 'news', 'og', st.og || `${st.slug}.jpg`)) ? `/news/og/${st.og || `${st.slug}.jpg`}` : '');
   const top = S.slice(0, 4);
   // A big story can be pinned to the top until a date ("pin_until": "2026-11-10"); otherwise the newest big story leads.
-  const lead = S.find(pinned) || top.find((st) => (st.tier === 'lead' || st.tier === 'feature') && pic(st)) || S.find(pic) || S[0];
-  const rest = S.filter((st) => st !== lead).slice(0, 4);
+  // Politics first (Nov 15 2026): the newest political story from the last three weeks leads, then the other political
+  // ones, then everything else by date.
+  const pol = S.filter((st) => st.tier !== 'brief' && isPolitics(st) && Date.parse(st.date + 'T12:00:00') > Date.now() - 21 * 864e5);
+  const lead = S.find(pinned) || pol.find(pic) || top.find((st) => (st.tier === 'lead' || st.tier === 'feature') && pic(st)) || S.find(pic) || S[0];
+  const rest = [...pol.slice(0, 2), ...S.filter((st) => !pol.slice(0, 2).includes(st))].filter((st) => st !== lead).slice(0, 4);
   const day = (d) => new Date(d + 'T12:00:00').toLocaleDateString('en-CA', { month: 'short', day: 'numeric' }).replace('.', '');
   const kick = (st) => `<span class="nw-hk" data-s="${st.s}">${esc(SEC[st.s] || 'News')}</span><span class="hn-date">${esc(day(st.date))}</span>`;
   return `<section class="hn" aria-labelledby="hn-h"><div class="hn-top"><h2 id="hn-h">Squamish news</h2><a class="hn-all" href="/news/">See more news →</a></div>
@@ -1789,11 +1793,18 @@ if (TRACKED.length) {
   // Newest first. The lead is the newest big story near the top; the rest fall into Latest and Earlier by date.
   const S = [...NEWS.stories].sort((a, b) => b.date.localeCompare(a.date));
   const main = S.filter((s) => s.tier !== 'brief'), briefs = S.filter((s) => s.tier === 'brief').slice(0, 5);
-  const leadSt = main.find(pinned) || main[0]; // a pinned story, else the newest, gets the top spot
-  const featSt = main.slice(0, 6).find((s) => s !== leadSt && (s.tier === 'feature' || s.tier === 'lead'));
   const asTier = (st, tier) => (st ? { ...st, tier } : null);
+  // Politics first (Jeff, Nov 15 2026): council, elections, budgets and taxes from the last three weeks get their own
+  // group above Latest. The newest (or a pinned one) runs big; up to four more sit as cards.
+  const polAll = main.filter((s) => isPolitics(s) && Date.parse(s.date + 'T12:00:00') > Date.now() - 21 * 864e5).slice(0, 5);
+  const polLeadSt = polAll.find(pinned) || polAll[0];
+  const polLead = [asTier(polLeadSt, 'lead')].filter(Boolean), polCards = polAll.filter((s) => s !== polLeadSt).map((s) => asTier(s, 'card'));
+  const inPol = new Set(polAll);
+  const other = main.filter((s) => !inPol.has(s));
+  const leadSt = other.find(pinned) || other[0]; // a pinned story, else the newest, gets the top spot
+  const featSt = other.slice(0, 6).find((s) => s !== leadSt && (s.tier === 'feature' || s.tier === 'lead'));
   const lead = [asTier(leadSt, 'lead')].filter(Boolean), feat = [asTier(featSt, 'feature')].filter(Boolean);
-  const rest = main.filter((s) => s !== leadSt && s !== featSt).map((s) => asTier(s, 'card'));
+  const rest = other.filter((s) => s !== leadSt && s !== featSt).map((s) => asTier(s, 'card'));
   const latestCards = rest.slice(0, feat.length ? 2 : 4), earlierCards = rest.slice(latestCards.length, latestCards.length + 14);
 
   write('/news/', page({
@@ -1808,7 +1819,11 @@ if (TRACKED.length) {
   ${chips}
   <div class="nw-layout">
     <div class="nw-main">
-      <section class="nw-group" data-group="latest"><h2 class="nw-sechead">Latest</h2><div class="nw-cards" data-nw-live hidden></div>
+      ${polAll.length ? `<section class="nw-group" data-group="politics"><h2 class="nw-sechead">Politics: council, elections and your taxes</h2>
+        ${polLead.map(story).join('')}
+        <div class="nw-cards">${polCards.map(story).join('')}</div>
+      </section>` : ''}
+      <section class="nw-group" data-group="latest"><h2 class="nw-sechead">${polAll.length ? 'Latest news' : 'Latest'}</h2><div class="nw-cards" data-nw-live hidden></div>
         ${lead.map(story).join('')}${feat.map(story).join('')}
         <div class="nw-cards">${latestCards.map(story).join('')}</div>
       </section>

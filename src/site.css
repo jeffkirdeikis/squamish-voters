@@ -1230,6 +1230,7 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 @media (max-width: 999px) {
   .nw-layout { display: flex; flex-direction: column; }
   .nw-main { display: contents; }
+  .nw-group[data-group="politics"] { order: 0; }
   .nw-group[data-group="latest"] { order: 1; }
   .nw-rail { order: 2; }
   .nw-group[data-group="earlier"] { order: 3; }
