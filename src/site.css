@@ -1123,6 +1123,10 @@ dialog.sides .small { margin: 0; font-weight: 700; }
 .nw-readmore { margin: .6rem 0 0; font-weight: 700; }
 .nw-readmore a { color: var(--c); text-decoration: none; }
 .nw-readmore a:hover { text-decoration: underline; }
+.nw-gist { background: color-mix(in srgb, var(--c, #0f4c3a) 8%, transparent); border: 1px solid color-mix(in srgb, var(--c, #0f4c3a) 30%, transparent); border-radius: 12px; padding: .9rem 1.1rem; margin: 0; }
+.nw-gist h2 { font: 700 .72rem/1.2 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--c, #0f4c3a); margin: 0 0 .5rem; }
+.nw-gist ul { margin: 0; padding-left: 1.15rem; display: grid; gap: .4rem; }
+.nw-gist li { font-size: 1.02rem; line-height: 1.5; }
 .nw-take b { display: block; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--c); }
 .nw-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .4rem .8rem; }
 .nw-src { font-size: .82rem; color: var(--muted); margin: 0; min-width: 0; }

@@ -265,6 +265,7 @@ Rules:
 - social: the text of the Facebook post that shares the story, 2 short paragraphs separated by a blank line. It must make a local stop scrolling and want to tap or comment. Paragraph 1 opens with either a question about the reader's own life that this story touches (their commute, kids, rent, taxes, weekend, street, safety) or the single most human or surprising fact in the story. Make the stakes personal: why should someone in Squamish care today? Paragraph 2 gives the key fact and ends with what they get by tapping (for example "How it happened and who helped:" or "What it covers and when it lands:"). A question to readers may go beyond the source (it asks, it does not claim), but every statement must be true to the source. No hashtags, no emoji, no "click here", no exclamation marks, no copy of the headline.
 - share: 1 to 5, how likely Squamish people are to tap, share or comment on this on Facebook (5: a striking human story, a big change to daily life, a local event families go to; 1: a routine notice). Be honest; most stories are 2 or 3.
 - take: one sentence that says what changes for residents or what they can do, strictly factual. Empty if there is nothing useful.
+- gist: exactly 4 short sentences, shown in an "In plain words" box near the top of the story page, that sum up the whole story for someone who reads nothing else. Everyday words a 12 year old would follow, no jargon or acronyms (say "gas export plant", not "LNG facility"), each sentence under 30 words. Cover what happened, why it matters to people in Squamish, what is still unknown or what comes next, and what readers can do (or the key date). Only facts from the source; do not just repeat the dek.
 - weight: "big" only for something most residents care about (a major closure, an election result, a big decision); "brief" for small notices; otherwise "normal".
 - visual: a key number or date from the source (like "Nov 16" with "Application deadline", or "90 km/h" with "Wind gusts") or null. Never invent one.
 - Skip (publish=false): routine meeting notices, holiday hours, job postings, items not about the Squamish area, items with too little information, and anything already stale.
@@ -276,10 +277,10 @@ Rules:
 - photo_queries: 3 or 4 short searches for openly licensed photos of the PLACE or TOPIC (not the event itself), most specific first and each a different angle so the story can carry more than one picture, e.g. "Howe Sound Squamish", "Sea to Sky Highway", "downtown Squamish".`;
 const SCHEMA = {
   type: 'object', additionalProperties: false,
-  required: ['publish', 'reason', 'section', 'weight', 'head', 'dek', 'social', 'share', 'take', 'body', 'visual_big', 'visual_small', 'slug', 'photo_queries', 'areas', 'poll'],
+  required: ['publish', 'reason', 'section', 'weight', 'head', 'dek', 'gist', 'social', 'share', 'take', 'body', 'visual_big', 'visual_small', 'slug', 'photo_queries', 'areas', 'poll'],
   properties: {
     publish: { type: 'boolean' }, reason: { type: 'string' }, section: { type: 'string', enum: SECTIONS }, weight: { type: 'string', enum: ['big', 'normal', 'brief'] },
-    head: { type: 'string' }, dek: { type: 'string' }, social: { type: 'string', description: 'Facebook post text: personal hook, blank line, key fact + what tapping gets you' }, share: { type: 'integer', description: '1 to 5' }, take: { type: 'string' }, body: { type: 'string', description: 'full story in markdown (## headings, - bullets, [links](/path/))' }, visual_big: { type: 'string' }, visual_small: { type: 'string' },
+    head: { type: 'string' }, dek: { type: 'string' }, gist: { type: 'array', description: 'exactly 4 plain sentences', items: { type: 'string' } }, social: { type: 'string', description: 'Facebook post text: personal hook, blank line, key fact + what tapping gets you' }, share: { type: 'integer', description: '1 to 5' }, take: { type: 'string' }, body: { type: 'string', description: 'full story in markdown (## headings, - bullets, [links](/path/))' }, visual_big: { type: 'string' }, visual_small: { type: 'string' },
     slug: { type: 'string', description: 'short url slug, lowercase words joined by hyphens, under 50 characters' },
     photo_queries: { type: 'array', items: { type: 'string' } },
     areas: { type: 'array', items: { type: 'string', enum: HOOD_SLUGS.length ? HOOD_SLUGS : ['downtown'] } },
@@ -346,7 +347,7 @@ const PANEL_SCHEMA = {
 };
 async function reviewLoops(d, item, text) {
   const source = `Source: ${item.label}\nURL: ${item.url}\nPublished: ${item.date}\nTitle: ${item.title}\n\n${(text || '').slice(0, 9000)}`;
-  const story = (x) => JSON.stringify({ section: x.section, head: x.head, dek: x.dek, take: x.take, social: x.social, visual_big: x.visual_big, visual_small: x.visual_small, body: x.body, poll: x.poll }, null, 1);
+  const story = (x) => JSON.stringify({ section: x.section, head: x.head, dek: x.dek, gist: x.gist, take: x.take, social: x.social, visual_big: x.visual_big, visual_small: x.visual_small, body: x.body, poll: x.poll }, null, 1);
   const scores = [];
   for (let round = 1; round <= 2; round++) {
     try {
@@ -487,7 +488,7 @@ for (const r of approved) {
   let slug = d.slug; while (news.stories.some((s) => s.slug === slug)) slug += '-2';
   const story = {
     slug, s: d.section, tier: { big: 'lead', normal: 'card', brief: 'brief' }[d.weight] || 'card', date: it.date && it.date <= today() ? it.date : today(),
-    head: d.head, dek: d.dek, ...(d.take ? { take: esc(d.take) } : {}), ...(d.body ? { body: d.body } : {}),
+    head: d.head, dek: d.dek, ...((d.gist || []).length ? { gist: d.gist.slice(0, 4).map(clean).filter(Boolean) } : {}), ...(d.take ? { take: esc(d.take) } : {}), ...(d.body ? { body: d.body } : {}),
     ...(d.visual_big ? { visual: { type: 'big', big: d.visual_big, small: d.visual_small } } : {}),
     src: [it.label, it.url], ...(it.more ? { more: it.more } : {}), ...(d.social ? { social: d.social } : {}), ...(d.share ? { share: Math.min(5, Math.max(1, Math.round(d.share))) } : {}), auto: true, ...(d.areas && d.areas.length ? { areas: d.areas } : {}),
     // The vote under the story (build.mjs pollHtml): answer keys a, b, c, d; readers' own answers get x keys in the database.

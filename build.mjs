@@ -1704,6 +1704,8 @@ if (TRACKED.length) {
   const dekHtml = (st) => (st.html ? st.dek : esc(st.dek)); // hand-written stories may carry links; drafted ones are plain text
   const ogUrl = (st) => `${ORIGIN}/news/og/${st.og || `${st.slug}.jpg`}?v=4`;
   const take = (st) => (st.take ? `<p class="nw-take"><b>What changes</b>${st.take}</p>` : '');
+  // "In plain words": four short everyday sentences that sum up the story (Jeff, Nov 15 2026). Story pages only.
+  const gist = (st) => ((st.gist || []).length ? `<section class="nw-gist" aria-labelledby="gist-h"><h2 id="gist-h">In plain words</h2><ul>${st.gist.map((g) => `<li>${esc(g)}</li>`).join('')}</ul></section>` : '');
   const bodyHtml = (st) => (st.body ? `<div class="nw-body">${mdToHtml(st.body)}</div>` : '');
   // Full story page: the extra photos go inside the story, between its sections.
   // Story blocks a long story can drop into its body with [[name]] (api/_md.js), each drawn from story data:
@@ -1957,8 +1959,8 @@ if (TRACKED.length) {
     const heroChart = st.live === 'flood' ? '<section class="fl-hero-chart" data-flood-chart aria-label="Squamish River flow chart"><p class="fl-status-wait">Loading the river chart…</p></section>' : '';
     const band = st.live === 'flood' ? '<section class="fl-band" data-flood-band aria-label="Squamish River now and forecast" aria-live="polite"><p class="fl-band-wait">Loading the newest river reading…</p></section>' : '';
     const body = st.tier === 'lead'
-      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${status}${st.live === 'flood' ? floodAlertBox : ''}${band}${meHtml ? `${meHtml}${shareBar}` : ''}${heroChart}${tocHtml}${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p>${meHtml ? '' : shareBar}<aside class="nw-side">${visual(st)}${take(st)}${sideMore}</aside>`
-      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${st.live === 'flood' ? floodAlertBox : ''}${band}${tocHtml}${st.visual && st.visual.type === 'map' ? visual(st) : photo(st, true)}<p class="nw-dek">${dekHtml(st)}</p>${meHtml}<aside class="nw-side">${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}${sideMore}</aside>`;
+      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${status}${st.live === 'flood' ? floodAlertBox : ''}${band}${meHtml ? `${meHtml}${shareBar}` : ''}${heroChart}${tocHtml}${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p>${gist(st)}${meHtml ? '' : shareBar}<aside class="nw-side">${visual(st)}${take(st)}${sideMore}</aside>`
+      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${st.live === 'flood' ? floodAlertBox : ''}${band}${tocHtml}${st.visual && st.visual.type === 'map' ? visual(st) : photo(st, true)}<p class="nw-dek">${dekHtml(st)}</p>${gist(st)}${meHtml}<aside class="nw-side">${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}${sideMore}</aside>`;
     write(nUrl(st), page({
       url: nUrl(st), title: st.head,
       desc: st.dek.replace(/<[^>]+>/g, ''),
