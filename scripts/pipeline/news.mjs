@@ -266,6 +266,8 @@ Rules:
 - share: 1 to 5, how likely Squamish people are to tap, share or comment on this on Facebook (5: a striking human story, a big change to daily life, a local event families go to; 1: a routine notice). Be honest; most stories are 2 or 3.
 - take: one sentence that says what changes for residents or what they can do, strictly factual. Empty if there is nothing useful.
 - gist: exactly 4 short sentences, shown in an "In plain words" box near the top of the story page, that sum up the whole story for someone who reads nothing else. Everyday words a 12 year old would follow, no jargon or acronyms (say "gas export plant", not "LNG facility"), each sentence under 30 words. Cover what happened, why it matters to people in Squamish, what is still unknown or what comes next, and what readers can do (or the key date). Only facts from the source; do not just repeat the dek.
+- glance: 3 to 5 summary tiles shown at the top of the story (put the line [[glance]] as the very first line of body). Each has k (a 1 to 4 word label, e.g. "Comment deadline") and v (the fact, under 60 characters, e.g. "Nov 29, by email"). Keep v short so it fits a small tile; no long emails or links. Empty for tiny notices.
+- charts: 1 to 3 bar charts that make the story's numbers visual (Jeff, Nov 15 2026: he loves graphs, charts and visuals that keep readers engaged). Each has id (one lowercase word), title (what is measured and the unit), rows (2 to 6 bars, each label, v = the number, say = the short shown value under 20 characters, hl = true for the bar the story is about) and note (the source, and "our arithmetic" for anything we calculated). Only real numbers from the source or the research: before vs after, this year vs last, here vs comparable places, cost vs total. Place each with its own line [[bars id]] in body right after the paragraph it illustrates. Empty when the story has no numbers worth comparing.
 - weight: "big" only for something most residents care about (a major closure, an election result, a big decision); "brief" for small notices; otherwise "normal".
 - visual: a key number or date from the source (like "Nov 16" with "Application deadline", or "90 km/h" with "Wind gusts") or null. Never invent one.
 - Skip (publish=false): routine meeting notices, holiday hours, job postings, items not about the Squamish area, items with too little information, and anything already stale.
@@ -277,10 +279,12 @@ Rules:
 - photo_queries: 3 or 4 short searches for openly licensed photos of the PLACE or TOPIC (not the event itself), most specific first and each a different angle so the story can carry more than one picture, e.g. "Howe Sound Squamish", "Sea to Sky Highway", "downtown Squamish".`;
 const SCHEMA = {
   type: 'object', additionalProperties: false,
-  required: ['publish', 'reason', 'section', 'weight', 'head', 'dek', 'gist', 'social', 'share', 'take', 'body', 'visual_big', 'visual_small', 'slug', 'photo_queries', 'areas', 'poll'],
+  required: ['publish', 'reason', 'section', 'weight', 'head', 'dek', 'gist', 'glance', 'charts', 'social', 'share', 'take', 'body', 'visual_big', 'visual_small', 'slug', 'photo_queries', 'areas', 'poll'],
   properties: {
     publish: { type: 'boolean' }, reason: { type: 'string' }, section: { type: 'string', enum: SECTIONS }, weight: { type: 'string', enum: ['big', 'normal', 'brief'] },
-    head: { type: 'string' }, dek: { type: 'string' }, gist: { type: 'array', description: 'exactly 4 plain sentences', items: { type: 'string' } }, social: { type: 'string', description: 'Facebook post text: personal hook, blank line, key fact + what tapping gets you' }, share: { type: 'integer', description: '1 to 5' }, take: { type: 'string' }, body: { type: 'string', description: 'full story in markdown (## headings, - bullets, [links](/path/))' }, visual_big: { type: 'string' }, visual_small: { type: 'string' },
+    head: { type: 'string' }, dek: { type: 'string' }, gist: { type: 'array', description: 'exactly 4 plain sentences', items: { type: 'string' } },
+    glance: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['k', 'v'], properties: { k: { type: 'string' }, v: { type: 'string' } } } },
+    charts: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['id', 'title', 'note', 'rows'], properties: { id: { type: 'string' }, title: { type: 'string' }, note: { type: 'string' }, rows: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['label', 'v', 'say', 'hl'], properties: { label: { type: 'string' }, v: { type: 'number' }, say: { type: 'string' }, hl: { type: 'boolean' } } } } } } }, social: { type: 'string', description: 'Facebook post text: personal hook, blank line, key fact + what tapping gets you' }, share: { type: 'integer', description: '1 to 5' }, take: { type: 'string' }, body: { type: 'string', description: 'full story in markdown (## headings, - bullets, [links](/path/))' }, visual_big: { type: 'string' }, visual_small: { type: 'string' },
     slug: { type: 'string', description: 'short url slug, lowercase words joined by hyphens, under 50 characters' },
     photo_queries: { type: 'array', items: { type: 'string' } },
     areas: { type: 'array', items: { type: 'string', enum: HOOD_SLUGS.length ? HOOD_SLUGS : ['downtown'] } },
@@ -351,7 +355,7 @@ const PANEL = `You are a review panel for one local news story on Squamish Voter
 3. A veteran local news editor: headline, first lines, order, repetition, length, attribution, burying what matters.
 4. A skeptical local scrolling Facebook on a phone with 10 seconds, allergic to hype and jargon. They see the "social" text first.
 5. An adversarial fact checker who compares every fact, number, date, name and quote with the SOURCE text and the BACKGROUND RESEARCH. Anything in neither is an error, and a fact from the research must carry its link in the story.
-6. A data loving local who forwards one story a week because it explained something nobody else did (Jeff, Nov 12 2026: "data is good ... we want people to read our news stories and be like, wow, that's really good, and I want to share this"). Judges depth and shareability: does it use every number, date, place, comparison and bit of history the source gives, and link our own pages that add data (river levels on /today/, the issue pages, council members)? Does it say more than the press release? A story that only restates the press release scores 5 or lower, however accurate. Would they share it? Their fixes may only use facts in the SOURCE or our SITE PAGES, never outside facts.
+6. A data loving local who forwards one story a week because it explained something nobody else did (Jeff, Nov 12 2026: "data is good ... we want people to read our news stories and be like, wow, that's really good, and I want to share this"). Judges depth and shareability: does it use every number, date, place, comparison and bit of history the source gives, and link our own pages that add data (river levels on /today/, the issue pages, council members)? Does it say more than the press release? A story that only restates the press release scores 5 or lower, however accurate. Also judge the visuals (Jeff loves graphs, charts and anything that keeps readers engaged): are there summary tiles and bar charts built from the real numbers, placed where they help, with short labels and a source note? Missing or weak visuals on a story with numbers cost points. Would they share it? Their fixes may only use facts in the SOURCE or our SITE PAGES, never outside facts.
 Each gives a score out of 10 (9 means a reader would trust it, understand it fast, know what to do and want to share it) and the problems that stop it from a 9, each with the exact words and the fix.
 Pay special attention to: a headline that claims more than the source supports or that a first time reader cannot understand; what matters to readers (who is affected, what to do, when) not being near the top; facts not in the source; em dashes; jargon and unexplained abbreviations.`;
 const PANEL_SCHEMA = {
@@ -363,7 +367,7 @@ const PANEL_SCHEMA = {
 };
 async function reviewLoops(d, item, text, research = '') {
   const source = `Source: ${item.label}\nURL: ${item.url}\nPublished: ${item.date}\nTitle: ${item.title}\n\n${(text || '').slice(0, 9000)}${research ? `\n\nBACKGROUND RESEARCH (web search; each fact carries its own link, and counts as a source only with that link):\n${research}` : ''}`;
-  const story = (x) => JSON.stringify({ section: x.section, head: x.head, dek: x.dek, gist: x.gist, take: x.take, social: x.social, visual_big: x.visual_big, visual_small: x.visual_small, body: x.body, poll: x.poll }, null, 1);
+  const story = (x) => JSON.stringify({ section: x.section, head: x.head, dek: x.dek, gist: x.gist, glance: x.glance, charts: x.charts, take: x.take, social: x.social, visual_big: x.visual_big, visual_small: x.visual_small, body: x.body, poll: x.poll }, null, 1);
   const scores = [];
   const revise = async (why, list) => {
     const v = await claudeJson({
@@ -511,6 +515,27 @@ ${btns(r)}</div></div>`; };
 }
 
 // ---------- publish: every approved draft goes into data/news.json ----------
+// Tiles and bar charts the writer made (Nov 15 2026) in the shape build.mjs draws: glance tiles and bars by id.
+// Markers in the body for anything missing are dropped so a story never shows a stray [[...]].
+function storyVisuals(d) {
+  const out = {};
+  const glance = (d.glance || []).filter((g) => g && g.k && g.v).slice(0, 5).map((g) => ({ level: 'mid', k: clean(g.k), v: clean(g.v) }));
+  if (glance.length >= 2) out.glance = glance;
+  const bars = {};
+  for (const c of (d.charts || []).slice(0, 4)) {
+    const id = String(c.id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const rows = (c.rows || []).filter((r) => r && r.label && Number.isFinite(+r.v)).slice(0, 8).map((r) => ({ label: clean(r.label), v: +r.v, say: clean(r.say || String(r.v)), ...(r.hl ? { hl: true } : {}) }));
+    if (id && rows.length >= 2 && !bars[id]) bars[id] = { title: clean(c.title), rows, ...(c.note ? { note: clean(c.note) } : {}) };
+  }
+  if (Object.keys(bars).length) out.bars = bars;
+  if (d.body) {
+    d.body = d.body.replace(/^\[\[glance\]\]\s*$/gm, (m) => (out.glance ? m : ''))
+      .replace(/^\[\[bars ([a-z0-9]+)\]\]\s*$/gim, (m, id) => (bars[id.toLowerCase()] ? `[[bars ${id.toLowerCase()}]]` : ''))
+      .replace(/\n{3,}/g, '\n\n').trim();
+  }
+  return out;
+}
+
 const news = readJson(NEWS_FILE);
 let publishedCount = 0;
 async function publishApproved() {
@@ -521,7 +546,7 @@ for (const r of approved) {
   let slug = d.slug; while (news.stories.some((s) => s.slug === slug)) slug += '-2';
   const story = {
     slug, s: d.section, tier: { big: 'lead', normal: 'card', brief: 'brief' }[d.weight] || 'card', date: it.date && it.date <= today() ? it.date : today(),
-    head: d.head, dek: d.dek, ...((d.gist || []).length ? { gist: d.gist.slice(0, 4).map(clean).filter(Boolean) } : {}), ...(d.take ? { take: esc(d.take) } : {}), ...(d.body ? { body: d.body } : {}),
+    head: d.head, dek: d.dek, ...((d.gist || []).length ? { gist: d.gist.slice(0, 4).map(clean).filter(Boolean) } : {}), ...storyVisuals(d), ...(d.take ? { take: esc(d.take) } : {}), ...(d.body ? { body: d.body } : {}),
     ...(d.visual_big ? { visual: { type: 'big', big: d.visual_big, small: d.visual_small } } : {}),
     src: [it.label, it.url], ...(it.more ? { more: it.more } : {}), ...((d.review_scores || []).length ? { review_scores: d.review_scores } : {}), ...(d.researched ? { researched: true } : {}), ...(d.social ? { social: d.social } : {}), ...(d.share ? { share: Math.min(5, Math.max(1, Math.round(d.share))) } : {}), auto: true, ...(d.areas && d.areas.length ? { areas: d.areas } : {}),
     // The vote under the story (build.mjs pollHtml): answer keys a, b, c, d; readers' own answers get x keys in the database.
