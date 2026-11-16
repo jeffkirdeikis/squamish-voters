@@ -12,7 +12,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { neon } from '@neondatabase/serverless';
-import { ROOT, log, readJson, writeJson, claudeJson } from './lib.mjs';
+import { ROOT, log, readJson, writeJson, claudeJson, claudeResearch } from './lib.mjs';
 import { mdToHtml, placePhotos } from '../../api/_md.js';
 import { ogImage, SEC_NAME } from './news-og.mjs';
 
@@ -323,19 +323,35 @@ async function draft(item) {
   d.body = String(d.body || '').replace(/\s*[—–]\s*/g, ', ').trim();
   d.slug = String(d.slug || '').toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || `story-${Date.now()}`;
   if (!d.publish) return d;
-  return reviewLoops(d, item, text);
+  const research = d.weight === 'brief' ? '' : await researchStory(d, item, text);
+  return reviewLoops(d, item, text, research);
 }
+
+// ---------- research (Jeff, Nov 15 2026: "dig deep on the research"; data, numbers, history, never just the press release) ----------
+// Every story except small briefs gets a web search pass for background: history, numbers, comparisons, who decides,
+// what is still unknown, what comes next. The writer and the review panel both see it. Facts from it must carry their link.
+const RESEARCH = `You research background for one local news story on Squamish Voters, an independent site about Squamish, B.C. Use web search to find facts a careful local reporter would add so a reader understands the story fully: history and earlier decisions, key numbers and how they compare (past years, other places, totals), money (who pays, how much, what form), who decides and what approvals are still needed, timelines and next dates, how residents can take part, and what the official sources do NOT say. Prefer primary sources (Government of Canada, Province of B.C., District of Squamish, regulators, the Squamish Nation, company filings), then reputable news. Never invent; if you cannot find something, say so.
+Return a plain fact sheet, at most 700 words: short bullet lines grouped under plain headings, each ending with its source in brackets as [Name, date, https://full.link]. Start with "Most useful for this story:" and the 3 to 5 facts that matter most to Squamish residents. No em dashes.`;
+async function researchStory(d, item, text) {
+  try {
+    const out = await claudeResearch({ system: RESEARCH, maxUses: 10,
+      content: `Today is ${today()}.\nOUR DRAFT HEADLINE: ${d.head}\nOUR DRAFT SUMMARY: ${d.dek}\n\nTHE SOURCE (${item.label}, ${item.url}, published ${item.date}):\n${(text || '').slice(0, 7000)}` });
+    log(`research: ${out.length} characters of background`);
+    return out.slice(0, 9000);
+  } catch (e) { log('research failed, the panel works from the source only:', e.message); return ''; }
+}
+
 
 // ---------- review loops (Jeff, Nov 9 2026: every story gets two rounds of reviewers, then fixes; Nov 12: six reviewers, the sixth for depth and shareability) ----------
 // A panel of local readers and a fact checker score the draft and list what stops it from a 9 out of 10; the writer
-// fixes those and the panel reads it again. Two rounds. A loop that fails keeps the last good draft (never blocks news).
+// fixes those and the panel reads it again. Two rounds minimum; a story whose rounds don't finish waits for the next pass.
 const PANEL = `You are a review panel for one local news story on Squamish Voters, an independent site about Squamish, B.C. Read it as each of these people, separately and honestly:
 1. A resident directly affected by the story (who exactly depends on the story: a neighbour of the site, a parent, a commuter, a business owner).
 2. An expert on the subject (a hydrologist for rivers, a planner for development, an accountant for budgets, and so on).
 3. A veteran local news editor: headline, first lines, order, repetition, length, attribution, burying what matters.
 4. A skeptical local scrolling Facebook on a phone with 10 seconds, allergic to hype and jargon. They see the "social" text first.
-5. An adversarial fact checker who compares every fact, number, date, name and quote with the SOURCE text. Anything not in the source is an error.
-6. A data loving local who forwards one story a week because it explained something nobody else did (Jeff, Nov 12 2026: "data is good ... we want people to read our news stories and be like, wow, that's really good, and I want to share this"). Judges depth and shareability: does it use every number, date, place, comparison and bit of history the source gives, and link our own pages that add data (river levels on /today/, the issue pages, council members)? Does it say more than the press release? Would they share it? Their fixes may only use facts in the SOURCE or our SITE PAGES, never outside facts.
+5. An adversarial fact checker who compares every fact, number, date, name and quote with the SOURCE text and the BACKGROUND RESEARCH. Anything in neither is an error, and a fact from the research must carry its link in the story.
+6. A data loving local who forwards one story a week because it explained something nobody else did (Jeff, Nov 12 2026: "data is good ... we want people to read our news stories and be like, wow, that's really good, and I want to share this"). Judges depth and shareability: does it use every number, date, place, comparison and bit of history the source gives, and link our own pages that add data (river levels on /today/, the issue pages, council members)? Does it say more than the press release? A story that only restates the press release scores 5 or lower, however accurate. Would they share it? Their fixes may only use facts in the SOURCE or our SITE PAGES, never outside facts.
 Each gives a score out of 10 (9 means a reader would trust it, understand it fast, know what to do and want to share it) and the problems that stop it from a 9, each with the exact words and the fix.
 Pay special attention to: a headline that claims more than the source supports or that a first time reader cannot understand; what matters to readers (who is affected, what to do, when) not being near the top; facts not in the source; em dashes; jargon and unexplained abbreviations.`;
 const PANEL_SCHEMA = {
@@ -345,28 +361,45 @@ const PANEL_SCHEMA = {
     fixes: { type: 'array', description: 'every change the writer must make, most important first; errors against the source first', items: { type: 'string' } },
   },
 };
-async function reviewLoops(d, item, text) {
-  const source = `Source: ${item.label}\nURL: ${item.url}\nPublished: ${item.date}\nTitle: ${item.title}\n\n${(text || '').slice(0, 9000)}`;
+async function reviewLoops(d, item, text, research = '') {
+  const source = `Source: ${item.label}\nURL: ${item.url}\nPublished: ${item.date}\nTitle: ${item.title}\n\n${(text || '').slice(0, 9000)}${research ? `\n\nBACKGROUND RESEARCH (web search; each fact carries its own link, and counts as a source only with that link):\n${research}` : ''}`;
   const story = (x) => JSON.stringify({ section: x.section, head: x.head, dek: x.dek, gist: x.gist, take: x.take, social: x.social, visual_big: x.visual_big, visual_small: x.visual_small, body: x.body, poll: x.poll }, null, 1);
   const scores = [];
-  for (let round = 1; round <= 2; round++) {
-    try {
-      const r = await claudeJson({ system: PANEL, schema: PANEL_SCHEMA, effort: 'medium', maxTokens: 6000, content: `Today is ${today()}.\n\nSOURCE:\n${source}\n\nSTORY (round ${round}):\n${story(d)}` });
-      const avg = r.reviews.length ? r.reviews.reduce((s, x) => s + (+x.score || 0), 0) / r.reviews.length : 0;
-      scores.push(+avg.toFixed(1));
-      log(`review round ${round}: ${r.reviews.map((x) => `${x.who.split(/[ ,(]/)[0]} ${x.score}`).join(', ')} (avg ${avg.toFixed(1)})`);
-      if (!r.fixes.length) break;
-      const v = await claudeJson({
-        system: SYSTEM, schema: SCHEMA, effort: 'medium', maxTokens: 8000,
-        content: `${alreadyRan()}SITE PAGES (ours, to link to):\n${SITE_PAGES}\n\nToday is ${today()}.\n${source}\n\nYOUR DRAFT:\n${story(d)}\n\nA review panel read your draft. Make every fix below that is true to the source and to the rules, then return the whole story again (all fields). Keep publish=true, the same section, slug and photo_queries unless a fix says otherwise. Never add a fact that is not in the source.\n\nFIXES:\n${r.fixes.map((f, i) => `${i + 1}. ${f}`).join('\n')}`,
-      });
-      if (!v.publish || !v.head || !v.body) { log(`review round ${round}: revision came back empty; keeping the earlier draft`); break; }
-      for (const k of ['head', 'dek', 'take', 'visual_big', 'visual_small']) v[k] = clean(v[k]);
-      v.social = String(v.social || d.social).replace(/\s*[—–]\s*/g, ', ').trim().slice(0, 600);
-      v.body = String(v.body || '').replace(/\s*[—–]\s*/g, ', ').trim();
-      d = { ...d, ...v, slug: d.slug, photo_queries: d.photo_queries?.length ? d.photo_queries : v.photo_queries };
-    } catch (e) { log(`review round ${round} failed, keeping the draft so far: ${e.message}`); break; }
+  const revise = async (why, list) => {
+    const v = await claudeJson({
+      system: SYSTEM, schema: SCHEMA, effort: 'medium', maxTokens: 10000,
+      content: `${alreadyRan()}SITE PAGES (ours, to link to):\n${SITE_PAGES}\n\nToday is ${today()}.\n${source}\n\nYOUR DRAFT:\n${story(d)}\n\n${why} Then return the whole story again (all fields). Keep publish=true, the same section, slug and photo_queries unless a fix says otherwise. Every fact must come from the source or from the background research; a fact from the research gets its link in the body as [text](https://link). Keep the gist to exactly 4 plain sentences.\n\n${list.map((f, i) => `${i + 1}. ${f}`).join('\n')}`,
+    });
+    if (!v.publish || !v.head || !v.body) throw new Error('revision came back empty');
+    for (const k of ['head', 'dek', 'take', 'visual_big', 'visual_small']) v[k] = clean(v[k]);
+    v.gist = (v.gist || []).map(clean).filter(Boolean).slice(0, 4);
+    v.social = String(v.social || d.social).replace(/\s*[—–]\s*/g, ', ').trim().slice(0, 600);
+    v.body = String(v.body || '').replace(/\s*[—–]\s*/g, ', ').trim();
+    d = { ...d, ...v, slug: d.slug, photo_queries: d.photo_queries?.length ? d.photo_queries : v.photo_queries };
+  };
+  // Deepen first: work the research into the story (numbers, history, comparisons, what is still unknown).
+  if (research) {
+    try { await revise('Below is background research from a web search. Work every fact that helps a Squamish reader into the story: numbers, history, comparisons, money, who decides, next dates, and what is still unknown. Add sections or bullets as needed (the body may run to 700 words when the research supports it).', ['Use the BACKGROUND RESEARCH above.']); log('deepened with research'); }
+    catch (e) { log('deepen pass failed, going on with the draft:', e.message); }
   }
+  // Two full rounds, always (Jeff, Nov 9, 12 and 15 2026): six reviewers score and critique, the writer fixes, then again.
+  // A third round runs when the second still averages under 8. A story whose two rounds don't both finish is NOT
+  // published: the error sends it back to the queue for the next pass (and the 3 failures alarm emails Jeff).
+  for (let round = 1; round <= 3; round++) {
+    if (round === 3 && scores[1] >= 8) break;
+    const r = await claudeJson({ system: PANEL, schema: PANEL_SCHEMA, effort: 'medium', maxTokens: 6000, content: `Today is ${today()}.\n\nSOURCE:\n${source}\n\nSTORY (round ${round}):\n${story(d)}` });
+    const avg = r.reviews.length ? r.reviews.reduce((s, x) => s + (+x.score || 0), 0) / r.reviews.length : 0;
+    if (r.reviews.length < 6) throw new Error(`review round ${round}: only ${r.reviews.length} of 6 reviewers answered`);
+    scores.push(+avg.toFixed(1));
+    log(`review round ${round}: ${r.reviews.map((x) => `${x.who.split(/[ ,(]/)[0]} ${x.score}`).join(', ')} (avg ${avg.toFixed(1)})`);
+    if (r.fixes.length) await revise('A review panel of six read your draft. Make every fix below that is true to the source, the research and the rules.', r.fixes);
+  }
+  // A last read for the record, so the saved score is the story as published.
+  try {
+    const f = await claudeJson({ system: PANEL, schema: PANEL_SCHEMA, effort: 'low', maxTokens: 4000, content: `Today is ${today()}.\n\nSOURCE:\n${source}\n\nSTORY (final):\n${story(d)}` });
+    if (f.reviews.length) { scores.push(+(f.reviews.reduce((s, x) => s + (+x.score || 0), 0) / f.reviews.length).toFixed(1)); log(`final read: avg ${scores.at(-1)}`); }
+  } catch (e) { log('final read failed (story still publishes):', e.message); }
+  d.researched = !!research;
   d.review_scores = scores;
   return d;
 }
@@ -490,7 +523,7 @@ for (const r of approved) {
     slug, s: d.section, tier: { big: 'lead', normal: 'card', brief: 'brief' }[d.weight] || 'card', date: it.date && it.date <= today() ? it.date : today(),
     head: d.head, dek: d.dek, ...((d.gist || []).length ? { gist: d.gist.slice(0, 4).map(clean).filter(Boolean) } : {}), ...(d.take ? { take: esc(d.take) } : {}), ...(d.body ? { body: d.body } : {}),
     ...(d.visual_big ? { visual: { type: 'big', big: d.visual_big, small: d.visual_small } } : {}),
-    src: [it.label, it.url], ...(it.more ? { more: it.more } : {}), ...(d.social ? { social: d.social } : {}), ...(d.share ? { share: Math.min(5, Math.max(1, Math.round(d.share))) } : {}), auto: true, ...(d.areas && d.areas.length ? { areas: d.areas } : {}),
+    src: [it.label, it.url], ...(it.more ? { more: it.more } : {}), ...((d.review_scores || []).length ? { review_scores: d.review_scores } : {}), ...(d.researched ? { researched: true } : {}), ...(d.social ? { social: d.social } : {}), ...(d.share ? { share: Math.min(5, Math.max(1, Math.round(d.share))) } : {}), auto: true, ...(d.areas && d.areas.length ? { areas: d.areas } : {}),
     // The vote under the story (build.mjs pollHtml): answer keys a, b, c, d; readers' own answers get x keys in the database.
     ...(d.poll && clean(d.poll.q) && (d.poll.options || []).length >= 2 ? { poll: { q: clean(d.poll.q), options: d.poll.options.slice(0, 4).map((o, i) => ({ key: 'abcd'[i], label: clean(o.label), means: clean(o.means) })) } } : {}),
   };

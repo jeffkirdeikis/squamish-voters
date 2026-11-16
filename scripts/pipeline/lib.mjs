@@ -119,6 +119,26 @@ export async function claudeJson({ system, content, schema, effort = 'high', max
   return JSON.parse(text);
 }
 
+// Background research with Claude's web search (Jeff, Nov 15 2026: stories must dig deep, with data and history, not just
+// restate the press release). Returns plain text: a fact sheet with a source link after every fact.
+export async function claudeResearch({ system, content, maxUses = 10, effort = 'medium' }) {
+  if (!client) { const { default: Anthropic } = await import('@anthropic-ai/sdk'); client = new Anthropic(); }
+  const messages = [{ role: 'user', content }];
+  for (let turn = 0; turn < 5; turn++) {
+    const msg = await client.beta.messages.stream({
+      model: 'claude-opus-5-5', max_tokens: 32000,
+      betas: ['server-side-fallback-2026-07-01'], fallbacks: 'default',
+      output_config: { effort }, system, messages,
+      tools: [{ type: 'web_search_20260209', name: 'web_search', max_uses: maxUses }],
+    }).finalMessage();
+    if (msg.stop_reason === 'refusal') throw new Error(`Claude declined research (${msg.stop_details?.category || 'no category'})`);
+    if (msg.stop_reason === 'pause_turn') { messages.push({ role: 'assistant', content: msg.content }); continue; } // long search: let it carry on
+    log(`research: ${msg.usage.input_tokens} in, ${msg.usage.output_tokens} out, ${msg.usage.server_tool_use?.web_search_requests || 0} searches`);
+    return msg.content.filter((b) => b.type === 'text').map((b) => b.text).join('').trim();
+  }
+  throw new Error('research did not finish');
+}
+
 // The rules every summary follows. Kept in one place so agenda previews and meeting summaries read the same.
 export const STYLE = `You write for Squamish Voters, an independent, non-partisan site that explains Squamish (B.C.) council to ordinary residents.
 Write so a grandparent who has never watched a council meeting understands every sentence:
