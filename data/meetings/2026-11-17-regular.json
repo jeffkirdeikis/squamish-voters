@@ -6,7 +6,7 @@
  "place": "Council Chambers, Municipal Hall, 37955 Second Avenue",
  "source": "District of Squamish 2026 meeting schedule",
  "civicweb_id": 2119,
- "civicweb_name": "Regular Council - 17 Nov 2026",
+ "civicweb_name": "Regular Council - 17 Nov 2026 AMENDED",
  "agenda_url": "https://squamish.civicweb.net/document/272109/",
  "agenda_pdf": "https://squamish.civicweb.net/document/272109/?printPdf=true",
  "attachments": [
@@ -24,6 +24,10 @@
   },
   {
    "url": "https://squamish.civicweb.net/FileStorage/F118C0896F404984BB6840BD343718AC-1103%20Inaugural%20Minutes%202026.pdf",
+   "name": ""
+  },
+  {
+   "url": "https://squamish.civicweb.net/FileStorage/EE499AB7ADBE40AF9A0661C9FC1BF395-Email%20from%20Cory%20Heavener_Assistant%20Deputy%20Minister.pdf",
    "name": ""
   },
   {
@@ -51,12 +55,12 @@
    "name": ""
   }
  ],
- "preview": "This is a short meeting of the newly elected council. Council will finish two changes to the rules for building on steep slopes, update business licence rules for co-living, and decide whether to apply for a grant to update the flood plan. Mayor Easton will also give notice of a motion asking for a 2027 budget with no property tax revenue increase.",
+ "preview": "Council will hold final votes on new rules for building on steep slopes, give early approval to a change in business licence rules for co-living homes, and decide on a grant application to update the town's flood plan. Mayor Easton is also giving notice of a motion asking for a 2027 budget with no property tax increase, which council would debate on December 1.",
  "has_public_hearing": false,
  "closed_only": false,
  "agenda_items": [
   {
-   "plain": "Mayor Easton gives notice that he will ask council to have staff prepare a revised 2027 budget with no increase in property tax revenue over 2026, with no layoffs and no cuts to services residents use. Council will debate and vote on it at the December 1, 2026 meeting, not at this meeting.",
+   "plain": "Mayor Easton is giving notice of a motion asking staff to prepare a 2027 budget with no increase in property tax money over 2026, without layoffs or cuts to resident services.",
    "ask": "",
    "yes_means": "",
    "no_means": "",
@@ -68,7 +72,7 @@
    "factors": [],
    "kind": "discussion",
    "topic": "taxes_spending",
-   "for_you": "If passed later, staff would have to propose a 2027 budget that collects no more property tax than in 2026.",
+   "for_you": "If council later passes it, staff would have to rework the 2027 budget so municipal property tax revenue stays the same as 2026.",
    "areas": [
     "all"
    ],
@@ -77,10 +81,10 @@
    ]
   },
   {
-   "plain": "Council will vote on final approval of a change to the Official Community Plan (the town's long term plan for land use) that updates the rules for building on steep slopes.",
-   "ask": "Should the District give final approval to the updated steep slopes rules in the Official Community Plan?",
-   "yes_means": "The new steep slopes rules become part of the Official Community Plan and apply to future building on steep land.",
-   "no_means": "The current steep slopes rules stay in place.",
+   "plain": "Council is being asked to give final approval to a change to the Official Community Plan (the town's long term land use plan) that sets up a Steep Slopes Development Permit Area, meaning special permit rules for building on steep land.",
+   "ask": "Should the District adopt the Official Community Plan change that creates special permit rules for building on steep slopes?",
+   "yes_means": "The steep slopes permit rules become part of the Official Community Plan and apply to new building on steep land.",
+   "no_means": "The steep slopes permit rules do not take effect and the current rules stay in place.",
    "depth": "simple",
    "context": "",
    "facts": [],
@@ -89,7 +93,7 @@
    "factors": [],
    "kind": "vote",
    "topic": "growth",
-   "for_you": "Affects people who want to build on steep land in Squamish.",
+   "for_you": "Affects people who own or plan to build on steep land in Squamish.",
    "areas": [
     "all"
    ],
@@ -98,10 +102,10 @@
    ]
   },
   {
-   "plain": "Council will vote on final approval of a change to the land development procedures bylaw that sets who can approve permits for building in the steep slopes area, a step called delegation.",
-   "ask": "Should council give final approval to the change that sets who can approve steep slopes development permits?",
-   "yes_means": "The new process for approving steep slopes development permits takes effect.",
-   "no_means": "The current approval process for these permits stays the same.",
+   "plain": "Council is being asked to give final approval to a change that lets District staff, instead of council, decide on steep slopes development permits.",
+   "ask": "Should District staff, instead of council, be allowed to approve steep slopes development permits?",
+   "yes_means": "Staff will decide on steep slopes development permits without each one going to council.",
+   "no_means": "Steep slopes development permits will not be handed to staff to decide.",
    "depth": "simple",
    "context": "",
    "facts": [],
@@ -110,7 +114,7 @@
    "factors": [],
    "kind": "vote",
    "topic": "growth",
-   "for_you": "Affects how quickly and by whom building permits on steep land are decided.",
+   "for_you": "Could change who decides building permits on steep land and how long that takes.",
    "areas": [
     "all"
    ],
@@ -119,9 +123,28 @@
    ]
   },
   {
-   "plain": "Council will vote on whether to apply for a provincial emergency preparedness grant to pay for updating the Integrated Flood Hazard Management Plan, and to have the District manage the grant.",
+   "plain": "Council is being asked to give the first three of four votes to update the business licence rules for co-living (homes where unrelated people rent rooms and share common space).",
+   "ask": "Should the District update its business licence rules for co-living homes?",
+   "yes_means": "The updated co-living licence rules move ahead to a final vote at a later meeting.",
+   "no_means": "The current business licence rules for co-living stay as they are.",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "vote",
+   "topic": "housing_affordability",
+   "for_you": "Affects people who run or live in shared co-living homes.",
+   "areas": [
+    "all"
+   ],
+   "issues": []
+  },
+  {
+   "plain": "Council is being asked to support applying for a provincial disaster risk grant to update the town's Integrated Flood Hazard Management Plan, with the District managing the grant.",
    "ask": "Should the District apply for a provincial grant to update its flood hazard plan?",
-   "yes_means": "The District sends the grant application and will manage the money if it is approved.",
+   "yes_means": "The District applies for the grant and will manage it if approved.",
    "no_means": "The District does not apply for this grant for the flood plan update.",
    "depth": "simple",
    "context": "",
@@ -140,26 +163,7 @@
    ]
   },
   {
-   "plain": "Council will vote on the first three readings of a change to the business licence bylaw to update the rules for co-living, where several people rent rooms and share a home.",
-   "ask": "Should the District update its business licence rules for co-living homes?",
-   "yes_means": "The bylaw change moves forward and comes back later for final approval.",
-   "no_means": "The current business licence rules for co-living stay as they are.",
-   "depth": "simple",
-   "context": "",
-   "facts": [],
-   "supporters": [],
-   "concerns": [],
-   "factors": [],
-   "kind": "vote",
-   "topic": "housing_affordability",
-   "for_you": "May affect people who rent out rooms in shared homes or live in one.",
-   "areas": [
-    "all"
-   ],
-   "issues": []
-  },
-  {
-   "plain": "Council will receive the Chief Election Officer's report on the results of the 2026 local election, for information only.",
+   "plain": "Council will receive the Chief Election Officer's report on the results of the 2026 local election.",
    "ask": "",
    "yes_means": "",
    "no_means": "",
@@ -178,6 +182,6 @@
    "issues": []
   }
  ],
- "agenda_hash": "620381cbde8dbae7",
- "agenda_checked": "2026-11-13T17:22:56.592Z"
+ "agenda_hash": "b4eb9e44c5166a2d",
+ "agenda_checked": "2026-11-17T02:55:33.155Z"
 }
