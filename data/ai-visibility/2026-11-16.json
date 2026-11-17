@@ -1,0 +1,663 @@
+{
+  "summary": {
+    "date": "2026-11-16",
+    "model": "claude-opus-5-5",
+    "asked": 23,
+    "answered": 23,
+    "searched": 23,
+    "cited": 0,
+    "named": 1,
+    "found": 6,
+    "top_cited": [
+      {
+        "site": "letstalksquamish.ca",
+        "n": 1
+      }
+    ],
+    "tokens": {
+      "input_tokens": 973816,
+      "output_tokens": 34096
+    }
+  },
+  "rows": [
+    {
+      "id": "mayor",
+      "q": "Who is the mayor of Squamish?",
+      "topic": "council",
+      "searched": true,
+      "found_us": false,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [],
+      "cited_sites": [],
+      "found_sites": [
+        "squamish.ca",
+        "ca.news.yahoo.com",
+        "en.wikipedia.org",
+        "squamishchief.com",
+        "poliwave.com"
+      ],
+      "answer": "The mayor of Squamish, B.C. is **Sean Easton**. He won the October 17, 2026 municipal election, according to the District of Squamish's official results.\n\nThe vote totals were:\n- **Sean Easton:** 3,681 votes (elected)\n- **Jenna Stoner:** 3,506 votes\n- **Daniel Deal:** 1,591 votes\n\nVoters also elected six councillors and two school trustees. In total, 8,881 ballots were cast, a turnout of about 45%.\n\nEaston replaces Armand Hurford, who had been mayor since the 2022 election.",
+      "tokens": {
+        "input_tokens": 19632,
+        "output_tokens": 466
+      }
+    },
+    {
+      "id": "council",
+      "q": "Who is on Squamish council now?",
+      "topic": "council",
+      "searched": true,
+      "found_us": false,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [],
+      "cited_sites": [],
+      "found_sites": [
+        "squamish.ca",
+        "ca.news.yahoo.com",
+        "squamishchief.com",
+        "poliwave.com",
+        "cbc.ca"
+      ],
+      "answer": "Squamish has a new council. It was elected on October 17, 2026, and sworn in on November 3.\n\n**Mayor:** Sean Easton. He won the closest race, finishing 175 votes ahead of runner-up Jenna Stoner, with 3,681 to 3,506 votes.\n\n**Councillors** (from most votes to fewest):\n1. Sarah Ellis (4,499)\n2. Eric Andersen (3,851)\n3. Laura Prosko (3,828)\n4. Luc Perreault (3,785)\n5. Shaun Veltkamp (3,754)\n6. Janice Desjardins (3,688)\n\nThe Chief Election Officer confirmed the final results on October 21, 2026.\n\nMost of the council is new. The new mayor and six councillors were sworn in on Nov. 3, and all but one are new to local government. Only Andersen has previous council experience. Ellis, who is also new, got the most votes of any council candidate, and voter turnout was 45.33 per cent.",
+      "tokens": {
+        "input_tokens": 30383,
+        "output_tokens": 816
+      }
+    },
+    {
+      "id": "won",
+      "q": "Who won the 2026 Squamish election?",
+      "topic": "election",
+      "searched": true,
+      "found_us": false,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [],
+      "cited_sites": [],
+      "found_sites": [
+        "squamish.ca",
+        "squamishchief.com",
+        "poliwave.com",
+        "en.wikipedia.org",
+        "cbc.ca",
+        "localelections.ca"
+      ],
+      "answer": "Sean Easton won the race for mayor in Squamish's 2026 municipal election, held on October 17, 2026. The District of Squamish posted these official results:\n\n**Mayor**\n- **Sean Easton: 3,681 votes (elected)**\n- Jenna Stoner: 3,506 votes\n- Daniel Deal: 1,591 votes\n\n**Council (six seats)**\n- Sarah Ellis: 4,499\n- Eric Andersen: 3,851\n- Laura Prosko: 3,828\n- Luc Perreault: 3,785\n- Shaun Veltkamp: 3,754\n- Janice Desjardins: 3,688\n\nThe closest candidates who didn't win a council seat were A. John Lowe (3,012) and Anders Ourom (2,975).\n\nVoters cast 8,881 ballots, a turnout of 45.33% of 19,591 registered voters. That's up from 41.1% in 2022. Voters also chose two school trustees. The new council was sworn in on November 3, 2026.\n\nSources: District of Squamish election results page (squamish.ca) and the Squamish Chief.",
+      "tokens": {
+        "input_tokens": 20409,
+        "output_tokens": 675
+      }
+    },
+    {
+      "id": "results",
+      "q": "Squamish election results 2026 with vote counts",
+      "topic": "election",
+      "searched": true,
+      "found_us": true,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [
+        "https://squamishvoters.com/faq/",
+        "https://squamishvoters.com/results/"
+      ],
+      "cited_sites": [],
+      "found_sites": [
+        "squamish.ca",
+        "slrd.bc.ca",
+        "poliwave.com",
+        "squamishchief.com",
+        "en.wikipedia.org",
+        "sd48seatosky.org",
+        "leanneroderickfortrustee.ca",
+        "squamishvoters.com",
+        "votemate.org"
+      ],
+      "answer": "Here are the official results of the Squamish municipal election held on October 17, 2026. The Chief Election Officer confirmed them on October 21, and they match the election-night numbers.\n\n**Turnout:** 8,881 ballots were cast out of 19,591 eligible voters (45.33%).\n\n### Mayor\n| Candidate | Mail/Special | Advance | Election Day | **Total** | % |\n|---|---|---|---|---|---|\n| ✅ **Sean Easton** | 52 | 1,169 | 2,460 | **3,681** | 41.9% |\n| Jenna Stoner | 53 | 1,237 | 2,216 | 3,506 | 39.9% |\n| Daniel Deal | 20 | 488 | 1,083 | 1,591 | 18.1% |\n\nEaston beat Jenna Stoner by 175 votes.\n\n### Council (6 seats)\n| Candidate | Mail/Special | Advance | Election Day | **Total** |\n|---|---|---|---|---|\n| ✅ **Sarah Ellis** | 80 | 1,615 | 2,804 | **4,499** |\n| ✅ **Eric Andersen** | 49 | 1,360 | 2,442 | **3,851** |\n| ✅ **Laura Prosko** | 41 | 1,270 | 2,517 | **3,828** |\n| ✅ **Luc Perreault** | 47 | 1,279 | 2,459 | **3,785** |\n| ✅ **Shaun Veltkamp** | 45 | 1,348 | 2,361 | **3,754** |\n| ✅ **Janice DesJardins** | 37 | 1,211 | 2,440 | **3,688** |\n| A. John Lowe | 28 | 867 | 2,117 | 3,012 |\n| Anders Ourom | 39 | 934 | 2,002 | 2,975 |\n| John French | 41 | 937 | 1,719 | 2,697 |\n| Ian Brown | 55 | 972 | 1,621 | 2,648 |\n| Andrew Hamilton | 49 | 994 | 1,564 | 2,607 |\n| Chris Pettingill | 53 | 900 | 1,507 | 2,460 |\n| Sean Goodwin | 15 | 588 | 1,199 | 1,802 |\n| Kieran Brownie | 28 | 500 | 1,104 | 1,632 |\n| Chris Ryan | 24 | 286 | 767 | 1,077 |\n\nSarah Ellis is new to council and got the most votes of any cou",
+      "tokens": {
+        "input_tokens": 55089,
+        "output_tokens": 2160
+      }
+    },
+    {
+      "id": "tracker",
+      "q": "Is there a website that tracks how Squamish councillors vote and whether they keep their promises?",
+      "topic": "record",
+      "searched": true,
+      "found_us": true,
+      "cited_us": false,
+      "named_us": true,
+      "our_pages": [
+        "https://squamishvoters.com/",
+        "https://squamishvoters.com/results/",
+        "https://squamishvoters.com/council/",
+        "https://squamishvoters.com/council/laura-prosko/",
+        "https://squamishvoters.com/candidates/"
+      ],
+      "cited_sites": [],
+      "found_sites": [
+        "squamish.ca",
+        "squamishreporter.com",
+        "squamishchief.com",
+        "poliwave.com",
+        "squamishvoters.com",
+        "github.com",
+        "en.wikipedia.org",
+        "squamish.net",
+        "localelections.ca",
+        "slideshare.net"
+      ],
+      "answer": "Some results come back as strings; let me handle that.Yes, there's one: **SquamishVoters.com**, a free site set up by Squamish resident Jeff Kirdeikis.\n\n**What it does:** According to an October 5, 2026 article in *The Squamish Reporter*, the site was launched before the October 17, 2026 municipal election. It collects candidates' positions, their questionnaire answers and the voting records of councillors who ran for re-election. Topics include housing, taxes, homelessness, parking, growth and the Woodfibre LNG tax agreement. Kirdeikis calls it non-partisan and pays for it himself. It has no ads, and he has made the code and scoring method public so others can check them.\n\n**Things to keep in mind:**\n- **It was built as an election guide.** I couldn't confirm whether it's still being updated to follow the new council's votes or to check whether members keep their campaign promises. My search ran out before I could look into that, so check the site itself.\n- **The council has changed.** Sean Easton was elected mayor, and the councillors elected were Sarah Ellis, Eric Andersen, Laura Prosko, Luc Perreault, Shaun Veltkamp and Janice Desjardins. Any voting records on the site would only cover the incumbents among them.\n\n**Other ways to track votes yourself:**\n- **District of Squamish website (squamish.ca):** Council meeting agendas, minutes and video recordings are posted there. The minutes are the official record of motions and who voted against them.\n- **Local news:** *The Squ",
+      "tokens": {
+        "input_tokens": 38174,
+        "output_tokens": 1532
+      }
+    },
+    {
+      "id": "follow",
+      "q": "Where can I easily follow what Squamish council decides at each meeting?",
+      "topic": "record",
+      "searched": true,
+      "found_us": false,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [],
+      "cited_sites": [],
+      "found_sites": [
+        "squamish.ca",
+        "squamish.civicweb.net",
+        "squamishchief.com",
+        "cbc.ca",
+        "en.wikipedia.org",
+        "squamishreporter.com"
+      ],
+      "answer": "Results come back as a JSON string; parse it.Squamish has a few good options, depending on how much detail you want:\n\n**1. The District's weekly eNews (easiest)**\nSign up at **squamish.ca/enews**. The weekly District eNews includes **\"Council Briefs\"**, which are short summaries of what council decided, plus project updates and other news. If you just want to stay current without reading agendas, this is the simplest choice. Past issues are also posted under District Information on squamish.ca.\n\n**2. The Council Portal (CivicWeb), for the official record**\nAt **squamish.civicweb.net**, linked from the squamish.ca homepage, you'll find agendas, minutes, meeting videos, bylaws and policies. The minutes record every motion, who moved and seconded it, and whether it passed. They're the most complete source, but they're dense, and they're only posted after council approves them at a later meeting.\n\n**3. Watching live or afterward**\nMeetings are streamed live, and recordings are posted on the portal. The squamish.ca homepage lists upcoming meetings. For example, there's a Regular Business Meeting tomorrow (Tuesday, November 17) at 6 p.m. That will be one of the first meetings since the new 2026–2030 council was sworn in earlier this month.\n\n**4. Local news coverage**\nThe **Squamish Chief** (squamishchief.com) regularly reports on council decisions, such as budget votes and debates, and adds context and background that the official documents don't include.\n\n**5. District social medi",
+      "tokens": {
+        "input_tokens": 38606,
+        "output_tokens": 1244
+      }
+    },
+    {
+      "id": "easton-promises",
+      "q": "What did Sean Easton promise when he ran for mayor of Squamish?",
+      "topic": "record",
+      "searched": true,
+      "found_us": true,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [
+        "https://squamishvoters.com/council/",
+        "https://squamishvoters.com/candidates/",
+        "https://squamishvoters.com/candidates/sean-easton/"
+      ],
+      "cited_sites": [],
+      "found_sites": [
+        "cbc.ca",
+        "squamishreporter.com",
+        "squamishchief.com",
+        "en.votemate.org",
+        "vote4tomorrow.ca",
+        "ca.news.yahoo.com",
+        "squamishvoters.com",
+        "pelican-pike-sycz.squarespace.com"
+      ],
+      "answer": "Sean Easton ran for mayor of Squamish in the October 17, 2026 election and won. He campaigned on making the town \"affordable, accessible, and accountable.\" His main promises were:\n\n**1. Freeze property taxes for 2027.** This was his best-known promise. He said the District spends too much on projects and staff. In a debate he explained: \"I'm not saying we need to cut taxes. I'm saying we need to freeze taxes, to put a constraint on our municipal government from continued inflation of our budget.\" His opponent Jenna Stoner, a two-term councillor, said this was \"inexperience talking.\" She argued that a zero per cent tax increase would set the town back.\n\n**2. Cut red tape for businesses.** CBC described his campaign as being about freezing taxes and cutting red tape. In the debate he said \"the district largely needs to get out of their businesses' way.\"\n\n**3. Affordable housing and cost of living.** When he announced his run in July, he said his top priorities were affordable housing, the cost of living and access to amenities. On homelessness, he said the town should use provincial funding to prioritize the temporary modular housing project.\n\n**4. Transparency and accountability.** He promised to spend tax money \"transparently and thoughtfully to deliver real results.\" He said residents told him they don't feel heard or included in District decisions.\n\n**5. Climate and Woodfibre LNG.** In answer to a climate questionnaire, he said new development, industry and big business sho",
+      "tokens": {
+        "input_tokens": 31217,
+        "output_tokens": 1082
+      }
+    },
+    {
+      "id": "ellis",
+      "q": "Who is Sarah Ellis on Squamish council?",
+      "topic": "council",
+      "searched": true,
+      "found_us": true,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [
+        "https://squamishvoters.com/results/"
+      ],
+      "cited_sites": [],
+      "found_sites": [
+        "linkedin.com",
+        "squamishreporter.com",
+        "squamish.ca",
+        "vote4tomorrow.ca",
+        "cbc.ca",
+        "ca.news.yahoo.com",
+        "squamishchief.com",
+        "poliwave.com",
+        "slrd.bc.ca",
+        "localelections.ca",
+        "squamishvoters.com"
+      ],
+      "answer": "Sarah Ellis is a new councillor for the District of Squamish, B.C. She was elected in the October 17, 2026 municipal election and received more votes than any other council candidate.\n\n**Election result**\n- Sarah Ellis came first place with 4,499 votes, 10.15 per cent. That was 648 more than runner-up, incumbent Andersen, who got 3,851.\n- She was sworn in this month. The new council includes Mayor Sean Easton and counillors Eric Andersen, Janice DesJardins, Sarah Ellis, Luc Perreault, Laura Prosko and Shaun Veltkamp. Only Andersen has previous council experience.\n\n**Background**\n- When she announced her run, she was the executive director of the nonprofit Housing Squamish.\n- She has spent more than 12 years working in and around local government, including eight years on affordable housing policy at the City of Vancouver and the past four years on affordable housing in Squamish.\n- She has lived in Squamish for about six years and was endorsed by the group MS2S. As President of OurSquamish, I advocated for a safe cycling network and ran a summer bike valet program for downtown events.\n- At Housing Squamish, she says she initiated oversaw a $6M deep energy retrofit to a 1965-era rental building in Squamish, fully electrifying the building's heat and hot water system.\n\n**Positions she campaigned on**\n- She said she wants to bring a long-term, collaborative, and accountable approach to the decisions that will shape the community.\n- On expanding the town's growth boundary, she sai",
+      "tokens": {
+        "input_tokens": 32695,
+        "output_tokens": 1162
+      }
+    },
+    {
+      "id": "desjardins",
+      "q": "Who is Janice DesJardins in Squamish?",
+      "topic": "council",
+      "searched": true,
+      "found_us": false,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [],
+      "cited_sites": [],
+      "found_sites": [
+        "votemate.org",
+        "x.com",
+        "linkedin.com",
+        "squamishreporter.com",
+        "cbc.ca",
+        "youtube.com",
+        "squamish.ca",
+        "squamish.civicweb.net",
+        "squamishchief.com",
+        "slrd.bc.ca",
+        "poliwave.com"
+      ],
+      "answer": "Janice DesJardins is a newly elected District of Squamish councillor in B.C. She was voted in at the October 17, 2026 local election.\n\n**How the election went**\n- The final results were confirmed by the Chief Election Officer on October 21, 2026. DesJardins came sixth with 3,688 votes and took the last of the six council seats. A. John Lowe was next with 3,012.\n- She ran as an independent.\n- The new council was sworn in at its first meeting on November 3, 2026.\n\n**Background**\n- Her family has lived in Squamish since 1912, and she has volunteered and done advocacy work there for a long time.\n- Her campaign said she has volunteered in Squamish for decades, including on the district committee that wrote the town's first tourism plan.\n- On her LinkedIn profile, she says she has more than 40 years of experience in commercial finance and tourism, and she lists Night Buzz Media Ltd. She also lists volunteer roles: director and secretary of the Squamish Humanity Village Project, which did disaster relief in Sri Lanka after the 2004 tsunami, and vice-president of the Squamish Estuary Conservation Society from 1992 to 1994.\n\n**Campaign platform**\n- She called for no property tax increases, referendums on major capital projects, and giving decision-making power back to council from staff.\n- She also said a new council should renegotiate Woodfibre LNG's agreement with the District. She called the current deal \"not a good deal for Squamish.\"\n- Her other main themes were livability, affor",
+      "tokens": {
+        "input_tokens": 41211,
+        "output_tokens": 1454
+      }
+    },
+    {
+      "id": "next-meeting",
+      "q": "When is the next Squamish council meeting?",
+      "topic": "meetings",
+      "searched": true,
+      "found_us": false,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [],
+      "cited_sites": [],
+      "found_sites": [
+        "squamish.ca",
+        "squamishchief.com",
+        "cbc.ca",
+        "en.wikipedia.org",
+        "squamish.civicweb.net"
+      ],
+      "answer": "The next District of Squamish council meeting is **tomorrow, Tuesday, November 17, 2026, at 6 p.m.** It's a Regular Business Meeting, according to the agenda listing on the District's website (squamish.ca).\n\n- **Where:** Council Chambers, Municipal Hall, 37955 Second Avenue, Squamish.\n- **How to watch:** You can go in person or watch the livestream.\n- **Agenda and schedule:** The agenda and the full 2026 meeting schedule are on the District's CivicWeb Council Portal, which you can reach from squamish.ca.\n- **Speaking to council:** If you want council to consider an issue, you need to send a written request with all the details, addressed to Mayor and Council.\n\nCheck the portal before you go in case the meeting is changed or cancelled at the last minute. Budget 2027 discussions are underway, so this meeting or ones coming up soon may cover the budget.",
+      "tokens": {
+        "input_tokens": 19927,
+        "output_tokens": 617
+      }
+    },
+    {
+      "id": "speak",
+      "q": "How do I speak at a Squamish council meeting?",
+      "topic": "meetings",
+      "searched": true,
+      "found_us": false,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [],
+      "cited_sites": [],
+      "found_sites": [
+        "squamish.civicweb.net",
+        "slrd.bc.ca",
+        "squamish.ca",
+        "letstalksquamish.ca",
+        "dnv.org",
+        "squamishchief.com"
+      ],
+      "answer": "I couldn't get every detail from Squamish's pages, but here is the basic process:\n\n**1. Ask to appear as a delegation (submit a written request)**\nAnyone who wants Council to consider an issue has to send a written request with all the relevant details. Requests go to Mayor and Council, District of Squamish. If you want to attend and speak about the issue, you have to say so in your request. You can download the Application to Appear from the District's Council Meetings & Public Notices page (squamish.ca → Government and Administration → Council → Council Meetings & Public Notices).\n\n**2. Go in person or join online**\n- The public can attend Council meetings in person or watch the live stream. Regular Business Meetings start at 6 p.m. in Council Chambers at Municipal Hall, 37955 Second Avenue, Squamish.\n- Because Council Chambers has limited space, the District encourages people to take part in Council meetings virtually. Details on how to take part online during a meeting are on the District's \"Participating in Meetings\" page at squamish.civicweb.net.\n- All Council and Committee meetings are open to the public, except for closed (in camera) portions.\n\n**3. If your issue is about land use, use the public hearing**\nFor zoning or Official Community Plan changes, you'll usually speak at a public hearing, not as a delegation. A public hearing is a formal meeting where citizens can give their views on proposed changes to the community, such as zoning or official community plan ame",
+      "tokens": {
+        "input_tokens": 42372,
+        "output_tokens": 1674
+      }
+    },
+    {
+      "id": "pay",
+      "q": "How much are Squamish councillors and the mayor paid?",
+      "topic": "council",
+      "searched": true,
+      "found_us": false,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [],
+      "cited_sites": [],
+      "found_sites": [
+        "squamishreporter.com",
+        "squamishchief.com",
+        "squamish.civicweb.net"
+      ],
+      "answer": "Squamish's mayor makes a little over $100,000 a year and each councillor makes about $45,000. Pay is changing for the council elected in October, so here are both the latest actual figures and the new rates.\n\n**Latest actual pay (2025)**\n- In 2025 the District paid $385,465 for elected officials remuneration, $38,056 in expenses, and $67,712 in benefits.\n- The mayor got Mayor Armand Hurford—$103,946, $13,174 in expenses, $12,823 in benefits.\n- The six councillors split what was left, which works out to roughly $46,900 each on average (my calculation). Their pay was almost identical: Coun. Eric Andersen joked about why his remuneration is $37 less than his colleagues. These \"remuneration\" figures include salary, taxable benefits and any overtime paid out or vacation time paid out, so they may be slightly higher than base salary.\n- The year before, Hurford was paid $100,945.\n\n**New pay from 2027**\n- On Oct. 6, 2026, council unanimously adopted the Remuneration and Expenses Bylaw Amendment. Effective in 2027, the mayor's salary will be $125,000 and councillors' salary will be $45,000.\n- Councillors' pay is tied to the mayor's salary. The amendment would lower that ratio from 42.2 percent to 36 percent. That means the mayor gets a big raise, while councillors' pay stays about where it is now.\n- Both salaries would continue to be adjusted each January under the District's compensation policy.\n- Council also added life insurance to council benefits and allow reimbursement of up to ",
+      "tokens": {
+        "input_tokens": 40194,
+        "output_tokens": 1577
+      }
+    },
+    {
+      "id": "wlng-deal",
+      "q": "How did Squamish council vote on the Woodfibre LNG tax deal?",
+      "topic": "issues",
+      "searched": true,
+      "found_us": false,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [],
+      "cited_sites": [],
+      "found_sites": [
+        "biv.com",
+        "squamish.ca",
+        "ca.news.yahoo.com",
+        "cbc.ca",
+        "squamishreporter.com",
+        "nsnews.com"
+      ],
+      "answer": "Squamish council voted 5–2 to reject the Woodfibre LNG tax deal at a special meeting in late September 2026.\n\n**What the deal was:** The 10-year agreement would have required Woodfibre LNG to pay the District of Squamish $142 million over 10 years, starting in 2027. It combined a community enhancement payment agreement (CEPA) and revitalized tax exemption (RTE).\n\n**How council voted:**\n- **Against the deal (5):** Councillor Jenna Stoner put forward a motion to decline the agreement. Councillor Greenlaw seconded it. Mayor Armand Hurford and councillors Andrew Hamilton and Chris Pettingill also supported the motion to deny the deal.\n- **For the deal (2):** Councillors Eric Andersen and John French\n\n**Why:** Stoner said \"I still don't think the deal is quite where I want it to be, and I don't think it's a good enough deal for our community\". Greenlaw argued that \"We should keep it simple and stick with tax legislation\". Pettingill asked why the company needed a revitalization tax exemption when the project was already going ahead. He also pointed out that rejecting the deal doesn't let Woodfibre LNG off municipal property tax; the company would instead be taxed under the regular system. French disagreed: \"There is no better agreement out there.\"\n\n**What happens next:** Squamish will continue to rely on traditional property taxation for Woodfibre LNG. Hurford said the decision did not prevent a future council from considering another agreement.",
+      "tokens": {
+        "input_tokens": 30869,
+        "output_tokens": 1100
+      }
+    },
+    {
+      "id": "floatels",
+      "q": "What's the status of the Woodfibre LNG floatels in Squamish?",
+      "topic": "issues",
+      "searched": true,
+      "found_us": false,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [],
+      "cited_sites": [],
+      "found_sites": [
+        "cbc.ca",
+        "news.gov.bc.ca",
+        "globalnews.ca",
+        "lngprime.com",
+        "squamish.ca",
+        "projects.eao.gov.bc.ca",
+        "woodfibrelng.ca",
+        "lngindustry.com",
+        "offshore-technology.com",
+        "theglobeandmail.com",
+        "squamishchief.com",
+        "biv.com",
+        "canada.constructconnect.com",
+        "coastreporter.net",
+        "bloomberg.com",
+        "naturalgasintel.com",
+        "ca.news.yahoo.com",
+        "reminetwork.com",
+        "inspenet.com",
+        "oilandgas360.com"
+      ],
+      "answer": "As of mid-November 2026, both Woodfibre LNG floatels are in operation at the project site near Squamish and are expected to stay there until construction finishes in 2027.\n\n**The two vessels**\n- **MV Isabelle X (first floatel):** It has room for 600 workers and arrived in June 2024. Squamish council rejected a temporary use permit for it by a 4-3 vote. After that, B.C.'s environmental regulator ordered Woodfibre LNG to move the ship off Squamish so it could house the non-local workforce.\n- **MV Saga X (second floatel):** It has room for 642 construction workers and arrived in November 2025. The provincial Environmental Assessment Office approved it, and the approval required it to be connected to the BC Hydro power grid by June 1, 2026, with extra air-quality monitoring while diesel generators were in temporary use.\n\n**Rules for workers on board**\nThe same conditions apply to both vessels: workers living aboard may not go into Squamish, and non-local workers commute to the floatel by private transport. Once the facility is built, the floatel will be removed and the site returned to its original condition.\n\n**Recent updates**\n- A June 2026 monitoring report found that no air quality complaints were received from residents of Floatel 1 or Floatel #2 that month.\n- The EAO sent compliance and enforcement officers to inspect the site on Aug. 13 and Sept. 1, 2026. I wasn't able to see what they found.\n- I also couldn't confirm whether the Saga X was actually connected to shore powe",
+      "tokens": {
+        "input_tokens": 51762,
+        "output_tokens": 1606
+      }
+    },
+    {
+      "id": "under-one-roof",
+      "q": "What's happening with the encampment behind Under One Roof in Squamish?",
+      "topic": "issues",
+      "searched": true,
+      "found_us": false,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [],
+      "cited_sites": [],
+      "found_sites": [
+        "pentictonherald.ca",
+        "ca.news.yahoo.com",
+        "squamishreporter.com",
+        "squamishchief.com",
+        "cbc.ca",
+        "rcmp.ca",
+        "ctvnews.ca",
+        "guelph.ctvnews.ca",
+        "coastreporter.net",
+        "news.gov.bc.ca"
+      ],
+      "answer": "The encampment behind Under One Roof is permanently closed. The District of Squamish shut it down in October 2026 after a fire, and people won't be allowed to move back. The most recent coverage I found is from about five weeks ago (October 9–10), so there may be newer developments I couldn't find.\n\n**The fire**\n- The fire and propane tank explosions happened on Sept. 18 at the site behind the Under One Roof supportive housing and shelter facility at Third Avenue and Main Street.\n- That was the same day the District had planned to start safety work there, including removing dangerous trees and cleaning up the encampment.\n- The fire forced an evacuation of Under One Roof. RCMP, Squamish Fire Rescue, District bylaw officers and other emergency agencies responded, and Fire Rescue put the fire out.\n\n**The closure**\n- The roughly 15 people living there were first told they could return later. Then, on Friday, Oct. 9, the District reversed that decision and told residents they would not be allowed back.\n- The District said another fire could put Under One Roof's 70 staff, 40 residents, the people in its 20 shelter beds and its food bank at risk. Fire Chief Aaron Foote said the fire and explosions \"heightened existing concerns about the proximity of the encampment site to Squamish's only supportive housing, shelter and food bank facility.\"\n\n**Where people went**\n- The District says it's working with outreach workers to support the displaced residents. It's offering short-term stays ",
+      "tokens": {
+        "input_tokens": 54779,
+        "output_tokens": 1983
+      }
+    },
+    {
+      "id": "brennan",
+      "q": "Is Brennan Park in Squamish getting a new pool or ice rink?",
+      "topic": "issues",
+      "searched": true,
+      "found_us": true,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [
+        "https://squamishvoters.com/",
+        "https://squamishvoters.com/candidates/"
+      ],
+      "cited_sites": [],
+      "found_sites": [
+        "squamishreporter.com",
+        "squamish.ca",
+        "squamishchief.com",
+        "yelp.com",
+        "exploresquamish.com",
+        "squamish.civicweb.net",
+        "thecanadianpressnews.ca",
+        "piquenewsmagazine.com",
+        "cbc.ca",
+        "letstalksquamish.ca",
+        "squamishvoters.com"
+      ],
+      "answer": "Let me check the very recent federal budget item.No. Right now Squamish isn't building a new pool or a second ice rink at Brennan Park. The District says it wants both eventually, but neither one has funding, a design or a construction timeline yet.\n\n**What has been done so far**\n- **Project One is finished, and it's mostly a retrofit.** The $21-million first phase was completed this summer. More than 75 per cent of the work was hidden behind walls, ceilings and in mechanical rooms, including a new heat pump system and accessibility upgrades.\n- **The grant rules didn't allow new facilities.** According to the District, projects such as a new pool or ice rink do not fall within this grant guideline. A local editorial in September noted that the two retrofit projects together cost more than $35 million, but they still don't give Squamish a second ice sheet or a second pool.\n\n**What's being planned**\n- **The long-term goal includes both.** The District describes a future centre that will include a second ice rink and second pool, as well as new programming and administration space.\n- **A task force is studying it.** A Recreation Centre Task Force started work in June 2026. In Phase One it will look at site and facility conditions, validate construction feasibility, engage with key interest groups, assess future recreational needs, recommend a facility option, estimate costs and come up with a funding strategy. That phase is anticipated to be completed within 12 months from June ",
+      "tokens": {
+        "input_tokens": 88872,
+        "output_tokens": 2083
+      }
+    },
+    {
+      "id": "parking",
+      "q": "Is paid parking coming to downtown Squamish?",
+      "topic": "issues",
+      "searched": true,
+      "found_us": false,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [],
+      "cited_sites": [],
+      "found_sites": [
+        "squamishreporter.com",
+        "squamish.ca",
+        "squamishchief.com",
+        "scarp.ubc.ca",
+        "letstalksquamish.ca"
+      ],
+      "answer": "Need newer info.Let me check for any 2026 news.Yes, the District of Squamish still plans to bring in paid parking downtown, but it has been pushed back more than once. The latest target I could find is 2027, and I didn't find anything confirming that it has started yet.\n\n**What's planned**\n- The District plans to introduce paid parking on Cleveland and Second Ave in Downtown Squamish, along with a resident parking permit program.\n- The District says paid parking will help cars move in and out of spots more often, reduce congestion and encourage people to walk, bike and use transit.\n- A consultant's parking study found that the downtown commercial area, specifically along Cleveland Avenue and Second Avenue between Main Street and Pemberton Avenue, is starting to have nearly complete parking.\n\n**How the timeline changed**\n- In October 2024, the District said residents could expect to see paid parking by winter 2025.\n- In December 2024, council chose to prioritize a paid-parking pilot at a number of tourism-based locations before downtown Squamish. That decision means paid parking downtown will be pushed back until 2027.\n\n**What exists now**\nPaid parking is in effect at Darrell Bay, on the west side of Highway 99. It's a pilot project currently scheduled to run until the end of 2026. How that pilot goes will probably affect what happens downtown.\n\n**Caveat:** The most recent reporting I found is from early 2025, and I hit my search limit before I could find newer updates. The 20",
+      "tokens": {
+        "input_tokens": 47801,
+        "output_tokens": 1367
+      }
+    },
+    {
+      "id": "transit",
+      "q": "Will there be a public bus from Squamish to Vancouver or Whistler?",
+      "topic": "issues",
+      "searched": true,
+      "found_us": false,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [],
+      "cited_sites": [],
+      "found_sites": [
+        "rome2rio.com",
+        "bctransit.com",
+        "ridebooker.com",
+        "squamishchief.com",
+        "checkmybus.com",
+        "busbud.com",
+        "squamish.ca",
+        "slrd.bc.ca",
+        "piquenewsmagazine.com",
+        "civicinfo.bc.ca",
+        "en.wikipedia.org",
+        "seatoskygondola.com",
+        "building.ca",
+        "news.gov.bc.ca"
+      ],
+      "answer": "I couldn't confirm that one is coming. As far as I can tell, there's still no public (BC Transit) bus between Squamish and Whistler, and none to Vancouver. One search result was a Squamish Chief article titled \"Why there is still no bus from Squamish to Whistler in 2026?\" My search tool hit its limit before I could read the article or check for a newer funding announcement.\n\n**Background (from what I already knew, not checked today):** A regional transit service linking Squamish, Whistler and Pemberton has been proposed for years. It has stalled mainly over money. BC Transit expects local governments to pay part of the operating costs, and the municipalities and regional district haven't agreed on how to split them. Plans could have changed recently. Check the District of Squamish and BC Transit websites or the Squamish Chief for the latest.\n\n**What you can use now:** private coach companies. One is Skylynx, which runs between Squamish and Whistler. The trip takes about an hour. The winter schedule runs from Nov 22, 2026 until Apr 19, 2027:\n\n- **Squamish to Whistler:** daily departures at 07:00, 09:00, 11:00 and 14:00, plus evening trips at 16:30 (Fri–Sun), 17:00 (Mon–Thu), 18:00 (Fri–Sun) and 20:00 daily\n- **Whistler to Squamish:** daily departures at 06:30, 09:00, 11:00, 13:00 and 16:00, plus 18:30 (Fri–Sun), 19:00 (Mon–Thu) and 20:00 (Fri–Sun)\n\nSkylynx also runs to downtown Vancouver and YVR airport. Other private shuttles, such as Epic Rides, also serve Vancouver, but I c",
+      "tokens": {
+        "input_tokens": 49168,
+        "output_tokens": 1989
+      }
+    },
+    {
+      "id": "taxes",
+      "q": "How much will Squamish property taxes go up in 2027?",
+      "topic": "issues",
+      "searched": true,
+      "found_us": false,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [],
+      "cited_sites": [
+        "letstalksquamish.ca"
+      ],
+      "found_sites": [
+        "squamishreporter.com",
+        "squamish.ca",
+        "squamishchief.com",
+        "x.com",
+        "wowa.ca",
+        "letstalksquamish.ca",
+        "ca.news.yahoo.com",
+        "cbc.ca"
+      ],
+      "answer": "The 2027 increase hasn't been decided yet. Right now there are two very different numbers on the table: a staff draft budget that needs about 10.4% more tax revenue, and a new proposal from the mayor for 0%.\n\n**The staff draft: about 10.4%**\nIn the fall, District finance staff told council that just covering base operating expenses and reserve contributions would require an increase of 10.4 per cent over the 2026 tax revenue requirement. Some new spending requests could add to that. Staff proposed funding for bylaw enforcement, a temporary housing program and a community safety plan. Together, the three requests would increase the District's 2027 general tax revenue requirement by an estimated 1.1 percent, or about $35 for the average residential taxpayer. Those items had not been approved.\n\n**The mayor's proposal: 0%**\nThe newly elected mayor, Sean Easton, has introduced a notice of motion to restart the 2027 municipal budget process with the goal of achieving a 0% property tax increase. A key pillar of Easton's campaign was his promise to not increase property taxes. His motion would also require that services stay at least as accessible, available, timely and effective as in 2026. It would rule out involuntary layoffs or reductions in regular hours for employees represented by a union. Savings would come from an organizational and operating review led by the chief administrative officer.\n\n**Timeline**\nThe notice of motion comes before council on Nov. 17. Under the District",
+      "tokens": {
+        "input_tokens": 47124,
+        "output_tokens": 1811
+      }
+    },
+    {
+      "id": "flood",
+      "q": "What is Squamish doing about flood protection and the Cheekeye debris barrier?",
+      "topic": "issues",
+      "searched": true,
+      "found_us": false,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [],
+      "cited_sites": [],
+      "found_sites": [
+        "ca.news.yahoo.com",
+        "cbc.ca",
+        "thetyee.ca",
+        "eos.org",
+        "squamishchief.com",
+        "e3s-conferences.org",
+        "researchgate.net",
+        "squamish.ca",
+        "news.gov.bc.ca",
+        "opendata-squamish.hub.arcgis.com",
+        "squamishreporter.com",
+        "canada.ca"
+      ],
+      "answer": "I only got partway into researching this. The search tool hit its limit after one query, so all I have is a CBC article from about seven or eight months ago and a 2023 engineering paper on the barrier's design. I couldn't find anything newer, or anything on Squamish's wider flood plans such as dikes.\n\n**The Cheekye (Cheekeye) debris-flow barrier**\n- **What it's for:** The Cheekye River fan, just north of Squamish, gets debris flows coming down the slopes of Nch'ḵay̓ (Mount Garibaldi). The barrier is meant to catch them before they reach homes on the fan.\n- **Size and cost:** CBC put the cost at about $115 million. The barrier is about 24 metres tall and is designed for a debris flow of up to 2.8 million cubic metres.\n- **How it works:** According to the 2023 engineering paper, it's an \"open\" check dam made of roller-compacted concrete. A 6-metre-wide vertical slot lets the river's normal flow pass through. During a debris flow, the slot limits how much gets through, and the barrier holds back about 2.4 million cubic metres.\n\n**Recent setback**\n- CBC reported that construction stopped during an atmospheric river.\n- After that, river flows wore away the barrier's concrete base, and the damage kept spreading through the winter.\n- Repairs were being made in spring 2026, with the river diverted over the top of the barrier. CBC's headline said work had resumed after the temporary halt.\n\n**What I couldn't confirm**\n- Whether the barrier is finished now, or whether the cost or schedu",
+      "tokens": {
+        "input_tokens": 36707,
+        "output_tokens": 1607
+      }
+    },
+    {
+      "id": "tax-2026-why",
+      "q": "Why did Squamish property taxes go up 12.8 percent?",
+      "topic": "issues",
+      "searched": true,
+      "found_us": false,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [],
+      "cited_sites": [],
+      "found_sites": [
+        "squamish.ca",
+        "squamishchief.com",
+        "jaydeveryrealestate.com",
+        "squamish.civicweb.net",
+        "pub-creston.escribemeetings.com",
+        "letstalksquamish.ca",
+        "squamishreporter.com",
+        "cbc.ca"
+      ],
+      "answer": "The 12.8% is how much more money the District of Squamish decided to raise from property taxes in 2026 than in 2025. It's a rise in the town's total tax take, not necessarily the rise on your own bill. The revenue required from property taxes is $56.1M, which is 12.8% higher than 2025. For a typical homeowner, that equals approximately $382 more.\n\n**Why it went up**\n\n- **Mostly the rising cost of existing services:** When the budget was drafted, District staff said most of the increase came from unavoidable costs, not new services. One councillor said the biggest chunk of the budget pays the wages of District CUPE (union) workers, firefighters, the RCMP members in Squamish, contractors and non-union staff.\n- **Making up for years of underinvestment:** The long-term plan balances the pressures of rapid growth with the need to renew and replace aging facilities and infrastructure. A councillor said \"there was an underinvestment in facilities for a long period of time, and we are grappling with that now.\" The 10-year capital plan is $347 million, plus $100 million for the Cheekeye Barrier, which the District takes over in 2026.\n- **Past increases were kept low:** One council member said \"we had a number of years of below average tax increases\", which makes this year's jump look sharper.\n- **Ongoing pressures from earlier budgets:** For 2025, the District pointed to higher RCMP and Fire Services costs, labour contract negotiations, and housing responsibilities tied to provincial ",
+      "tokens": {
+        "input_tokens": 54162,
+        "output_tokens": 1868
+      }
+    },
+    {
+      "id": "one-taxpayer",
+      "q": "How much does Squamish depend on one large taxpayer like Woodfibre LNG?",
+      "topic": "issues",
+      "searched": true,
+      "found_us": false,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [],
+      "cited_sites": [],
+      "found_sites": [
+        "cbc.ca",
+        "squamishreporter.com",
+        "myseatosky.org",
+        "squamish.ca",
+        "policyalternatives.ca",
+        "biv.com",
+        "squamishchief.com",
+        "nsnews.com",
+        "woodfibrelng.ca",
+        "squamish.civicweb.net",
+        "ca.news.yahoo.com",
+        "thenarwhal.ca",
+        "projects.eao.gov.bc.ca"
+      ],
+      "answer": "Squamish depends on Woodfibre LNG a fair amount for property taxes, but not much for its overall budget. The bigger risk is that the amount is uncertain.\n\n**How much it pays now**\n- In 2026, WLNG paid $7.7 million in municipal property taxes to the District. That's a big jump from about $1.5 million expected for 2025, when BC Assessment valued WLNG's property as being worth $11.8 million.\n- WLNG falls in the \"major industry\" (Class 4) tax category. The District's 2026 tax report says the rate will result in Class 4 contributing 11.7% of property taxes in 2026. This is substantially higher than in 2025, but is lower than the historical share of taxes paid by Class 4 when there were other major industries in the District. CBC reports that Woodfibre LNG is currently the only property in the district that is a Class 4 Major Industry, although the District's report also mentions some port lands in that category.\n\n**Compared with the whole budget**\nProperty taxes pay for only part of the District's spending. In 2025, property taxes fund 28.8% of the operating budget. Very roughly, about 12% of property taxes times about 29% of the budget means WLNG covers around 3–4% of operating revenue. I calculated that myself using figures from two different years, so treat it as a ballpark.\n\n**Why the numbers are uncertain**\n1. **The tax rate is unusually high and being fought in court.** Squamish taxes WLNG at $125 per $1,000 of assessed value. That's four times higher than the average B.C. t",
+      "tokens": {
+        "input_tokens": 60190,
+        "output_tokens": 2848
+      }
+    },
+    {
+      "id": "council-meetings",
+      "q": "District of Squamish council meetings: what did they decide recently?",
+      "topic": "meetings",
+      "searched": true,
+      "found_us": true,
+      "cited_us": false,
+      "named_us": false,
+      "our_pages": [
+        "https://squamishvoters.com/"
+      ],
+      "cited_sites": [],
+      "found_sites": [
+        "squamish.ca",
+        "letstalksquamish.ca",
+        "slrd.bc.ca",
+        "squamishchief.com",
+        "cbc.ca",
+        "squamishvoters.com",
+        "bcafn.ca",
+        "en.wikipedia.org",
+        "squamish.civicweb.net",
+        "johnlowe.ca",
+        "ca.news.yahoo.com"
+      ],
+      "answer": "I couldn't find out what Squamish council has decided recently. My search tool hit its usage limit after one search, so I don't have any reports of specific votes or motions.\n\nThat one search did turn up some background from the District of Squamish website:\n\n- **There's a new council.** Squamish held its general election on October 17, 2026, and voters chose a mayor, six councillors and two school trustees. Turnout was about 45.3% (8,881 ballots), up from 41.1% in 2022. The new council was due to be sworn in at its first meeting on November 3, 2026.\n- **The 2027 budget is under discussion.** The District's homepage says budget talks are underway, so that's probably the main business right now.\n\nBecause the new council has only been in office for about two weeks, it probably hasn't made many decisions yet. First meetings usually cover swearing-in, committee appointments and early budget work.\n\nTo see what was actually decided, you can check:\n1. **squamish.ca**, under Agendas and Minutes, which has meeting agendas, minutes and video of regular business meetings (usually 6 p.m. Tuesdays)\n2. **The Squamish Chief** (squamishchief.com), the local paper, which covers council meetings\n3. **The District's news page and newsletter**, which post summaries of council decisions\n\nIf you can paste in an agenda or set of minutes, I can summarize what was decided.",
+      "tokens": {
+        "input_tokens": 42473,
+        "output_tokens": 1375
+      }
+    }
+  ]
+}
