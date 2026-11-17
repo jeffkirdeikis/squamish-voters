@@ -66,6 +66,171 @@
  ],
  "stories": [
   {
+   "slug": "gondola-summit-tree-lighting-nov-28",
+   "s": "community",
+   "tier": "card",
+   "date": "2026-11-17",
+   "head": "Santa helps light the Christmas tree atop Sea to Sky Gondola November 28",
+   "dek": "Santa is due at the top of the Sea to Sky Gondola to help light the Christmas tree at 5 p.m. on Saturday, November 28. Music, crafts and holiday food start at 2:30 p.m. at the Summit Lodge and Backyard Plaza. It is free with a lift ticket or annual membership.",
+   "gist": [
+    "The Sea to Sky Gondola holds a Christmas tree lighting at the summit on Saturday, November 28.",
+    "There is live music, a fire, holiday food and a craft table for children.",
+    "Santa is due to help light the tree at 5 p.m. outside in the Backyard Plaza.",
+    "You need a lift ticket or an annual membership to attend."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Date",
+     "v": "Saturday, November 28"
+    },
+    {
+     "level": "mid",
+     "k": "Event hours",
+     "v": "2:30 to 5:30 p.m."
+    },
+    {
+     "level": "mid",
+     "k": "Tree lighting",
+     "v": "5 p.m., Backyard Plaza"
+    },
+    {
+     "level": "mid",
+     "k": "Cost",
+     "v": "Free with lift ticket or annual membership"
+    }
+   ],
+   "take": "The lighting is outdoors at 5 p.m.; check the time of the last gondola down and the weather before you go.",
+   "body": "[[glance]]\n\n## What happens\n\nThe Sea to Sky Gondola is holding a Christmas tree lighting at the summit on Saturday, November 28. It is the launch event for the gondola's Spirit of the Season, and the gondola lists more holiday events on its website.\n\nThe event runs 2:30 to 5:30 p.m., with the tree lighting at 5 p.m. in the Backyard Plaza.\n\nDuring the afternoon:\n\n- Live music by Doug and Jane inside the Summit Lodge\n- A fire to sit by in the Backyard Plaza\n- Holiday food and drink specials from the Backyard Shack\n- A holiday craft table for children\n\nThe gondola says Santa is due to arrive in time to help light the tree.\n\n## Where and when\n\n- Place: Summit Lodge and Backyard Plaza, at the top of the Sea to Sky Gondola\n- Cost: free with a lift ticket or an annual membership\n- The gondola does not mention any need to register.\n\n## Good to know\n\nThe 5 p.m. tree lighting is outdoors in the Backyard Plaza. The notice does not give ticket prices or the time of the last gondola down, so check with the gondola before you plan your trip. For current weather and Highway 99 conditions before you go, check [today in Squamish](/today/).\n\nTicket details and the full list of holiday events are on the [Sea to Sky Gondola's website](https://www.seatoskygondola.com/).",
+   "visual": {
+    "type": "big",
+    "big": "Nov 28",
+    "small": "Tree lighting at 5 p.m."
+   },
+   "src": [
+    "Sea to Sky Gondola",
+    "https://app.go.seatoskygondola.com/e/er?utm_campaign=Nov%2017%20General%20Newsletter&utm_medium=email&utm_source=Eloqua&s=181791&lid=51&elqTrackId=B7140B955686C8C3200D48EB7C698F23&elq=e9ff4f9b923848ca8c329ec886900f84&elqaid=299&elqat=1&elqak=8AF6BD1E640B9B29549B5D08F56AEEB08B3D7AE62FF1481C7C4226910BE16049FFF4"
+   ],
+   "review_scores": [
+    5.7,
+    6.7,
+    7.3,
+    6.8
+   ],
+   "social": "Santa helps light the Christmas tree at the top of the Sea to Sky Gondola in Squamish, 5 p.m. Saturday, November 28.\n\nThe afternoon starts at 2:30 p.m. with live music, a craft table for kids and holiday food by the fire. No extra cost with a lift ticket or annual membership. Times, cost and what to know before you go:",
+   "share": 3,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/gondola-summit-tree-lighting-nov-28.jpg",
+    "alt": "View over forested ridge to turquoise Howe Sound with gondola tower and cabins in the foreground and a band of cloud along the mountains",
+    "caption": "Howe Sound and the Sea to Sky Gondola line, seen from near the summit.",
+    "credit": "Keely Hill, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Howe_Sound_from_Sky_Pilot_Mountain.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/gondola-summit-tree-lighting-nov-28-2.jpg",
+     "alt": "Deep blue Howe Sound surrounded by snow-dusted mountains seen from high above",
+     "caption": "Howe Sound in winter, seen from above Squamish.",
+     "credit": "Shafik Diwan, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Howe_Sound,_Squamish.jpg"
+    },
+    {
+     "file": "/news/photos/gondola-summit-tree-lighting-nov-28-3.jpg",
+     "alt": "Gondola cabins and a support tower rising through dense evergreen forest above Howe Sound",
+     "caption": "The Sea to Sky Gondola climbing toward the summit.",
+     "credit": "Keely Hill, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Sea_to_Sky_Gondola_(2018)_from_Sky_Pilot_Mountain_(cropped).jpg"
+    }
+   ],
+   "og": "gondola-summit-tree-lighting-nov-28.png"
+  },
+  {
+   "slug": "sea-to-sky-gondola-reopens-november-27",
+   "s": "community",
+   "tier": "card",
+   "date": "2026-11-17",
+   "head": "Sea to Sky Gondola reopens Nov. 27 with Santa and holiday trails",
+   "dek": "The gondola is closed for its yearly maintenance through November 26. From November 27 to December 31 it is open daily 9 a.m. to 5 p.m.",
+   "gist": [
+    "The Sea to Sky Gondola is closed for its yearly maintenance from November 16 to November 26.",
+    "It reopens on Friday, November 27 with a holiday event called Spirit of the Season.",
+    "The event has decorated forest trails, visits with Santa and festive activities at the Summit.",
+    "From November 27 to December 31 it is open daily 9 a.m. to 5 p.m., with the last ride down at 6 p.m."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Closed",
+     "v": "November 16 to 26"
+    },
+    {
+     "level": "mid",
+     "k": "Reopens",
+     "v": "Friday, November 27"
+    },
+    {
+     "level": "mid",
+     "k": "Holiday event",
+     "v": "Spirit of the Season"
+    },
+    {
+     "level": "mid",
+     "k": "Daily hours",
+     "v": "9 a.m. to 5 p.m."
+    },
+    {
+     "level": "mid",
+     "k": "Last ride down",
+     "v": "6 p.m."
+    }
+   ],
+   "take": "The gondola is closed through November 26 and reopens Friday, November 27, open daily 9 a.m. to 5 p.m. with the last ride down at 6 p.m.",
+   "body": "[[glance]]\n\n## What's happening\n\nThe Sea to Sky Gondola closed on November 16 for its scheduled yearly maintenance. It stays closed through November 26.\n\nWhen it reopens on Friday, November 27, it starts its holiday event, Spirit of the Season. The gondola says the event includes:\n\n- Decorated forest trails\n- Visits with Santa\n- Festive activities at the Summit\n\n## When\n\nHoliday season hours run from November 27 to December 31.\n\n- Open daily 9 a.m. to 5 p.m.\n- Last ride down: 6 p.m.\n\nThe gondola is open 9 to 5, but the last ride down is at 6 p.m., and the notice gives no time for the last ride up. The notice does not give hours after December 31.\n\n## What the notice doesn't say\n\nThe notice does not list ticket prices. It also does not say whether visits with Santa need to be booked ahead, or where and at what times visitors can see Santa. Check with the Sea to Sky Gondola before you go.\n\n## Before you drive\n\nThis information comes from the Sea to Sky Gondola's general newsletter sent November 17. Planning to drive Highway 99 to the gondola? Check current highway conditions on our [today page](/today/) before you head out.",
+   "visual": {
+    "type": "big",
+    "big": "Nov 27",
+    "small": "Gondola reopens"
+   },
+   "src": [
+    "Sea to Sky Gondola",
+    "https://app.go.seatoskygondola.com/e/er?utm_campaign=Nov%2017%20General%20Newsletter&utm_medium=email&utm_source=Eloqua&s=181791&lid=45&elqTrackId=4151D42D134B762C3163207E1BB1F2E5&elq=e9ff4f9b923848ca8c329ec886900f84&elqaid=299&elqat=1&elqak=8AF66AF6D8FC6D8BB5F8687A47692AAE3DE27AE62FF1481C7C4226910BE16049FFF4"
+   ],
+   "review_scores": [
+    6.3,
+    6.4,
+    6.3,
+    7.2
+   ],
+   "social": "Visits with Santa, decorated forest trails and festive activities are coming to the Sea to Sky Gondola this season.\n\nThe gondola is closed through November 26 and reopens Friday, November 27 with Spirit of the Season. Open daily 9 a.m. to 5 p.m. through Dec. 31. The hours, the event and what the notice leaves out:",
+   "share": 3,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/sea-to-sky-gondola-reopens-november-27.jpg",
+    "alt": "Sea to Sky Gondola cabins travelling on cables above a forested ridge with mountains and blue sky behind",
+    "caption": "Sea to Sky Gondola cabins above the forest near Squamish.",
+    "credit": "DarkNight0917, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Sea_to_Sky_Gondola_02.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/sea-to-sky-gondola-reopens-november-27-2.jpg",
+     "alt": "Snow-covered suspension bridge and forest at the top of the Sea to Sky Gondola, with snowy peaks and a sun halo",
+     "caption": "The Sky Pilot Suspension Bridge in winter at the top of the Sea to Sky Gondola.",
+     "credit": "Shafik Diwan, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_Top.jpg"
+    },
+    {
+     "file": "/news/photos/sea-to-sky-gondola-reopens-november-27-3.jpg",
+     "alt": "Howe Sound surrounded by snow-dusted mountains, seen from high above",
+     "caption": "Howe Sound in winter, seen from above Squamish.",
+     "credit": "Shafik Diwan, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Howe_Sound,_Squamish.jpg"
+    }
+   ],
+   "og": "sea-to-sky-gondola-reopens-november-27.png"
+  },
+  {
    "slug": "flood-help-livestock-owners",
    "s": "safety",
    "tier": "card",
