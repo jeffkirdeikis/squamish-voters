@@ -563,7 +563,7 @@ function voteGrid(m) {
   if (votes.length < 2) return '';
   const rows = [...votes.filter(splitVote), ...votes.filter((d) => !splitVote(d))];
   const cols = all.filter((c) => rows.some((d) => d.votes[c.slug]));
-  return `<figure class="mt-grid"><figcaption><b>How each member voted</b> <span class="small">Split votes first. ✓ yes · ✗ no · – not there · R stepped out</span></figcaption>
+  return `<figure class="mt-grid"><figcaption><b>How each member voted</b> <span class="small">Split votes first. ✓ yes · ✗ no · – not there · R stepped out. Tap a vote for details; on a phone, swipe the table sideways to see every member.</span></figcaption>
   <div class="mt-scroll"><table><thead><tr><th scope="col">Vote</th>${cols.map((c) => `<th scope="col"><a href="/council/${c.slug}/" title="${esc(c.name)}">${esc(lastName(c))}</a></th>`).join('')}<th scope="col">Result</th></tr></thead>
   <tbody>${rows.map((d) => { const i = (m.decisions || []).indexOf(d); return `<tr${splitVote(d) ? ' class="split"' : ''}><th scope="row"><a href="#d-${i}">${esc(d.title)}</a></th>${cols.map((c) => { const v = VG[d.votes[c.slug]] || ['', '', 'not recorded']; return `<td class="${v[1]}" title="${esc(`${c.name}: ${v[2]}`)}"><span aria-label="${esc(v[2])}">${v[0]}</span></td>`; }).join('')}<td class="mt-res">${esc(RESULT_WORD[d.result] || '')} ${esc(tally(d))}</td></tr>`; }).join('')}</tbody></table></div></figure>`;
 }
@@ -1900,7 +1900,9 @@ if (TRACKED.length) {
       w.match = rows.length ? `<section class="tl-match no-print" data-match="${esc(JSON.stringify({ rows, people }))}"><h3>${esc(M.title || 'Who on council voted most like you?')}</h3><div data-match-out><p class="small">Answer the questions in this story (${rows.length} of them) and your match appears here.</p></div></section>` : ''; }
     if (st.meeting) { const mt = MEETINGS.find((x) => x.id === st.meeting);
       w.meeting = (what) => { if (!mt) return ''; if (what === 'talk') { const h = talkChart(mt); return h ? `<div class="tl-talk" data-talk-toggle><div class="tl-seg" role="group" aria-label="Show"><button type="button" aria-pressed="true" data-v="all">Everyone</button><button type="button" aria-pressed="false" data-v="council">Council only</button><button type="button" aria-pressed="false" data-v="debate">Debate only</button></div>${h}</div>` : ''; }
-        return { grid: voteGrid, time: timeRibbon, vs: residentsVs, tiles: nightTiles, quote: quoteCard, next: nextSteps, watch: jumpList, places: placesBox }[what]?.(mt) || ''; }; }
+        return { grid: voteGrid, time: timeRibbon, vs: residentsVs, tiles: nightTiles, quote: quoteCard, next: nextSteps, watch: jumpList, places: placesBox,
+          // Every decision as a tap to open card: the headline and result first, then the plain summary, the votes and a watch link.
+          decisions: (x) => `<div class="stack mt-cards">${(x.decisions || []).filter((d) => !d.consent_agenda).map((d) => decisionCard(d, x)).join('')}</div>` }[what]?.(mt) || ''; }; }
     if (st.charts) w.chart = (id) => { const C = st.charts[id]; if (!C) return '';
       const P = C.points, W = 640, H = 340, L = 64, R = 16, T = 18, B = 46, ymax = C.ymax || Math.max(...P.map((p) => p.y)) * 1.12, ymin = C.ymin ?? 0;
       const X = (i) => L + (P.length === 1 ? 0 : i * (W - L - R) / (P.length - 1)), Y = (v) => T + (1 - (v - ymin) / (ymax - ymin)) * (H - T - B), bw = Math.max(6, (W - L - R) / P.length * 0.62), XB = (i) => L + (i + 0.5) * (W - L - R) / P.length;
