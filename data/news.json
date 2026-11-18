@@ -66,6 +66,116 @@
  ],
  "stories": [
   {
+   "slug": "kayaker-dies-cheakamus-river",
+   "s": "safety",
+   "tier": "card",
+   "date": "2026-11-18",
+   "head": "Kayaker, 29, dies on Cheakamus River; fourth water death in four days",
+   "dek": "A Squamish woman, 29, died after her kayak capsized on the Cheakamus River on Sunday, November 15. Police say it is the fourth death on Squamish waterways in four days, after a boat flipped on the Squamish River on November 12. They ask anyone on or near the water to plan ahead and wear a life jacket.",
+   "gist": [
+    "A woman from Squamish, 29, died after her kayak tipped over in the Cheakamus River just north of town on November 15.",
+    "Police say she is the fourth person to die on Squamish waters in four days, after three people died when a boat flipped on November 12.",
+    "A heavy rainstorm pushed the Squamish River to its highest flow on record for November 12, and police say they have seen very high water and lots of debris.",
+    "Police ask people to plan trips, check weather and tides, wear life jackets and carry cold water safety gear."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "When and where",
+     "v": "Nov 15, Cheakamus River, north of Squamish"
+    },
+    {
+     "level": "mid",
+     "k": "Water deaths",
+     "v": "4 in 4 days, police say"
+    },
+    {
+     "level": "mid",
+     "k": "Nov 12 boat",
+     "v": "8 aboard, 3 died"
+    },
+    {
+     "level": "mid",
+     "k": "Rain Nov 10 to 12",
+     "v": "159.5 mm at Squamish Airport"
+    },
+    {
+     "level": "mid",
+     "k": "Spill Notice level",
+     "v": "Over 170 cubic metres a second"
+    }
+   ],
+   "bars": {
+    "rain": {
+     "title": "Rain at Squamish Airport during the storm, in millimetres",
+     "rows": [
+      {
+       "label": "Nov 10",
+       "v": 28.2,
+       "say": "28.2 mm"
+      },
+      {
+       "label": "Nov 11",
+       "v": 122.5,
+       "say": "122.5 mm",
+       "hl": true
+      },
+      {
+       "label": "Nov 12",
+       "v": 8.8,
+       "say": "8.8 mm"
+      }
+     ],
+     "note": "Source: Squamish Chief, November 13, 2026"
+    }
+   },
+   "take": "Police ask anyone heading on or near the water to plan the trip, check forecasts and tides, and wear an appropriate life jacket.",
+   "body": "[[glance]]\n\nA Squamish woman, 29, died Sunday, November 15, after her kayak capsized on the Cheakamus River. Police say it is the fourth death on Squamish waterways in four days.\n\nPolice ask people to take extensive caution on and around rivers, lakes and the ocean: plan the trip, check weather forecasts and tides, bring cold water safety gear, wear an appropriate life jacket and be ready for emergencies. For current river and weather conditions, see our [today page](/today/).\n\n## What happened\n\nAt about 2:30 p.m. on November 15, BC Ambulance asked Squamish RCMP for help with two kayakers who had capsized in the Cheakamus River, just north of Squamish.\n\nThe two were part of a larger group of [white water kayakers](https://www.squamishchief.com/local-news/squamish-kayaker-dies-on-cheakamus-river-13021813). They had gone ahead of the others when they capsized. The group found one of them, [a man](https://www.cbc.ca/news/canada/british-columbia/kayaker-death-cheakamus-river-bc-9.7423570), safe. A woman was still missing, so Squamish Search and Rescue was called out. Search teams found her further downstream. Despite all efforts, she died at the scene.\n\n\"Our thoughts are with the woman's family and friends, and the first responders on scene,\" said Staff Sergeant Sascha Banks, Operations Commander of the Squamish RCMP Detachment.\n\n## Fourth death in four days\n\nThe other three deaths came from one incident. On November 12, a boat with eight people aboard flipped on the flooded Squamish River near the 15900 block of Squamish Valley Road, and [three people died](https://www.squamishchief.com/local-news/three-of-our-friends-are-dead-survivor-recounts-squamish-river-boat-capsizing-13024486). A survivor [told the Squamish Chief](https://www.squamishchief.com/local-news/three-of-our-friends-are-dead-survivor-recounts-squamish-river-boat-capsizing-13024486) the group had set out to check on farm animals and neighbours before the boat was swept against a log and flipped. RCMP are still investigating, and [investigators are trying to find out](https://globalnews.ca/news/12149734/2-people-dead-one-missing-boating-accident-squamish-valley/) why the boat was on the water in those conditions. The victims have not been publicly named in coverage.\n\n## Timeline\n\n- November 10 to 12: a heavy rainstorm dropped [159.5 mm of rain at Squamish Airport](https://www.squamishchief.com/local-news/squamish-flood-update-paradise-valley-shelter-advisory-ends-road-closures-remain-13010625).\n- November 11: the [River Forecast Centre](https://bcrfc.env.gov.bc.ca/warnings/advisories/FWN_2026_11_11_1030_SC_VI_UPG.pdf) raised a flood warning for Howe Sound and the North Shore mountains.\n- November 12: the Squamish River flow was [the highest ever recorded](https://www.squamishchief.com/local-news/stay-back-from-riverbanks-district-of-squamish-warns-of-erosion-after-flooding-13010625) at its gauge for that date. The [District said](https://squamish.ca/government-and-administration/district-information/news/flood-warning-issued-for-howe-sound-and-sea-to-sky/) the Cheakamus had peaked but was still well above normal. The boat flipped that afternoon.\n- November 13: the third body was [recovered](https://www.squamishchief.com/local-news/three-of-our-friends-are-dead-survivor-recounts-squamish-river-boat-capsizing-13024486) after a search by Squamish Search and Rescue, RCMP Air Services and the RCMP Underwater Recovery Team. BC Hydro was [reducing spill](https://www.squamishchief.com/local-news/squamish-flood-update-paradise-valley-shelter-advisory-ends-road-closures-remain-13010625) (extra water released past the Cheakamus Dam). Squamish Valley Road [was closed northbound at the Cheakamus River Bridge](https://www.slrd.bc.ca/inside-slrd/news-notices/ongoing-flood-implications-squamish-valley) as of November 13; we found no newer update.\n- November 15: the kayaker died on the Cheakamus River.\n- November 16: a high streamflow advisory for Howe Sound, the North Shore mountains and the Sea to Sky was [lifted](https://lethbridgeherald.com/news/national-news/2026/11/16/swollen-b-c-rivers-claim-lives-as-boats-kayaks-capsize/). The flood warning had run from Wednesday to Friday.\n\n[[bars rain]]\nIn a release dated November 18, police said they have seen incredibly high water levels and extensive debris, with flow rates rarely seen in recent memory. The District has asked people to [stay back from riverbanks](https://www.squamishchief.com/local-news/stay-back-from-riverbanks-district-of-squamish-warns-of-erosion-after-flooding-13010625) left unstable by erosion.\n\nA similar storm in [November 2021](https://squamish.ca/government-and-administration/district-information/news/evacuation-alert-issued-for-paradise-valley-properties-in-areas-upstream-of-the-bailey-bridge/) led to a Paradise Valley evacuation alert and a Cheakamus Dam spill. BC Hydro must issue a Spill Notice when it releases more than 170 cubic metres per second.\n\n## What we don't know\n\n- How fast the Cheakamus was flowing on November 15, or whether the dam spill was still going on.\n- Whether the kayakers wore life jackets, or why the boat was out on November 12.\n- Whether the BC Coroners Service is looking into the deaths.\n- Whether more rain is forecast, or when Squamish Valley Road will reopen.\n\n## Safety help\n\nBC AdventureSmart has paddling and water safety tips at [adventuresmart.ca](https://www.adventuresmart.ca/programs/paddlesmart/). Read the [RCMP news release](https://rcmp.ca/en/bc/squamish/news/2026/11/4358895).",
+   "visual": {
+    "type": "big",
+    "big": "4",
+    "small": "Deaths on Squamish waters in four days"
+   },
+   "src": [
+    "Squamish RCMP",
+    "https://rcmp.ca/en/bc/squamish/news/2026/11/4358895"
+   ],
+   "review_scores": [
+    6.7,
+    7,
+    7.7,
+    7
+   ],
+   "researched": true,
+   "social": "Four people have died on Squamish rivers in four days, police say. The latest was a 29 year old woman from Squamish, paddling the Cheakamus with a larger group of white water kayakers on Sunday afternoon.\n\nPolice say they have seen \"incredibly high water levels\" and \"extensive debris in the river systems.\" They ask everyone heading on or near the water to wear a life jacket and check the forecast first. What happened and what police are asking:",
+   "share": 4,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/kayaker-dies-cheakamus-river.jpg",
+    "alt": "The Cheakamus River runs through a rocky, forested canyon beneath a railway bridge.",
+    "caption": "The Cheakamus River in Cheakamus Canyon, north of Squamish.",
+    "credit": "Kevin Teague, CC BY 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Cheakamus_Canyon_with_view_of_rail_that_goes_over_Cheakamus_River.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/kayaker-dies-cheakamus-river-2.jpg",
+     "alt": "Wide, clear green water of the Cheakamus River flowing past a bank of shrubs and evergreen forest.",
+     "caption": "The Cheakamus River near Squamish.",
+     "credit": "Sealnice, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Cheakamus_river.jpg"
+    },
+    {
+     "file": "/news/photos/kayaker-dies-cheakamus-river-3.jpg",
+     "alt": "3D satellite map showing Squamish, Brackendale and river valleys running north toward Whistler.",
+     "caption": "Map view of Squamish and the river valleys to the north.",
+     "credit": "NASA & OSM, Public domain",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_%26_Cheakamus_World_Wind.png"
+    }
+   ],
+   "og": "kayaker-dies-cheakamus-river.png"
+  },
+  {
    "slug": "todd-pope-squamish-legacy-award",
    "s": "community",
    "tier": "card",
