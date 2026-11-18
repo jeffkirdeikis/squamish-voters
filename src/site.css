@@ -3057,3 +3057,18 @@ html.sv-ios:not(.sv-in-app) .menu-panel a.menu-app-ios, html.sv-android:not(.sv-
 .tl-pt:focus { outline: none; } .tl-pt:focus .tl-hit { fill: rgba(15, 76, 58, .08); }
 .tl-pt.on .tl-hit { fill: rgba(15, 76, 58, .06); }
 .tl-tip { margin: .4rem 0 0; padding: .5rem .7rem; background: var(--surface-2); border-radius: 8px; font-size: .95rem; min-height: 2.4em; }
+
+/* Property tax calculator (/property-tax-calculator/) */
+.tc input[type="text"] { display: block; width: 100%; margin-top: .4rem; font: inherit; font-size: 1.35rem; font-weight: 700; padding: .7rem .8rem; border: 2px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); min-height: 3.2rem; }
+.tc-row { display: grid; gap: 0 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+.tc.tc-biz .tc-res { display: none; }
+.tc-avgs { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin: -.4rem 0 1rem; }
+.tc-pill { font: inherit; font-size: .9rem; font-weight: 600; padding: .45rem .8rem; border-radius: 999px; border: 1.5px solid var(--line); background: var(--surface); color: var(--brand); cursor: pointer; min-height: 2.4rem; }
+.tc-pill:hover { border-color: var(--brand); background: var(--brand-soft); }
+.tc-big { display: grid; gap: .1rem; background: var(--brand); color: #fff; border-radius: 12px; padding: 1rem 1.2rem; margin: .5rem 0 1rem; }
+.tc-big span { font-weight: 600; opacity: .9; } .tc-big b { font-size: 2.3rem; line-height: 1.1; } .tc-big small { font-size: 1rem; opacity: .9; }
+.tc-big.tc-27 { background: var(--brand-soft); color: var(--ink); }
+.tc-table td { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tc-table .tc-sum th, .tc-table .tc-sum td { font-weight: 800; border-top: 2px solid var(--ink-2); }
+.tc-h { margin-top: 1.6rem; }
+.tc-range { width: 100%; accent-color: var(--brand); height: 2.2rem; margin-top: .3rem; }

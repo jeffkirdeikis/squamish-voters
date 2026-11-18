@@ -316,7 +316,7 @@ const NAV_GROUPS = [
 const FOOT_GROUPS = [
   ['Council', [['/council/', 'Your mayor and council'], ['/meetings/', 'Meetings'], ['/scorecard/', 'Scorecard'], ['/this-week/', 'This week in Squamish'], ['/how-council-works/', 'How council works']]],
   ['Your say', [['/your-say/', 'Your say'], ['/wants/', 'What Squamish Wants'], ['/have-your-say/', 'Before council votes'], ['/priorities/', 'Readers’ top issues']]],
-  ['Squamish', [['/', 'Home'], ['/news/', 'News'], ['/today/', 'Squamish today'], ['/neighbourhoods/', 'Your neighbourhood'], ['/issues/', 'Issues']]],
+  ['Squamish', [['/', 'Home'], ['/news/', 'News'], ['/today/', 'Squamish today'], ['/neighbourhoods/', 'Your neighbourhood'], ['/issues/', 'Issues'], ['/property-tax-calculator/', 'Property tax calculator']]],
   ['About', [['/about/', 'About and method'], ['/faq/', 'Quick answers'], ['/corrections/', 'Corrections'], ['/data/', 'Data downloads'], ['/results/', '2026 election results']]],
 ];
 const NAV = [['/council/', 'Council'], ['/your-say/', 'Your say'], ['/wants/', 'What Squamish Wants'], ['/meetings/', 'Meetings'], ['/scorecard/', 'Scorecard'], ['/issues/', 'Issues'], ['/news/', 'News']];
@@ -355,7 +355,7 @@ const MENU_ICON = {
 };
 const MOBILE_MENU = [
   ['/', 'Home', 'home'], ['/wants/', 'What Squamish Wants: say yes or no to local asks', 'hand'], ['/your-say/', 'Your say: everywhere you can weigh in', 'ballot'], ['/council/', 'Your mayor and council', 'people'], ['/neighbourhoods/', 'Your neighbourhood: decisions, building projects, news', 'compass'], ['/have-your-say/', 'Before council votes: vote on what council votes on', 'ballot'], ['/meetings/', 'Council meetings: what’s next and what they decided', 'meet'],
-  ['/this-week/', 'This week in Squamish', 'meet'], ['/how-council-works/', 'How council works, and the first 100 days', 'about'], ['/scorecard/', 'Scorecard: their promises and how they vote', 'promise'], ['/issues/', 'Issues: each topic, what’s happening and who stands where', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/news/', 'Squamish news', 'news'], ['/today/', 'Squamish today: weather, highway, wind, river', 'sun'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
+  ['/this-week/', 'This week in Squamish', 'meet'], ['/how-council-works/', 'How council works, and the first 100 days', 'about'], ['/scorecard/', 'Scorecard: their promises and how they vote', 'promise'], ['/issues/', 'Issues: each topic, what’s happening and who stands where', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/news/', 'Squamish news', 'news'], ['/today/', 'Squamish today: weather, highway, wind, river', 'sun'], ['/property-tax-calculator/', 'Property tax calculator: your bill in dollars', 'compare'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
   ['/about/', 'About this site &amp; sources', 'about'],
 ];
 
@@ -1798,6 +1798,7 @@ if (TRACKED.length) {
       <p class="lede">${escGl(t.summary)}</p>
       ${areaTags(t.areas)}
       ${EXPLAINERS.filter((e) => e.track === t.slug).map((e) => `<p class="notice info"><b>Explained:</b> <a href="/explained/${e.slug}/">${esc(e.question)}</a></p>`).join('')}
+      ${t.slug === 'budget-2027' ? '<p class="notice info"><b>What it costs you:</b> <a href="/property-tax-calculator/">type your assessed value into the property tax calculator</a> and slide the 2027 increase.</p>' : ''}
       <section class="card"><h2>Where it stands${now ? ` <span class="small">step ${now.i + 1} of ${now.n}</span>` : ''}</h2>
         <ol class="isteps">${(t.steps || []).map((x) => `<li class="st-${esc(x.status)}"><span class="sdot" aria-hidden="true">${STEP_ICON[x.status] || '○'}</span><span><b>${esc(x.label)}</b>${x.date ? ` <span class="small">${esc(fmtLong(x.date))}</span>` : ''}${x.note ? `<br><span class="small">${escGl(x.note)}</span>` : ''}${src(x.source_url)}</span></li>`).join('')}</ol>
         ${t.what_next ? `<p><b>What happens next:</b> ${escGl(t.what_next)}</p>` : ''}</section>
@@ -2661,7 +2662,7 @@ for (const ic of ctx.issues || []) {
     <div class="issue-layout"><div class="issue-main">
     ${ans ? `<p class="notice info issue-answer"><b>As of <time datetime="${esc(ans.as_of)}">${esc(fmtLong(ans.as_of))}</time>,</b> ${escGl(ans.text)}</p>` : ''}
     ${ic.short_explainer && !ic.explainer.startsWith(ic.short_explainer.slice(0, 40)) ? `<p class="lede">${esc(ic.short_explainer)}</p>` : ''}
-    ${ic.key === 'taxes_spending' ? '<p class="notice info"><b>Your 2027 property tax, in one place:</b> <a href="/track/budget-2027/">the budget, when council votes, and what your BC Assessment notice means →</a></p>' : ''}
+    ${ic.key === 'taxes_spending' ? '<p class="notice info"><b>Your 2027 property tax, in one place:</b> <a href="/track/budget-2027/">the budget, when council votes, and what your BC Assessment notice means →</a></p><p class="notice info"><b>Your bill in dollars:</b> <a href="/property-tax-calculator/">Squamish property tax calculator →</a></p>' : ''}
     ${TRACKED.some((t) => t.topic === ic.key) ? `<h2 id="now">What council is doing now</h2><ul class="mlist">${TRACKED.filter((t) => t.topic === ic.key).map(issueRow).join('')}</ul>` : ''}
     <h2 id="background">The background</h2>
     <p>${escGl(paras.slice(0, mid).join(' '))}</p><p>${escGl(paras.slice(mid).join(' '))}</p>
@@ -3061,7 +3062,7 @@ write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can�
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js', 'talk.js', 'since.js', 'flood-live.js', 'flood-map.js', 'pulse.js', 'insights.js', 'app.js', 'council-live.js', 'tools.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js', 'talk.js', 'since.js', 'flood-live.js', 'flood-map.js', 'pulse.js', 'insights.js', 'app.js', 'council-live.js', 'tools.js', 'taxcalc.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.writeFileSync(path.join(DIST, 'botid.js'), `(function(){${BOTID_JS}})();`);
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
@@ -3083,10 +3084,105 @@ for (const e of EXPLAINERS) {
     ${e.sections.map((x) => `<h2>${esc(x.h)}</h2>${(x.p || []).map(para).join('')}
       ${x.table ? `<div class="table-scroll"><table class="res-how"><thead><tr>${x.table.head.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${x.table.rows.map((r) => `<tr>${r.map((c, i) => (i ? `<td>${esc(c)}</td>` : `<th scope="row">${esc(c)}</th>`)).join('')}</tr>`).join('')}</tbody></table></div>` : ''}
       ${x.list ? `<ul>${x.list.map((l) => `<li>${escGl(l)}</li>`).join('')}</ul>` : ''}${(x.after || []).map(para).join('')}`).join('')}
+    ${e.track === 'budget-2027' ? '<p class="notice info"><b>Your own bill:</b> <a href="/property-tax-calculator/">Squamish property tax calculator</a>, with the Home Owner Grant and 2027 increase.</p>' : ''}
     ${tr ? `<p class="notice info">Follow what council does next: <a href="/track/${tr.slug}/">${esc(tr.title)}</a>, with every vote by member.</p>` : ''}
     <h2>Sources</h2><ol class="small">${S.map(([l, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(l)}</a></li>`).join('')}</ol>
     ${others.length ? `<h2>More explained</h2><ul>${others.map((o) => `<li><a href="/explained/${o.slug}/">${esc(o.question)}</a></li>`).join('')}</ul>` : ''}`,
   }));
+}
+
+// ---------- property tax calculator (/property-tax-calculator/): a free tool other sites can link to (Nov 17 2026) ----------
+// Rates: District of Squamish 2026 tax rate table (squamish.ca/propertytax, Bylaw 3227). Grant: Province of BC Home Owner
+// Grant page (2026 threshold $2,075,000; Squamish is in the northern and rural area, so $770 / $1,045 in 2026; the $200
+// northern part ends January 1 2027). Update TAXCALC every spring when the new tax rate bylaw is adopted.
+const TAXCALC = {
+  year: 2026, checked: '2026-11-17',
+  order: ['muni', 'school', 'slrd', 'hosp', 'bca', 'mfa'],
+  names: { muni: 'District of Squamish (includes library)', school: 'Provincial school tax', slrd: 'Squamish-Lillooet Regional District', hosp: 'Sea to Sky Regional Hospital District', bca: 'BC Assessment', mfa: 'Municipal Finance Authority' },
+  rates: {
+    res: { muni: 2.8745, slrd: 0.1758, hosp: 0.0441, mfa: 0.0002, bca: 0.0381, school: 1.0149 },
+    biz: { muni: 7.7844, slrd: 0.4307, hosp: 0.1080, mfa: 0.0005, bca: 0.1130, school: 4.0400 },
+  },
+  extraSchool: { y2026: [0.002, 0.004], y2027: [0.003, 0.006] },
+  hog: { threshold: 2075000, per1000: 5, minReg: 350, minAdd: 100, y2026: { reg: 770, add: 1045 }, y2027: { reg: 570, add: 845 } },
+  util: { water: 518, sewer: 719, tote: { small: 243, medium: 448, large: 675 } },
+  avg: { res: { label: 'average Squamish home of all types', tax: 3294 }, biz: { label: 'average Squamish business', tax: 13066 } },
+};
+{
+  const T = TAXCALC, r = T.rates.res, url = '/property-tax-calculator/';
+  const tot = (x) => T.order.reduce((s, k) => s + x[k], 0);
+  const m = (n) => `$${Math.round(n).toLocaleString('en-CA')}`;
+  const ex = (v) => { const g = v / 1000 * tot(r); return [m(v), m(v / 1000 * r.muni), m(g), m(g - T.hog.y2026.reg)]; };
+  const S = [
+    ['District of Squamish: 2026 property tax rates by class and taxing body', 'https://squamish.ca/propertytax'],
+    ['District of Squamish 2026 Property Tax Rates Bylaw No. 3227', 'https://squamish.civicweb.net/FileStorage/DF6CEFD583104455B9AE91E3294E5C4F-District%20of%20Squamish%202026%20Property%20Tax%20Rates%20Bylaw.pdf'],
+    ['District staff report, April 21, 2026: 2026 tax rate bylaw (average property taxes)', 'https://squamish.civicweb.net/FileStorage/61067136D7374195B13427429A15321C-2026%20Tax%20Rate%20Bylaw%20-%20Report%20to%20Council.pdf'],
+    ['Province of BC: Home Owner Grant amounts and 2026 threshold', 'https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/home-owner-grant'],
+    ['Province of BC: additional school tax on homes over $3 million', 'https://www2.gov.bc.ca/gov/content/taxes/property-taxes/annual-property-tax/school-tax/additional-school-tax-rate'],
+    ['Province of BC: 2026 budget tax changes (additional school tax rises in 2027)', 'https://www2.gov.bc.ca/gov/content/taxes/tax-updates/budget-changes'],
+    ['District draft 2027 to 2036 financial plan (September 29, 2026)', 'https://squamish.civicweb.net/FileStorage/464F28A678254CD3BECE0240DCCE0208-2027-2036%20Financial%20Plan%20%E2%80%93%20General%20Fund%20Operating%20.pdf'],
+    ['BC Assessment: look up your property value', 'https://www.bcassessment.ca/'],
+  ];
+  const faq = [
+    ['How do I work out my Squamish property tax?', `Take your assessed value from BC Assessment, divide it by 1,000 and multiply by the total residential rate, ${tot(r).toFixed(4)} in 2026. Then subtract the Home Owner Grant if you live in the home. A $1,000,000 home pays ${m(1000 * tot(r))} before the grant and ${m(1000 * tot(r) - T.hog.y2026.reg)} after the regular grant.`],
+    ['What is the Squamish property tax rate for 2026?', `For homes it is ${tot(r).toFixed(4)} dollars per $1,000 of assessed value in total. The District of Squamish's own part is ${r.muni}; the rest is provincial school tax (${r.school}), the regional district (${r.slrd}), the regional hospital district (${r.hosp}), BC Assessment (${r.bca}) and the Municipal Finance Authority (${r.mfa}). For businesses the total is ${tot(T.rates.biz).toFixed(4)}.`],
+    ['How much is the Home Owner Grant in Squamish?', `In 2026 it is $770, or $1,045 for seniors, veterans and people with disabilities, because Squamish counts as a northern and rural area. It shrinks by $5 for every $1,000 your home is assessed over $2,075,000. From 2027 the extra $200 for northern and rural areas ends, so the regular grant becomes $570.`],
+    ['How much will Squamish property taxes go up in 2027?', 'Council has not decided yet. Staff’s first draft in September 2026 started at a 10.4% increase before new items, and the 10 year plan expects about 13%. Council votes on the 2027 budget over the winter and sets tax rates in spring 2027.'],
+    ['Why is my bill different from my neighbour’s?', 'Your tax depends on your own assessed value. If your assessment went up more than the Squamish average, your bill rises by more than council’s increase. If it went up less, your bill rises by less.'],
+  ];
+  const rateRows = T.order.map((k) => `<tr><th scope="row">${esc(T.names[k])}</th><td>${T.rates.res[k]}</td><td>${T.rates.biz[k]}</td></tr>`).join('');
+  write(url, page({ url, title: 'Squamish property tax calculator 2026',
+    desc: `Work out your Squamish property tax: enter your BC Assessment value to see your 2026 bill from every taxing body, your Home Owner Grant, utilities, and what council's 2027 increase could cost you.`,
+    updated: T.checked,
+    jsonld: [crumbLd([['Home', '/'], ['Issues', '/issues/'], ['Property tax calculator', url]]),
+      { '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Squamish property tax calculator', url: ORIGIN + url, applicationCategory: 'FinanceApplication', operatingSystem: 'Any', isAccessibleForFree: true, offers: { '@type': 'Offer', price: 0, priceCurrency: 'CAD' },
+        description: 'Estimates the 2026 property tax on a home or business in Squamish, BC, from its BC Assessment value, with the Home Owner Grant and a 2027 projection.', dateModified: T.checked,
+        publisher: { '@type': 'Organization', name: SITE.name, url: `${ORIGIN}/` }, about: { '@type': 'Place', name: 'Squamish, British Columbia' }, citation: S.map(([, u]) => u) },
+      { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }],
+    body: `<p class="crumbs"><a href="/issues/${TOPIC_SLUG.taxes_spending}/">← Property taxes and spending</a></p>
+    <h1>Squamish property tax calculator</h1>
+    <p class="lede">Type your BC Assessment value to see your 2026 property tax, who it goes to, your Home Owner Grant, and what council’s 2027 budget could add.</p>
+    <div class="card tc" data-taxcalc="${esc(JSON.stringify(T))}">
+      <label class="fld">Your assessed value<span class="small"> (on your BC Assessment notice, or <a href="https://www.bcassessment.ca/" target="_blank" rel="noopener">look it up</a>)</span>
+        <input type="text" inputmode="numeric" autocomplete="off" data-tc-value placeholder="for example 1,145,892" aria-describedby="tc-avgs"></label>
+      <p class="tc-avgs small" id="tc-avgs">Or try an average: <button type="button" class="tc-pill" data-tc-avg="845317">strata home $845K</button><button type="button" class="tc-pill" data-tc-avg="1145892">any home $1.15M</button><button type="button" class="tc-pill" data-tc-avg="1553742">house $1.55M</button></p>
+      <div class="tc-row">
+        <label class="fld">Property type<select data-tc-class><option value="res">Home (residential)</option><option value="biz">Business</option></select></label>
+        <label class="fld tc-res">Home Owner Grant<select data-tc-grant><option value="reg">Yes, I live here</option><option value="add">Yes, and I’m 65+, a veteran or have a disability</option><option value="none">No (rental, second home)</option></select></label>
+        <label class="fld tc-res">Garbage tote<select data-tc-tote><option value="small">Small</option><option value="medium" selected>Medium</option><option value="large">Large</option><option value="none">Strata handles it / leave out utilities</option></select></label>
+      </div>
+      <div class="tc-out" data-tc-out aria-live="polite"><noscript><p>The calculator needs JavaScript. The rates below let you work it out by hand.</p></noscript></div>
+      <h2 class="tc-h">What if council raises taxes in 2027?</h2>
+      <label class="fld">District increase for 2027: <b data-tc-rise-out>10.4%</b>
+        <input type="range" min="0" max="20" step="0.1" value="10.4" data-tc-rise class="tc-range" aria-label="2027 District tax increase, percent"></label>
+      <p class="tc-avgs small">Set it to: <button type="button" class="tc-pill" data-tc-set="10.4">10.4%, staff’s first draft</button><button type="button" class="tc-pill" data-tc-set="13">13%, the 10 year plan</button><button type="button" class="tc-pill" data-tc-set="5">5%</button><button type="button" class="tc-pill" data-tc-set="0">no increase</button></p>
+      <div data-tc-out27 aria-live="polite"></div>
+      <p class="small muted">Assumes your 2027 assessment changes by the same amount as the Squamish average, holds the school, regional and other rates at 2026 levels until they are set in spring 2027, and uses the Province’s announced 2027 grant and extra school tax.</p>
+    </div>
+    <p class="notice info">Council decides the 2027 budget this winter. <a href="/track/budget-2027/">Follow the 2027 budget: when council votes and how each member votes →</a></p>
+    <h2>The 2026 rates</h2>
+    <p>Dollars per $1,000 of assessed value. Multiply your value by the rate, then divide by 1,000.${src(S[0][1], '1')}</p>
+    <div class="table-scroll"><table class="res-how"><thead><tr><th>Who it goes to</th><th>Homes</th><th>Businesses</th></tr></thead><tbody>${rateRows}<tr><th scope="row">Total</th><td><b>${tot(r).toFixed(4)}</b></td><td><b>${tot(T.rates.biz).toFixed(4)}</b></td></tr></tbody></table></div>
+    <h2>Examples for 2026</h2>
+    <div class="table-scroll"><table class="res-how"><thead><tr><th>Assessed value</th><th>District part</th><th>Total before grant</th><th>With the $770 grant</th></tr></thead><tbody>${[600000, 845317, 1145892, 1553742, 2000000].map((v) => `<tr>${ex(v).map((c, i) => (i ? `<td>${c}</td>` : `<th scope="row">${c}</th>`)).join('')}</tr>`).join('')}</tbody></table></div>
+    <p class="small">$845,317 is the average strata home, $1,145,892 the average home of all types and $1,553,742 the average house in 2026.${src(S[2][1], '3')}</p>
+    <h2>Things the calculator counts</h2>
+    <ul>
+      <li><b>Home Owner Grant.</b> $770 in 2026 for a home you live in, or $1,045 if you are 65 or older, a veteran or have a disability. Squamish gets $200 more than Vancouver because the Province counts it as northern and rural. That extra $200 ends in 2027. You still have to claim the grant each year.${src(S[3][1], '4')}</li>
+      <li><b>Homes over $2,075,000</b> get a smaller grant: $5 less for every $1,000 over. No regular grant above $2,229,000.</li>
+      <li><b>Homes over $3 million</b> pay extra provincial school tax: 0.2% of the value between $3 million and $4 million, and 0.4% above $4 million. These rise to 0.3% and 0.6% in 2027.${src(S[4][1], '5')}${src(S[5][1], '6')}</li>
+      <li><b>Utilities</b> are a separate bill: water $518, sewer $719 and garbage $243 to $675 a year depending on tote size, for a single home in 2026.${src(S[0][1], '1')}</li>
+    </ul>
+    <p>It does not count the Speculation and Vacancy Tax, tax deferment, or local area charges. Your tax notice from the District is the final word.</p>
+    <h2>Questions</h2>
+    ${faq.map(([q, a]) => `<h3>${esc(q)}</h3><p>${esc(a)}</p>`).join('')}
+    <p class="notice info"><b>Explained:</b> <a href="/explained/why-squamish-property-taxes-went-up-12-8-percent/">Why Squamish property taxes went up 12.8% in 2026</a></p>
+    <h2>Use this on your site</h2>
+    <p>Free for anyone to link to or share, including news sites, realtors and community groups. Rates checked ${esc(fmtLong(T.checked))} and updated each spring when council sets new rates.</p>
+    <h2>Sources</h2><ol class="small">${S.map(([l, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(l)}</a></li>`).join('')}</ol>`,
+    scripts: '<script src="/taxcalc.js" defer></script>',
+  }));
+  LLM.taxcalc = { url, total: tot(r).toFixed(4), muni: r.muni };
 }
 
 // ---------- open data: the site's records as spreadsheet files anyone can reuse with credit (CC BY 4.0) ----------
@@ -3183,6 +3279,7 @@ ${TRACKED.map((t) => `- [${t.title}](${U(`/track/${t.slug}/`)}): ${t.question}`)
 
 ## More
 - [Quick answers](${U('/faq/')}): who is on council, when it meets, how to watch, how to speak at a meeting.
+- [Squamish property tax calculator](${U('/property-tax-calculator/')}): enter a BC Assessment value to get the 2026 property tax from every taxing body (homes: $4.1476 per $1,000 in total, of which the District of Squamish is $2.8745), the Home Owner Grant ($770 in 2026, $570 from 2027) and a 2027 projection.
 - [Data downloads](${U('/data/')}): every member, vote, promise and the 2026 election results as spreadsheet files, free to reuse with credit (CC BY 4.0).
 - [What Squamish Wants](${U('/wants/')}): residents vote yes or no on specific local asks.
 - [Have your say](${U('/have-your-say/')}): how to write to council, speak at a meeting or a public hearing.
