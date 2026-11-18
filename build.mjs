@@ -3229,11 +3229,14 @@ const TAXCALC = {
   const mark = (b) => (b ? '<b style="color:#1a7f4b">Yes</b>' : '<span class="muted">No</span>');
   write('/ai-check/', page({ url: '/ai-check/', title: 'AI visibility check', noindex: true,
     body: `<h1>Does AI mention us?</h1>
-    <p class="lede">Every Monday, Claude (with web search) is asked ${run ? run.rows.length : 20} questions Squamish residents ask, worded the way they ask them, without naming this site. Cited means the answer linked one of our pages.</p>
+    <p class="lede">Every Monday, Claude (with web search) is asked ${run ? run.rows.length : 20} questions Squamish residents ask, worded the way they ask them, without naming this site. Cited means the answer linked one of our pages. Runs before November 17, 2026 could not see citations, so their cited counts read 0.</p>
     ${!run ? '<p class="notice info">No check has run yet.</p>' : `
     <div class="card"><p><b>${esc(fmtLong(last.date))}:</b> cited us in <b>${last.cited} of ${last.answered}</b> answers, named us in ${last.named}, search turned us up in ${last.found}${last.searched != null ? ` (it searched for ${last.searched})` : ''}.</p>
     ${last.top_cited.length ? `<p class="small">Cited most instead: ${last.top_cited.map((t) => `${esc(t.site)} (${t.n})`).join(', ')}</p>` : ''}</div>
     ${hist.length > 1 ? `<h2>Week by week</h2><table class="res-how"><thead><tr><th>Week</th><th>Cited us</th><th>Named us</th><th>Found us</th></tr></thead><tbody>${hist.slice().reverse().map((h) => `<tr><td>${esc(fmtLong(h.date))}</td><td>${h.cited} of ${h.answered}</td><td>${h.named}</td><td>${h.found}</td></tr>`).join('')}</tbody></table>` : ''}
+    ${(() => { const lost = run.rows.filter((r) => !r.error && !r.cited_us && (r.cited_urls || []).length); return lost.length ? `<h2>Questions we lose, and the page that wins</h2>
+    <p class="small">The pages the answer cited instead of us. To win the question, our page needs what theirs has: the fact stated plainly, a date, a source.</p>
+    <div class="table-scroll"><table class="res-how"><thead><tr><th>Question</th><th>Cited instead</th><th>We were found</th></tr></thead><tbody>${lost.map((r) => `<tr><th scope="row">${esc(r.q)}</th><td>${r.cited_urls.slice(0, 3).map((u) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\/(www\.)?/, '').slice(0, 60))}</a>`).join('<br>')}</td><td>${r.found_us ? 'yes' : 'no'}</td></tr>`).join('')}</tbody></table></div>` : ''; })()}
     <h2>Each question</h2>
     ${run.rows.map((r) => `<details class="drop"><summary>${r.error ? '⚠️' : r.cited_us ? '✅' : '❌'} ${esc(r.q)}</summary>${r.error ? `<p>Error: ${esc(r.error)}</p>` : `<p class="small">Cited us: ${mark(r.cited_us)} · Named us: ${mark(r.named_us)} · Search found us: ${mark(r.found_us)}</p>
       ${r.our_pages.length ? `<p class="small">Our pages: ${r.our_pages.map((u) => `<a href="${esc(u)}">${esc(u.replace(ORIGIN, ''))}</a>`).join(', ')}</p>` : ''}

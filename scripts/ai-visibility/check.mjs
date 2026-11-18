@@ -36,7 +36,9 @@ async function ask(q) {
       betas: ['server-side-fallback-2026-07-01'],
       fallbacks: 'default',
       system: `The current date is ${new Date().toLocaleDateString('en-US', { timeZone: 'America/Vancouver', weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}.`,
-      tools: [{ type: 'web_search_20260209', name: 'web_search', max_uses: 5, user_location: { type: 'approximate', city: 'Squamish', region: 'British Columbia', country: 'CA', timezone: 'America/Vancouver' } }],
+      // web_search_20250305 on purpose: the newer 20260209 tool filters results in code and returns no citations on the
+      // answer text, so every run from Oct 27 to Nov 16 read "cited 0" no matter what (tested Nov 17 2026).
+      tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 5, user_location: { type: 'approximate', city: 'Squamish', region: 'British Columbia', country: 'CA', timezone: 'America/Vancouver' } }],
       messages,
     }).finalMessage();
     content = content.concat(msg.content);
@@ -57,6 +59,7 @@ async function ask(q) {
     searched: results.length > 0, found_us: ours(found).length > 0, cited_us: ours(cited).length > 0, named_us: /squamish\s*voters/i.test(answer),
     our_pages: [...new Set([...ours(cited), ...ours(found)])],
     cited_sites: [...new Set(cited.map(host).filter(Boolean))],
+    cited_urls: cited.filter((u) => host(u) !== US).slice(0, 8), // the exact pages that won the answer, to study and beat
     found_sites: [...new Set(found.map(host).filter(Boolean))],
     answer: answer.slice(0, 1500),
     tokens: usage,
