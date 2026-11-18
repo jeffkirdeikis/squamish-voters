@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     const r = await fetch(LIVE, { headers: { 'user-agent': UA, 'accept-language': 'en-CA,en;q=0.9', cookie: 'CONSENT=YES+1; SOCS=CAI' } });
     const html = await r.text();
     const out = parseLive(html);
-    if (req.query && req.query.debug === '1') out.debug = { status: r.status, url: r.url, len: html.length, title: (html.match(/<title>[^<]*/) || [])[0], canon: (html.match(/<link rel="canonical"[^>]*>/) || [])[0] };
+    if (req.query && req.query.debug === '1') out.debug = { status: r.status, url: r.url, len: html.length, title: (html.match(/<title>[^<]*/) || [])[0], canon: (html.match(/<link rel="canonical"[^>]*>/) || [])[0], live: (html.match(/isLiveNow"?:[a-z]+/g) || []).slice(0, 3), vid: (html.match(/"videoId":"[\w-]{11}"/g) || []).slice(0, 3), style: (html.match(/BADGE_STYLE_TYPE_LIVE_NOW|"LIVE"/g) || []).length, bot: /not a bot|consent\.youtube/.test(html) };
     return res.json(out);
   } catch (e) {
     return res.json({ live: false, error: 'check failed' });
