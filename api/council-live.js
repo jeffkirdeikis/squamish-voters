@@ -22,8 +22,8 @@ export default async function handler(req, res) {
   const dbg = req.query?.debug === '1', debug = [];
   try {
     const xml = await (await fetch(FEED, { headers: H })).text();
-    // A stream shows in the feed from when it is scheduled; only entries from the last few days can be live tonight.
-    const recent = parseFeed(xml).filter((v) => Date.now() - Date.parse(v.published) < 4 * 86400000).slice(0, 4);
+    // A stream shows in the feed from when it is scheduled; a scheduled stream is often posted days ahead, so look two weeks back.
+    const recent = parseFeed(xml).filter((v) => Date.now() - Date.parse(v.published) < 14 * 86400000).slice(0, 3);
     for (const v of recent) {
       const html = await (await fetch(`https://www.youtube.com/watch?v=${v.id}`, { headers: H })).text();
       const live = isLiveNow(html);
