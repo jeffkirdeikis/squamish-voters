@@ -3072,3 +3072,8 @@ html.sv-ios:not(.sv-in-app) .menu-panel a.menu-app-ios, html.sv-android:not(.sv-
 .tc-table .tc-sum th, .tc-table .tc-sum td { font-weight: 800; border-top: 2px solid var(--ink-2); }
 .tc-h { margin-top: 1.6rem; }
 .tc-range { width: 100%; accent-color: var(--brand); height: 2.2rem; margin-top: .3rem; }
+
+/* /flood/ page: where Squamish floods first */
+.fl-areas { list-style: none; padding: 0; display: grid; gap: .5rem; }
+.fl-areas li { background: var(--surface); border: 1px solid var(--line); border-left: 6px solid var(--neutral); border-radius: 10px; padding: .7rem .9rem; }
+.fl-areas li.lv-high { border-left-color: var(--no); } .fl-areas li.lv-mid { border-left-color: #d99a00; } .fl-areas li.lv-low { border-left-color: var(--yes); }

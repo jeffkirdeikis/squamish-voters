@@ -316,7 +316,7 @@ const NAV_GROUPS = [
 const FOOT_GROUPS = [
   ['Council', [['/council/', 'Your mayor and council'], ['/meetings/', 'Meetings'], ['/scorecard/', 'Scorecard'], ['/this-week/', 'This week in Squamish'], ['/how-council-works/', 'How council works']]],
   ['Your say', [['/your-say/', 'Your say'], ['/wants/', 'What Squamish Wants'], ['/have-your-say/', 'Before council votes'], ['/priorities/', 'Readers’ top issues']]],
-  ['Squamish', [['/', 'Home'], ['/news/', 'News'], ['/today/', 'Squamish today'], ['/neighbourhoods/', 'Your neighbourhood'], ['/issues/', 'Issues'], ['/property-tax-calculator/', 'Property tax calculator']]],
+  ['Squamish', [['/', 'Home'], ['/news/', 'News'], ['/today/', 'Squamish today'], ['/neighbourhoods/', 'Your neighbourhood'], ['/issues/', 'Issues'], ['/flood/', 'Flooding: river now'], ['/property-tax-calculator/', 'Property tax calculator']]],
   ['About', [['/about/', 'About and method'], ['/faq/', 'Quick answers'], ['/corrections/', 'Corrections'], ['/data/', 'Data downloads'], ['/results/', '2026 election results']]],
 ];
 const NAV = [['/council/', 'Council'], ['/your-say/', 'Your say'], ['/wants/', 'What Squamish Wants'], ['/meetings/', 'Meetings'], ['/scorecard/', 'Scorecard'], ['/issues/', 'Issues'], ['/news/', 'News']];
@@ -355,7 +355,7 @@ const MENU_ICON = {
 };
 const MOBILE_MENU = [
   ['/', 'Home', 'home'], ['/wants/', 'What Squamish Wants: say yes or no to local asks', 'hand'], ['/your-say/', 'Your say: everywhere you can weigh in', 'ballot'], ['/council/', 'Your mayor and council', 'people'], ['/neighbourhoods/', 'Your neighbourhood: decisions, building projects, news', 'compass'], ['/have-your-say/', 'Before council votes: vote on what council votes on', 'ballot'], ['/meetings/', 'Council meetings: what’s next and what they decided', 'meet'],
-  ['/this-week/', 'This week in Squamish', 'meet'], ['/how-council-works/', 'How council works, and the first 100 days', 'about'], ['/scorecard/', 'Scorecard: their promises and how they vote', 'promise'], ['/issues/', 'Issues: each topic, what’s happening and who stands where', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/news/', 'Squamish news', 'news'], ['/today/', 'Squamish today: weather, highway, wind, river', 'sun'], ['/property-tax-calculator/', 'Property tax calculator: your bill in dollars', 'compare'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
+  ['/this-week/', 'This week in Squamish', 'meet'], ['/how-council-works/', 'How council works, and the first 100 days', 'about'], ['/scorecard/', 'Scorecard: their promises and how they vote', 'promise'], ['/issues/', 'Issues: each topic, what’s happening and who stands where', 'issues'], ['/priorities/', 'Readers’ top issues', 'compare'], ['/news/', 'Squamish news', 'news'], ['/today/', 'Squamish today: weather, highway, wind, river', 'sun'], ['/flood/', 'Flooding: river level, warnings, alerts', 'sun'], ['/property-tax-calculator/', 'Property tax calculator: your bill in dollars', 'compare'], ['/faq/', 'Quick answers', 'about'], ['/results/', '2026 election results', 'vote'],
   ['/about/', 'About this site &amp; sources', 'about'],
 ];
 
@@ -2112,6 +2112,7 @@ if (TRACKED.length) {
       <form class="fl-alert-form" novalidate><label for="fl-alert-email" class="visually-hidden">Your email</label><div class="fl-alert-row"><input id="fl-alert-email" type="email" autocomplete="email" inputmode="email" required placeholder="Your email"><button class="btn" type="submit">Email me flood alerts</button></div>
       <p class="fl-alert-msg" role="status"></p><div class="fl-alert-more" hidden></div></form>
       <p class="small muted">We email a link to confirm first. Turn them off any time. These do not replace official alerts: also sign up for <a href="https://www.slrd.bc.ca/SLRDAlert" target="_blank" rel="noopener">SLRD Alert</a> or <a href="https://squamish.ca/alert" target="_blank" rel="noopener">Squamish Alert</a>.</p></section>`;
+    const floodPageLink = /flood|rainfall|evacuat|atmospheric/i.test(`${st.slug} ${st.head}`) ? '<p class="notice info no-print"><b>Always current:</b> <a href="/flood/">Squamish flooding today: the river now, warnings and alerts →</a></p>' : '';
     const floodSticky = st.live === 'flood' ? '<a class="fl-sticky no-print" href="#flood-alerts" data-flood-sticky hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>Get flood alerts</a>' : '';
     // Share bar (src/news.js): the phone's share sheet (with the river picture on flood stories), a ready made text,
     // WhatsApp, Facebook and Copy link. st.share_text may hold {{live}} numbers; src/flood-live.js keeps them current.
@@ -2127,8 +2128,8 @@ if (TRACKED.length) {
     const heroChart = st.live === 'flood' ? '<section class="fl-hero-chart" data-flood-chart aria-label="Squamish River flow chart"><p class="fl-status-wait">Loading the river chart…</p></section>' : '';
     const band = st.live === 'flood' ? '<section class="fl-band" data-flood-band aria-label="Squamish River now and forecast" aria-live="polite"><p class="fl-band-wait">Loading the newest river reading…</p></section>' : '';
     const body = st.tier === 'lead'
-      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${status}${st.live === 'flood' ? floodAlertBox : ''}${band}${meHtml ? `${meHtml}${shareBar}` : ''}${heroChart}${tocHtml}${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p>${gist(st)}${meHtml ? '' : shareBar}<aside class="nw-side">${visual(st)}${take(st)}${sideMore}</aside>`
-      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${st.live === 'flood' ? floodAlertBox : ''}${band}${tocHtml}${st.visual && st.visual.type === 'map' ? visual(st) : photo(st, true)}<p class="nw-dek">${dekHtml(st)}</p>${gist(st)}${meHtml}<aside class="nw-side">${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}${sideMore}</aside>`;
+      ? `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${status}${floodPageLink}${st.live === 'flood' ? floodAlertBox : ''}${band}${meHtml ? `${meHtml}${shareBar}` : ''}${heroChart}${tocHtml}${photo(st, true)}<p class="nw-dek">${esc(st.dek)}</p>${gist(st)}${meHtml ? '' : shareBar}<aside class="nw-side">${visual(st)}${take(st)}${sideMore}</aside>`
+      : `${kicker(st)}<h1 class="nw-h">${esc(st.head)}</h1>${floodPageLink}${st.live === 'flood' ? floodAlertBox : ''}${band}${tocHtml}${st.visual && st.visual.type === 'map' ? visual(st) : photo(st, true)}<p class="nw-dek">${dekHtml(st)}</p>${gist(st)}${meHtml}<aside class="nw-side">${st.visual && st.visual.type !== 'map' ? visual(st) : ''}${take(st)}${sideMore}</aside>`;
     write(nUrl(st), page({
       url: nUrl(st), title: st.head,
       desc: st.dek.replace(/<[^>]+>/g, ''),
@@ -2351,6 +2352,7 @@ write('/your-say/', page({
     jsonld: crumbLd([['Home', '/'], ['Squamish today', '/today/']]),
     body: `<div class="td">
   <header class="td-top"><h1>Squamish weather, Highway 99 and tides today</h1><p class="lede">Weather, the highway, tides, wind, the rock, the river and the air, on one page. Updated every few minutes from public sources.</p><p class="small muted" data-td-at></p></header>
+  <p class="notice info no-print"><b>Flooding:</b> <a href="/flood/">Squamish River level, flood warnings and evacuation alerts right now →</a></p>
   <div class="td-alerts" data-td-alerts hidden></div>
   <nav class="chapters td-chips no-print" aria-label="Jump to a category">${TD_CATS.map(([k, ico, label], n) => `<a href="#t-${k}" data-tdc="${k}"${n ? '' : ' class="on" aria-current="true"'}><span aria-hidden="true">${ico}</span> ${label}</a>`).join('')}</nav>
   <p class="td-swipe no-print" aria-hidden="true"><span data-td-pos>1 of ${TD_CATS.length}</span> · Swipe sideways or tap a category</p>
@@ -3185,6 +3187,71 @@ const TAXCALC = {
   LLM.taxcalc = { url, total: tot(r).toFixed(4), muni: r.muni };
 }
 
+// ---------- /flood/: one permanent flood page (Nov 17 2026). Search Console showed "squamish flooding", "squamish flood",
+// "squamish river" and "flood warning" landing on dated storm stories at positions 6 to 9; this page is the one to rank.
+// It reuses the live panel the flood stories open with (src/flood-live.js reads /api/flood/) and the floodplain map.
+{
+  const url = '/flood/';
+  const fl = (NEWS.stories || []).filter((s) => /flood|rainfall|river|evacuat|atmospheric/i.test(`${s.slug} ${s.head}`)).sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  const areas = [
+    ['high', 'Upper Squamish Valley', 'No dikes, and Squamish Valley Road is the only way in and out. The road floods at low spots and can cut the valley off for days.'],
+    ['high', 'Paradise Valley', 'Sits beside the Cheakamus River. The regional district has issued evacuation alerts and shelter in place orders here in big storms.'],
+    ['mid', 'Brackendale', 'Behind dikes, which lower the risk but do not remove it. The river gauge is named for Brackendale; that does not mean Brackendale floods first.'],
+    ['mid', 'Downtown and Mamquam', 'Behind dikes along the Squamish and Mamquam rivers. Storm drains can back up in heavy rain.'],
+    ['mid', 'Near a creek', 'Small, steep creeks have no provincial forecast and can rise and fall within hours. Debris flows are the risk on the Cheekeye and other fans.'],
+    ['mid', 'Squamish Nation reserves', 'Several reserves sit beside these rivers. The Nation runs its own alert system for members.'],
+    ['low', 'Higher ground', 'The river is not your risk. The drive, blocked storm drains and power cuts are.'],
+  ];
+  const LV = { high: 'Most exposed', mid: 'Take care', low: 'Lower risk' };
+  const faq = [
+    ['Is Squamish flooding right now?', 'The live panel at the top of this page shows the Squamish River at the Brackendale gauge, the province’s newest forecast, and any flood notice or evacuation alert in effect. It updates every five minutes from the BC River Forecast Centre and the Squamish-Lillooet Regional District.'],
+    ['Where does Squamish flood first?', 'The Upper Squamish Valley and Paradise Valley, which have no dikes along most of the river. Squamish Valley Road is the only way in and out of the upper valley and floods at low spots. Brackendale, downtown and Mamquam sit behind dikes.'],
+    ['What is the difference between a High Streamflow Advisory, a Flood Watch and a Flood Warning?', 'They are the BC River Forecast Centre’s three levels. A High Streamflow Advisory means rivers are rising fast but flooding is not expected. A Flood Watch means rivers are rising and may spill their banks. A Flood Warning means rivers have reached or will soon reach flood levels.'],
+    ['How do I get flood alerts in Squamish?', 'Sign up for Squamish Alert (District of Squamish) and SLRD Alert (regional district) for official evacuation orders. You can also get one email from Squamish Voters when a Flood Warning or evacuation alert is issued, or when the forecast peak moves 10% or more.'],
+    ['When did the Squamish River last flood badly?', 'The biggest flood in recent decades was October 2003. Big November atmospheric river storms also hit in 2021 and in November 2026, when the river came close to a 1 in 50 year flood and parts of the valley were put on evacuation alert.'],
+  ];
+  const links = [
+    ['BC River Forecast Centre: flood warnings and advisories', 'https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/drought-flooding-dikes-dams/river-forecast-centre'],
+    ['Squamish River near Brackendale gauge (Water Survey of Canada)', 'https://wateroffice.ec.gc.ca/report/real_time_e.html?stn=08GA022'],
+    ['SLRD Alert: sign up for regional district evacuation alerts', 'https://www.slrd.bc.ca/SLRDAlert'],
+    ['Squamish Alert: sign up for District of Squamish alerts', 'https://squamish.ca/alert'],
+    ['DriveBC: Highway 99 and road closures', 'https://www.drivebc.ca/'],
+    ['BC Emergency Info (evacuation orders across B.C.)', 'https://www.emergencyinfobc.gov.bc.ca/'],
+  ];
+  write(url, page({ url, title: 'Squamish flooding today: river level, warnings and alerts',
+    desc: 'Is Squamish flooding? The Squamish River level right now, the province’s flood forecast, flood warnings and evacuation alerts, updated every five minutes, plus where floods hit first.',
+    updated: fl[0]?.date || TODAY,
+    jsonld: [crumbLd([['Home', '/'], ['Squamish today', '/today/'], ['Flooding', url]]),
+      { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }],
+    body: `<p class="crumbs"><a href="/today/">← Squamish today</a></p>
+    <h1>Squamish flooding today</h1>
+    <p class="lede">The Squamish River right now, the province’s forecast, and any flood notice or evacuation alert in effect. Updates every five minutes.</p>
+    <section class="fl-status" data-flood-status aria-label="Official status and timing"><p class="fl-status-wait">Checking the official flood notice and evacuation alerts…</p></section>
+    <section class="fl-band" data-flood-band aria-label="Squamish River now and forecast" aria-live="polite"><p class="fl-band-wait">Loading the newest river reading…</p></section>
+    <section class="fl-hero-chart" data-flood-chart aria-label="Squamish River flow chart"><p class="fl-status-wait">Loading the river chart…</p></section>
+    <section class="fl-alert no-print" id="flood-alerts" data-flood-alert aria-labelledby="fl-alert-h"><h2 id="fl-alert-h">Get an email if it gets serious</h2>
+      <p>One email if a Flood Warning or evacuation alert is issued, or the forecast peak moves 10% or more.</p>
+      <form class="fl-alert-form" novalidate><label for="fl-alert-email" class="visually-hidden">Your email</label><div class="fl-alert-row"><input id="fl-alert-email" type="email" autocomplete="email" inputmode="email" required placeholder="Your email"><button class="btn" type="submit">Email me flood alerts</button></div>
+      <p class="fl-alert-msg" role="status"></p><div class="fl-alert-more" hidden></div></form>
+      <p class="small muted">We email a link to confirm first. Turn them off any time. These do not replace official alerts: also sign up for <a href="https://www.slrd.bc.ca/SLRDAlert" target="_blank" rel="noopener">SLRD Alert</a> or <a href="https://squamish.ca/alert" target="_blank" rel="noopener">Squamish Alert</a>.</p></section>
+    <section class="fl-live" data-flood-live aria-live="polite"><div class="fl-head"><h2>Live: river, forecast and alerts</h2><p>Loading the newest readings…</p></div></section>
+    <h2>Where Squamish floods first</h2>
+    <ul class="fl-areas">${areas.map(([lv, a, t]) => `<li class="lv-${lv}"><b>${esc(a)}</b> <span class="small">${LV[lv]}</span><br>${esc(t)}</li>`).join('')}</ul>
+    <figure class="fm"><div id="flood-map" class="fm-map" role="img" aria-label="Map of the Squamish River floodplain, Squamish Valley Road and the river gauge"></div>
+      <figcaption><span class="fm-k fp"></span>Province's designated floodplain <span class="fm-k fan"></span>Alluvial fan <span class="fm-k road"></span>Squamish Valley Road, the only way in and out <span class="fm-k g"></span>River gauge (tap for the live reading)
+      <span class="fm-note">The province mapped these floodplains in 1983 (Squamish River) and 1986 (Cheakamus) for a 1 in 200 year flood. Town dikes have been raised since, and the maps do not show water depth. Source: <a href="https://delivery.maps.gov.bc.ca/arcgis/rest/services/mpcm/bcgwpub/MapServer/321" target="_blank" rel="noopener">Mapped Floodplains in BC</a>; road from OpenStreetMap.</span></figcaption></figure>
+    <h2>If the water is rising</h2>
+    <ul><li>Never drive or walk through water on a road. Squamish Valley Road has low spots that flood first.</li><li>Move animals, vehicles, trailers and feed off low ground early, before an alert.</li><li>Keep a bag ready with medicine, documents, chargers and water.</li><li>Follow evacuation orders right away. Regional district emergency line: <a href="tel:18002987753">1-800-298-7753</a>. In danger, call 911.</li></ul>
+    <h2>Official sources</h2>
+    <ul>${links.map(([l, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(l)}</a></li>`).join('')}</ul>
+    ${fl.length ? `<h2>Our flood coverage</h2><ul>${fl.slice(0, 12).map((s) => `<li><a href="/news/${s.slug}/">${esc(s.head)}</a> <span class="small muted">${esc(fmtLong(s.date))}</span></li>`).join('')}</ul>` : ''}
+    <p class="notice info">Council’s flood work: <a href="/issues/${TOPIC_SLUG.flood_hazards_climate_resilience}/">flood protection, dikes and the Cheekeye debris barrier</a>.</p>
+    <h2>Questions</h2>
+    ${faq.map(([q, a]) => `<h3>${esc(q)}</h3><p>${esc(a)}</p>`).join('')}`,
+    scripts: '<script src="/flood-live.js" defer></script><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script><script src="/flood-map.js" defer></script>',
+  }));
+}
+
 // ---------- open data: the site's records as spreadsheet files anyone can reuse with credit (CC BY 4.0) ----------
 {
   const csv = (rows) => rows.map((r) => r.map((v) => { const t = String(v ?? ''); return /[",\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t; }).join(',')).join('\r\n') + '\r\n';
@@ -3287,6 +3354,7 @@ ${TRACKED.map((t) => `- [${t.title}](${U(`/track/${t.slug}/`)}): ${t.question}`)
 - [What Squamish Wants](${U('/wants/')}): residents vote yes or no on specific local asks.
 - [Have your say](${U('/have-your-say/')}): how to write to council, speak at a meeting or a public hearing.
 - [Squamish today](${U('/today/')}): weather, Highway 99, tides, wind, river and air quality.
+- [Squamish flooding today](${U('/flood/')}): the Squamish River level now, the BC River Forecast Centre forecast, flood notices and evacuation alerts, updated every five minutes, and which areas flood first.
 - [News](${U('/news/')}): short local news stories from public sources.
 - [About, method and corrections](${U('/about/')})
 
