@@ -3163,3 +3163,31 @@ html.sv-ios:not(.sv-in-app) .menu-panel a.menu-app-ios, html.sv-android:not(.sv-
   body:has(.nw-story-page) .totop:not([hidden]) { font-size: 0; width: 44px; height: 44px; padding: 0; display: grid; place-items: center; opacity: .85; }
   body:has(.nw-story-page) .totop::before { content: "↑"; font-size: 1.2rem; }
 }
+
+/* Home hero, Nov 18 2026: headline breaks by sentence, latest vote line, three line meeting card, ridgeline, short hero for returning visitors */
+.h1-gold { display: block; color: #ffd84d; }
+.h1-back { display: none; }
+html.sv-back .hero-cc .h1-full, html.sv-back .hero-cc .cc-main .lede { display: none; }
+html.sv-back .hero-cc .h1-back { display: block; }
+html.sv-back .hero-cc .cc-main h1 { font-size: clamp(1.35rem, 3.4vw, 2rem); max-width: none; }
+.cc-last { display: block; margin-top: .9rem; color: #e6f1ec; text-decoration: none; font-size: .9rem; line-height: 1.35; max-width: 32rem; }
+.cc-last b { color: #fff; }
+.cc-last:hover b { text-decoration: underline; }
+.cc-last .cc-tag { display: inline-block; margin-right: .5rem; position: relative; top: -.12em; }
+.cc-last + .cc-last { margin-top: .5rem; }
+.cc-last + .cc-meet, .cc-newline + .cc-meet { margin-top: .9rem; }
+.cc-newline .cc-tag { background: #ffd84d; color: #14211c; }
+.cc-mt { flex: 1; min-width: 0; }
+.cc-mk { display: block; font: 800 .64rem/1.3 system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: #ffd84d; margin-bottom: .1rem; }
+.cc-mgo { flex: none; font: 700 1.5rem/1 system-ui, sans-serif; color: #fff; opacity: .8; padding: 0 .15rem; }
+.hero-cc { position: relative; padding-bottom: 3.6rem; }
+.cc-ridge { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 2.4rem; display: block; pointer-events: none; }
+@media (min-width: 900px) { .h1-gold { white-space: nowrap; } .hero-cc { padding-bottom: 5rem; } .cc-ridge { height: 3.4rem; } }
+@media (max-width: 620px) {
+  .hero-cc { padding-bottom: 2.7rem; }
+  .cc-ridge { height: 1.9rem; }
+  .cc-last { font-size: .86rem; margin-top: .7rem; }
+  html.sv-back .hero-cc .cc-main h1 { font-size: min(1.3rem, 5vw); margin-bottom: 0; text-wrap: balance; }
+  .td-strip .ts-hint { background: transparent !important; color: #fff !important; border: 1px solid rgba(255,255,255,.4); box-shadow: none !important; }
+}
+html.sv-back .hero-cc .cc-main h1 { text-wrap: balance; }

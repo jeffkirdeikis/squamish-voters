@@ -3,6 +3,11 @@
 // the next dates coming up. First visits show nothing. The strip stays the same for the rest of that visit, so a
 // reload doesn't wipe it. Nothing is sent anywhere.
 (function () {
+  // Hero meeting card: "Next meeting · in 6 days", worked out on the reader's own clock.
+  Array.prototype.forEach.call(document.querySelectorAll('[data-until]'), function (u) {
+    var p = u.getAttribute('data-until').split('-'), t = new Date(), n = Math.round((new Date(+p[0], +p[1] - 1, +p[2]) - new Date(t.getFullYear(), t.getMonth(), t.getDate())) / 864e5);
+    if (n >= 0) u.textContent = ' · ' + (n === 0 ? 'today' : n === 1 ? 'tomorrow' : 'in ' + n + ' days');
+  });
   var box = document.querySelector('[data-since]'), el = document.getElementById('since-data');
   if (!box || !el) return;
   var D; try { D = JSON.parse(el.textContent); } catch (e) { return; }
@@ -48,6 +53,16 @@
     return n <= 0 ? 'Today' : n === 1 ? 'Tomorrow' : 'In ' + n + ' days';
   }
   var S = shown.stories, M = shown.decided, MAX = 3;
+  // Returning visitors (short hero): the newest new story sits in the hero itself, so the card below starts from the next one.
+  var hl = document.querySelector('[data-since-hero]');
+  if (hl && S.length && document.documentElement.classList.contains('sv-back')) {
+    hl.href = '/news/' + S[0].slug + '/';
+    hl.lastElementChild.innerHTML = '<b>' + esc(S[0].head) + '</b>&nbsp;→';
+    hl.hidden = false;
+    hl.addEventListener('click', function () { track('Since click', { to: 'hero' }); });
+    S = S.slice(1);
+    if (!S.length && !M.length) return;
+  }
   var html = '<div class="since-top"><p class="since-k">Since your last visit <span>' + esc(ago(shown.at)) + '</span></p><button type="button" class="since-x" data-since-x aria-label="Close">×</button></div>';
   html += '<div class="since-cols">';
   if (S.length) html += '<div class="since-g"><p class="since-n"><b>' + S.length + (S.length === 1 ? ' new story' : ' new stories') + '</b></p><ul class="since-list">' +

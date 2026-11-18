@@ -49,7 +49,27 @@
       var today = (d.days || [])[0], todayStr = new Date().toLocaleDateString('en-CA', { timeZone: TZ });
       set('weather', deg(w.temp) + ' <span>' + e(w.cond) + '</span>', today && today.date === todayStr && !night ? 'Now · high ' + today.hi + '°' : 'Weather now');
     } else set('weather', null);
-    set('highway', d.highway ? dot(HWY[d.highway.status][1]) + HWY[d.highway.status][0] : null);
+    // Say what the problem is and where ("Tree pruning, West Vancouver") in place of the bare word "Incidents" (Nov 18 2026).
+    // If the row then runs out of room, fall back to the what alone, then to the old one word label.
+    var hw = d.highway, hot = hw && hw.status !== 'clear' && (hw.events || []).filter(function (x) { return x.type === 'INCIDENT' || x.severity === 'MAJOR'; })[0];
+    var hwWhat = hot && hot.what ? String(hot.what).split(',')[0].trim() : '', hwWhere = hot && hot.where ? String(hot.where).split(/,| and | near | to | between /)[0].trim() : '';
+    if (hw && hw.status === 'closed') hwWhat = 'Closed';
+    var hwTry = hw ? [hwWhat && hwWhere ? hwWhat + ', ' + hwWhere : '', hwWhat, HWY[hw.status][0]].filter(function (x, i, a) { return x && x.length <= 34 && a.indexOf(x) === i; }) : [];
+    set('highway', hw ? dot(HWY[hw.status][1]) + e(hwTry[0]) : null);
+    strip.__hw = function () {
+      if (!hw || hwTry.length < 2) return;
+      var row = strip.querySelector('.ts-row'), cell = strip.querySelector('[data-k="highway"]'), c = cell.querySelector('b'), r = strip.querySelector('[data-k="river"]');
+      c.innerHTML = dot(HWY[hw.status][1]) + e(hwTry[0]);
+      if (window.innerWidth >= 900) return;
+      if (r) r.removeAttribute('data-fit-off');
+      var edge = function () { return row.getBoundingClientRect().right - parseFloat(getComputedStyle(row).paddingRight); };
+      var fits = function () { var last = r && !r.hidden && r.offsetWidth ? r : cell; return last.getBoundingClientRect().right <= edge() + 1; };
+      // Phones (Nov 18 2026): a calm river gives up its spot so the highway problem can be named; a high river keeps it.
+      var calm = !d.river || !d.river.band || /normal|low/.test(d.river.band);
+      if (!fits() && r && calm) r.setAttribute('data-fit-off', '');
+      for (var i = 1; i < hwTry.length && !fits(); i++) c.innerHTML = dot(HWY[hw.status][1]) + e(hwTry[i]);
+      if (r && c.textContent === HWY[hw.status][0]) r.removeAttribute('data-fit-off');
+    };
     var t = d.tide && d.tide.next && d.tide.next[0];
     set('tide', t ? (t.high ? 'High' : 'Low') + ' <span>' + time(t.t) + '</span>' : null, d.tide && (d.tide.rising ? 'Tide coming in' : 'Tide going out'));
     set('wind', d.wind ? d.wind.kn + ' knots <span>' + compass(d.wind.dir) + '</span>' : null, 'Spit wind');
@@ -62,6 +82,9 @@
     } else set('sun', null);
     strip.classList.add('ts-ready');
     fit();
+    strip.__hw();
+    // Measure again once the web font is in: the first measure can run on the narrower fallback font.
+    if (document.fonts && document.fonts.addEventListener && !strip.__fonts) { strip.__fonts = 1; document.fonts.addEventListener('loadingdone', function () { fit(); strip.__hw(); more(); }); }
     more();
   }
 
@@ -76,7 +99,7 @@
       if (c) c.setAttribute('data-fit-off', '');
     }
   }
-  if (strip) window.addEventListener('resize', function () { if (strip.classList.contains('ts-ready')) fit(); });
+  if (strip) window.addEventListener('resize', function () { if (strip.classList.contains('ts-ready')) { fit(); if (strip.__hw) strip.__hw(); } });
   // Phones: show the swipe arrow while more cells are hidden off to the right.
   function more() {
     var row = strip.querySelector('.ts-row');

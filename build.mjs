@@ -1275,10 +1275,27 @@ function heroMeet() {
     const day = new Date(m.date + 'T12:00:00').toLocaleDateString('en-CA', { weekday: 'short' }).replace('.', '');
     const what = m.type === 'inaugural' ? 'New council sworn in' : mType(m).label;
     const more = m.type === 'inaugural' && firstVote ? `First votes ${fmtLong(firstVote.date).replace(/, \d{4}$/, '')}. See what’s on the agenda →` : 'See what’s on the agenda →';
-    return `<a class="cc-meet" href="${mUrl(m)}">${cal(m.date)}<span><b>${esc(what)}, ${esc(day)}${m.time ? ` ${esc(fmtTime(m.time))}` : ''}</b>${esc(more)}</span></a>`;
+    // Three short lines (Nov 18 2026): a small "Next meeting" label (since.js adds "in 6 days"), the name, then day, time and any note.
+    const [, name, note] = what.match(/^(.*?)\s*\((.*)\)$/) || [0, what, ''];
+    const meta = [`${day}${m.time ? ` ${fmtTime(m.time)}` : ''}`, note, m.type === 'inaugural' && firstVote ? `first votes ${fmtLong(firstVote.date).replace(/, \d{4}$/, '')}` : ''].filter(Boolean).join(' · ');
+    return `<a class="cc-meet" href="${mUrl(m)}" aria-label="Next meeting: ${esc(what)}, ${esc(day)}${m.time ? ` ${esc(fmtTime(m.time))}` : ''}. See what’s on the agenda">${cal(m.date)}<span class="cc-mt"><span class="cc-mk">Next meeting<span data-until="${m.date}"></span></span><b>${esc(name)}</b>${esc(meta)}</span><span class="cc-mgo" aria-hidden="true">›</span></a>`;
   }
   const l = past.find((x) => x.summary);
   return l ? `<a class="cc-meet" href="${mUrl(l)}">${cal(l.date)}<span><b>Last meeting</b>${esc(l.summary.headline)} →</span></a>` : '';
+}
+
+// Home hero: one line with the newest recorded vote (Nov 18 2026). The first decision of the last summarised meeting
+// that was a real yes/no vote (not the consent agenda), with the count from the recorded votes.
+function heroLast() {
+  for (const m of past.filter((x) => x.summary).slice(0, 3)) {
+    const d = (m.decisions || []).find((x) => !x.consent_agenda && (x.result === 'passed' || x.result === 'failed') && x.votes);
+    if (!d) continue;
+    const v = Object.values(d.votes), yes = v.filter((x) => x === 'yes').length, no = v.filter((x) => x === 'no').length;
+    if (!yes && !no) continue;
+    const day = new Date(m.date + 'T12:00:00').toLocaleDateString('en-CA', { month: 'short', day: 'numeric' }).replace('.', '');
+    return `<a class="cc-last" href="${mUrl(m)}"><span class="cc-tag">Latest vote</span><span><b>${esc(d.title)}: ${d.result} ${yes} to ${no}</b> on ${esc(day).replace(' ', '&nbsp;')}&nbsp;→</span></a>`;
+  }
+  return '';
 }
 
 // Home: latest news right under the hero. One highlighted story (the newest lead or feature, else the newest with a
@@ -1349,10 +1366,12 @@ const v = ctx.voting || {};
       founder: { '@type': 'Person', name: 'Jeff Kirdeikis', url: 'https://jeffkirdeikis.com' }, areaServed: 'Squamish, British Columbia',
       ...(SITE.contact ? { email: SITE.contact } : {}),
     }],
-    hero: `${TODAY_STRIP}<section class="hero hero-cc"><div class="wrap cc">
+    hero: `${TODAY_STRIP}<script>try{var f=+localStorage.sv_first;if(!f){f=localStorage.sv_seen?1:Date.now();localStorage.sv_first=f}if(Date.now()-f>18e5)document.documentElement.classList.add('sv-back')}catch(e){}</script><section class="hero hero-cc"><div class="wrap cc">
   <div class="cc-main">
-    <h1>Squamish council made promises. We’re keeping score.</h1>
+    <h1><span class="h1-full">Squamish council made promises. <span class="h1-gold">We’re keeping score.</span></span><span class="h1-back">Keeping score on Squamish council</span></h1>
     <p class="lede">Every vote by Squamish’s mayor and councillors, checked against what they told voters in 2026.</p>
+    <a class="cc-last cc-newline" data-since-hero hidden><span class="cc-tag">New</span><span></span></a>
+    ${heroLast()}
     ${heroMeet()}
   </div>
   <div class="cc-tiles">
@@ -1368,7 +1387,7 @@ ${HAVE_SAY_OPEN ? `    <a class="cc-tile cc-say" href="/have-your-say/"><span cl
     <p class="small" data-msg role="status"></p>
   </form>
   <p class="visit-count" data-visits hidden><span class="vc-dot" aria-hidden="true"></span><b>0</b> page views so far</p>
-  </div></section>`,
+  </div><svg class="cc-ridge" viewBox="0 0 660 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40V28l56-10 40 7 52-20 28 5 36 14 60-9 44 10 68-19 40 6 48 14 60-12 56 10 72-7v23z" fill="#0b3d2f" fill-opacity=".55"/><path d="M0 40V35l80-7 72 5 88-11 76 8 100-12 92 11 80-6 72 7v10z" fill="#f7f5ef"/></svg></section>`,
     body: `
   ${sinceData()}
   ${homeNews()}
