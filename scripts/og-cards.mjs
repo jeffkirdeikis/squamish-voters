@@ -18,7 +18,7 @@ const dataUrl = (file) => {
 // card: { file (path under dist), kicker, title, sub, stats: [[number, label]], photo (path under public), foot }
 function draw(card) {
   const photo = card.photo && dataUrl(path.join(ROOT, 'public', card.photo));
-  const size = card.title.length <= 18 ? 84 : card.title.length <= 30 ? 68 : 54;
+  const size = card.title.length <= 18 ? 84 : card.title.length <= 30 ? 68 : card.title.length <= 60 ? 54 : card.title.length <= 110 ? 44 : card.title.length <= 170 ? 36 : 30;
   return h('div', { width: '100%', height: '100%', flexDirection: 'column', background: GREEN, padding: '48px 64px 42px', color: '#fff', fontFamily: 'Sans' },
     h('div', { fontSize: 24, fontWeight: 800, color: YELLOW, letterSpacing: 3 }, card.kicker),
     h('div', { alignItems: 'center', marginTop: 18 },

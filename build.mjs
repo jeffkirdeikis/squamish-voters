@@ -608,7 +608,8 @@ function quoteCard(m) {
   const q = (m.night?.quotes || [])[0];
   if (!q) return '';
   const c = bySlug[q.slug];
-  return `<figure class="mt-quote"><blockquote>“${esc(q.text)}”</blockquote><figcaption>${c ? `<a href="/council/${c.slug}/">${esc(c.office === 'mayor' ? 'Mayor ' + lastName(c) : 'Councillor ' + lastName(c))}</a>` : esc(q.name)}${q.t_s != null && atT(m, q.t_s) ? ` · <a href="${esc(atT(m, q.t_s))}" target="_blank" rel="noopener">watch it (${hmsOf(q.t_s)})</a>` : ''}${q.about ? ` · on ${esc(q.about)}` : ''}</figcaption></figure>
+  const pic = shareCard({ file: `share/cards/quote-${m.id}.png`, kicker: 'SQUAMISH COUNCIL · QUOTE OF THE NIGHT', title: `“${q.text}”`, sub: c ? `${c.office === 'mayor' ? 'Mayor' : 'Councillor'} ${c.name}` : q.name, photo: c && hasPhoto(c) ? c.photo : null, foot: `${mType(m).label}, ${fmtLong(m.date)}` });
+  return `<figure class="mt-quote"><blockquote>“${esc(q.text)}”</blockquote><figcaption>${c ? `<a href="/council/${c.slug}/">${esc(c.office === 'mayor' ? 'Mayor ' + lastName(c) : 'Councillor ' + lastName(c))}</a>` : esc(q.name)}${q.t_s != null && atT(m, q.t_s) ? ` · <a href="${esc(atT(m, q.t_s))}" target="_blank" rel="noopener">watch it (${hmsOf(q.t_s)})</a>` : ''}${q.about ? ` · on ${esc(q.about)}` : ''} · <a href="${esc(pic)}" target="_blank" rel="noopener">picture to share</a></figcaption></figure>
   ${(m.night.quotes || []).length > 1 ? `<details class="drop"><summary>More from the debate (${m.night.quotes.length - 1})</summary>${m.night.quotes.slice(1).map((x) => { const cc = bySlug[x.slug]; return `<p>“${esc(x.text)}” <span class="small">${esc(cc ? lastName(cc) : x.name)}${x.t_s != null && atT(m, x.t_s) ? ` · <a href="${esc(atT(m, x.t_s))}" target="_blank" rel="noopener">${hmsOf(x.t_s)}</a>` : ''}</span></p>`; }).join('')}</details>` : ''}`;
 }
 
