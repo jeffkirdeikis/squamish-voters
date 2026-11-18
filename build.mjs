@@ -1844,7 +1844,7 @@ if (TRACKED.length) {
     return '';
   };
   const dekHtml = (st) => (st.html ? st.dek : esc(st.dek)); // hand-written stories may carry links; drafted ones are plain text
-  const ogUrl = (st) => `${ORIGIN}/news/og/${st.og || `${st.slug}.jpg`}?v=4`;
+  const ogUrl = (st) => `${ORIGIN}/news/og/${st.og || `${st.slug}.jpg`}?v=${st.og_v || 4}`; // st.og_v: bump when a story's share picture is redrawn, so Facebook fetches the new one
   const take = (st) => (st.take ? `<p class="nw-take"><b>What changes</b>${st.take}</p>` : '');
   // "In plain words": four short everyday sentences that sum up the story (Jeff, Nov 15 2026). Story pages only.
   const gist = (st) => ((st.gist || []).length ? `<section class="nw-gist" aria-labelledby="gist-h"><h2 id="gist-h">In plain words</h2><ul>${st.gist.map((g) => `<li>${esc(g)}</li>`).join('')}</ul></section>` : '');
