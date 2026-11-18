@@ -2961,3 +2961,49 @@ html.sv-ios:not(.sv-in-app) .menu-panel a.menu-app-ios, html.sv-android:not(.sv-
 .cl-live:hover .cl-go, .cl-live:focus-visible .cl-go { text-decoration: underline; }
 @keyframes cl-pulse { 50% { opacity: .35; } }
 @media (prefers-reduced-motion: reduce) { .cl-dot { animation: none; } }
+
+/* Meeting night extras (build.mjs nightTiles, voteGrid, talkChart, timeRibbon, residentsVs, quoteCard, nextSteps, jumpList, placesBox, termReport) */
+:root { --mt-c1: #0f4c3a; --mt-c2: #c0702a; --mt-c3: #3c7fa8; --mt-c4: #7a9a3a; --mt-c5: #8a5a9e; --mt-c6: #b8a03a; --mt-yes: #1f7a45; --mt-no: #b3261e; }
+.mt-glance { margin: .8rem 0 .6rem; }
+.mt-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.mt-grid, .mt-ribbon, .mt-quote { margin: 1.2rem 0; padding: .9rem 1rem; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.mt-grid figcaption, .mt-ribbon figcaption { margin-bottom: .6rem; }
+.mt-grid table, .mt-vs table { border-collapse: collapse; width: 100%; font-size: .92rem; font-variant-numeric: tabular-nums; }
+.mt-grid th, .mt-grid td, .mt-vs th, .mt-vs td { padding: .45rem .4rem; border-bottom: 1px solid var(--line); text-align: center; vertical-align: middle; }
+.mt-grid thead th { font-size: .8rem; font-weight: 600; color: var(--muted); white-space: nowrap; }
+.mt-grid thead th a { color: inherit; }
+.mt-grid tbody th, .mt-vs tbody th { text-align: left; font-weight: 500; min-width: 11rem; }
+.mt-grid tr.split th[scope="row"] { font-weight: 700; }
+.mt-grid td span { font-weight: 800; font-size: 1.05rem; }
+.mt-grid .v-yes { color: var(--mt-yes); } .mt-grid .v-no { color: var(--mt-no); background: color-mix(in srgb, var(--mt-no) 10%, transparent); }
+.mt-grid .v-abs, .mt-grid .v-unk { color: var(--muted); } .mt-grid .v-rec { color: var(--mt-c2); }
+.mt-res { font-size: .82rem; color: var(--ink-2); white-space: nowrap; }
+.mt-talk li { grid-template-columns: 7.5rem 1fr 4.6rem; }
+.mt-talk .nw-bars-l a { color: inherit; }
+.mt-stack { display: flex; }
+.mt-stack i { border-radius: 0 !important; }
+.mt-stack i:first-child { border-radius: 6px 0 0 6px !important; } .mt-stack i:last-child { border-radius: 0 6px 6px 0 !important; } .mt-stack i:only-child { border-radius: 6px !important; }
+.mt-talk li:not(.hl) .nw-bars-bar i { background: #9aa39f; }
+.mt-talk .mt-chair { background: color-mix(in srgb, var(--brand) 35%, var(--surface)) !important; }
+.mt-talk .nw-bars-v small { display: block; font-size: .72rem; color: var(--muted); line-height: 1.1; }
+.mt-sub { margin: .9rem .2rem .2rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; }
+.mt-rib { display: flex; height: 2rem; border-radius: 8px; overflow: hidden; gap: 2px; background: var(--surface); }
+.mt-rib a { display: block; min-width: 3px; }
+.mt-rib a:hover, .mt-rib a:focus-visible { filter: brightness(1.15); outline: 2px solid var(--ink); outline-offset: -2px; }
+.mt-leg { list-style: none; margin: .7rem 0 0; padding: 0; display: grid; gap: .3rem; font-size: .92rem; }
+.mt-leg li { display: flex; align-items: baseline; gap: .5rem; flex-wrap: wrap; }
+.mt-leg i { width: .75rem; height: .75rem; border-radius: 3px; flex: none; transform: translateY(1px); }
+.mt-leg span { color: var(--muted); font-size: .82rem; font-variant-numeric: tabular-nums; }
+.mt-jump ul { list-style: none; padding: 0; margin: .5rem 0 1rem; display: grid; gap: .4rem; }
+.mt-jump a { display: grid; grid-template-columns: 4.6rem 1fr; gap: .7rem; align-items: center; padding: .55rem .7rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); text-decoration: none; color: var(--ink); }
+.mt-jump a:hover { border-color: var(--brand); }
+.mt-ts { font-variant-numeric: tabular-nums; font-weight: 700; font-size: .85rem; background: var(--brand); color: #fff; border-radius: 6px; text-align: center; padding: .2rem 0; }
+.mt-vs td small { display: block; color: var(--muted); font-size: .75rem; }
+.mt-quote { background: var(--brand-soft); border-color: transparent; }
+.mt-quote blockquote { margin: 0; font-family: var(--font-display, Georgia, serif); font-size: 1.3rem; line-height: 1.35; text-wrap: balance; }
+.mt-quote figcaption { margin-top: .6rem; font-size: .9rem; color: var(--ink-2); }
+.mt-next h3 { margin: 0 0 .4rem; font-size: 1.05rem; }
+.mt-places ul { margin: .4rem 0 .6rem; padding-left: 1.1rem; }
+.mt-report { margin: 1rem 0 .4rem; }
+.mt-report h3 { margin: 0; font-size: 1.05rem; }
+@media (max-width: 560px) { .mt-talk li { grid-template-columns: 5.6rem 1fr 3.8rem; } .mt-grid tbody th { min-width: 9rem; } }

@@ -531,3 +531,9 @@ document.addEventListener('click', function (e) {
   if (/facebook\.com\/groups\/1090076830319905/.test(a.href)) SVdone('fb');
   else if (/reddit\.com\/r\/Squamish_News/i.test(a.href)) SVdone('reddit');
 }, true);
+
+// Links to a decision card (#d-3, from the vote grid on meeting pages) open the card.
+(function () {
+  function openHash() { var el = location.hash && document.getElementById(location.hash.slice(1)); if (el && el.tagName === 'DETAILS') { for (var p = el; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true; el.scrollIntoView(); } }
+  window.addEventListener('hashchange', openHash); openHash();
+})();

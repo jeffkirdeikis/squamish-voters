@@ -529,6 +529,119 @@ const bySlug = Object.fromEntries(all.map((c) => [c.slug, c]));
 // Every recorded vote, newest first, for profiles and the said-vs-did table.
 const DECISIONS = past.flatMap((m) => (m.decisions || []).map((d) => ({ ...d, m })));
 const votesOf = (c) => DECISIONS.filter((d) => d.votes && d.votes[c.slug] && d.votes[c.slug] !== 'unknown');
+// ---------- MEETING NIGHT EXTRAS (data/meetings/<id>.json "night", written by scripts/pipeline/night.mjs) ----------
+// Talk time per person (voice diarization of the District video), where the time went by topic, jump links into the
+// video, the vote grid, readers vs council, quote of the night, what happens next, places mentioned. Everything here is
+// optional: a meeting without "night" still gets the vote grid and tiles worked out from its decisions.
+const mmss = (s) => { s = Math.round(s); const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60); return h ? `${h} h ${String(m).padStart(2, '0')} min` : `${m} min`; };
+const mins = (s) => (s < 60 ? '<1' : String(Math.round(s / 60)));
+const atT = (m, t) => { const u = m.video_url || (m.night?.video_id ? `https://www.youtube.com/watch?v=${m.night.video_id}` : ''); return u ? `${u.replace(/[?&]t=\d+s?/, '')}${u.includes('?') ? '&' : '?'}t=${Math.max(0, Math.round(t))}s` : ''; };
+const hmsOf = (t) => { t = Math.round(t); const h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = t % 60; return `${h ? h + ':' + String(m).padStart(2, '0') : m}:${String(s).padStart(2, '0')}`; };
+const secOf = (ts) => { if (!ts) return null; const p = String(ts).split(':').map(Number); return p.some(isNaN) ? null : p.reduce((a, b) => a * 60 + b, 0); };
+const VG = { yes: ['✓', 'v-yes', 'yes'], no: ['✗', 'v-no', 'no'], absent: ['–', 'v-abs', 'not there'], recused: ['R', 'v-rec', 'stepped out'], unknown: ['?', 'v-unk', 'not clear'] };
+const splitVote = (d) => Object.values(d.votes || {}).includes('no');
+const tally = (d) => { const v = Object.values(d.votes || {}); const y = v.filter((x) => x === 'yes').length, n = v.filter((x) => x === 'no').length; return `${y}–${n}`; };
+
+function nightTiles(m) {
+  const N = m.night || {}, votes = (m.decisions || []).filter((d) => d.votes && !d.consent_agenda);
+  const t = [];
+  if (N.duration_s) t.push([mmss(N.duration_s), 'meeting length']);
+  if (votes.length) t.push([String(votes.length), votes.length === 1 ? 'vote' : 'votes']);
+  if (votes.length) t.push([String(votes.filter(splitVote).length), 'split votes']);
+  if (N.dollars?.amount) t.push([N.dollars.amount, N.dollars.label || 'approved']);
+  if (Number.isInteger(N.public_speakers)) t.push([String(N.public_speakers), 'public speakers']);
+  const q = (N.talk || []).filter((x) => x.role === 'council').reduce((a, x) => a + (x.questions || 0), 0);
+  if (q) t.push([String(q), 'questions to staff']);
+  return t.length >= 3 ? `<div class="nw-glance mt-glance">${t.map(([v, k]) => `<div class="nw-tile"><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join('')}</div>` : '';
+}
+
+function voteGrid(m) {
+  const votes = (m.decisions || []).filter((d) => d.votes && !d.consent_agenda);
+  if (votes.length < 2) return '';
+  const rows = [...votes.filter(splitVote), ...votes.filter((d) => !splitVote(d))];
+  const cols = all.filter((c) => rows.some((d) => d.votes[c.slug]));
+  return `<figure class="mt-grid"><figcaption><b>How each member voted</b> <span class="small">Split votes first. ✓ yes · ✗ no · – not there · R stepped out</span></figcaption>
+  <div class="mt-scroll"><table><thead><tr><th scope="col">Vote</th>${cols.map((c) => `<th scope="col"><a href="/council/${c.slug}/" title="${esc(c.name)}">${esc(lastName(c))}</a></th>`).join('')}<th scope="col">Result</th></tr></thead>
+  <tbody>${rows.map((d) => { const i = (m.decisions || []).indexOf(d); return `<tr${splitVote(d) ? ' class="split"' : ''}><th scope="row"><a href="#d-${i}">${esc(d.title)}</a></th>${cols.map((c) => { const v = VG[d.votes[c.slug]] || ['', '', 'not recorded']; return `<td class="${v[1]}" title="${esc(`${c.name}: ${v[2]}`)}"><span aria-label="${esc(v[2])}">${v[0]}</span></td>`; }).join('')}<td class="mt-res">${esc(RESULT_WORD[d.result] || '')} ${esc(tally(d))}</td></tr>`; }).join('')}</tbody></table></div></figure>`;
+}
+
+function talkChart(m) {
+  const T = (m.night?.talk || []).filter((x) => x.seconds >= 20);
+  if (!T.length) return '';
+  const top = Math.max(...T.map((x) => x.seconds));
+  const council = T.filter((x) => x.role === 'council').sort((a, b) => b.seconds - a.seconds), other = T.filter((x) => x.role !== 'council').sort((a, b) => b.seconds - a.seconds);
+  const row = (x) => { const c = bySlug[x.key]; const lbl = c ? `${c.office === 'mayor' ? 'Mayor ' : ''}${lastName(c)}` : x.name; const deb = x.seconds - (x.chair_seconds || 0);
+    return `<li class="${x.role === 'council' ? 'hl' : ''}"><span class="nw-bars-l">${c ? `<a href="/council/${c.slug}/">${esc(lbl)}</a>` : esc(lbl)}</span><span class="nw-bars-bar mt-stack" role="img" aria-label="${esc(`${lbl}: ${mins(x.seconds)} minutes${x.chair_seconds ? `, ${mins(x.chair_seconds)} of them chairing` : ''}`)}">${x.chair_seconds ? `<i class="mt-chair" style="width:${(x.chair_seconds / top * 100).toFixed(1)}%"></i>` : ''}<i style="width:${Math.max(1.5, deb / top * 100).toFixed(1)}%"></i></span><span class="nw-bars-v">${mins(x.seconds)} min${x.role === 'council' && x.questions ? `<small>${x.questions} q</small>` : ''}</span></li>`; };
+  return `<figure class="nw-bars mt-talk" id="talk"><figcaption><b>Who talked, and for how long</b></figcaption>
+  <ul>${council.map(row).join('')}</ul>${other.length ? `<p class="mt-sub">Staff, guests and the public</p><ul>${other.map(row).join('')}</ul>` : ''}
+  <p class="nw-bars-note">Minutes at the microphone, measured by us from the District’s video with voice recognition software, rounded to the minute. ${council.some((x) => x.chair_seconds) ? 'The lighter part of the Mayor’s bar is time spent chairing (calling speakers, reading motions), not debating. ' : ''}“q” is questions asked of staff. Expect small errors when two people talk at once. More talk is not better or worse; it shows who led each debate.</p></figure>`;
+}
+
+function timeRibbon(m) {
+  const N = m.night || {}, tp = (N.topics || []).filter((x) => x.end_s > x.start_s);
+  if (!tp.length) return '';
+  const total = tp.reduce((a, x) => a + x.end_s - x.start_s, 0), PAL = ['--mt-c1', '--mt-c2', '--mt-c3', '--mt-c4', '--mt-c5', '--mt-c6'];
+  const big = [...tp].sort((a, b) => (b.end_s - b.start_s) - (a.end_s - a.start_s)).slice(0, 6);
+  const col = (x) => (big.includes(x) ? `var(${PAL[big.indexOf(x)]})` : 'var(--line)');
+  return `<figure class="mt-ribbon" id="time"><figcaption><b>Where the time went</b> <span class="small">${esc(mmss(total))} in all · tap a part to watch it</span></figcaption>
+  <div class="mt-rib">${tp.map((x) => `<a href="${esc(atT(m, x.start_s))}" target="_blank" rel="noopener" style="flex:${x.end_s - x.start_s};background:${col(x)}" title="${esc(`${x.label}: ${mins(x.end_s - x.start_s)} min`)}" aria-label="${esc(`${x.label}, ${mins(x.end_s - x.start_s)} minutes. Watch from ${hmsOf(x.start_s)}`)}"></a>`).join('')}</div>
+  <ul class="mt-leg">${tp.map((x) => `<li><i style="background:${col(x)}"></i><a href="${esc(atT(m, x.start_s))}" target="_blank" rel="noopener">${esc(x.label)}</a> <span>${mins(x.end_s - x.start_s)} min · from ${hmsOf(x.start_s)}</span></li>`).join('')}</ul></figure>`;
+}
+
+function jumpList(m) {
+  const ms = (m.night?.moments || []).length ? m.night.moments : (m.decisions || []).filter((d) => d.votes && !d.consent_agenda && secOf(d.timestamp) != null).map((d) => ({ t_s: secOf(d.timestamp), label: `${d.title}: the vote (${tally(d)})` }));
+  if (!ms.length || !(m.video_url || m.night?.video_id)) return '';
+  return `<section class="mt-jump" id="watch"><h2>Watch the moments that matter</h2><p class="small">Each link opens the District’s video at that exact moment, so you don’t have to scrub through the whole meeting.</p>
+  <ul>${[...ms].sort((a, b) => a.t_s - b.t_s).map((x) => `<li><a href="${esc(atT(m, x.t_s))}" target="_blank" rel="noopener"><span class="mt-ts">${hmsOf(x.t_s)}</span><span>${esc(x.label)}</span></a></li>`).join('')}</ul></section>`;
+}
+
+function residentsVs(m) {
+  const R = (m.night?.residents || []).filter((r) => r.total > 0);
+  if (!R.length) return '';
+  const pct = (n, t) => `${Math.round(100 * n / t)}%`;
+  return `<section class="card mt-vs" id="you-vs-council"><h2>You vs council</h2><p class="small">What readers answered on our <a href="/have-your-say/">Have your say</a> page before the meeting, next to what council did.${R.some((r) => r.total < 20) ? ' Only a handful of people answered some of these, so treat those as a few voices, not the town.' : ''}</p>
+  <div class="mt-scroll"><table><thead><tr><th scope="col">Question</th><th scope="col">Readers</th><th scope="col">Council</th></tr></thead><tbody>${R.map((r) => `<tr><th scope="row">${esc(r.q)}</th><td>${r.total >= 20 ? `${pct(r.yes, r.total)} yes · ${pct(r.no, r.total)} no` : `${r.yes} yes, ${r.no} no${r.unsure ? `, ${r.unsure} not sure` : ''}`}<small>${r.total} answer${r.total === 1 ? '' : 's'}</small></td><td>${esc(r.council)}</td></tr>`).join('')}</tbody></table></div>
+  <p class="small">Want your answer counted next time? Questions for the next meeting open on <a href="/have-your-say/">Have your say</a> as soon as the agenda is out.</p></section>`;
+}
+
+function quoteCard(m) {
+  const q = (m.night?.quotes || [])[0];
+  if (!q) return '';
+  const c = bySlug[q.slug];
+  return `<figure class="mt-quote"><blockquote>“${esc(q.text)}”</blockquote><figcaption>${c ? `<a href="/council/${c.slug}/">${esc(c.office === 'mayor' ? 'Mayor ' + lastName(c) : 'Councillor ' + lastName(c))}</a>` : esc(q.name)}${q.t_s != null && atT(m, q.t_s) ? ` · <a href="${esc(atT(m, q.t_s))}" target="_blank" rel="noopener">watch it (${hmsOf(q.t_s)})</a>` : ''}${q.about ? ` · on ${esc(q.about)}` : ''}</figcaption></figure>
+  ${(m.night.quotes || []).length > 1 ? `<details class="drop"><summary>More from the debate (${m.night.quotes.length - 1})</summary>${m.night.quotes.slice(1).map((x) => { const cc = bySlug[x.slug]; return `<p>“${esc(x.text)}” <span class="small">${esc(cc ? lastName(cc) : x.name)}${x.t_s != null && atT(m, x.t_s) ? ` · <a href="${esc(atT(m, x.t_s))}" target="_blank" rel="noopener">${hmsOf(x.t_s)}</a>` : ''}</span></p>`; }).join('')}</details>` : ''}`;
+}
+
+function nextSteps(m) {
+  const X = m.night?.next || [];
+  if (!X.length) return '';
+  return `<section class="mt-next" id="next-steps"><h2>What happens next, and how to have a say</h2><div class="stack">${X.map((x) => `<div class="card"><h3>${esc(x.title)}</h3><ol class="isteps">${(x.steps || []).map((s) => `<li class="st-${s.done ? 'done' : 'next'}"><span class="sdot" aria-hidden="true">${s.done ? '●' : '○'}</span><span><b>${esc(s.label)}</b>${s.date ? ` <span class="small">${esc(fmtLong(s.date))}</span>` : ''}</span></li>`).join('')}</ol>${x.how ? `<p class="small"><b>Your say:</b> ${escGl(x.how)}</p>` : ''}${x.track ? `<p class="small"><a href="/track/${esc(x.track)}/">How we got here: the whole story, step by step →</a></p>` : ''}</div>`).join('')}</div></section>`;
+}
+
+function placesBox(m) {
+  const P = m.night?.places || [];
+  if (!P.length) return '';
+  const by = {};
+  for (const p of P) (by[p.area || 'all'] ||= []).push(p);
+  const nm = (a) => (a === 'all' ? 'Across Squamish' : ((HOODS.find((h) => h.slug === a) || {}).name || a.replace(/-/g, ' ').replace(/^./, (x) => x.toUpperCase())));
+  return `<section class="mt-places" id="places"><h2>Places that came up</h2><p class="small">Find your part of town.</p>${Object.entries(by).map(([a, ps]) => `<details class="drop"><summary>${a !== 'all' ? `<a href="/neighbourhoods/${esc(a)}/">${esc(nm(a))}</a>` : esc(nm(a))} <span class="small">${ps.length}</span></summary><ul>${ps.map((p) => `<li><b>${esc(p.name)}</b>${p.note ? `: ${escGl(p.note)}` : ''}${p.t_s != null && atT(m, p.t_s) ? ` <a class="small" href="${esc(atT(m, p.t_s))}" target="_blank" rel="noopener">watch</a>` : ''}</li>`).join('')}</ul></details>`).join('')}</section>`;
+}
+
+// Councillor term report card: neutral running totals across every meeting this council has held.
+function termReport(c) {
+  const ms = past.filter((m) => m.summary && m.date >= '2026-11-03');
+  if (!ms.length) return '';
+  const there = ms.filter((m) => (m.decisions || []).some((d) => d.votes && ['yes', 'no', 'recused'].includes(d.votes[c.slug])) || (m.night?.talk || []).some((x) => x.key === c.slug));
+  const cast = DECISIONS.filter((d) => d.m.date >= '2026-11-03' && ['yes', 'no'].includes(d.votes?.[c.slug]));
+  const withMaj = cast.filter((d) => { const v = Object.values(d.votes).filter((x) => x === 'yes' || x === 'no'); const y = v.filter((x) => x === 'yes').length; const maj = y * 2 > v.length ? 'yes' : y * 2 < v.length ? 'no' : null; return maj && d.votes[c.slug] === maj; });
+  const talk = ms.map((m) => (m.night?.talk || []).find((x) => x.key === c.slug)).filter(Boolean);
+  const talkS = talk.reduce((a, x) => a + x.seconds - (x.chair_seconds || 0), 0), qs = talk.reduce((a, x) => a + (x.questions || 0), 0);
+  const moved = ms.reduce((a, m) => a + (m.night?.movers?.[c.slug] || 0), 0);
+  const f = esc(first(c));
+  const tiles = [[`${there.length}/${ms.length}`, 'meetings attended'], ...(cast.length ? [[`${Math.round(100 * withMaj.length / cast.length)}%`, 'votes with the majority']] : []), ...(cast.length - withMaj.length ? [[String(cast.length - withMaj.length), 'votes against the majority']] : []), ...(talk.length ? [[`${mins(talkS)} min`, c.office === 'mayor' ? 'debating (not chairing)' : 'speaking']] : []), ...(talk.length ? [[String(qs), 'questions to staff']] : []), ...(moved ? [[String(moved), 'motions moved']] : [])];
+  return `<section class="mt-report" id="term"><h3>${f}’s term so far</h3><div class="nw-glance mt-glance">${tiles.map(([v, k]) => `<div class="nw-tile"><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join('')}</div><p class="small muted">Since this council was sworn in on November 3, 2026, across ${ms.length} meeting${ms.length === 1 ? '' : 's'} with a summary. Speaking time and questions are measured from the District’s videos${talk.length < ms.length ? ` (${talk.length} of ${ms.length} meetings so far)` : ''}. These are counts, not grades.</p></section>`;
+}
+
 // A promise's status is set by the pipeline from the votes; "not_yet" until council acts on it.
 // A promise's label is worked out from ALL its evidence every build (scripts/pipeline/status.mjs): only the member's own
 // vote counts, and only votes checked against the official minutes can make it red; a vote heard on the video is an
@@ -617,7 +730,8 @@ function voteSummary(votes) {
   return `${res}, ${split === 0 ? 'no one opposed' : `${split} split vote${split === 1 ? '' : 's'}`}`;
 }
 function decisionCard(d, m, { open = false } = {}) {
-  return `<details class="decision r-${esc(d.result || 'info')}"${open ? ' open' : ''}><summary><span class="dres">${esc(resultWord(d))}${d.result === 'passed' || d.result === 'failed' ? ` <span class="small">${esc(tallyWord(d))}</span>` : ''}</span><span class="dtitle">${esc(d.title)}</span>${splitFaces(d)}</summary>
+  const di = (m?.decisions || []).indexOf(d);
+  return `<details class="decision r-${esc(d.result || 'info')}"${di >= 0 ? ` id="d-${di}"` : ''}${open ? ' open' : ''}><summary><span class="dres">${esc(resultWord(d))}${d.result === 'passed' || d.result === 'failed' ? ` <span class="small">${esc(tallyWord(d))}</span>` : ''}</span><span class="dtitle">${esc(d.title)}</span>${splitFaces(d)}</summary>
   <div class="dbody">${d.for_you ? `<p class="foryou"><b>What it means for you:</b> ${escGl(d.for_you)}</p>` : ''}<p>${escGl(d.what)}</p>${d.votes ? voteChips(d) : ''}${corrNote(d)}
   ${areaTags(d.areas)}${(d.issues || []).map((sl) => TRACKED.find((t) => t.slug === sl)).filter(Boolean).map((t) => `<p class="small">Part of: <a href="/track/${t.slug}/">${esc(t.title)}</a></p>`).join('')}
   ${d.why_it_matters ? `<p class="small"><b>Why it matters:</b> ${escGl(d.why_it_matters)}</p>` : ''}
@@ -741,6 +855,7 @@ function profileRecord(c) {
   <details class="drop"><summary>See all ${pr.rows.length}${pr.ours.length ? ` (${pr.own.length} checked against votes)` : ' positions'}</summary><div class="stack">${pr.ours.length ? posGroups(c, pr) : pr.rows.map((r) => posRow(c, r)).join('')}</div></details>`;
   return `<section class="card record" id="record"><h2>${f}’s record on council</h2>
   <div class="statrow"><div><b>${ps.length}</b><span>campaign promises we track</span></div><div><b>${vs.filter((d) => ['yes', 'no'].includes(d.votes[c.slug])).length}</b><span>votes cast so far</span></div>${pc.kept + pc.not_kept ? `<div><b>${pc.kept} / ${pc.not_kept}</b><span>promises kept / not kept</span></div>` : ''}${pr.inLine + pr.against ? `<div><b>${pr.inLine} / ${pr.against}</b><span>positions voted in line / against</span></div>` : ''}</div>
+  ${termReport(c)}
   ${pc.kept + pc.not_kept + pr.inLine + pr.against ? '' : `<p class="small muted">Kept and broken promises show up here once a council vote tests one. None has yet.</p>`}
   ${vs.length ? '' : `<p class="small">${TODAY < '2026-11-03' ? 'The new council is sworn in on November 3, 2026.' : 'This council was sworn in on November 3, 2026.'} ${next && next.date !== '2026-11-03' ? `The next meeting is <a href="${mUrl(next)}">${esc(fmtDay(next.date))}</a>.` : ''} Votes will appear here after each meeting.</p>`}</section>
   ${ps.length ? `<h2 id="promises">${f}’s promises <span class="small">${pSum}</span></h2>
@@ -1636,12 +1751,21 @@ for (const m of MEETINGS) {
     ${done ? `
     <section class="card layer1"><h2>What happened, in short</h2>
       <p class="lede">${escGl(S.headline)}</p>
+      ${nightTiles(m)}
       ${kpList(S.key_points || [])}</section>
+    ${quoteCard(m)}
+    ${voteGrid(m)}
+    ${talkChart(m)}
+    ${timeRibbon(m)}
+    ${residentsVs(m)}
     ${votes.length ? `<h2 id="votes">The votes <span class="small">${votes.length}</span></h2><p class="vsum"><b>${votes.length} vote${votes.length === 1 ? '' : 's'}, ${esc(voteSummary(votes))}.</b> <span class="small">Tap any vote to see what it means and who voted which way.</span></p>
     <div class="stack">${votes.slice(0, 6).map((d) => decisionCard(d, m)).join('')}</div>
     ${votes.length > 6 ? `<details class="drop"><summary>Show ${votes.length - 6} more votes, mostly routine</summary><div class="stack">${votes.slice(6).map((d) => decisionCard(d, m)).join('')}</div></details>` : ''}` : '<p class="muted">Council didn’t take any recorded votes at this meeting.</p>'}
     ${consent.length ? `<details class="drop"><summary>Routine items passed together in one vote (consent agenda, ${consent.length})</summary><p class="small">Council approves routine items, like minutes and reports for information, in one vote. Any member can pull one out for its own vote.</p><div class="stack">${consent.map((d) => decisionCard(d, m)).join('')}</div></details>` : ''}
     ${(m.decisions || []).filter((d) => !d.votes).length ? `<details class="drop"><summary>Also discussed, with no vote (${m.decisions.filter((d) => !d.votes).length})</summary><div class="stack">${m.decisions.filter((d) => !d.votes).map((d) => decisionCard(d, m)).join('')}</div></details>` : ''}
+    ${nextSteps(m)}
+    ${jumpList(m)}
+    ${placesBox(m)}
     ${(S.explainer || []).length ? `<details class="drop layer2"><summary>Explain this meeting a bit more</summary>${S.explainer.map((x) => `<p>${escGl(x)}</p>`).join('')}</details>` : ''}
     ${(m.promise_updates || []).length ? `<h2>Promises this meeting tested</h2><div class="card stack">${m.promise_updates.map((u) => { const pr = PROMISES.find((x) => x.id === u.id); return pr ? promiseRow(pr, { who: true }) : ''; }).join('')}</div>` : ''}
     ` : `
