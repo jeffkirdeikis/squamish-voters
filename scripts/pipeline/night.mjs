@@ -59,6 +59,9 @@ TASK 3: topics = the meeting split into consecutive parts by agenda item, coveri
 
 All timestamps as HH:MM:SS from the transcript.
 
+OFFICIAL AGENDA, in meeting order (use these items, in plain words, for "topics"; the meeting can move items around, follow the transcript):
+${(() => { try { return fs.readFileSync(path.join(ROOT, 'data', 'meetings', 'raw', `${id}-agenda.txt`), 'utf8').slice(0, 12000); } catch { return '(not saved)'; } })()}
+
 COUNCIL: ${JSON.stringify(members)}
 NEIGHBOURHOODS: ${JSON.stringify(hoods().map((h) => ({ slug: h.slug, name: h.name })))}
 TRACKED ISSUES: ${JSON.stringify(tracked().map((t) => ({ slug: t.slug, title: t.title })))}

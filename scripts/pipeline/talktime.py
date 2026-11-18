@@ -40,7 +40,10 @@ def diarize(wav, out, threshold=0.9):
 def words(wav, out):
     from faster_whisper import WhisperModel
     model = WhisperModel("small.en", device="cpu", compute_type="int8", cpu_threads=4)
-    segs, info = model.transcribe(wav, vad_filter=True, beam_size=1, initial_prompt=PROMPT)
+    import soundfile as sf
+    audio, sr = sf.read(wav, dtype="float32")  # decode here: some faster-whisper/av version pairs fail to open files
+    assert sr == 16000, "needs 16 kHz audio"
+    segs, info = model.transcribe(audio, vad_filter=True, beam_size=1, initial_prompt=PROMPT)
     rows = []
     with open(out + ".partial", "w") as f:
         for s in segs:
