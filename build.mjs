@@ -1922,6 +1922,20 @@ if (TRACKED.length) {
   };
   // st.fold: {"Section heading": "one line answer"}. Those sections fold shut on the story page, with the answer showing,
   // so a reader who only skims still gets it. Folded text stays in the page for search and AI.
+  // Faces on a folded section card (st.fold_votes: {heading: [decision index in st.meeting]}): each vote's result and all
+  // seven members with a tick, cross or dash, visible before the card is opened; split votes give the card a red edge.
+  const foldVotes = (st, heading) => {
+    const ids = (st.fold_votes || {})[heading], mt = st.meeting && MEETINGS.find((x) => x.id === st.meeting);
+    if (!ids || !mt) return { html: '', split: false };
+    let split = false;
+    const rows = ids.map((i) => { const d = (mt.decisions || [])[i]; if (!d) return '';
+      const v = d.votes || {}, vals = Object.values(v), y = vals.filter((x) => x === 'yes').length, n = vals.filter((x) => x === 'no').length;
+      if (n) split = true;
+      const res = !d.votes ? 'No vote yet' : `${d.result === 'failed' ? 'Failed' : 'Passed'} ${n ? `${y} to ${n}` : 'unanimously'}`;
+      const faces = d.votes ? `<span class="fv-faces">${all.filter((c) => v[c.slug]).map((c) => { const k = v[c.slug] === 'yes' ? 'y' : v[c.slug] === 'no' ? 'n' : 'a'; return `<span class="fv-f fv-${k}" title="${esc(c.name)}: ${esc(VOTE_WORD[v[c.slug]] || v[c.slug])}">${avatar(c, 'xs')}<i aria-hidden="true">${k === 'y' ? '✓' : k === 'n' ? '✕' : '–'}</i></span>`; }).join('')}</span>` : '';
+      return `<span class="fv-row"><span class="fv-res fv-${d.votes ? (d.result === 'failed' ? 'failed' : 'passed') : 'info'}">${esc(res)}</span>${ids.length > 1 ? `<span class="fv-t">${esc(d.title)}</span>` : ''}${faces}</span>`; }).join('');
+    return { html: rows ? `<span class="fv">${rows}</span>` : '', split };
+  };
   const foldSections = (html, st) => {
     const F = st.fold || {}; if (!Object.keys(F).length) return html;
     const plain = (t) => t.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&#39;|&rsquo;/g, "'").trim();
@@ -1933,7 +1947,8 @@ if (TRACKED.length) {
       let end = i + 1 < marks.length ? marks[i + 1].index : html.lastIndexOf('</div>');
       const cut = html.slice(m.index, end).search(/<figure class="fm"|<section class="rp"/); // the flood map and reader photo box stay outside
       if (cut > 0) end = m.index + cut;
-      out += html.slice(at, m.index) + `<details class="nw-fsec" id="${m[1]}"><summary><h2>${m[2]}</h2>${gist ? `<span>${esc(gist)}</span>` : ''}</summary><div class="nw-fold-in">${html.slice(m.index + m[0].length, end)}</div></details>`;
+      const fv = foldVotes(st, plain(m[2]));
+      out += html.slice(at, m.index) + `<details class="nw-fsec${fv.split ? ' fs-split' : ''}" id="${m[1]}"><summary><h2>${m[2]}</h2>${gist ? `<span>${esc(gist)}</span>` : ''}${fv.html}</summary><div class="nw-fold-in">${html.slice(m.index + m[0].length, end)}</div></details>`;
       at = end;
     });
     return out + html.slice(at);

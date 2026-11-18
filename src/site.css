@@ -3135,3 +3135,19 @@ html.sv-ios:not(.sv-in-app) .menu-panel a.menu-app-ios, html.sv-android:not(.sv-
 .nw-fsec[open] > summary { transition: top .25s ease; }
 .hdr-off .nw-fsec[open] > summary { top: 0; }
 @media (prefers-reduced-motion: reduce) { .nw-fsec[open] > summary { transition: none; } }
+
+/* Faces on folded story cards (build.mjs foldVotes): the vote result and every member with a tick or cross, before opening. */
+.nw-fsec summary > span.fv { display: grid; gap: .55rem; margin-top: .3rem; color: var(--ink); font-size: .9rem; }
+.fv-row { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .55rem; }
+.fv-res { font: 700 .78rem/1.2 system-ui, sans-serif; padding: .25rem .55rem; border-radius: 7px; background: var(--surface-2); color: var(--ink); white-space: nowrap; }
+.fv-res.fv-passed { background: var(--yes-bg); color: var(--yes); } .fv-res.fv-failed { background: var(--no-bg); color: var(--no); }
+.fv-t { font-size: .85rem; color: var(--muted); flex: 1 1 12rem; min-width: 0; }
+.fv-faces { display: flex; gap: 5px; flex-basis: 100%; }
+.fv-f { position: relative; flex: none; }
+.fv-f .avatar.xs { width: 1.9rem; height: 1.9rem; margin: 0; border: 2px solid var(--line); box-sizing: border-box; font-size: .6rem; }
+.fv-f i { position: absolute; right: -3px; bottom: -3px; width: .95rem; height: .95rem; border-radius: 50%; font: 800 .6rem/.95rem system-ui, sans-serif; font-style: normal; text-align: center; color: #fff; }
+.fv-y .avatar { border-color: var(--yes); } .fv-y i { background: var(--yes); }
+.fv-n .avatar { border-color: var(--no); } .fv-n i { background: var(--no); }
+.fv-a .avatar { opacity: .4; } .fv-a i { background: #9aa39f; }
+.nw-fsec.fs-split { border-left: 5px solid var(--no); }
+.nw-fsec[open] > summary > span.fv { display: none; }
