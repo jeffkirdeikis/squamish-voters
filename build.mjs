@@ -372,9 +372,9 @@ const clip = (s, n) => (!s || s.length <= n ? s : `${s.slice(0, n - 1).replace(/
 // lastmod: the same kind of date for the sitemap only, on pages that don't show one. noindex 'thin': kept out of search
 // until it has real content (scripts/seo.mjs), but links on it are still followed and visits still counted.
 // ---------- Phone app links ----------
-// iPhone: approved Nov 12 2026, availability (Canada + US) switched on Nov 15. Set IOS_APP_LIVE = true once the App Store lists it;
-// that turns on Safari's own Smart App Banner and the iPhone "Get the app" menu row.
-const IOS_APP_LIVE = false;
+// iPhone: approved Nov 12 2026, availability (Canada + US) switched on Nov 15, listed on the App Store Nov 18 (switched on that day).
+// IOS_APP_LIVE turns on Safari's own Smart App Banner and the iPhone "Get the app" menu row.
+const IOS_APP_LIVE = true;
 const IOS_APP_ID = '6833308116';
 const IOS_APP_URL = `https://apps.apple.com/ca/app/squamish-voters/id${IOS_APP_ID}`;
 const appRow = (cls, href, sub, ext) => `<a class="menu-app ${cls}" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ''}><img src="/icon-96.png" alt="" width="30" height="30"><span>Get the app<small>${sub}</small></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>`;
@@ -2802,8 +2802,8 @@ for (const c of all.filter((x) => x.paper)) {
   }));
 }
 // ---------- /app/: the phone app. Android: direct download (public/app/SquamishVoters.apk) until the Google Play listing is live;
-// iPhone: waiting on Apple's review. Not linked from the menu yet, and kept out of search until it is. ----------
-write('/app/', page({ url: '/app/', noindex: true, title: 'Get the Squamish Voters app', desc: 'Squamish Voters as an app for Android phones, with the iPhone version on its way.',
+// iPhone: on the App Store since Nov 18 2026 (IOS_APP_URL). This page is not linked from the menu, and is kept out of search. ----------
+write('/app/', page({ url: '/app/', noindex: true, title: 'Get the Squamish Voters app', desc: 'Squamish Voters as a free app for iPhone and Android phones.',
   body: `<h1>Get the Squamish Voters app</h1>
   <p class="lead">Everything on this site, one tap from your home screen. Free, no account, no ads.</p>
   <section class="card"><h2>Android phones</h2>
@@ -2818,7 +2818,8 @@ write('/app/', page({ url: '/app/', noindex: true, title: 'Get the Squamish Vote
     <p class="small muted">That warning appears for every app that does not come from Google Play. When the Play version is ready, the app will tell you, and it will update over this one without losing anything.</p>
   </section>
   <section class="card"><h2>iPhone</h2>
-    <p>The iPhone app is on its way to the App Store. Until it is there, open this site in Safari, tap Share, then Add to Home Screen.</p>
+    <p>The iPhone app is on the App Store. It is free.</p>
+    <p><a class="btn big block" href="${IOS_APP_URL}" target="_blank" rel="noopener">Get the iPhone app</a></p>
   </section>` }));
 write('/about/', page({ url: '/about/', jsonld: crumbLd([['Home', '/'], ['About', '/about/']]), title: 'About this site', desc: 'Who makes Squamish Voters, how meeting summaries and the promise tracker work, and how to send a correction. Independent and not affiliated with the District or any council member.', body: pageFile('about.html').replaceAll('<!--CONTACT-->', SITE.contact ? `<a href="mailto:${esc(SITE.contact)}">${esc(SITE.contact)}</a>` : 'a contact address will be posted here shortly.').replace('{{COUNT}}', String(all.length)).replace('{{UPDATED}}', esc(SITE.updated)) }));
 // ---------- /welcome/: where the email confirm link lands (api/subscribe.js redirects here with ?t=<token>) ----------
