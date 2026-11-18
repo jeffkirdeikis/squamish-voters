@@ -3111,3 +3111,15 @@ html.sv-ios:not(.sv-in-app) .menu-panel a.menu-app-ios, html.sv-android:not(.sv-
 .tl-quiz .nw-poll-opts button span, .tl-quiz .nw-poll-m, .tl-quiz .nw-poll-own { display: none; }
 .tl-quiz .nw-poll-opts button { text-align: center; padding: .65rem; }
 .tl-match { border: 2px solid var(--brand); }
+
+/* Folded story sections read as tappable cards (Nov 17 2026, Jeff: "make it more clear that it's click to expand"):
+   a bordered card, and a real "Read more" button under the one line answer that turns into "Show less" when open. */
+.nw-fsec { border: 1.5px solid var(--line); border-radius: 14px; background: var(--surface); margin: .9rem 0; padding: 0 1rem; transition: border-color .15s; }
+.nw-fsec + .nw-fsec { margin-top: .9rem; border-top: 1.5px solid var(--line); }
+.nw-fsec:hover, .nw-fsec[open] { border-color: var(--brand); }
+.nw-fsec > summary { padding: 1rem 0 .95rem; gap: .35rem; }
+.nw-fsec > summary::after { content: "Read more  ▾"; position: static; justify-self: start; margin-top: .45rem; padding: .4rem .9rem; border-radius: 999px; background: var(--brand); color: #fff; font: 700 .88rem/1.2 system-ui, sans-serif; white-space: pre; }
+.nw-fsec[open] > summary::after { content: "Show less  ▴"; background: var(--brand-soft); color: var(--brand); }
+.nw-fsec > summary:hover::after { filter: brightness(1.12); }
+.nw-fsec[open] > .nw-fold-in { padding-bottom: 1rem; }
+@media (prefers-reduced-motion: reduce) { .nw-fsec { transition: none; } }
