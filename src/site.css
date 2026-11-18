@@ -3151,3 +3151,15 @@ html.sv-ios:not(.sv-in-app) .menu-panel a.menu-app-ios, html.sv-android:not(.sv-
 .fv-a .avatar { opacity: .4; } .fv-a i { background: #9aa39f; }
 .nw-fsec.fs-split { border-left: 5px solid var(--no); }
 .nw-fsec[open] > summary > span.fv { display: none; }
+
+/* Phone reading width (Nov 18 2026, reader: "so many nested boxes that only a few words end up on each line").
+   On phones the story card runs edge to edge, so open sections get 294px of text instead of 249px; section cards stay.
+   The sticky open heading is smaller with a short Close button, and the Top button is a small round arrow on story pages. */
+@media (max-width: 599px) {
+  .nw-story-page .nw-full { margin-left: -1rem; margin-right: -1rem; border-left: 0; border-right: 0; border-radius: 0; box-shadow: none; padding-left: 1rem; padding-right: 1rem; }
+  .nw-fsec[open] > summary { padding-top: .5rem; padding-bottom: .5rem; }
+  .nw-fsec[open] > summary h2 { font-size: 1.05rem; }
+  .nw-fsec[open] > summary::after { content: "Close ▴"; padding: .3rem .7rem; font-size: .8rem; }
+  body:has(.nw-story-page) .totop:not([hidden]) { font-size: 0; width: 44px; height: 44px; padding: 0; display: grid; place-items: center; opacity: .85; }
+  body:has(.nw-story-page) .totop::before { content: "↑"; font-size: 1.2rem; }
+}
