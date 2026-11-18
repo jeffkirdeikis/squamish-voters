@@ -111,10 +111,10 @@
    "og_v": "first1",
    "photo": {
     "file": "/news/photos/council-1117-lead.jpg",
-    "alt": "Mayor Sean Easton speaking at the November 17 council meeting, in front of a District of Squamish sign",
-    "caption": "Mayor Sean Easton answers questions on his tax freeze motion, November 17.",
+    "alt": "The mayor and six councillors in their camera tiles at the November 17 council meeting",
+    "caption": "The new council at its first full meeting, November 17. Top: Mayor Sean Easton, Laura Prosko, Janice DesJardins, Luc Perreault. Bottom: Shaun Veltkamp, Eric Andersen, Sarah Ellis.",
     "credit": "District of Squamish meeting video",
-    "link": "https://www.youtube.com/watch?v=NXAe-cujEO0&t=7950s"
+    "link": "https://www.youtube.com/watch?v=NXAe-cujEO0"
    },
    "glance": [
     {
@@ -803,14 +803,6 @@
      "caption": "Recent dike work and grants that helped pay for it, from the engineering presentation.",
      "credit": "District of Squamish meeting video",
      "link": "https://www.youtube.com/watch?v=NXAe-cujEO0&t=5244s",
-     "chart": true
-    },
-    {
-     "file": "/news/photos/council-1117-faces.jpg",
-     "alt": "The mayor and six councillors in their camera tiles, each labelled with their name",
-     "caption": "The council elected in October, on the District's stream on November 17.",
-     "credit": "District of Squamish meeting video",
-     "link": "https://www.youtube.com/watch?v=NXAe-cujEO0",
      "chart": true
     }
    ],
