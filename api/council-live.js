@@ -19,8 +19,11 @@ export function parseLive(html) {
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'public, s-maxage=120, stale-while-revalidate=60');
   try {
-    const r = await fetch(LIVE, { headers: { 'user-agent': UA, 'accept-language': 'en-CA,en;q=0.9' } });
-    return res.json(parseLive(await r.text()));
+    const r = await fetch(LIVE, { headers: { 'user-agent': UA, 'accept-language': 'en-CA,en;q=0.9', cookie: 'CONSENT=YES+1; SOCS=CAI' } });
+    const html = await r.text();
+    const out = parseLive(html);
+    if (req.query && req.query.debug === '1') out.debug = { status: r.status, url: r.url, len: html.length, title: (html.match(/<title>[^<]*/) || [])[0], canon: (html.match(/<link rel="canonical"[^>]*>/) || [])[0] };
+    return res.json(out);
   } catch (e) {
     return res.json({ live: false, error: 'check failed' });
   }
