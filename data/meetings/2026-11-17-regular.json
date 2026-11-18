@@ -183,5 +183,878 @@
   }
  ],
  "agenda_hash": "b4eb9e44c5166a2d",
- "agenda_checked": "2026-11-17T02:55:33.155Z"
+ "agenda_checked": "2026-11-17T02:55:33.155Z",
+ "video_ids": [
+  "NXAe-cujEO0"
+ ],
+ "summary": {
+  "headline": "On November 17, 2026, Squamish council voted 4 to 2 to give three of four readings to business licences for co-living homes, and Mayor Easton put forward a motion asking for a 2027 budget with no property tax increase, which council will debate on December 1.",
+  "key_points": [
+   "Council voted 4 to 2 to give three readings to a bylaw that lets the District issue business licences for co-living homes (homes where people rent private bedrooms and share a kitchen and living space). Councillors Perreault and DesJardins voted against. Mayor Easton stepped out because of a conflict of interest.",
+   "Before that, Councillor DesJardins asked council to send co-living and related housing and parking questions to council's upcoming strategic planning sessions instead. That idea failed, 2 to 4.",
+   "Mayor Easton gave notice of a motion asking staff to redo the draft 2027 budget so the District collects no more property tax than in 2026, without layoffs and without cutting services. Council will debate it on December 1.",
+   "Staff said the current draft budget would raise about $6.3 million more in property tax, about $382 a year for an average home worth $1.2 million. They warned that a freeze would likely mean service cuts, job cuts, higher fees or drawing on savings.",
+   "Council agreed unanimously to ask staff for a written memo by December 1 on the time, cost and effects of the mayor's motion, plus smaller or phased options.",
+   "Council unanimously adopted new rules for building on steep slopes (30% or steeper), and agreed to let staff, not council, approve those permits.",
+   "Council unanimously supported applying for a provincial grant of up to $200,000 toward a $400,000 update of the District's flood plan.",
+   "Council received the election report: 45.33% of voters turned out in October 2026, compared to a provincial average of 29.2%."
+  ],
+  "explainer": [
+   "The longest debate was about co-living. Earlier this year the previous council adopted rules allowing co-living in many neighbourhoods. One condition is that the owner holds a business licence. Tonight's bylaw adds co-living to the business licence rules so licences can be issued and fire and building staff can inspect these homes. Staff said this is the last piece needed to put the co-living rules into effect. The licence fee would be $130 a year, rising to $160 in 2027.",
+   "Councillor DesJardins argued for slowing down. She said the rules would allow co-living on 2,858 properties, that only 62 people answered the public survey, and that most of them worried about parking. She also said the fire department had raised safety concerns about larger co-living homes. Councillor Perreault said he lives near a co-living home and has seen parking problems. Councillor Andersen, who chaired this item, said delaying would hold up safety inspections. Councillor Ellis said the rules are not perfect but can be watched and changed, and that they may actually make co-living harder to build.",
+   "Mayor Easton said his budget motion responds to the high cost of living and to a resident survey where only 37% felt they get good value for their taxes. Staff said that if council passes it, the draft budget would be set aside and new projects would wait until a new budget is adopted, likely by the end of March. Staff also said a full review of how the District is organized usually takes about a year and costs about $100,000. Councillor Perreault suggested keeping the current approach for the first year and working on changes alongside. Councillor Veltkamp said a freeze right away could hurt the most vulnerable residents, but said a zero increase could be worked toward over the next year. Councillors Andersen and Prosko said they want to see the motion debated on December 1.",
+   "Next steps: staff will bring the memo council asked for to the December 1 meeting, when council will debate the mayor's budget motion. The co-living licence bylaw still needs a final vote to be adopted. Staff will send the flood grant application before the November 20 deadline and expect an answer in March 2027."
+  ]
+ },
+ "decisions": [
+  {
+   "title": "Business licences for co-living homes",
+   "what": "Squamish council voted 4 to 2 to give first, second and third reading to a bylaw that adds co-living homes to the District's business licence rules. This lets the District issue licences to co-living owners and lets fire and building staff inspect them. Councillors Perreault and DesJardins voted against, and Mayor Easton left the room because of a conflict of interest.",
+   "why_it_matters": "It is the last step needed to put the co-living rules into effect in many neighbourhoods across town.",
+   "for_you": "Co-living owners would pay a licence fee of $130 a year, rising to $160 in 2027.",
+   "areas": [
+    "all"
+   ],
+   "issues": [],
+   "result": "passed",
+   "votes": {
+    "sean-easton": "recused",
+    "eric-andersen": "yes",
+    "janice-desjardins": "no",
+    "sarah-ellis": "yes",
+    "luc-perreault": "no",
+    "laura-prosko": "yes",
+    "shaun-veltkamp": "yes"
+   },
+   "votes_confidence": "clear",
+   "consent_agenda": false,
+   "topic": "Housing",
+   "related_q": [],
+   "positions": [
+    {
+     "id": "janice-desjardins-o-b2b4b5",
+     "yes_is": -1
+    }
+   ],
+   "timestamp": "00:10:41",
+   "video_url": "https://www.youtube.com/watch?v=NXAe-cujEO0&t=641s",
+   "votes_source": "video"
+  },
+  {
+   "title": "Proposal to send co-living and workforce housing questions to strategic planning",
+   "what": "Squamish council voted 2 to 4 against Councillor DesJardins' motion to send the topics of affordable workforce rental housing, its parking needs and neighbourhood planning to council's upcoming strategic planning sessions. She wanted to hold off on putting co-living rules into effect until then. Councillors DesJardins and Perreault voted for it; Mayor Easton was out of the room because of a conflict of interest.",
+   "why_it_matters": "Had it passed, it could have delayed co-living homes getting licences while council took another look at parking, safety and public input.",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": [],
+   "result": "failed",
+   "votes": {
+    "sean-easton": "recused",
+    "eric-andersen": "no",
+    "janice-desjardins": "yes",
+    "sarah-ellis": "no",
+    "luc-perreault": "yes",
+    "laura-prosko": "no",
+    "shaun-veltkamp": "no"
+   },
+   "votes_confidence": "clear",
+   "consent_agenda": false,
+   "topic": "Housing",
+   "related_q": [],
+   "positions": [
+    {
+     "id": "janice-desjardins-o-b2b4b5",
+     "yes_is": 1
+    }
+   ],
+   "timestamp": "00:19:14",
+   "video_url": "https://www.youtube.com/watch?v=NXAe-cujEO0&t=1154s",
+   "votes_source": "video"
+  },
+  {
+   "title": "Mayor's motion for a 2027 budget with no property tax increase",
+   "what": "Squamish council heard Mayor Easton's notice of motion asking staff to bring back a revised 2027 budget with no increase in property tax revenue over 2026, while keeping or improving services and avoiding layoffs. No vote was held; council will debate it on December 1. Staff said a freeze would likely require service cuts, job cuts, higher fees or drawing on savings, and would put new projects on hold until a new budget is adopted.",
+   "why_it_matters": "It could decide whether property taxes go up in 2027 and what services might change.",
+   "for_you": "The current draft budget would add about $382 a year, or $32 a month, for an average home assessed at $1.2 million; the motion asks for no increase.",
+   "areas": [
+    "all"
+   ],
+   "issues": [
+    "budget-2027"
+   ],
+   "result": "info",
+   "votes": null,
+   "votes_confidence": "none",
+   "consent_agenda": false,
+   "topic": "Budget and taxes",
+   "related_q": [],
+   "positions": [],
+   "timestamp": "01:45:25",
+   "video_url": "https://www.youtube.com/watch?v=NXAe-cujEO0&t=6325s",
+   "votes_source": "video"
+  },
+  {
+   "title": "Staff memo on the cost and timing of a tax freeze",
+   "what": "Squamish council voted to ask staff for a written memo for the December 1 meeting on the timeline, costs and effects of the mayor's budget motion, including smaller or phased options and what work would be put on hold. Councillor Ellis moved it and Councillor Veltkamp seconded it. No one was recorded as opposed, though Councillor DesJardins said she felt it was not needed and Councillor Perreault worried about overloading staff.",
+   "why_it_matters": "It gives council more detail on the trade offs before deciding on a property tax freeze.",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": [
+    "budget-2027"
+   ],
+   "result": "passed",
+   "votes": {
+    "sean-easton": "yes",
+    "eric-andersen": "yes",
+    "janice-desjardins": "yes",
+    "sarah-ellis": "yes",
+    "luc-perreault": "yes",
+    "laura-prosko": "yes",
+    "shaun-veltkamp": "yes"
+   },
+   "votes_confidence": "likely",
+   "consent_agenda": false,
+   "topic": "Budget and taxes",
+   "related_q": [],
+   "positions": [],
+   "timestamp": "02:15:32",
+   "video_url": "https://www.youtube.com/watch?v=NXAe-cujEO0&t=8132s",
+   "votes_source": "video"
+  },
+  {
+   "title": "Grant application for the flood plan update",
+   "what": "Squamish council voted to apply for a provincial Community Emergency Preparedness Fund grant to help pay for updating the District's Integrated Flood Hazard Management Plan, its main guide for managing floods. The District will ask for up to $200,000, or $100,000 under a second category, and can win only one.",
+   "why_it_matters": "Most of Squamish sits in a floodplain, and the update will reset priorities for dike upgrades and flood rules.",
+   "for_you": "The $400,000 update is already budgeted from District savings for 2027 and 2028; a grant would lower the District's share.",
+   "areas": [
+    "all"
+   ],
+   "issues": [
+    "flood-protection"
+   ],
+   "result": "passed",
+   "votes": {
+    "sean-easton": "yes",
+    "eric-andersen": "yes",
+    "janice-desjardins": "yes",
+    "sarah-ellis": "yes",
+    "luc-perreault": "yes",
+    "laura-prosko": "yes",
+    "shaun-veltkamp": "yes"
+   },
+   "votes_confidence": "clear",
+   "consent_agenda": false,
+   "topic": "Flood protection",
+   "related_q": [],
+   "positions": [
+    {
+     "id": "luc-perreault-s-5bc14e",
+     "yes_is": 1
+    },
+    {
+     "id": "laura-prosko-s-5c5552",
+     "yes_is": 1
+    }
+   ],
+   "timestamp": "01:15:01",
+   "video_url": "https://www.youtube.com/watch?v=NXAe-cujEO0&t=4501s",
+   "votes_source": "video"
+  },
+  {
+   "title": "New rules for building on steep slopes",
+   "what": "Squamish council voted to adopt a change to the Official Community Plan that creates a steep slopes development permit area (a zone where builders need an extra permit showing they meet set guidelines). It covers most slopes of 30% or steeper and requires things like a hazard check by a geotechnical engineer. Staff said this finishes the last of six steps the plan required before development on some future neighbourhood lands could be considered, but does not approve any development there.",
+   "why_it_matters": "It sets safety, drainage and visual rules for hillside building as Squamish looks to higher ground.",
+   "for_you": "Existing single family homes are exempt for minor changes; the rules apply to new building, large digging and cutting trees 20 centimetres or wider on steep slopes.",
+   "areas": [
+    "all"
+   ],
+   "issues": [
+    "ocp-and-growth"
+   ],
+   "result": "passed",
+   "votes": {
+    "sean-easton": "yes",
+    "eric-andersen": "yes",
+    "janice-desjardins": "yes",
+    "sarah-ellis": "yes",
+    "luc-perreault": "yes",
+    "laura-prosko": "yes",
+    "shaun-veltkamp": "yes"
+   },
+   "votes_confidence": "clear",
+   "consent_agenda": false,
+   "topic": "Planning and development",
+   "related_q": [],
+   "positions": [],
+   "timestamp": "00:37:24",
+   "video_url": "https://www.youtube.com/watch?v=NXAe-cujEO0&t=2244s",
+   "votes_source": "video"
+  },
+  {
+   "title": "Staff to approve steep slope permits",
+   "what": "Squamish council voted to adopt a bylaw letting District planning and engineering staff, rather than council, approve steep slope permits. This matches how flood, wildfire and environmental permits are already handled.",
+   "why_it_matters": "",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": [
+    "ocp-and-growth"
+   ],
+   "result": "passed",
+   "votes": {
+    "sean-easton": "yes",
+    "eric-andersen": "yes",
+    "janice-desjardins": "yes",
+    "sarah-ellis": "yes",
+    "luc-perreault": "yes",
+    "laura-prosko": "yes",
+    "shaun-veltkamp": "yes"
+   },
+   "votes_confidence": "clear",
+   "consent_agenda": false,
+   "topic": "Planning and development",
+   "related_q": [],
+   "positions": [],
+   "timestamp": "01:04:23",
+   "video_url": "https://www.youtube.com/watch?v=NXAe-cujEO0&t=3863s",
+   "votes_source": "video"
+  },
+  {
+   "title": "2026 election results report",
+   "what": "Squamish council voted to receive the Chief Election Officer's report on the October 2026 election. Turnout was 45.33%, about 2% below Squamish's long term average but well above the provincial average of 29.2%.",
+   "why_it_matters": "",
+   "for_you": "Staff expect to need a second voting place on election day in 2030, as Brennan Park was busy.",
+   "areas": [
+    "all"
+   ],
+   "issues": [],
+   "result": "passed",
+   "votes": {
+    "sean-easton": "yes",
+    "eric-andersen": "yes",
+    "janice-desjardins": "yes",
+    "sarah-ellis": "yes",
+    "luc-perreault": "yes",
+    "laura-prosko": "yes",
+    "shaun-veltkamp": "yes"
+   },
+   "votes_confidence": "clear",
+   "consent_agenda": false,
+   "topic": "Elections",
+   "related_q": [],
+   "positions": [],
+   "timestamp": "01:06:00",
+   "video_url": "https://www.youtube.com/watch?v=NXAe-cujEO0&t=3960s",
+   "votes_source": "video"
+  },
+  {
+   "title": "Consent agenda: past minutes and a letter",
+   "what": "Squamish council voted to approve the routine consent agenda, including minutes from October and November meetings and a letter from the Ministry of Children and Family Development.",
+   "why_it_matters": "",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": [],
+   "result": "passed",
+   "votes": {
+    "sean-easton": "yes",
+    "eric-andersen": "yes",
+    "janice-desjardins": "yes",
+    "sarah-ellis": "yes",
+    "luc-perreault": "yes",
+    "laura-prosko": "yes",
+    "shaun-veltkamp": "yes"
+   },
+   "votes_confidence": "clear",
+   "consent_agenda": true,
+   "topic": "Routine business",
+   "related_q": [],
+   "positions": [],
+   "timestamp": "00:09:57",
+   "video_url": "https://www.youtube.com/watch?v=NXAe-cujEO0&t=597s",
+   "votes_source": "video"
+  }
+ ],
+ "video_url": "https://www.youtube.com/watch?v=NXAe-cujEO0",
+ "transcript": true,
+ "generated": {
+  "at": "2026-11-18T03:32:47.589Z",
+  "model": "claude-opus-5-5",
+  "from": "meeting audio and the agenda"
+ },
+ "promise_updates": [],
+ "night": {
+  "video_id": "NXAe-cujEO0",
+  "duration_s": 8800,
+  "talk": [
+   {
+    "key": "staff",
+    "name": "District staff",
+    "role": "staff",
+    "seconds": 3770,
+    "turns": 49
+   },
+   {
+    "key": "sean-easton",
+    "name": "Mayor Sean Easton",
+    "role": "council",
+    "seconds": 1117,
+    "turns": 56,
+    "chair_seconds": 775,
+    "questions": 3
+   },
+   {
+    "key": "eric-andersen",
+    "name": "Eric Andersen",
+    "role": "council",
+    "seconds": 918,
+    "turns": 30,
+    "questions": 1
+   },
+   {
+    "key": "janice-desjardins",
+    "name": "Janice DesJardins",
+    "role": "council",
+    "seconds": 569,
+    "turns": 16,
+    "questions": 2
+   },
+   {
+    "key": "luc-perreault",
+    "name": "Luc Perreault",
+    "role": "council",
+    "seconds": 410,
+    "turns": 14,
+    "questions": 8
+   },
+   {
+    "key": "sarah-ellis",
+    "name": "Sarah Ellis",
+    "role": "council",
+    "seconds": 286,
+    "turns": 12,
+    "questions": 3
+   },
+   {
+    "key": "laura-prosko",
+    "name": "Laura Prosko",
+    "role": "council",
+    "seconds": 154,
+    "turns": 12,
+    "questions": 6
+   },
+   {
+    "key": "shaun-veltkamp",
+    "name": "Shaun Veltkamp",
+    "role": "council",
+    "seconds": 76,
+    "turns": 6,
+    "questions": 2
+   }
+  ],
+  "voices": [
+   {
+    "voice": "S1",
+    "key": "sean-easton",
+    "name": "Mayor Sean Easton (chair)",
+    "role": "council",
+    "confidence": "high"
+   },
+   {
+    "voice": "S2",
+    "key": "sean-easton",
+    "name": "Mayor Sean Easton (chair)",
+    "role": "council",
+    "confidence": "high"
+   },
+   {
+    "voice": "S0",
+    "key": "sean-easton",
+    "name": "Mayor Sean Easton (chair)",
+    "role": "council",
+    "confidence": "medium"
+   },
+   {
+    "voice": "S19",
+    "key": "eric-andersen",
+    "name": "Eric Andersen (acting chair for co-living item)",
+    "role": "council",
+    "confidence": "high"
+   },
+   {
+    "voice": "S37",
+    "key": "eric-andersen",
+    "name": "Eric Andersen (acting chair for co-living item)",
+    "role": "council",
+    "confidence": "medium"
+   },
+   {
+    "voice": "S18",
+    "key": "eric-andersen",
+    "name": "Eric Andersen (acting chair for co-living item)",
+    "role": "council",
+    "confidence": "medium"
+   },
+   {
+    "voice": "S29",
+    "key": "eric-andersen",
+    "name": "Eric Andersen (acting chair for co-living item)",
+    "role": "council",
+    "confidence": "medium"
+   },
+   {
+    "voice": "S27",
+    "key": "sarah-ellis",
+    "name": "Sarah Ellis",
+    "role": "council",
+    "confidence": "high"
+   },
+   {
+    "voice": "S30",
+    "key": "sarah-ellis",
+    "name": "Sarah Ellis",
+    "role": "council",
+    "confidence": "medium"
+   },
+   {
+    "voice": "S39",
+    "key": "janice-desjardins",
+    "name": "Janice DesJardins",
+    "role": "council",
+    "confidence": "high"
+   },
+   {
+    "voice": "S50",
+    "key": "luc-perreault",
+    "name": "Luc Perreault",
+    "role": "council",
+    "confidence": "high"
+   },
+   {
+    "voice": "S49",
+    "key": "luc-perreault",
+    "name": "Luc Perreault",
+    "role": "council",
+    "confidence": "medium"
+   },
+   {
+    "voice": "S54",
+    "key": "shaun-veltkamp",
+    "name": "Shaun Veltkamp",
+    "role": "council",
+    "confidence": "high"
+   },
+   {
+    "voice": "S31",
+    "key": "laura-prosko",
+    "name": "Laura Prosko",
+    "role": "council",
+    "confidence": "high"
+   },
+   {
+    "voice": "S32",
+    "key": "laura-prosko",
+    "name": "Laura Prosko",
+    "role": "council",
+    "confidence": "medium"
+   },
+   {
+    "voice": "S22",
+    "key": "staff",
+    "name": "Brian Daly, Planner, Community Development",
+    "role": "staff",
+    "confidence": "high"
+   },
+   {
+    "voice": "S57",
+    "key": "staff",
+    "name": "Melissa Fung-Luto, Corporate Officer",
+    "role": "staff",
+    "confidence": "high"
+   },
+   {
+    "voice": "S58",
+    "key": "staff",
+    "name": "Melissa Fung-Luto, Corporate Officer",
+    "role": "staff",
+    "confidence": "high"
+   },
+   {
+    "voice": "S60",
+    "key": "staff",
+    "name": "Mr. Gunn, Planner",
+    "role": "staff",
+    "confidence": "medium"
+   },
+   {
+    "voice": "S83",
+    "key": "staff",
+    "name": "District staff",
+    "role": "staff",
+    "confidence": "medium"
+   },
+   {
+    "voice": "S99",
+    "key": "staff",
+    "name": "David Rolston, Senior Manager of Infrastructure Planning",
+    "role": "staff",
+    "confidence": "high"
+   },
+   {
+    "voice": "S101",
+    "key": "staff",
+    "name": "David Rolston, Senior Manager of Infrastructure Planning",
+    "role": "staff",
+    "confidence": "medium"
+   },
+   {
+    "voice": "S38",
+    "key": "staff",
+    "name": "Rachel Orman, Project Engineer",
+    "role": "staff",
+    "confidence": "high"
+   },
+   {
+    "voice": "S103",
+    "key": "staff",
+    "name": "Rachel Orman, Project Engineer",
+    "role": "staff",
+    "confidence": "low"
+   },
+   {
+    "voice": "S111",
+    "key": "staff",
+    "name": "Heather Boxroud, CFO and General Manager of Financial, IT and Procurement Services",
+    "role": "staff",
+    "confidence": "high"
+   },
+   {
+    "voice": "S120",
+    "key": "staff",
+    "name": "Chief Administrative Officer",
+    "role": "staff",
+    "confidence": "medium"
+   },
+   {
+    "voice": "S123",
+    "key": "staff",
+    "name": "Julie Venge, General Manager of Corporate Services",
+    "role": "staff",
+    "confidence": "high"
+   },
+   {
+    "voice": "S11",
+    "key": "unknown",
+    "name": "Unknown",
+    "role": "unknown",
+    "confidence": "low"
+   },
+   {
+    "voice": "S84",
+    "key": "unknown",
+    "name": "Unknown",
+    "role": "unknown",
+    "confidence": "low"
+   }
+  ],
+  "topics": [
+   {
+    "label": "Welcome and acknowledgement",
+    "start_s": 395,
+    "end_s": 479
+   },
+   {
+    "label": "Adoption of agenda",
+    "start_s": 479,
+    "end_s": 501
+   },
+   {
+    "label": "Public attendance (none)",
+    "start_s": 501,
+    "end_s": 588
+   },
+   {
+    "label": "Consent agenda",
+    "start_s": 588,
+    "end_s": 632
+   },
+   {
+    "label": "Co-living business licence bylaw",
+    "start_s": 632,
+    "end_s": 2228
+   },
+   {
+    "label": "Steep slopes OCP bylaw",
+    "start_s": 2228,
+    "end_s": 3854
+   },
+   {
+    "label": "Steep slopes permit delegation",
+    "start_s": 3854,
+    "end_s": 3935
+   },
+   {
+    "label": "2026 election results report",
+    "start_s": 3935,
+    "end_s": 4491
+   },
+   {
+    "label": "Flood plan grant application",
+    "start_s": 4491,
+    "end_s": 6308
+   },
+   {
+    "label": "Mayor's budget notice of motion",
+    "start_s": 6308,
+    "end_s": 8711
+   },
+   {
+    "label": "Open question period",
+    "start_s": 8711,
+    "end_s": 8773
+   },
+   {
+    "label": "Council announcements",
+    "start_s": 8773,
+    "end_s": 9178
+   },
+   {
+    "label": "Termination",
+    "start_s": 9178,
+    "end_s": 9194
+   }
+  ],
+  "moments": [
+   {
+    "t_s": 632,
+    "label": "Mayor Easton declares conflict on co-living bylaw and hands chair to Councillor Andersen"
+   },
+   {
+    "t_s": 1145,
+    "label": "Councillor DesJardins moves to refer co-living and workforce housing to strategic planning"
+   },
+   {
+    "t_s": 1871,
+    "label": "Referral motion fails, Perreault and DesJardins in favour"
+   },
+   {
+    "t_s": 1975,
+    "label": "Co-living business licence bylaw gets three readings, Perreault and DesJardins opposed"
+   },
+   {
+    "t_s": 2153,
+    "label": "Corporate officer explains a failed motion needs formal reconsideration"
+   },
+   {
+    "t_s": 3837,
+    "label": "Steep slopes OCP bylaw adopted"
+   },
+   {
+    "t_s": 3922,
+    "label": "Steep slopes permit delegation to staff adopted"
+   },
+   {
+    "t_s": 6274,
+    "label": "Flood plan grant application approved"
+   },
+   {
+    "t_s": 6484,
+    "label": "Mayor Easton explains his notice of motion for a 2027 property tax freeze"
+   },
+   {
+    "t_s": 6926,
+    "label": "Chief financial officer lays out what a $6.3 million freeze would take"
+   },
+   {
+    "t_s": 8691,
+    "label": "Councillor Ellis's motion for a staff memo on the tax freeze carries"
+   }
+  ],
+  "quotes": [
+   {
+    "slug": "sean-easton",
+    "name": "Mayor Sean Easton",
+    "text": "It's our turn to tighten our belts, like so many residents have had to in Squamish.",
+    "t_s": 6575,
+    "about": "Mayor's 2027 tax freeze notice of motion"
+   },
+   {
+    "slug": "janice-desjardins",
+    "name": "Janice DesJardins",
+    "text": "The survey had 62 responses in a community of more than 20,000 people.",
+    "t_s": 1243,
+    "about": "Co-living engagement"
+   },
+   {
+    "slug": "sarah-ellis",
+    "name": "Sarah Ellis",
+    "text": "I don't believe the suite of regulations is perfect, but I do think it's worth advancing to understand and tweak as we go.",
+    "t_s": 1931,
+    "about": "Co-living business licence bylaw"
+   },
+   {
+    "slug": "luc-perreault",
+    "name": "Luc Perreault",
+    "text": "I feel like we are trying to change things too quickly.",
+    "t_s": 7753,
+    "about": "Mayor's 2027 tax freeze notice of motion"
+   }
+  ],
+  "next": [
+   {
+    "title": "Mayor's motion for a 2027 budget with no property tax increase",
+    "how": "Write to council before the December 1 meeting; financial plan public input is also coming",
+    "track": "budget-2027",
+    "steps": [
+     {
+      "label": "Notice of motion given",
+      "date": "2026-11-17",
+      "done": true
+     },
+     {
+      "label": "Staff memo on timing, costs and alternatives included in agenda",
+      "date": "2026-12-01",
+      "done": false
+     },
+     {
+      "label": "Council debates and votes on the motion",
+      "date": "2026-12-01",
+      "done": false
+     }
+    ]
+   },
+   {
+    "title": "Co-living business licence bylaw",
+    "how": "Write to council before adoption",
+    "steps": [
+     {
+      "label": "First, second and third readings",
+      "date": "2026-11-17",
+      "done": true
+     },
+     {
+      "label": "Adoption",
+      "done": false
+     }
+    ]
+   },
+   {
+    "title": "Flood hazard management plan update grant",
+    "how": "",
+    "track": "flood-protection",
+    "steps": [
+     {
+      "label": "Council supports grant application",
+      "date": "2026-11-17",
+      "done": true
+     },
+     {
+      "label": "Application deadline",
+      "date": "2026-11-20",
+      "done": false
+     },
+     {
+      "label": "Notice of award expected March 2027",
+      "done": false
+     },
+     {
+      "label": "Plan update completed by end of 2028",
+      "done": false
+     }
+    ]
+   }
+  ],
+  "places": [
+   {
+    "name": "Existing co-living facility",
+    "area": "dentville",
+    "note": "DesJardins says the one current co-living facility is in Dentville",
+    "t_s": 1589
+   },
+   {
+    "name": "Future residential lands between Valleycliffe and Garibaldi Estates",
+    "area": "valleycliffe",
+    "note": "Lands needing the steep slopes permit area before development can be considered",
+    "t_s": 2848
+   },
+   {
+    "name": "Cheekye fan and debris flow barrier",
+    "area": "brackendale",
+    "note": "Barrier reduces but does not eliminate debris flow risk",
+    "t_s": 4680
+   },
+   {
+    "name": "Downtown sea dike",
+    "area": "downtown",
+    "note": "Incomplete sea dike around downtown; costs in the hundreds of millions",
+    "t_s": 4778
+   },
+   {
+    "name": "Squamish River dike in Brackendale",
+    "area": "brackendale",
+    "note": "One kilometre stretch upgraded since the 2017 plan",
+    "t_s": 5248
+   },
+   {
+    "name": "Brennan Park",
+    "area": "all",
+    "note": "Sole general voting day location; a second location may be needed in 2030",
+    "t_s": 4270
+   },
+   {
+    "name": "Rose Park and upper Mamquam Blind Channel",
+    "area": "downtown",
+    "note": "Dike alignment and design still undecided",
+    "t_s": 5814
+   },
+   {
+    "name": "BC Rail property on Government Road",
+    "area": "all",
+    "note": "Light industrial land affected by lower Squamish River dike alignment",
+    "t_s": 5830
+   },
+   {
+    "name": "Under One Roof",
+    "area": "downtown",
+    "note": "Council toured the facility at Squamish Helping Hands' 20th anniversary",
+    "t_s": 8849
+   }
+  ],
+  "movers": {
+   "eric-andersen": 3,
+   "luc-perreault": 3,
+   "sarah-ellis": 2,
+   "janice-desjardins": 1
+  },
+  "public_speakers": 0,
+  "residents": [
+   {
+    "qid": "2026-11-17-regular-5aad6b35",
+    "q": "Should the District update its business licence rules for co-living homes?",
+    "yes": 1,
+    "no": 0,
+    "unsure": 0,
+    "total": 1,
+    "council": "Passed 4–2"
+   },
+   {
+    "qid": "2026-11-17-regular-9be221eb",
+    "q": "Should the District apply for a provincial grant to update its flood hazard plan?",
+    "yes": 2,
+    "no": 0,
+    "unsure": 0,
+    "total": 2,
+    "council": "Passed 7–0"
+   }
+  ],
+  "method": "Speaker turns from sherpa-onnx (pyannote segmentation 3.0 + NeMo TitaNet), transcript from faster-whisper small.en, names and topics by Claude from the transcript.",
+  "generated": "2026-11-18T03:54:40.825Z",
+  "times_shifted_to_video": -10
+ }
 }

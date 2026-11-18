@@ -66,6 +66,808 @@
  ],
  "stories": [
   {
+   "slug": "squamish-council-nov-17-tax-freeze-co-living",
+   "s": "council",
+   "tier": "lead",
+   "date": "2026-11-17",
+   "pin_until": "2026-11-24",
+   "share": "5",
+   "meeting": "2026-11-17-regular",
+   "head": "Mayor proposes a 2027 tax freeze. Staff put the gap at $6.3 million",
+   "dek": "The new council's first full meeting: a property tax freeze plan, a 4 to 2 split on co-living homes, steep slope rules and a flood plan grant. Every decision, who said what, and how to weigh in before December 1.",
+   "gist": [
+    "Mayor Sean Easton wants the District to collect no more property tax in 2027 than it did in 2026; on December 1 council votes on whether to send staff back to rework the budget, and you can write to council@squamish.ca before then.",
+    "Staff say the current draft adds about $382 a year to the District part of an average home's bill, so a freeze means finding $6.3 million through higher fees, cuts or reserves, and new projects would wait until spring.",
+    "Council moved business licences for co-living homes, where people rent rooms and share a kitchen, ahead 4 to 2, with one final vote still to come; the mayor stepped out over a conflict of interest.",
+    "New steep slope rules and a flood plan grant passed with no one opposed."
+   ],
+   "take": "Nothing on the tax freeze is decided until December 1, and even then the budget itself comes later, by bylaw.",
+   "visual": {
+    "type": "big",
+    "big": "$6.3 million",
+    "small": "What a 2027 tax freeze must find, by staff's count"
+   },
+   "og": "squamish-council-nov-17-tax-freeze-co-living.png",
+   "photo": {
+    "file": "/news/photos/council-1117-main.jpg",
+    "alt": "Squamish town and the Howe Sound estuary seen from high on the Stawamus Chief, with mountains behind",
+    "caption": "Squamish from the Stawamus Chief.",
+    "credit": "Benoit Brummer, CC BY 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:View_of_Squamish_from_the_Chief_Hike_in_Stawamus_Chief_Provincial_Park,_BC_(DSCF7786).jpg"
+   },
+   "glance": [
+    {
+     "k": "Draft budget, average home",
+     "v": "+$382 a year"
+    },
+    {
+     "k": "Gap a freeze must close",
+     "v": "$6.3 million"
+    },
+    {
+     "k": "Freeze vote",
+     "v": "December 1",
+     "level": "high"
+    },
+    {
+     "k": "Your say",
+     "v": "council@squamish.ca"
+    },
+    {
+     "k": "Steep slopes and flood grant",
+     "v": "Passed, no one opposed"
+    },
+    {
+     "k": "Co-living licences",
+     "v": "4 to 2, one step left"
+    }
+   ],
+   "toc": [
+    [
+     "Every decision",
+     "Decisions"
+    ],
+    [
+     "The tax freeze",
+     "Tax freeze"
+    ],
+    [
+     "Co-living homes",
+     "Co-living"
+    ],
+    [
+     "Steep slope rules",
+     "Steep slopes"
+    ],
+    [
+     "Flood plan grant",
+     "Flood plan"
+    ],
+    [
+     "Election report",
+     "Turnout"
+    ],
+    [
+     "Who spoke, and for how long",
+     "Who spoke"
+    ],
+    [
+     "How would you have voted?",
+     "Your vote"
+    ],
+    [
+     "What happens next",
+     "Next"
+    ]
+   ],
+   "fold": {
+    "The tax freeze": "No vote yet. Staff say a freeze means finding $6.3 million. Three members campaigned on a freeze; others urged caution or a slower path.",
+    "Co-living homes": "Three readings passed 4 to 2; adoption still to come. DesJardins and Perreault voted no and the mayor stepped out. Check whether your street's zone allows it.",
+    "Steep slope rules": "Adopted with no one opposed: a permit and an engineer's check for building on land at 30% slope or steeper. The old \"no building over 40%\" rule is gone.",
+    "Flood plan grant": "Approved with no one opposed: the District asks the Province for up to $200,000 toward updating its 2017 flood plan.",
+    "Election report": "Turnout was 45.33%, up from 39.73% in 2022. A second election day voting place is likely by 2030.",
+    "Who spoke, and for how long": "Staff spoke the most, about an hour. Among council, the mayor and Councillor Andersen, who each chaired part of the meeting, spoke longest. The tax freeze and co-living took about 40 and 27 minutes."
+   },
+   "calc": {
+    "title": "What the draft means for your bill",
+    "sub": "Type in the District of Squamish part of your 2026 property tax notice. We start with the average home, $3,294. Renting? Your landlord pays this; see the note below the calculator.",
+    "label": "My 2026 District of Squamish tax, in dollars",
+    "default": 3294,
+    "hint": "On your notice it's the District of Squamish (municipal) line. Don't count school, regional district or hospital taxes, which are set separately. What you type stays on this phone or computer.",
+    "rows": [
+     {
+      "label": "Tax freeze",
+      "pct": 0,
+      "note": "The District's total tax stays at 2026. Your own bill can still move a little with your assessment and new buildings joining the tax roll"
+     },
+     {
+      "label": "Example: a 5% increase",
+      "pct": 5,
+      "note": "Our example of a smaller increase, like the scaled options council asked staff to cost"
+     },
+     {
+      "label": "Current draft budget",
+      "pct": 11.6,
+      "note": "Staff's November 17 figure: about $382 on the average home"
+     }
+    ],
+    "foot": "Staff gave $382 on the average $1.2 million home; $382 out of $3,294 is 11.6% (our arithmetic). The District's total tax collected rises about 11.5%. In the September draft, each 1% of tax was about $546,000 (our arithmetic). Renting? BC limits rent increases for current tenants to 2.2% in 2027, whatever happens to property tax."
+   },
+   "zonecheck": {
+    "title": "Could a co-living home open on my street?",
+    "sub": "Type your Squamish address and pick it from the list. We check it against the District's live zoning map.",
+    "zones": [
+     "R-1",
+     "R-4",
+     "R-5"
+    ],
+    "yes_head": "Yes, a co-living home could be licensed here",
+    "yes": "Up to 6 rented rooms per home, at least 1 parking space for every 2 rooms, stays of 90 days or more, a shared kitchen and living space, and a yearly business licence with fire and building inspections. The licence bylaw still needs its final vote.",
+    "no_head": "Not in your zone",
+    "no": "Co-living homes are only allowed in the R-1, R-4 and R-5 residential zones. Anywhere else would need a rezoning."
+   },
+   "slope": {
+    "title": "How steep is 30%?",
+    "sub": "Drag the slider",
+    "start": 22,
+    "max": 60,
+    "marks": [
+     {
+      "at": 25,
+      "label": "Removed: the 25% slope report and the ban on new single family houses",
+      "tone": "amber"
+     },
+     {
+      "at": 30,
+      "label": "New: a permit with an engineer's landslide check before you subdivide, build, dig more than 1.2 metres or cut trees",
+      "tone": "amber"
+     },
+     {
+      "at": 40,
+      "label": "Removed: no development at all",
+      "tone": "amber"
+     }
+    ],
+    "note": "Slope is rise over run: 30% means climbing 30 metres for every 100 metres across, about 17 degrees. The new rules use the average slope of the land."
+   },
+   "charts": {
+    "turnout": {
+     "title": "Squamish voter turnout, 1990 to 2026",
+     "unit": "%",
+     "type": "line",
+     "ymax": 70,
+     "sub": "Tap a year",
+     "note": "General elections only. Source: District of Squamish 2026 Election Results Summary Report, Attachment 1. BC average 29.2%, as cited by staff.",
+     "points": [
+      {
+       "x": 1990,
+       "y": 60.5,
+       "hl": false,
+       "note": ""
+      },
+      {
+       "x": 1993,
+       "y": 43,
+       "hl": false,
+       "note": ""
+      },
+      {
+       "x": 1996,
+       "y": 42,
+       "hl": false,
+       "note": ""
+      },
+      {
+       "x": 1999,
+       "y": 59.5,
+       "hl": false,
+       "note": ""
+      },
+      {
+       "x": 2002,
+       "y": 62.2,
+       "hl": false,
+       "note": "The highest in this list"
+      },
+      {
+       "x": 2005,
+       "y": 44,
+       "hl": false,
+       "note": ""
+      },
+      {
+       "x": 2008,
+       "y": 42,
+       "hl": false,
+       "note": ""
+      },
+      {
+       "x": 2011,
+       "y": 38.6,
+       "hl": false,
+       "note": "The lowest in this list"
+      },
+      {
+       "x": 2014,
+       "y": 47.13,
+       "hl": false,
+       "note": ""
+      },
+      {
+       "x": 2018,
+       "y": 47.8,
+       "hl": false,
+       "note": ""
+      },
+      {
+       "x": 2022,
+       "y": 39.73,
+       "hl": false,
+       "note": ""
+      },
+      {
+       "x": 2026,
+       "y": 45.33,
+       "hl": true,
+       "note": "8,881 of 19,591 eligible voters"
+      }
+     ]
+    }
+   },
+   "bars": {
+    "levy": {
+     "title": "How much more property tax the District collected each year",
+     "rows": [
+      {
+       "label": "2022",
+       "v": 3.76,
+       "say": "3.8%"
+      },
+      {
+       "label": "2023",
+       "v": 8.9,
+       "say": "8.9%"
+      },
+      {
+       "label": "2024",
+       "v": 12,
+       "say": "12%"
+      },
+      {
+       "label": "2025",
+       "v": 12.5,
+       "say": "12.5%"
+      },
+      {
+       "label": "2026",
+       "v": 12.8,
+       "say": "12.8%"
+      },
+      {
+       "label": "2027 draft",
+       "v": 11.5,
+       "say": "about 11.5%",
+       "hl": true
+      },
+      {
+       "label": "2027 if frozen",
+       "v": 0.001,
+       "say": "0%",
+       "hl": true
+      }
+     ],
+     "note": "Total tax collected, which includes tax from new buildings, so the average existing home rose a little less each year. Compounded, the yearly increases from 2022 to 2026 put the 2026 total about 61% above 2021 (our arithmetic). 2027 draft: $6.3 million on about $54.6 million (our arithmetic from staff's figures). Sources: District budgets and tax reports, gathered in our [budget explainer](/news/squamish-2027-budget-tax-freeze-explained/)."
+    },
+    "towns": {
+     "title": "Property tax increases in 2026, nearby and similar places",
+     "rows": [
+      {
+       "label": "Squamish",
+       "v": 12.8,
+       "say": "12.8%",
+       "hl": true
+      },
+      {
+       "label": "Whistler",
+       "v": 6.8,
+       "say": "about 6.8%"
+      },
+      {
+       "label": "Kamloops",
+       "v": 5.7,
+       "say": "5.7%"
+      },
+      {
+       "label": "North Van District",
+       "v": 3.53,
+       "say": "3.53%"
+      },
+      {
+       "label": "West Vancouver",
+       "v": 3.43,
+       "say": "3.43%"
+      },
+      {
+       "label": "Vancouver",
+       "v": 0.001,
+       "say": "0%"
+      }
+     ],
+     "note": "Increase in total municipal property tax for 2026, from each municipality's budget, as gathered in our [budget explainer](/news/squamish-2027-budget-tax-freeze-explained/). Whistler's final figure was not confirmed."
+    },
+    "charges": {
+     "title": "Growth charges on a new home, co-living vs single family",
+     "rows": [
+      {
+       "label": "6 room co-living",
+       "v": 100158,
+       "say": "$100,158",
+       "hl": true
+      },
+      {
+       "label": "Single family",
+       "v": 55894,
+       "say": "$55,894"
+      }
+     ],
+     "note": "Development cost charges (pipes, roads, parks) plus amenity cost charges (community facilities). Co-living: $69,618 plus $30,540. Single family: $37,066 plus $18,828. Source: District staff report, July 21, 2026."
+    }
+   },
+   "tables": {
+    "decisions": {
+     "caption": "Every decision, in one place",
+     "head": [
+      "Decision",
+      "Result",
+      "Watch it"
+     ],
+     "rows": [
+      [
+       "Co-living business licences: first, second and third readings",
+       "Passed 4 to 2; adoption still to come",
+       "[32:54](https://www.youtube.com/watch?v=NXAe-cujEO0&t=1974s)"
+      ],
+      [
+       "Send co-living to council's strategic planning instead (DesJardins)",
+       "Failed 2 to 4",
+       "[31:11](https://www.youtube.com/watch?v=NXAe-cujEO0&t=1871s)"
+      ],
+      [
+       "New steep slope permit rules (final vote)",
+       "Passed, no one opposed",
+       "[1:03:39](https://www.youtube.com/watch?v=NXAe-cujEO0&t=3819s)"
+      ],
+      [
+       "Staff, not council, approve steep slope permits (final vote)",
+       "Passed, no one opposed",
+       "[1:05:22](https://www.youtube.com/watch?v=NXAe-cujEO0&t=3922s)"
+      ],
+      [
+       "Receive the 2026 election report",
+       "Passed, no one opposed",
+       "[1:14:38](https://www.youtube.com/watch?v=NXAe-cujEO0&t=4478s)"
+      ],
+      [
+       "Apply for a provincial flood plan grant",
+       "Passed, no one opposed",
+       "[1:44:33](https://www.youtube.com/watch?v=NXAe-cujEO0&t=6273s)"
+      ],
+      [
+       "Mayor's tax freeze motion",
+       "Notice only; debate and vote December 1",
+       "[1:45:50](https://www.youtube.com/watch?v=NXAe-cujEO0&t=6350s)"
+      ],
+      [
+       "Staff memo on the freeze's costs and options (Ellis)",
+       "Passed, no one opposed",
+       "[2:24:51](https://www.youtube.com/watch?v=NXAe-cujEO0&t=8691s)"
+      ],
+      [
+       "Routine items: past minutes and a letter",
+       "Passed",
+       "[9:47](https://www.youtube.com/watch?v=NXAe-cujEO0&t=587s)"
+      ]
+     ]
+    },
+    "gap": {
+     "caption": "Where the $6.3 million increase comes from, as staff described it on November 17",
+     "head": [
+      "Part of the increase",
+      "About"
+     ],
+     "rows": [
+      [
+       "Already committed: transit contract, union wages and benefits, police, other signed contracts like software",
+       "$3.6 million"
+      ],
+      [
+       "Yearly saving toward fixing and replacing roads, pipes and buildings",
+       "$1.3 million"
+      ],
+      [
+       "Firefighters",
+       "$350,000"
+      ],
+      [
+       "New union positions",
+       "$300,000"
+      ],
+      [
+       "Non profit partners",
+       "$50,000"
+      ],
+      [
+       "Smaller items to keep services as they are, or judged critical",
+       "about $700,000 (our arithmetic: what's left of $6.3 million)"
+      ],
+      [
+       "**Total, compared with 2026**",
+       "**$6.3 million, about $382 a year on an average $1.2 million home**"
+      ]
+     ],
+     "note": "Spoken figures from the District's chief financial officer at the meeting, rounded as given. The total includes $800,000 for items the previous council kept in the budget on September 29."
+    },
+    "levers": {
+     "caption": "What staff said council could pull to close the gap",
+     "head": [
+      "Option",
+      "What staff said"
+     ],
+     "rows": [
+      [
+       "Raise fees",
+       "Business licences, building and inspection, recreation admission and passes, facility rentals, development permits"
+      ],
+      [
+       "Draw on reserves",
+       "Staff listed drawing on reserves (money set aside) among the options, without a dollar figure"
+      ],
+      [
+       "Cut services or positions",
+       "Unless a job is already empty, cuts mean severance, and many contracts carry termination costs, so the first year saves less. The mayor's motion rules out layoffs and cuts to services residents use"
+      ],
+      [
+       "Cut community grants",
+       "Grants to non profits under the community grants policy"
+      ],
+      [
+       "Drop tax funded special projects",
+       "About $400,000 in 2027, including the first year of the community plan update and the climate action group"
+      ],
+      [
+       "Use tax from the District's single large taxpayer for daily costs",
+       "That taxpayer is Woodfibre LNG (liquefied natural gas), whose roughly $7.24 million is kept out of the daily budget by policy. Using it would mean changing the tax policy and having less for future capital projects"
+      ],
+      [
+       "Save less for repairs",
+       "Staff advised against it: underfunding repairs \"will most certainly cost the taxpayer more in the long run\""
+      ]
+     ],
+     "note": "The $7.24 million figure and the Woodfibre name are from the September 29 staff budget report; at the meeting staff said \"the single large business\"."
+    },
+    "stances": {
+     "caption": "What each member said about the freeze on November 17",
+     "head": [
+      "Member",
+      "Campaign promise",
+      "What they said on November 17"
+     ],
+     "rows": [
+      [
+       "Mayor Sean Easton",
+       "Freeze in 2027",
+       "Brought the motion. \"It's our turn to tighten our belts, like so many residents have had to in Squamish.\""
+      ],
+      [
+       "Councillor Laura Prosko",
+       "Freeze in 2027 and 2028",
+       "Wants it debated December 1; asked whether staff could cost both a zero and a modest increase"
+      ],
+      [
+       "Councillor Janice DesJardins",
+       "Freeze in 2027",
+       "Backed the mayor bringing it forward; said the extra memo motion wasn't needed"
+      ],
+      [
+       "Councillor Eric Andersen",
+       "No freeze promise",
+       "Supports debating it December 1 and getting the staff memo first"
+      ],
+      [
+       "Councillor Sarah Ellis",
+       "No freeze promise",
+       "Asked staff for other ways to reach the goal without delaying the budget as much; moved the memo motion asking for scaled or phased options"
+      ],
+      [
+       "Councillor Shaun Veltkamp",
+       "No freeze promise",
+       "Can't support a freeze \"straight out of the gate\"; open to working toward zero over the next year"
+      ],
+      [
+       "Councillor Luc Perreault",
+       "No freeze promise",
+       "Worried about changing too much at once; suggested keeping course for year one and working on changes alongside"
+      ]
+     ],
+     "note": "Comments, not votes. Campaign promises from our [budget explainer](/news/squamish-2027-budget-tax-freeze-explained/). Quotes from the District's video, transcribed by us."
+    },
+    "coliving": {
+     "caption": "The co-living rules council adopted in October, which this licence bylaw puts into effect",
+     "head": [
+      "Rule",
+      "What it says"
+     ],
+     "rows": [
+      [
+       "What it is",
+       "Long term homes where people rent a private room and share the kitchen and living space"
+      ],
+      [
+       "Where",
+       "R-1, R-4 and R-5 residential zones: 2,858 properties"
+      ],
+      [
+       "How many rooms",
+       "Up to 6 per home (the fire department warned against 10)"
+      ],
+      [
+       "How long people stay",
+       "At least 90 days"
+      ],
+      [
+       "Parking",
+       "At least 1 space for every 2 rooms, and 1 secure bike space per room"
+      ],
+      [
+       "Shared space",
+       "At least 25 square metres of common indoor space, plus laundry"
+      ],
+      [
+       "Licence",
+       "$130 a year, rising to $160 in 2027, with fire and building inspections"
+      ]
+     ],
+     "note": "Sources: Zoning Amendment Bylaw 3239 and staff reports of July 21 and November 17, 2026."
+    },
+    "slopes": {
+     "caption": "How other BC places set their steep slope line",
+     "head": [
+      "Place",
+      "Where extra rules start"
+     ],
+     "rows": [
+      [
+       "**Squamish, new rules**",
+       "**Average slope 30% or more**"
+      ],
+      [
+       "Squamish, old rules (removed)",
+       "Report at 25%; no single family houses at 25%; nothing over 40%"
+      ],
+      [
+       "District of North Vancouver",
+       "Over 20 degrees (about 36%) and over 10 metres high"
+      ],
+      [
+       "Surrey",
+       "Over 20%"
+      ],
+      [
+       "Colwood",
+       "Development on slopes over 30% \"must be avoided\""
+      ]
+     ],
+     "note": "From each municipality's own bylaw or guide pages."
+    }
+   },
+   "polls": [
+    {
+     "id": "freeze",
+     "q": "What should council tell staff to do with the 2027 draft budget on December 1?",
+     "why": "The draft adds about $382 a year to an average home. A freeze means finding $6.3 million.",
+     "options": [
+      {
+       "key": "yes",
+       "label": "Rework it for a 0% freeze",
+       "means": "Fees, cuts or reserves; new projects wait until spring."
+      },
+      {
+       "key": "smaller",
+       "label": "Aim for a smaller increase",
+       "means": "Somewhere between 0% and the draft."
+      },
+      {
+       "key": "no",
+       "label": "Keep the staff draft",
+       "means": "About $382 more on an average home."
+      }
+     ]
+    },
+    {
+     "id": "coliving",
+     "q": "Would you have voted to move co-living licences ahead?",
+     "why": "Licences and inspections for co-living homes under the rules adopted in October.",
+     "options": [
+      {
+       "key": "yes",
+       "label": "Yes",
+       "means": "Licences and inspections start once the bylaw gets its final vote."
+      },
+      {
+       "key": "no",
+       "label": "No",
+       "means": "Co-living homes can't get licences for now."
+      }
+     ]
+    },
+    {
+     "id": "refer",
+     "q": "Should council have paused co-living to rethink it in strategic planning, as Councillor DesJardins asked?",
+     "why": "It failed 2 to 4.",
+     "options": [
+      {
+       "key": "yes",
+       "label": "Yes, pause it",
+       "means": "More public input on parking and safety first."
+      },
+      {
+       "key": "no",
+       "label": "No, go ahead",
+       "means": "Licences and inspections go ahead now."
+      }
+     ]
+    },
+    {
+     "id": "slopes",
+     "q": "Should council have adopted the new steep slope rules?",
+     "why": "They add an engineer's landslide check but drop the old \"nothing over 40%\" limit.",
+     "options": [
+      {
+       "key": "yes",
+       "label": "Yes",
+       "means": "Permit rules for building on 30% slopes start now."
+      },
+      {
+       "key": "no",
+       "label": "No",
+       "means": "Keep the old limits."
+      }
+     ]
+    },
+    {
+     "id": "flood",
+     "q": "Should the District apply for the flood plan grant?",
+     "why": "Up to $200,000 toward a $400,000 update, which comes from reserves otherwise.",
+     "options": [
+      {
+       "key": "yes",
+       "label": "Yes",
+       "means": "Apply by November 20."
+      },
+      {
+       "key": "no",
+       "label": "No",
+       "means": "Pay the full $400,000 from reserves."
+      }
+     ]
+    }
+   ],
+   "match": {
+    "meeting": "2026-11-17-regular",
+    "title": "Who on council voted most like you?",
+    "pairs": [
+     {
+      "poll": "coliving",
+      "decision": 0
+     },
+     {
+      "poll": "refer",
+      "decision": 1
+     },
+     {
+      "poll": "slopes",
+      "decision": 5
+     },
+     {
+      "poll": "flood",
+      "decision": 4
+     }
+    ]
+   },
+   "talk": {
+    "q": "What should council do about the 2027 budget on December 1?",
+    "sub": "Comments are public, so council and your neighbours can read them. Your comment shows the answer you gave to the first question in this story.",
+    "placeholder": "Be specific: a service, a fee, a project, a number.",
+    "stance": "freeze"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/council-1117-stream.jpg",
+     "alt": "The District of Squamish live stream: nine camera tiles showing the mayor, six councillors, the chief administrative officer and the room",
+     "caption": "Council on the District's live stream, November 17.",
+     "credit": "District of Squamish meeting video",
+     "link": "https://www.youtube.com/watch?v=NXAe-cujEO0",
+     "chart": true
+    },
+    {
+     "file": "/news/photos/council-1117-easton.jpg",
+     "alt": "Mayor Sean Easton speaking in front of a District of Squamish sign",
+     "caption": "Mayor Sean Easton speaks to his notice of motion on the 2027 budget.",
+     "credit": "District of Squamish meeting video",
+     "link": "https://www.youtube.com/watch?v=NXAe-cujEO0&t=6550s"
+    },
+    {
+     "file": "/news/photos/council-1117-coliving-debate.jpg",
+     "alt": "The live stream during the co-living debate: Councillor DesJardins speaking, and the mayor's chair empty in front of the District sign",
+     "caption": "Councillor DesJardins makes her case on co-living. The mayor's seat (top middle) is empty: he stepped out because of a conflict of interest.",
+     "credit": "District of Squamish meeting video",
+     "link": "https://www.youtube.com/watch?v=NXAe-cujEO0&t=1215s",
+     "chart": true
+    },
+    {
+     "file": "/news/photos/council-1117-slopemap.jpg",
+     "alt": "Staff slide with the Schedule E map of Squamish: land at 30% slope or steeper shaded orange along both sides of the valley",
+     "caption": "Where the new rules apply: land at 30% slope or more, shaded orange. Staff slide shown at the meeting.",
+     "credit": "District of Squamish meeting video",
+     "link": "https://www.youtube.com/watch?v=NXAe-cujEO0&t=3096s",
+     "chart": true
+    },
+    {
+     "file": "/news/photos/council-1117-dikes.jpg",
+     "alt": "Staff slide listing dike projects and their grants: Squamish River dike upgrades, Judd Slough culvert, the Xwu'nekw Park sea dike",
+     "caption": "Recent dike work and grants that helped pay for it, from the engineering presentation.",
+     "credit": "District of Squamish meeting video",
+     "link": "https://www.youtube.com/watch?v=NXAe-cujEO0&t=5244s",
+     "chart": true
+    },
+    {
+     "file": "/news/photos/council-1117-faces.jpg",
+     "alt": "The mayor and six councillors in their camera tiles, each labelled with their name",
+     "caption": "The council elected in October, on the District's stream on November 17.",
+     "credit": "District of Squamish meeting video",
+     "link": "https://www.youtube.com/watch?v=NXAe-cujEO0",
+     "chart": true
+    }
+   ],
+   "src": [
+    "District of Squamish, Regular Council meeting video, November 17, 2026",
+    "https://www.youtube.com/watch?v=NXAe-cujEO0",
+    "Agenda, Regular Council, November 17, 2026 (amended)",
+    "https://squamish.civicweb.net/document/272109/",
+    "Staff report: Business Licence Bylaw co-living amendment, November 17, 2026",
+    "https://squamish.civicweb.net/FileStorage/3E887D6D0FEB4CE899ED922745348277-District%20of%20Squamish%20Business%20Licence%20Bylaw%20No.%2024.pdf",
+    "Official Community Plan Amendment Bylaw (Steep Slopes Development Permit Area) No. 3244, 2026",
+    "https://squamish.civicweb.net/FileStorage/F7372B6FFD10461B993D528546EDF10E-District%20of%20Squamish%20Official%20Community%20Plan%20Bylaw.pdf",
+    "Staff report: Community Emergency Preparedness Fund grant, November 17, 2026",
+    "https://squamish.civicweb.net/FileStorage/A3C8494A5647403E8B9511C97F48B557-Community%20Emergency%20Preparedness%20Fund%20Grant%20Approv.pdf",
+    "Staff report: 2026 Election Results Summary Report, November 17, 2026",
+    "https://squamish.civicweb.net/FileStorage/BB64F8816C1742478A6FA04C20ABDEFB-2026%20Election%20Results%20Summary%20Report.pdf",
+    "Staff report: co-living zoning, development cost charge and amenity cost charge bylaws, July 21, 2026",
+    "https://squamish.civicweb.net/FileStorage/6F56AA7F65DB47A28BF5C3A694D00D88-RTC%20-%20Rezoning%20Bylaw,%20DCC%20Bylaw,%20ACC%20Bylaw%20-%20Co-Li.pdf",
+    "Staff report: Draft Steep Slopes Development Permit Area 14, May 12, 2026",
+    "https://squamish.civicweb.net/FileStorage/9A7704C9B967431A85940F7908643041-Draft%20Steep%20Slopes%20Development%20Permit%20Area%2014%20-%20Re.pdf",
+    "Union of BC Municipalities, Community Emergency Preparedness Fund 2026 program guide",
+    "https://www.ubcm.ca/sites/default/files/2026-08/LGPS_CEPF_FDRR_2026%20ProgGuide_FV_0.pdf",
+    "Province of BC, Community Charter sections 100 and 101 (conflict of interest)",
+    "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_04",
+    "Squamish Voters, 2027 budget explainer (sources for past increases, other towns, promises)",
+    "https://squamishvoters.com/news/squamish-2027-budget-tax-freeze-explained/",
+    "Squamish Voters, flood story: Squamish Valley Road washed out, November 13, 2026",
+    "https://squamishvoters.com/news/squamish-valley-flood-evacuations-roads-closed/",
+    "The Tyee, \"Fearing Killer Landslide, Squamish Builds Wall,\" May 19, 2026",
+    "https://thetyee.ca/News/2026/05/19/Fearing-Killer-Landslide-Squamish-Builds-Wall/",
+    "Squamish Reporter, steep slopes survey feedback, May 12, 2026",
+    "https://www.squamishreporter.com/2026/05/12/squamish-council-mulls-survey-feedback-for-steep-slopes-bylaw/",
+    "Province of BC, Community Charter section 165 and 197 (financial plan and tax rate deadlines)",
+    "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_06",
+    "Province of BC, Local Government Act section 470 (voting after a public hearing)",
+    "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/r15001_14",
+    "Province of BC, rent increase limits (2.2% for 2027)",
+    "https://www2.gov.bc.ca/gov/content/housing-tenancy/residential-tenancies/rent-rtb/rent-increases"
+   ],
+   "body": "## Every decision\n\n[[glance]]\n\n[[table decisions]]\n\n## The tax freeze\n\nMayor Easton's motion asks staff to rework the draft 2027 budget so the District collects **no more property tax than in 2026**. It also says services residents use must stay the same or get better, with no layoffs, no cut in union staff hours and no extra contracting out. Savings would come from a review of how the District is run, led by the chief administrative officer, with input from staff, unions and residents.\n\n**Why he wants it.** \"It's our turn to tighten our belts, like so many residents have had to in Squamish,\" he said, calling for \"a leaner, meaner and more accountable government.\" He cited the District's own resident survey: only **37%** of residents felt they get good value for their municipal taxes, and **58%** said quality of life had dropped over five years. District tax has also climbed fast: compounded, the yearly increases from 2022 to 2026 put the total about **61%** above 2021 (our arithmetic), though part of that came from new buildings joining the tax roll.\n\n[[bars levy]]\n\n**What happens December 1.** Under council's procedure bylaw, a notice of motion comes up at the next regular meeting. Council can pass it, change it, send it elsewhere or defeat it. Passing it would send staff back to rework the draft; the budget itself is set later by bylaw. Three of the seven members campaigned on a 2027 freeze (Easton, DesJardins and Prosko), and a motion needs four votes when everyone is there; a 3 to 3 tie fails.\n\n**Where each member stands.** Nobody voted on the freeze itself. Here is what each member said.\n\n[[table stances]]\n\n[[calc]]\n\nWant your whole bill, including school, regional and hospital taxes? Try our [Squamish property tax calculator](/property-tax-calculator/).\n\n**Renting?** You don't get a tax notice, but your landlord pays it. BC limits rent increases for current tenants to 2.2% in 2027, so a tax rise generally can't be passed on above that. The limit doesn't apply when a new tenancy starts. Some of the ways to close the gap, like higher recreation fees or smaller community grants, would reach renters directly.\n\n**What staff say it would take.** The District's chief financial officer laid out the numbers. The draft collects about **$61 million** in property tax for daily services and repair savings, **$6.3 million more** than 2026. That's about **$382 a year**, or $32 a month, on an average home assessed at $1.2 million. Provincial law requires a balanced budget, so the District can't run a deficit: every dollar of a freeze has to come from somewhere.\n\n[[table gap]]\n\nAbout **$3.6 million** of that is already committed, mostly by contracts. So a freeze can't come from trimming this year's increase alone; staff would have to look at the whole operating budget.\n\n[[table levers]]\n\nThe mayor's motion rules out layoffs and cuts to services residents use, so the main levers it leaves are fees, grants, special projects, reserves and the efficiency review.\n\n**Timing.** If the motion passes, staff set the current draft aside while they rework it. Projects and purchases that haven't started would wait until a new plan is adopted, likely the end of March, which staff said shortens 2027 work plans by about a quarter. By law the financial plan comes first and the tax rate bylaw must be adopted before May 15.\n\n**The review.** The general manager of corporate services said reviews like the one in the motion usually take about **a year**, cost about **$100,000** and are not usually done just to cut a budget. The last one started in 2019 and was finished in 2020. The chief administrative officer has announced their retirement, and staff noted a new one often reviews staffing structures anyway. The mayor answered that he isn't asking for a long review: he wants the people \"closest to the issues\" to find the savings.\n\n[[bars towns]]\n\nCouncillor Ellis then moved that staff write a memo for December 1 on the timeline, costs, work put on hold and **scaled or phased options**. It passed with no one voting against it. DesJardins said she felt the extra motion wasn't needed, and Perreault worried about loading too much on staff at once.\n\n[[poll freeze]]\n\n## Co-living homes\n\n**The mayor stepped out.** Before the item, Mayor Easton declared a **conflict of interest**. He said he is a director of a non profit housing society that has a contract to buy a property with a co-living building on it. He left the room and Councillor Andersen, acting mayor for November, chaired. Under BC law, a member with a conflict must declare it, leave the room, stay out of the discussion and the vote, and not try to influence other members before or after.\n\nCo-living means a long term home where people rent a private room and share the kitchen and living space. The previous council adopted the zoning rules in October. A bylaw passes in four steps: three readings, then a final vote called adoption. Council did all three readings in one vote, **4 to 2**. It lets the District issue business licences for co-living and send **fire and building staff to inspect**. Staff called it the last remaining piece: the zoning rules require an active licence, and until this bylaw passes there's no licence to get.\n\n[[table coliving]]\n\n[[zonecheck]]\n\n**If you rent a room.** Once the bylaw gets its final vote, owners running co-living homes in these zones need a yearly licence, and fire and building staff can inspect. Homes are capped at 6 rented rooms and stays of 90 days or more. Staff said new co-living buildings would need the licence once they're finished. They didn't say on November 17 how existing shared houses will be brought in.\n\n**The case for slowing down.** Councillor DesJardins moved to send \"affordable workforce rental housing and the related parking requirements and neighbourhood planning\" to council's strategic planning sessions, where council sets its priorities for the term. She said the rules allow co-living on **2,858 properties**, that the spring survey drew **62 responses** in a town of more than 20,000, and that **83%** of them worried about parking. She noted the fire department had warned about larger homes, and said Squamish has one co-living home in Dentville and another hoping to become one. \"So let's get it right and let's do it with our residents, not around them,\" she said.\n\nCouncillor Perreault backed her. \"I wanted to tell everyone from firsthand experience, there are challenges with co-living situations,\" he said, describing a co-living home near him whose tenants park some distance away.\n\n**The case for going ahead.** Andersen said: \"I think that there are risks in delaying the implementation bylaw. It allows for the relevant district staff to conduct inspections.\" Ellis said the motion's wording was broad enough to touch other kinds of housing. On the bylaw itself she said: \"I don't believe the suite of regulations is perfect, but I do think it's worth advancing to understand and tweak as we go.\" She added that with the servicing rules and higher growth charges, co-living may now be **harder to build** than before, and the rules can be changed if they cause problems. Councillor Veltkamp said he agreed with her. Councillor Prosko asked staff one question and did not speak in the debate.\n\n[[bars charges]]\n\nDesJardins' motion **failed 2 to 4** (DesJardins and Perreault for; Andersen, Ellis, Prosko and Veltkamp against). The licence bylaw then **passed 4 to 2**, with DesJardins and Perreault against. Andersen then asked whether DesJardins' motion could come back as a separate item. The corporate officer said the procedure bylaw is silent on that and recommended a formal reconsideration vote instead, and it was left there.\n\n[[poll coliving]]\n\n[[poll refer]]\n\n**Next:** the licence bylaw needs its final vote, adoption, at a future meeting. BC law requires at least a day between third reading and adoption.\n\n## Steep slope rules\n\nCouncil gave final approval to a new **steep slope permit area** in the Official Community Plan, the town's long range land use plan. On land with an average slope of **30% or more**, you now need a permit, with a landslide hazard assessment by a qualified engineer, before you subdivide, build, dig or fill more than 1.2 metres, or cut trees 20 centimetres or wider. Lots of 0.2 hectares or smaller (about half an acre) that already have a house are exempt, and so is minor work. Private strata roads must now meet the District's public road grades, because steep roads slow down fire trucks.\n\n[[slope]]\n\nThe bylaw also removes older limits from the plan: a slope report at 25%, no new single family houses on slopes of 25% or more, and **no development at all over 40%**. Staff said those caps didn't fit Squamish's short, rocky bluffs, and that the engineers they consulted saw \"not a strong hazard mitigation rationale\" for limits based on steepness alone. Not everyone agreed. An open house comment asked for a slope limit \"above which development is not supported\"; a third of the 45 spring survey replies called the visual design guidelines too onerous; and developers called the 30% line \"too blunt\". At the October public hearing, the one resident who spoke worried about how much rock and soil could be removed.\n\nA planner said this finishes the last of six steps the 2018 plan requires before two future neighbourhood areas could be considered: District Lots 509 and 510 in the north, and land near Valleycliffe and the Mamquam area in the south. It does not approve any development there; each would still need its own applications. Hillside risk is real here: the new Cheekye debris flow barrier north of town cost more than $115 million, and a 2024 landslide in Lions Bay killed two people.\n\n[[table slopes]]\n\nCouncil also passed a second bylaw letting **District staff, not council, approve these permits**, the same way flood, wildfire and environmental permits are handled. Both passed with no one opposed. Only Andersen was on council at the October 6 public hearing. BC law lets members who missed a hearing vote on adoption once they get a report of what was said, and staff reminded the new council it can't take in new information on a bylaw after its hearing.\n\n[[poll slopes]]\n\n## Flood plan grant\n\nSquamish faces flooding from five river systems and the ocean, and its Integrated Flood Hazard Management Plan, the town's main guide for dikes and flood rules, dates from **2017**. It's due for its 10 year update, already budgeted at **$400,000 from District reserves** over 2027 and 2028. Council voted, with no one opposed, to apply to the Province's Community Emergency Preparedness Fund for up to **$200,000**, with a $100,000 ask in a second category as a backup; the District can win only one.\n\nThe stakes are high: engineering staff said a Squamish River dike breach \"could displace over half of the community's residents and cause hundreds of millions of dollars in direct building damage.\" The District has won about $14 million in flood grants since the 2017 plan. Engineering staff said the new plan would move from mapping hazards to weighing risk, including sea level rise and new costs for dike upgrades. The application is due **Friday, November 20**, and staff expect an answer in March 2027; the program warns it will be heavily oversubscribed. It comes days after flooding washed out Squamish Valley Road and cut off the upper valley.\n\n[[poll flood]]\n\n## Election report\n\nThe corporate officer, who was also the chief election officer, reported on October's vote. Turnout was **45.33%**: 8,881 of 19,591 eligible voters, up from 39.73% in 2022 and well above the 29.2% BC average staff cited. Ballots cast rose about 32% from 2022 while eligible voters rose about 16% (our arithmetic). Advance voting rose to 2,932 people. Mayor Easton won by 175 votes. The election had a $120,000 budget, and staff expect Squamish will need a **second election day voting place by 2030**.\n\n[[chart turnout]]\n\n## Who spoke, and for how long\n\n[[meeting talk]]\n\nCouncillor Andersen chaired the co-living item while the mayor was out, so part of his time was chairing too.\n\n[[meeting time]]\n\n[[meeting watch]]\n\n## How would you have voted?\n\nAnswer the questions in this story, and see which council member voted most like you on November 17.\n\n[[match]]\n\n[[meeting grid]]\n\n## What happens next\n\n- **December 1, 6 p.m.:** council debates the tax freeze motion, with the staff memo on costs and options. Write to council before then at council@squamish.ca, or send budget ideas to budgetfeedback@squamish.ca.\n- **Co-living licences:** one final vote at a future meeting.\n- **Flood grant:** application due November 20; an answer expected in March 2027.\n- **Budget:** the District plans public input on the 2027 financial plan, which staff aim to finish by the end of March. By law, the financial plan comes before the tax rate bylaw, which must pass before May 15.\n\nWatch any meeting live on the District's YouTube channel, or join by WebEx or phone (1-604-449-3026). Our [meeting page](/meetings/2026-11-17-regular/) has the full summary and transcript.\n"
+  },
+  {
    "slug": "yuusnewas-second-phase-groundwork-st-pauls",
    "s": "recon",
    "tier": "card",
