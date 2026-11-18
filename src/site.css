@@ -3077,3 +3077,19 @@ html.sv-ios:not(.sv-in-app) .menu-panel a.menu-app-ios, html.sv-android:not(.sv-
 .fl-areas { list-style: none; padding: 0; display: grid; gap: .5rem; }
 .fl-areas li { background: var(--surface); border: 1px solid var(--line); border-left: 6px solid var(--neutral); border-radius: 10px; padding: .7rem .9rem; }
 .fl-areas li.lv-high { border-left-color: var(--no); } .fl-areas li.lv-mid { border-left-color: #d99a00; } .fl-areas li.lv-low { border-left-color: var(--yes); }
+
+/* Decision cards, all pages (Nov 17 2026): title full width on top, result and faces on one line under it, a + that
+   turns to − when open. The older side by side layout squeezed long titles into a narrow column in stories. */
+.decision > summary, .mt-cards .decision > summary { display: grid; grid-template-columns: auto 1fr 1.6rem; grid-template-areas: "t t x" "r f x"; gap: .5rem .7rem; align-items: center; padding: .9rem 1rem; }
+.decision > summary .dtitle { grid-area: t; flex: none; color: var(--ink); font-weight: 700; font-size: 1.05rem; line-height: 1.35; text-wrap: balance; }
+.decision > summary .dres { grid-area: r; min-width: 0; justify-self: start; text-align: left; white-space: nowrap; }
+.decision > summary .dfaces { grid-area: f; justify-self: start; align-self: center; flex-wrap: wrap; }
+.decision > summary::after { content: "+"; grid-area: x; justify-self: end; align-self: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 1.1rem; line-height: 1; color: var(--brand); background: var(--brand-soft); }
+.decision[open] > summary::after { content: "−"; }
+.decision > summary:hover .dtitle { color: var(--brand); }
+.decision[open] > summary { border-bottom: 1px solid var(--line); }
+@media (max-width: 620px) {
+  .decision > summary, .mt-cards .decision > summary { grid-template-columns: 1fr 1.6rem; grid-template-areas: "t x" "r x" "f x"; }
+  .decision > summary .dres { white-space: normal; }
+  .decision > summary .dfaces { flex-wrap: nowrap; }
+}
