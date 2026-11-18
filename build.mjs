@@ -299,6 +299,9 @@ const SIDE_LABELS = Object.fromEntries(SIGNUP_ISSUES.filter((i) => SIDES[i.key])
 const TOPIC_EMOJI = { growth: '🏗️', housing_affordability: '🏠', homelessness: '⛺', policing: '🚓', taxes_spending: '💵', climate: '🌲', environment_lng: '🚢', transportation: '🚌', parking: '🅿️', economy: '💼', recreation_facilities: '🏊', flood_hazards_climate_resilience: '🌊', other_campaign_topics: '🧸' };
 const TOPIC_SLUG = { growth: 'growth-and-development', housing_affordability: 'housing', homelessness: 'homelessness', policing: 'policing-and-safety', taxes_spending: 'property-taxes', climate: 'climate-and-environment', environment_lng: 'woodfibre-lng', transportation: 'transit-and-highway-99', parking: 'parking', economy: 'jobs-and-economy', recreation_facilities: 'brennan-park-and-recreation', flood_hazards_climate_resilience: 'flood-protection', other_campaign_topics: 'childcare-rentals-and-vanlife' };
 const TOPIC_NAME = { growth: 'growth and development', housing_affordability: 'housing', homelessness: 'homelessness and supportive housing', policing: 'policing and community safety', taxes_spending: 'property taxes and spending', climate: 'climate and the environment', environment_lng: 'the Woodfibre LNG plant', transportation: 'transit and Highway 99', parking: 'parking', economy: 'jobs and the local economy', recreation_facilities: 'Brennan Park and recreation', flood_hazards_climate_resilience: 'flood protection', other_campaign_topics: 'childcare, short-term rentals and vanlife' };
+// Titles that match what people search for, where Search Console showed the generic one getting no clicks (Nov 17 2026:
+// "brennan park" 45 impressions at position 11, 0 clicks).
+const ISSUE_TITLE = { recreation_facilities: 'Brennan Park, Squamish: new pool, ice rink and expansion plans' };
 const issueCtx = (key) => (ctx.issues || []).find((i) => i.key === key) || {};
 
 // ---------- layout ----------
@@ -1051,7 +1054,7 @@ for (const c of all) {
   const updated = [...promisesOf(c).map((p) => isoDay(p.updated)), ...votesOf(c).map((d) => isoDay(d.corrected_on) || d.m.date), isoDay(c.direct?.date), isoDay(c.statement?.date), corrDate(`/council/${c.slug}/`)].filter((x) => x && x <= TODAY).sort().pop() || null;
   const memberCard = (() => { const ps = promisesOf(c), k = pCounts(ps); return shareCard({ file: `share/cards/council-${c.slug}.png`, kicker: c.office === 'mayor' ? 'MAYOR OF SQUAMISH' : 'SQUAMISH COUNCILLOR', title: c.name, sub: 'Votes, promises and what they said', photo: hasPhoto(c) ? c.photo : null, stats: [[ps.length, 'promises tracked'], ...(ps.length - (k.not_yet || 0) > 0 ? [[k.kept || 0, 'kept so far']] : []), [castVotes(c).length, 'votes recorded']], foot: 'Council decides as a group. We track each member’s part.' }); })();
   write(`/council/${c.slug}/`, page({ updated, image: memberCard, imageAlt: `${c.name}, ${c.office === 'mayor' ? 'Mayor of Squamish' : 'Squamish councillor'}`,
-    url: '/council/', title: `${c.name}, ${c.office === 'mayor' ? 'Mayor of Squamish' : 'Squamish councillor'}: votes, promises and positions`,
+    url: '/council/', title: c.office === 'mayor' ? `Squamish Mayor ${c.name}: votes, promises and positions` : `${c.name}, Squamish councillor: votes, promises and positions`,
     desc: raceRow(c) ? `${c.name} was elected ${c.office === 'mayor' ? 'mayor of Squamish' : 'to Squamish council'} on October 17, 2026 with ${Number(raceRow(c).total).toLocaleString('en-CA')} votes. How ${first(c)} votes, which promises they kept, and every campaign answer.` : `How ${c.name} votes on Squamish council, which campaign promises they have kept, and every answer they gave during the 2026 election, with sources.`,
     jsonld: [{
       '@context': 'https://schema.org', '@type': 'Person', name: c.name,
@@ -2655,7 +2658,7 @@ for (const ic of ctx.issues || []) {
     <div class="is-box"><p class="is-h">On this page</p><ul class="is-jump">${jumps.map(([, id, label]) => `<li><a href="#${id}">${label}</a></li>`).join('')}</ul></div>
   </aside>`;
   write(url, page({
-    url: '/issues/', title: `Squamish council on ${name}: where each member stands`,
+    url: '/issues/', title: ISSUE_TITLE[ic.key] || `Squamish council on ${name}: where each member stands`,
     desc: iss || !TOPIC_DESC[ic.key] ? `${iss ? `${withS.length} of ${all.length} Squamish council members have a public position on ${name}. ` : ''}What each one has said, with sources, plus plain language background.` : TOPIC_DESC[ic.key],
     lastmod: latestDate([ans?.as_of, ...TRACKED.filter((t) => t.topic === ic.key).flatMap(stepDates), corrDate(url)], TODAY) || null,
     jsonld: crumbLd([['Home', '/'], ['The issues', '/issues/'], [ic.title, url]]),
