@@ -1897,7 +1897,9 @@ if (TRACKED.length) {
     if (st.match) { const M = st.match, mt = MEETINGS.find((x) => x.id === M.meeting);
       const rows = (M.pairs || []).map((p) => { const d = mt?.decisions?.[p.decision]; return d && d.votes ? { wid: `news-${st.slug}--${p.poll}`, title: d.title, votes: d.votes } : null; }).filter(Boolean);
       const people = all.map((c) => ({ slug: c.slug, name: `${c.office === 'mayor' ? 'Mayor' : 'Councillor'} ${lastName(c)}`, photo: hasPhoto(c) ? '/' + c.photo : '' }));
-      w.match = rows.length ? `<section class="tl-match no-print" data-match="${esc(JSON.stringify({ rows, people }))}"><h3>${esc(M.title || 'Who on council voted most like you?')}</h3><div data-match-out><p class="small">Answer the questions in this story (${rows.length} of them) and your match appears here.</p></div></section>` : ''; }
+      // The questions the match uses sit right above it as compact yes or no cards, so there is something to do here.
+      const quiz = (M.pairs || []).map((p, i) => { const q = (st.polls || []).find((x) => x.id === p.poll); return q ? pollBox(st, q, `news-${st.slug}--${q.id}`, { inline: true, anchor: `q-${q.id}`, kicker: `Vote ${i + 1} of ${M.pairs.length}` }) : ''; }).join('');
+      w.match = rows.length ? `<div class="tl-quiz">${quiz}</div><section class="tl-match no-print" data-match="${esc(JSON.stringify({ rows, people }))}"><h3>${esc(M.title || 'Who on council voted most like you?')}</h3><div data-match-out><p class="small">Answer the ${rows.length} questions above and your match appears here.</p></div></section>` : ''; }
     if (st.meeting) { const mt = MEETINGS.find((x) => x.id === st.meeting);
       w.meeting = (what) => { if (!mt) return '';
         // [[meeting card 3]]: one decision's tap to open card, placed inside the story section it belongs to.

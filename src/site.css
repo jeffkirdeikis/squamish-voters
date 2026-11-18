@@ -3093,3 +3093,21 @@ html.sv-ios:not(.sv-in-app) .menu-panel a.menu-app-ios, html.sv-android:not(.sv-
   .decision > summary .dres { white-space: normal; }
   .decision > summary .dfaces { flex-wrap: nowrap; }
 }
+
+/* Watch the moments list: a time chip and the label on one tidy row, no bullets or underlines, also inside news stories. */
+.mt-jump ul, .nw-art .mt-jump ul { list-style: none; padding: 0; margin: .6rem 0 1rem; display: grid; gap: .45rem; }
+.mt-jump li, .nw-art .mt-jump li { margin: 0; padding: 0; }
+.mt-jump li::before, .nw-art .mt-jump li::before { content: none; }
+.mt-jump a, .nw-art .mt-jump a { display: grid; grid-template-columns: 4.8rem 1fr; gap: .8rem; align-items: center; padding: .6rem .8rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink); text-decoration: none; line-height: 1.35; }
+.mt-jump a:hover, .nw-art .mt-jump a:hover { border-color: var(--brand); color: var(--brand); }
+.mt-jump .mt-ts { justify-self: start; padding: .2rem .45rem; font-size: .82rem; }
+
+/* Compact yes or no quiz above the "voted most like you" box (stories with a match). */
+.tl-quiz { display: grid; gap: .6rem; margin: .8rem 0; }
+.tl-quiz .nw-poll { margin: 0; padding: .85rem .95rem; }
+.tl-quiz .nw-poll-h { font-size: 1.02rem; margin: .2rem 0 .5rem; }
+.tl-quiz .nw-poll-why { font-size: .88rem; margin: 0 0 .6rem; color: var(--muted); }
+.tl-quiz .nw-poll-opts { grid-template-columns: 1fr 1fr; }
+.tl-quiz .nw-poll-opts button span, .tl-quiz .nw-poll-m, .tl-quiz .nw-poll-own { display: none; }
+.tl-quiz .nw-poll-opts button { text-align: center; padding: .65rem; }
+.tl-match { border: 2px solid var(--brand); }
