@@ -89,11 +89,11 @@
    },
    "og": "squamish-council-nov-17-tax-freeze-co-living.png",
    "photo": {
-    "file": "/news/photos/council-1117-main.jpg",
-    "alt": "Squamish town and the Howe Sound estuary seen from high on the Stawamus Chief, with mountains behind",
-    "caption": "Squamish from the Stawamus Chief.",
-    "credit": "Benoit Brummer, CC BY 4.0",
-    "link": "https://commons.wikimedia.org/wiki/File:View_of_Squamish_from_the_Chief_Hike_in_Stawamus_Chief_Provincial_Park,_BC_(DSCF7786).jpg"
+    "file": "/news/photos/council-1117-lead.jpg",
+    "alt": "Mayor Sean Easton speaking at the November 17 council meeting, in front of a District of Squamish sign",
+    "caption": "Mayor Sean Easton answers questions on his tax freeze motion, November 17.",
+    "credit": "District of Squamish meeting video",
+    "link": "https://www.youtube.com/watch?v=NXAe-cujEO0&t=7950s"
    },
    "glance": [
     {
@@ -790,11 +790,11 @@
      "chart": true
     },
     {
-     "file": "/news/photos/council-1117-easton.jpg",
-     "alt": "Mayor Sean Easton speaking in front of a District of Squamish sign",
-     "caption": "Mayor Sean Easton speaks to his notice of motion on the 2027 budget.",
-     "credit": "District of Squamish meeting video",
-     "link": "https://www.youtube.com/watch?v=NXAe-cujEO0&t=6550s"
+     "file": "/news/photos/council-1117-main.jpg",
+     "alt": "Squamish town and the Howe Sound estuary seen from high on the Stawamus Chief, with mountains behind",
+     "caption": "Squamish from the Stawamus Chief.",
+     "credit": "Benoit Brummer, CC BY 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:View_of_Squamish_from_the_Chief_Hike_in_Stawamus_Chief_Provincial_Park,_BC_(DSCF7786).jpg"
     },
     {
      "file": "/news/photos/council-1117-coliving-debate.jpg",
