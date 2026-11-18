@@ -534,6 +534,6 @@ document.addEventListener('click', function (e) {
 
 // Links to a decision card (#d-3, from the vote grid on meeting pages) open the card.
 (function () {
-  function openHash() { var el = location.hash && document.getElementById(location.hash.slice(1)); if (el && el.tagName === 'DETAILS') { for (var p = el; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true; el.scrollIntoView(); } }
+  function openHash() { var el = location.hash && document.getElementById(location.hash.slice(1)); if (el && el.tagName === 'DETAILS') { for (var p = el; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true; var go = function () { window.scrollTo(0, el.getBoundingClientRect().top + window.pageYOffset - 12); }; go(); requestAnimationFrame(go); setTimeout(go, 350); setTimeout(go, 900); setTimeout(go, 1600); } }
   window.addEventListener('hashchange', openHash); openHash();
 })();
