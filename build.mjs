@@ -2110,7 +2110,7 @@ if (TRACKED.length) {
       <p>Photos of the river, Squamish Valley Road, trails or streets, with where and when you took them. We check each one before it goes up. Never go near the water to get a picture.</p>
       <p><a class="btn" href="/tip/?about=flood">Send a photo</a></p>
       ${rp.length ? `<div class="rp-strip">${rp.map((p) => `<figure><img src="${esc(p.file)}" alt="${esc(p.alt)}" loading="lazy"><figcaption><b>${esc(p.place)}</b>, ${esc(p.when)}. ${esc(p.caption || '')} Photo: ${esc(p.credit || 'a reader')}</figcaption></figure>`).join('')}</div>` : ''}</section>` : '';
-    const storyBody0 = (st.toc || []).length ? fullBodyHtml(st).replace(/<h2>([\s\S]*?)<\/h2>/g, (m, t) => `${mapHtml && t === st.map_before ? mapHtml : ''}${readerHtml && t === st.photos_before ? readerHtml : ''}<h2 id="${slugId(t)}">${t}</h2>`) : fullBodyHtml(st);
+    const storyBody0 = (st.toc || []).length || Object.keys(st.fold || {}).length ? fullBodyHtml(st).replace(/<h2>([\s\S]*?)<\/h2>/g, (m, t) => `${mapHtml && t === st.map_before ? mapHtml : ''}${readerHtml && t === st.photos_before ? readerHtml : ''}<h2 id="${slugId(t)}">${t}</h2>`) : fullBodyHtml(st);
     const storyBody = liveFill(foldSections(storyBody0, st), st);
     // Flood alert sign up, right under the official status at the top of the story (api/flood-alert.js; emails sent by
     // api/flood-watch.js). Moved up Nov 10 2026: two in three readers never scrolled to its old spot under the live panel.

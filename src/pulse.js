@@ -55,6 +55,7 @@
     var live = document.querySelector('section[data-flood-live]');
     var h2s = body.querySelectorAll('h2'), ps = [].filter.call(body.children, function (x) { return x.tagName === 'P'; });
     var before = live || (h2s.length > 1 ? h2s[1] : ps.length > 4 ? ps[3] : null);
+    if (before && before.closest && before.closest('details')) before = before.closest('details'); // headings inside folded story sections: go before the whole card
     if (before) before.parentNode.insertBefore(box, before); else body.appendChild(box);
     var f = box.querySelector('form'), msg = box.querySelector('.sv-loop-msg'), btn = f.querySelector('button');
     f.addEventListener('submit', function (e) {

@@ -184,3 +184,21 @@
   window.addEventListener('hashchange', function () { openTo(decodeURIComponent(location.hash.slice(1))); });
   if (location.hash) openTo(decodeURIComponent(location.hash.slice(1)));
 })();
+
+// Long open sections: a Show less button at the end, and closing a section you've scrolled into brings you back to its title.
+(function () {
+  var hdr = function () { var h = document.querySelector('.site-header'); return h && !document.documentElement.classList.contains('hdr-off') && !document.body.classList.contains('hdr-off') ? h.getBoundingClientRect().height : 0; };
+  [].forEach.call(document.querySelectorAll('details.nw-fsec'), function (d) {
+    var inner = d.querySelector('.nw-fold-in');
+    if (inner && !inner.querySelector('.nw-fsec-close')) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'nw-fsec-close'; b.textContent = 'Show less \u25B4';
+      b.addEventListener('click', function () { d.open = false; });
+      inner.appendChild(b);
+    }
+    var back = function () { var top = d.getBoundingClientRect().top; if (top < hdr()) window.scrollTo({ top: top + window.pageYOffset - hdr() - 12, behavior: 'instant' }); };
+    d.addEventListener('toggle', function () {
+      if (d.open) return;
+      back(); requestAnimationFrame(back); setTimeout(back, 120);
+    });
+  });
+})();

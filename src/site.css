@@ -3123,3 +3123,15 @@ html.sv-ios:not(.sv-in-app) .menu-panel a.menu-app-ios, html.sv-android:not(.sv-
 .nw-fsec > summary:hover::after { filter: brightness(1.12); }
 .nw-fsec[open] > .nw-fold-in { padding-bottom: 1rem; }
 @media (prefers-reduced-motion: reduce) { .nw-fsec { transition: none; } }
+
+/* An open story section keeps its title and a Show less button pinned under the site header while you read it, and
+   gets a second Show less button at the end (src/news.js), so a long section can be closed from anywhere. */
+.nw-fsec[open] > summary { position: sticky; top: var(--hdr, 64px); z-index: 30; background: var(--surface); grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: .8rem; padding: .7rem 0; margin: 0 -1rem; padding-left: 1rem; padding-right: 1rem; border-bottom: 1px solid var(--line); border-radius: 14px 14px 0 0; }
+.nw-fsec[open] > summary > span { display: none; }
+.nw-fsec[open] > summary h2 { font-size: 1.15rem; }
+.nw-fsec[open] > summary::after { margin-top: 0; justify-self: end; }
+.nw-fsec-close { display: block; margin: 1rem 0 0; padding: .55rem 1rem; border: 0; border-radius: 999px; background: var(--brand-soft); color: var(--brand); font: 700 .9rem/1.2 system-ui, sans-serif; cursor: pointer; }
+.nw-fsec-close:hover { filter: brightness(.97); }
+.nw-fsec[open] > summary { transition: top .25s ease; }
+.hdr-off .nw-fsec[open] > summary { top: 0; }
+@media (prefers-reduced-motion: reduce) { .nw-fsec[open] > summary { transition: none; } }
