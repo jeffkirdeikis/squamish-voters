@@ -2949,3 +2949,14 @@ html.sv-has-fb .social-pair, html.sv-has-reddit .social-pair { grid-template-col
 html.sv-ios:not(.sv-in-app) .menu-panel a.menu-app-ios, html.sv-android:not(.sv-in-app) .menu-panel a.menu-app-android { display: flex; }
 .menu-panel a.menu-app img { flex: none; width: 1.9rem; height: 1.9rem; border-radius: .45rem; margin: 0 -.2rem; }
 .menu-panel a.menu-app small { display: block; font-size: .85rem; font-weight: 500; opacity: .8; }
+
+/* Council is live now strip (src/council-live.js) */
+.cl-live { display: block; background: #b3261e; color: #fff; text-decoration: none; font-size: .95rem; }
+.cl-live[hidden] { display: none; }
+.cl-row { display: flex; align-items: center; gap: .6rem; padding-block: .5rem; flex-wrap: wrap; }
+.cl-dot { width: .6rem; height: .6rem; border-radius: 50%; background: #fff; animation: cl-pulse 1.6s ease-in-out infinite; flex: none; }
+.cl-t { opacity: .9; min-width: 0; }
+.cl-go { margin-left: auto; font-weight: 700; }
+.cl-live:hover .cl-go, .cl-live:focus-visible .cl-go { text-decoration: underline; }
+@keyframes cl-pulse { 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { .cl-dot { animation: none; } }

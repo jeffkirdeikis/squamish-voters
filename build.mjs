@@ -439,6 +439,7 @@ window.SVdone=function(k){try{var d=JSON.parse(localStorage.getItem('sv_done')||
     </nav>
   </div>
 </header>
+<a class="cl-live no-print" data-council-live hidden href="https://www.youtube.com/@DistrictofSquamish/live" target="_blank" rel="noopener"><span class="wrap cl-row"><span class="cl-dot" aria-hidden="true"></span><b>Council is live now</b><span class="cl-t" data-cl-title></span><span class="cl-go">Watch ›</span></span></a>
 ${hero}
 <main id="main"><div class="wrap">
 ${body}
@@ -459,7 +460,7 @@ ${body}
 </nav>
 <a class="totop no-print" href="#main" id="totop" hidden>↑ Top</a>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="/site.js"></script>
+<script src="/site.js"></script><script src="/council-live.js" defer></script>
 <script src="/pulse.js" defer></script>
 ${scripts}${noindex && noindex !== 'thin' ? '' : '\n<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script><script defer src="/_vercel/insights/script.js"></script>'}
 </body></html>`;
@@ -2906,7 +2907,7 @@ write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We can�
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js', 'talk.js', 'since.js', 'flood-live.js', 'flood-map.js', 'pulse.js', 'insights.js', 'app.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js', 'talk.js', 'since.js', 'flood-live.js', 'flood-map.js', 'pulse.js', 'insights.js', 'app.js', 'council-live.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.writeFileSync(path.join(DIST, 'botid.js'), `(function(){${BOTID_JS}})();`);
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
