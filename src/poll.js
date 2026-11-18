@@ -73,7 +73,7 @@
   }
   function vote(k) {
     if (busy) return; busy = true;
-    var was = mine; mine = k; answered[wid] = k; tally[k] = (tally[k] || 0) + 1; if (was) tally[was] = Math.max(0, (tally[was] || 0) - 1);
+    var was = mine; mine = k; answered[wid] = k; try { document.dispatchEvent(new CustomEvent('sv:poll', { detail: { wid: wid, choice: k } })); } catch (e) {} tally[k] = (tally[k] || 0) + 1; if (was) tally[was] = Math.max(0, (tally[was] || 0) - 1);
     showResults(); // right away; the real counts land a moment later
     post({ action: 'vote', choice: k }).then(function (j) { tally = j.tally || tally; showResults(); track('News poll vote', { wid: wid, choice: k }); })
       .catch(function (e) { mine = was; answered[wid] = was; if (window.SV && SV.toast) SV.toast(e.message); showVote(); })
@@ -112,7 +112,7 @@
     ((j.extras || {})[wid] || []).forEach(addExtra);
     tally = (j.tallies || {})[wid] || {};
     mine = (j.mine || {})[wid] || '';
-    if (mine) answered[wid] = mine;
+    if (mine) { answered[wid] = mine; try { document.dispatchEvent(new CustomEvent('sv:poll', { detail: { wid: wid, choice: mine } })); } catch (e) {} }
   }, show: function () { if (mine) showResults(); } };
   }
 

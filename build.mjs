@@ -1879,6 +1879,35 @@ if (TRACKED.length) {
     if (st.calc) { const c = st.calc; w.calc = `<section class="nw-calc no-print" data-calc="${esc(JSON.stringify(c))}" aria-labelledby="calc-h-${esc(st.slug)}"><h3 id="calc-h-${esc(st.slug)}">${esc(c.title)}</h3><p class="nw-calc-sub">${inl(c.sub || '')}</p>
       <label class="nw-calc-in"><span>${esc(c.label)}</span><span class="nw-calc-box">$<input type="number" inputmode="decimal" min="0" step="1" value="${c.default}" data-calc-in aria-describedby="calc-hint-${esc(st.slug)}"></span></label><p class="small muted" id="calc-hint-${esc(st.slug)}">${inl(c.hint || '')}</p>
       <ul class="nw-calc-out" data-calc-out>${c.rows.map((r) => `<li><span><b>${esc(r.label)}</b>${r.note ? `<small>${esc(r.note)}</small>` : ''}</span><em data-pct="${r.pct}">${r.pct}%</em></li>`).join('')}</ul>${c.foot ? `<p class="small muted">${inl(c.foot)}</p>` : ''}</section>`; }
+    // Interactive pieces (src/tools.js runs them). [[zonecheck]]: type your address, see your zone on the District's
+    // live zoning map. [[slope]]: drag a hill steeper and see which rules apply. [[match]]: after the reader answers the
+    // story's polls, the council member who voted most like them. [[meeting talk|grid|time|vs]]: the meeting page
+    // charts inside the story (st.meeting = meeting id). [[chart id]]: line or bar chart with tap-for-detail points.
+    if (st.zonecheck) { const z = st.zonecheck; w.zonecheck = `<section class="tl-zone no-print" data-zonecheck="${esc(JSON.stringify(z))}"><h3>${esc(z.title)}</h3><p class="small">${inl(z.sub || '')}</p>
+      <label class="tl-zone-in"><span class="sr-only">Your street address in Squamish</span><input type="text" autocomplete="street-address" placeholder="${esc(z.placeholder || 'Start typing your address, like 37841 Cleveland')}" data-zone-in></label>
+      <ul class="tl-zone-list" data-zone-list hidden></ul><div class="tl-zone-out" data-zone-out aria-live="polite"></div><p class="small muted">${inl(z.foot || 'Zoning from the District of Squamish open data map (Open Government Licence, Squamish). A zone tells you what the rules allow, not what anyone plans to build.')}</p></section>`; }
+    if (st.slope) { const s = st.slope; w.slope = `<figure class="tl-slope no-print" data-slope="${esc(JSON.stringify(s))}"><figcaption><b>${esc(s.title)}</b> <span class="small">${esc(s.sub || 'Drag the slider')}</span></figcaption>
+      <svg viewBox="0 0 600 260" role="img" aria-label="A hillside drawn at the chosen slope" data-slope-svg></svg>
+      <label class="tl-slope-in"><span>Slope: <b data-slope-v>${s.start || 20}%</b> <small data-slope-deg></small></span><input type="range" min="0" max="${s.max || 60}" step="1" value="${s.start || 20}" data-slope-in></label>
+      <div class="tl-slope-out" data-slope-out aria-live="polite"></div>${s.note ? `<p class="nw-bars-note">${inl(s.note)}</p>` : ''}</figure>`; }
+    if (st.match) { const M = st.match, mt = MEETINGS.find((x) => x.id === M.meeting);
+      const rows = (M.pairs || []).map((p) => { const d = mt?.decisions?.[p.decision]; return d && d.votes ? { wid: `news-${st.slug}--${p.poll}`, title: d.title, votes: d.votes } : null; }).filter(Boolean);
+      const people = all.map((c) => ({ slug: c.slug, name: `${c.office === 'mayor' ? 'Mayor' : 'Councillor'} ${lastName(c)}`, photo: hasPhoto(c) ? '/' + c.photo : '' }));
+      w.match = rows.length ? `<section class="tl-match no-print" data-match="${esc(JSON.stringify({ rows, people }))}"><h3>${esc(M.title || 'Who on council voted most like you?')}</h3><div data-match-out><p class="small">Answer the questions in this story (${rows.length} of them) and your match appears here.</p></div></section>` : ''; }
+    if (st.meeting) { const mt = MEETINGS.find((x) => x.id === st.meeting);
+      w.meeting = (what) => { if (!mt) return ''; if (what === 'talk') { const h = talkChart(mt); return h ? `<div class="tl-talk" data-talk-toggle><div class="tl-seg" role="group" aria-label="Show"><button type="button" aria-pressed="true" data-v="all">Everyone</button><button type="button" aria-pressed="false" data-v="council">Council only</button><button type="button" aria-pressed="false" data-v="debate">Debate only</button></div>${h}</div>` : ''; }
+        return { grid: voteGrid, time: timeRibbon, vs: residentsVs, tiles: nightTiles, quote: quoteCard, next: nextSteps, watch: jumpList, places: placesBox }[what]?.(mt) || ''; }; }
+    if (st.charts) w.chart = (id) => { const C = st.charts[id]; if (!C) return '';
+      const P = C.points, W = 640, H = 340, L = 64, R = 16, T = 18, B = 46, ymax = C.ymax || Math.max(...P.map((p) => p.y)) * 1.12, ymin = C.ymin ?? 0;
+      const X = (i) => L + (P.length === 1 ? 0 : i * (W - L - R) / (P.length - 1)), Y = (v) => T + (1 - (v - ymin) / (ymax - ymin)) * (H - T - B), bw = Math.max(6, (W - L - R) / P.length * 0.62), XB = (i) => L + (i + 0.5) * (W - L - R) / P.length;
+      const ticks = [0, 0.5, 1].map((f) => ymin + f * (ymax - ymin)), fmt = (v) => `${C.pre || ''}${Math.round(v * 10) / 10}${C.unit || ''}`;
+      const xs = C.type === 'bar' ? XB : X, every = Math.ceil(P.length / 6);
+      return `<figure class="tl-chart" data-chart><figcaption><b>${esc(C.title)}</b> <span class="small">${esc(C.sub || 'Tap a point for the detail')}</span></figcaption>
+      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(C.title)}">${ticks.map((t) => `<g><line x1="${L}" x2="${W - R}" y1="${Y(t)}" y2="${Y(t)}" class="tl-grid"/><text x="${L - 8}" y="${Y(t) + 7}" text-anchor="end" class="tl-ax">${esc(fmt(t))}</text></g>`).join('')}
+      ${C.type === 'bar' ? P.map((p, i) => `<rect x="${XB(i) - bw / 2}" y="${Y(p.y)}" width="${bw}" height="${Y(ymin) - Y(p.y)}" rx="3" class="tl-bar${p.hl ? ' hl' : ''}"/>`).join('') : `<path d="${P.map((p, i) => `${i ? 'L' : 'M'}${X(i).toFixed(1)},${Y(p.y).toFixed(1)}`).join('')}" class="tl-line"/>`}
+      ${P.map((p, i) => `<g class="tl-pt${p.hl ? ' hl' : ''}" tabindex="0" data-tip="${esc(`${p.x}: ${fmt(p.y)}${p.note ? '. ' + p.note : ''}`)}"><circle cx="${xs(i)}" cy="${Y(p.y)}" r="${C.type === 'bar' ? 0.1 : p.hl ? 6 : 4.5}"/><rect x="${xs(i) - (W - L - R) / P.length / 2}" y="${T}" width="${(W - L - R) / P.length}" height="${H - T - B}" class="tl-hit"/></g>`).join('')}
+      ${P.map((p, i) => (i % every === 0 || i === P.length - 1 ? `<text x="${xs(i)}" y="${H - B + 28}" text-anchor="middle" class="tl-ax">${esc(String(p.x))}</text>` : '')).join('')}</svg>
+      <p class="tl-tip" data-tip-out aria-live="polite">${esc(C.lead || (P.find((p) => p.hl) ? `${P.find((p) => p.hl).x}: ${fmt(P.find((p) => p.hl).y)}${P.find((p) => p.hl).note ? '. ' + P.find((p) => p.hl).note : ''}` : 'Tap a point for the detail.'))}</p>${C.note ? `<p class="nw-bars-note">${inl(C.note)}</p>` : ''}</figure>`; };
     return w;
   };
   // st.fold: {"Section heading": "one line answer"}. Those sections fold shut on the story page, with the answer showing,
@@ -2114,7 +2143,7 @@ if (TRACKED.length) {
   ${signupBox('news-story')}
   ${floodSticky}
 </div>`,
-      scripts: '<script src="/news.js"></script>' + (st.poll || (st.polls || []).length || st.talk ? '<script src="/botid.js" defer></script>' : '') + (st.poll || (st.polls || []).length ? '<script src="/poll.js" defer></script>' : '') + (st.talk || st.calc ? '<script src="/talk.js" defer></script>' : '') + (st.live === 'flood' ? '<script src="/flood-live.js" defer></script>' : '') + (st.map_before ? '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script><script src="/flood-map.js" defer></script>' : ''),
+      scripts: '<script src="/news.js"></script>' + (st.poll || (st.polls || []).length || st.talk ? '<script src="/botid.js" defer></script>' : '') + (st.poll || (st.polls || []).length ? '<script src="/poll.js" defer></script>' : '') + (st.talk || st.calc ? '<script src="/talk.js" defer></script>' : '') + (st.zonecheck || st.slope || st.match || st.meeting || st.charts ? '<script src="/tools.js" defer></script>' : '') + (st.live === 'flood' ? '<script src="/flood-live.js" defer></script>' : '') + (st.map_before ? '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script><script src="/flood-map.js" defer></script>' : ''),
     }));
   });
 }
@@ -3032,7 +3061,7 @@ write('/404/', page({ url: '/404/', title: 'Page not found', body: '<h1>We canâ€
 fs.copyFileSync(path.join(DIST, '404', 'index.html'), path.join(DIST, '404.html'));
 
 // ---------- static assets ----------
-for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js', 'talk.js', 'since.js', 'flood-live.js', 'flood-map.js', 'pulse.js', 'insights.js', 'app.js', 'council-live.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
+for (const f of ['site.css', 'site.js', 'quiz.js', 'lean.js', 'subscribers.js', 'news.js', 'hoodmap.js', 'vote.js', 'wants.js', 'today.js', 'tip.js', 'poll.js', 'talk.js', 'since.js', 'flood-live.js', 'flood-map.js', 'pulse.js', 'insights.js', 'app.js', 'council-live.js', 'tools.js']) fs.copyFileSync(path.join(ROOT, 'src', f), path.join(DIST, f));
 fs.writeFileSync(path.join(DIST, 'botid.js'), `(function(){${BOTID_JS}})();`);
 fs.cpSync(path.join(ROOT, 'public'), DIST, { recursive: true });
 
