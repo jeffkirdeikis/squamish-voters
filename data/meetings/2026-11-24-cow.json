@@ -4,7 +4,61 @@
  "type": "cow",
  "civicweb_id": 2120,
  "civicweb_name": "Committee of the Whole - 24 Nov 2026",
- "time": "15:30",
+ "time": "16:30",
  "place": "Council Chambers, Municipal Hall, 37955 Second Avenue",
- "agenda_url": "https://squamish.civicweb.net/Portal/MeetingInformation.aspx?Id=2120"
+ "agenda_url": "https://squamish.civicweb.net/document/272267/",
+ "agenda_pdf": "https://squamish.civicweb.net/document/272267/?printPdf=true",
+ "attachments": [
+  {
+   "url": "https://squamish.civicweb.net/FileStorage/1BC72FC515B94EC19150701B4DCBA5F4-Report%20to%20Council%20-%20Housing%20Target%20Order%201.2.pdf",
+   "name": ""
+  }
+ ],
+ "preview": "Council will hear the District's second yearly progress report on the housing target set by the Province under the Housing Supply Act. The meeting then closes to the public for a private discussion about goals and progress for the District's annual report.",
+ "has_public_hearing": false,
+ "closed_only": false,
+ "agenda_items": [
+  {
+   "plain": "Council is asked to receive the second progress report on how Squamish is doing against the number of new homes the Province has ordered it to build, covering September 1, 2025 to August 31, 2026.",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "presentation",
+   "topic": "housing_affordability",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": [
+    "ocp-and-growth"
+   ]
+  },
+  {
+   "plain": "Council will meet in private with staff to talk about District goals, measures and progress reports while preparing the annual municipal report.",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "closed",
+   "topic": "other",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": []
+  }
+ ],
+ "agenda_hash": "8495f1a060067d20",
+ "agenda_checked": "2026-11-20T00:53:31.010Z"
 }

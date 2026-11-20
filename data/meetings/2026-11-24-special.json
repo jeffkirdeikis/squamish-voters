@@ -6,5 +6,53 @@
  "civicweb_name": "Special Business Meeting - 24 Nov 2026",
  "time": "09:00",
  "place": "Council Chambers, Municipal Hall, 37955 Second Avenue",
- "agenda_url": "https://squamish.civicweb.net/Portal/MeetingInformation.aspx?Id=2121"
+ "agenda_url": "https://squamish.civicweb.net/document/272256/",
+ "agenda_pdf": "https://squamish.civicweb.net/document/272256/?printPdf=true",
+ "attachments": [],
+ "agenda_place": "Council Chambers, Municipal Hall, 37955 Second Avenue",
+ "preview": "This short morning meeting is mostly a closed session, where council will talk privately about a staff or appointment matter, a legal case or possible lawsuit, and legal advice. In the open part, council will also name which councillors act as mayor in December 2026 and January 2027.",
+ "has_public_hearing": false,
+ "closed_only": false,
+ "agenda_items": [
+  {
+   "plain": "Council will vote to close the meeting to the public to discuss a person being considered for a District position, a legal case or possible lawsuit, and advice from its lawyers.",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "closed",
+   "topic": "other",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": []
+  },
+  {
+   "plain": "Council will vote to name Councillor Andersen as acting mayor (the councillor who fills in when the mayor is away) for December 2026 and Councillor Ellis for January 2027.",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "vote",
+   "topic": "other",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": []
+  }
+ ],
+ "agenda_hash": "778ed70dde397f1a",
+ "agenda_checked": "2026-11-20T00:53:36.295Z"
 }
