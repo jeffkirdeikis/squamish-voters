@@ -66,6 +66,375 @@
  ],
  "stories": [
   {
+   "slug": "library-foyer-gallery-knitwear-copper",
+   "s": "community",
+   "tier": "brief",
+   "date": "2026-11-19",
+   "head": "Woven copper sculptures and West Coast knitwear at Squamish library",
+   "dek": "Sculptures woven from copper wire and knitwear inspired by nature are on show at the Squamish Public Library. Frances Solar and Vancouver fibre artist Carmen Craig-Martin share the Foyer Gallery from November 17 to January 11.",
+   "gist": [
+    "The Squamish Public Library has a new art show in its Foyer Gallery.",
+    "Carmen Craig-Martin shows West Coast knitwear designs, like hats, scarves and shawls, inspired by nature.",
+    "Frances Solar shows metal sculptures made by threading copper wire on a traditional loom.",
+    "You can see the show on a library visit before it closes on January 11."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Where",
+     "v": "Library Foyer Gallery"
+    },
+    {
+     "level": "mid",
+     "k": "Opened",
+     "v": "Nov 17"
+    },
+    {
+     "level": "mid",
+     "k": "Length",
+     "v": "About 8 weeks (our count)"
+    },
+    {
+     "level": "mid",
+     "k": "On show",
+     "v": "Fibre + copper"
+    }
+   ],
+   "take": "The show is in the library's Foyer Gallery until January 11; check the library website for opening hours before you go.",
+   "body": "[[glance]]\n\nTwo artists share the Squamish Public Library's Foyer Gallery from November 17 to January 11.\n\n## What is on show\n\n- **Carmen Craig-Martin** is a fibre artist based in Vancouver. Craig-Martin shows West Coast knitwear designs: hats, scarves and shawls. The designs are inspired by nature.\n- **Frances Solar** shows woven metal sculptures. Solar makes them by threading copper magnet wire on a traditional loom.\n\nOne artist works in fibre, the other in copper wire on a loom.\n\n## Where and when\n\n- Place: Foyer Gallery, Squamish Public Library\n- Opened: November 17, 2026\n- Last day: January 11, 2027\n- Length: about eight weeks (our arithmetic)\n- More details: [Squamish Public Library](https://www.squamishlibrary.ca/)",
+   "visual": {
+    "type": "big",
+    "big": "Jan 11, 2027",
+    "small": "Last day of the show"
+   },
+   "src": [
+    "Squamish Public Library",
+    "https://www.squamishlibrary.ca/"
+   ],
+   "review_scores": [
+    5.8,
+    6.5,
+    6.7,
+    6.8
+   ],
+   "social": "Frances Solar weaves sculptures from copper wire on a traditional loom.\n\nAlso on show: West Coast hats, scarves and shawls by Vancouver fibre artist Carmen Craig-Martin. Squamish library Foyer Gallery, until January 11. Who the artists are and when to see it:",
+   "share": 2,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/library-foyer-gallery-knitwear-copper.jpg",
+    "alt": "Downtown Squamish street lined with shops under a clear blue sky, with snow-capped Mount Garibaldi in the distance",
+    "caption": "Downtown Squamish, with Mount Garibaldi in the distance.",
+    "credit": "The original uploader was Damieng at English Wikipedia., CC BY-SA 3.0",
+    "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/library-foyer-gallery-knitwear-copper-2.jpg",
+     "alt": "Squamish Town Centre stone sign beside flowering shrubs, with the granite face of the Stawamus Chief behind",
+     "caption": "The Squamish Town Centre sign, with the Stawamus Chief behind.",
+     "credit": "Straitgate, CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_City_Centre.JPG"
+    }
+   ],
+   "og": "library-foyer-gallery-knitwear-copper.png"
+  },
+  {
+   "slug": "library-free-sign-language-courses",
+   "s": "community",
+   "tier": "brief",
+   "date": "2026-11-19",
+   "head": "Your Squamish library card now opens free American Sign Language courses",
+   "dek": "Free American Sign Language courses you take at your own pace are now on Mango, the library's language service, alongside 70 world languages and dialects. Kids' courses are under Little Pim.",
+   "gist": [
+    "The Squamish Public Library offers free language courses through a service called Mango.",
+    "American Sign Language has now been added to the 70 world languages and dialects on Mango.",
+    "The courses go at your own pace, and kids' courses are listed under Little Pim.",
+    "You need your library card."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "What's new",
+     "v": "American Sign Language courses"
+    },
+    {
+     "level": "mid",
+     "k": "Added to",
+     "v": "70 world languages and dialects"
+    },
+    {
+     "level": "mid",
+     "k": "Cost",
+     "v": "Free with a library card"
+    },
+    {
+     "level": "mid",
+     "k": "For kids",
+     "v": "Listed under Little Pim"
+    }
+   ],
+   "take": "Squamish Public Library card holders can now take free American Sign Language courses on Mango.",
+   "body": "[[glance]]\n\n## What's new\n\nAmerican Sign Language, added to 70 world languages and dialects, is now on Mango for Squamish Public Library patrons.\n\n## How the courses work\n\n- The courses are free.\n- You learn at your own pace.\n- Mango covers 70 world languages and dialects, plus American Sign Language.\n- Courses for kids are listed under Little Pim.\n\n## How to get started\n\nAccess is with your library card. More at the [Squamish Public Library website](https://www.squamishlibrary.ca/).",
+   "visual": {
+    "type": "big",
+    "big": "70",
+    "small": "American Sign Language, added to 70 world languages and dialects"
+   },
+   "src": [
+    "Squamish Public Library",
+    "https://www.squamishlibrary.ca/"
+   ],
+   "review_scores": [
+    6.5,
+    6.8,
+    6.3,
+    6.5
+   ],
+   "social": "Free American Sign Language lessons with your Squamish library card.\n\nThey're on Mango, which also has 70 world languages and dialects. Kids' courses are under Little Pim. Details:",
+   "share": 3,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/library-free-sign-language-courses.jpg",
+    "alt": "Line drawings of hands forming three American Sign Language signs, with arrows showing the motion of each sign.",
+    "caption": "Illustrations of American Sign Language signs.",
+    "credit": "Clayton Valli, Public domain",
+    "link": "https://commons.wikimedia.org/wiki/File:American_Sign_Language.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/library-free-sign-language-courses-2.jpg",
+     "alt": "A young child, seen from behind, watches a laptop screen showing a woman signing in American Sign Language.",
+     "caption": "A child watches an American Sign Language video on a laptop.",
+     "credit": "Bobjgalindo, CC BY 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:A_child_watching_an_American_Sign_Language_video_in_northern_Maracay,_Venezuela.jpg"
+    }
+   ],
+   "og": "library-free-sign-language-courses.png"
+  },
+  {
+   "slug": "lego-party-sparkblocks-library-dec-1",
+   "s": "community",
+   "tier": "brief",
+   "date": "2026-11-19",
+   "head": "Lego Party at Squamish library December 1 with SparkBlocks founders",
+   "dek": "Lego fans of any age can drop in for an hour of open Lego play with the founders of SparkBlocks, which adds lights, motors and real circuit learning to Lego building. The Squamish Public Library hosts the Lego Party on Tuesday, December 1, from 3:30 to 4:30 p.m. (one listing says 4:40). The listing gives no age range or sign up details. The library also has a SparkBlocks kit you can put on hold.",
+   "gist": [
+    "The Squamish Public Library is holding a Lego Party on Tuesday, December 1, starting at 3:30 p.m.",
+    "It is a drop in hour of open Lego play with the founders of SparkBlocks.",
+    "The library says SparkBlocks adds lights, motors and real circuit learning to Lego building.",
+    "If you cannot go, you can put the SparkBlocks kit on hold at the library."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "When",
+     "v": "Tue, Dec 1, 3:30 to 4:30 p.m. (one listing: 4:40)"
+    },
+    {
+     "level": "mid",
+     "k": "Where",
+     "v": "Squamish Public Library"
+    },
+    {
+     "level": "mid",
+     "k": "Format",
+     "v": "Drop in, open Lego play"
+    },
+    {
+     "level": "mid",
+     "k": "Ages / sign up",
+     "v": "Not listed"
+    },
+    {
+     "level": "mid",
+     "k": "Can't make it?",
+     "v": "Put the SparkBlocks kit on hold"
+    }
+   ],
+   "take": "Drop in at the Squamish Public Library on Tuesday, December 1, from 3:30 p.m., or put the library's SparkBlocks kit on hold.",
+   "body": "[[glance]]\n\n## What happens\n\nThe Squamish Public Library is holding a Lego Party with SparkBlocks. It is one hour of open Lego play, and you can simply drop in.\n\nThe founders of SparkBlocks will be there. The library describes SparkBlocks, which the library says adds lights, motors and \"real circuit learning\" to Lego building.\n\nThe library listing does not give an age range or say whether you need to register, so check the listing before you go.\n\n## Where and when\n\n- Tuesday, December 1, starting at 3:30 p.m.\n- The library lists the end time as both 4:30 p.m. and 4:40 p.m.\n- Squamish Public Library\n- Drop in; details on [the Squamish Public Library website](https://www.squamishlibrary.ca/)\n\n## Put the kit on hold\n\nThe library has a SparkBlocks kit in its Library of Things collection. You can put the kit on hold through [the Squamish Public Library website](https://www.squamishlibrary.ca/).",
+   "visual": {
+    "type": "big",
+    "big": "Dec 1",
+    "small": "Lego Party at the library"
+   },
+   "src": [
+    "Squamish Public Library",
+    "https://www.squamishlibrary.ca/"
+   ],
+   "review_scores": [
+    5.7,
+    6.9,
+    6.3,
+    6.8
+   ],
+   "social": "What if your Lego could light up and move?\n\nThe Squamish library hosts a drop in Lego hour on Tuesday, December 1, at 3:30 p.m. with the founders of SparkBlocks, which adds lights, motors and circuits to Lego building. Details and how to put the kit on hold:",
+   "share": 2,
+   "auto": true,
+   "areas": [
+    "downtown"
+   ],
+   "photo": {
+    "file": "/news/photos/lego-party-sparkblocks-library-dec-1.jpg",
+    "alt": "Overhead view of a child's hands building a colourful Lego vehicle with wheels on a dark table",
+    "caption": "Building with Lego bricks.",
+    "credit": "Nenad Stojkovic, CC BY 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Playing_with_Lego_bricks.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/lego-party-sparkblocks-library-dec-1-2.jpg",
+     "alt": "Squamish Town Centre stone marker by a road with the Stawamus Chief granite cliffs behind",
+     "caption": "The entrance to downtown Squamish, below the Stawamus Chief.",
+     "credit": "Straitgate, CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_City_Centre.JPG"
+    },
+    {
+     "file": "/news/photos/lego-party-sparkblocks-library-dec-1-3.jpg",
+     "alt": "Downtown Squamish main street with shops and snow-capped Mount Garibaldi in the distance",
+     "caption": "Downtown Squamish, with Mount Garibaldi in the distance.",
+     "credit": "The original uploader was Damieng at English Wikipedia., CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+    }
+   ],
+   "og": "lego-party-sparkblocks-library-dec-1.png"
+  },
+  {
+   "slug": "squamish-nation-weaver-library",
+   "s": "community",
+   "tier": "card",
+   "date": "2026-11-19",
+   "head": "Watch Squamish Nation weaver Rose Williams make a permanent Library piece",
+   "dek": "Rose Williams, a weaver from the Sḵwx̱wú7mesh Úxwumixw (Squamish Nation), is making a large weaving that will stay in the Squamish Public Library for good. You can drop by to watch and talk with her, mostly on Saturdays during Library hours, but check with the Library first for dates.",
+   "gist": [
+    "Rose Williams, a Squamish Nation weaver, is making a large weaving that will hang in the Squamish Public Library for good.",
+    "The piece recognizes that the Library sits on the traditional land of the Squamish Nation.",
+    "She will work on it over the coming months, and no finish date, size or design has been shared.",
+    "You can drop by to watch and talk with her, mostly on Saturdays during Library hours, 10 a.m. to 5 p.m."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Where",
+     "v": "Library, 37907 Second Avenue"
+    },
+    {
+     "level": "mid",
+     "k": "When",
+     "v": "Mostly Saturdays, 10 a.m. to 5 p.m."
+    },
+    {
+     "level": "mid",
+     "k": "Fee offered",
+     "v": "$10,000 (spring call)"
+    },
+    {
+     "level": "mid",
+     "k": "Finish date",
+     "v": "Not announced"
+    },
+    {
+     "level": "mid",
+     "k": "Earlier Nation art",
+     "v": "2021 salmon windows, carved eagle doors"
+    }
+   ],
+   "bars": {
+    "timeline": {
+     "title": "Days since the Library's call for artists",
+     "rows": [
+      {
+       "label": "Call opens, Apr 9",
+       "v": 0,
+       "say": "Day 0"
+      },
+      {
+       "label": "Proposals due, May 22",
+       "v": 43,
+       "say": "Day 43"
+      },
+      {
+       "label": "Planned winner, week of June 22",
+       "v": 74,
+       "say": "Day 74 (planned)"
+      },
+      {
+       "label": "Weaving notice, Nov 19",
+       "v": 224,
+       "say": "Day 224",
+       "hl": true
+      }
+     ],
+     "note": "Dates from the Squamish Public Library call (Apr 9, 2026) and its Nov 19 notice; day counts are our arithmetic. The call planned installation for fall 2026; the Nov 19 notice says the weaving will take the coming months."
+    },
+    "money": {
+     "title": "Fee offered in the call compared with one year of the Library's provincial grants (dollars)",
+     "rows": [
+      {
+       "label": "Fee offered in the call",
+       "v": 10000,
+       "say": "$10,000",
+       "hl": true
+      },
+      {
+       "label": "All provincial grants, 2024",
+       "v": 97143.48,
+       "say": "$97,143"
+      }
+     ],
+     "note": "Fee: April 2026 call, reported by the Squamish Chief via the Penticton Herald. Grants: Province of B.C., 2024 allocations. The fee is about 10% of the 2024 total (our arithmetic). Different years and budgets, shown for scale only."
+    }
+   },
+   "take": "Anyone visiting the Library can watch Rose Williams weave and talk with her about her work, mostly on Saturdays between 10 a.m. and 5 p.m.",
+   "body": "[[glance]]\n\n## Where and when\n\n- Place: Squamish Public Library, 37907 Second Avenue\n- Days: mostly Saturdays, over the coming months\n- Hours: Saturdays 10 a.m. to 5 p.m. ([Library hours](https://squamishlibrary.ca/news/expanded-library-hours/))\n- Who can come: anyone visiting the Library is welcome to watch and talk with Williams about her work\n- Exact dates have not been posted. Check the [Library website](https://www.squamishlibrary.ca/) or ask Library staff before you go.\n\n## How it came about\n\nThe Library [put out a call on April 9, 2026](https://squamishlibrary.ca/news/call-for-s%E1%B8%B5wx%CC%B1wu7mesh-uxwumixw-artists/) asking Sḵwx̱wú7mesh Úxwumixw (Squamish Nation) artists to propose a permanent indoor artwork recognizing that the Library sits on the Nation's traditional, ancestral and unceded territory. The idea grew out of a reconciliation statement written by the Library board and endorsed by Squamish Valley Elders, [the Squamish Chief reported](https://www.squamishchief.com/local-news/honouring-reconciliation-squamish-library-calls-for-nation-artists-12160245). Ideally the artwork would show the statement's words; the Library has not said whether this weaving will.\n\n- Proposals were due May 22, 2026.\n- Library board trustees and staff reviewed them, and the final choice needed the support of Squamish Nation Elders.\n- The winner was to be named the week of June 22, 2026.\n- Installation was first planned for fall 2026. The new notice says the weaving will take the coming months.\n\n[[bars timeline]]\nThe Library has not publicly said whether Williams was picked through this call, or how many artists applied.\n\n## Who pays\n\nThe call offered $10,000 to make and install the work, [the Squamish Chief reported (via the Penticton Herald)](https://www.pentictonherald.ca/spare_news/article_5910cb68-afea-51e3-bb08-e3ba137ac82e.html). Part of the money comes from a [Province of B.C. library enhancement grant](https://squamishlibrary.ca/news/call-for-s%E1%B8%B5wx%CC%B1wu7mesh-uxwumixw-artists/), and the board added a [new 2026 budget line](https://squamishlibrary.ca/wp-content/uploads/2026/06/Board-Meeting-Minutes-April-2026.pdf) for a reconciliation project that includes an art installation. The split has not been made public. For scale, the Library's total provincial grants were [$97,143.48 in 2024](https://www2.gov.bc.ca/assets/gov/residents/sports-and-recreation/arts-culture/public-libraries/funding/2024_public_libraries_provincial_grants_allocations.pdf).\n\n[[bars money]]\nIn June 2025 the Province added [another $1.25 million in one time Library Enhancement Grants](https://www2.gov.bc.ca/assets/gov/residents/sports-and-recreation/arts-culture/public-libraries/funding/2025_public_libraries_provincial_grants_allocations.pdf) for B.C. libraries. The Library has not said which year's enhancement grant it used.\n\n## About the weaver\n\nWilliams learned cedar weaving from Sesemiya Tracy Williams, and wool weaving from Chepximiya Siyam Chief Janice George and Skwetsimeltxw Willard \"Buddy\" Joseph, [according to Simon Fraser University](https://www.sfu.ca/annieross/research-mentors/williams.html). Her pieces are in private collections and museum exhibits. She has [woven in wool since 2006 and now works mainly in wool](https://www.selenakearney.com/aweaversvoice/project-six-6f87e-2eyxx). An [earlier North Shore News profile](https://www.nsnews.com/living/squamish-weaver-shares-her-skills-2991908) said she worked with the Squamish Nation Education Department and was interested in mountain goat wool and old spinning and dyeing methods. The Library has not said what materials she will use.\n\nGeorge and Joseph, her wool weaving teachers, are central to the craft's comeback. Traditional weaving had almost disappeared in the Squamish Nation after colonization, and the two [started a major revival in the early 2000s](http://www.sfu.ca/archive-sfunews/news/story_03190901.shtml). They [co-founded L'hen Awtxw Weaving House](https://ecuad.ca/chepximiya-siyam-chief-janice-george-on-the-life-giving-power-of-culture/) to teach Coast Salish wool weaving.\n\n## Nation art at the Library\n\n- 2021: Siobhan Joseph's \"Why the Salmon Come to Squamish Waters\" wraps the north and east windows ([Library](https://squamishlibrary.ca/art-at-the-library/)), paid for by a Squamish Arts Council grant and District of Squamish capital funding ([North Shore News](https://www.nsnews.com/local-news/library-calls-for-squamish-nation-artists-for-unique-window-project-3149161)).\n- Master carver X̱walacktun carved two eagles on the Community Meeting Room doors; in 1999 Squamish Nation Elders approved the room's name in the Squamish language ([Art at the Library](https://squamishlibrary.ca/art-at-the-library/)).\n- 2021: Tsawaysia Spukwus (Alice Guss) taught [free wool weaving workshops](https://www.squamishreporter.com/2021/05/28/free-wool-weaving-drum-making-workshops-by-alice-guss-at-library/) at the Library.\n\nFor comparison, North Vancouver City Library has had [two Coast Salish weavings on display since 2023](https://www.nvcl.ca/public-art).\n\nStill unknown: the size, design, title, where it will hang and when it will be done.",
+   "visual": {
+    "type": "big",
+    "big": "Saturdays",
+    "small": "Watch her weave at the Library, 10 a.m. to 5 p.m."
+   },
+   "src": [
+    "Squamish Public Library",
+    "https://www.squamishlibrary.ca/"
+   ],
+   "review_scores": [
+    6.5,
+    7.2,
+    7,
+    7.5
+   ],
+   "researched": true,
+   "social": "Squamish Nation weaver Rose Williams is making a large, permanent artwork inside the Squamish Public Library, and you can watch and chat with her as she works.\n\nIt recognizes the Library sits on Squamish Nation land. Mostly Saturdays, 10 to 5. Check with the Library for dates.",
+   "share": 3,
+   "auto": true,
+   "areas": [
+    "downtown"
+   ],
+   "photo": {
+    "file": "/news/photos/squamish-nation-weaver-library.jpg",
+    "alt": "Close-up of a woven textile corner with orange, green and yellow geometric shapes on a red background",
+    "caption": "Detail of a twined Salish-style weaving.",
+    "credit": "Sfuarch480, CC BY-SA 3.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Twine_weave.JPG"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/squamish-nation-weaver-library-2.jpg",
+     "alt": "Woven Squamish basket with scalloped rim and patterned bands displayed on a museum shelf",
+     "caption": "A Squamish Nation basket on display at UBC.",
+     "credit": "Leoboudv, CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Native_Squamish_basket_(UBC-2010).jpg"
+    },
+    {
+     "file": "/news/photos/squamish-nation-weaver-library-3.jpg",
+     "alt": "Weathered whale bone weaving shuttle with a carved design, on red fabric",
+     "caption": "A whale bone shuttle, a traditional Coast Salish weaving tool.",
+     "credit": "Sfuarch480, CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Whale_Bone_Shuttle.JPG"
+    }
+   ],
+   "og": "squamish-nation-weaver-library.png"
+  },
+  {
    "slug": "kayaker-dies-cheakamus-river",
    "s": "safety",
    "tier": "card",
