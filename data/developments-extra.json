@@ -1,0 +1,16 @@
+{
+ "about": "Projects we know about from council and committee agendas that are not yet in the District's open data feed. scripts/pipeline/places.mjs adds these to data/developments.json, and drops any entry here once the District feed lists the same address. The neighbourhood is worked out from the shape. 'found' and 'source_url' are our own notes and are not published.",
+ "developments": [
+  {
+   "name": "38459 BUCKLEY AVE",
+   "address": "38459 BUCKLEY AVE",
+   "type": "Rezoning",
+   "status": "Under review",
+   "homes": 9,
+   "housing": ["Townhouse"],
+   "shape": [[[-123.1534, 49.70791], [-123.15326, 49.70807], [-123.15271, 49.70785], [-123.1526, 49.7076], [-123.1534, 49.70791]]],
+   "found": "2026-11-19 Advisory Design Panel, files RZ000065 and DP000653. Nine townhouses, three storeys, rezoning from RM1 to a custom zone at 0.8 floor area ratio. Rezoning still has to go to council.",
+   "source_url": "https://squamish.civicweb.net/document/272095"
+  }
+ ]
+}

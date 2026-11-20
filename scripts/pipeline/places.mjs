@@ -59,7 +59,14 @@ for (const f of devsGeo.features) {
   if (g.shape.length < 6) g.shape.push(...rs);
   groups.set(key, g);
 }
-const developments = [...groups.values()].map((g) => ({ ...g, centre: centre(g.shape) })).sort((a, b) => b.homes - a.homes);
+// Projects seen on council or committee agendas before the District adds them to its feed (data/developments-extra.json).
+// One of ours is dropped as soon as the feed lists the same address, so the District's record always wins.
+const norm = (s) => String(s || '').toUpperCase().replace(/\s+/g, ' ').trim();
+const fed = new Set([...groups.values()].flatMap((g) => [norm(g.address), norm(g.name)]).filter(Boolean));
+const extras = ((readJson(path.join(ROOT, 'data', 'developments-extra.json')) || {}).developments || [])
+  .filter((e) => e.name && e.shape?.length && !fed.has(norm(e.address)) && !fed.has(norm(e.name)))
+  .map((e) => ({ name: e.name, address: e.address || '', type: e.type || 'Application', status: e.status || 'Under review', area: e.area || Object.entries(outline).find(([, rr]) => rr.some((r) => inside(centre(e.shape), r)))?.[0] || null, homes: e.homes || 0, housing: e.housing || [], shape: e.shape }));
+const developments = [...groups.values(), ...extras].map((g) => ({ ...g, centre: centre(g.shape) })).sort((a, b) => b.homes - a.homes);
 
 const ORDER = [...part.map((h) => h.slug), ...Object.keys(EXTRA)];
 const neighbourhoods = ORDER.map((slug) => ({ slug, name: names[slug], outline: outline[slug] || [], centre: outline[slug] ? centre(outline[slug]) : (developments.find((d) => d.area === slug) || {}).centre || null }));

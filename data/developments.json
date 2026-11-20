@@ -5773,6 +5773,45 @@
    ]
   },
   {
+   "name": "38459 BUCKLEY AVE",
+   "address": "38459 BUCKLEY AVE",
+   "type": "Rezoning",
+   "status": "Under review",
+   "area": "dentville",
+   "homes": 9,
+   "housing": [
+    "Townhouse"
+   ],
+   "shape": [
+    [
+     [
+      -123.1534,
+      49.70791
+     ],
+     [
+      -123.15326,
+      49.70807
+     ],
+     [
+      -123.15271,
+      49.70785
+     ],
+     [
+      -123.1526,
+      49.7076
+     ],
+     [
+      -123.1534,
+      49.70791
+     ]
+    ]
+   ],
+   "centre": [
+    49.70787,
+    -123.15307
+   ]
+  },
+  {
    "name": "40340 TANTALUS RD",
    "address": "40340 TANTALUS RD",
    "type": "Development permit",
