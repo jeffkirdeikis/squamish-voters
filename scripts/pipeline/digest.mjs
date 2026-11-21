@@ -48,6 +48,9 @@ const pill = (text, kind) => {
   return `<span style="background:${bg};color:${fg};font-weight:800;font-size:11px;padding:3px 7px;border-radius:20px;white-space:nowrap">${esc(text)}</span>`;
 };
 const button = (href, text) => `<table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:14px"><tr><td style="background:${C.green};border-radius:8px"><a href="${href}" style="display:inline-block;padding:12px 20px;color:#fff;font-weight:700;text-decoration:none;font-size:15px">${esc(text)}</a></td></tr></table>`;
+// A plain link that keeps the text's own look (Jeff, Nov 20: almost everything in the email should open the detail).
+const lk = (href, inner, style = '') => `<a href="${href}" style="color:inherit;text-decoration:none;${style}">${inner}</a>`;
+const more = (href, t = 'Read more') => ` <a href="${href}" style="color:${C.blue};font-weight:700;white-space:nowrap">${t} &rarr;</a>`;
 const meter = (pct, color) => `<div style="background:${C.line};border-radius:5px"><div style="background:${color};width:${Math.max(2, Math.min(100, pct))}%;height:14px;border-radius:5px"></div></div>`;
 
 // ---------- text helpers ----------
@@ -154,22 +157,22 @@ const surname = (slug) => { const n = PEOPLE[slug] || slug.replace(/-/g, ' '); r
 const VOTE_LOOK = { yes: ['#2e7d32', '&#10003; Yes', 1], no: [C.red, '&#10007; No', 1], recused: ['#c9c4b5', 'Left room', 0.55], absent: ['#c9c4b5', 'Away', 0.55] };
 const tally = (votes) => { const v = Object.values(votes || {}); return { y: v.filter((x) => x === 'yes').length, n: v.filter((x) => x === 'no').length }; };
 
-function faces(d) {
+function faces(d, href) {
   const order = { yes: 0, no: 1, recused: 2, absent: 3 };
   const people = Object.entries(d.votes).sort((a, b) => (order[a[1]] ?? 4) - (order[b[1]] ?? 4));
   const { y, n } = tally(d.votes);
   const cell = ([slug, v]) => { const [ring, word, op] = VOTE_LOOK[v] || VOTE_LOOK.absent;
-    return `<td align="center" width="${Math.floor(100 / people.length)}%" style="padding:2px 0;font-size:10.5px;color:${C.soft}"><img src="${ORIGIN}/img/${slug}.jpg" width="44" height="44" alt="${esc(PEOPLE[slug] || slug)}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:3px solid ${ring};display:block;margin:0 auto 3px;opacity:${op}"><b style="color:${op < 1 ? '#8b928e' : ring}">${word}</b><br>${esc(surname(slug))}</td>`; };
-  return `<div style="font-size:14px;font-weight:800;margin:4px 0 8px">How they voted: ${esc(d.title)} <span style="font-weight:600;color:${C.green};white-space:nowrap">&middot; ${d.result === 'failed' ? 'Failed' : 'Passed'} ${y} to ${n}</span></div>
+    return `<td align="center" width="${Math.floor(100 / people.length)}%" style="padding:2px 0;font-size:10.5px;color:${C.soft}"><a href="${ORIGIN}/council/${slug}/" style="color:inherit;text-decoration:none"><img src="${ORIGIN}/img/${slug}.jpg" width="44" height="44" alt="${esc(PEOPLE[slug] || slug)}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:3px solid ${ring};display:block;margin:0 auto 3px;opacity:${op}"><b style="color:${op < 1 ? '#8b928e' : ring}">${word}</b><br>${esc(surname(slug))}</a></td>`; };
+  return `<div style="font-size:14px;font-weight:800;margin:4px 0 8px">How they voted: ${lk(href, esc(d.title))} <span style="font-weight:600;color:${C.green};white-space:nowrap">&middot; ${d.result === 'failed' ? 'Failed' : 'Passed'} ${y} to ${n}</span></div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${people.map(cell).join('')}</tr></table>`;
 }
 
-function decisionRow(d) {
+function decisionRow(d, href) {
   const { y, n } = tally(d.votes);
   const p = d.result === 'info' ? pill('NO VOTE YET', 'wait') : d.result === 'referred' ? pill('SENT BACK', 'wait')
     : d.result === 'failed' ? pill(`FAILED ${y}–${n}`, 'bad') : n ? pill(`PASSED ${y}–${n}`, 'good') : pill('ALL YES', 'good');
   const extra = short(d.for_you, 150);
-  return `<tr><td width="104" valign="top" style="padding:9px 0;border-top:1px solid ${C.line}">${p}</td><td style="padding:9px 0;border-top:1px solid ${C.line}"><b>${esc(d.title)}</b>${extra ? `. ${esc(extra)}` : ''}</td></tr>`;
+  return `<tr><td width="104" valign="top" style="padding:9px 0;border-top:1px solid ${C.line}">${p}</td><td style="padding:9px 0;border-top:1px solid ${C.line}">${lk(href, `<b style="color:${C.blue}">${esc(d.title)}</b>${extra ? `<span style="color:${C.ink}">. ${esc(extra)}</span>` : ''} <span style="color:${C.blue}">&rsaquo;</span>`)}</td></tr>`;
 }
 
 // One block per council meeting this week: the story's photo and glance tiles, faces on the first split vote, every
@@ -183,17 +186,19 @@ function councilBlock(m, w, first) {
   const head = w.council?.[id]?.head || st?.head || m.headline;
   const inShort = w.council?.[id]?.in_short || (st?.gist ? st.gist.slice(0, 2).join(' ') : firstSentence(m.headline));
   const tiles = (st?.glance || []).filter((g) => String(g.v).length <= 13).slice(0, 3);
-  const tile = (g) => `<td width="${Math.floor(100 / tiles.length)}%" style="padding:0 3px"><div style="background:${g.level === 'high' ? C.goldbg : C.cream};border-radius:10px;padding:12px 6px;text-align:center"><div style="font-family:${SERIF};font-size:19px;line-height:1.15;font-weight:700;color:${g.level === 'high' ? C.goldink : C.green}">${esc(g.v)}</div><div style="font-size:12px;line-height:1.3;color:${C.mute};margin-top:2px">${esc(g.k)}</div></div></td>`;
+  const sHref = st ? storyUrl(st) : m.url;
+  const tile = (g) => `<td width="${Math.floor(100 / tiles.length)}%" style="padding:0 3px"><div style="background:${g.level === 'high' ? C.goldbg : C.cream};border-radius:10px;padding:12px 6px;text-align:center"><div style="font-family:${SERIF};font-size:19px;line-height:1.15;font-weight:700;color:${g.level === 'high' ? C.goldink : C.green}">${esc(g.v)}</div><div style="font-size:12px;line-height:1.3;color:${C.mute};margin-top:2px">${esc(g.k)}</div></div></td>`.replace(/^<td([^>]*)>([\s\S]*)<\/td>$/, (x, a, inner) => `<td${a}>${lk(sHref, inner)}</td>`);
   const photo = photoOf(st);
   const top = band(`${label(`Council · ${dayName(m.date)} ${noon(m.date).toLocaleDateString('en-CA', { month: 'short', day: 'numeric' }).replace('.', '')}`)}
- <div style="font-family:${SERIF};font-size:24px;line-height:1.2;font-weight:700;margin:6px 0 12px;color:${C.ink}">${esc(head)}</div>
+ <div style="font-family:${SERIF};font-size:24px;line-height:1.2;font-weight:700;margin:6px 0 12px;color:${C.ink}">${lk(sHref, esc(head))}</div>
  ${photo ? `<a href="${st ? storyUrl(st) : m.url}"><img src="${photo}" width="552" alt="${esc(st.photo.alt || '')}" style="display:block;width:100%;height:auto;border-radius:10px;border:0"></a>` : ''}
  ${tiles.length ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:14px 0 4px"><tr>${tiles.map(tile).join('')}</tr></table>` : ''}
- <div style="font-size:15.5px;line-height:1.5;margin:10px 0 0"><b>In short:</b> ${esc(inShort)}</div>`, { id: first ? 'council' : '' });
-  const grid = split ? band(faces(split), { gap: false, pad: '4px 24px 20px' }) : '';
+ <div style="font-size:15.5px;line-height:1.5;margin:10px 0 0"><b>In short:</b> ${esc(inShort)}${more(sHref)}</div>`, { id: first ? 'council' : '' });
+  const dHref = (d) => `${m.url}#d-${(M.decisions || []).indexOf(d)}`;
+  const grid = split ? band(faces(split, dHref(split)), { gap: false, pad: '4px 24px 20px' }) : '';
   const rows = ds.slice(0, 6);
   const list = rows.length ? band(`<div style="font-size:14px;font-weight:800;margin:6px 0 8px">Every decision, one line each</div>
- <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14.5px;line-height:1.4">${rows.map(decisionRow).join('')}</table>
+ <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14.5px;line-height:1.4">${rows.map((d) => decisionRow(d, dHref(d))).join('')}</table>
  ${button(st ? storyUrl(st) : m.url, st ? 'Read the full meeting story →' : 'See every vote →')}`, { gap: false, pad: '0 24px 22px' }) : '';
   return { html: top + grid + list, story: st, decisions: M.decisions || [] };
 }
@@ -201,19 +206,8 @@ function councilBlock(m, w, first) {
 // Other political stories this week (no meeting of their own): compact rows with a small photo.
 function politicsRows(items, w) {
   if (!items.length) return '';
-  const row = (st) => { const p = photoOf(st); return `<tr>${p ? `<td width="92" valign="top" style="padding:8px 12px 8px 0"><a href="${storyUrl(st)}"><img src="${p}" width="80" height="60" alt="" style="display:block;width:80px;height:60px;object-fit:cover;border-radius:8px;border:0"></a></td>` : ''}<td valign="top" style="padding:8px 0;font-size:14.5px;line-height:1.4"><a href="${storyUrl(st)}" style="color:${C.ink};font-weight:800;text-decoration:none">${esc(w.heads?.[st.slug] || st.head)}</a>${short(st.dek, 150) ? `<div style="color:${C.soft};margin-top:2px">${esc(short(st.dek, 150))}</div>` : ''}</td></tr>`; };
+  const row = (st) => { const p = photoOf(st); return `<tr>${p ? `<td width="92" valign="top" style="padding:8px 12px 8px 0"><a href="${storyUrl(st)}"><img src="${p}" width="80" height="60" alt="" style="display:block;width:80px;height:60px;object-fit:cover;border-radius:8px;border:0"></a></td>` : ''}<td valign="top" style="padding:8px 0;font-size:14.5px;line-height:1.4"><a href="${storyUrl(st)}" style="color:${C.ink};font-weight:800;text-decoration:none">${esc(w.heads?.[st.slug] || st.head)}</a>${short(st.dek, 150) ? `<div style="color:${C.soft};margin-top:2px">${lk(storyUrl(st), esc(short(st.dek, 150)))}${more(storyUrl(st))}</div>` : more(storyUrl(st))}</td></tr>`; };
   return band(`${label('Also in politics')}<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:6px">${items.map(row).join('')}</table>`);
-}
-
-// ---------- safety ----------
-function safetyStrip(items) {
-  if (!items.length) return '';
-  const st = items[0], p = photoOf(st);
-  const more = items.slice(1, 3).map((x) => `<a href="${storyUrl(x)}" style="color:${C.badink}">${esc(x.head)}</a>`).join(' · ');
-  return band(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fdf1ef;border-left:5px solid ${C.red};border-radius:8px"><tr>
-  ${p ? `<td width="96" valign="top" style="padding:12px 0 12px 12px"><img src="${p}" width="84" height="84" alt="" style="display:block;width:84px;height:84px;border-radius:8px;object-fit:cover"></td>` : ''}
-  <td style="padding:12px 14px;font-size:14.5px;line-height:1.45"><div style="font-weight:800;color:${C.badink};font-size:12px;letter-spacing:.6px">SAFETY</div><b>${esc(st.head)}.</b> ${esc(short(st.dek, 200))} <a href="${storyUrl(st)}" style="color:${C.badink};font-weight:700">Read more &rarr;</a>${more ? `<div style="margin-top:6px;font-size:13.5px">Also: ${more}</div>` : ''}</td>
- </tr></table>`, { gap: false, pad: '0 24px 22px' });
 }
 
 // ---------- council vs neighbours, and the one tap question ----------
@@ -228,12 +222,12 @@ function versus(blocks, rows, wants, prev, ask) {
       if (!poll || !d?.votes || !poll.options.some((o) => o.key === 'yes')) continue;
       const ry = t.yes || 0, rn = t.no || 0; if (ry + rn < 10) continue;
       const { y, n } = tally(d.votes);
-      pairs.push({ q: poll.q, council: Math.round((100 * y) / Math.max(1, y + n)), readers: Math.round((100 * ry) / (ry + rn)) });
+      pairs.push({ href: `${storyUrl(st)}#q-${poll.id}`, q: poll.q, council: Math.round((100 * y) / Math.max(1, y + n)), readers: Math.round((100 * ry) / (ry + rn)) });
     }
   }
   const people = wants?.people || 0, grew = prev?.people ? people - prev.people : 0;
   const close = rows.filter((r) => r.kind === 'yesno' && r.y + r.n >= 40).sort((a, b) => Math.abs(a.y - a.n) - Math.abs(b.y - b.n))[0];
-  const twoBars = (p) => `<div style="font-size:14.5px;font-weight:700;margin:12px 0 6px">${esc(p.q)}</div>
+  const twoBars = (p) => `<div style="font-size:14.5px;font-weight:700;margin:12px 0 6px">${lk(p.href, `${esc(p.q)} <span style="color:${C.blue}">&rsaquo;</span>`)}</div>
  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:13px">
   <tr><td width="92" style="padding:3px 0;color:${C.soft}">Council</td><td style="padding:3px 0">${meter(p.council, C.green)}</td><td width="74" align="right" style="padding:3px 0"><b>${p.council}% yes</b></td></tr>
   <tr><td style="padding:3px 0;color:${C.soft}">Neighbours</td><td style="padding:3px 0">${meter(p.readers, C.gold)}</td><td align="right" style="padding:3px 0"><b>${p.readers}% yes</b></td></tr></table>`;
@@ -253,7 +247,7 @@ function versus(blocks, rows, wants, prev, ask) {
  <div style="font-family:${SERIF};font-size:21px;font-weight:700;margin:4px 0 4px;color:${C.ink}">${pairs.length ? 'Did council vote the way you would?' : 'What your neighbours are saying'}</div>
  <div style="font-size:13.5px;color:${C.mute};margin-bottom:4px">${num(people)} people have answered on What Squamish Wants${grew > 0 ? ` (${num(grew)} new this week)` : ''}. Open to anyone, so not a scientific poll.</div>
  ${pairs.slice(0, 3).map(twoBars).join('')}${fallback}${last}
- ${close ? `<div style="font-size:13.5px;color:${C.soft};margin-top:12px;line-height:1.45"><b>Closest call:</b> ${esc(close.title)}, ${num(close.y)} yes and ${num(close.n)} no.</div>` : ''}
+ ${close ? `<div style="font-size:13.5px;color:${C.soft};margin-top:12px;line-height:1.45"><b>Closest call:</b> ${lk(`${ORIGIN}/wants/${close.page ? close.id + '/' : ''}`, `${esc(close.title)}, ${num(close.y)} yes and ${num(close.n)} no. <span style="color:${C.blue};font-weight:700">Vote &rarr;</span>`)}</div>` : ''}
  <div style="font-size:14px;margin-top:10px"><a href="${ORIGIN}/wants/" style="color:${C.blue};font-weight:700">Add your answers &rarr;</a></div>`, { id: 'vs' }) + (ask ? ask.html : '');
 }
 
@@ -317,19 +311,22 @@ function comingUp(W, w) {
     const what = notes[date] || short(main.text, 200);
     const top = i ? '' : '';
     return `<tr><td width="58" valign="top" style="padding:8px 0;${i ? `border-top:1px solid ${C.line}` : ''}${top}"><div style="border:1px solid #d9d5c8;border-radius:8px;text-align:center;overflow:hidden;width:48px"><div style="background:${i ? C.green : C.red};color:#fff;font-size:10px;font-weight:800;padding:2px 0">${noon(date).toLocaleDateString('en-CA', { month: 'short' }).replace('.', '').toUpperCase()}</div><div style="font-size:19px;font-weight:800;padding:2px 0;color:${C.ink}">${noon(date).getDate()}</div></div></td>
-   <td style="padding:8px 0;${i ? `border-top:1px solid ${C.line}` : ''}"><b>${main.time ? `${esc(main.time)} ` : ''}${esc(main.title)}.</b> ${esc(what)} <a href="${main.url}" style="color:${C.blue}">${main.url.includes('/meetings/') ? 'Watch or have your say' : 'Details'}</a>${cal}${rest.length ? `<div style="color:${C.mute};font-size:13px;margin-top:3px">Also: ${rest.map((x) => `${x.time ? esc(x.time) + ' ' : ''}${esc(x.title)} (<a href="${x.url}" style="color:${C.blue}">details</a>)`).join('; ')}</div>` : ''}</td></tr>`;
+   <td style="padding:8px 0;${i ? `border-top:1px solid ${C.line}` : ''}">${lk(main.url, `<b style="color:${C.blue}">${main.time ? `${esc(main.time)} ` : ''}${esc(main.title)}.</b> ${esc(what)}`)} <a href="${main.url}" style="color:${C.blue}">${main.url.includes('/meetings/') ? 'Watch or have your say' : 'Details'}</a>${cal}${rest.length ? `<div style="color:${C.mute};font-size:13px;margin-top:3px">Also: ${rest.map((x) => `${x.time ? esc(x.time) + ' ' : ''}${esc(x.title)} (<a href="${x.url}" style="color:${C.blue}">details</a>)`).join('; ')}</div>` : ''}</td></tr>`;
   });
   return band(`${label('Coming up')}<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14.5px;line-height:1.4;margin-top:10px">${rows.join('')}</table>`, { id: 'coming' });
 }
 
 // ---------- around town ----------
-function aroundTown(list, w) {
+function aroundTown(list, w, safety = []) {
   const bySlug = Object.fromEntries(list.map((st) => [st.slug, st]));
   let cards = (w.town?.cards || []).map((c) => ({ ...c, slugs: (c.slugs || []).filter((s) => bySlug[s]) })).filter((c) => c.slugs.length);
   const box = w.town?.box && (w.town.box.slugs || []).filter((s) => bySlug[s]).length ? { title: w.town.box.title, items: w.town.box.slugs.filter((s) => bySlug[s]).map((s, i) => ({ st: bySlug[s], label: w.town.box.labels?.[i] || bySlug[s].head })) } : null;
   if (!cards.length) cards = list.filter((st) => st.photo?.file).slice(0, 4).map((st) => ({ slugs: [st.slug], head: st.head, sub: '' }));
   cards = cards.filter((c) => bySlug[c.slugs[0]].photo?.file).slice(0, 4);
-  if (!cards.length && !box) return '';
+  if (!cards.length && !box && !safety.length) return '';
+  // Deaths and emergencies (Jeff, Nov 20: politics and city news first): a quiet line at the end, never up top.
+  const safe = safety.slice(0, 3).map((st) => `<tr><td style="padding:6px 0;border-top:1px solid ${C.line};font-size:14px;line-height:1.4">${lk(storyUrl(st), `<b>${esc(st.head)}</b>`)}${more(storyUrl(st))}</td></tr>`).join('');
+  const safeHtml = safe ? `<div style="font-size:12px;font-weight:800;letter-spacing:1px;color:${C.mute};margin:16px 0 4px">ALSO THIS WEEK</div><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${safe}</table>` : '';
   const card = (c, i) => { const st = bySlug[c.slugs[0]];
     return `<td class="stack" width="50%" valign="top" style="padding:0 ${i % 2 ? 0 : 8}px 16px ${i % 2 ? 8 : 0}px"><a href="${storyUrl(st)}" style="text-decoration:none;color:${C.ink}"><img src="${photoOf(st)}" width="264" alt="${esc(st.photo.alt || '')}" style="display:block;width:100%;height:150px;object-fit:cover;border-radius:10px;border:0"><div style="font-weight:800;font-size:15px;line-height:1.3;margin-top:8px">${esc(clean(c.head || st.head))}</div>${c.sub ? `<div style="font-size:13px;color:${C.mute};margin-top:3px">${esc(clean(c.sub))}</div>` : ''}</a></td>`; };
   const gridRows = [];
@@ -339,7 +336,7 @@ function aroundTown(list, w) {
   <b>${esc(clean(box.title))}</b> ${box.items.map((x) => `<a href="${storyUrl(x.st)}" style="color:${C.blue}">${esc(clean(x.label))}</a>`).join(' &middot; ')}${flood ? ` &middot; <a href="${ORIGIN}/flood/" style="color:${C.blue}">Live river levels</a>` : ''}
  </td></tr></table>` : '';
   return band(`${label('Around town')}
- <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:12px">${gridRows.join('')}</table>${boxHtml}
+ <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:12px">${gridRows.join('')}</table>${boxHtml}${safeHtml}
  <div style="font-size:14px;margin-top:14px"><a href="${ORIGIN}/news/" style="color:${C.blue};font-weight:700">All Squamish news this week &rarr;</a></div>`, { id: 'town' });
 }
 
@@ -351,7 +348,7 @@ function weekend(today) {
   if (!wk.length) return '';
   const hw = today.highway, open = hw?.status === 'clear', band2 = today.river?.band || '';
   const riverOk = !band2 || /normal|low/i.test(band2);
-  const tile = (bg, icon, top, bottom) => `<td width="25%" style="background:${bg};border-radius:10px;padding:10px 4px;text-align:center;font-size:13px;color:${C.ink}"><div style="font-size:22px">${icon}</div><b>${top}</b><br>${bottom}</td>`;
+  const tile = (bg, icon, top, bottom) => `<td width="25%" style="background:${bg};border-radius:10px;padding:10px 4px;text-align:center;font-size:13px;color:${C.ink}">${lk(`${ORIGIN}/today/`, `<div style="font-size:22px">${icon}</div><b>${top}</b><br>${bottom}`)}</td>`;
   const tiles = [...wk.map((d) => tile(C.cream, SKY(d.code)[0], dayName(d.date).slice(0, 3), `${Math.round(d.hi)}&deg; / ${Math.round(d.lo)}&deg;`)),
     hw ? tile(open ? C.goodbg : C.badbg, '&#128739;&#65039;', 'Hwy 99', open ? 'Open' : 'Check first') : '',
     band2 ? tile(riverOk ? C.goodbg : C.goldbg, '&#127754;', 'River', esc(band2.replace(/^./, (c) => c.toUpperCase()))) : ''].filter(Boolean);
@@ -368,8 +365,8 @@ function promises(p, prev) {
   const total = Object.values(p).reduce((s, n) => s + n, 0), judged = total - (p.not_yet || 0);
   const was = prev?.promises, moved = was ? judged - (Object.values(was).reduce((s, n) => s + n, 0) - (was.not_yet || 0)) : 0;
   const parts = [p.kept && `${p.kept} kept`, p.not_kept && `${p.not_kept} not kept`, p.mixed && `${p.mixed} mixed`, p.progress && `${p.progress} in progress`].filter(Boolean);
-  return band(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td style="font-size:14.5px;color:${C.ink}"><b>Promise tracker:</b> ${judged} of ${total} council promises voted on${judged ? ` (${esc(parts.join(', '))})` : ' yet'}${moved > 0 ? `, ${moved} this week` : ''}</td><td align="right" width="80"><a href="${ORIGIN}/scorecard/" style="color:${C.blue};font-size:14px;font-weight:700">See them</a></td></tr></table>
- <div style="background:${C.line};height:8px;border-radius:4px;margin-top:8px"><div style="background:${C.green};width:${Math.max(1, Math.round((100 * judged) / Math.max(1, total)))}%;height:8px;border-radius:4px"></div></div>`, { pad: '18px 24px' });
+  return band(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td style="font-size:14.5px;color:${C.ink}">${lk(`${ORIGIN}/scorecard/`, `<b>Promise tracker:</b> ${judged} of ${total} council promises voted on${judged ? ` (${esc(parts.join(', '))})` : ' yet'}${moved > 0 ? `, ${moved} this week` : ''}`)}</td><td align="right" width="80"><a href="${ORIGIN}/scorecard/" style="color:${C.blue};font-size:14px;font-weight:700">See them</a></td></tr></table>
+ ${lk(`${ORIGIN}/scorecard/`, `<div style="background:${C.line};height:8px;border-radius:4px;margin-top:8px"><div style="background:${C.green};width:${Math.max(1, Math.round((100 * judged) / Math.max(1, total)))}%;height:8px;border-radius:4px"></div></div>`, 'display:block')}`, { pad: '18px 24px' });
 }
 
 // ---------- new on the site: one featured thing ----------
@@ -379,7 +376,7 @@ function siteNew(items) {
   return band(`${label('New on the site')}
  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:8px"><tr>
   <td width="64" valign="top"><div style="width:52px;height:52px;border-radius:12px;background:${C.goldbg};text-align:center;line-height:52px;font-size:13px;font-weight:800;color:${C.goldink}">NEW</div></td>
-  <td style="font-size:14.5px;line-height:1.45;color:${C.ink}"><b>${esc(f.name)}.</b> ${esc(f.text)} <a href="${ORIGIN}${f.path}" style="color:${C.blue};font-weight:700">Try it</a></td>
+  <td style="font-size:14.5px;line-height:1.45;color:${C.ink}">${lk(`${ORIGIN}${f.path}`, `<b style="color:${C.blue}">${esc(f.name)}.</b> ${esc(f.text)}`)} <a href="${ORIGIN}${f.path}" style="color:${C.blue};font-weight:700">Try it</a></td>
  </tr></table>
  ${rest.length ? `<div style="font-size:13px;color:${C.mute};margin-top:10px">Also new: ${rest.map((x) => `<a href="${ORIGIN}${x.path}" style="color:${C.blue}">${esc(x.name.toLowerCase())}</a>`).join(' &middot; ')}</div>` : ''}`, { pad: '20px 24px' });
 }
@@ -393,12 +390,12 @@ async function words(facts, commits, announced) {
     const out = await claudeJson({
       effort: 'medium', maxTokens: 8000,
       system: `${STYLE}
-You are writing the weekly Squamish Voters email. It is the skim layer: a reader should get the whole week in a minute, and tap through to the site for detail. The voice is neutral and plain, signed Squamish Voters, never by a person. Never use an em dash or a hyphenated compound word. Never invent a fact, number, name or date: use only what is in the facts given. Lead with what changed for a resident (money, safety, a deadline), not with process.`,
+You are writing the weekly Squamish Voters email. It is the skim layer: a reader should get the whole week in a minute, and tap through to the site for detail. The voice is neutral and plain, signed Squamish Voters, never by a person. Never use an em dash or a hyphenated compound word. Never invent a fact, number, name or date: use only what is in the facts given. Squamish Voters is politics first, then what is happening in the city: lead with council, budgets, taxes and city decisions, and what changed for a resident (money, a deadline). Deaths, drownings, injuries and other tragedies never go in the subject lines, the preview line, the headline or the five lines; they appear quietly near the end of the email.`,
       content: `Facts for this week's email (JSON):\n${JSON.stringify(facts)}\n\nThis week's site changes (git commit subjects, newest first):\n${commits.join('\n') || '(none)'}\n\nAlready announced in an earlier email, so leave these out of site_new unless something new was added:\n${announced.join('\n') || '(none)'}\n\nWrite:
-1. subjects: three different subject lines, each under 65 characters, best first. Lead with the reader's stake (their bill, their safety, a date). No clickbait, no emoji.
+1. subjects: three different subject lines, each under 65 characters, best first. Lead with politics or city news and the reader's stake (their bill, a date). Never mention a death or tragedy. No clickbait, no emoji.
 2. preheader: the inbox preview line under the subject, under 90 characters, naming the other one or two biggest things.
 3. headline: the email's own headline, under 90 characters, naming the stake for a reader. dek: one short sentence under it.
-4. skim: exactly five lines, the week in order of importance. Each has lead (two to four words, bold in the email), text (one sentence, with the key number or name) and red (true only for a death, injury or emergency). anchor: "council" if the line is about this week's council meeting, else "".
+4. skim: exactly five lines, politics first, then city news. No deaths, injuries or tragedies. Each has lead (two to four words, bold in the email), text (one sentence, with the key number or name) and red (always false). anchor: "council" if the line is about this week's council meeting, else "". slug: the slug of the story in the facts that the line is about (story_slug, slug), so a tap opens it; "" if none.
 5. council: for each meeting in council_meetings, its meeting id, head (a news headline under 80 characters) and in_short (two short sentences: what was decided and what comes next).
 6. heads: for each story in politics_other that is not already covered by council_meetings, its slug and a headline under 70 characters. Leave out stories that repeat a council meeting decision.
 7. town: from town_stories, pick up to four cards for a photo grid (only stories with has_photo true lead a card). Put stories on the same event in one card (list every slug, the first one leads), with head (under 60 characters) and sub (a few words: when, where or why). Put two or more stories about one running situation (for example flood recovery) in box instead: title (a short question or phrase) with slugs and labels (a few words each). Use box only when it fits; otherwise give it an empty title and empty lists. Leave out any story that is out of date by today (${stamp}), such as a warning for a day that has passed.
@@ -406,7 +403,7 @@ You are writing the weekly Squamish Voters email. It is the skim layer: a reader
 9. site_new: up to 4 things a resident would notice or use that were added or clearly improved on the site this week, from the commits, best fit for this week's news first. Skip fixes, admin pages, search engine work, internal tools and anything private. Each has name (2 to 5 words), text (one plain sentence on what it does for them) and path (the site path, starting and ending with /). Empty list if nothing qualifies.`,
       schema: { type: 'object', additionalProperties: false, required: ['subjects', 'preheader', 'headline', 'dek', 'skim', 'council', 'heads', 'town', 'coming', 'site_new'], properties: {
         subjects: { type: 'array', items: str }, preheader: str, headline: str, dek: str,
-        skim: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['lead', 'text', 'red', 'anchor'], properties: { lead: str, text: str, red: { type: 'boolean' }, anchor: { type: 'string', enum: ['council', ''] } } } },
+        skim: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['lead', 'text', 'red', 'anchor', 'slug'], properties: { lead: str, text: str, red: { type: 'boolean' }, anchor: { type: 'string', enum: ['council', ''] }, slug: str } } },
         council: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['meeting', 'head', 'in_short'], properties: { meeting: str, head: str, in_short: str } } },
         heads: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['slug', 'head'], properties: { slug: str, head: str } } },
         town: { type: 'object', additionalProperties: false, required: ['cards', 'box'], properties: {
@@ -456,9 +453,9 @@ if (arg('--html')) {
     today: stamp,
     subject_hint: 'This week in Squamish',
     council_meetings: meetings.map((m) => { const id = (/\/meetings\/([^/]+)\//.exec(m.url) || [])[1]; const st = (NEWS.stories || []).find((s) => s.meeting === id);
-      return { meeting: id, date: m.date, headline: m.headline, key_points: m.key_points, story_gist: st?.gist || null, glance: st?.glance || null }; }),
+      return { meeting: id, story_slug: st?.slug || null, date: m.date, headline: m.headline, key_points: m.key_points, story_gist: st?.gist || null, glance: st?.glance || null }; }),
     politics_other: polOther.map((st) => ({ slug: st.slug, head: st.head, dek: st.dek, date: st.date })),
-    safety: safety.slice(0, 3).map((st) => ({ head: st.head, dek: st.dek, date: st.date })),
+    safety: safety.slice(0, 3).map((st) => ({ slug: st.slug, head: st.head, dek: st.dek, date: st.date })),
     town_stories: town.slice(0, 14).map((st) => ({ slug: st.slug, head: st.head, dek: short(st.dek, 240) || st.dek, date: st.date, has_photo: !!st.photo?.file, readers: views?.[st.slug]?.visitors || null })),
     coming_up: D.W.soon.map((m) => ({ date: m.date, what: m.type, preview: m.preview })).concat((D.W.dates || []).filter((d) => d.date).map((d) => ({ date: d.date, what: d.title, preview: d.text }))),
     wants_people: D.wants?.people || 0,
@@ -470,24 +467,25 @@ if (arg('--html')) {
   const blocks = meetings.map((m, i) => councilBlock(m, w, i === 0));
   const councilStories = blocks.map((b) => b.story).filter(Boolean);
   const ask = oneTap([...councilStories, ...polOther], participate);
-  const skim = w.skim.length ? w.skim : [...meetings.map((m) => ({ lead: 'Council', text: firstSentence(m.headline), anchor: 'council' })), ...safety.slice(0, 1).map((st) => ({ lead: 'Safety', text: st.head, red: true })), ...polOther.slice(0, 2).map((st) => ({ lead: 'Politics', text: st.head })), ...town.slice(0, 2).map((st) => ({ lead: 'Around town', text: st.head }))].slice(0, 5);
-  const skimRows = skim.map((s, i) => `<tr><td valign="top" width="30" style="padding:7px 0;font-weight:800;color:${s.red ? C.red : C.green}">${i + 1}</td><td style="padding:7px 0;${i < skim.length - 1 ? 'border-bottom:1px solid #dde8e2' : ''}"><b>${esc(s.lead)}${/[.?!:]$/.test(s.lead) ? '' : '.'}</b> ${esc(s.text)}${s.anchor === 'council' && blocks.length ? ` <a href="#council" style="color:${C.blue};font-weight:700">Details &darr;</a>` : ''}</td></tr>`).join('');
+  const skim = w.skim.length ? w.skim : [...meetings.map((m) => ({ lead: 'Council', text: firstSentence(m.headline), anchor: 'council' })), ...polOther.slice(0, 2).map((st) => ({ lead: 'Politics', text: st.head, slug: st.slug })), ...town.slice(0, 2).map((st) => ({ lead: 'Around town', text: st.head, slug: st.slug }))].slice(0, 5);
+  const bySlug = Object.fromEntries((NEWS.stories || []).map((st) => [st.slug, st]));
+  const skimRows = skim.map((s, i) => { const st = bySlug[s.slug]; const line = `<b style="color:${st ? C.blue : C.ink}">${esc(s.lead)}${/[.?!:]$/.test(s.lead) ? '' : '.'}</b> ${esc(s.text)}`;
+    return `<tr><td valign="top" width="30" style="padding:7px 0;font-weight:800;color:${s.red ? C.red : C.green}">${i + 1}</td><td style="padding:7px 0;${i < skim.length - 1 ? 'border-bottom:1px solid #dde8e2' : ''}">${st ? `${lk(storyUrl(st), line)}${more(storyUrl(st), 'Read')}` : line}${s.anchor === 'council' && blocks.length ? ` <a href="#council" style="color:${C.blue};font-weight:700;white-space:nowrap">Below &darr;</a>` : ''}</td></tr>`; }).join('');
   const headline = w.headline || blocks[0]?.story?.head || facts.subject_hint;
   if (!w.subjects.length || w.subjects[0] === facts.subject_hint) { subjects = [headline]; subject = headline; }
 
   const body = [
     band(`${label('This week', '#b3541e')}
- <div class="hl" style="font-family:${SERIF};font-size:32px;line-height:1.12;font-weight:700;margin:6px 0 10px;color:${C.ink}">${esc(headline)}</div>
+ <div class="hl" style="font-family:${SERIF};font-size:32px;line-height:1.12;font-weight:700;margin:6px 0 10px;color:${C.ink}">${blocks[0]?.story ? lk(storyUrl(blocks[0].story), esc(headline)) : esc(headline)}</div>
  ${w.dek ? `<div style="font-size:16px;line-height:1.5;color:${C.soft}">${esc(w.dek)}</div>` : ''}`, { gap: false, pad: '26px 24px 8px' }),
     skimRows ? band(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f8f5;border:1px solid #cfe0d8;border-radius:12px">
  <tr><td style="padding:16px 18px 6px;font-size:13px;font-weight:800;letter-spacing:.6px;color:${C.green}">THE 60 SECOND VERSION</td></tr>
  <tr><td style="padding:0 18px 14px;font-size:15.5px;line-height:1.45;color:${C.ink}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${skimRows}</table></td></tr></table>`, { gap: false, pad: '14px 24px 22px' }) : '',
-    safetyStrip(safety),
     ...blocks.map((b) => b.html),
     politicsRows(Object.keys(w.heads).length ? polOther.filter((st) => w.heads[st.slug]) : polOther, w),
     versus(blocks, rows, D.wants, prev, ask),
     comingUp(D.W, w),
-    aroundTown(town, w),
+    aroundTown(town, w, safety),
     weekend(D.today),
     promises(D.W.promises, prev),
     siteNew(w.site_new),
@@ -518,7 +516,7 @@ ${w.preheader ? `<div style="display:none;max-height:0;overflow:hidden;opacity:0
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.bg}"><tr><td align="center" style="padding:0">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;font-family:${FONT};color:${C.ink}">
 <tr><td class="px" style="background:${C.green};padding:14px 24px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
- <td style="color:#fff;font-weight:800;font-size:15px;letter-spacing:.3px"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="padding-right:10px"><img src="${ORIGIN}/icon-96.png" width="30" height="30" alt="Squamish Voters logo" style="display:block;width:30px;height:30px;border-radius:7px;border:0"></td><td style="color:#fff;font-weight:800;font-size:15px;letter-spacing:.3px">SQUAMISH VOTERS</td></tr></table></td>
+ <td style="color:#fff;font-weight:800;font-size:15px;letter-spacing:.3px"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="padding-right:10px"><a href="${ORIGIN}/"><img src="${ORIGIN}/icon-96.png" width="30" height="30" alt="Squamish Voters logo" style="display:block;width:30px;height:30px;border-radius:7px;border:0"></a></td><td style="color:#fff;font-weight:800;font-size:15px;letter-spacing:.3px">SQUAMISH VOTERS</td></tr></table></td>
  <td align="right" style="color:#cfe0d8;font-size:12px">${esc(date)} &middot; ${minutes} min read</td></tr></table></td></tr>
 ${body}
 ${footer}
