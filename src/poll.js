@@ -113,7 +113,9 @@
     tally = (j.tallies || {})[wid] || {};
     mine = (j.mine || {})[wid] || '';
     if (mine) { answered[wid] = mine; try { document.dispatchEvent(new CustomEvent('sv:poll', { detail: { wid: wid, choice: mine } })); } catch (e) {} }
-  }, show: function () { if (mine) showResults(); } };
+  }, show: function () { if (mine) showResults(); },
+  // One tap from the Friday email (?pick=<answer>#q-<poll>): save that answer straight away.
+  pick: function (k) { if (!opts.some(function (o) { return o.key === k; })) return; if (mine !== k) vote(k); else showResults(); track('Email one tap', { wid: wid, choice: k }); } };
   }
 
   // Arriving from another story's "Have your say on more stories" link (#vote) or a shared question link (#q-a): bring it into view.
@@ -124,5 +126,10 @@
     if (!j || !j.ok) return;
     setups.forEach(function (x) { x.fill(j); });
     setups.forEach(function (x) { x.show(); }); // after all are filled, so each one's progress line is right
+    var pk = /[?&]pick=([a-z0-9_-]+)/i.exec(location.search);
+    if (pk && h) {
+      setups.forEach(function (x) { if (x.box.id === h) x.pick(pk[1]); });
+      try { history.replaceState(null, '', location.pathname + location.search.replace(/([?&])pick=[^&]*&?/, '$1').replace(/[?&]$/, '') + location.hash); } catch (e) {}
+    }
   }).catch(function () {});
 })();
