@@ -66,6 +66,70 @@
  ],
  "stories": [
   {
+   "slug": "brennan-park-holiday-camps-december",
+   "s": "community",
+   "tier": "brief",
+   "date": "2026-11-20",
+   "head": "Full day December camps at Brennan Park for kids 5.5 to 12",
+   "dek": "Full days, 9 a.m. to 4 p.m., for kids in or past Kindergarten. The District of Squamish runs Holiday Camps at Brennan Park Recreation Centre this December. Dates and cost are not yet listed.",
+   "gist": [
+    "The District of Squamish is running full day Holiday Camps for kids at Brennan Park Recreation Centre this December.",
+    "Kids spend the day on creative indoor and outdoor activities, games and sports.",
+    "The camps are for ages five and a half to 12, and children must be in or past Kindergarten.",
+    "The notice does not list dates, cost or how to register, so watch the District's E-News for details."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Where",
+     "v": "Brennan Park Recreation Centre"
+    },
+    {
+     "level": "mid",
+     "k": "When",
+     "v": "Multiple days this December"
+    },
+    {
+     "level": "mid",
+     "k": "Hours",
+     "v": "9 a.m. to 4 p.m."
+    },
+    {
+     "level": "mid",
+     "k": "Ages",
+     "v": "5.5 to 12"
+    },
+    {
+     "level": "mid",
+     "k": "Who",
+     "v": "In or past Kindergarten"
+    }
+   ],
+   "take": "Kids five and a half to 12 who are in or past Kindergarten can attend full day Holiday Camps at Brennan Park in December; dates, cost and registration are not in the notice yet.",
+   "body": "[[glance]]\n\nThe District of Squamish is running full day Holiday Camps at Brennan Park Recreation Centre this December for kids aged five and a half to 12. Children must be enrolled in Kindergarten or have already completed it. Camp days run from 9 a.m. to 4 p.m., and multiple days are available.\n\n## What kids do\n\nCampers spend the day on a mix of creative indoor and outdoor activities, games and sports.\n\n## What is not known yet\n\nThe District's notice does not give the camp dates, the cost or how to register. Families planning for December will need to check back for those details.\n\n## Where to find out more\n\nThe camps were announced in the District's [E-News](https://squamish.ca/government-and-administration/district-information/enews-archives/), where the District shares its regular updates. Watch there for dates, prices and sign up details as they are posted.\n\nFor more on the recreation centre and its programs, see our [Brennan Park and recreation](/issues/brennan-park-and-recreation/) page.",
+   "src": [
+    "District of Squamish E-News",
+    "https://squamish.ca/government-and-administration/district-information/enews-archives/"
+   ],
+   "review_scores": [
+    6.2,
+    6.3,
+    6.2,
+    6.3
+   ],
+   "social": "Need somewhere for the kids to go this December?\n\nThe District of Squamish has all day Holiday Camps at Brennan Park, 9 a.m. to 4 p.m., for kids 5.5 to 12 who are in or past Kindergarten. Dates, prices and sign-up weren't in the District's notice yet.",
+   "share": 3,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/brennan-park-holiday-camps-december.jpg",
+    "alt": "Shops along Cleveland Avenue in downtown Squamish",
+    "caption": "Cleveland Avenue, downtown Squamish.",
+    "credit": "Guerinf, CC0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish_(5).jpg"
+   },
+   "og": "brennan-park-holiday-camps-december.png"
+  },
+  {
    "slug": "squamish-swans-55-plus-ballet",
    "s": "community",
    "tier": "brief",
