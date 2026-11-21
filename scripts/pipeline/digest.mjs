@@ -146,7 +146,7 @@ function rankStories(views) {
 const WARN = /\b(warning|watch|advisory|special weather|rainfall|snowfall|atmospheric river|heat wave|wind warning|forecast)\b/i;
 const isStale = (st) => st.s !== 'safety' && WARN.test(`${st.head} ${st.dek}`) && Date.now() - Date.parse(st.date + 'T12:00:00') > 3 * 864e5;
 const GRAVE = /\b(dead|died|dies|death|killed|missing|drown|fatal|injur|search and rescue)/i;
-const isSafety = (st) => st.s === 'safety' || GRAVE.test(`${st.head} ${st.dek}`);
+const isSafety = (st) => st.s === 'safety' || GRAVE.test(st.head);
 
 // ---------- council ----------
 const PEOPLE = Object.fromEntries((readJson('data/candidates.json', []) || []).map((c) => [c.slug, c.name]));
@@ -310,7 +310,7 @@ function comingUp(W, w) {
   const byDate = {};
   for (const x of items.sort((a, b) => a.date.localeCompare(b.date) || String(b.time || '').localeCompare(String(a.time || '')))) (byDate[x.date] ||= []).push(x);
   const rows = Object.entries(byDate).slice(0, 4).map(([date, xs], i) => {
-    const main = xs.find((x) => notes[date] && x.url.includes('/meetings/')) || xs[xs.length > 1 && /special|closed/i.test(xs[0].title) ? 1 : 0];
+    const main = xs.find((x) => !/special|closed/i.test(x.title)) || xs[0];
     const rest = xs.filter((x) => x !== main);
     const t0 = utcStamp(date, main.time), t1 = utcStamp(date, main.time, 120);
     const cal = t0 ? ` &middot; <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=${encodeURIComponent('Squamish: ' + main.title)}&amp;dates=${t0}/${t1}&amp;details=${encodeURIComponent(main.url)}" style="color:${C.blue}">Add to calendar</a>` : '';
@@ -402,7 +402,7 @@ You are writing the weekly Squamish Voters email. It is the skim layer: a reader
 5. council: for each meeting in council_meetings, its meeting id, head (a news headline under 80 characters) and in_short (two short sentences: what was decided and what comes next).
 6. heads: for each story in politics_other that is not already covered by council_meetings, its slug and a headline under 70 characters. Leave out stories that repeat a council meeting decision.
 7. town: from town_stories, pick up to four cards for a photo grid (only stories with has_photo true lead a card). Put stories on the same event in one card (list every slug, the first one leads), with head (under 60 characters) and sub (a few words: when, where or why). Put two or more stories about one running situation (for example flood recovery) in box instead: title (a short question or phrase) with slugs and labels (a few words each). Use box only when it fits; otherwise give it an empty title and empty lists. Leave out any story that is out of date by today (${stamp}), such as a warning for a day that has passed.
-8. coming: for each date in coming_up worth a line, the date and note (one sentence on why a resident would care, from the facts; empty list if none).
+8. coming: for each date in coming_up worth a line, the date and note about the main public meeting that day (not a mostly closed special meeting) (one sentence on why a resident would care, from the facts; empty list if none).
 9. site_new: up to 4 things a resident would notice or use that were added or clearly improved on the site this week, from the commits, best fit for this week's news first. Skip fixes, admin pages, search engine work, internal tools and anything private. Each has name (2 to 5 words), text (one plain sentence on what it does for them) and path (the site path, starting and ending with /). Empty list if nothing qualifies.`,
       schema: { type: 'object', additionalProperties: false, required: ['subjects', 'preheader', 'headline', 'dek', 'skim', 'council', 'heads', 'town', 'coming', 'site_new'], properties: {
         subjects: { type: 'array', items: str }, preheader: str, headline: str, dek: str,
@@ -445,7 +445,7 @@ if (arg('--html')) {
   const ranked = rankStories(views).filter((st) => !isStale(st));
   const meetings = D.W.recent.slice(0, 2);
   const meetingIds = new Set(meetings.map((m) => (/\/meetings\/([^/]+)\//.exec(m.url) || [])[1]));
-  const safety = ranked.filter(isSafety).sort((a, b) => GRAVE.test(`${b.head} ${b.dek}`) - GRAVE.test(`${a.head} ${a.dek}`));
+  const safety = ranked.filter(isSafety).sort((a, b) => GRAVE.test(b.head) - GRAVE.test(a.head));
   const pol = ranked.filter((st) => isPolitics(st) && !isSafety(st));
   const meetDays = meetings.map((m) => noon(m.date).toLocaleDateString('en-CA', { month: 'short', day: 'numeric' }).toLowerCase().replace(/\.?\s+/, '-'));
   const polOther = pol.filter((st) => !meetingIds.has(st.meeting) && !meetDays.some((d) => st.slug.includes(d))).slice(0, 4);
