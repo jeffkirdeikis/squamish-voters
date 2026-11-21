@@ -518,7 +518,7 @@ ${w.preheader ? `<div style="display:none;max-height:0;overflow:hidden;opacity:0
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.bg}"><tr><td align="center" style="padding:0">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;font-family:${FONT};color:${C.ink}">
 <tr><td class="px" style="background:${C.green};padding:14px 24px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
- <td style="color:#fff;font-weight:800;font-size:15px;letter-spacing:.3px"><span style="color:#e6c766">&#9650;</span> SQUAMISH VOTERS</td>
+ <td style="color:#fff;font-weight:800;font-size:15px;letter-spacing:.3px"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="padding-right:10px"><img src="${ORIGIN}/icon-96.png" width="30" height="30" alt="Squamish Voters logo" style="display:block;width:30px;height:30px;border-radius:7px;border:0"></td><td style="color:#fff;font-weight:800;font-size:15px;letter-spacing:.3px">SQUAMISH VOTERS</td></tr></table></td>
  <td align="right" style="color:#cfe0d8;font-size:12px">${esc(date)} &middot; ${minutes} min read</td></tr></table></td></tr>
 ${body}
 ${footer}
