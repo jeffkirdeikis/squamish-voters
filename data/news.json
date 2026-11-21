@@ -66,6 +66,474 @@
  ],
  "stories": [
   {
+   "slug": "winter-parking-one-side-dec-1",
+   "s": "move",
+   "tier": "card",
+   "date": "2026-11-20",
+   "head": "One side parking starts on 18 Squamish streets December 1. Is yours?",
+   "dek": "Parking on the wrong side of some Squamish streets this winter can bring a $250 ticket or a tow. The District of Squamish's one side parking rules start Tuesday, December 1, and run until March 1.",
+   "gist": [
+    "From December 1, you can park on only one side of streets like Third to Sixth Avenues, Hemlock Avenue and Glacier View Drive.",
+    "The rule is there so snow plows and emergency vehicles can get through safely.",
+    "Parking on the wrong side costs $250, and your car may be towed without notice.",
+    "The District's notice gives an end year of 2026, which has already passed; the correct year is not yet confirmed."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Streets listed",
+     "v": "18 (our count)"
+    },
+    {
+     "level": "mid",
+     "k": "Starts",
+     "v": "Tuesday, December 1"
+    },
+    {
+     "level": "mid",
+     "k": "Ends",
+     "v": "March 1 (notice says 2026; year unconfirmed)"
+    },
+    {
+     "level": "mid",
+     "k": "Ticket",
+     "v": "$250, or $200 if paid in 14 days"
+    },
+    {
+     "level": "mid",
+     "k": "Plow trucks",
+     "v": "3"
+    }
+   ],
+   "bars": {
+    "fine": {
+     "title": "Ticket for parking that blocks snow clearing, by when you pay (dollars)",
+     "rows": [
+      {
+       "label": "Paid within 14 days",
+       "v": 200,
+       "say": "$200"
+      },
+      {
+       "label": "Standard fine",
+       "v": 250,
+       "say": "$250",
+       "hl": true
+      },
+      {
+       "label": "Paid after 28 days",
+       "v": 300,
+       "say": "$300"
+      }
+     ],
+     "note": "Source: District of Squamish Bylaw Notice Enforcement Bylaw No. 2418"
+    },
+    "sidewalk": {
+     "title": "Two winter tickets, standard fine (dollars)",
+     "rows": [
+      {
+       "label": "Parking that blocks snow clearing",
+       "v": 250,
+       "say": "$250",
+       "hl": true
+      },
+      {
+       "label": "Not clearing your sidewalk",
+       "v": 100,
+       "say": "$100"
+      }
+     ],
+     "note": "Source: District of Squamish Bylaw Notice Enforcement Bylaw No. 2418 (fines); District of Squamish news release (duty to clear sidewalks)"
+    }
+   },
+   "take": "From Tuesday, December 1, park only on the signed side of listed streets and check the District's map at squamish.ca/winter-parking to avoid a $250 ticket or a tow.",
+   "body": "[[glance]]\n\n## When and where\n\nThe rules start Tuesday, December 1. These are the 18 streets as currently listed on the District's [winter parking page](https://squamish.ca/transportation-parking-and-mobility/parking/winter-parking/) and reported by the [Squamish Chief](https://www.squamishchief.com/local-news/squamish-todayjan-6-heres-what-you-need-to-know-before-you-head-out-8348303) (our count):\n\n- Hemlock Avenue, Chestnut Avenue and Fir Street\n- Third, Fourth, Fifth and Sixth Avenues\n- Eaglewind Boulevard, Edgewater Drive and Edgewater Crescent\n- No Name Road, Brothers Place and Britannia Avenue\n- Harris Road, Hope Road, Diamond Road and Diamond Head Road\n- Glacier View Drive\n- Third Avenue: east side from Pemberton Avenue to Winnipeg Street, west side from Pemberton Avenue to Vancouver Street.\n\nThe District says No Parking applies on the side shown by signs, so check the signs and the interactive map. It reviews the list each season.\n\nThe District's notice says the rules run until March 1, 2026, a date that has already passed. The District's winter parking page gives the season as December 1 to March 1 with no year, and the District has not confirmed the year.\n\n## The ticket and towing\n\nThe ticket is for \"impeding snow removal,\" meaning parking that blocks snow clearing. Under [Bylaw 2418](https://squamish.civicweb.net/document/200801/), the District's ticket bylaw:\n\n- The fine is $250.\n- It drops to $200 if paid within 14 days.\n- It rises to $300 if paid after 28 days.\n- This ticket can't be reduced through a compliance agreement.\n\n[[bars fine]]\nThe District may tow vehicles when necessary and [without notice](https://squamish.ca/transportation-parking-and-mobility/parking/parking-regulations/). When parking affects public safety, your car may be impounded right away.\n\n## How the rules came about\n\n- December 2021 and January 2022: snow and ice storms. Cars [parked on both sides](https://squamish.ca/transportation-parking-and-mobility/parking/winter-parking/) kept plows out.\n- October 18, 2022: [Bylaw 2932](https://squamish.civicweb.net/document/200801/) adds the $250 fine. A companion change, Bylaw 2930, adds the no parking rule to the [Traffic Bylaw](https://squamish.civicweb.net/document/200803/).\n- December 2022: rules [start](https://www.squamishreporter.com/2022/12/13/winter-parking-restrictions-now-in-effect-in-squamish/), with officers focused on education and warnings.\n- 2023 to 2024: the District calls the program a success and [adds streets](https://www.squamishchief.com/local-news/winter-parking-restrictions-to-hit-some-squamish-streets-on-dec-1-7880343).\n- December 1, 2026: this season begins.\n\nThe District has [three snow plow trucks](https://squamish.ca/transportation-parking-and-mobility/road-maintenance-and-snow-clearing/snow-and-ice-control/snow-clearing-faq/) plus a machine for trails, sidewalks and school routes. First priority goes to main roads and major connecting roads, bus routes, police, fire and ambulance stations, hills and safe routes to school. Residential streets come third.\n\n## What you can do\n\n- Check your street at [squamish.ca/winter-parking](https://squamish.ca/winter-parking) before December 1.\n- Do not park within 1.5 metres of a driveway.\n- Use your garage or driveway, and pile shovelled snow to the right of your driveway, facing the road, as the [District advises](https://squamish.ca/transportation-parking-and-mobility/road-maintenance-and-snow-clearing/snow-and-ice-control/).\n- Clear the sidewalk next to your property. [Owners and occupiers must](https://squamish.ca/government-and-administration/district-information/news/new-parking-restrictions-introduced-to-improve-snow-and-ice-clearing/); that ticket is $100, or $90 early and $110 late, under Bylaw 2418.\n\n[[bars sidewalk]]\n## What we don't know yet\n\n- The correct end year\n- How strictly the rules will be enforced this winter\n- The cost of a tow and which company tows\n- Where towed cars are taken\n- How to dispute a ticket\n- How many tickets and tows since 2022\n- Whether any streets changed for 2026 to 2027\n\nFor these answers, ask the District's bylaw staff.\n\nMore: our [parking issue page](/issues/parking/), and [Today in Squamish](/today/) for today's local conditions. Source: [District of Squamish E-News](https://squamish.ca/government-and-administration/district-information/enews-archives/), November 20, 2026.",
+   "visual": {
+    "type": "big",
+    "big": "$250",
+    "small": "Fine for blocking snow clearing"
+   },
+   "src": [
+    "District of Squamish E-News",
+    "https://squamish.ca/government-and-administration/district-information/enews-archives/"
+   ],
+   "review_scores": [
+    7,
+    7.7,
+    7.7,
+    7
+   ],
+   "researched": true,
+   "social": "From December 1 to March 1, you can park on only one side of 18 Squamish streets, including Third to Sixth Avenues, Hemlock Avenue and Glacier View Drive. Is your street on the list?\n\nPark on the wrong side and you face a $250 ticket, and your car may be towed without notice. On Third Avenue, the No Parking side changes along the street. The full street list, the fine schedule and what to check before you park:",
+   "share": 4,
+   "auto": true,
+   "areas": [
+    "downtown"
+   ],
+   "poll": {
+    "q": "How should Squamish handle street parking on snow days?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Keep the list",
+      "means": "Keep roughly the current list of one side streets each winter."
+     },
+     {
+      "key": "b",
+      "label": "Add streets",
+      "means": "More streets would be one side only from December to March."
+     },
+     {
+      "key": "c",
+      "label": "Remove streets",
+      "means": "Parking would return to both sides on some streets."
+     },
+     {
+      "key": "d",
+      "label": "Only on snow days",
+      "means": "Limits would apply on storm days rather than all season."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/winter-parking-one-side-dec-1.jpg",
+    "alt": "Shops along Cleveland Avenue in downtown Squamish",
+    "caption": "Cleveland Avenue, downtown Squamish.",
+    "credit": "Guerinf, CC0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish_(5).jpg"
+   },
+   "og": "winter-parking-one-side-dec-1.png"
+  },
+  {
+   "slug": "transgender-flag-raising-municipal-hall",
+   "s": "community",
+   "tier": "brief",
+   "date": "2026-11-20",
+   "head": "Transgender flag raised at Squamish Municipal Hall for awareness week",
+   "dek": "Council members and Pride Squamish spoke at the Tuesday, November 17 ceremony. The flag raising marked Transgender Awareness Week, which is held every November.",
+   "gist": [
+    "The transgender flag was raised at Squamish Municipal Hall on Tuesday, November 17.",
+    "Members of District of Squamish Council and Pride Squamish gave remarks.",
+    "According to the District, Transgender Awareness Week is held every November and celebrates \"the growth and resiliency of transgender, non-binary and two-spirited individuals.\"",
+    "The District said the week also brings attention to continued issues faced by the transgender community."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "What",
+     "v": "Transgender flag raising"
+    },
+    {
+     "level": "mid",
+     "k": "When",
+     "v": "Tuesday, November 17"
+    },
+    {
+     "level": "mid",
+     "k": "Where",
+     "v": "Municipal Hall"
+    },
+    {
+     "level": "mid",
+     "k": "Speakers",
+     "v": "Council members, Pride Squamish"
+    }
+   ],
+   "body": "[[glance]]\n\n## What the notice does not say\n\nThe District's notice did not name the council members who spoke or report what was said. It also did not say whether the public could attend.\n\n## What the week is about\n\nAccording to the District, Transgender Awareness Week is held every year in November. The District says the week does two things:\n\n- It celebrates \"the growth and resiliency of transgender, non-binary and two-spirited individuals,\" in the District's words.\n- It brings attention to continued issues faced by the transgender community.\n\n## Where to read more\n\nThe District shared the news in its E-News update on November 20. You can read the notice in the District's [E-News archives](https://squamish.ca/government-and-administration/district-information/enews-archives/).\n\nTo see who sits on council, read our [guide to how council works](/how-council-works/).",
+   "visual": {
+    "type": "big",
+    "big": "Nov 17",
+    "small": "Flag raised at Municipal Hall"
+   },
+   "src": [
+    "District of Squamish E-News",
+    "https://squamish.ca/government-and-administration/district-information/enews-archives/"
+   ],
+   "review_scores": [
+    5,
+    6.7,
+    6.9,
+    7
+   ],
+   "social": "The transgender flag went up at Squamish Municipal Hall on Tuesday, Nov. 17, for Transgender Awareness Week.\n\nCouncil members and Pride Squamish gave remarks at the ceremony. The week celebrates transgender, non-binary and \"two-spirited\" people and highlights issues they still face.",
+   "share": 2,
+   "auto": true,
+   "areas": [
+    "downtown"
+   ],
+   "photo": {
+    "file": "/news/photos/transgender-flag-raising-municipal-hall.jpg",
+    "alt": "Cleveland Avenue in downtown Squamish with shops, parked cars and a snow-capped mountain in the distance under a clear blue sky",
+    "caption": "Downtown Squamish, looking north along Cleveland Avenue.",
+    "credit": "The original uploader was Damieng at English Wikipedia., CC BY-SA 3.0",
+    "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/transgender-flag-raising-municipal-hall-2.jpg",
+     "alt": "Squamish Town Centre stone sign beside a road with flower beds, the granite Stawamus Chief rising behind",
+     "caption": "The entrance to Squamish town centre, with the Stawamus Chief behind.",
+     "credit": "Straitgate, CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_City_Centre.JPG"
+    },
+    {
+     "file": "/news/photos/transgender-flag-raising-municipal-hall-3.jpg",
+     "alt": "Aerial view of Squamish neighbourhoods, forested hills and the highway, with snowy peaks on the horizon",
+     "caption": "Squamish, seen from above.",
+     "credit": "Madhumanti Mandal, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Downtown_Squamish.jpg"
+    }
+   ],
+   "og": "transgender-flag-raising-municipal-hall.png"
+  },
+  {
+   "slug": "district-fees-change-january-2",
+   "s": "money",
+   "tier": "card",
+   "date": "2026-11-20",
+   "head": "Some District of Squamish fees for rec, licences, filming change Jan. 2",
+   "dek": "If you pay the District of Squamish for a rec program, a business licence, filming or a development application, some fees may change on January 2, 2027. The District's notice does not list the new amounts.",
+   "gist": [
+    "On January 2, 2027, some District of Squamish fees change, in areas including business licences, filming, development, and parks and recreation.",
+    "The District's notice does not say which fees go up or down, or by how much.",
+    "To see the full list, search the District of Squamish website for Amendment Bylaw No. 3249, 2026.",
+    "That bylaw updates the District's Fees and Charges Bylaw No. 3185, 2025, so it is worth checking before you pay a fee in the new year."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Takes effect",
+     "v": "January 2, 2027"
+    },
+    {
+     "level": "mid",
+     "k": "New amounts",
+     "v": "Not listed in the notice"
+    },
+    {
+     "level": "mid",
+     "k": "Paid before Jan 2?",
+     "v": "Old or new fee: not stated"
+    },
+    {
+     "level": "mid",
+     "k": "Days' notice (our count)",
+     "v": "43"
+    }
+   ],
+   "take": "Before you pay a District fee on or after January 2, 2027, look up Amendment Bylaw No. 3249, 2026 on the District of Squamish website to see the new amount.",
+   "body": "[[glance]]\n\n## What is changing\n\nAn amendment to the District's Fees and Charges Bylaw (No. 3185, 2025) takes effect January 2, 2027. It affects some of the fees the District of Squamish charges for its applications, services and programs.\n\nThe District says the change affects fees in areas including:\n\n- Business licensing (see our [jobs and economy](/issues/jobs-and-economy/) page)\n- Filming\n- Development (see our [growth and development](/issues/growth-and-development/) page)\n- Parks and recreation (see our [Brennan Park and recreation](/issues/brennan-park-and-recreation/) page)\n\nThe amendment is called Amendment Bylaw No. 3249, 2026.\n\n## Timeline\n\n- November 20, 2026: the District announces the change in its E-News\n- January 2, 2027: the new fees take effect\n\nThat is 43 days between the notice and the start date (our count).\n\n## What we don't know yet\n\nThe District's notice leaves several questions open:\n\n- Which fees go up, which go down, and which stay the same\n- How much any single fee changes\n- Whether a registration or application made before January 2 pays the old fee or the new one\n\nWe have not yet seen the new amounts, so this story does not compare old and new fees.\n\n## How to see the full list\n\nThe notice points residents to the full bylaw for the complete list of fees, but it does not include a direct link. To find it, search the District of Squamish website for this exact title:\n\n- District of Squamish Fees and Charges Bylaw No. 3185, 2025, Amendment Bylaw No. 3249, 2026\n\nIf you plan to pay the District for something early in 2027, it may help to check the bylaw first.\n\nThe notice was posted in the District's [E-News](https://squamish.ca/government-and-administration/district-information/enews-archives/) on November 20, 2026.",
+   "visual": {
+    "type": "big",
+    "big": "Jan 2",
+    "small": "New District fees take effect"
+   },
+   "src": [
+    "District of Squamish E-News",
+    "https://squamish.ca/government-and-administration/district-information/enews-archives/"
+   ],
+   "review_scores": [
+    5.5,
+    6,
+    6.2,
+    6.7
+   ],
+   "social": "Signing the kids up for a rec program or renewing a business licence in the new year? Some District fees change January 2, and the notice doesn't list the new amounts.\n\nThe change touches areas including business licensing, filming, development, and parks and recreation. What we know, what we don't, and the exact bylaw title to search on squamish.ca before you pay:",
+   "share": 2,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/district-fees-change-january-2.jpg",
+    "alt": "Stone marker reading Squamish Town Centre beside a flowered median, with the Stawamus Chief granite cliffs behind",
+    "caption": "The entrance to downtown Squamish, below the Stawamus Chief.",
+    "credit": "Straitgate, CC BY-SA 3.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish_City_Centre.JPG"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/district-fees-change-january-2-2.jpg",
+     "alt": "Downtown Squamish street lined with shops and parked cars, with a snow-capped mountain in the distance under a clear blue sky",
+     "caption": "Cleveland Avenue in downtown Squamish.",
+     "credit": "The original uploader was Damieng at English Wikipedia., CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+    }
+   ],
+   "og": "district-fees-change-january-2.png"
+  },
+  {
+   "slug": "2027-budget-6-million-savings",
+   "s": "money",
+   "tier": "card",
+   "date": "2026-11-20",
+   "head": "Mayor's motion to freeze 2027 tax revenue would need $6.3M in savings",
+   "dek": "Holding 2027 property tax revenue at the 2026 level would mean finding $6.3 million in savings while keeping services. Council considers Mayor Sean Easton's motion on Tuesday, December 1. You can say what you would invest more or less in at LetsTalkSquamish.ca.",
+   "gist": [
+    "Council will decide whether to plan a 2027 budget that collects no more property tax money in total than in 2026.",
+    "A flat total is for the whole District, so your own bill can still change with your property's assessed value.",
+    "Staff say $3.6 million of the $6.3 million planned increase is already committed, and they have not named which jobs or services could change.",
+    "Council considers the motion on Tuesday, December 1, and you can share what you would spend more or less on at LetsTalkSquamish.ca."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Council considers",
+     "v": "Tuesday, December 1"
+    },
+    {
+     "level": "mid",
+     "k": "Savings needed",
+     "v": "$6.3M, of which $3.6M is already committed"
+    },
+    {
+     "level": "mid",
+     "k": "Staff draft",
+     "v": "10.4%, about $342 for the average home"
+    },
+    {
+     "level": "mid",
+     "k": "Savings levers",
+     "v": "Service cuts, jobs, reserves, other revenue"
+    },
+    {
+     "level": "mid",
+     "k": "2026 general tax requirement",
+     "v": "$56.1 million"
+    }
+   ],
+   "bars": {
+    "savings": {
+     "title": "The $6.3 million increase in the draft 2027 budget, in millions of dollars",
+     "rows": [
+      {
+       "label": "Already committed or required",
+       "v": 3.6,
+       "say": "$3.6M",
+       "hl": true
+      },
+      {
+       "label": "Not committed (our arithmetic)",
+       "v": 2.7,
+       "say": "about $2.7M"
+      }
+     ],
+     "note": "Squamish Chief, November 19, 2026; the amount not already committed is our arithmetic"
+    },
+    "increase": {
+     "title": "Property tax increase, in percent",
+     "rows": [
+      {
+       "label": "2026 increase",
+       "v": 12.8,
+       "say": "12.8%"
+      },
+      {
+       "label": "2027 in 10 year plan",
+       "v": 13,
+       "say": "13%"
+      },
+      {
+       "label": "2027 staff draft",
+       "v": 10.4,
+       "say": "10.4%"
+      },
+      {
+       "label": "Motion: no total revenue increase",
+       "v": 0,
+       "say": "0%",
+       "hl": true
+      }
+     ],
+     "note": "2026 increase and 10 year plan figure: Squamish Chief, January 2026. Staff draft: Squamish Voters property taxes page, November 2026. Motion: Squamish Reporter, November 16, 2026. The motion is about the District's total revenue; individual bills can still change."
+    },
+    "home": {
+     "title": "Increase for the average home, in dollars",
+     "rows": [
+      {
+       "label": "2026 increase",
+       "v": 382,
+       "say": "about $382"
+      },
+      {
+       "label": "2027 staff draft",
+       "v": 342,
+       "say": "about $342",
+       "hl": true
+      }
+     ],
+     "note": "2026: Squamish Chief, January 2026. 2027 staff draft as of November 9: Squamish Voters property taxes page."
+    }
+   },
+   "take": "Budget feedback is open now at LetsTalkSquamish.ca with no deadline posted, and council considers the motion on Tuesday, December 1.",
+   "body": "[[glance]]\n\n## What the motion would do\n\nOn Tuesday, December 1, council will consider a motion for a 2027 budget with no increase in property tax revenue over 2026. The District says that would mean finding $6.3 million in savings while still delivering municipal services. The notice of motion came to council on November 17 and is scheduled for December 1 unless council decides otherwise ([Squamish Reporter](https://www.squamishreporter.com/2026/11/16/squamish-mayor-property-tax-revenue-2027/)).\n\nThe motion is about the District's total revenue. Changes in assessed values can still move individual bills.\n\nThe $6.3 million is the increase already built into staff's draft 2027 budget. Staff say $3.6 million of it is already committed or money the District has to spend ([Squamish Chief](https://www.squamishchief.com/local-news/squamish-council-previews-debate-over-mayors-proposal-to-scrap-2027-budget-13035079)). By our arithmetic, at most about $2.7 million of the planned increase is open to change. So at least $3.6 million would have to come from existing services, positions, reserves or other revenue.\n\n[[bars savings]]\n## What the motion asks for\n\nAccording to [the Squamish Reporter](https://www.squamishreporter.com/2026/11/16/squamish-mayor-property-tax-revenue-2027/):\n\n- Staff, through the chief administrative officer, would prepare a revised draft 2027 budget with no increase in municipal property tax revenue.\n- Services must be at least as accessible, available, timely and effective as in 2026.\n- The District could not use more contractors to replace work its own employees normally do.\n- The chief administrative officer would lead a review to find savings. The budget would show the effects on staffing, services, reserves, capital projects, debt, and fees.\n\nThe motion comes from [Mayor Sean Easton](/council/sean-easton/), who [promised during the campaign](https://www.squamishchief.com/local-news/mayor-sean-easton-moves-to-restart-squamish-budget-process-13013416) to freeze property taxes for 2027. He won on October 17 with 3,681 votes to Jenna Stoner's 3,506 ([District of Squamish](https://squamish.ca/government-and-administration/council/election/)). The new council decides: the mayor and Councillors [Eric Andersen](/council/eric-andersen/), [Janice DesJardins](/council/janice-desjardins/), [Sarah Ellis](/council/sarah-ellis/), [Luc Perreault](/council/luc-perreault/), [Laura Prosko](/council/laura-prosko/) and [Shaun Veltkamp](/council/shaun-veltkamp/).\n\n## What staff told council\n\nAccording to [the Squamish Chief](https://www.squamishchief.com/local-news/squamish-council-previews-debate-over-mayors-proposal-to-scrap-2027-budget-13035079), staff listed four ways to find savings: service cuts, cutting positions, drawing on reserves and raising other revenues. B.C. municipalities must by law adopt a balanced budget.\n\n- Tax funded special projects in 2027 total about $400,000, including the first year of the Official Community Plan update and the cost of hiring a chief administrative officer.\n- Julie Wengi, general manager of corporate services, said reviews like this are not usually done just to cut a budget, and they take time and resources.\n- Councillor Prosko asked staff to bring back two options: no increase, and a modest increase.\n\n## What's in the budget\n\n- In September, staff asked for $580,000 for 2027 for bylaw enforcement, BC Housing temporary housing support and a community safety plan, about 1.1% or $35 for the average home ([Squamish Reporter](https://www.squamishreporter.com/2026/09/27/squamish-budget-proposes-580000-for-encampment-response/)).\n- The 10 year capital plan is $357 million through 2036 ([Squamish Chief](https://www.squamishchief.com/local-news/squamish-municipal-budget-2027-heres-what-is-in-the-capital-plan-12894020)).\n- About $58.7 million in transportation projects have no confirmed funding ([Squamish Reporter](https://www.squamishreporter.com/2026/11/03/squamish-transportation-projects-58-million-unfunded/)).\n- Utility rates and curbside collection fees are also set to rise in 2027, separate from property tax revenue ([Squamish Chief](https://www.squamishchief.com/local-news/squamish-2027-budget-process-council-works-to-save-taxpayers-a-few-bucks-on-totes-12827374)).\n\n## The numbers and what is unknown\n\nAs of November 9, staff's draft started at a 10.4% increase, about $342 for the average home ([our property taxes page](/issues/property-taxes/)). The 2026 increase was 12.8% ($6.4 million), about $382. The District's first 10 year plan, adopted January 13, 2026, had projected 13% for 2027 ([Squamish Chief](https://www.squamishchief.com/local-news/update-tough-budget-squamish-council-adopts-first-decade-long-financial-plan-11710524)).\n\n[[bars increase]]\n[[bars home]]\nThe 2026 general property tax requirement was $56.1 million. Total municipal tax revenue reached $61.9 million after more tax than expected came in from Woodfibre LNG properties and went to capital reserves ([Squamish Chief](https://www.squamishchief.com/local-news/squamish-council-amends-10-year-financial-plan-boosts-reserves-with-woodfibre-lng-tax-windfall-12189221)).\n\nStill unknown:\n\n- Which positions or services could be cut.\n- Whether tax from new construction counts toward the flat total.\n- What a flat total means for each household's bill, including the school and regional district amounts on the same bill.\n- How $6.3 million, about 11% of $56.1 million by our arithmetic, squares with the 10.4% draft.\n- A feedback deadline, or when the plan will be adopted.\n\n## How to take part\n\n- Give feedback at [Let's Talk Budget 2027](https://letstalksquamish.ca/budget-2027). The review runs through December.\n- A Budget Information Night is listed for November, date to be confirmed.\n- Council meets Tuesday, December 1 in Council Chambers, Municipal Hall, 37955 Second Avenue ([our meeting page](/meetings/2026-12-01-regular/)).\n- Watch live: [District of Squamish on YouTube](https://www.youtube.com/@DistrictofSquamish/streams)\n- Vote before council does at [Have your say](/have-your-say/)\n- Source: [District of Squamish E-News](https://squamish.ca/government-and-administration/district-information/enews-archives/)",
+   "visual": {
+    "type": "big",
+    "big": "$6.3M",
+    "small": "Savings needed to hold 2027 tax revenue flat"
+   },
+   "src": [
+    "District of Squamish E-News",
+    "https://squamish.ca/government-and-administration/district-information/enews-archives/"
+   ],
+   "review_scores": [
+    5.5,
+    6.7,
+    6.8,
+    7.2
+   ],
+   "researched": true,
+   "social": "If Squamish collected no more property tax next year than this year, what would you want protected, and what could go?\n\nCouncil votes Tuesday, December 1 on Mayor Sean Easton's motion to hold 2027 property tax revenue flat. That means finding $6.3 million in savings. Staff's draft had started at a 10.4% increase, about $342 for the average home. What is on the table and how to give feedback:",
+   "share": 4,
+   "auto": true,
+   "poll": {
+    "q": "What should Squamish do with property tax revenue in 2027?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Hold it flat and find $6.3M in savings",
+      "means": "Property tax revenue stays at the 2026 level and the District finds $6.3 million in savings."
+     },
+     {
+      "key": "b",
+      "label": "Allow a modest increase to ease cuts",
+      "means": "Some new tax revenue would mean less than $6.3 million in savings needed."
+     },
+     {
+      "key": "c",
+      "label": "Keep the staff draft increase",
+      "means": "The draft started at about 10.4%, or about $342 for the average home."
+     },
+     {
+      "key": "d",
+      "label": "Raise more to invest in services",
+      "means": "More property tax revenue would pay for added or expanded services."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/2027-budget-6-million-savings.jpg",
+    "alt": "Cleveland Avenue in downtown Squamish with storefronts, parked cars and a snow-capped mountain under a clear blue sky",
+    "caption": "Cleveland Avenue in downtown Squamish.",
+    "credit": "The original uploader was Damieng at English Wikipedia., CC BY-SA 3.0",
+    "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/2027-budget-6-million-savings-2.jpg",
+     "alt": "Aerial view of Squamish neighbourhoods and the valley surrounded by forested mountains",
+     "caption": "Squamish, seen from above the Stawamus Chief.",
+     "credit": "Madhumanti Mandal, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Downtown_Squamish.jpg"
+    },
+    {
+     "file": "/news/photos/2027-budget-6-million-savings-3.jpg",
+     "alt": "Squamish Town Centre stone sign on a landscaped median with the Stawamus Chief behind",
+     "caption": "The Squamish Town Centre sign below the Stawamus Chief.",
+     "credit": "Straitgate, CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_City_Centre.JPG"
+    }
+   ],
+   "og": "2027-budget-6-million-savings.png"
+  },
+  {
    "slug": "roger-lewis-joins-squamish-nation-council",
    "s": "recon",
    "tier": "card",
