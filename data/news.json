@@ -66,6 +66,147 @@
  ],
  "stories": [
   {
+   "slug": "school-board-ebikes-woodfibre-air-permit",
+   "s": "safety",
+   "tier": "card",
+   "date": "2026-11-21",
+   "head": "Is your kid old enough for that e-bike? School board to write to parents",
+   "dek": "Many people are confused about the age rules for kids on electric bikes, the school board chair says, so the Sea to Sky school board will write to parents. Trustees agreed on the letter at their November 18 meeting. They also voted to ask for strict air rules for Woodfibre LNG, whose air permit is open for public comment until late November.",
+   "gist": [
+    "The Sea to Sky school board will send parents a letter about electric bike rules and safety at school.",
+    "In B.C., riders must be at least 14 for a light electric bike and 16 for a standard one.",
+    "The board also voted to ask for strict air pollution rules as the Woodfibre gas export plant applies for its air permit.",
+    "Anyone can email comments on that permit, so aim for November 27 and check the exact date with the BC Energy Regulator."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Minimum age",
+     "v": "14 light, 16 standard electric bike"
+    },
+    {
+     "level": "mid",
+     "k": "Helmet fine",
+     "v": "$29, all ages on public roads"
+    },
+    {
+     "level": "mid",
+     "k": "Woodfibre vote",
+     "v": "Unanimous: ask for strict air rules"
+    },
+    {
+     "level": "mid",
+     "k": "Permit application",
+     "v": "About 4,149 pages, 30 day window"
+    },
+    {
+     "level": "mid",
+     "k": "Comment deadline",
+     "v": "Aim for Nov 27, confirm with regulator"
+    }
+   ],
+   "bars": {
+    "window": {
+     "title": "Days after Woodfibre LNG applied for its air permit on October 29",
+     "rows": [
+      {
+       "label": "Application filed, Oct 29",
+       "v": 0,
+       "say": "Day 0"
+      },
+      {
+       "label": "School board vote, Nov 18",
+       "v": 20,
+       "say": "Day 20"
+      },
+      {
+       "label": "Deadline per My Sea to Sky, Nov 27",
+       "v": 29,
+       "say": "Day 29",
+       "hl": true
+      },
+      {
+       "label": "Nov 28: 30 days after filing",
+       "v": 30,
+       "say": "Day 30"
+      }
+     ],
+     "note": "Dates from The Narwhal, the Squamish Chief and My Sea to Sky. Day counts are our arithmetic: 30 days from Oct 29 is Nov 28, but My Sea to Sky gives Nov 27. Aim for Nov 27 and confirm with the BC Energy Regulator."
+    },
+    "ages": {
+     "title": "Minimum age to ride an electric bike in B.C. (years)",
+     "rows": [
+      {
+       "label": "Light electric bike",
+       "v": 14,
+       "say": "14 years"
+      },
+      {
+       "label": "Standard electric bike",
+       "v": 16,
+       "say": "16 years",
+       "hl": true
+      }
+     ],
+     "note": "Source: Province of B.C., e-bike requirements."
+    }
+   },
+   "take": "The school board will write to parents about electric bike rules, schools are not to store the bikes, and anyone can email comments on Woodfibre LNG's air permit, aiming for November 27.",
+   "body": "[[glance]]\n## What was decided\nTrustees for School District No. 48 (Sea to Sky) agreed at their first regular meeting of the new term to write to parents about electric bikes, and to write to Woodfibre LNG and the BC Energy Regulator about the company's air permit. If you want to comment on that permit yourself, aim for November 27 and confirm the date with the regulator (see How to comment on the permit). The Squamish Chief [reported the meeting](https://www.squamishchief.com/local-news/sd48-trustees-call-for-stricter-air-emission-regulations-for-woodfibre-lng-13045150).\n\n## The electric bike letter\nBoard chair April Lowe said electric bikes (e-bikes) came up often during the recent election, and there is a lot of confusion. She said many people answered \"Really?\" when she told them it is illegal for children under 16 to ride one. The provincial rule is a little more detailed: 14 for a light e-bike and 16 for a standard one (see below). Lowe said she often sees kids, even in elementary school, riding them, and that she is not suggesting a ban.\n\nWhat else was said:\n- At Garibaldi Highlands, the rule is that students get off and walk their e-bike, Lowe said.\n- Some schools have been storing the bikes because they get stolen or vandalised during the school day, Lowe said.\n- Superintendent Chris Nicholson said principals have been told not to store e-bikes in schools. On a request to buy racks for them, he said: \"No.\"\n- He said Don Ross worked with the RCMP to get the rules out, and the topic has been in parent newsletters.\n- Vancouver Coastal Health is preparing materials for schools, and its medical health officer offered to speak to the Sea to Sky District Parent Advisory Council and to schools.\n\n\"I am terrified, and I'm saying this in public, for anyone who's listening,\" Nicholson said. He said he has seen multiple kids on a bike or scooter, no helmet, popping the curb into traffic. \"We need the support of parents.\"\n\nIn 2025, Squamish RCMP reported more e-bike crashes with injuries, mostly involving youth, and the school district said it was running a summer education campaign. Vancouver Coastal Health's Dr. Brandon Yau said then that e-bikes are not meant for youth under 16 ([Squamish Chief](https://www.squamishchief.com/local-news/are-e-bikes-safe-what-squamish-riders-and-officials-are-saying-11038825)). In a separate case, the district earlier wrote to the District of Squamish about traffic and parking safety at École Squamish Elementary ([Squamish Chief](https://www.squamishchief.com/local-news/sea-to-sky-school-district-steps-in-over-parking-issues-at-squamish-elementary-9990307)).\n\nPemberton trustee Melissa Ronayne moved the motion, and Rebecca Barley, trustee for Squamish-Lillooet Regional District Area C, seconded it.\n\n## What the provincial rules say\n- Riders must be 14 or older for a light e-bike and 16 or older for a standard one. Parents must not knowingly let younger children ride ([Province of B.C.](https://www2.gov.bc.ca/gov/content/transportation/driving-and-cycling/cycling/cycling-regulations-restrictions-rules/e-bikes)).\n- No driver's licence or insurance is needed, but the age rule applies (same page).\n- The regulation says a person under 16 \"must not operate a standard e-bike on a highway\" ([B.C. Reg. 64/2024](https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/64_2024)). Whether that covers school grounds is not clear.\n- Riders under 16 may not carry or tow a passenger (same regulation).\n- Bike rules require all riders to wear a helmet on public roads; the fine is $29 ([Province of B.C.](https://www2.gov.bc.ca/gov/content/transportation/driving-and-cycling/cycling/cycling-regulations-restrictions-rules)).\n\n[[bars ages]]\nParents with questions about how their child's school handles e-bikes can ask the school directly.\n\n## The Woodfibre LNG air permit\nMore on the project: [Woodfibre LNG](/issues/woodfibre-lng/).\n\nWoodfibre LNG (liquefied natural gas) has applied for an air permit, called a Waste Discharge Authorization. The export plant needs it to move to its start-up phase. The application lists where emissions come from, including flaring, the steps to manage them, and air modelling for nearby communities.\n\nThe motion, passed unanimously: \"that the Board of Education write a letter to Woodfibre LNG and the BC Energy Regulator requesting that the regulator applies stringent regulations for prioritizing public health of students and staff in relation to the Waste Discharge Authorization air permit application.\"\n\nTrustee Celeste Bickford, who represents Squamish-Lillooet Regional District Area D, suggested it, and new Squamish trustee Leanne Roderick moved it. \"The school district has a responsibility to advocate for the health, safety and well-being of students and staff who may be affected by the industrial air emissions,\" Bickford said. She said the board wants rigorous monitoring, testing, reporting and enforceable measures, including \"things that are not easy for the company to just pay to get rid of.\"\n\nWhat the permit covers:\n- Emissions from a furnace, a thermal oxidizer, high and low pressure flares, diesel generators, diesel firewater pumps and vents ([Squamish Chief](https://www.squamishchief.com/local-news/udpate-public-comment-period-open-for-woodfibre-lng-air-emissions-application-12855424)).\n- Woodfibre says its modelling shows air pollution in nearby communities staying below B.C. air quality objectives, and it must keep monitoring air at the site and around it (same story).\n- The application runs about 4,149 pages ([My Sea to Sky](https://myseatosky.org/news/updates/woodfibre-lngs-toxic-air-pollution-permit/)).\n- Woodfibre is still getting permits for its original design even though it has announced an expansion ([The Narwhal](https://thenarwhal.ca/bc-woodfibre-lng-squamish-air-quality-data/)).\n- For comparison, the regulator says LNG Canada has had repeated flaring that did not meet its permit, though with no measurable effect on local air quality ([The Narwhal](https://thenarwhal.ca/bc-woodfibre-lng-squamish-air-quality-data/)).\n\n## How to comment on the permit\n- Email comments to Woodfibre LNG, with a copy to the BC Energy Regulator ([Squamish Chief](https://www.squamishchief.com/local-news/udpate-public-comment-period-open-for-woodfibre-lng-air-emissions-application-12855424)).\n- Woodfibre applied on October 29, opening a 30 day comment window ([The Narwhal](https://thenarwhal.ca/bc-woodfibre-lng-squamish-air-quality-data/)). By our arithmetic, 30 days from October 29 is November 28, but [My Sea to Sky](https://myseatosky.org/news/updates/woodfibre-lngs-toxic-air-pollution-permit/) gives the deadline as November 27. Aim for November 27 and confirm with the BC Energy Regulator.\n- The regulator makes the decision. When it will decide is not known.\n- To write to your trustees, their emails are on the [school district's trustees page](https://www.sd48seatosky.org/apps/pages/trustees).\n\n[[bars window]]\n## Key dates\n- October 17: trustees elected for four year terms ([SD48](https://www.sd48seatosky.org/apps/pages/trusteeelections2026)).\n- October 29: Woodfibre applies for its air permit ([The Narwhal](https://thenarwhal.ca/bc-woodfibre-lng-squamish-air-quality-data/)).\n- November 18: trustees take their oaths and hold their first regular meeting.\n- November 27: comment deadline given by [My Sea to Sky](https://myseatosky.org/news/updates/woodfibre-lngs-toxic-air-pollution-permit/). A full 30 days from filing would be November 28, so aim for the 27th and confirm with the regulator.\n- November 30: assistant superintendent Paul Lorette retires.\n- 2027: the District of Squamish expects the Woodfibre project to be finished ([District of Squamish](https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/woodfibre-liquefied-natural-gas-and-fortisbceagle-mountain-pipeline/woodfibre-lng-project/)).\n- End of 2027 or early 2028: when the company hopes for first cargoes ([Resourceworks](https://resourceworks.com/snapshot-woodfibre-lng/)).\n\n## Still unknown\n- When the parent letter will go out, or when the next board meeting is.\n- Whether the provincial age rules apply on school grounds, which may not count as a highway.\n- Which bikes count as light or standard, in plain terms.\n- Which schools stored e-bikes, and how many students ride them.\n- We could not find a written school district policy on e-bikes or e-bike storage.\n- Whether the regulator must respond to comments.\n- Whether the board's Woodfibre letter will arrive before the deadline.\n\n## Other business\n- Trustees took their oaths of office on November 18, before the meeting.\n- April Lowe stays on as board chair, and Whistler's Cynthia Higgins stays as vice chair.\n- It was the last board meeting for Paul Lorette. Lowe thanked him on behalf of the board and said he was once her principal.\n\nThe full meeting is on the school district's YouTube channel.",
+   "visual": {
+    "type": "big",
+    "big": "14 / 16",
+    "small": "Minimum ages for light and standard electric bikes in B.C."
+   },
+   "src": [
+    "The Squamish Chief",
+    "https://www.squamishchief.com/local-news/sd48-trustees-call-for-stricter-air-emission-regulations-for-woodfibre-lng-13045150"
+   ],
+   "review_scores": [
+    6.3,
+    6.8,
+    7.7,
+    7.2
+   ],
+   "researched": true,
+   "social": "Does your kid ride an electric bike to school? In B.C., riders must be 14 for a light electric bike and 16 for a standard one. The school board chair says many people were surprised there's an age limit at all.\n\nThe Sea to Sky school board will write to parents, and principals have been told not to store the bikes at school. Trustees also asked for strict air rules for the Woodfibre plant, whose air permit is open for comment until late November. How to send a comment, in the story:",
+   "share": 3,
+   "auto": true,
+   "poll": {
+    "q": "How should Sea to Sky schools handle students who arrive on electric bikes?",
+    "options": [
+     {
+      "key": "a",
+      "label": "No storage, keep it as is",
+      "means": "Schools would continue to refuse to store electric bikes."
+     },
+     {
+      "key": "b",
+      "label": "Provide secure racks",
+      "means": "Schools would offer a safe place to lock electric bikes."
+     },
+     {
+      "key": "c",
+      "label": "Ban them from school grounds",
+      "means": "Students could not bring electric bikes onto school property."
+     },
+     {
+      "key": "d",
+      "label": "Leave it to parents and police",
+      "means": "Schools would share information but not set their own rules."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/school-board-ebikes-woodfibre-air-permit.jpg",
+    "alt": "Main street in Squamish with snowy peaks behind",
+    "caption": "Downtown Squamish.",
+    "credit": "Damieng (English Wikipedia), CC BY-SA 3.0",
+    "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+   },
+   "og": "school-board-ebikes-woodfibre-air-permit.png"
+  },
+  {
    "slug": "brennan-park-holiday-camps-december",
    "s": "community",
    "tier": "brief",
