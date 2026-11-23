@@ -66,6 +66,155 @@
  ],
  "stories": [
   {
+   "slug": "mayor-easton-parking-cuts-not-working",
+   "s": "council",
+   "tier": "card",
+   "date": "2026-11-23",
+   "head": "Mayor Easton says parking cuts aren't working. What he wants instead",
+   "dek": "Squamish's new mayor says letting new buildings have fewer parking stalls has made parking worse, because transit is still weak. Sean Easton told The Squamish Chief he wants residents to define what the town needs, with council's new strategic plan in the coming months setting goals to measure.",
+   "gist": [
+    "New Mayor Sean Easton says cutting parking in new buildings has not worked in Squamish.",
+    "He says parking from new buildings spills onto neighbouring streets, and fewer stalls only make sense with much better transit.",
+    "He wants council to judge itself on real results, like homes people can afford, not on finished plans.",
+    "Council will write its plan for the next four years in the coming months, but no dates for it or for public input are set yet."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Next step",
+     "v": "Council strategic plan, coming months"
+    },
+    {
+     "level": "mid",
+     "k": "Rental vacancy",
+     "v": "0.2% (March 2026)"
+    },
+    {
+     "level": "mid",
+     "k": "Worse than 5 years ago",
+     "v": "58% of survey replies (2025)"
+    },
+    {
+     "level": "mid",
+     "k": "Winning margin",
+     "v": "175 votes"
+    },
+    {
+     "level": "mid",
+     "k": "Turnout",
+     "v": "About 45%, 8,881 of 19,591"
+    }
+   ],
+   "bars": {
+    "cleveland": {
+     "title": "Cleveland Avenue building parking spaces, 2025",
+     "rows": [
+      {
+       "label": "Required",
+       "v": 28,
+       "say": "28 spaces"
+      },
+      {
+       "label": "Approved",
+       "v": 0,
+       "say": "0 spaces",
+       "hl": true
+      }
+     ],
+     "note": "Source: North Shore News, 2025. 20 home spaces plus 8 commercial spaces (our arithmetic). Council approved the cut for a $240,000 payment."
+    },
+    "highlands": {
+     "title": "University Highlands parking request, 2025 (spaces)",
+     "rows": [
+      {
+       "label": "Original plan",
+       "v": 723,
+       "say": "723"
+      },
+      {
+       "label": "Asked for",
+       "v": 439,
+       "say": "439",
+       "hl": true
+      }
+     ],
+     "note": "Source: Squamish Chief, May 2025. Council said it could not support the cut."
+    },
+    "survey": {
+     "title": "Most pressing issue, 2025 resident survey (per cent)",
+     "rows": [
+      {
+       "label": "Services keeping up with growth",
+       "v": 38,
+       "say": "38% (1st)"
+      },
+      {
+       "label": "Parking, traffic and transit",
+       "v": 14,
+       "say": "14% (3rd)",
+       "hl": true
+      }
+     ],
+     "note": "Source: Squamish Reporter, June 2025, District resident satisfaction survey. Parking was one answer together with traffic and transit. The second ranked issue is not reported."
+    }
+   },
+   "take": "Mayor Easton says council will set its direction in a strategic plan in the coming months; no dates for the plan or public input are set yet.",
+   "body": "[[glance]]\n## What he says isn't working\nLetting new buildings have fewer parking stalls than the rules normally require is not working in Squamish, [Mayor Sean Easton](/council/sean-easton/) told The Squamish Chief at the Housing Central Conference in Vancouver last week.\n\nThe District's view has been that fewer stalls near bus routes encourages transit use and lowers emissions. Easton called that \"an ideologically grounded approach\" and says the parking challenge has gotten worse. We found no District data that proves or disproves that parking has gotten worse. He says parking needs from new buildings are \"bleeding out into the community,\" and that less reliance on cars needs a more robust transit system. Many residents commute to the resort or to Vancouver, he says.\n\nAsked about a recent Government Road proposal with far fewer stalls than bylaws normally require, he said many residents feel left out, and neighbours feel the effects without having a say. We have not checked whether provincial rules limit what council can require on parking near transit.\n\n## When residents can weigh in\nEaston says change will come through council's strategic plan, its four year list of priorities, written in the coming months with specific outcome measures to guide District staff. The [last plan](https://squamish.ca/government-and-administration/council/strategic-plan/) covered 2023 to 2026.\n\n- No dates are set yet for the plan or for public input.\n- Last time, the District [asked the public](https://www.squamishchief.com/local-news/district-of-squamish-strategic-plan-7091990) to comment on its draft.\n- Follow our [parking](/issues/parking/), [housing](/issues/housing/) and [scorecard](/scorecard/) pages.\n\n## How council has handled parking before\nIn July 2025, council let a [Cleveland Avenue building](https://www.nsnews.com/real-estate/more-rental-units-coming-to-downtown-squamishif-you-dont-own-a-car-10967161) drop all 20 required home spaces and all eight commercial spaces, for a payment of $240,000. A 2020 District [parking study](https://squamish.ca/assets/Parking/200226-DoS-Downtown-Parkade-Study.pdf) lists $15,000 per space; we could not find how the $240,000 was set.\n\n[[bars cleveland]]\nBut in 2025 council also told one developer it could not support a [parking cut at University Highlands](https://www.squamishchief.com/local-news/councillors-not-willing-to-support-bold-parking-variance-for-university-highlands-development-10669687) because of a lack of transit. That is the same reason Easton gives now.\n\n[[bars highlands]]\nEarly in 2026, [Northyards residents opposed](https://www.squamishreporter.com/2026/01/05/northyards-residents-oppose-parking-variance-development/) fewer spaces in a proposed six storey rental building on Aspen Road; we found no final decision. [BC Transit added weekday trips](https://www.bctransit.com/transit-service-expansion-in-squamish-2025-12-18/) to Route 1 Brackendale on January 4, 2026. A [Sea to Sky regional bus](https://www.bctransit.com/potential-transit-service-options-identified-for-sea-to-sky-corridor/) was studied in 2017, and the District [once said](https://squamish.ca/government-and-administration/district-information/news/sea-to-sky-governments-make-progress-toward-regional-transit/) work was underway to start service in fall 2019. We found no current launch date.\n\n## Results, not checklists\nCounting finished tasks is \"a false proxy to success,\" Easton says, meaning it does not show whether life got better. He pointed to a report saying the Housing Action Plan was complete or 95 per cent done, helped by the federal Housing Accelerator Fund, which gave the District [over $7 million](https://www.cmhc-schl.gc.ca/media-newsroom/news-releases/2024/helping-build-more-homes-faster-squamish) in 2024 to speed up more than 200 homes over three years. He called Squamish the second most expensive community in the province; we could not confirm that or the 95 per cent. He said vacancy is zero; the long term rental rate was [0.2 per cent](https://www.squamishreporter.com/2026/03/24/short-term-rentals-drop-but-squamishs-housing-crunch-persists/) in March 2026.\n\nHe wants residents to say what they need, then council to set goals and measure them. He says satisfaction in the District's own survey is declining. In the [2025 survey](https://www.squamishreporter.com/2025/06/25/squamish-residents-worry-growth-is-outrunning-local-services/), a separate question found 58 per cent said things were worse than five years ago. The top issue, at 38 per cent, was services keeping up with growth. Parking was grouped with traffic and transit in one answer, which ranked third.\n\n[[bars survey]]\n## Background\nEaston beat Jenna Stoner by [175 votes](https://squamish.ca/government-and-administration/council/election/), with about 42 per cent of votes for mayor (our arithmetic). Turnout was about 45 per cent. At the conference he led a session with Zero Ceiling and DWIFT Housing Society, two housing nonprofits he is connected with. [Read the full interview](https://www.squamishchief.com/local-news/qa-new-squamish-mayor-makes-the-case-for-resident-centred-governance-13045060).",
+   "visual": {
+    "type": "big",
+    "big": "0.2%",
+    "small": "Long term rental vacancy, March 2026"
+   },
+   "src": [
+    "The Squamish Chief",
+    "https://www.squamishchief.com/local-news/qa-new-squamish-mayor-makes-the-case-for-resident-centred-governance-13045060"
+   ],
+   "review_scores": [
+    6,
+    6.7,
+    6.9,
+    7.3
+   ],
+   "researched": true,
+   "social": "Squamish's new mayor says letting new buildings get by with fewer parking stalls has not worked here, and that the overflow lands on neighbouring streets.\n\nBut in the 2025 resident survey, parking, traffic and transit together ranked third (14%), behind services keeping up with growth (38%). What Mayor Sean Easton wants instead, and when council could act:",
+   "share": 3,
+   "auto": true,
+   "poll": {
+    "q": "Should new Squamish buildings near bus routes be allowed fewer parking stalls?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Yes, it supports transit",
+      "means": "Council would keep approving reduced parking near bus routes."
+     },
+     {
+      "key": "b",
+      "label": "Only once transit improves",
+      "means": "Reduced parking would wait until bus service is stronger."
+     },
+     {
+      "key": "c",
+      "label": "No, follow the full parking rules",
+      "means": "New buildings would need the stalls the bylaw normally requires."
+     },
+     {
+      "key": "d",
+      "label": "Decide case by case",
+      "means": "Council would weigh each building's location and neighbours."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/mayor-easton-parking-cuts-not-working.jpg",
+    "og": "/news/library/council-2026-share.jpg",
+    "alt": "Mayor Sean Easton and Councillors Eric Andersen, Janice DesJardins, Sarah Ellis, Luc Perreault, Laura Prosko and Shaun Veltkamp",
+    "caption": "Squamish council for 2026 to 2030.",
+    "credit": "Campaign photos and District of Squamish; background Straitgate, CC BY-SA 3.0",
+    "link": "https://squamishvoters.com/council/"
+   },
+   "og": "mayor-easton-parking-cuts-not-working.png"
+  },
+  {
    "slug": "lions-bay-stewart-mclean-murder-charge",
    "s": "safety",
    "tier": "card",
