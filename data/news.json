@@ -66,6 +66,175 @@
  ],
  "stories": [
   {
+   "slug": "208-kmh-sea-to-sky-highway-speeding",
+   "s": "safety",
+   "tier": "card",
+   "date": "2026-11-24",
+   "head": "Police clock 208 km/h in a 90 zone near Squamish. Here's the penalty",
+   "dek": "Police say a driver was going 208 km/h in a 90 km/h zone on Highway 99 near Squamish. BC Highway Patrol says the 22 year old man from California was stopped southbound at 5:10 p.m. on November 1. He was given a $483 ticket, which he can dispute, and his 2016 BMW was impounded for seven days.",
+   "gist": [
+    "Police say a young driver from California went 208 km/h on Highway 99 near Squamish, where the limit is 90 km/h.",
+    "He was given a $483 ticket, the top fine for this kind of speeding, and his car was taken away for seven days.",
+    "In B.C., going 118 km/h over the limit brings the same fine as going 61 over.",
+    "A ticket is not a conviction, and it is not known whether he paid it or plans to fight it."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Speed clocked",
+     "v": "208 km/h in a 90 km/h zone"
+    },
+    {
+     "level": "mid",
+     "k": "Over the limit",
+     "v": "118 km/h (about 2.3 times the limit)"
+    },
+    {
+     "level": "mid",
+     "k": "When",
+     "v": "Nov. 1, 5:10 p.m., southbound"
+    },
+    {
+     "level": "mid",
+     "k": "Penalty",
+     "v": "$483 ticket, seven day impound"
+    },
+    {
+     "level": "mid",
+     "k": "61 over vs 118 over",
+     "v": "Fine: $483 vs $483"
+    }
+   ],
+   "bars": {
+    "overlimit": {
+     "title": "How far over the limit (km/h), recent Sea to Sky cases",
+     "rows": [
+      {
+       "label": "This driver, Nov 2026",
+       "v": 118,
+       "say": "118 over, 208 in 90",
+       "hl": true
+      },
+      {
+       "label": "Burnaby driver, Jul 2025",
+       "v": 114,
+       "say": "114 over, 194 in 80"
+      },
+      {
+       "label": "Furry Creek rider, Jul 2026",
+       "v": 97,
+       "say": "97 over, 177 in 80"
+      }
+     ],
+     "note": "Sources: The Squamish Chief, North Shore News, BC Highway Patrol. The Furry Creek amount is our arithmetic."
+    },
+    "fines": {
+     "title": "Excessive speed ticket fines in B.C. by speed band (dollars)",
+     "rows": [
+      {
+       "label": "More than 40 to 60 km/h over",
+       "v": 368,
+       "say": "$368"
+      },
+      {
+       "label": "More than 60 km/h over (this driver)",
+       "v": 483,
+       "say": "$483",
+       "hl": true
+      }
+     ],
+     "note": "Source: Province of B.C., RoadSafetyBC"
+    },
+    "crashes": {
+     "title": "Vehicle crashes reported by Sea to Sky RCMP, by year (number of crashes)",
+     "rows": [
+      {
+       "label": "2024",
+       "v": 295,
+       "say": "295"
+      },
+      {
+       "label": "2025",
+       "v": 355,
+       "say": "355",
+       "hl": true
+      }
+     ],
+     "note": "Source: Sea to Sky RCMP report to Squamish council, via The Squamish Chief"
+    }
+   },
+   "take": "In B.C., a first excessive speeding ticket brings a seven day impound, and a second offence within two years brings a 30 day impound. The fine is $368 for more than 40 km/h over and $483 for more than 60 over, [the Province says](https://www2.gov.bc.ca/gov/content/transportation/driving-and-cycling/roadsafetybc/high-risk/speed).",
+   "body": "[[glance]]\n\n## What happened\n\nA BC Highway Patrol officer was on Highway 99 near Squamish at 5:10 p.m. on November 1 when he saw a blue BMW heading south much faster than other traffic. He checked its speed with a police laser. The reading was 208 km/h in a 90 km/h zone. That is 118 km/h over the limit, about 2.3 times the limit (our arithmetic). The driver was a 22 year old man from California, driving a 2016 BMW.\n\n[[bars overlimit]]\n## What the driver got\n\nHe was given an excessive speed ticket under section 148(1) of the BC Motor Vehicle Act, with a fine of $483. His 2016 BMW was impounded for seven days.\n\nThe speed is alleged, as The Squamish Chief reports. A ticket is not a conviction. A driver has 30 days to dispute it, and if they do not, the courts find them guilty, [according to the Province](https://www2.gov.bc.ca/gov/content/transportation/driving-and-cycling/roadsafetybc/high-risk/speed). If his 30 days started on November 1, they would run to about December 1 (our arithmetic).\n\n## Why 118 over costs the same as 61 over\n\nB.C. calls it excessive speeding when a driver goes more than 40 km/h over the limit. Police issue about [10,000 of these tickets a year](https://www.grsproadsafety.org/wp-content/uploads/2023/03/Excessive-Speeding-and-Careless-Driving...ences-of-Unsafe-Driving-RoadSafetyBC1.pdf) across B.C. The [Province's rules](https://www2.gov.bc.ca/gov/content/transportation/driving-and-cycling/roadsafetybc/high-risk/speed) set the fine at $368 for more than 40 over and $483 for more than 60 over, plus three penalty points. So $483 is the highest fine for this ticket.\n\n[[bars fines]]\n- A seven day impound is the standard penalty for a first offence. A second offence within two years brings a 30 day impound, [the Province says](https://www2.gov.bc.ca/gov/content/transportation/driving-and-cycling/roadsafetybc/high-risk/speed).\n- In September 2025, BC Highway Patrol said a ticket plus at least three years of high risk driving premiums comes to [almost $2,500](https://rcmp.ca/en/bc/bchp/news/2025/09/one-week-60-impounds-excessive-speeding-and-impairment-spikes-sea-sky). ICBC charges a [Driver Risk Premium](https://icbc.com/driver-licensing/tickets/Driver-Risk-Premium) for excessive speeding convictions.\n- It is not known whether points or premiums apply to a driver from California.\n\n## What police say\n\nMichael McLaughlin of BC Highway Patrol said in a news release: \"Even by the standards of the Sea to Sky Highway, this is a terribly dangerous speed. Visitors to B.C. are expected to understand and obey our traffic laws.\"\n\n\"No matter whether it's locals or visitors, treating the Sea to Sky like the Autobahn has got to stop,\" he said. He linked dangerous driving to deadly collisions that shut the highway for hours at a time.\n\n## How often this happens\n\nSpeeding cases on the corridor:\n\n- July 2025: a 21 year old from Burnaby was clocked at [194 km/h in an 80 zone](https://www.nsnews.com/local-news/burnaby-driver-clocked-at-194-kmh-caught-by-motorcycle-patrol-near-squamish-10983279) near Lions Bay.\n- Christmas Day 2025: one officer [impounded 14 speeders](https://rcmp.ca/en/bc/bchp/news/2025/12/4348912) on Highway 99.\n- Victoria Day long weekend 2026: the Squamish Highway Patrol unit issued [212 violation tickets and 66 excessive speed tickets](https://rcmp.ca/en/bc/bchp/news/2026/05/4353342). That set a long weekend record, beating 60 impounds over Labour Day 2025.\n- July 2026: a 22 year old learner rider was clocked at [177 km/h in an 80 zone](https://rcmp.ca/en/bc/bchp/news/2026/07/4355038) near Furry Creek.\n\nSeparately, Sea to Sky RCMP told Squamish council there were 355 vehicle crashes in 2025, up from 295 in 2024, [The Squamish Chief reported](https://www.squamishchief.com/local-news/violent-crime-highway-collisions-rise-in-squamish-rcmp-says-12308567). There is no information linking this driver to those numbers.\n\n[[bars crashes]]\nThe RCMP also told council it handed out 457 highway tickets in 2025. The Chief reported a figure of 527 by May 2026, but it is not clear what period that number covers.\n\nICBC counted [167 crashes between Vancouver and Whistler in 2024](https://globalnews.ca/news/11766800/sea-to-sky-highway-safer-crashes/), about one every two days. The RCMP and ICBC counts come from different agencies covering different areas, so they should not be compared. Across B.C., speed is a factor in more than 2,400 crashes a year and causes an average of 91 deaths, [ICBC says](https://icbc.com/road-safety/crashes-happen/speed).\n\n## What residents can do\n\nHighway 99 is a provincial highway, but Sea to Sky RCMP report to Squamish council once a year on local policing, including highway tickets and crashes. The last update was on May 19, 2026. Our guide to [how council works](/how-council-works/) explains how to follow meetings and share views with council members such as [Mayor Sean Easton](/council/sean-easton/). See also our pages on [transit and Highway 99](/issues/transit-and-highway-99/) and [policing and safety](/issues/policing-and-safety/), and [today](/today/) for highway conditions.\n\n## What is not known\n\n- Whether the driver paid or disputed the ticket, or how B.C. collects a fine from a California resident.\n- What the impound cost, or whether the car was a rental.\n- The exact spot beyond \"near Squamish,\" and why the news came out 23 days after the stop.\n\nThe Squamish Chief [reported the story](https://www.squamishchief.com/local-news/california-driver-caught-speeding-at-208-kmh-on-sea-to-sky-highway-13053131).",
+   "visual": {
+    "type": "big",
+    "big": "208 km/h",
+    "small": "Clocked in a 90 km/h zone"
+   },
+   "src": [
+    "The Squamish Chief",
+    "https://www.squamishchief.com/local-news/california-driver-caught-speeding-at-208-kmh-on-sea-to-sky-highway-13053131"
+   ],
+   "review_scores": [
+    6.7,
+    7.2,
+    6.8,
+    7.2
+   ],
+   "researched": true,
+   "social": "On Nov. 1, a driver was clocked at 208 km/h in a 90 zone near Squamish, police say. Under B.C. rules, going 118 km/h over the limit brings the same fine as going 61 over.\n\nBC Highway Patrol says the 22 year old from California was given a $483 ticket, which he can dispute, and his 2016 BMW was impounded for seven days. What the penalties are and how often this happens on the Sea to Sky:",
+   "share": 3,
+   "auto": true,
+   "poll": {
+    "q": "Are the penalties for extreme speeding on Highway 99 strong enough?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Yes, they are about right",
+      "means": "The $483 top fine and seven day first impound would stay as they are."
+     },
+     {
+      "key": "b",
+      "label": "No, fines should keep rising above 60 over",
+      "means": "Drivers going far beyond 60 km/h over would pay more than those just over 60."
+     },
+     {
+      "key": "c",
+      "label": "No, impounds should be longer",
+      "means": "Drivers would lose their vehicles for more than seven days on a first offence."
+     },
+     {
+      "key": "d",
+      "label": "More patrols matter more",
+      "means": "The focus would be on catching more speeders rather than bigger penalties."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/208-kmh-sea-to-sky-highway-speeding.jpg",
+    "alt": "The Sea to Sky Highway curving along the shore of Howe Sound, with a forested peak across the water",
+    "caption": "The Sea to Sky Highway (Highway 99) along Howe Sound at Porteau Road, south of Squamish.",
+    "credit": "Ruth Hartnup, CC BY 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Sea_to_Sky_Highway_and_Howe_Sound_at_Porteau_Road.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/208-kmh-sea-to-sky-highway-speeding-2.jpg",
+     "alt": "Highway 99 winding past rock cuts and forest with snowy mountains behind",
+     "caption": "Highway 99 in the Sea to Sky corridor near Squamish.",
+     "credit": "Vince Alongi from Delta, B.C., Canada, CC BY 2.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Hwy_99_(5965627597).jpg"
+    },
+    {
+     "file": "/news/photos/208-kmh-sea-to-sky-highway-speeding-3.jpg",
+     "alt": "Aerial view of the Squamish valley with Highway 99 running through town toward the mountains",
+     "caption": "The Squamish valley and Highway 99, seen from Stawamus Chief Provincial Park.",
+     "credit": "Trougnouf, CC BY 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Stawamus_Chief_Provincial_Park,_BC_(DSCF7884).jpg"
+    }
+   ],
+   "og": "208-kmh-sea-to-sky-highway-speeding.png"
+  },
+  {
    "slug": "squamish-nation-annual-report-2025-26",
    "s": "recon",
    "tier": "card",
