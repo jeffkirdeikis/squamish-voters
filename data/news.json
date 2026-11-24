@@ -66,6 +66,75 @@
  ],
  "stories": [
   {
+   "slug": "toddler-climbing-workshop-parents",
+   "s": "community",
+   "tier": "card",
+   "date": "2026-11-24",
+   "head": "Taking a toddler climbing? A Squamish workshop Thursday shows parents how",
+   "dek": "Parents and their young kids learn side by side at a new climbing workshop on Thursday, Nov. 26, 4:30 to 6 p.m. at Smoke Bluff Coffee House. It is capped at 12 families, and cost and registration were not announced, so contact Squamish Climbing Academy, Smoke Bluff Coffee House or Creative Counselling Centre.",
+   "gist": [
+    "A new Squamish workshop shows parents how to take young children climbing outdoors, and the kids do the calming activities right alongside them.",
+    "Leaders say young kids need to feel safe and close to a trusted person when they try something new, even while parents worry about the ropes.",
+    "Godlington says parents should only use rope systems they feel really comfortable with.",
+    "It runs Thursday, November 26, 4:30 to 6 p.m. for up to 12 families, and cost and sign up details were not announced."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "When",
+     "v": "Thu, Nov 26, 4:30 to 6 p.m."
+    },
+    {
+     "level": "mid",
+     "k": "Where",
+     "v": "Smoke Bluff Coffee House"
+    },
+    {
+     "level": "mid",
+     "k": "Spots",
+     "v": "12 families"
+    },
+    {
+     "level": "mid",
+     "k": "Ages",
+     "v": "No limit announced; examples are kids about 3"
+    },
+    {
+     "level": "mid",
+     "k": "Cost",
+     "v": "Not announced"
+    }
+   ],
+   "take": "Only 12 families can join the Thursday, November 26 workshop, and cost and registration were not announced, so ask Squamish Climbing Academy, Smoke Bluff Coffee House or Creative Counselling Centre.",
+   "body": "[[glance]]\n\n## What parents learn\n\nA new workshop helps parents take young kids climbing outdoors, with the kids taking part alongside them, [The Squamish Chief reported](https://www.squamishchief.com/local-news/new-squamish-workshop-helps-parents-take-their-littles-climbing-13055974). Squamish Climbing Academy is running it with Smoke Bluff Coffee House and Creative Counselling Centre. No age limit was announced. The leaders' examples are kids about three, and Godlington's daughter is three and a half.\n\nJesse Godlington, owner of Squamish Climbing Academy, will share what he has learned climbing with his daughter Delilah. He plans to cover:\n\n- Short roping, a method guides use to bring people through scrambly ground. He uses it on even easier terrain with Delilah, attaching her harness to a rope \"almost like a leash\"\n- How to belay, or manage the rope for a climber, from a tree or a rock\n- How to set up a lowering system called a counterbalance lower\n- Basics such as putting on a kids' climbing harness and what the clip on its back is for\n\n\"We walk through different terrain that maybe she wouldn't feel super comfortable in without having a rope, or I wouldn't feel comfortable with her in there without having a rope,\" he said.\n\nHe is clear about limits. \"If you actually don't really understand these systems, if it's too much for you, then don't do it,\" he said. \"Number one rule when working with gear ... you should be really, really comfortable doing these things.\" He says the session suits parents at a range of climbing levels, and he will drop the more advanced material if the group is not ready.\n\n## Keeping kids calm\n\nOlivia Polzin leads the bonding part. She is a manager at Godlington's company and also does outreach support for Creative Counselling Centre. She practises recreation therapy but says she is not a certified recreational therapist.\n\nWhen a child around three tries something new outside, she says, they need to feel safe, connected and regulated, meaning calm and settled. That holds even while parents may be nervous about the safety systems. Reminding kids of what they are feeling in the moment, a kind of mindfulness, keeps them present. Connecting in nature and with the body, alongside a trusted person, helps, she said. Parents and kids do these sensory activities together, so the kids do not get bored.\n\nPolzin also spoke about youth who struggle with executive functioning, the thinking skills behind things like attention, time management and task sequencing. She said keeping them regulated is an important way to reach the part of the brain behind those skills, and that a lot of studies show sensory bonding is a great way to do that. In recreation therapy, she says, kids build these skills through games and play in an activity they already enjoy, such as bouldering, plant identification, swimming or trail running.\n\nThe main focus of the workshop is how kids are feeling, not technical skill. That includes parents setting aside their own expectations.\n\n## How to take part\n\n- Thursday, November 26, 4:30 to 6 p.m.\n- Smoke Bluff Coffee House\n- Capped at 12 families\n- Cost and registration details were not in the announcement. Ask Squamish Climbing Academy, Smoke Bluff Coffee House or Creative Counselling Centre",
+   "visual": {
+    "type": "big",
+    "big": "Nov 26",
+    "small": "Workshop date"
+   },
+   "src": [
+    "The Squamish Chief",
+    "https://www.squamishchief.com/local-news/new-squamish-workshop-helps-parents-take-their-littles-climbing-13055974"
+   ],
+   "review_scores": [
+    6.7,
+    6.8,
+    6.3,
+    7.3
+   ],
+   "social": "Ever wanted to take your three year old climbing, but worried about the ropes, or about keeping them calm?\n\nJesse Godlington of Squamish Climbing Academy climbs with his own daughter, who is three and a half. On Thursday, November 26, he shows parents his rope methods, and kids join in on simple activities to help them feel safe. Only 12 families can join. What parents and kids will do together:",
+   "share": 3,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/toddler-climbing-workshop-parents.jpg",
+    "alt": "A climber scales a granite rock face at the Smoke Bluffs in Squamish while a belayer watches from below.",
+    "caption": "Rock climbing at the Smoke Bluffs in Squamish.",
+    "credit": "GoToVan, CC BY 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish_banner_climbing_at_smoke_bluffs.jpg"
+   },
+   "og": "toddler-climbing-workshop-parents.png"
+  },
+  {
    "slug": "squamish-local-emergency-high-tides-sandbags",
    "s": "safety",
    "tier": "lead",
