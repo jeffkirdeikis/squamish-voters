@@ -66,6 +66,278 @@
  ],
  "stories": [
   {
+   "slug": "possible-arson-mamquam-road-business",
+   "s": "safety",
+   "tier": "card",
+   "date": "2026-11-23",
+   "head": "Monday fire at Mamquam Road business may be arson. Police want video",
+   "dek": "Squamish RCMP are treating a fire at a Garibaldi Estates business early Monday, November 23, as a possible arson. Squamish Fire Rescue called police to the 1800 block of Mamquam Road at about 3:50 a.m. Police want to hear from anyone with information, anyone who was in the area, or anyone with video from 3 to 4:30 a.m. They have not named the business.",
+   "gist": [
+    "A business in the 1800 block of Mamquam Road in the Garibaldi Estates had a suspicious fire early Monday, November 23.",
+    "Police are treating it as a possible arson, which means they think it may have been set on purpose.",
+    "Police have not named the business, said how bad the damage is, or said whether anyone was hurt, and the investigation is in its early stages.",
+    "If you were in the area between 3 a.m. and 4:30 a.m. or have video, call 604-892-6100 and quote file 2026-10289."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "When",
+     "v": "Mon, Nov 23, about 3:50 a.m."
+    },
+    {
+     "level": "mid",
+     "k": "Where",
+     "v": "1800 block Mamquam Rd, Garibaldi Estates"
+    },
+    {
+     "level": "mid",
+     "k": "Reported location",
+     "v": "Cloudburst Café, 1861 Mamquam Rd (not confirmed)"
+    },
+    {
+     "level": "mid",
+     "k": "Call RCMP",
+     "v": "604-892-6100"
+    },
+    {
+     "level": "mid",
+     "k": "File number",
+     "v": "2026-10289"
+    }
+   ],
+   "take": "If you were near Mamquam Road between 3 and 4:30 a.m. on November 23 or have camera footage from then, call Squamish RCMP at 604-892-6100 and quote file 2026-10289.",
+   "body": "[[glance]]\n\n## What happened\n\nThe call came from Squamish Fire Rescue, which asked police to come to a suspicious fire at a business on Mamquam Road in the Garibaldi Estates, according to an RCMP news release [reported by The Squamish Chief](https://www.squamishchief.com/local-news/possible-arson-investigation-underway-at-squamish-business-13051660).\n\nAfter investigating at the scene, officers are treating the fire as a possible arson. Possible arson means police think the fire may have been set on purpose; they have not said why. Police say the investigation is in its early stages, and The Chief says its story is being updated. We will update this story as police release more.\n\n## How to help police\n\nPolice are asking for help from anyone who:\n\n- has information about the fire\n- has video from a surveillance camera, dashcam or other vehicle camera\n- was in the area between 3 a.m. and 4:30 a.m. on November 23\n\nThat window is 90 minutes long and starts about 50 minutes before Fire Rescue called police (our arithmetic), so police want footage from before the call too. If you have a home, business or dash camera facing Mamquam Road, check your footage from that window.\n\nTo reach police:\n\n- Call the Squamish RCMP detachment at 604-892-6100\n- Quote RCMP file number 2026-10289\n\n## Timeline\n\n- 3:00 a.m.: the window police want footage from opens\n- About 3:50 a.m.: Squamish Fire Rescue calls the RCMP about a suspicious fire\n- 4:30 a.m.: the footage window closes\n- Monday night: The Chief sees plywood covering one of the windows\n\nSource: The Squamish Chief, RCMP release, Nov 23, 2026.\n\n## Which business\n\nPolice did not name the business. The Squamish Chief reported that online reports point to the Cloudburst Café at 1861 Mamquam Road, which is in the Squamish Town Hub. Police have not confirmed it is the business involved. Squamish Voters could not find a statement from the owners.\n\n## What we don't know yet\n\nNews reports of the police release do not mention damage, injuries or suspects. Police have not said:\n\n- how much damage there was\n- whether anyone was inside or hurt\n- whether the business will stay open\n- what made them suspect arson\n- whether fire investigators are working with them on the cause\n- whether there are any suspects, or whether this is linked to anything else\n\nFollow local police and safety news on our [policing and safety](/issues/policing-and-safety/) page, and news for the Garibaldi Estates and other areas on our [neighbourhoods](/neighbourhoods/) page.",
+   "visual": {
+    "type": "big",
+    "big": "3 to 4:30 a.m.",
+    "small": "Time police want footage from"
+   },
+   "src": [
+    "The Squamish Chief",
+    "https://www.squamishchief.com/local-news/possible-arson-investigation-underway-at-squamish-business-13051660"
+   ],
+   "review_scores": [
+    6.7,
+    7.3,
+    7.5,
+    6.8
+   ],
+   "researched": true,
+   "social": "Do you drive Mamquam Road early in the morning, or have a camera facing the street in the Garibaldi Estates?\n\nPolice are treating a fire at a business on Mamquam Road early Monday as a possible arson. If you have footage from 3 a.m. to 4:30 a.m., call Squamish RCMP at 604-892-6100 and quote file 2026-10289. What we know and don't know so far:",
+   "share": 3,
+   "auto": true,
+   "areas": [
+    "garibaldi-estates"
+   ],
+   "photo": {
+    "file": "/news/photos/possible-arson-mamquam-road-business.jpg",
+    "alt": "Main street in Squamish with snowy peaks behind",
+    "caption": "Downtown Squamish.",
+    "credit": "Damieng (English Wikipedia), CC BY-SA 3.0",
+    "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+   },
+   "og": "possible-arson-mamquam-road-business.png"
+  },
+  {
+   "slug": "valeriote-sworn-in-victoria",
+   "s": "vote",
+   "tier": "card",
+   "date": "2026-11-23",
+   "head": "Squamish's Jeremy Valeriote won by 2,358 votes. Now he's one of two Greens",
+   "dek": "Squamish's member of the legislature, Jeremy Valeriote, sits in a two-member Green caucus across from a Conservative majority. He and Green Leader Emily Lowan were sworn in at the legislature in Victoria on Monday, November 23. The legislature does not sit again until spring.",
+   "gist": [
+    "Jeremy Valeriote, the Green who represents Squamish in the provincial legislature, took his oath for a new term on Monday.",
+    "He won last month by 2,358 votes, and his share of the vote rose from 38.1 per cent in 2024 to 47.8 per cent.",
+    "The New Democrat vote in the riding fell from 7,213 to 2,561, while the Conservative vote slipped slightly.",
+    "In the Canadian Press report he did not say what he will push for on local issues, and the legislature does not meet again until spring."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Sworn in",
+     "v": "Monday, November 23"
+    },
+    {
+     "level": "mid",
+     "k": "Winning margin",
+     "v": "2,358 votes (676 in 2024)"
+    },
+    {
+     "level": "mid",
+     "k": "Vote share",
+     "v": "47.8% (38.1% in 2024)"
+    },
+    {
+     "level": "mid",
+     "k": "New Democrat vote",
+     "v": "Fell from 7,213 to 2,561"
+    },
+    {
+     "level": "mid",
+     "k": "Next sitting",
+     "v": "Spring, date not set"
+    }
+   ],
+   "bars": {
+    "margin": {
+     "title": "Valeriote's margin in West Vancouver-Sea to Sky, in votes",
+     "rows": [
+      {
+       "label": "2020",
+       "v": 60,
+       "say": "Lost by 60"
+      },
+      {
+       "label": "2024",
+       "v": 676,
+       "say": "Won by 676"
+      },
+      {
+       "label": "2026",
+       "v": 2358,
+       "say": "Won by 2,358",
+       "hl": true
+      }
+     ],
+     "note": "Source: Global News (2020), BC Ballot results tracker (2024, 2026), not Elections BC"
+    },
+    "result": {
+     "title": "West Vancouver-Sea to Sky votes, October 2026 election",
+     "rows": [
+      {
+       "label": "Valeriote (Green)",
+       "v": 11834,
+       "say": "11,834 (47.8%)",
+       "hl": true
+      },
+      {
+       "label": "Dumais (Conservative)",
+       "v": 9476,
+       "say": "9,476 (38.3%)"
+      },
+      {
+       "label": "Livaja (New Democrat)",
+       "v": 2561,
+       "say": "2,561 (10.3%)"
+      },
+      {
+       "label": "Wood (CentreBC)",
+       "v": 890,
+       "say": "890 (3.6%)"
+      }
+     ],
+     "note": "Source: BC Ballot results tracker, not Elections BC. Percentages for Livaja and Wood are our arithmetic from the BC Ballot totals."
+    },
+    "change": {
+     "title": "Votes by party in the riding, 2024 vs 2026",
+     "rows": [
+      {
+       "label": "Green 2024",
+       "v": 10438,
+       "say": "10,438"
+      },
+      {
+       "label": "Green 2026",
+       "v": 11834,
+       "say": "11,834",
+       "hl": true
+      },
+      {
+       "label": "Conservative 2024",
+       "v": 9762,
+       "say": "9,762"
+      },
+      {
+       "label": "Conservative 2026",
+       "v": 9476,
+       "say": "9,476"
+      },
+      {
+       "label": "New Democrat 2024",
+       "v": 7213,
+       "say": "7,213"
+      },
+      {
+       "label": "New Democrat 2026",
+       "v": 2561,
+       "say": "2,561"
+      }
+     ],
+     "note": "Source: BC Ballot results tracker, not Elections BC"
+    }
+   },
+   "take": "Valeriote stays Squamish's member of the legislature, and with no sitting until spring, residents can find his contact details at leg.bc.ca to raise local issues with him now.",
+   "body": "[[glance]]\n## A new term in a caucus of two\nJeremy Valeriote, the member of the Legislative Assembly (MLA) for West Vancouver-Sea to Sky, was sworn in on Monday, November 23, in Victoria, along with Green Leader Emily Lowan, [The Canadian Press reported](https://www.squamishchief.com/local-news/bc-greens-including-leader-emily-lowan-sworn-in-as-legislators-in-victoria-13047286). Former federal Green leader Elizabeth May and former provincial Green MLA Adam Olsen attended. Lowan, 26, is newly elected in Saanich North and the Islands and won the party leadership a little over a year ago.\n\nIn the Canadian Press report he did not say what he will push for on Squamish issues such as housing, Highway 99 or Woodfibre LNG. His one quote was on climate change, which he said the Greens will focus on even as others may crowd it out. \"It is an existential threat that we can't delay on,\" he said.\n\nThe riding covers Bowen Island, Lions Bay, Pemberton, Squamish, West Vancouver and Whistler, [according to BC Ballot](https://bcballot.ca/ridings/west-vancouver-sea-to-sky/). Contact details for MLAs are at [leg.bc.ca](https://www.leg.bc.ca/).\n\n## How the vote went\nIn the October 24 snap election, Valeriote won by 2,358 votes with 47.8 per cent, up from 38.1 per cent in 2024, [BC Ballot shows](https://bcballot.ca/ridings/west-vancouver-sea-to-sky/). These numbers come from that tracker, not Elections BC. In 2020, Jordan Sturdy of BC United beat him by 60 votes, or 0.24 per cent, [Global News reported](https://globalnews.ca/news/10779144/bc-election-2024-results-west-vancouver-sea-to-sky/).\n\n[[bars margin]]\n[[bars result]]\nThe Green vote rose from 10,438 to 11,834, the Conservative vote slipped from 9,762 to 9,476, and the New Democrat vote fell from 7,213 to 2,561, [BC Ballot shows](https://bcballot.ca/ridings/west-vancouver-sea-to-sky/). This is only the second time the Greens have won the riding, [Pique reported](https://www.piquenewsmagazine.com/must-reads/jeremy-valeriote-re-elected-mla-in-west-vancouver-sea-to-sky-12935722).\n\n[[bars change]]\n## Where the Greens and Conservatives stand\nLowan said the Greens shared common ground with the Conservatives, when they were the Official Opposition, on emergency room closures, foreign ownership of farmland and B.C.'s \"crumbling\" infrastructure.\n\nClimate is where they disagree most. Lowan says the government is going the wrong way by promising to double natural gas production and triple liquefied natural gas exports, [National Observer reported](https://nationalobserver.com/2026/11/23/news/bc-greens-take-oath-office-leader-lowan-laments-failed-climate-conference). See our [Woodfibre LNG](/issues/woodfibre-lng/) page. She said: \"I meet British Columbians every day who are absolutely crushed by the status quo and don't think that the best use of public dollars is to empty out the purse for foreign-owned LNG and subsidize extractive corporations that, more often than not, rip-and-ship those profits overseas.\"\n\nPremier Lorne Doerkson congratulated both Greens and said he looks forward to \"finding common ground.\"\n\n## Timeline\n- November 19: 63 Conservative MLAs sworn in, [Daily Hive reported](https://dailyhive.com/vancouver/bc-conservative-cabinet-minister-names-list-november-2026)\n- November 20: Doerkson sworn in as premier, [the Globe and Mail reported](https://www.theglobeandmail.com/canada/article-conservative-lorne-doerkson-sworn-bc-premier/)\n- November 23: Greens sworn in\n- Thursday, November 26: New Democrat MLAs sworn in, [National Observer reported](https://nationalobserver.com/2026/11/23/news/bc-greens-take-oath-office-leader-lowan-laments-failed-climate-conference)\n- Spring: session opens with a throne speech, the speech where the government lays out its priorities; a new session cannot start without one. No date is set and there is no fall sitting, [CBC reported](https://ca.news.yahoo.com/incoming-b-c-conservative-government-023206393.html).\n\nWe could not confirm whether a party of two gets official party status or what roles Valeriote will hold. See also [climate and environment](/issues/climate-and-environment/) and [transit and Highway 99](/issues/transit-and-highway-99/).",
+   "visual": {
+    "type": "big",
+    "big": "2,358",
+    "small": "Valeriote's winning margin in votes"
+   },
+   "src": [
+    "The Squamish Chief",
+    "https://www.squamishchief.com/local-news/bc-greens-including-leader-emily-lowan-sworn-in-as-legislators-in-victoria-13047286"
+   ],
+   "review_scores": [
+    6.5,
+    6,
+    6.3,
+    7.2
+   ],
+   "researched": true,
+   "social": "Squamish's member of the legislature (MLA) won by 2,358 votes last month. In 2024 his margin was 676, and in 2020 he lost by 60.\n\nJeremy Valeriote was sworn in Monday as one of only two Greens across from a Conservative majority, and the legislature does not sit again until spring. How the vote went, and the one issue he named: climate.",
+   "share": 2,
+   "auto": true,
+   "poll": {
+    "q": "Which provincial issue should Squamish's MLA push hardest on?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Housing and cost of living",
+      "means": "Focus on affordability for Squamish households."
+     },
+     {
+      "key": "b",
+      "label": "Health care and emergency rooms",
+      "means": "Focus on keeping hospital and emergency services open."
+     },
+     {
+      "key": "c",
+      "label": "Climate change",
+      "means": "Focus on climate policy, as Valeriote says the Greens will."
+     },
+     {
+      "key": "d",
+      "label": "Woodfibre LNG",
+      "means": "Focus on the gas export plant near Squamish."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/valeriote-sworn-in-victoria.jpg",
+    "alt": "Sea to Sky Highway curving along Howe Sound at Porteau Road",
+    "caption": "The Sea to Sky Highway along Howe Sound, part of the West Vancouver to Sea to Sky riding.",
+    "credit": "Ruth Hartnup, CC BY 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Sea_to_Sky_Highway_and_Howe_Sound_at_Porteau_Road.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/valeriote-sworn-in-victoria-2.jpg",
+     "alt": "Front of the B.C. Parliament Buildings in Victoria with green copper domes, fountain and lawn at dusk",
+     "caption": "The B.C. Parliament Buildings in Victoria, where the legislature sits.",
+     "credit": "Michal Klajban, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:British_Columbia_Parliament_Buildings_in_Victoria,_British_Columbia,_Canada_01.jpg"
+    },
+    {
+     "file": "/news/photos/valeriote-sworn-in-victoria-3.jpg",
+     "alt": "B.C. Parliament Buildings outlined in lights against a deep blue night sky",
+     "caption": "The B.C. legislature in Victoria, lit up at night.",
+     "credit": "Michal Klajban, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:British_Columbia_Parliament_Buildings_in_Victoria,_British_Columbia,_Canada_17.jpg"
+    }
+   ],
+   "og": "valeriote-sworn-in-victoria.png"
+  },
+  {
    "slug": "mayor-easton-parking-cuts-not-working",
    "s": "council",
    "tier": "card",
