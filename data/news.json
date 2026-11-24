@@ -66,6 +66,161 @@
  ],
  "stories": [
   {
+   "slug": "king-tides-coastal-flood-risk-squamish",
+   "s": "weather",
+   "tier": "lead",
+   "date": "2026-11-24",
+   "head": "Could Loggers Lane flood again? High tides and storm surge peak Thursday",
+   "dek": "Environment Canada says coastal water in Squamish could rise each day this week at high tide, peaking Thursday, November 26, as storm surge lines up with king tides. In December 2022, similar conditions flooded downtown around Loggers Lane and set a record at Point Atkinson, the nearest tide gauge.",
+   "gist": [
+    "Environment Canada warns that very high tides and storm waves could cause coastal flooding in Squamish this week, with water highest on Thursday.",
+    "In 2022, high water flooded downtown from Victoria Street south to Cattermole Slough, between Loggers Lane and Third Avenue.",
+    "A federal scientist says it is too early to know if water will reach the 2022 record, and tides around Christmas will be even higher.",
+    "Keep well back from high water, and sign up for District emergency alerts at Squamish.ca/alert."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Flood statement",
+     "v": "High tides Nov 24 to 26"
+    },
+    {
+     "level": "mid",
+     "k": "Peak day",
+     "v": "Thursday, Nov 26"
+    },
+    {
+     "level": "mid",
+     "k": "Extra water",
+     "v": "20 to 50 cm above top tides"
+    },
+    {
+     "level": "mid",
+     "k": "Record to watch",
+     "v": "5.70 m, Point Atkinson, Dec 27, 2022"
+    },
+    {
+     "level": "mid",
+     "k": "Alerts",
+     "v": "Squamish.ca/alert"
+    }
+   ],
+   "bars": {
+    "tides": {
+     "title": "Point Atkinson records and this week's predicted king tide, in metres",
+     "rows": [
+      {
+       "label": "Record, 2022",
+       "v": 5.7,
+       "say": "5.70 m"
+      },
+      {
+       "label": "Old record, 1982",
+       "v": 5.61,
+       "say": "5.61 m"
+      },
+      {
+       "label": "This week's king tide",
+       "v": 5.058,
+       "say": "5.058 m",
+       "hl": true
+      }
+     ],
+     "note": "Point Atkinson records: CBC News, Dec. 27, 2022. This week's prediction: meteorologist Jason Ross via The Squamish Chief, which does not name the station for this figure."
+    },
+    "surge": {
+     "title": "Separate things that push water above the tides, in cm (not added together)",
+     "rows": [
+      {
+       "label": "2022 storm surge",
+       "v": 70,
+       "say": "about 70 cm"
+      },
+      {
+       "label": "This week, surge and waves",
+       "v": 50,
+       "say": "20 to 50 cm",
+       "hl": true
+      },
+      {
+       "label": "El Niño effect now",
+       "v": 40,
+       "say": "30 to 40 cm"
+      }
+     ],
+     "note": "2022 storm surge and El Niño effect: Bill Merryfield, Environment and Climate Change Canada, via The Squamish Chief. This week's forecast: Environment Canada coastal flooding statement. Upper end of each range shown. Each bar is a separate driver; they should not be added together."
+    }
+   },
+   "take": "Keep well back from high water through the peak on Thursday, November 26, and sign up for District emergency alerts at Squamish.ca/alert.",
+   "body": "[[glance]]\n\n## What is happening\n\nEnvironment Canada has a coastal flooding statement for much of the B.C. coast, including Squamish, for high tides on Tuesday, Wednesday and Thursday, November 24 to 26. Deep low pressure systems offshore will bring storm surge and large waves during a run of king tides. Water could reach 20 to 50 cm above the highest astronomical tides (the highest tides from the moon and sun alone), and is expected to rise day over day, [The Squamish Chief reported](https://www.squamishchief.com/local-news/environment-canada-warns-of-flood-risk-in-squamish-similar-to-2022-event-13053913).\n\nThe statement [may be upgraded to a coastal flooding warning](https://www.squamishchief.com/highlights/vancouver-weather-flooding-king-tide-nov-2026-13053133) for some regions. Heavy rain is also forecast on the B.C. coast, with [100 to 200 mm depending on location](https://www.nationalobserver.com/2026/11/24/news/storm-surge-king-tides-converge-raise-flooding-risk-bc-coast). Check our [today page](/today/) for river levels, Highway 99 and conditions right now.\n\nDecember may bring more risk. Bill Merryfield, a research scientist with Environment and Climate Change Canada, said tides around Christmas will be 2 to 3 cm higher than in December 2022, and El Niño is probably adding about 30 to 40 cm right now.\n\n## How close to the record?\n\nMeteorologist Jason Ross told The Squamish Chief the king tides could reach a predicted 5.058 m (16.6 ft). The record at Point Atkinson in West Vancouver, the nearest tide gauge to Squamish, is [5.70 m, set December 27, 2022](https://www.cbc.ca/news/canada/british-columbia/rain-snow-high-tide-flooding-bc-1.6698363). It beat 5.61 m from 1982. The source does not name the station for the 5.058 m figure, so the exact gap to the record cannot be worked out.\n\n[[bars tides]]\nMerryfield said a storm surge on top of this week's tides could bring water close to that record, but \"it's probably too early to say whether that will occur.\"\n\n## What happened in 2022\n\nOn December 27, 2022, water from Howe Sound spilled onto Loggers Lane and flooded some businesses and homes. The flooded area ran [from Victoria Street south to Cattermole Slough, between Loggers Lane and Third Avenue](https://www.squamishreporter.com/2022/12/27/crews-deal-with-flooding-downtown-majority-businesses-are-open/). Water went [several hundred metres inland](https://squamish.ca/projects-plans-and-initiatives/projects-and-initiatives-original/annual-flood-protection-upgrades/) and [seeped into The Main condo complex](https://www.squamishchief.com/local-news/high-tides-flood-downtown-core-6300605). The District said the [lack of a sea dike](https://www.squamishchief.com/local-news/who-will-protect-squamish-from-the-floods-6313184) was a major factor.\n\nMerryfield said the 2022 flood was mostly caused by storm surge. When a storm passes, air pressure drops, which tends to pull the water level up. Winds blowing water onshore add to it. In 2022 that surge added about 70 cm on top of a king tide. There was also 200 mm of rain over five or six days, which may have limited how much of the seawater coming over the shore the soil could absorb.\n\n[[bars surge]]\n## Why the water is higher this year\n\n- King tides come late in the year at full or new moon, when the Earth is closest to the sun and the moon is closest to the Earth.\n- During El Niño, coastal winds blow more strongly from south to north, pushing water toward shore.\n- Merryfield said the larger influence is likely a Kelvin wave: a pulse of raised sea level that probably began about three months ago in the equatorial Pacific, towards the Asian side, and travelled 20,000 to 25,000 km at about 10 km/h.\n\n## The downtown sea dike\n\nThe District is building a [200 m sea dike at X̱wún̓eḵw Park](https://squamish.ca/projects-plans-and-initiatives/projects-and-initiatives/xwunekw-park-sea-dike/) on Loggers Lane, along the high water mark. A federal grant of [nearly $4.05 million](https://www.nsnews.com/local-news/district-of-squamish-receives-funding-for-sea-dike-3351571) helps pay for it. It is designed for [one metre of sea level rise by 2100](https://squamish.ca/government-and-administration/district-information/news/district-of-squamish-receives-4-million-grant-for-downtown-flood-protection-improvements/).\n\n- 2017: District adopts a flood plan for its [21 km dike system](https://squamish.ca/sustainability-and-green-living/climate-action/climate-action/local-action/adaptation/)\n- 2023: [earlier target](https://squamish.ca/sustainability-and-green-living/climate-action/climate-action/local-action/adaptation/) to build the new sea dike\n- August 1, 2024: [Fisheries and Oceans Canada approval](https://squamish.ca/projects-plans-and-initiatives/projects-and-initiatives/xwunekw-park-sea-dike/)\n- October 24, 2024: [call for construction proposals posted](https://squamish.ca/projects-plans-and-initiatives/projects-and-initiatives/xwunekw-park-sea-dike/)\n- [Contract awarded to Jacob Bros Construction](https://squamish.ca/projects-plans-and-initiatives/projects-and-initiatives/xwunekw-park-sea-dike/) (no date given)\n- 2026: [target finish](https://opendata-squamish.hub.arcgis.com/datasets/dike-upgrades/about), after a 2025 start\n\nWe could not confirm whether the new dike is finished, or its final cost.\n\n## Staying safe\n\n- The District says it is monitoring the situation.\n- Keep well back from high water and be aware that waves may be significant. \"Water levels can increase rapidly,\" the District says.\n- We found no published high tide times for Squamish. Sign up at [Squamish.ca/alert](https://squamish.ca/alert) for District alerts.\n- In 2022 the District ran a [sandbag station](https://www.squamishreporter.com/2022/12/27/crews-deal-with-flooding-downtown-majority-businesses-are-open/) at the north end of Brennan Park Recreation Centre (Ball Field #5). We found no sandbag notice this week.\n- See our [flood protection](/issues/flood-protection/) page.",
+   "visual": {
+    "type": "big",
+    "big": "Nov 26",
+    "small": "Coastal water peak"
+   },
+   "src": [
+    "The Squamish Chief",
+    "https://www.squamishchief.com/local-news/environment-canada-warns-of-flood-risk-in-squamish-similar-to-2022-event-13053913"
+   ],
+   "review_scores": [
+    6.5,
+    6.8,
+    7.1,
+    7.3
+   ],
+   "researched": true,
+   "social": "Remember the water on Loggers Lane in December 2022? Very high tides and stormy ocean conditions are lining up again this week in Squamish.\n\nEnvironment Canada says coastal water could sit 20 to 50 cm above the highest predicted tides, rising each day to a peak on Thursday, Nov. 26. Officials ask people to stay well back from high water. Sign up for alerts at Squamish.ca/alert. What is driving the high water, how close it could get to the 2022 record, and where the downtown sea dike stands:",
+   "share": 4,
+   "auto": true,
+   "areas": [
+    "downtown"
+   ],
+   "poll": {
+    "q": "What should Squamish focus on first to protect downtown from coastal floods?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Build more sea dike",
+      "means": "More money would go to dikes along the downtown shoreline."
+     },
+     {
+      "key": "b",
+      "label": "Stricter rules for building in low areas",
+      "means": "New buildings in flood prone areas would face tighter limits."
+     },
+     {
+      "key": "c",
+      "label": "Better warnings and emergency supplies",
+      "means": "Money would go to alerts, sandbags and response rather than new structures."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/king-tides-coastal-flood-risk-squamish.jpg",
+    "alt": "Calm turquoise water of Howe Sound framed by trees, with a docked cargo ship and mountains under cloudy skies",
+    "caption": "Howe Sound at the Squamish waterfront, with a ship at the terminal dock.",
+    "credit": "dvs from Vermont, USA, CC BY 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Ship_at_dock_on_Howe_Sound_in_Squamish_(48772521681).jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/king-tides-coastal-flood-risk-squamish-2.jpg",
+     "alt": "Aerial view of the head of Howe Sound with the Squamish townsite and river delta at the water's edge, surrounded by mountains",
+     "caption": "The north end of Howe Sound and Squamish, seen from the air.",
+     "credit": "Shawn from Airdrie, Canada, CC BY-SA 2.0",
+     "link": "https://commons.wikimedia.org/wiki/File:The_North_end_of_Howe_Sound_and_Squamish,_BC_(3828051167).jpg"
+    },
+    {
+     "file": "/news/photos/king-tides-coastal-flood-risk-squamish-3.jpg",
+     "alt": "Deep blue waters of Howe Sound below snow-dusted mountains and forested slopes",
+     "caption": "Howe Sound, seen from above Squamish.",
+     "credit": "Shafik Diwan, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Howe_Sound,_Squamish.jpg"
+    }
+   ],
+   "og": "king-tides-coastal-flood-risk-squamish.png"
+  },
+  {
    "slug": "208-kmh-sea-to-sky-highway-speeding",
    "s": "safety",
    "tier": "card",
