@@ -66,6 +66,143 @@
  ],
  "stories": [
   {
+   "slug": "squamish-nation-annual-report-2025-26",
+   "s": "recon",
+   "tier": "card",
+   "date": "2026-11-24",
+   "head": "Squamish Nation: 200+ homes neared or began building; Elders Village plan",
+   "dek": "More than 200 new Squamish Nation homes neared or entered construction in the year to March 2026, and plans began for a Squamish Valley Elders Village. The Sḵwx̱wú7mesh Úxwumixw (Squamish Nation) released its 2025/26 Annual Report on November 24. Members will hear it at the Annual General Meeting on November 28 and 29.",
+   "gist": [
+    "The Squamish Nation has shared its yearly report for April 2025 to March 2026.",
+    "It lists more than 200 new Nation homes, though it does not say where, plus a new Language Nest and Elders Village plans in the Squamish Valley.",
+    "The report does not list the more than 20 planned projects, and it does not say when the Elders Village will be built.",
+    "Members can hear the report at the Annual General Meeting on November 28 and 29, in person or online."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "New Nation homes",
+     "v": "200+ near or in construction"
+    },
+    {
+     "level": "mid",
+     "k": "Valley Elders Village",
+     "v": "26 care homes + 100+ family homes, plan only"
+    },
+    {
+     "level": "mid",
+     "k": "Valley plan",
+     "v": "10 years, approved Feb 2026"
+    },
+    {
+     "level": "mid",
+     "k": "International Plaza",
+     "v": "Land lease bought for $54.2M, Sept 2025"
+    },
+    {
+     "level": "mid",
+     "k": "Members' meeting",
+     "v": "Nov 28 and 29, in person and online"
+    }
+   ],
+   "bars": {
+    "homes": {
+     "title": "Squamish Nation homes: built, started, goals and need (number of homes)",
+     "rows": [
+      {
+       "label": "Finished at Government Road (Feb 2024)",
+       "v": 27,
+       "say": "27"
+      },
+      {
+       "label": "Near or in construction (Apr 2025 to Mar 2026)",
+       "v": 200,
+       "say": "200+",
+       "hl": true
+      },
+      {
+       "label": "Broken ground in total (2024 page)",
+       "v": 305,
+       "say": "305"
+      },
+      {
+       "label": "Goal to start by end of 2025 (set Apr 2024)",
+       "v": 600,
+       "say": "600"
+      },
+      {
+       "label": "Needed over 5 years (2024 study)",
+       "v": 885,
+       "say": "885"
+      }
+     ],
+     "note": "Sources: Squamish Nation 600 homes page (2024), its March 2024 Housing Needs Assessment, the 2025/26 Annual Report and Hiyám Housing. The counts cover different periods and may overlap."
+    },
+    "elders": {
+     "title": "Squamish Valley Elders Village business plan (number of homes)",
+     "rows": [
+      {
+       "label": "Elder homes with long-term care or assisted living",
+       "v": 26,
+       "say": "26",
+       "hl": true
+      },
+      {
+       "label": "Multi-generational homes (100+)",
+       "v": 100,
+       "say": "100+"
+      }
+     ],
+     "note": "Source: Squamish Nation elder care page. This is a business plan only. We found no budget or start date."
+    }
+   },
+   "take": "Squamish Nation Members can hear the 2025/26 Annual Report at the Annual General Meeting on November 28 and 29 at CJMC, Totem Hall or online, anyone can read the full report on the Nation's website, and we found no public process for non-members to comment.",
+   "body": "[[glance]]\n\nThe Sḵwx̱wú7mesh Úxwumixw (Squamish Nation) released its 2025/26 syétsem tl’a syel̓ánem, or Annual Report, on November 24. It covers April 1, 2025 to March 31, 2026, and shares the Nation's financial statements and its work across government, departments and entities. In the Squamish Valley, plans were set in motion for an Elders Village, which a 2024 Nation plan put on [land near Totem Hall](https://www.squamishreporter.com/2024/11/27/elders-village-food-hub-housing-part-of-squamish-nation-plan-for-land-near-totem-hall/).\n\n## In the Squamish Valley\n\n- **Language Nest:** A new one opened in the Squamish Valley. The release does not say where it is or explain what it offers.\n- **Community Plan:** The Squamish Valley Community Plan was unveiled. It is a [10-year plan shown to members at Totem Hall on December 9, 2025 and approved in February 2026](https://www.squamishchief.com/in-the-community/looking-back-paddling-forward-what-is-the-squamish-nation-squamish-valley-community-plan-12551944). Its planned projects include a Valley transportation system, a treatment centre, a hotel and a business park. The Nation's Valley [reaches south to Porteau Cove and across Howe Sound to Ḵw'émḵw'em, and a 12-person advisory group of Valley residents gave input](https://www.squamishchief.com/local-news/squamish-nation-unveils-first-10-year-valley-plan-11590057). The plan [feeds into the 2026-2030 Strategic Plan](https://www.squamish.net/community-initiatives/land-development-strategies/).\n- **Elders Village:** The Nation's [elder care page](https://www.squamish.net/community-initiatives/land-planning/elder-care/) says Council approved a business plan. It covers 26 Elder homes with long-term care and assisted living, a new Elders Centre, a traditional food hub, a childcare centre and more than 100 homes for several generations. We found no budget, funding source or start date.\n- **Future projects:** More than 20 major projects are being planned across the North Shore and the Squamish Valley over the next five years. The report does not list them.\n\n[[bars elders]]\n## Housing\n\nMore than 200 new Nation homes neared or entered construction during the year. The report does not say where they are, so they may be on the North Shore, in the Valley or both. The Nation's April 2024 plan aimed to [start building 600 Hiy̓ám̓ rental homes by the end of 2025](https://www.squamish.net/community-initiatives/land-planning/600-homes/). The release does not give a running total.\n\n- Last year's report said Hiy̓ám̓ would be [breaking ground on another 200 units](https://www.squamish.net/syetsem-tla-syel%CC%93anem-annual-report-2024-5/). These may be the same homes.\n- The Nation's [600 homes page](https://www.squamish.net/community-initiatives/land-planning/600-homes/) says 305 homes had broken ground, a 45% increase in the Nation's housing supply.\n- A [March 2024 study](https://www.squamish.net/community-initiatives/land-planning/600-homes/) found 885 more homes are needed over five years. About 1,650 members living off reserve would like to return. The Nation's top priority is housing all members within 25 years.\n- The latest finished Valley project we found is [27 Hiy̓ám̓ homes at 41139 Government Road](https://hiyamhousing.com/project-government-road/). Tenants began moving in in February 2024. Hiy̓ám̓ takes applications separately from the Nation's housing list.\n- In 2023 the District of Squamish counted [about 120 Nation single-detached houses in Squamish, plus a 10-plex and a 13-plex in Brackendale](https://squamish.ca/assets/Affordable-Housing-General/230418SquamishHNRFINAL.pdf).\n\n[[bars homes]]\nMore on local housing: [our housing page](/issues/housing/).\n\n## Other highlights\n\n- **Health and safety:** People Services on Wheels launched. Ha7lh Sḵwalwnawtxw Siyích’em (Healthy Hub Siyích’em) opened. Community Safety Team patrol hours were extended.\n- **Recreation and Elders:** Ḵw’eshḵw’shétsutay̓ (Playing Place) opened. Work on the expanded North Shore Elders Centre [began in October 2025, and Elders should start moving back by the end of January 2027](https://www.squamish.net/elders-centre-expansion-on-schedule/).\n- **International Plaza:** On September 10, 2025, Nch’ḵay̓ [bought CAPREIT's land lease interest for $54.2 million, not counting transaction costs](https://www.capreit.ca/capreit-completes-sale-of-international-plaza-to-nch%E1%B8%B5ay-development-corporation/). The towers are at [1959-1999 Marine Drive in North Vancouver](https://www.nsnews.com/real-estate-news/squamish-nation-buys-north-vancouver-apartment-complex-for-542m-11206470), and the purchase used a commercial mortgage through Canada Mortgage and Housing Corporation.\n- **Sen̓áḵw:** This Vancouver project has about [6,000 rental homes, with 300 set aside for Squamish families](https://www.npr.org/2026/04/09/nx-s1-5773346/in-vancouver-squamish-nation-builds-what-many-cities-struggle-to-lots-of-housing). After developer Westbank sold its stake, [the pension fund OPTrust and the Nation own Phases 1 and 2 equally](https://www.biv.com/news/westbank-sells-stake-in-massive-squamish-nation-housing-development-in-vancouver-11143764). The Nation now owns all of Phases 3 and 4.\n- **Money:** Regular income the Nation earns itself went up, through lease rate reviews, property renewals and additions to the tax roll. The release gives no total revenue, surplus or debt.\n\n## Where and when\n\n- Annual General Meeting for Members: Saturday, November 28 and Sunday, November 29\n- At CJMC, Totem Hall and online\n- Printed reports will be available at the meeting\n- The full report, and past reports, are online on the [Squamish Nation website](https://www.squamish.net/squamish-nation-2025-26-annual-report/)\n\n## What we could not find\n\n- The release does not explain what CJMC stands for.\n- We found no source on any District of Squamish role in these projects.",
+   "visual": {
+    "type": "big",
+    "big": "200+",
+    "small": "New Nation homes near or in construction"
+   },
+   "src": [
+    "Sḵwx̱wú7mesh Úxwumixw (Squamish Nation)",
+    "https://www.squamish.net/squamish-nation-2025-26-annual-report/"
+   ],
+   "review_scores": [
+    5.8,
+    6.3,
+    7,
+    6.5
+   ],
+   "researched": true,
+   "social": "More than 200 new Squamish Nation homes were being built or about to start in the year to March 2026. The Nation's new report doesn't say where they are.\n\nThe 2025/26 report also covers a 10-year Squamish Valley plan and early plans for an Elders Village with care homes. Members hear the report at the Annual General Meeting on November 28 and 29, at CJMC, Totem Hall and online. What's in it and what's still unknown:",
+   "share": 2,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/squamish-nation-annual-report-2025-26.jpg",
+    "alt": "The Squamish River winding through a forested valley toward snow-capped mountains under a clear blue sky",
+    "caption": "The Squamish Valley, with the Squamish River winding north toward the mountains.",
+    "credit": "McKay Savage, CC BY 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish_valley.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/squamish-nation-annual-report-2025-26-2.jpg",
+     "alt": "Granite dome of the Stawamus Chief in the foreground with the town of Squamish and the valley beyond",
+     "caption": "The Stawamus Chief, with Squamish and the valley beyond.",
+     "credit": "Daniel Lu (User:dllu), CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Stawamus_Chief_from_Chief_Overlook_Panorama_Trail_Sea_to_Sky_Gondola_Squamish_dllu.jpg"
+    },
+    {
+     "file": "/news/photos/squamish-nation-annual-report-2025-26-3.jpg",
+     "alt": "Howe Sound seen from a forested ridge, with the Squamish waterfront and snowy mountains under cloud",
+     "caption": "Howe Sound and the Squamish waterfront, seen from the Sea to Sky Gondola area.",
+     "credit": "Jiaxing Yu, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Valley_-_Sea_to_Sky.jpg"
+    }
+   ],
+   "og": "squamish-nation-annual-report-2025-26.png"
+  },
+  {
    "slug": "possible-arson-mamquam-road-business",
    "s": "safety",
    "tier": "card",
