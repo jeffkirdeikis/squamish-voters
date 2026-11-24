@@ -319,7 +319,7 @@ async function draft(item) {
   let text = item.text;
   if (!text || text.length < 200) { try { text = await pageText(item.url); } catch (e) { log('page text failed', item.url, e.message); } }
   const d = await claudeJson({
-    system: SYSTEM, schema: SCHEMA, effort: 'medium', maxTokens: 8000,
+    system: SYSTEM, schema: SCHEMA, effort: 'medium', maxTokens: 16000,
     content: `${item.preface || ''}${alreadyRan()}SITE PAGES (ours, to link to):\n${SITE_PAGES}\n\nToday is ${today()}.\nSource: ${item.label}\nURL: ${item.url}\nPublished: ${item.date}\nTitle: ${item.title}\n\n${(text || '').slice(0, 9000)}`,
   });
   for (const k of ['head', 'dek', 'take', 'visual_big', 'visual_small']) d[k] = clean(d[k]);
@@ -371,7 +371,7 @@ async function reviewLoops(d, item, text, research = '') {
   const scores = [];
   const revise = async (why, list) => {
     const v = await claudeJson({
-      system: SYSTEM, schema: SCHEMA, effort: 'medium', maxTokens: 10000,
+      system: SYSTEM, schema: SCHEMA, effort: 'medium', maxTokens: 20000,
       content: `${alreadyRan()}SITE PAGES (ours, to link to):\n${SITE_PAGES}\n\nToday is ${today()}.\n${source}\n\nYOUR DRAFT:\n${story(d)}\n\n${why} Then return the whole story again (all fields). Keep publish=true, the same section, slug and photo_queries unless a fix says otherwise. Every fact must come from the source or from the background research; a fact from the research gets its link in the body as [text](https://link). Keep the gist to exactly 4 plain sentences.\n\n${list.map((f, i) => `${i + 1}. ${f}`).join('\n')}`,
     });
     if (!v.publish || !v.head || !v.body) throw new Error('revision came back empty');
@@ -391,7 +391,7 @@ async function reviewLoops(d, item, text, research = '') {
   // published: the error sends it back to the queue for the next pass (and the 3 failures alarm emails Jeff).
   for (let round = 1; round <= 3; round++) {
     if (round === 3 && scores[1] >= 8) break;
-    const r = await claudeJson({ system: PANEL, schema: PANEL_SCHEMA, effort: 'medium', maxTokens: 6000, content: `Today is ${today()}.\n\nSOURCE:\n${source}\n\nSTORY (round ${round}):\n${story(d)}` });
+    const r = await claudeJson({ system: PANEL, schema: PANEL_SCHEMA, effort: 'medium', maxTokens: 16000, content: `Today is ${today()}.\n\nSOURCE:\n${source}\n\nSTORY (round ${round}):\n${story(d)}` });
     const avg = r.reviews.length ? r.reviews.reduce((s, x) => s + (+x.score || 0), 0) / r.reviews.length : 0;
     if (r.reviews.length < 6) throw new Error(`review round ${round}: only ${r.reviews.length} of 6 reviewers answered`);
     scores.push(+avg.toFixed(1));
@@ -400,7 +400,7 @@ async function reviewLoops(d, item, text, research = '') {
   }
   // A last read for the record, so the saved score is the story as published.
   try {
-    const f = await claudeJson({ system: PANEL, schema: PANEL_SCHEMA, effort: 'low', maxTokens: 4000, content: `Today is ${today()}.\n\nSOURCE:\n${source}\n\nSTORY (final):\n${story(d)}` });
+    const f = await claudeJson({ system: PANEL, schema: PANEL_SCHEMA, effort: 'low', maxTokens: 12000, content: `Today is ${today()}.\n\nSOURCE:\n${source}\n\nSTORY (final):\n${story(d)}` });
     if (f.reviews.length) { scores.push(+(f.reviews.reduce((s, x) => s + (+x.score || 0), 0) / f.reviews.length).toFixed(1)); log(`final read: avg ${scores.at(-1)}`); }
   } catch (e) { log('final read failed (story still publishes):', e.message); }
   d.researched = !!research;
