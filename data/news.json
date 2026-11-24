@@ -66,6 +66,215 @@
  ],
  "stories": [
   {
+   "slug": "notcho-whale-rests-under-howe-sound",
+   "s": "recon",
+   "tier": "card",
+   "date": "2026-11-24",
+   "head": "Squamish Nation lays Notcho about 40 feet under Howe Sound, not on land",
+   "dek": "Earlier this month the Squamish Nation planned to bury Notcho, the humpback killed by a BC Ferries vessel in October, on land, but it has now lowered his remains in recycled nets into Howe Sound near one of its traditional villages. Raising and drying his bones should take 6 to 12 months, and a ceremony and whale oil workshops are planned with no dates set.",
+   "gist": [
+    "The Squamish Nation lowered the remains of Notcho, a humpback killed by a BC Ferries vessel in October, about 40 feet under Howe Sound.",
+    "Earlier this month the Nation planned to bury him on land; it has not said why that changed, and the new update makes no request about the site.",
+    "Once the flesh is gone, a diver will raise the bones to dry in the sun, which should take 6 to 12 months in all.",
+    "A ceremony and whale oil workshops are planned, but no dates are set and the update does not say if people who are not members can attend."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Where Notcho rests",
+     "v": "About 40 feet under Howe Sound"
+    },
+    {
+     "level": "mid",
+     "k": "Plan change",
+     "v": "Land (Nov. 13) to sea (Nov. 24)"
+    },
+    {
+     "level": "mid",
+     "k": "Bones raised and dried",
+     "v": "6 to 12 months"
+    },
+    {
+     "level": "mid",
+     "k": "Ceremony, workshops",
+     "v": "No dates set yet"
+    }
+   ],
+   "bars": {
+    "sofar": {
+     "title": "Days since the Queen of Surrey struck Notcho on October 18",
+     "rows": [
+      {
+       "label": "Body found (Oct. 26)",
+       "v": 8,
+       "say": "8 days"
+      },
+      {
+       "label": "Whale returned to Nation (Oct. 30)",
+       "v": 12,
+       "say": "12 days"
+      },
+      {
+       "label": "Nation update (Nov. 3)",
+       "v": 16,
+       "say": "16 days"
+      },
+      {
+       "label": "Land plan shared (Nov. 13)",
+       "v": 26,
+       "say": "26 days"
+      },
+      {
+       "label": "Sea burial update (Nov. 24)",
+       "v": 37,
+       "say": "37 days",
+       "hl": true
+      }
+     ],
+     "note": "Sources: CHEK News (Oct. 18 strike), CBC via Yahoo (Oct. 26), Squamish Nation updates of Oct. 30, Nov. 3, Nov. 13 and Nov. 24. Day counts are our arithmetic."
+    },
+    "bones": {
+     "title": "Months for Notcho's bones to be raised and dried",
+     "rows": [
+      {
+       "label": "Bones raised and dried, earliest (about May 2027)",
+       "v": 6,
+       "say": "6 months",
+       "hl": true
+      },
+      {
+       "label": "Bones raised and dried, latest (about Nov. 2027)",
+       "v": 12,
+       "say": "12 months",
+       "hl": true
+      }
+     ],
+     "note": "Source: Squamish Nation, Nov. 24, 2026. Calendar months (about May and November 2027) are our arithmetic."
+    }
+   },
+   "take": "Notcho's remains will stay underwater in Howe Sound until his bones are raised and dried in 6 to 12 months, and no dates are set yet for a ceremony or workshops.",
+   "body": "[[glance]]\n\n## Why Notcho is under water, not on land\n\nNotcho's skeleton and soft tissue were put into recycled netting, tied onto a line and lowered into Atla7katsem (Howe Sound) near one of the Sḵwx̱wú7mesh Úxwumixw (Squamish Nation) traditional villages. He now rests about 40 feet below the surface, Chairperson Sxwíxwtn Wilson Williams said in a [November 24 update](https://www.squamish.net/caring-for-notcho-update/).\n\nThis is a change of plan. On November 13, the Nation said Notcho was being moved from the beach to a spot further inland, and that this had to be done before a ceremony to mark his final burial on its territory. It also asked people to stay away from the beach work site ([Squamish Nation, Nov. 13](https://www.squamish.net/caring-for-notcho-a-journey-of-stewardship-and-respect/)). Neither update explains why the plan changed. The November 24 update makes no new request about the beach or the underwater site, and does not give its exact location.\n\nThe Nation says the choice followed a lot of discussion and technical review of environmental outcomes, cultural values, ecological benefits and its stewardship duties, guided by Squamish values and scientific best practices. It calls the work one of the most significant marine mammal stewardship projects it has taken on in recent years. It says it led the assessment, decision making, cultural protocols, recovery and long term management of the remains, as the main steward and decision maker in its territory.\n\n## What comes next for the bones\n\n- Staff will check the underwater site regularly and record how the remains break down.\n- Once the flesh is gone, a diver working from a boat will bring the bones back up.\n- The bones will then bleach in the sun and dry out.\n- The whole process is expected to take 6 to 12 months, roughly May to November 2027.\n- The update does not say where the skeleton will be kept or shown.\n\n[[bars bones]]\n## A ceremony and workshops\n\nStaff will work with cultural leaders, Elders, knowledge holders and community members to plan a ceremony to honour Notcho and mark his return to Howe Sound. More workshops are planned to turn the remaining blubber into whale oil, so that all usable materials are treated with care and respect. Staff are also looking at workshops on using whale oil, which may include making soap and margarine, as a way for generations to learn together and revive culture. No dates are set, and the update does not say whether people who are not Nation members can attend.\n\n## How Notcho died\n\n- October 18: the Queen of Surrey hit a whale south of Grace Island, on the Horseshoe Bay to Langdale run ([CHEK News](https://cheknews.ca/humpback-whale-struck-by-bc-ferries-vessel-near-sunshine-coast-researchers-fear-collision-was-fatal-1354599/)), going 16 knots ([CBC News](https://www.cbc.ca/news/canada/british-columbia/b-c-ferries-strikes-humpback-whale-howe-sound-9.7386868)).\n- October 26: ferry crews spotted the dead whale near Grace Island ([CBC via Yahoo](https://ca.news.yahoo.com/very-sad-development-dead-humpback-020809460.html)).\n- Paul Cottrell of Fisheries and Oceans Canada's marine mammal response team said it was the same whale. His tail and tail stock were missing ([CBC News](https://www.cbc.ca/news/canada/british-columbia/squamish-nation-dead-humpback-whale-b-c-ferries-9.7401953)).\n- A Coast Guard hovercraft towed the body to Xwemelch'stn (Capilano band lands), where the Nation held a viewing for members ([Squamish Chief](https://www.squamishchief.com/local-news/body-of-humpback-whale-struck-by-ferry-returned-to-squamish-nation-for-blessing-12963723)).\n- The Nation posted updates on October 30 ([Whale returned](https://squamish.net/whale-returning-to-s%E1%B8%B5wx%CC%B1wu7mesh)), November 3 and November 13.\n\n[[bars sofar]]\n## Notcho and other ferry strikes\n\nThe whale research group known as MERS named Notcho in 2017 for the notch in his tail ([CHEK News](https://cheknews.ca/dead-humpback-near-bc-ferries-strike-identified-as-notcho-1357203/)). He was known to migrate to Hawaii ([Powell River Peak](https://www.prpeak.com/local-news/dead-humpback-whale-spotted-near-grace-islands-on-the-sunshine-coast-12947317)).\n\nGlobal News reported in September 2025 that a humpback died after a collision with the BC Ferries vessel Northern Expedition ([Global News](https://globalnews.ca/news/11437941/humpback-whale-midnight-apparent-bc-ferry-hit)). BC Ferries has signed a conservation agreement under the Species at Risk Act, the federal law that protects wildlife at risk, with Fisheries and Oceans Canada and Transport Canada ([Coast Reporter](https://www.coastreporter.net/local-news/bc-ferries-is-strengthening-its-efforts-to-protect-at-risk-whales-12958288)). MERS wants ferries to use the Whale Report Alert System and says a humpback had been reported in the area before the strike ([CHEK News](https://cheknews.ca/bc-ferries-aims-to-lower-underwater-noise-by-50-to-reduce-impacts-on-southern-resident-killer-whales-1357655/)).\n\n## What is still unknown\n\n- Results of the necropsy, an animal autopsy, Fisheries and Oceans Canada was expected to do ([North Shore News](https://www.nsnews.com/local-news/body-of-humpback-whale-struck-by-ferry-returned-to-squamish-nation-for-blessing-12963723)).\n- The exact site, the cost, and who pays.\n- Whether BC Ferries faces any penalty.\n- Whether any permit was needed to place the remains in the water.",
+   "visual": {
+    "type": "big",
+    "big": "40 feet",
+    "small": "How deep Notcho's remains rest in Howe Sound"
+   },
+   "src": [
+    "Sḵwx̱wú7mesh Úxwumixw (Squamish Nation)",
+    "https://www.squamish.net/caring-for-notcho-update/"
+   ],
+   "review_scores": [
+    6.8,
+    6.8,
+    7.3,
+    6.8
+   ],
+   "researched": true,
+   "social": "A humpback whale named Notcho was killed by a BC Ferries vessel in October. Now he rests under Howe Sound, wrapped in recycled nets.\n\nThe Squamish Nation first planned to bury him on land. His remains now sit about 40 feet down, and raising and drying his bones should take 6 to 12 months. What happens next, and what is still unknown:",
+   "share": 4,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/notcho-whale-rests-under-howe-sound.jpg",
+    "alt": "Panoramic view of Howe Sound's blue-green water surrounded by forested mountains, seen from a rocky granite slope above Squamish",
+    "caption": "Howe Sound, seen from above Squamish.",
+    "credit": "Thom Quine, CC BY 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Stawamish_chief_squamish.jpg"
+   },
+   "og": "notcho-whale-rests-under-howe-sound.png"
+  },
+  {
+   "slug": "cloudburst-cafe-second-fire",
+   "s": "safety",
+   "tier": "card",
+   "date": "2026-11-24",
+   "head": "Small fires at Cloudburst Café two mornings in a row; one possible arson",
+   "dek": "Fire crews put out a small fire at Cloudburst Café in Garibaldi Estates at 4:33 a.m. on Tuesday, November 24, a day after a fire that online reports place at the same café. Police say the Monday fire, at a business they did not name in the 1800 block of Mamquam Road, is a possible arson.",
+   "gist": [
+    "Firefighters put out a small fire at Cloudburst Café in Garibaldi Estates early Tuesday, November 24, and nobody was hurt.",
+    "Police think a fire one day earlier on the same block of Mamquam Road may have been set on purpose, and online reports say it was at the same café.",
+    "Police have not said if the Tuesday fire is suspicious or if the two fires are connected.",
+    "If you have video or were near there early Monday morning, call Squamish RCMP at 604-892-6100 and give file number 2026-10289."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Second fire",
+     "v": "Tuesday, Nov 24, 4:33 a.m."
+    },
+    {
+     "level": "mid",
+     "k": "First fire",
+     "v": "Monday, Nov 23, about 3:50 a.m."
+    },
+    {
+     "level": "mid",
+     "k": "Location",
+     "v": "Café: Tue per District, Mon per online reports"
+    },
+    {
+     "level": "mid",
+     "k": "Injuries",
+     "v": "None reported"
+    },
+    {
+     "level": "mid",
+     "k": "RCMP tip line",
+     "v": "604-892-6100, file 2026-10289"
+    }
+   ],
+   "bars": {
+    "timeline": {
+     "title": "Call times each morning, minutes after 3 a.m.",
+     "rows": [
+      {
+       "label": "Monday, Nov 23 (about 3:50 a.m.)",
+       "v": 50,
+       "say": "about 50 min"
+      },
+      {
+       "label": "Tuesday, Nov 24 (4:33 a.m.)",
+       "v": 93,
+       "say": "93 min",
+       "hl": true
+      }
+     ],
+     "note": "Call times from The Squamish Chief; minutes are our arithmetic. The Monday time is approximate. Police have not said the two fires are linked."
+    }
+   },
+   "take": "If you have video or saw anything near the 1800 block of Mamquam Road between 3 and 4:30 a.m. on Monday, November 23, call Squamish RCMP at 604-892-6100 and quote file 2026-10289.",
+   "body": "[[glance]]\n\n## What happened Tuesday\n\nSquamish Fire Rescue was sent to Cloudburst Café at 4:33 a.m. on Tuesday, November 24, after an alarm went off because of a small fire. Steven Hill of the District of Squamish [told The Squamish Chief](https://www.squamishchief.com/local-news/small-fires-reported-two-days-in-a-row-at-cloudburst-cafe-13051660) that crews \"quickly extinguished the fire and vented the building\" (cleared out the smoke). No one was hurt. The scene was left with Squamish RCMP for further investigation.\n\nPolice have not yet said whether this fire is suspicious or whether it is connected to the fire the morning before. The Squamish Chief says it asked the RCMP for more information and had not heard back.\n\n## The fire the day before\n\nAt about 3:50 a.m. on Monday, November 23, Squamish Fire Rescue called the RCMP to a business in the 1800 block of Mamquam Road because of a suspicious fire, according to an RCMP news release quoted by the Chief. Based on the officers' investigation at the business, police are treating that fire as a possible arson.\n\nThe RCMP did not name the business, but online reports place that fire at Cloudburst Café too. On Monday night, one of the café's windows was covered with plywood, the Chief reported.\n\n## How you can help\n\nPolice say their investigation into the Monday fire is at an early stage. They want to hear from anyone who:\n\n- has security camera, dashcam or other vehicle video from the area\n- was near the 1800 block of Mamquam Road between 3 a.m. and 4:30 a.m. on Monday, November 23\n- has any other information about the fire\n\nCall Squamish RCMP at 604-892-6100 and quote file number 2026-10289.\n\nThe window police gave ends at 4:30 a.m. on Monday. Tuesday's call came at 4:33 a.m. Police have not said whether they want footage from Tuesday morning too.\n\n[[bars timeline]]\n## Where the café is\n\nCloudburst Café is at 1861 Mamquam Road in the Squamish Town Hub in Garibaldi Estates. Listings describe it as [one block behind the Canadian Tire](https://www.tripadvisor.com/Restaurant_Review-g181771-d8394541-Reviews-The_Cloudburst_Cafe-Squamish_British_Columbia.html). Its [listed hours](https://www.yelp.ca/biz/cloudburst-cafe-squamish) start at 6 a.m.\n\n## What is still not known\n\n- Whether the Tuesday fire is considered suspicious\n- Whether the two fires are linked\n- What started either fire\n- How much damage was done\n- Whether the café is open, or for how long it may be closed\n- Any suspects or arrests\n\nSquamish Fire Rescue, run by the District, responds to fires. The Squamish RCMP detachment runs the criminal investigation. More local safety news is on our [policing and safety](/issues/policing-and-safety/) page.",
+   "visual": {
+    "type": "big",
+    "big": "4:33 a.m.",
+    "small": "Tuesday fire call at Cloudburst Café"
+   },
+   "src": [
+    "The Squamish Chief",
+    "https://www.squamishchief.com/local-news/small-fires-reported-two-days-in-a-row-at-cloudburst-cafe-13051660"
+   ],
+   "review_scores": [
+    7,
+    6.5,
+    6.7,
+    7
+   ],
+   "researched": true,
+   "social": "Fire crews were called to Cloudburst Café in Garibaldi Estates early Tuesday, a day after a fire that online reports place at the same café.\n\nCrews put out Tuesday's small fire at 4:33 a.m. and no one was hurt. Police call Monday's fire on the 1800 block of Mamquam Road a possible arson. Saw anything 3 to 4:30 a.m. Monday on Mamquam Road? Squamish RCMP 604-892-6100, file 2026-10289.",
+   "share": 3,
+   "auto": true,
+   "areas": [
+    "garibaldi-estates"
+   ],
+   "photo": {
+    "file": "/news/photos/cloudburst-cafe-second-fire.jpg",
+    "alt": "Shops along Cleveland Avenue in downtown Squamish",
+    "caption": "Cleveland Avenue, downtown Squamish.",
+    "credit": "Guerinf, CC0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish_(5).jpg"
+   },
+   "og": "cloudburst-cafe-second-fire.png"
+  },
+  {
    "slug": "king-tides-coastal-flood-risk-squamish",
    "s": "weather",
    "tier": "lead",
