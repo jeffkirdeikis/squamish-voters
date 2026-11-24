@@ -128,5 +128,61 @@
       "input_tokens": 528301,
       "output_tokens": 25324
     }
+  },
+  {
+    "date": "2026-11-23",
+    "model": "claude-opus-5-5",
+    "asked": 23,
+    "answered": 23,
+    "searched": 23,
+    "cited": 4,
+    "named": 2,
+    "found": 4,
+    "top_cited": [
+      {
+        "site": "squamishchief.com",
+        "n": 18
+      },
+      {
+        "site": "squamish.ca",
+        "n": 13
+      },
+      {
+        "site": "squamishreporter.com",
+        "n": 13
+      },
+      {
+        "site": "cbc.ca",
+        "n": 11
+      },
+      {
+        "site": "ca.news.yahoo.com",
+        "n": 4
+      },
+      {
+        "site": "letstalksquamish.ca",
+        "n": 2
+      },
+      {
+        "site": "squamish.net",
+        "n": 2
+      },
+      {
+        "site": "vote4tomorrow.ca",
+        "n": 2
+      },
+      {
+        "site": "piquenewsmagazine.com",
+        "n": 2
+      },
+      {
+        "site": "squamish.civicweb.net",
+        "n": 2
+      }
+    ],
+    "tokens": {
+      "input_tokens": 576937,
+      "output_tokens": 26068
+    }
   }
 ]
