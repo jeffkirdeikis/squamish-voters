@@ -66,6 +66,136 @@
  ],
  "stories": [
   {
+   "slug": "squamish-local-emergency-high-tides-sandbags",
+   "s": "safety",
+   "tier": "lead",
+   "date": "2026-11-24",
+   "head": "Squamish declares local emergency over high tides. Where to get sandbags",
+   "dek": "The District of Squamish declared a state of local emergency on Tuesday, November 24, ahead of high tides and possible flooding. A sandbag station with shovels is being set up next to Copper Coil, and crews are building sandbag walls along Loggers Lane.",
+   "gist": [
+    "The District of Squamish has declared a local emergency because high tides could bring flooding this week.",
+    "The declaration gives the District legal power from the Province to do flood protection work, and crews are building sandbag walls along Loggers Lane.",
+    "The highest tide risk is Tuesday, November 24 through Thursday, November 26, and rivers may rise fast with rain until early Friday.",
+    "Downtown residents and businesses can get sandbags next to Copper Coil, and anyone can sign up for District alerts at Squamish.ca/alert."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Declared",
+     "v": "State of local emergency, Nov 24"
+    },
+    {
+     "level": "mid",
+     "k": "Sandbags",
+     "v": "Lot next to Copper Coil, shovels provided"
+    },
+    {
+     "level": "mid",
+     "k": "Highest tide risk",
+     "v": "Tue Nov 24 to Thu Nov 26"
+    },
+    {
+     "level": "mid",
+     "k": "Predicted king tide",
+     "v": "5.058 m (16.6 ft)"
+    },
+    {
+     "level": "mid",
+     "k": "River advisory",
+     "v": "High flows possible to early Friday"
+    }
+   ],
+   "bars": {
+    "duration": {
+     "title": "How long a B.C. state of local emergency lasts (days)",
+     "rows": [
+      {
+       "label": "Old rule",
+       "v": 7,
+       "say": "7 days"
+      },
+      {
+       "label": "Current rule",
+       "v": 14,
+       "say": "14 days",
+       "hl": true
+      },
+      {
+       "label": "After one 14 day extension",
+       "v": 28,
+       "say": "28 days"
+      }
+     ],
+     "note": "Source: Union of B.C. Municipalities, 2023. The 28 day figure is our arithmetic (14 days plus one 14 day extension with the minister's approval). We do not know if more extensions are allowed."
+    },
+    "dike": {
+     "title": "Sea dike at X̱wún̓eḵw Park, 200 metres: grant vs total cost (dollars)",
+     "rows": [
+      {
+       "label": "Federal and provincial grant",
+       "v": 4049878,
+       "say": "$4,049,878",
+       "hl": true
+      },
+      {
+       "label": "Estimated total cost",
+       "v": 5000000,
+       "say": "$5 million"
+      }
+     ],
+     "note": "Source: District of Squamish, July 2020. The grant covers about 81% of the estimated $5 million cost (our arithmetic)."
+    }
+   },
+   "take": "Sandbags and shovels are at the lot next to Copper Coil, and the highest tide risk runs Tuesday, November 24 through Thursday, November 26; sign up for alerts at Squamish.ca/alert.",
+   "body": "[[glance]]\n\n## What happened\n\nThe District of Squamish has declared a state of local emergency because incoming high tides could bring flooding, [The Squamish Chief reported](https://www.squamishchief.com/local-news/update-squamish-declares-state-of-emergency-as-high-tides-threaten-flooding-13053913) on Tuesday, November 24.\n\nThe District says the declaration gives it legal authority from the Province, under B.C.'s Emergency and Disaster Management Act, to carry out flood protection work. The reports we found do not mention any evacuation order or evacuation advisory.\n\nThere are two separate risks this week. High tides threaten downtown, where crews are building walls along Loggers Lane. Rivers swollen by rain are covered by a separate advisory.\n\n## Where to get sandbags and help\n\n- A sandbag station for downtown businesses and residents is being set up in the parking lot next to Copper Coil. Shovels are provided.\n- Municipal crews are building sandbag walls and berms (raised banks of earth) along Loggers Lane. The District says this should lower the chance of water getting into downtown and help in future high water events.\n- District staff are offering sandbags to vulnerable residents who live near Loggers Lane and Vancouver Street.\n- Staff are also building a large raised pad, off the ground, for people who want to move out of lower lying areas.\n\n## Day by day\n\n- Tuesday, November 24: high tide, [the Chief reported](https://www.squamishchief.com/local-news/environment-canada-warns-of-flood-risk-in-squamish-similar-to-2022-event-13053913).\n- Wednesday, November 25: high tide. A stronger storm system is expected late in the day, a River Forecast Centre hydrologist told [CBC](https://www.cbc.ca/news/canada/british-columbia/weather-rain-wind-flood-nov-24-2026-9.7433846).\n- Thursday, November 26: high tide, and the stronger system continues, the hydrologist said. The travel advisory for Howe Sound runs until this day.\n- Early Friday, November 27: river high flows possible until this time.\n\n## Why this week\n\nEnvironment Canada told residents to prepare for flooding like the December 2022 event, [the Chief reported](https://www.squamishchief.com/local-news/environment-canada-warns-of-flood-risk-in-squamish-similar-to-2022-event-13053913). King tides are predicted to reach 5.058 metres (16.6 feet). The Chief reported they will coincide with Kelvin wave activity, which could push water above predicted levels. In Metro Vancouver, water is expected to keep rising from Wednesday and peak Thursday, [the Chief reported](https://www.squamishchief.com/highlights/vancouver-weather-flooding-king-tide-nov-2026-13053133), though that is not a Squamish forecast.\n\nOn December 27, 2022, ocean water spilled onto Loggers Lane and floodwater reached several hundred metres inland, [the District says](https://squamish.ca/projects-plans-and-initiatives/projects-and-initiatives-original/annual-flood-protection-upgrades/). At the time, the District called the lack of a sea dike around the coast a \"major factor\", [the Chief reported](https://www.squamishchief.com/local-news/who-will-protect-squamish-from-the-floods-6313184). The District says it has finished all top priority tasks in its 2017 flood plan and is working on the next set. More background is on our [flood protection](/issues/flood-protection/) page.\n\nA sea dike is the kind of protection the District said was missing when downtown flooded in 2022. In 2020, the District got a $4,049,878 federal and provincial grant for 200 metres of new sea dike at X̱wún̓eḵw Park, a project estimated at $5 million in total, [the District said](https://squamish.ca/government-and-administration/district-information/news/district-of-squamish-receives-4-million-grant-for-downtown-flood-protection-improvements/). We could not confirm whether that dike is finished.\n\n[[bars dike]]\n## Roads and rivers\n\nThe provincial Ministry of Transportation and Infrastructure has a travel advisory for Howe Sound. Heavy winds, possible fallen debris and flooding are expected, and roads could close with little notice.\n\nThe River Forecast Centre has a High Streamflow Advisory, a warning that rivers may rise quickly, for Howe Sound. The hydrologist called this storm a \"one-two punch\" after the earlier atmospheric river. Stay away from rivers and banks, and do not drive across flooded roads, bridges or river crossings, the District said.\n\n- River levels and conditions: [our Today page](/today/)\n\n## How long the emergency lasts\n\nUnder B.C. law, a state of local emergency lasts 14 days unless cancelled sooner, and the minister can approve another 14 days, says the [Union of B.C. Municipalities](https://www.ubcm.ca/about-ubcm/latest-news/new-emergency-management-responsibilities-local-governments). If it took effect November 24 and is not cancelled or extended, it would run to the end of December 8, by our own count. The District has not published an end date.\n\n[[bars duration]]\nWith the minister's written approval, a 90 day recovery period can follow, [Fulton & Co. explains](https://www.fultonco.com/2023/11/new-emergency-and-disaster-management-act/). After the emergency ends, the District must write a full report on it.\n\n## What we don't know yet\n\n- Exactly which area the declaration covers, and when it was signed.\n- The sandbag station's hours and any limit on bags.\n- Where the raised pad is.\n- Who counts as vulnerable, and how to ask staff for help.\n- Whether anyone has been told to leave their home.\n- Whether the Squamish Nation is part of the response.\n- Whether people with damage can get provincial Disaster Financial Assistance.\n- What this week's work costs.\n- We did not find the District's news release on squamish.ca, so the quotes come from The Squamish Chief.\n\n## Stay informed\n\n- Sign up for District alerts by phone, text, email or app at [Squamish.ca/alert](https://squamish.ca/public-safety-services/emergency-program/squamishalert/).",
+   "visual": {
+    "type": "big",
+    "big": "5.058 m",
+    "small": "Predicted tide. Prepare for flooding like Dec 2022"
+   },
+   "src": [
+    "The Squamish Chief",
+    "https://www.squamishchief.com/local-news/update-squamish-declares-state-of-emergency-as-high-tides-threaten-flooding-13053913"
+   ],
+   "review_scores": [
+    6.5,
+    6.8,
+    7.3,
+    7
+   ],
+   "researched": true,
+   "social": "Need sandbags downtown? A station with shovels is being set up in the lot next to Copper Coil, and the highest tide risk runs Tuesday through Thursday this week.\n\nThe District of Squamish has declared a state of local emergency. Staff are also building a raised pad for people who want to move out of low lying areas near Loggers Lane. Where to go, what's being built and what we still don't know:",
+   "share": 4,
+   "auto": true,
+   "areas": [
+    "downtown"
+   ],
+   "photo": {
+    "file": "/news/photos/squamish-local-emergency-high-tides-sandbags.jpg",
+    "alt": "Aerial view of Squamish valley with neighbourhoods, highway and forested hills beneath snow-capped mountains",
+    "caption": "Squamish and the surrounding valley, seen from above.",
+    "credit": "Madhumanti Mandal, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Downtown_Squamish.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/squamish-local-emergency-high-tides-sandbags-2.jpg",
+     "alt": "Downtown Squamish street lined with shops and parked cars, with a snowy peak in the distance under blue sky",
+     "caption": "Cleveland Avenue in downtown Squamish.",
+     "credit": "The original uploader was Damieng at English Wikipedia., CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+    },
+    {
+     "file": "/news/photos/squamish-local-emergency-high-tides-sandbags-3.jpg",
+     "alt": "Squamish Town Centre stone sign in a planted median with the Stawamus Chief rising behind",
+     "caption": "The entrance to Squamish town centre, with the Stawamus Chief behind.",
+     "credit": "Straitgate, CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_City_Centre.JPG"
+    }
+   ],
+   "og": "squamish-local-emergency-high-tides-sandbags.png"
+  },
+  {
    "slug": "notcho-whale-rests-under-howe-sound",
    "s": "recon",
    "tier": "card",
