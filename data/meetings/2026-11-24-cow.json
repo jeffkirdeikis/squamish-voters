@@ -60,5 +60,91 @@
   }
  ],
  "agenda_hash": "8495f1a060067d20",
- "agenda_checked": "2026-11-20T00:53:31.010Z"
+ "agenda_checked": "2026-11-20T00:53:31.010Z",
+ "summary": {
+  "headline": "On November 24, 2026, Squamish council received a report showing the town finished 427 net new homes in the first year of its provincial housing target, far more than the 160 the Province required.",
+  "key_points": [
+   "Council voted to receive the second progress report under the Province's housing target order, a rule that sets how many new homes Squamish must finish. No one was heard voting against it.",
+   "Between September 1, 2025 and August 31, 2026, the District issued occupancy permits (final approval to move in) for 441 homes, or 427 after counting homes torn down.",
+   "The first year target was 160 homes. Squamish has already met its targets for years one and two and is 102 homes short of the year three target.",
+   "Staff said about 340 of the finished homes came from projects underway since 2017 or earlier.",
+   "Staff said the Province's population forecast is too low for Squamish. The District's own forecast puts the town near 50,000 people by 2046, compared with about 40,000 in the provincial forecast.",
+   "Staff warned that high building costs and harder financing are slowing new building permits, and some permits expired this year.",
+   "Council then voted to close the rest of the meeting to the public to discuss progress reports for the District's annual report."
+  ],
+  "explainer": [
+   "In 2022 the Province passed the Housing Supply Act. It lets the Province set housing targets for certain towns, including Squamish. Squamish got its order on August 18, 2025. Towns that miss their targets can face more provincial oversight. The District must report its progress each year, and council has to receive the report in a public meeting before December 15, 2026. Staff said this may be the only such report this council sees, because of recent changes in the provincial government.",
+   "Staff explained that the provincial target is based on a provincial population forecast that has often underestimated growth in Squamish. The District hired a professional to make its own forecast, which it now uses for planning roads, pipes, emergency plans and job land. Using that forecast, staff estimate Squamish needs about 5,020 more homes over the next 10 years.",
+   "Councillors asked about how fast permits are processed, whether newer housing policies are working, and how parks and recreation, such as Brennan Park, can keep up with growth. Staff said they do not yet have full data on the time from application to building permit. They said 61 permanently affordable homes were finished in the period, and development permits were approved for 142 more. Councillor Ellis noted that over half of the homes in the rezoning pipeline are rentals, and said she hopes the District keeps producing reports like this even if the provincial rules change. Another member said the key question is whether new supply is giving locals homes they can afford.",
+   "Councillor Andersen raised concerns about the computer model the District plans to use for the next Official Community Plan update, saying it does not fully cover industrial land and that its funding is uncertain. After the vote to receive the report, council moved into a closed session."
+  ]
+ },
+ "decisions": [
+  {
+   "title": "Housing target progress report received",
+   "what": "Squamish council voted to receive the second progress report on its provincial housing target. The report shows the District finished 427 net new homes in the year ending August 31, 2026, well above the target of 160.",
+   "why_it_matters": "The Province can step in on local permits and bylaws if a town misses its housing targets, and the numbers show how fast Squamish is growing.",
+   "for_you": "Squamish has already met its first two years of provincial housing targets and is 102 homes short of year three.",
+   "areas": [
+    "all"
+   ],
+   "issues": [
+    "ocp-and-growth"
+   ],
+   "result": "passed",
+   "votes": {
+    "sean-easton": "yes",
+    "eric-andersen": "yes",
+    "janice-desjardins": "yes",
+    "sarah-ellis": "yes",
+    "luc-perreault": "unknown",
+    "laura-prosko": "yes",
+    "shaun-veltkamp": "yes"
+   },
+   "votes_confidence": "likely",
+   "consent_agenda": false,
+   "topic": "Housing",
+   "related_q": [],
+   "positions": [],
+   "timestamp": "00:14:59",
+   "video_url": "https://www.youtube.com/watch?v=yh0Zx629FBw&t=899s",
+   "votes_source": "video"
+  },
+  {
+   "title": "Meeting closed to the public for annual report discussion",
+   "what": "Squamish council voted to close the rest of the meeting to the public. The closed session was to discuss District goals, measures and progress reports for the annual municipal report.",
+   "why_it_matters": "",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": [],
+   "result": "passed",
+   "votes": {
+    "sean-easton": "yes",
+    "eric-andersen": "yes",
+    "janice-desjardins": "yes",
+    "sarah-ellis": "yes",
+    "luc-perreault": "unknown",
+    "laura-prosko": "yes",
+    "shaun-veltkamp": "yes"
+   },
+   "votes_confidence": "likely",
+   "consent_agenda": false,
+   "topic": "Governance",
+   "related_q": [],
+   "positions": [],
+   "timestamp": "00:51:24",
+   "video_url": "https://www.youtube.com/watch?v=yh0Zx629FBw&t=3084s",
+   "votes_source": "video"
+  }
+ ],
+ "video_url": "https://www.youtube.com/watch?v=yh0Zx629FBw",
+ "transcript": true,
+ "generated": {
+  "at": "2026-11-25T15:04:09.795Z",
+  "model": "claude-opus-5-5",
+  "from": "meeting audio and the agenda"
+ },
+ "promise_updates": []
 }
