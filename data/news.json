@@ -66,6 +66,198 @@
  ],
  "stories": [
   {
+   "slug": "squamish-427-homes-housing-target",
+   "s": "housing",
+   "tier": "card",
+   "date": "2026-11-24",
+   "head": "427 homes in a year beats Squamish's target of 160. Most began by 2017",
+   "dek": "Most of the 427 homes Squamish finished in its first year under a provincial target came from projects underway since 2017 or earlier. Staff warn that high costs and harder financing are slowing new permits. Council received the progress report at its Tuesday, November 24 workshop.",
+   "gist": [
+    "Squamish finished 427 new homes between September 2025 and August 2026, far more than the Province's goal of 160 for that year.",
+    "Staff say about 340 of those homes came from projects started by 2017 or earlier, and high costs and harder borrowing are slowing new building permits.",
+    "The town is 102 homes short of its year three goal, and staff estimate it needs about 5,020 more homes over the next 10 years.",
+    "61 of the finished homes are permanently affordable, and planning approvals were given for 142 more."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Homes finished",
+     "v": "441 gross, 427 net (Sept 2025 to Aug 2026)"
+    },
+    {
+     "level": "mid",
+     "k": "Year 2 target",
+     "v": "331 (already met)"
+    },
+    {
+     "level": "mid",
+     "k": "Short of year 3",
+     "v": "102 homes"
+    },
+    {
+     "level": "mid",
+     "k": "10 year pace",
+     "v": "5,020 homes: about 502 a year (our math)"
+    },
+    {
+     "level": "mid",
+     "k": "Affordable homes",
+     "v": "61 finished, 142 more approved"
+    }
+   ],
+   "bars": {
+    "target": {
+     "title": "Homes finished in year one vs provincial running targets (homes)",
+     "rows": [
+      {
+       "label": "Year 1 target",
+       "v": 160,
+       "say": "160"
+      },
+      {
+       "label": "Year 2 target",
+       "v": 331,
+       "say": "331"
+      },
+      {
+       "label": "Finished in year one",
+       "v": 427,
+       "say": "427",
+       "hl": true
+      },
+      {
+       "label": "Year 3 target",
+       "v": 529,
+       "say": "529"
+      },
+      {
+       "label": "Year 5 target",
+       "v": 1069,
+       "say": "1,069"
+      }
+     ],
+     "note": "Finished: District of Squamish progress report, November 24, 2026. Targets: Squamish Chief, September 2025."
+    },
+    "affordable": {
+     "title": "Affordable homes: finished and approved vs provincial guidance (homes)",
+     "rows": [
+      {
+       "label": "Affordable, finished",
+       "v": 61,
+       "say": "61",
+       "hl": true
+      },
+      {
+       "label": "Affordable, approved",
+       "v": 142,
+       "say": "142"
+      },
+      {
+       "label": "Guide: below market",
+       "v": 154,
+       "say": "154"
+      },
+      {
+       "label": "Guide: non-market",
+       "v": 591,
+       "say": "591"
+      }
+     ],
+     "note": "Finished and approved: District of Squamish staff, November 24, 2026. Guidance for the five year target: Squamish Chief, September 2025."
+    },
+    "need": {
+     "title": "Estimates of how many homes Squamish needs (homes)",
+     "rows": [
+      {
+       "label": "5 year target",
+       "v": 1069,
+       "say": "1,069"
+      },
+      {
+       "label": "Need behind target",
+       "v": 1425,
+       "say": "1,425"
+      },
+      {
+       "label": "Staff, next 10 years",
+       "v": 5020,
+       "say": "About 5,020",
+       "hl": true
+      },
+      {
+       "label": "High growth, by 2031",
+       "v": 6840,
+       "say": "6,840"
+      },
+      {
+       "label": "Needs report, by 2036",
+       "v": 9600,
+       "say": "9,600"
+      }
+     ],
+     "note": "Squamish Chief (target and need behind it), District of Squamish staff November 24, 2026 (10 years), Let's Talk Squamish Housing Action Plan (2031), District of Squamish 2023 Housing Needs Report (2036)."
+    }
+   },
+   "take": "Squamish has met its provincial housing targets for years one and two, but staff say high building costs and harder financing are slowing new permits and the town is 102 homes short of year three.",
+   "body": "[[glance]]\n\n## The catch behind the numbers\n\nSquamish finished 427 net new homes between September 1, 2025 and August 31, 2026, the first year under its provincial housing target. The year one target was 160, and the town has already met its targets for years one and two. But staff said about 340 of the 427 came from projects underway since 2017 or earlier.\n\nStaff warned that high building costs and harder financing are slowing new building permits, and some permits expired this year. Squamish is 102 homes short of its year three target. Across B.C., residential permit values fell 23.9 per cent in September, [economist Bryan Yu wrote](https://www.squamishchief.com/economy-law-politics/bryan-yu-bc-building-permits-wholesale-sales-lose-momentum-in-september-13043949).\n\nCouncil received the report at its November 24 workshop, a Committee of the Whole meeting with no final votes ([meeting page](/meetings/2026-11-24-cow/)). No one was heard voting against it.\n\n## The numbers\n\n- 441 homes got occupancy permits (final approval to move in), or 427 after subtracting homes torn down.\n- The targets add up year by year: 160, 331, 529, 770 and 1,069 by year five, [the Squamish Chief reported](https://www.squamishchief.com/local-news/minister-outlines-housing-goals-and-support-for-squamish-development-11150382).\n- The first report, in March, counted 153 homes in six months, 34 below market. The District approved building permits for 434 homes in 2025, [the Squamish Reporter said](https://www.squamishreporter.com/2026/03/23/squamish-meets-provincial-housing-pace-but-falls-short-on-federal-targets/).\n\n[[bars target]]\n## Affordable homes\n\n- 61 permanently affordable homes were finished, and development permits (a planning approval before a building permit) were approved for 142 more.\n- The Province suggested 747 rental and 322 owned homes, with 154 rentals below market and 591 non-market, [the Squamish Chief reported](https://www.squamishchief.com/local-news/minister-outlines-housing-goals-and-support-for-squamish-development-11150382).\n- The rental vacancy rate was 0.2 per cent in October 2025, [the Squamish Reporter said](https://www.squamishreporter.com/2026/02/10/district-explores-ways-to-fast-track-housing-developments/).\n\n[[bars affordable]]\n## Why the target may be too low\n\nStaff said the provincial population forecast has often underestimated growth here. The District's own forecast, used to plan roads, pipes, emergency plans and job land, puts Squamish near 50,000 people by 2046, against about 40,000 in the provincial one. Staff estimate about 5,020 more homes are needed over 10 years, about 502 a year (our arithmetic).\n\nThe 1,069 target is 75 per cent of an estimated need of 1,425, [a Squamish Chief editorial noted](https://www.squamishchief.com/opinion/editorial-is-squamish-on-track-to-meet-new-provincial-housing-targets-11120977). Other plans say [6,840 by 2031](https://letstalksquamish.ca/housing) if growth is high, and [9,600 by 2036](https://squamish.ca/government-and-administration/district-information/news/district-of-squamish-receives-7m-from-cmhc-housing-accelerator-fund/).\n\n[[bars need]]\n## What council asked\n\nThe new council, sworn in at its [inaugural meeting](/meetings/2026-11-03-inaugural/) on November 3, asked:\n\n- How fast permits are processed. Staff do not yet have full data.\n- Whether newer housing policies work, and how [Brennan Park](/issues/brennan-park-and-recreation/) and recreation can keep up.\n- [Councillor Sarah Ellis](/council/sarah-ellis/) noted over half the homes in the rezoning pipeline (projects asking for a zoning change) are rentals, and hopes these reports continue.\n- Another member said the key question is whether new supply gives locals homes they can afford.\n- [Councillor Eric Andersen](/council/eric-andersen/) said the computer model planned for the next Official Community Plan (the town's long range land use plan) does not fully cover industrial land, and its funding is uncertain.\n\n## What comes next\n\n- Under the 2022 Housing Supply Act, Squamish got its order on August 18, 2025. Towns that miss targets can face [advisors, directives and provincial orders](https://www.ubcm.ca/about-ubcm/latest-news/province-sets-targets-could-significantly-expand-application-housing-supply). The Province [linked the order to infrastructure funding](https://www.squamishreporter.com/2025/09/02/minister-links-squamish-housing-order-to-infrastructure-funding/).\n- Staff said this may be this council's only such report, because of recent changes in the provincial government.\n- Squamish got a [$7 million federal Housing Accelerator Fund grant](https://squamish.ca/government-and-administration/district-information/news/district-of-squamish-receives-7m-from-cmhc-housing-accelerator-fund/). As of March 2026 it was 286 housing starts short and needed permits for 890 homes before the deal ends January 11, 2027, [the Squamish Reporter said](https://www.squamishreporter.com/2026/03/23/squamish-meets-provincial-housing-pace-but-falls-short-on-federal-targets/). Its current status was not reported.\n\nCouncil then closed the meeting to discuss the annual report. Follow our [housing page](/issues/housing/), answer the poll below, or [watch the meeting](https://www.youtube.com/watch?v=yh0Zx629FBw).",
+   "visual": {
+    "type": "big",
+    "big": "427",
+    "small": "Homes finished in one year. Target: 160"
+   },
+   "src": [
+    "Tuesday, November 24, 2026 council workshop (Committee of the Whole, no final votes) (District of Squamish)",
+    "https://www.youtube.com/watch?v=yh0Zx629FBw"
+   ],
+   "more": [
+    "Full meeting page",
+    "/meetings/2026-11-24-cow/"
+   ],
+   "review_scores": [
+    6.6,
+    6.9,
+    7,
+    7.2
+   ],
+   "researched": true,
+   "social": "Squamish finished 427 new homes in one year, against a target of 160. About 340 of them came from projects underway since 2017 or earlier.\n\nStaff say new permits are now slowing. What that means for the next targets:",
+   "share": 3,
+   "auto": true,
+   "poll": {
+    "q": "What should matter most as Squamish keeps building homes?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Homes locals can afford",
+      "means": "Focus on affordable and rental homes over total numbers."
+     },
+     {
+      "key": "b",
+      "label": "Faster permits",
+      "means": "Speed up approvals so more projects get built."
+     },
+     {
+      "key": "c",
+      "label": "Parks and services keeping up",
+      "means": "Make sure recreation and amenities grow with the town."
+     },
+     {
+      "key": "d",
+      "label": "Jobs and industrial land",
+      "means": "Plan job land so work grows alongside homes."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/squamish-427-homes-housing-target.jpg",
+    "alt": "Aerial view of Squamish with mountains behind",
+    "caption": "Squamish from above.",
+    "credit": "Madhumanti Mandal, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Downtown_Squamish.jpg"
+   },
+   "og": "squamish-427-homes-housing-target.png"
+  },
+  {
    "slug": "femke-visser-remembered",
    "s": "community",
    "tier": "card",
