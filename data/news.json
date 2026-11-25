@@ -66,6 +66,168 @@
  ],
  "stories": [
   {
+   "slug": "winter-tire-check-britannia-238-cars",
+   "s": "move",
+   "tier": "card",
+   "date": "2026-11-25",
+   "head": "Five drivers turned back at Britannia tire check. Is your car legal?",
+   "dek": "Police checked 238 vehicles on Highway 99 near Britannia Beach on Tuesday, November 24, issuing 15 tickets and towing four. Here is what makes a winter tire legal and which tires grip best in the cold.",
+   "gist": [
+    "Police checked 238 vehicles on Highway 99 near Britannia Beach on Tuesday, November 24, and turned five around because of their tires.",
+    "They gave 15 tickets for various offences, but the report does not say how many were about tires.",
+    "The Squamish Chief has reported that winter tires are required on Highway 99 from October 1 to March 31, and the fine is $121.",
+    "A legal tire needs at least 3.5 mm of tread plus M and S letters or a mountain and snowflake symbol, which grips better below 7C."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Checked",
+     "v": "238 vehicles"
+    },
+    {
+     "level": "mid",
+     "k": "Turned around",
+     "v": "5, because of tires"
+    },
+    {
+     "level": "mid",
+     "k": "Tickets",
+     "v": "15"
+    },
+    {
+     "level": "mid",
+     "k": "Fine",
+     "v": "$121, and you may be turned back"
+    },
+    {
+     "level": "mid",
+     "k": "Tire season",
+     "v": "Oct 1 to Mar 31 on Hwy 99, per 2021 report"
+    }
+   ],
+   "bars": {
+    "results": {
+     "title": "What happened at the November 24 tire check, 238 checked (vehicles)",
+     "rows": [
+      {
+       "label": "Tickets",
+       "v": 15,
+       "say": "15"
+      },
+      {
+       "label": "Verbal warnings",
+       "v": 8,
+       "say": "8"
+      },
+      {
+       "label": "Turned around (tires)",
+       "v": 5,
+       "say": "5",
+       "hl": true
+      },
+      {
+       "label": "Towed (various reasons)",
+       "v": 4,
+       "say": "4"
+      }
+     ],
+     "note": "Source: Road Safety at Work and BC Highway Patrol, via The Squamish Chief. Tickets and tows were for various offences, not only tires."
+    },
+    "compare": {
+     "title": "Tickets and turnarounds as a share of vehicles checked, 2024 vs 2026 (per cent)",
+     "rows": [
+      {
+       "label": "Tickets, 2024",
+       "v": 6.9,
+       "say": "about 6.9%"
+      },
+      {
+       "label": "Tickets, 2026",
+       "v": 6.3,
+       "say": "about 6.3%"
+      },
+      {
+       "label": "Turned around, 2024",
+       "v": 1.4,
+       "say": "about 1.4%"
+      },
+      {
+       "label": "Turned around, 2026",
+       "v": 2.1,
+       "say": "about 2.1%",
+       "hl": true
+      }
+     ],
+     "note": "Source: The Squamish Chief, Nov 18, 2024 and Nov 25, 2026; our arithmetic. 2024: about 350 checked, 24 tickets, 5 turned around. 2026: 238 checked, 15 tickets, 5 turned around. The 2024 count is approximate and tickets cover various offences."
+    }
+   },
+   "take": "Driving Highway 99 without legal winter tires, with at least 3.5 mm of tread, can bring a $121 fine and a turnaround by police.",
+   "body": "[[glance]]\n\n## What happened\n\nBC Highway Patrol officers and Road Safety at Work, which runs the yearly Winter Driving Safety campaign, held their annual winter tire check on the Sea to Sky Highway near Britannia Beach on Tuesday, November 24. Officers looked for legally required winter tires in good condition with at least 3.5 mm of tread, [The Squamish Chief reports](https://www.squamishchief.com/local-news/winter-tire-enforcement-on-sea-to-sky-highway-leads-to-tickets-and-tows-13057097).\n\n- 238 vehicles checked\n- 15 tickets for various offences (the report does not say how many were for tires)\n- 8 verbal warnings\n- 5 vehicles turned around because of their tires\n- 4 vehicles towed, for reasons including tire condition, no insurance or no valid driver's licence\n\n[[bars results]]\nThe report does not give the hours of the check or say whether more checks are planned.\n\n## The rules\n\n- Winter tires are required on Highway 99 from Lillooet to Horseshoe Bay from October 1 to March 31, [The Squamish Chief reported in 2021](https://www.squamishchief.com/local-news/winter-tire-usage-coming-into-effect-5883254). This week's report says the rule runs \"through spring\".\n- A legal winter tire has [at least 3.5 mm of tread and either the M and S letters or the three peaked mountain and snowflake symbol](https://www2.gov.bc.ca/gov/content/transportation/driving-and-cycling/traveller-information/seasonal/winter-driving/about-winter-tires).\n- The law requires [at least two matching winter tires on the drive axle](https://www2.gov.bc.ca/gov/content/transportation/driving-and-cycling/traveller-information/seasonal/winter-driving/about-winter-tires) (the axle whose wheels the engine turns), even in a 4X4. Four matching tires is advice, not the law.\n- Studded tires are [allowed on B.C. highways only from October 1 to April 30](https://www2.gov.bc.ca/gov/content/transportation/driving-and-cycling/traveller-information/seasonal/winter-driving/about-winter-tires). That April 30 date is a separate rule for studs and does not extend the winter tire requirement.\n- The [fine for no winter tires is $121](https://www2.gov.bc.ca/gov/content/transportation/driving-and-cycling/traveller-information/seasonal/winter-driving/enforcement), and police can stop you from going on.\n\nFor context: close to 13,000 vehicles a day used the highway on average in 2025, and about 16,000 a day in summer, according to provincial figures. WorkSafeBC figures show time-loss injury claims from work-related vehicle incidents (claims where a worker was hurt badly enough to miss work) are about 11.5 per cent higher in winter than the rest of the year.\n\n## Which tires grip best\n\nRoad Safety at Work says:\n\n- Tires with the mountain and snowflake symbol stay flexible and grip better once it drops below 7C.\n- Tires marked only M+S (mud and snow) meet the legal minimum but usually grip less in the cold.\n- All four tires should match in type, size and tread pattern.\n\nCold alone can cut grip, even on bare pavement, said Trace Acres, who speaks for the Winter Driving Safety campaign. Drivers leaving the mild Lower Mainland can meet frost, snow or ice farther north or higher up. \"Winter tires are an investment in safety, not just a way to meet the law,\" Acres said. \"But even the best tires can't make up for driving too fast for the conditions.\"\n\nIn January 2024, [ICBC said](https://icbc.com/about-icbc/newsroom/2024-jan15-winter-driving) crashes from driving too fast for conditions in the Lower Mainland were 60 per cent higher in January than in October. An ICBC survey that month found 76 per cent of Lower Mainland respondents had installed winter tires. In October 2025, Highway Patrol [clocked a Lamborghini at 165 km/h in an 80 zone at Porteau Cove](https://rcmp.ca/en/bc/bchp/news/2025/10/winter-driving-requirements-bc-highways-demonstrated-impounded-lamborghini-huaracan); its penalties included a $121 fine for no winter tires on Highway 99.\n\n## How past checks compare\n\n- 2024: the [check lasted two hours](https://www.squamishchief.com/local-news/weather-can-change-so-quickly-drivers-checked-for-winter-tires-on-sea-to-sky-highway-9826853) and roughly 750 to 1,000 cars went through. About 350 were checked, 24 tickets were issued (including two for inadequate snow tires and two for no chains) and five vehicles were turned around.\n- 2025: the check was at the [Outbound Station parking lot near Britannia Beach, 9 to 11 a.m. on November 20](https://www.squamishchief.com/local-news/see-safety-first-squamish-the-winter-tire-checks-have-started-11521079). We found no published totals.\n\nBy our arithmetic, about 6.9 per cent of vehicles checked got a ticket in 2024 and about 6.3 per cent this year. About 1.4 per cent were turned around in 2024 and about 2.1 per cent this year. This is rough: the 2024 count is approximate and tickets cover different offences.\n\n[[bars compare]]\n## Other winter tips\n\n- Leave at least four seconds between you and the vehicle ahead.\n- Put off trips you don't need to make when the weather is bad.\n- Check road conditions at [DriveBC.ca](https://www.drivebc.ca) before you go.\n- More tips are on the [Road Safety at Work campaign page](https://roadsafetyatwork.ca/campaign/winter-driving-safety/).\n\nThe Winter Driving Safety campaign is funded by WorkSafeBC, ICBC and the Ministry of Transportation and Transit, and supported by the Road Safety at Work Alliance.\n\nMore on the road: [transit and Highway 99](/issues/transit-and-highway-99/).",
+   "visual": {
+    "type": "big",
+    "big": "$121",
+    "small": "Fine for no winter tires"
+   },
+   "src": [
+    "The Squamish Chief",
+    "https://www.squamishchief.com/local-news/winter-tire-enforcement-on-sea-to-sky-highway-leads-to-tickets-and-tows-13057097"
+   ],
+   "review_scores": [
+    6.7,
+    7.6,
+    7.6,
+    7.8
+   ],
+   "researched": true,
+   "social": "Driving Highway 99 this winter? Police were checking tires near Britannia Beach on Tuesday, and five drivers had to turn around because of theirs.\n\nWinter tires are required until March 31, and the fine is $121. Here's what counts as a legal tire and which grip best:",
+   "share": 3,
+   "auto": true,
+   "poll": {
+    "q": "Do your tires have the mountain and snowflake symbol?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Yes, on all four",
+      "means": "Your tires follow Road Safety at Work's advice, and are legal if they have at least 3.5 mm of tread."
+     },
+     {
+      "key": "b",
+      "label": "No, mine are marked M+S only",
+      "means": "Your tires meet the legal minimum but usually grip less in the cold."
+     },
+     {
+      "key": "c",
+      "label": "No winter tires, I avoid Highway 99",
+      "means": "You would need legal winter tires to drive Highway 99 in the winter tire season."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/winter-tire-check-britannia-238-cars.jpg",
+    "alt": "Close-up of a winter tire sidewall showing the three-peak mountain snowflake symbol and tire size",
+    "caption": "The three-peak mountain snowflake symbol marks a tire rated for severe snow.",
+    "credit": "A7N8X, CC BY-SA 3.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Winter_tires_with_North_American_symbol.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/winter-tire-check-britannia-238-cars-2.jpg",
+     "alt": "Sea to Sky Highway curving along Howe Sound below a forested mountain at Porteau Road",
+     "caption": "Highway 99, the Sea to Sky Highway, along Howe Sound at Porteau Road south of Britannia Beach.",
+     "credit": "Ruth Hartnup, CC BY 2.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Sea_to_Sky_Highway_and_Howe_Sound_at_Porteau_Road.jpg"
+    },
+    {
+     "file": "/news/photos/winter-tire-check-britannia-238-cars-3.jpg",
+     "alt": "Tire sidewall with M+S marking next to the mountain snowflake symbol",
+     "caption": "A tire sidewall showing both the M+S marking and the mountain snowflake symbol.",
+     "credit": "U.S. Army USAG-RP by Linda Lambiotte, Public domain",
+     "link": "https://commons.wikimedia.org/wiki/File:Drive_smart_this_winter-_USAG_Rheinland-Pfalz_highlights_new_German_tire_regulations_to_keep_residents_safe,_ticket-free_(8626672).jpg"
+    }
+   ],
+   "og": "winter-tire-check-britannia-238-cars.png"
+  },
+  {
    "slug": "squamish-427-homes-housing-target",
    "s": "housing",
    "tier": "card",
