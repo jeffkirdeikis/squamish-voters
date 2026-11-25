@@ -66,6 +66,124 @@
  ],
  "stories": [
   {
+   "slug": "loggers-lane-oceanfront-closed-high-tide",
+   "s": "weather",
+   "tier": "lead",
+   "date": "2026-11-25",
+   "head": "Flood peak Thursday: Loggers Lane closed, Oceanfront shuts at high tides",
+   "dek": "If you choose to stay on the Oceanfront peninsula south of the closure, the District says you must shelter in place until it reopens. A checkpoint helps people who need to get to the Oceanfront. Loggers Lane is closed between Main and Vancouver Streets, and the biggest flood risk in Squamish is Thursday morning, November 26.",
+   "gist": [
+    "Squamish is under a local emergency, and Wednesday's 7:45 a.m. high tide reached the top of the boat launch.",
+    "Loggers Lane is closed between Main and Vancouver Streets, and the Oceanfront closes for a while at each high tide.",
+    "Water is expected to be highest Thursday morning, but the exact Oceanfront closure times have not been published.",
+    "A sandbag station with shovels is open next to Copper Coil, and people should stay away from rivers and flooded roads."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Peak risk",
+     "v": "Thursday morning, Nov 26"
+    },
+    {
+     "level": "mid",
+     "k": "Wed 7:45 a.m. tide",
+     "v": "Reached top of boat launch"
+    },
+    {
+     "level": "mid",
+     "k": "Closed now",
+     "v": "Loggers Lane, Main to Vancouver St"
+    },
+    {
+     "level": "mid",
+     "k": "Peninsula",
+     "v": "If you stay, shelter in place in closures"
+    },
+    {
+     "level": "mid",
+     "k": "Water and rain",
+     "v": "20 to 50 cm above top tides; 30 to 60 mm rain"
+    }
+   ],
+   "bars": {
+    "dike": {
+     "title": "Money tied to a downtown sea dike, dollars",
+     "rows": [
+      {
+       "label": "2020 federal grant",
+       "v": 4049878,
+       "say": "$4.05 million"
+      },
+      {
+       "label": "2020 estimated cost",
+       "v": 5000000,
+       "say": "$5 million"
+      },
+      {
+       "label": "2026 planned borrowing",
+       "v": 1000000,
+       "say": "$1 million",
+       "hl": true
+      }
+     ],
+     "note": "Squamish Reporter, July 3, 2020 (grant and estimate); Squamish Chief, about June 2026 (borrowing bylaws, outcome not known). We could not confirm whether the Xwu'nekw Park dike was built."
+    }
+   },
+   "take": "The flood risk peaks Thursday morning, so check squamish.ca for Oceanfront closure times and get sandbags at the lot next to Copper Coil, where shovels are provided.",
+   "body": "[[glance]]\n\n## What is closed\n\nThe District of Squamish declared a state of local emergency on November 24. It says this gives it legal power from the province to do flood work under B.C.'s Emergency and Disaster Management Act. At Wednesday's high tide, around 7:45 a.m. on November 25, water reached the top of the boat launch and then began to drop.\n\nThe District said in a November 25 news release that:\n\n- **Loggers Lane** is closed between Main Street and Vancouver Street.\n- **The Oceanfront** has temporary closures timed to high tides. A checkpoint is set up to connect with people who need to get there.\n- **On the peninsula:** if you choose to stay south of the closure, you must shelter in place during closure periods.\n- **Boat launch:** closed. The dock can still be reached.\n\nFor comparison, in December 2022 water covered areas from Victoria Street south to Cattermole Slough, between Loggers Lane and Third Avenue ([Squamish Chief](https://www.squamishchief.com/local-news/high-tides-flood-downtown-core-6300605)).\n\n## What crews are doing\n\nCrews worked overnight building sandbag walls and berms (raised banks of earth) along Loggers Lane, and that work is still going on. The District says it will make it less likely that water gets into downtown at peak tides. Staff are offering sandbags to vulnerable residents near Loggers Lane and Vancouver Street, and building a large raised pad for those who wish to move out of low lying areas. Its location has not been published.\n\n[Mayor Sean Easton](/council/sean-easton/) said the declaration gives the District more tools if conditions get worse, [CP24 reported](https://www.cp24.com/news/canada/2026/11/25/king-tides-storm-system-raise-flooding-concerns-along-bc-coast/).\n\n## The weather behind it\n\nTwo separate threats overlap this week: high ocean water at high tide downtown, and rivers rising from heavy rain.\n\n- Environment Canada's coastal flooding statement says storm surge (sea water pushed up by storms) and large waves are lining up with king tides, raising water 20 to 50 cm above the highest predicted tides. It says water levels are expected to rise each day, peaking Thursday.\n- A forecaster said El Niño plus a storm surge \"could potentially cause sea levels to approach\" the 2022 record, but that it is \"probably too early to say\" ([Squamish Chief](https://www.squamishchief.com/local-news/environment-canada-warns-of-flood-risk-in-squamish-similar-to-2022-event-13053913)).\n- A yellow (moderate) rainfall warning calls for 30 to 60 mm more rain Wednesday night and Thursday morning around Howe Sound, Whistler and the Sea to Sky Highway.\n- The District says a high streamflow advisory covers Howe Sound, with high river flows possible through early Friday. The River Forecast Centre lists this as its South Coast and Lillooet River advisory, issued November 24 at 12:45 p.m. ([BC River Forecast Centre](https://bcrfc.env.gov.bc.ca/warnings/)).\n- Gusts could reach 110 km/h in some areas of the coast, and local power outages are possible, [CBC reported](https://www.cbc.ca/news/canada/british-columbia/weather-rain-wind-flood-nov-24-2026-9.7433846).\n- The provincial Ministry of Transportation and Infrastructure has a travel advisory for Howe Sound until Thursday, November 26, the District said. Roads could close with little notice.\n\n## How we got here\n\n- **2020:** a $4.05 million federal grant for a 200 m sea dike at Xwu'nekw Park, estimated at $5 million ([Squamish Reporter](https://www.squamishreporter.com/2020/07/03/district-gets-4049878-federal-grant-for-downtown-dike/)).\n- **December 2022:** sea water spilled over Loggers Lane and spread several hundred metres inland. The District called the lack of a sea dike a major factor ([Squamish Chief](https://www.squamishchief.com/local-news/who-will-protect-squamish-from-the-floods-6313184)).\n- **Mid 2026:** council moved forward bylaws to borrow $1 million for flood work, including designs for the downtown sea dike. The outcome of that alternative approval process is not known ([Squamish Chief](https://www.squamishchief.com/local-news/squamish-council-advances-borrowing-bylaws-for-flood-protection-and-landfill-planning-12438034)).\n\n[[bars dike]]\n## Still unknown\n\n- The exact Oceanfront closure times, and the time of Thursday morning's high tide\n- Where the checkpoint and raised pad are\n- How long the local emergency lasts\n\n## What you can do\n\n- Get sandbags at the parking lot next to Copper Coil. Shovels are provided.\n- Check [squamish.ca](https://squamish.ca/) for Oceanfront closure times and the time of Thursday morning's high tide.\n- Stay away from rivers and riverbanks, and do not drive across flooded roads, bridges or river crossings.\n- See live conditions on our [today page](/today/) and more on our [flood protection page](/issues/flood-protection/).\n\nSource: [The Squamish Chief](https://www.squamishchief.com/local-news/update-road-closures-and-sandbag-stations-in-place-ahead-of-peak-squamish-flood-risk-13053913).",
+   "visual": {
+    "type": "big",
+    "big": "Nov 26",
+    "small": "Peak flood risk, Thursday morning"
+   },
+   "src": [
+    "The Squamish Chief",
+    "https://www.squamishchief.com/local-news/update-road-closures-and-sandbag-stations-in-place-ahead-of-peak-squamish-flood-risk-13053913"
+   ],
+   "review_scores": [
+    5.8,
+    6.8,
+    6.8,
+    6.8
+   ],
+   "researched": true,
+   "social": "If you live or work on the Oceanfront peninsula, would you know when it closes? The District says anyone who chooses to stay south of the closure during a high tide must shelter in place until it reopens.\n\nLoggers Lane is closed between Main and Vancouver Streets, and the flood risk peaks Thursday morning. A sandbag station with shovels is open next to Copper Coil. In December 2022, sea water spilled over Loggers Lane and flooded several hundred metres inland. What is closed and what is still unknown:",
+   "share": 4,
+   "auto": true,
+   "areas": [
+    "downtown",
+    "oceanfront"
+   ],
+   "poll": {
+    "q": "How should Squamish protect downtown from high tides?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Build a permanent downtown sea dike",
+      "means": "The District would plan and pay for a permanent dike along the shoreline."
+     },
+     {
+      "key": "b",
+      "label": "Keep using sandbags and berms as needed",
+      "means": "Crews would build temporary walls each time high water is forecast."
+     },
+     {
+      "key": "c",
+      "label": "Owners protect their own property",
+      "means": "The District would mainly offer sandbags and leave the rest to owners."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/loggers-lane-oceanfront-closed-high-tide.jpg",
+    "alt": "Aerial view of downtown Squamish and the channel along its edge, surrounded by forested slopes",
+    "caption": "Downtown Squamish and the Mamquam Blind Channel, seen from the Stawamus Chief.",
+    "credit": "trougnouf (Benoit Brummer), CC BY 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:View_of_Squamish_from_the_Chief_Hike_in_Stawamus_Chief_Provincial_Park,_BC_(DSCF7786).jpg"
+   },
+   "og": "loggers-lane-oceanfront-closed-high-tide.png"
+  },
+  {
    "slug": "winter-tire-check-britannia-238-cars",
    "s": "move",
    "tier": "card",
