@@ -66,6 +66,183 @@
  ],
  "stories": [
   {
+   "slug": "oink-three-little-pigs-squamish-play",
+   "s": "community",
+   "tier": "card",
+   "date": "2026-11-24",
+   "head": "Oink! puts developers and a bear in a Squamish Three Little Pigs, Nov. 26",
+   "dek": "Property developers, influencers, mountain bikers, fairies and a bear land in a stage comedy set in a distinctly Squamish world. Between Shifts Theatre's Oink! plays five nights at Eagle Eye Theatre, from Nov. 26 to Dec. 5.",
+   "gist": [
+    "Between Shifts Theatre, a nonprofit founded in 1993, is putting on Oink!, a funny, playful reimagining of The Three Little Pigs written by Katherine Fawcett.",
+    "The story is set in a distinctly Squamish world, with developers, influencers, mountain bikers, fairies and a bear.",
+    "There are five shows at Eagle Eye Theatre, starting Thursday, November 26, and ending Saturday, December 5.",
+    "Show times, ticket prices and recommended ages were not in the listing, so check with the company before you go."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Where",
+     "v": "Eagle Eye Theatre"
+    },
+    {
+     "level": "mid",
+     "k": "Dates",
+     "v": "Nov. 26 to 28, Dec. 3 and 5"
+    },
+    {
+     "level": "mid",
+     "k": "Shows",
+     "v": "5"
+    },
+    {
+     "level": "mid",
+     "k": "Times and prices",
+     "v": "Not yet posted"
+    },
+    {
+     "level": "mid",
+     "k": "Writer",
+     "v": "Katherine Fawcett"
+    }
+   ],
+   "bars": {
+    "shows": {
+     "title": "Oink! performances by month (number of shows)",
+     "rows": [
+      {
+       "label": "November",
+       "v": 3,
+       "say": "3 shows",
+       "hl": true
+      },
+      {
+       "label": "December",
+       "v": 2,
+       "say": "2 shows"
+      }
+     ],
+     "note": "Source: Squamish Chamber of Commerce listing; totals are our arithmetic"
+    }
+   },
+   "take": "No show is listed for Friday, December 4, and the listing gives no times or prices, so confirm with the company before you plan a night out.",
+   "body": "[[glance]]\n\nTimes and prices are not listed yet. A business directory, which we could not confirm, gives the company's website as www.betweenshiftstheatre.com ([ZoomInfo](https://www.zoominfo.com/c/between-shifts-theatre/351745906)).\n\n## What the show is about\n\nOink! is a funny, playful reimagining of The Three Little Pigs. It is set in a distinctly Squamish world of forests, mountain culture, development and community, according to the [Squamish Chamber of Commerce listing](https://www.squamishchamber.com/).\n\nThe characters include:\n\n- Property developers\n- Influencers\n- Mountain bikers\n- Fairies\n- A bear\n\nFor news on real building plans in town, see our [growth and development](/issues/growth-and-development/) page.\n\nThe show mixes comedy, music, storytelling and physical theatre, where actors tell the story through movement. The audience also gets to join in.\n\n## Who is behind it\n\nThe play comes from Between Shifts Theatre, a nonprofit founded in 1993, about 33 years ago (our arithmetic).\n\n- Written by: Katherine Fawcett\n- Directed by: Janice Carroll and Peter Slade\n\n## Where and when\n\n- Place: Eagle Eye Theatre (the listing does not give the address)\n- Thursday, Nov. 26\n- Friday, Nov. 27\n- Saturday, Nov. 28\n- Thursday, Dec. 3\n- Saturday, Dec. 5\n\nThere is no show listed for Friday, Dec. 4.\n\n[[bars shows]]\n## What we don't know yet\n\nThe listing does not give:\n\n- Show times or how long the show runs\n- Ticket prices or where to buy tickets\n- Recommended ages, or whether the show is meant for families\n- The venue address\n- Who is in the cast\n- Accessibility details\n\nThe same business directory lists the company's phone as 604-892-5078 ([ZoomInfo](https://www.zoominfo.com/c/between-shifts-theatre/351745906)). Check with the company before you go.\n\nWe will update this story if times and ticket prices are posted.",
+   "visual": {
+    "type": "big",
+    "big": "Nov. 26",
+    "small": "Opening night"
+   },
+   "src": [
+    "Squamish Chamber of Commerce",
+    "https://www.squamishchamber.com/"
+   ],
+   "review_scores": [
+    6.3,
+    6.5,
+    6.8,
+    6.5
+   ],
+   "researched": true,
+   "social": "The Three Little Pigs meet property developers, influencers, mountain bikers and a bear, in a Squamish world of forests and mountain culture.\n\nOink! mixes comedy, music and audience participation at Eagle Eye Theatre. Five shows: Nov. 26 to 28, Dec. 3 and Dec. 5. Times, prices and ages not posted yet.",
+   "share": 3,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/oink-three-little-pigs-squamish-play.jpg",
+    "alt": "Cleveland Avenue in downtown Squamish with shops and street banners, a snow-capped mountain rising behind under a clear blue sky",
+    "caption": "Downtown Squamish, looking along Cleveland Avenue.",
+    "credit": "The original uploader was Damieng at English Wikipedia., CC BY-SA 3.0",
+    "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/oink-three-little-pigs-squamish-play-2.jpg",
+     "alt": "Squamish Town Centre stone marker beside a road with flower beds, the granite face of the Stawamus Chief behind",
+     "caption": "The Squamish Town Centre sign, with the Stawamus Chief behind.",
+     "credit": "Straitgate, CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_City_Centre.JPG"
+    },
+    {
+     "file": "/news/photos/oink-three-little-pigs-squamish-play-3.jpg",
+     "alt": "Aerial view over Squamish neighbourhoods and forested valley toward snowy peaks",
+     "caption": "Squamish and its valley, seen from above.",
+     "credit": "Madhumanti Mandal, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Downtown_Squamish.jpg"
+    }
+   ],
+   "og": "oink-three-little-pigs-squamish-play.png"
+  },
+  {
+   "slug": "adventure-centre-holiday-trees-2026",
+   "s": "community",
+   "tier": "brief",
+   "date": "2026-11-24",
+   "head": "Holiday trees arriving at Squamish Adventure Centre, a new one each day",
+   "dek": "Holiday trees are arriving at the Squamish Adventure Centre, with a new one each day. The Squamish Chamber of Commerce lists 14 participants in its 2026 Holiday Tree Campaign, a tradition that goes back a decade.",
+   "gist": [
+    "Holiday trees are arriving at the Squamish Adventure Centre, one new tree each day, for the Chamber of Commerce's 2026 Holiday Tree Campaign.",
+    "The Chamber lists 14 participants this year, including the District of Squamish and Squamish Helping Hands.",
+    "The Chamber has not listed viewing hours or an end date for the display.",
+    "The tradition goes back a decade and is meant for locals and visitors to enjoy together."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Where",
+     "v": "Squamish Adventure Centre"
+    },
+    {
+     "level": "mid",
+     "k": "Hours/end date",
+     "v": "Not announced"
+    },
+    {
+     "level": "mid",
+     "k": "Pace",
+     "v": "A new tree each day"
+    },
+    {
+     "level": "mid",
+     "k": "Taking part",
+     "v": "14 participants"
+    },
+    {
+     "level": "mid",
+     "k": "Tradition",
+     "v": "A decade running"
+    }
+   ],
+   "take": "A new holiday tree arrives each day at the Squamish Adventure Centre; the Chamber has not announced viewing hours or an end date.",
+   "body": "[[glance]]\n\n## What is happening\n\nThe Squamish Chamber of Commerce's 2026 Holiday Tree Campaign is under way at the Squamish Adventure Centre. In a notice posted Nov. 24, the Chamber said the trees have started to arrive, with a new one added each day. The Chamber says the space is turning into a winter wonderland.\n\nThe Chamber's notice does not list viewing hours or an end date for the display. For updates, check the [Squamish Chamber of Commerce website](https://www.squamishchamber.com/).\n\nThe Chamber says the Adventure Centre glows from the inside for people passing by. It says the tradition goes back a decade, and it is meant for locals and visitors to enjoy together.\n\n## Who is taking part\n\nThe Chamber lists 14 participants:\n\n- Avesta Property Management\n- Boon Dock Decks\n- Britannia Mine Museum\n- Cheakamus Centre\n- Coast Mountain Academy\n- District of Squamish\n- FortisBC\n- Frostbites & Co\n- Sea to Sky Gondola\n- ServiceMaster Sea to Sky\n- Squamish Connector\n- Squamish Helping Hands\n- Squamish Motorsports\n- Woodfibre BC",
+   "visual": {
+    "type": "big",
+    "big": "14",
+    "small": "Taking part this year"
+   },
+   "src": [
+    "Squamish Chamber of Commerce",
+    "https://www.squamishchamber.com/"
+   ],
+   "review_scores": [
+    6.5,
+    6.7,
+    6.2,
+    7
+   ],
+   "social": "Passing the Adventure Centre? It glows from the inside with holiday trees, and a new one arrives every day.\n\n14 groups are taking part this year, from the District of Squamish to Sea to Sky Gondola and Squamish Helping Hands. The full list of who is taking part:",
+   "share": 2,
+   "auto": true,
+   "areas": [
+    "downtown"
+   ],
+   "photo": {
+    "file": "/news/photos/adventure-centre-holiday-trees-2026.jpg",
+    "alt": "Cleveland Avenue in downtown Squamish with shops and parked cars, snow-capped Mount Garibaldi rising beyond under a clear blue sky",
+    "caption": "Downtown Squamish, with Mount Garibaldi in the distance.",
+    "credit": "The original uploader was Damieng at English Wikipedia., CC BY-SA 3.0",
+    "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+   },
+   "og": "adventure-centre-holiday-trees-2026.png"
+  },
+  {
    "slug": "toddler-climbing-workshop-parents",
    "s": "community",
    "tier": "card",
