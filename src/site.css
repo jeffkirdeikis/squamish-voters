@@ -3192,33 +3192,54 @@ html.sv-back .hero-cc .cc-main h1 { font-size: clamp(1.35rem, 3.4vw, 2rem); max-
 }
 html.sv-back .hero-cc .cc-main h1 { text-wrap: balance; }
 
-/* Home hero, Nov 26 2026 (Jeff: the hero is about council only). Four live tiles, each answering one question with the
-   latest data: what council decided, how they voted, are they keeping promises, how to have your say. The next meeting
-   card adds what is on it (or expected). */
-.cc-live { gap: .35rem; min-height: 0; }
-.cc-tt { display: flex; align-items: center; gap: .5rem; }
-.cc-live .cc-ico { flex: none; width: 1.7rem; height: 1.7rem; }
-.cc-k { font: 800 .62rem/1.25 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); }
-.cc-say .cc-k { color: #7a5a00; }
-.cc-live b { font: 700 .98rem/1.25 Georgia, serif; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; }
-.cc-live > .cc-sub { font-size: .76rem; line-height: 1.35; color: var(--ink-2); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
-.cc-bar { display: flex; gap: 2px; height: .5rem; border-radius: 99px; overflow: hidden; background: #e4e1d8; }
-.cc-bar i { display: block; min-width: 5px; }
-.cc-bar i.ps-kept { background: var(--yes); } .cc-bar i.ps-broken { background: var(--no); } .cc-bar i.ps-progress { background: #d9a400; } .cc-bar i.ps-early { background: #8fb3a3; border: 0; } .cc-bar i.ps-notyet { background: #e4e1d8; }
-.cc-mtopic { display: block; margin-top: .4rem; color: #e6f1ec; }
-.cc-mlab { display: inline-block; margin-right: .35rem; background: #ffd84d; color: #14211c; font: 800 .58rem/1 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; padding: .22rem .35rem; border-radius: 5px; vertical-align: .12em; }
-@media (min-width: 621px) { .cc-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 900px) { .cc-live { min-height: 0; } }
-@media (max-width: 620px) {
-  .hero-cc .cc-tiles { display: grid; grid-template-columns: minmax(0, 1fr); gap: .45rem; overflow: visible; margin: 0; padding: 0; mask-image: none; }
-  .hero-cc .cc-live { flex-direction: column; align-items: stretch; gap: .25rem; padding: .65rem .8rem; border-radius: 14px; white-space: normal; overflow-wrap: break-word; }
-  .hero-cc .cc-live b { font: 700 .95rem/1.25 Georgia, serif; -webkit-line-clamp: 4; }
-  .hero-cc .cc-tile.cc-live > span.cc-sub:last-child { display: -webkit-box; -webkit-line-clamp: 2; font-size: .78rem; }
-  .hero-cc .cc-live .cc-ico { width: 1.45rem; height: 1.45rem; padding: .22rem; }
-}
 /* The rest of the Squamish news: a plain list low on the home page, two columns on wide screens. */
 .hn-other { margin-top: 2.2rem; }
 @media (min-width: 900px) { .hn-cols { grid-template-columns: 1fr 1fr; column-gap: 1.8rem; } .hn-cols li:nth-child(2) a { padding-top: 0; } }
-@media (min-width: 621px) { .cc-wide { grid-column: 1 / -1; } }
-@media (min-width: 900px) { .cc { grid-template-columns: .95fr 1.1fr; } }
-@media (min-width: 621px) { .cc-live:not(.cc-wide) > .cc-sub { -webkit-line-clamp: 4; } }
+/* Home hero, option B with two meetings (Jeff, Nov 26 2026): headline, the last meeting beside the next one, a row of
+   earlier meetings and the promise score, then the Friday email. On phones the cards stack, last meeting first. */
+.mm { display: grid; gap: 1rem; }
+.hero-mm .cc-main h1 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); margin-bottom: .25em; max-width: none; }
+.hero-mm .cc-main .lede { font-size: 1.05rem; }
+.mm-cards { display: grid; gap: .8rem; margin-top: .3rem; }
+.mm-card { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1rem; align-items: start; background: #fff; color: var(--ink); border-radius: 16px; padding: 1.1rem 1.2rem 1.15rem; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+.mm-date { width: 3.9rem; text-align: center; border-radius: 12px; overflow: hidden; background: var(--brand); color: #fff; }
+.mm-date span { display: block; background: #cfe3da; color: #14211c; font: 800 .66rem/1 system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; padding: .32rem 0; }
+.mm-date.next span { background: #ffd84d; }
+.mm-date b { display: block; font: 700 1.75rem/1.15 Georgia, serif; padding-top: .15rem; }
+.mm-date i { display: block; font-style: normal; font-size: .72rem; padding-bottom: .4rem; color: #cfe3da; }
+.mm-body { display: grid; gap: .25rem; align-content: start; }
+.mm-k { margin: 0; font: 800 .68rem/1.3 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); }
+.mm-next .mm-k { color: #7a5a00; }
+.mm-meta { margin: 0; font-size: .82rem; color: var(--muted); }
+.mm-h { margin: .2rem 0 .25rem; font: 700 1.12rem/1.3 Georgia, serif; }
+.mm-h a { color: var(--ink); text-decoration: none; }
+.mm-h a:hover { text-decoration: underline; }
+.mm-sub { margin: 0; font-size: .84rem; color: var(--ink-2); }
+.mm-list { list-style: none; margin: .1rem 0 .15rem; padding: 0; display: grid; font-size: .86rem; line-height: 1.35; }
+.mm-list a { display: flex; gap: .55rem; align-items: baseline; padding: .4rem 0; color: var(--ink); text-decoration: none; border-top: 1px solid var(--line); }
+.mm-list a:hover > span:last-child { text-decoration: underline; }
+.mm-res { flex: none; font: 700 .72rem/1.2 system-ui, sans-serif; padding: .18rem .4rem; border-radius: 6px; background: var(--surface-2); color: var(--ink-2); white-space: nowrap; }
+.mm-res.mm-passed { background: var(--yes-bg); color: var(--yes); }
+.mm-res.mm-failed { background: var(--no-bg); color: var(--no); }
+.mm-who { color: var(--muted); }
+.mm-agenda li { position: relative; padding: .4rem 0 .4rem .95rem; border-top: 1px solid var(--line); color: var(--ink-2); }
+.mm-agenda li::before { content: ""; position: absolute; left: .1rem; top: .9rem; width: .38rem; height: .38rem; border-radius: 50%; background: #c99400; }
+.mm-say { font-weight: 700; font-size: .88rem; color: #7a5a00; }
+.mm-go { justify-self: start; margin-top: .3rem; font-weight: 700; font-size: .9rem; color: var(--link); }
+.mm-strip { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem .5rem; font-size: .86rem; color: #d9ebe3; }
+.mm-sk { margin-right: .15rem; font: 800 .66rem/1 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #cfe3da; }
+.mm-chip { display: inline-block; padding: .38rem .75rem; border-radius: 999px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.22); color: #fff; text-decoration: none; white-space: nowrap; }
+.mm-chip:hover { background: rgba(255,255,255,.18); }
+.mm-chip b { color: #ffd84d; }
+.mm-all { background: transparent; }
+.mm-prom { margin-left: auto; color: #fff; font-weight: 600; text-decoration-color: rgba(255,255,255,.45); }
+@media (min-width: 760px) { .mm-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) {
+  .mm { gap: .75rem; }
+  .mm-card { grid-template-columns: minmax(0, 1fr); padding: .9rem 1rem 1rem; }
+  .mm-date { display: none; }
+  .mm-h { font-size: 1.04rem; }
+  .mm-prom { margin-left: 0; flex-basis: 100%; }
+}
+.mm-meta span { white-space: nowrap; }
+.mm-sum { margin: 0; font-size: .9rem; line-height: 1.45; color: var(--ink-2); }

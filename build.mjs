@@ -1267,9 +1267,9 @@ const wantsShort = (where) => `<section class="card wa-short" data-wants="short"
   <div class="wa-shortnav" data-wa-shortnav hidden><span class="small muted" data-wa-shortpos></span><button type="button" class="btn" data-wa-snext>Next question →</button></div>
   <a class="wa-shortall" href="/wants/">See all the asks and add your own →</a>
 </section>`;
-// Home hero (Jeff, Nov 26 2026): everything in it is about council. The next meeting card says what is coming and
-// when; four live tiles answer what council decided, how they voted, whether promises are being kept, and how to have
-// your say before the next meeting. General news lives lower on the page.
+// Home hero, option B with two meetings (Jeff, Nov 26 2026): the last meeting (what it decided, each vote one tap from
+// its place on the meeting page) beside the next one (what's on the agenda, or what's expected before it's out), then
+// links to earlier meetings and the promise score. Always true things stay quiet: the headline and the Friday email.
 // The meeting the hero points to: the next one the public can follow. A special meeting with no agenda yet, or one
 // that only goes behind closed doors, gives way to the next regular meeting (the card still mentions it).
 const heroNext = () => upcoming.find((m) => !m.closed_only && (m.type === 'regular' || m.type === 'cow' || m.type === 'hearing' || m.type === 'inaugural' || m.has_public_hearing || agendaReal(m).some((a) => a.kind !== 'closed'))) || upcoming[0];
@@ -1279,86 +1279,69 @@ const heroDay = (d) => new Date(d + 'T12:00:00').toLocaleDateString('en-CA', { m
 const heroWd = (d) => new Date(d + 'T12:00:00').toLocaleDateString('en-CA', { weekday: 'short' }).replace('.', '');
 const andList = (l) => (l.length < 2 ? l.join('') : `${l.slice(0, -1).join(', ')} and ${l[l.length - 1]}`);
 const firstSentence = (s) => (String(s || '').match(/^.*?[.!?](?=\s|$)/) || [String(s || '')])[0].trim();
-function heroMeet() {
-  const m = heroNext(), firstVote = upcoming.find((x) => x.type !== 'inaugural' && x !== m);
-  const cal = (d) => { const t = new Date(d + 'T12:00:00'); return `<span class="cc-cal" aria-hidden="true"><span>${t.toLocaleDateString('en-CA', { month: 'short' }).replace('.', '')}</span><b>${t.getDate()}</b></span>`; };
-  if (m) {
-    const day = heroWd(m.date);
-    const what = m.type === 'inaugural' ? 'New council sworn in' : mType(m).label;
-    // A small "Next meeting" label (since.js adds "in 6 days"), the name, then day, time and any note.
-    const [, name, note] = what.match(/^(.*?)\s*\((.*)\)$/) || [0, what, ''];
-    const before = upcoming.find((x) => x !== m && x.date + (x.time || '') < m.date + (m.time || ''));
-    const when = before ? [before.date === m.date ? '' : heroWd(before.date), fmtTime(before.time)].filter(Boolean).join(' ') : '';
-    const also = before ? `${mType(before).label.replace(/\s*\(.*\)$/, '')} first${when ? `: ${when}` : ''}` : '';
-    const meta = [`${day}${m.time ? ` ${fmtTime(m.time)}` : ''}`, note, also, m.type === 'inaugural' && firstVote ? `first votes ${fmtLong(firstVote.date).replace(/, \d{4}$/, '')}` : ''].filter(Boolean).join(' · ');
-    // What's coming: the agenda once it's out, else what earlier meetings set for this date, else when the agenda comes.
-    const open = agendaReal(m).filter((a) => a.kind !== 'closed'), exp = expectedAt(m);
-    const topic = open.length ? `<span class="cc-mlab">Agenda is out</span> ${esc(firstSentence(m.preview) || open[0].plain)}`
-      : exp.length ? `<span class="cc-mlab">Expected</span> ${esc(andList(exp.slice(0, 2)))}. Agenda out about ${esc(agendaPost(m))}.`
-      : m.type === 'inaugural' ? '' : `Agenda out about ${esc(agendaPost(m))}.`;
-    return `<a class="cc-meet" href="${mUrl(m)}">${cal(m.date)}<span class="cc-mt"><span class="cc-mk">Next meeting<span data-until="${m.date}"></span></span><b>${esc(name)}</b>${esc(meta)}${topic ? `<span class="cc-mtopic">${topic}</span>` : ''}</span><span class="cc-mgo" aria-hidden="true">›</span></a>`;
-  }
-  const l = past.find((x) => x.summary);
-  return l ? `<a class="cc-meet" href="${mUrl(l)}">${cal(l.date)}<span><b>Last meeting</b>${esc(l.summary.headline)} →</span></a>` : '';
-}
-const heroTile = (href, ico, k, b, sub, cls = '', extra = '') => `<a class="cc-tile cc-live${cls ? ` ${cls}` : ''}" href="${href}"><span class="cc-tt"><span class="cc-ico">${ico}</span><span class="cc-k">${esc(k)}</span></span><b>${esc(b)}</b>${extra}<span class="cc-sub">${esc(sub)}</span></a>`;
-// A real yes or no vote: not the consent agenda, not a vote to close the meeting, with recorded votes.
-const heroVote = (d) => !d.consent_agenda && (d.result === 'passed' || d.result === 'failed') && d.votes && !/closed? (the meeting )?to the public|close the meeting/i.test(d.title);
+// Whole sentences only, as many as fit in n characters (always at least the first).
+const sentencesUpTo = (s, n) => (String(s || '').match(/[^.!?]+[.!?]+(\s|$)/g) || [String(s || '')]).reduce((out, x) => (!out || (out + x).trim().length <= n ? out + x : out), '').trim();
+// A real decision: not the consent agenda, not a vote to close the meeting, not a "no vote" item.
+const heroReal = (d) => !d.consent_agenda && d.result !== 'info' && !/closed? (the meeting )?to the public|close the meeting/i.test(d.title);
 const tallyOf = (d) => { const v = Object.values(d.votes || {}); return { yes: v.filter((x) => x === 'yes').length, no: v.filter((x) => x === 'no').length }; };
-function heroTiles() {
-  const out = [], last = past.find((m) => m.summary && m.summary.headline);
-  // 1. What council decided: the last meeting's headline in plain words.
-  if (last) {
-    // Long headlines stop at the first clause break after the main point ("..., far more than ..." / "..., and ...").
-    let head = last.summary.headline.replace(/^On [A-Z][a-z]+ \d{1,2}, \d{4}, /, '').replace(/^Squamish council /, 'Council ');
-    if (head.length > 150) head = head.replace(/^(.{60,}?), (far|and|but|while|which|after|before|with|including|meaning|up from|down from)\b.*$/, '$1.');
-    out.push(heroTile(mUrl(last), ICON.gavel, `What council decided · ${heroDay(last.date)}`, head[0].toUpperCase() + head.slice(1), 'Every decision, in plain words →', 'cc-wide'));
-  }
-  // 2. How they voted: the newest split vote from the last month of meetings, else the newest real vote, and what it does.
-  const recent = last ? past.filter((m) => m.summary && Date.parse(m.date) >= Date.parse(last.date) - 30 * 864e5) : [];
-  const cast = recent.flatMap((m) => (m.decisions || []).map((d, i) => ({ d, m, i }))).filter(({ d }) => heroVote(d) && tallyOf(d).yes + tallyOf(d).no);
-  const pick = cast.find(({ d }) => tallyOf(d).yes && tallyOf(d).no) || cast[0];
-  if (pick) {
-    const { d, m, i } = pick, { yes, no } = tallyOf(d), side = d.result === 'passed' ? 'no' : 'yes';
-    const minority = all.filter((c) => d.votes[c.slug] === side).map(lastName);
-    const who = yes && no ? `${andList(minority)} voted ${side}.` : `Everyone there voted ${yes ? 'yes' : 'no'}.`;
-    out.push(heroTile(`${mUrl(m)}#d-${i}`, ICON.vote, `How they voted · ${heroDay(m.date)}`, `${d.title}: ${RESULT_WORD[d.result].toLowerCase()} ${yes} to ${no}`, `${who} ${d.for_you || ''}`.trim(), 'cc-wide'));
-  }
-  // 3. Are they keeping their promises? The counts from the scorecard, with a bar once any promise has been tested.
+const heroLast = () => past.find((m) => m.summary && m.summary.headline);
+const mmDate = (d, cls) => { const t = new Date(d + 'T12:00:00'); return `<span class="mm-date ${cls}" aria-hidden="true"><span>${t.toLocaleDateString('en-CA', { month: 'short' }).replace('.', '')}</span><b>${t.getDate()}</b><i>${heroWd(d)}</i></span>`; };
+const mmName = (m) => (m.type === 'inaugural' ? 'Swearing in' : mType(m).label);
+function heroLastCard() {
+  const m = heroLast();
+  if (!m) return '';
+  // Long headlines stop at the first clause break after the main point ("..., far more than ..." / "..., and ...").
+  let head = m.summary.headline.replace(/^On [A-Z][a-z]+ \d{1,2}, \d{4}, /, '').replace(/^Squamish council /, 'Council ');
+  if (head.length > 150) head = head.replace(/^(.{60,}?), (far|and|but|while|which|after|before|with|including|meaning|up from|down from)\b.*$/, '$1.');
+  const ds = (m.decisions || []).map((d, i) => ({ d, i })).filter(({ d }) => heroReal(d));
+  // Each decision: its result and count, who was on the losing side of a split vote, and a link to it on the meeting page.
+  const row = ({ d, i }) => {
+    const { yes, no } = tallyOf(d), word = RESULT_WORD[d.result] || 'Decided', side = d.result === 'passed' ? 'no' : 'yes';
+    const count = d.votes && (yes || no) ? ` ${yes} to ${no}` : '';
+    const minority = yes && no ? all.filter((c) => d.votes[c.slug] === side).map(lastName) : [];
+    return `<li><a href="${mUrl(m)}#d-${i}"><span class="mm-res mm-${esc(d.result)}">${esc(word)}${count}</span><span>${esc(d.title)}${minority.length ? ` <span class="mm-who">(${esc(andList(minority))} voted ${side})</span>` : ''}</span></a></li>`;
+  };
+  return `<article class="mm-card mm-last">${mmDate(m.date, 'past')}<div class="mm-body">
+    <p class="mm-k">Last meeting · ${esc(heroDay(m.date))}</p><p class="mm-meta">${esc(mmName(m))}</p>
+    <h2 class="mm-h"><a href="${mUrl(m)}">${esc(head[0].toUpperCase() + head.slice(1))}</a></h2>
+    ${ds.length ? `<ul class="mm-list">${ds.slice(0, 3).map(row).join('')}</ul>` : ''}
+    <a class="mm-go" href="${mUrl(m)}">${ds.length > 3 ? `See all ${ds.length} decisions` : 'See every decision'} →</a></div></article>`;
+}
+function heroNextCard() {
+  const m = heroNext();
+  if (!m) return `<article class="mm-card mm-next"><div class="mm-body"><p class="mm-k">Next meeting</p><h2 class="mm-h">No meeting is on the calendar yet</h2><a class="mm-go" href="/meetings/">All meetings →</a></div></article>`;
+  const before = upcoming.find((x) => x !== m && x.date + (x.time || '') < m.date + (m.time || ''));
+  const when = before ? [before.date === m.date ? '' : heroWd(before.date), fmtTime(before.time)].filter(Boolean).join(' ') : '';
+  const meta = [mmName(m), m.time ? fmtTime(m.time) : '', before ? `${mType(before).label.replace(/\s*\(.*\)$/, '')} first${when ? `: ${when}` : ''}` : ''].filter(Boolean).join(' · ');
+  // What's coming: the agenda once it's out, else what earlier meetings set for this date, else when the agenda comes.
+  const open = agendaReal(m).filter((a) => a.kind !== 'closed'), exp = expectedAt(m), more = open.length - 3;
+  // Agenda items are long ("Council is being asked to give final approval to..."), so the card leads with the count and
+  // the meeting's one paragraph summary (preview), falling back to the first items in short form.
+  const short = (a) => clip(a.plain.replace(/^Council (is being asked to|will) /i, '').replace(/^./, (c) => c.toUpperCase()), 90);
+  const body = open.length
+    ? `<h2 class="mm-h"><a href="${mUrl(m)}">The agenda is out: ${open.length} item${open.length === 1 ? '' : 's'}</a></h2>
+    ${m.preview ? `<p class="mm-sum">${esc(sentencesUpTo(m.preview, 260))}</p>` : `<ul class="mm-list mm-agenda">${open.slice(0, 3).map((a) => `<li>${esc(short(a))}</li>`).join('')}</ul>${more > 0 ? `<p class="mm-sub">+ ${more} more</p>` : ''}`}`
+    : exp.length ? `<h2 class="mm-h"><a href="${mUrl(m)}">${esc(andList(exp.slice(0, 2)))}</a></h2>
+    <p class="mm-sub">Expected, from what council set at earlier meetings. The agenda comes out about ${esc(agendaPost(m))}.</p>`
+    : `<h2 class="mm-h"><a href="${mUrl(m)}">The agenda comes out about ${esc(agendaPost(m))}</a></h2>`;
+  const vote = HAVE_SAY_OPEN ? `<a class="mm-say" href="/have-your-say/">Vote on ${HAVE_SAY_OPEN} question${HAVE_SAY_OPEN === 1 ? '' : 's'} before council does →</a>` : '';
+  return `<article class="mm-card mm-next">${mmDate(m.date, 'next')}<div class="mm-body">
+    <p class="mm-k">Next meeting · ${esc(heroDay(m.date))}<span data-until="${m.date}"></span></p><p class="mm-meta">${meta.split(' · ').map((x) => `<span>${esc(x)}</span>`).join(' · ')}</p>
+    ${body}${vote}
+    <a class="mm-go" href="${mUrl(m)}">${open.length ? 'See the full agenda' : 'Meeting details'} →</a></div></article>`;
+}
+// Under the cards: earlier meetings to click into, then the promise score.
+function heroStrip() {
+  const last = heroLast(), earlier = past.filter((m) => m.summary && m !== last).slice(0, 3);
   const P = pCounts(PROMISES), tested = PROMISES.length - P.not_yet;
-  const early = all.map(positionReport).reduce((a, r) => a + r.inLine + r.against + r.mixed + r.early, 0);
   const parts = [['kept', 'kept'], ['not_kept', 'not kept'], ['mixed', 'mixed'], ['progress', 'in progress'], ['early', P.early === 1 ? 'early sign' : 'early signs']].filter(([k]) => P[k]).map(([k, w]) => `${P[k]} ${w}`);
-  const bar = `<span class="cc-bar" aria-hidden="true">${['kept', 'progress', 'mixed', 'early', 'not_kept', 'not_yet'].filter((k) => P[k]).map((k) => `<i class="${PSTATUS[k].cls}" style="flex:${P[k]}"></i>`).join('')}</span>`;
-  out.push(tested ? heroTile('/scorecard/', ICON.check, 'Keeping their promises?', parts.slice(0, 3).join(' · '), `${PROMISES.length} promises we’re watching. ${P.not_yet} not tested yet: council hasn’t voted on them.`, '', bar)
-    : heroTile('/scorecard/', ICON.check, 'Keeping their promises?', `None of ${PROMISES.length} tested yet`, `No vote has tested a promise yet.${early ? ` ${early} early sign${early === 1 ? '' : 's'} on campaign positions.` : ''}`));
-  // 4. Have your say before the next meeting: open questions, a public hearing, the letter deadline, or question period.
-  const hm = heroNext();
-  if (HAVE_SAY_OPEN) out.push(heroTile('/have-your-say/', ICON.hand, 'Have your say', 'Vote before council does', `${HAVE_SAY_OPEN} question${HAVE_SAY_OPEN === 1 ? '' : 's'} from the next agenda ${HAVE_SAY_OPEN === 1 ? 'is' : 'are'} open now.`, 'cc-say'));
-  else if (hm && hm.type !== 'inaugural') {
-    const d = heroDay(hm.date), cut = new Date(Date.parse(hm.date + 'T12:00:00Z') - 5 * 864e5).toISOString().slice(0, 10);
-    const [b, sub] = hm.has_public_hearing ? ['Speak at the public hearing', `${d}: speak for three minutes, or email your comments by 3 p.m. that day.`]
-      : cut > TODAY ? [`Write to council by ${heroWd(cut)}, ${heroDay(cut)}`, `Make it into the ${d} meeting package. One email reaches the whole council.`]
-      : cut === TODAY ? ['Write to council today', `Make it into the ${d} meeting package. One email reaches the whole council.`]
-      : hm.type === 'regular' ? [`Ask council a question on ${d}`, 'Near the end of the meeting, anyone can ask about the agenda for up to two minutes. No need to sign up.']
-      : ['Write to council', 'One email to council@squamish.ca reaches the mayor and all six councillors.'];
-    out.push(heroTile(`${mUrl(hm)}#have-your-say`, ICON.hand, `Have your say · ${d}`, b, sub, 'cc-say'));
-  } else out.push(heroTile('/wants/', ICON.hand, 'Have your say', 'What Squamish Wants', 'Say yes or no to what people want changed in town.', 'cc-say'));
-  return out.join('\n    ');
+  const prom = tested ? `Promises: ${parts.slice(0, 3).join(', ')}` : `Promises: none of ${PROMISES.length} tested yet`;
+  return `<nav class="mm-strip" aria-label="Earlier meetings"><span class="mm-sk">Earlier meetings</span>${earlier.map((m) => `<a class="mm-chip" href="${mUrl(m)}"><b>${esc(heroDay(m.date))}</b> ${esc(mmName(m).replace(/\s*\(.*\)$/, ''))}</a>`).join('')}<a class="mm-chip mm-all" href="/meetings/">All meetings →</a><a class="mm-prom" href="/scorecard/">${esc(prom)} →</a></nav>`;
 }
 
 // Pinned: the story stays on top of the home page and News page until its pin_until date (inclusive, Pacific time).
 const TODAY_PT = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Vancouver' });
 const pinned = (st) => !!st.pin_until && st.pin_until >= TODAY_PT;
-
-// Home: data for the yellow "New" line in the hero (src/since.js): the political stories on the site now and the
-// decided meetings. since.js compares them with what this browser saw last time. Nothing leaves the browser, and
-// first time visitors see nothing. The "Since your last visit" box that used this came off the page Nov 26 2026 (Jeff).
-function sinceData() {
-  const S = [...NEWS.stories].filter(isPolitics).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 60);
-  const decided = MEETINGS.filter((m) => m.summary && m.summary.headline).slice(-6).reverse().map((m) => ({ id: m.id }));
-  const data = { stories: S.map((st) => ({ slug: st.slug, head: st.head })), decided };
-  return `<script type="application/json" id="since-data">${JSON.stringify(data).replace(/</g, '\\u003c')}</script><script src="/since.js" defer></script>`;
-}
 
 // Home news blocks (Jeff, Nov 26 2026): "Squamish politics" sits under the hero (council, elections, taxes and what
 // the District does, from the last three weeks), then "Squamish news" right below it with everything else.
@@ -1406,16 +1389,16 @@ const v = ctx.voting || {};
       founder: { '@type': 'Person', name: 'Jeff Kirdeikis', url: 'https://jeffkirdeikis.com' }, areaServed: 'Squamish, British Columbia',
       ...(SITE.contact ? { email: SITE.contact } : {}),
     }],
-    hero: `${TODAY_STRIP}<script>try{var f=+localStorage.sv_first;if(!f){f=localStorage.sv_seen?1:Date.now();localStorage.sv_first=f}if(Date.now()-f>18e5)document.documentElement.classList.add('sv-back')}catch(e){}</script><section class="hero hero-cc"><div class="wrap cc">
+    hero: `${TODAY_STRIP}<script>try{var f=+localStorage.sv_first;if(!f){f=localStorage.sv_seen?1:Date.now();localStorage.sv_first=f}if(Date.now()-f>18e5)document.documentElement.classList.add('sv-back')}catch(e){}</script><section class="hero hero-cc hero-mm"><div class="wrap mm">
   <div class="cc-main">
     <h1><span class="h1-full">Squamish council made promises. <span class="h1-gold">We’re keeping score.</span></span><span class="h1-back">Keeping score on Squamish council</span></h1>
     <p class="lede">Every vote by Squamish’s mayor and councillors, checked against what they told voters in 2026.</p>
-    <a class="cc-last cc-newline" data-since-hero hidden><span class="cc-tag">New</span><span></span></a>
-    ${heroMeet()}
   </div>
-  <div class="cc-tiles">
-    ${heroTiles()}
+  <div class="mm-cards">
+    ${heroLastCard()}
+    ${heroNextCard()}
   </div>
+  ${heroStrip()}
   <form class="herosign cc-sign hero-sign-desk" id="signup" data-subscribe="home-hero" novalidate>
     <label for="hs-email"><b>Get a short email every Friday:</b> what council decided and what’s coming up.</label>
     <div class="hs-row"><input id="hs-email" type="email" name="email" autocomplete="email" required placeholder="Enter your email"><button class="btn" type="submit">Sign up</button></div>
@@ -1425,7 +1408,7 @@ const v = ctx.voting || {};
   <p class="visit-count" data-visits hidden><span class="vc-dot" aria-hidden="true"></span><b>0</b> page views so far</p>
   </div><svg class="cc-ridge" viewBox="0 0 660 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40V28l56-10 40 7 52-20 28 5 36 14 60-9 44 10 68-19 40 6 48 14 60-12 56 10 72-7v23z" fill="#0b3d2f" fill-opacity=".55"/><path d="M0 40V35l80-7 72 5 88-11 76 8 100-12 92 11 80-6 72 7v10z" fill="#f7f5ef"/></svg></section>`,
     body: `
-  ${sinceData()}
+  <script src="/since.js" defer></script>
   ${homePolitics()}
   ${homeOtherNews()}
   <form class="herosign home-sign-phone" id="signup-phone" data-subscribe="home-phone" novalidate>
