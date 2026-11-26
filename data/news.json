@@ -66,6 +66,196 @@
  ],
  "stories": [
   {
+   "slug": "regional-board-chair-squamish-seats",
+   "s": "council",
+   "tier": "card",
+   "date": "2026-11-26",
+   "head": "Pemberton's mayor chairs regional board. Who speaks for Squamish there?",
+   "dek": "Mayor Sean Easton and Councillors Eric Andersen and Sarah Ellis hold Squamish's three seats on the Squamish-Lillooet Regional District board. At its November 26 meeting, the board picked Pemberton Mayor Mike Richman as chair and Lillooet Mayor Laurie Hopfl as vice chair. No one ran against either of them.",
+   "gist": [
+    "Pemberton Mayor Mike Richman is the new chair of the regional board that covers Squamish, Whistler, Pemberton, Lillooet and four electoral areas (A to D).",
+    "Squamish holds three of the 11 seats, filled by Mayor Sean Easton and Councillors Eric Andersen and Sarah Ellis.",
+    "On money decisions, each director gets votes based on how many people they represent, so communities with more people get more votes.",
+    "This board must pass its next five year budget by the end of March 2027, and anyone can attend or watch its meetings."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "New chair",
+     "v": "Mike Richman, Pemberton mayor"
+    },
+    {
+     "level": "mid",
+     "k": "New vice chair",
+     "v": "Laurie Hopfl, Lillooet mayor"
+    },
+    {
+     "level": "mid",
+     "k": "Outgoing chair",
+     "v": "Jen Ford, Whistler, 6 years"
+    },
+    {
+     "level": "mid",
+     "k": "Squamish seats",
+     "v": "3 of 11: Easton, Andersen, Ellis"
+    },
+    {
+     "level": "mid",
+     "k": "Regional tax ask 2026",
+     "v": "+1.3% ($204,601), all communities"
+    }
+   ],
+   "bars": {
+    "seats": {
+     "title": "Seats on the regional district board, by community",
+     "rows": [
+      {
+       "label": "Squamish",
+       "v": 3,
+       "say": "3 seats",
+       "hl": true
+      },
+      {
+       "label": "Whistler",
+       "v": 2,
+       "say": "2 seats"
+      },
+      {
+       "label": "Pemberton",
+       "v": 1,
+       "say": "1 seat"
+      },
+      {
+       "label": "Lillooet",
+       "v": 1,
+       "say": "1 seat"
+      },
+      {
+       "label": "Areas A to D (combined)",
+       "v": 4,
+       "say": "4 seats, 1 each"
+      }
+     ],
+     "note": "Source: Squamish-Lillooet Regional District, November 26, 2026"
+    },
+    "turnout": {
+     "title": "Squamish voter turnout in local elections, per cent",
+     "rows": [
+      {
+       "label": "2022",
+       "v": 41.1,
+       "say": "41.1% (6,718)"
+      },
+      {
+       "label": "2026",
+       "v": 45.33,
+       "say": "45.33% (8,881)",
+       "hl": true
+      }
+     ],
+     "note": "Source: District of Squamish, October 17, 2026 (unofficial results); ballots cast in brackets"
+    },
+    "votes": {
+     "title": "Squamish and Whistler weighted votes on the board, change in 2022",
+     "rows": [
+      {
+       "label": "Squamish, before 2022",
+       "v": 10,
+       "say": "10 votes"
+      },
+      {
+       "label": "Squamish, from 2022",
+       "v": 13,
+       "say": "13 votes",
+       "hl": true
+      },
+      {
+       "label": "Whistler, before 2022",
+       "v": 6,
+       "say": "6 votes"
+      },
+      {
+       "label": "Whistler, from 2022",
+       "v": 7,
+       "say": "7 votes"
+      }
+     ],
+     "note": "Source: Squamish-Lillooet Regional District, November 23, 2022; current count not confirmed"
+    }
+   },
+   "take": "Richman replaces Whistler's Jen Ford as chair, and the committee and outside board jobs for Squamish's three directors are still to be posted on the SLRD website.",
+   "body": "[[glance]]\n\n## New leaders for the year\n\nAt its November 26 meeting, the Squamish-Lillooet Regional District (SLRD) board elected Village of Pemberton Mayor Mike Richman as chair and District of Lillooet Mayor Laurie Hopfl as vice chair. No one ran against them. Both have served on the board before, but not in these roles. The chair and vice chair are chosen every year.\n\nThey take over from Whistler Councillor Jen Ford, who [chaired the board six years in a row](https://www.slrd.bc.ca/inside-slrd/news-notices/regional-district-board-elects-chair-and-vice-chair-0), and Electoral Area C Director Russell Mack, who [became vice chair in 2024 after Vivian Birch-Jones stepped down from that role in June 2024](https://www.slrd.bc.ca/inside-slrd/news-notices/squamish-lillooet-regional-district-board-names-new-vice-chair).\n\n\"This term sees several new Board members joining local government. There is always a learning curve when stepping into these roles and it is important that we create space for questions, learning and growth,\" Richman said.\n\n## Who sits on the board\n\nSquamish has three of the 11 seats, more than any other single municipality or electoral area. On money votes, though, what counts is weighted votes, not seats (more on that below). Council appointed:\n\n- [Mayor Sean Easton](/council/sean-easton/)\n- [Councillor Eric Andersen](/council/eric-andersen/)\n- [Councillor Sarah Ellis](/council/sarah-ellis/)\n\n[Last term, Squamish's directors were Armand Hurford, Chris Pettingill and Jenna Stoner](https://www.slrd.bc.ca/inside-slrd/news-notices/squamish-lillooet-regional-district-board-names-new-vice-chair). Two of the three Squamish directors are new to the board; Andersen was [the alternate for Stoner last term](https://www.slrd.bc.ca/about-us/slrd-member-municipalities/district-squamish). [Hurford did not run again, and Stoner lost her bid for mayor to Easton](https://www.squamishchief.com/2026-civic-election/heartfelt-goodbyes-at-outgoing-squamish-councils-final-meeting-12920707). [All but one of the new council is new to local government](https://ca.news.yahoo.com/squamish-mayor-councillors-sworn-following-152150948.html).\n\nSquamish voter turnout in October was [45.33 per cent, or 8,881 ballots](https://squamish.ca/government-and-administration/district-information/news/squamish-2026-general-election-unofficial-results/), up from 41.1 per cent, or 6,718 ballots, in 2022.\n\n[[bars turnout]]\nThe rest of the board is below. An electoral area is a part of the region outside the four towns, and it elects its own director at the local election.\n\n- Whistler: Jack Crompton and Claire Ruddy, appointed by their council\n- Pemberton: Mike Richman; Lillooet: Laurie Hopfl\n- Electoral Area A: John Courchesne, elected by vote\n- Electoral Area B: Vivian Birch-Jones, returning, acclaimed\n- Electoral Area C: Veronica Woodruff, acclaimed, replacing Russell Mack\n- Electoral Area D: Paula de Jong, elected by vote\n\n[[bars seats]]\n## Seats and votes\n\nThe mix of seats and voting strength is set by section 196(2) of the provincial Local Government Act. For money decisions, such as the yearly financial plan, borrowing, property deals and key contracts, the board uses a weighted vote: each director gets a number of votes based on how many people they represent, [the province explains](https://www2.gov.bc.ca/gov/content/governments/local-governments/governance-powers/councils-boards/board-organization/voting). [For decisions about running a service, only the communities that take part in that service get a vote](https://www2.gov.bc.ca/gov/content/governments/local-governments/governance-powers/councils-boards/board-organization/voting). A municipality's or area's votes are [split among its directors as evenly as possible](https://www.slrd.bc.ca/about-us/what-slrd/how-we-are-governed).\n\nIn 2022, [Squamish's weighted votes rose from 10 to 13](https://www.slrd.bc.ca/inside-slrd/news-events/regional-district-board-sworn) and Whistler's from six to seven, at the SLRD's then voting unit of 2,000 people per vote. We could not confirm the current count.\n\n[[bars votes]]\n## The money ahead\n\nThe regional district's total 2026 tax requisition, the amount it asks all member communities to raise, rose 1.3 per cent, or $204,601, over 2025, [it says](https://www.slrd.bc.ca/inside-slrd/news-notices/squamish-lillooet-regional-district-adopts-five-year-financial-plan-0). That is not a Squamish bill; we could not confirm Squamish's share. The next five year plan must be adopted by the end of March 2027, so this board will vote on it.\n\n## How to take part\n\n- The December board meeting date is not yet posted. Meetings usually fall on the fourth Wednesday of each month.\n- Meetings are held in the SLRD boardroom at 1350 Aster Street, Pemberton.\n- Open to the public in person, or watch by livestream or recording; schedule, agendas and minutes are on the SLRD website.\n- Chairs for the Electoral Area Directors Committee and the Pemberton Valley Utilities and Services Committee will be elected at the December committee meetings.\n- The full list of committee and outside board appointments will be posted on the SLRD website.\n- Read the [full SLRD announcement](https://www.slrd.bc.ca/inside-slrd/news-notices/regional-district-board-elects-chair-and-vice-chair-1), or our [plain guide to council](/how-council-works/).",
+   "visual": {
+    "type": "big",
+    "big": "3 of 11",
+    "small": "Squamish seats on the regional board"
+   },
+   "src": [
+    "Squamish-Lillooet Regional District",
+    "https://www.slrd.bc.ca/inside-slrd/news-notices/regional-district-board-elects-chair-and-vice-chair-1"
+   ],
+   "review_scores": [
+    6.8,
+    7.6,
+    6.8,
+    7
+   ],
+   "researched": true,
+   "social": "Pemberton Mayor Mike Richman now chairs the board that makes decisions for the whole region, from Squamish to Lillooet. Three Squamish council members sit at that table with him.\n\nThe Squamish-Lillooet Regional District board picked Richman on November 26, after Whistler's Jen Ford chaired it for six years. This board sets a regional tax (up 1.3% region-wide this year) and must pass its next five year budget by the end of March 2027. Who speaks for Squamish, how the votes work and how to watch:",
+   "share": 2,
+   "auto": true,
+   "poll": {
+    "q": "How closely do you follow regional district board decisions?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Closely",
+      "means": "You already track what the board decides for Squamish."
+     },
+     {
+      "key": "b",
+      "label": "Now and then",
+      "means": "You check in when a big regional issue comes up."
+     },
+     {
+      "key": "c",
+      "label": "Rarely",
+      "means": "You mostly follow Squamish council instead."
+     },
+     {
+      "key": "d",
+      "label": "Did not know Squamish had 3 seats",
+      "means": "This story was your first look at the regional board."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/regional-board-chair-squamish-seats.jpg",
+    "og": "/news/library/council-2026-share.jpg",
+    "alt": "Mayor Sean Easton and Councillors Eric Andersen, Janice DesJardins, Sarah Ellis, Luc Perreault, Laura Prosko and Shaun Veltkamp",
+    "caption": "Squamish council for 2026 to 2030.",
+    "credit": "Campaign photos and District of Squamish; background Straitgate, CC BY-SA 3.0",
+    "link": "https://squamishvoters.com/council/"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/regional-board-chair-squamish-seats-2.jpg",
+     "alt": "Snow-covered Mount Currie rising above houses and evergreen trees in Pemberton in winter",
+     "caption": "Mount Currie, seen from a residential area in Pemberton.",
+     "credit": "Nacasma, CC BY 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Pemberton_-_panoramio_(1).jpg"
+    },
+    {
+     "file": "/news/photos/regional-board-chair-squamish-seats-3.jpg",
+     "alt": "Log building with a carved wooden MUSEUM sign and vines across its front porch",
+     "caption": "The Pemberton Museum.",
+     "credit": "Pemberton Museum, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Pemberton_Museum.jpg"
+    }
+   ],
+   "og": "regional-board-chair-squamish-seats.png"
+  },
+  {
    "slug": "squamish-nation-winter-wellness-events",
    "s": "community",
    "tier": "card",
