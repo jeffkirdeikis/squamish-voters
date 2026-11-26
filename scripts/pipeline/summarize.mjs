@@ -141,7 +141,12 @@ for (const m of todo) {
         if (info.live_status !== 'was_live' && info.live_status !== 'not_live') throw new Error(`video ${vid} is ${info.live_status}`);
         parts.push({ vid, dur: info.duration, ...transcribe(vid, info.duration) });
       }
-    } catch (e) { log('video not usable:', e.message.split('\n')[0]); parts = []; }
+    } catch (e) {
+      log('video not usable:', e.message.split('\n')[0]); parts = [];
+      // The District sometimes schedules a stream and never starts it (Nov 24 2026 special meeting, mostly in camera).
+      // Once the meeting day is over, mark it so the GitHub alarm stops; the summary then comes from the draft minutes.
+      if (/will begin|is_upcoming|Premieres in/i.test(e.message) && m.date < today && !m.no_stream) { m.no_stream = true; saveMeeting(m); log('not streamed, waiting for minutes', m.id); }
+    }
   }
   const minutesFile = path.join(RAW_DIR, `${m.id}-minutes.txt`);
   const fromMinutes = !parts.length && fs.existsSync(minutesFile);
