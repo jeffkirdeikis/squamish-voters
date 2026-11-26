@@ -3191,3 +3191,34 @@ html.sv-back .hero-cc .cc-main h1 { font-size: clamp(1.35rem, 3.4vw, 2rem); max-
   .td-strip .ts-hint { background: transparent !important; color: #fff !important; border: 1px solid rgba(255,255,255,.4); box-shadow: none !important; }
 }
 html.sv-back .hero-cc .cc-main h1 { text-wrap: balance; }
+
+/* Home hero, Nov 26 2026 (Jeff: the hero is about council only). Four live tiles, each answering one question with the
+   latest data: what council decided, how they voted, are they keeping promises, how to have your say. The next meeting
+   card adds what is on it (or expected). */
+.cc-live { gap: .35rem; min-height: 0; }
+.cc-tt { display: flex; align-items: center; gap: .5rem; }
+.cc-live .cc-ico { flex: none; width: 1.7rem; height: 1.7rem; }
+.cc-k { font: 800 .62rem/1.25 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--brand); }
+.cc-say .cc-k { color: #7a5a00; }
+.cc-live b { font: 700 .98rem/1.25 Georgia, serif; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; }
+.cc-live > .cc-sub { font-size: .76rem; line-height: 1.35; color: var(--ink-2); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+.cc-bar { display: flex; gap: 2px; height: .5rem; border-radius: 99px; overflow: hidden; background: #e4e1d8; }
+.cc-bar i { display: block; min-width: 5px; }
+.cc-bar i.ps-kept { background: var(--yes); } .cc-bar i.ps-broken { background: var(--no); } .cc-bar i.ps-progress { background: #d9a400; } .cc-bar i.ps-early { background: #8fb3a3; border: 0; } .cc-bar i.ps-notyet { background: #e4e1d8; }
+.cc-mtopic { display: block; margin-top: .4rem; color: #e6f1ec; }
+.cc-mlab { display: inline-block; margin-right: .35rem; background: #ffd84d; color: #14211c; font: 800 .58rem/1 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; padding: .22rem .35rem; border-radius: 5px; vertical-align: .12em; }
+@media (min-width: 621px) { .cc-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 900px) { .cc-live { min-height: 0; } }
+@media (max-width: 620px) {
+  .hero-cc .cc-tiles { display: grid; grid-template-columns: minmax(0, 1fr); gap: .45rem; overflow: visible; margin: 0; padding: 0; mask-image: none; }
+  .hero-cc .cc-live { flex-direction: column; align-items: stretch; gap: .25rem; padding: .65rem .8rem; border-radius: 14px; white-space: normal; overflow-wrap: break-word; }
+  .hero-cc .cc-live b { font: 700 .95rem/1.25 Georgia, serif; -webkit-line-clamp: 4; }
+  .hero-cc .cc-tile.cc-live > span.cc-sub:last-child { display: -webkit-box; -webkit-line-clamp: 2; font-size: .78rem; }
+  .hero-cc .cc-live .cc-ico { width: 1.45rem; height: 1.45rem; padding: .22rem; }
+}
+/* The rest of the Squamish news: a plain list low on the home page, two columns on wide screens. */
+.hn-other { margin-top: 2.2rem; }
+@media (min-width: 900px) { .hn-cols { grid-template-columns: 1fr 1fr; column-gap: 1.8rem; } .hn-cols li:nth-child(2) a { padding-top: 0; } }
+@media (min-width: 621px) { .cc-wide { grid-column: 1 / -1; } }
+@media (min-width: 900px) { .cc { grid-template-columns: .95fr 1.1fr; } }
+@media (min-width: 621px) { .cc-live:not(.cc-wide) > .cc-sub { -webkit-line-clamp: 4; } }
