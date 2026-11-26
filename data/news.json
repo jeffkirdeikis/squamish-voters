@@ -66,6 +66,109 @@
  ],
  "stories": [
   {
+   "slug": "squamish-nation-winter-wellness-events",
+   "s": "community",
+   "tier": "card",
+   "date": "2026-11-26",
+   "head": "A sober New Year's Eve dance and four more Squamish Nation December events",
+   "dek": "Five events run December 4 to 31, from a North Shore drum walk to a sober New Year's Eve dance. The Squamish Nation's Háhalhi7iwan (Wellness) team posted the list on November 26. The post does not say which community 380 Welch St. or CJMC are in. Two fragrance workshops need registration.",
+   "gist": [
+    "The Squamish Nation's Háhalhi7iwan (Wellness) team has listed five events from December 4 to 31, ending with a sober New Year's Eve dance.",
+    "The drum walk starts on the Seymour Reserve on the North Shore, and the post does not say which community 380 Welch St. or CJMC are in.",
+    "The post does not say whether the events are open to non-members or cost anything, so the Nation's Event Calendar is the place to check.",
+    "The youth (18 to 28) and adult (28 and up) fragrance workshops need registration ahead of time."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Events",
+     "v": "5 events, Dec 4 to 31"
+    },
+    {
+     "level": "mid",
+     "k": "Longest event",
+     "v": "Sober dance, 7 p.m. to 12:30 a.m."
+    },
+    {
+     "level": "mid",
+     "k": "Drum walk start",
+     "v": "Seymour Reserve, North Shore"
+    },
+    {
+     "level": "mid",
+     "k": "Ages",
+     "v": "Youth 18 to 28, adult 28+"
+    },
+    {
+     "level": "mid",
+     "k": "Registration",
+     "v": "Both fragrance workshops"
+    }
+   ],
+   "bars": {
+    "hours": {
+     "title": "How long each event runs, in hours",
+     "rows": [
+      {
+       "label": "Drum walk",
+       "v": 4,
+       "say": "4 hrs"
+      },
+      {
+       "label": "Cedar reindeer weaving",
+       "v": 2,
+       "say": "2 hrs per evening"
+      },
+      {
+       "label": "Youth fragrance",
+       "v": 2,
+       "say": "2 hrs"
+      },
+      {
+       "label": "Adult fragrance",
+       "v": 2,
+       "say": "2 hrs"
+      },
+      {
+       "label": "Sober dance",
+       "v": 5.5,
+       "say": "5.5 hrs",
+       "hl": true
+      }
+     ],
+     "note": "Source: Squamish Nation, Nov 26 2026. Hours are our arithmetic from the listed times. Cedar reindeer weaving is listed for December 7 to 9, 5 to 7 p.m.; the post does not say if it runs every evening."
+    }
+   },
+   "take": "The post does not say how to register for the fragrance workshops, so start with the Nation's Event Calendar.",
+   "body": "[[glance]]\n\n## What's on\n\nHáhalhi7iwan (Wellness), a Squamish Nation team, has posted a list of winter events to help people wrap up 2026 \"in fun and meaningful ways.\" There are five events between December 4 and December 31: a community drum walk, cedar reindeer weaving, two fragrance workshops split by age, and a sober dance on New Year's Eve.\n\nThe drum walk is on the North Shore, starting on the Seymour Reserve. The post does not say which community 380 Welch St. or CJMC are in.\n\nThe longest event is the New Year's Eve dance, which runs five and a half hours.\n\n[[bars hours]]\n## Where and when\n\n- **North Shore Community Drum Walk:** December 4, 10:30 a.m. to 2:30 p.m., starting on the Seymour Reserve\n- **Cedar Reindeer Weaving:** December 7 to 9, 5 to 7 p.m., Unit 1B, 380 Welch St.\n- **Youth Fragrance Workshop (ages 18 to 28):** December 15, 5 to 7 p.m., Unit 1B, 380 Welch St. Registration required.\n- **Adult Fragrance Workshop (ages 28 and up):** December 17, 5 to 7 p.m., Unit 1B, 380 Welch St. Registration required.\n- **New Year's Eve Sober Dance:** December 31, 7 p.m. to 12:30 a.m., at CJMC\n\n## How to take part\n\n- Start with the Nation's Event Calendar. The Nation says it has more details about these events and others.\n- Register ahead for the youth or adult fragrance workshop. The post does not say how.\n- Read the original post on the [Squamish Nation website](https://www.squamish.net/hahalhi7iwanwinter-wellness-events/).\n\n## What the post doesn't say\n\n- Whether the events are open to everyone or only to Nation members.\n- How to register for the fragrance workshops, or whether any event has a cost.\n- Whether cedar reindeer weaving runs all three evenings or is one session.\n- Which workshop fits someone who is 28, since both age ranges include 28.\n- What CJMC stands for.",
+   "visual": {
+    "type": "big",
+    "big": "Dec 31",
+    "small": "Sober New Year's Eve dance"
+   },
+   "src": [
+    "Sḵwx̱wú7mesh Úxwumixw (Squamish Nation)",
+    "https://www.squamish.net/hahalhi7iwanwinter-wellness-events/"
+   ],
+   "review_scores": [
+    5.5,
+    6.3,
+    7,
+    6.3
+   ],
+   "social": "Looking for a way to ring in 2027 without alcohol? The Squamish Nation's Háhalhi7iwan (Wellness) team is hosting a sober New Year's Eve dance, 7 p.m. to 12:30 a.m.\n\nIt is one of five December events, with a North Shore drum walk, cedar reindeer weaving and two fragrance workshops that need registration. The post does not say which community two of the venues are in. Dates, times and places for all five:",
+   "share": 2,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/squamish-nation-winter-wellness-events.jpg",
+    "alt": "The Stawamus Chief seen from the Chief Overlook trail",
+    "caption": "The Stawamus Chief (Siyám Smánit), seen from the Chief Overlook trail.",
+    "credit": "Daniel Lu (User:dllu), CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Stawamus_Chief_from_Chief_Overlook_Panorama_Trail_Sea_to_Sky_Gondola_Squamish_dllu.jpg"
+   },
+   "og": "squamish-nation-winter-wellness-events.png"
+  },
+  {
    "slug": "squamish-nation-carver-canoe-stories-series",
    "s": "recon",
    "tier": "card",
