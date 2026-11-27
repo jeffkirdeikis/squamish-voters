@@ -66,6 +66,167 @@
  ],
  "stories": [
   {
+   "slug": "squamish-limit-indoor-water-use-after-storm",
+   "s": "weather",
+   "tier": "card",
+   "date": "2026-11-27",
+   "head": "Rain warnings lifted, but Squamish asks residents to use less water indoors",
+   "dek": "The District of Squamish is asking residents to use less water indoors to help manage sewer flows after this week's storms. It says more rain will affect the system. The District has not said what limiting water use means or when it ends.",
+   "gist": [
+    "This week's heavy rain, wind and king tides have eased, and Environment Canada has lifted its rain, wind and coastal flood warnings.",
+    "The District of Squamish wants people to cut back on water used indoors to help the sewer system cope, and says more rain will affect it.",
+    "The District has long said rain and groundwater leak into its sewer pipes.",
+    "No end date is given yet, and you can sign up for Squamish emergency alerts on the District website."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Water request",
+     "v": "Use less indoors, no end date given"
+    },
+    {
+     "level": "mid",
+     "k": "Squamish rain",
+     "v": "147 mm since Monday"
+    },
+    {
+     "level": "mid",
+     "k": "Warnings",
+     "v": "Rain, wind and coastal flood lifted"
+    },
+    {
+     "level": "mid",
+     "k": "District dike share",
+     "v": "$1.4M+ of $5.4M river dike work"
+    },
+    {
+     "level": "mid",
+     "k": "Dike breach estimate",
+     "v": "$447M economic cost"
+    }
+   ],
+   "bars": {
+    "sewer": {
+     "title": "Sewer leakage was about three quarters of normal flow (cubic metres a day, 2011)",
+     "rows": [
+      {
+       "label": "Normal flow",
+       "v": 7200,
+       "say": "7,200 a day"
+      },
+      {
+       "label": "Leakage",
+       "v": 5500,
+       "say": "5,500 a day",
+       "hl": true
+      }
+     ],
+     "note": "Source: District of Squamish Liquid Waste Management Plan (2011 figures). Three quarters is our arithmetic."
+    },
+    "rain": {
+     "title": "Rain totals in this week's storms, in millimetres",
+     "rows": [
+      {
+       "label": "Effingham Island",
+       "v": 734,
+       "say": "734 mm"
+      },
+      {
+       "label": "Kennedy Lake",
+       "v": 445,
+       "say": "445 mm"
+      },
+      {
+       "label": "Port Mellon",
+       "v": 246,
+       "say": "246 mm"
+      },
+      {
+       "label": "Near Courtenay",
+       "v": 228,
+       "say": "228 mm"
+      },
+      {
+       "label": "Squamish",
+       "v": 147,
+       "say": "147 mm",
+       "hl": true
+      }
+     ],
+     "note": "Source: Environment Canada via The Canadian Press. Periods vary slightly."
+    },
+    "storms": {
+     "title": "Rain in Squamish: this week vs the November 2021 storm, in millimetres",
+     "rows": [
+      {
+       "label": "Nov 13 to 15, 2021",
+       "v": 206,
+       "say": "206 mm"
+      },
+      {
+       "label": "This week (since Monday)",
+       "v": 147,
+       "say": "147 mm",
+       "hl": true
+      }
+     ],
+     "note": "Sources: Environment Canada via The Canadian Press (2026); Squamish Reporter (2021). The 2021 total covers Nov 13 to 15; this week's is since Monday."
+    }
+   },
+   "take": "Environment Canada has lifted its rain, wind and coastal flood warnings, and the District says its flood protection steps reduced localized flooding.",
+   "body": "[[glance]]\n\n## What the District is asking\n\nThe District of Squamish is asking residents to limit how much water they use indoors until further notice, to help manage flows in the sewer system. The District says more rain will affect the system, especially at busy times of day, [CBC reported](https://cbc.ca/news/canada/british-columbia/flood-aftermath-british-columbia-storm-9.7438538). It has not given an end date or said exactly what limiting water use means.\n\nFor context, [District figures](https://squamish.ca/government-and-administration/district-information/news/district-of-squamish-wastewater-treatment-plant-to-receive-10m-upgrade-for-growing-community/) show:\n\n- Sewer flow normally peaks around 7:30 a.m. and again from 7 to 8:30 p.m.\n- Wastewater can take 6 to 10 hours to reach the treatment plant.\n\nThe District has not said whether people should avoid those hours.\n\n## Why rain matters for the sewer\n\nThe District has called groundwater and rainwater leaking into sewer pipes a major inefficiency for its pumping stations and treatment plant, and has [investigated it since 2012](https://squamish.ca/projects-plans-and-initiatives/completed-projects/2016-completed-projects/sanitary-sewer/). Its [Liquid Waste Management Plan](https://squamish.ca/assets/Master-Plans/a4540379d2/Liquid-Waste-Management-Plan.pdf) estimated the leakage at 5,500 cubic metres a day, on top of an average dry weather flow of 7,200. It proposed a $2.125 million program to cut sewer flows. These are 2011 figures. More on our [flood protection](/issues/flood-protection/) page.\n\n[[bars sewer]]\n- The system has more than 142 kilometres of sewer pipe and 26 pumping stations.\n- A $10 million plant upgrade is meant to handle growth until about 2040 and to withstand floods.\n\n## How the week went in Squamish\n\n- November 16: The District opened its Emergency Operations Centre ([District](https://squamish.ca/government-and-administration/district-information/news/coast/)).\n- November 24: The District declared a [state of local emergency](https://www.squamishchief.com/local-news/update-squamish-declares-state-of-emergency-as-high-tides-threaten-flooding-13053913), giving it legal authority from the province to finish flood work. Residents were told to prepare for flooding like late 2022, which remains the highest water level on record at Point Atkinson, the nearest tide gauge, [the Squamish Chief reported](https://www.squamishchief.com/local-news/update-squamish-declares-state-of-emergency-as-high-tides-threaten-flooding-13053913).\n- November 25: Environment Canada raised the coastal flood alert to orange, and a sandbag station opened next to Copper Coil ([Squamish Chief](https://www.squamishchief.com/local-news/update-environment-canada-upgrades-squamish-coastal-flooding-alert-to-orange-level-13053913)).\n- November 26: The tide peaked around 7:45 a.m., and Vancouver Street at Loggers Lane was closed during high tide ([Squamish Chief](https://www.squamishchief.com/local-news/update-downtown-squamish-avoids-major-damage-as-morning-high-tide-recedes-13053913)). Crews had spent about 60 hours building sandbag walls and berms, downtown avoided major damage, and a contractor was extending the berms ([Penticton Herald](https://pentictonherald.ca/spare_news/article_7df8c6cc-eab7-5b45-8924-fe90f681a169.html)).\n- November 26: The [Squamish Nation](https://www.squamish.net/squamish-valley-prepares-for-flood-risks/) said tidal water in the Squamish Valley peaked around 8:30 a.m. and flood risk would last until noon Friday, Nov. 27.\n\nThe District says its flood protection steps reduced the effects of localized flooding.\n\n## Warnings are lifted\n\nEnvironment Canada dropped its rain and wind warnings and all coastal flood warnings and statements. A Nov. 26 report said a high streamflow advisory was still in effect then ([Penticton Herald](https://pentictonherald.ca/spare_news/article_7df8c6cc-eab7-5b45-8924-fe90f681a169.html)). The Canadian Press now reports River Forecast Centre alerts are lifted everywhere except central Vancouver Island.\n\n## How much rain fell\n\nSquamish got 147 millimetres since Monday, among the highest totals on the B.C. mainland. Port Mellon in Howe Sound got 246 millimetres.\n\n[[bars rain]]\nIn the November 13 to 15, 2021 storm, Squamish got [206 millimetres](https://www.squamishreporter.com/2021/11/17/squamish-second-rainiest-community-in-bc/).\n\n[[bars storms]]\n## Flood protection spending\n\n- 2020: a [$4,049,878 federal grant](https://www.squamishchief.com/local-news/district-of-squamish-receives-funding-for-sea-dike-3351571) for a 200 metre sea dike in X̱wún̓eḵw Park.\n- 2024: a [$6.3 million budget increase](https://www.squamishchief.com/local-news/xxwunekxw-sea-dike-gets-63m-budget-increase-from-squamish-council-8658812) for the sea dike.\n- July 2026: about 900 metres of Squamish River dike raised in a [$5.4 million project](https://news.gov.bc.ca/releases/2026EMCR0033-000896); the District paid [more than $1.4 million](https://www.squamishchief.com/local-news/squamish-river-dike-upgrades-complete-after-54m-project-12620477), which also reported a $447 million economic cost estimate for breaches on four dike sections.\n\n## What is still unknown\n\n- When the water request ends.\n- Whether any sewer overflows happened.\n- Whether the local emergency has ended. In a 2025 wildfire declaration, [CBC reported](https://www.cbc.ca/lite/story/1.7557429) it would last 14 days unless cancelled.\n- How many properties had localized flooding, and what the response cost.\n- We could not confirm how much of the $2.125 million program was done.\n\n## How to stay informed\n\n- Sign up for [Squamish emergency alerts](https://squamish.ca/squamishalert).\n- River and tide levels on our [Today page](/today/).\n- Source: [The Squamish Chief](https://www.squamishchief.com/local-news/wringing-out-starts-for-communities-on-bc-coast-as-flood-threats-storms-ease-13065946).",
+   "visual": {
+    "type": "big",
+    "big": "Until further notice",
+    "small": "Limit indoor water use"
+   },
+   "src": [
+    "The Squamish Chief",
+    "https://www.squamishchief.com/local-news/wringing-out-starts-for-communities-on-bc-coast-as-flood-threats-storms-ease-13065946"
+   ],
+   "review_scores": [
+    6.7,
+    7.1,
+    6.9,
+    7
+   ],
+   "researched": true,
+   "social": "The District of Squamish is asking residents to use less water indoors to help manage sewer flows, even though the rain warnings are now lifted.\n\nIt says more rain will affect the system and has not given an end date. District figures show sewer flow normally peaks around 7:30 a.m. and 7 to 8:30 p.m. What we know and what is still unclear:",
+   "share": 3,
+   "auto": true,
+   "areas": [
+    "downtown"
+   ],
+   "poll": {
+    "q": "Rain leaks into Squamish sewer pipes and strains the system. How should the town respond?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Speed up pipe repairs",
+      "means": "The District would spend more sooner to fix leaking pipes."
+     },
+     {
+      "key": "b",
+      "label": "Keep the current pace",
+      "means": "Repairs and upgrades would go ahead as now planned."
+     },
+     {
+      "key": "c",
+      "label": "Rely on less water use in storms",
+      "means": "Residents would cut indoor water use when heavy rain hits."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/squamish-limit-indoor-water-use-after-storm.jpg",
+    "alt": "Howe Sound seen from above Squamish",
+    "caption": "Howe Sound, seen from above Squamish.",
+    "credit": "Shafik Diwan, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Howe_Sound,_Squamish.jpg"
+   },
+   "og": "squamish-limit-indoor-water-use-after-storm.png"
+  },
+  {
    "slug": "woodfibre-flaring-permit-britannia-sound-moms",
    "s": "safety",
    "tier": "card",
