@@ -66,6 +66,339 @@
  ],
  "stories": [
   {
+   "slug": "council-2027-budget-plan-vote-dec-1",
+   "s": "council",
+   "tier": "card",
+   "date": "2026-11-26",
+   "head": "Council steers 2027 budget Dec. 1, but the mayor's tax motion isn't listed",
+   "dek": "Council votes at noon on Tuesday, December 1, on what staff should put into the 2027 to 2036 budget plan, which sets the direction for property taxes and District services. A staff draft reported in November would collect 10.4% more from property taxes. Mayor Sean Easton's motion for no tax revenue increase is not on this meeting's agenda.",
+   "gist": [
+    "Council meets at noon on Tuesday, December 1, to decide what goes into the District's budget plan for 2027 to 2036.",
+    "A staff draft reported in November would collect 10.4% more from property taxes in 2027, about $342 more for the average home.",
+    "The agenda does not give the tax figure in the new report, and the mayor's motion for no tax revenue increase is not on it.",
+    "Anyone can watch on the District's YouTube channel or join by phone or online, and the draft budget is open for comment on Let's Talk Squamish."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "When",
+     "v": "Tue, Dec 1, noon"
+    },
+    {
+     "level": "mid",
+     "k": "Where",
+     "v": "Municipal Hall, 37955 Second Ave"
+    },
+    {
+     "level": "mid",
+     "k": "November staff draft",
+     "v": "10.4% more property tax revenue"
+    },
+    {
+     "level": "mid",
+     "k": "Mayor's motion",
+     "v": "Not on this agenda"
+    },
+    {
+     "level": "mid",
+     "k": "Capital plan",
+     "v": "$25M in 2027, $357M over 10 years"
+    }
+   ],
+   "bars": {
+    "taxrise": {
+     "title": "Rise in money collected from property taxes, per cent",
+     "rows": [
+      {
+       "label": "2026 budget (adopted)",
+       "v": 12.8,
+       "say": "12.8%"
+      },
+      {
+       "label": "2027 in January's plan",
+       "v": 13,
+       "say": "13%"
+      },
+      {
+       "label": "2028 in January's plan",
+       "v": 12.9,
+       "say": "12.9%"
+      },
+      {
+       "label": "2027 November staff draft",
+       "v": 10.4,
+       "say": "10.4%",
+       "hl": true
+      },
+      {
+       "label": "2027 mayor's motion (request)",
+       "v": 0,
+       "say": "0%"
+      }
+     ],
+     "note": "2026: Squamish Chief, Jan. 2026. 2027 and 2028 in January's plan: July 2026 letter to the editor in the Squamish Chief. 2027 staff draft: Squamish Voters property taxes page, Nov. 2026. The mayor's motion is a request, not a decision."
+    },
+    "home": {
+     "title": "Extra District property tax for the average home, dollars",
+     "rows": [
+      {
+       "label": "2026 budget",
+       "v": 382,
+       "say": "+$382"
+      },
+      {
+       "label": "2027 November staff draft",
+       "v": 342,
+       "say": "+$342",
+       "hl": true
+      }
+     ],
+     "note": "2026: Squamish Chief, Jan. 2026. 2027: November staff draft, Squamish Voters property taxes page."
+    },
+    "capital": {
+     "title": "Share of capital projects paid from reserves, per cent",
+     "rows": [
+      {
+       "label": "2027 ($25M of projects)",
+       "v": 74,
+       "say": "74%",
+       "hl": true
+      },
+      {
+       "label": "10 years ($357M of projects)",
+       "v": 70,
+       "say": "70%"
+      }
+     ],
+     "note": "Squamish Chief, Oct. 2026. Capital projects total $25 million in 2027 and $357 million over 10 years."
+    }
+   },
+   "take": "This vote tells staff which budgets, service changes and projects to put into the draft 2027 to 2036 plan; it does not set your 2027 tax rate, which still needs bylaws and a tax rate bylaw before May 15.",
+   "body": "[[glance]]\n\n## What council will decide\n\nCouncil will vote on a staff report from Financial Services on the 2027 to 2036 financial plan, the District's 10 year budget plan. It sets the direction for property taxes and District services in 2027. A staff draft reported in November would collect 10.4% more from property taxes, about $342 more for the average home ([our property taxes page](/issues/property-taxes/)).\n\nStaff recommend that council tell them to include these, as presented in the report dated December 1, 2026:\n\n- The general operating budget (the day to day cost of running services)\n- The special operating budget (special projects outside day to day work)\n- The capital budget (building or replacing things like roads, buildings and equipment)\n- Changes to service levels paid from the general fund, the District's main account, still waiting for council's approval\n- Special operating projects from the general fund, also still waiting for approval\n\nOne example of a proposed service change: in September, staff proposed $580,000 for encampment response, bylaw enforcement and a safety plan, an estimated 1.1%, or about $35 for the average residential taxpayer ([Squamish Reporter](https://www.squamishreporter.com/2026/09/27/squamish-budget-proposes-580000-for-encampment-response/)). The agenda does not confirm whether it is in this report.\n\nThe agenda does not list dollar amounts, the tax increase the report assumes, or which changes and projects are in it.\n\n## The numbers so far\n\nThe 10.4% in the November staff draft is lower than the 13% that the plan adopted in January projected for 2027. That plan also projected 12.9% for 2028, according to a July letter to the editor in the Squamish Chief ([letter](https://www.squamishchief.com/opinion/squamish-letter-the-pain-is-yourssquamish-business-owner-blasts-districts-double-digit-tax-hikes-12525456)). The 2026 budget raised the amount collected 12.8%, or $6.4 million, about $382 more for the average home ([Squamish Chief](https://www.squamishchief.com/highlights/tough-budget-squamish-council-passes-first-decade-long-financial-plan-11710524)).\n\n[[bars taxrise]]\n[[bars home]]\nCapital projects, reported in October, total $25 million in 2027 and $357 million over 10 years. Reserves would pay 74% in 2027 and 70% over 10 years ([Squamish Chief](https://www.squamishchief.com/local-news/squamish-municipal-budget-2027-heres-what-is-in-the-capital-plan-12894020)).\n\n[[bars capital]]\n- Planned borrowing puts the District's debt servicing (payments on borrowed money) at 14% (same source)\n- Borrowing for the landfill expansion brings debt costs of about $2.4 million starting in 2031 ([Squamish Chief](https://www.squamishchief.com/local-news/squamish-2027-budget-process-council-works-to-save-taxpayers-a-few-bucks-on-totes-12827374))\n- Property taxes funded 27% of the general operating and capital plan in 2026 ([Let's Talk Squamish](https://letstalksquamish.ca/budget-2027))\n- For comparison, the Squamish-Lillooet Regional District's 2026 tax requisition rose 1.3% ($204,601) ([regional district](https://www.slrd.bc.ca/inside-slrd/news-notices/squamish-lillooet-regional-district-adopts-five-year-financial-plan-0))\n\n## What about the mayor's motion?\n\nA key promise of [Mayor Sean Easton](/council/sean-easton/)'s campaign was no property tax increase. His motion asks staff to bring the draft down to no increase in municipal property tax revenue over 2026 ([Squamish Chief](https://www.squamishchief.com/local-news/mayor-sean-easton-moves-to-restart-squamish-budget-process-13013416)). It bars involuntary layoffs or cuts to regular hours for union employees ([Squamish Reporter](https://www.squamishreporter.com/2026/11/16/squamish-mayor-property-tax-revenue-2027/)). It was reported to come to council December 1 unless council directed otherwise (same source). It is not on this special meeting's agenda, and it is not clear if it will be heard elsewhere that day.\n\nThe motion requires $6.3 million in savings while maintaining resident services. Staff said $3.6 million of that is made up of pre-committed or non-discretionary items ([Squamish Chief](https://www.squamishchief.com/local-news/squamish-council-previews-debate-over-mayors-proposal-to-scrap-2027-budget-13035079)). [Councillor Laura Prosko](/council/laura-prosko/) asked if staff could bring back two options: no tax revenue increase and a modest increase (same source).\n\n## What comes next\n\nCouncil first meets privately on labour and employee relations, lawsuits or possible lawsuits, legal advice, and progress on District goals for the annual report. After December 1, the plan still needs three bylaw readings and adoption. Councils must adopt their financial plans before their tax rate bylaws, which are due before May 15 each year ([Squamish Chief](https://www.squamishchief.com/local-news/mayor-sean-easton-moves-to-restart-squamish-budget-process-13013416)). Last year, council adopted its plan in January (same source).\n\n## How to take part\n\n- **When:** Tuesday, December 1, 2026, 12 p.m. The private session comes first; the agenda gives no separate start time for the public budget vote\n- **Where:** Council Chambers, Municipal Hall, 37955 Second Avenue, Squamish\n- **Open to the public:** Yes, except the closed session\n- **Public comment:** There is no public comment item on this agenda. You can comment on the draft budget on [Let's Talk Squamish](https://letstalksquamish.ca/budget-2027)\n- **Watch live:** on the [District of Squamish YouTube channel](https://www.youtube.com/@DistrictofSquamish/streams), recorded and posted on the District website afterward\n- **By phone:** 1-604-449-3026, access code 2773 519 7595\n- **Online meeting (WebEx):** details on the [agenda](https://squamish.civicweb.net/document/272517/)\n- **Our meeting page:** [December 1 special meeting](/meetings/2026-12-01-special/)",
+   "visual": {
+    "type": "big",
+    "big": "10.4%",
+    "small": "Tax revenue rise in November staff draft"
+   },
+   "src": [
+    "Tuesday, December 1, 2026 special council meeting agenda (District of Squamish)",
+    "https://squamish.civicweb.net/document/272517/"
+   ],
+   "more": [
+    "Full meeting page",
+    "/meetings/2026-12-01-special/"
+   ],
+   "review_scores": [
+    6,
+    7.3,
+    6.7,
+    7.2
+   ],
+   "researched": true,
+   "social": "Squamish council votes at noon on Tuesday, December 1, on what goes into the District's 10-year budget plan. A staff draft reported in November would collect 10.4% more from property taxes, about $342 more for the average home.\n\nMayor Sean Easton's motion to hold tax revenue at the 2026 level is not on this meeting's agenda. What the vote covers, the numbers so far, and how to watch or comment:",
+   "share": 3,
+   "auto": true,
+   "poll": {
+    "q": "How much should the District's property tax revenue rise in 2027?",
+    "options": [
+     {
+      "key": "a",
+      "label": "No rise over 2026",
+      "means": "Staff would need about $6.3 million in savings, as the mayor's motion asks."
+     },
+     {
+      "key": "b",
+      "label": "A modest rise",
+      "means": "Council would ask for a smaller increase than the staff draft, an option Councillor Prosko raised."
+     },
+     {
+      "key": "c",
+      "label": "About the 10.4% in the staff draft",
+      "means": "The average home would pay about $342 more in District property tax."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/council-2027-budget-plan-vote-dec-1.jpg",
+    "og": "/news/library/council-2026-share.jpg",
+    "alt": "Mayor Sean Easton and Councillors Eric Andersen, Janice DesJardins, Sarah Ellis, Luc Perreault, Laura Prosko and Shaun Veltkamp",
+    "caption": "Squamish council for 2026 to 2030.",
+    "credit": "Campaign photos and District of Squamish; background Straitgate, CC BY-SA 3.0",
+    "link": "https://squamishvoters.com/council/"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/council-2027-budget-plan-vote-dec-1-2.jpg",
+     "alt": "Aerial view of Squamish neighbourhoods and highway spread across a green valley beneath snow-capped mountains",
+     "caption": "Squamish, seen from above, where the 2027 to 2036 budget plan will set property tax direction.",
+     "credit": "Madhumanti Mandal, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Downtown_Squamish.jpg"
+    },
+    {
+     "file": "/news/photos/council-2027-budget-plan-vote-dec-1-3.jpg",
+     "alt": "Downtown Squamish street lined with shops and parked cars, with a snowy peak in the distance",
+     "caption": "Cleveland Avenue in downtown Squamish.",
+     "credit": "The original uploader was Damieng at English Wikipedia., CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+    }
+   ],
+   "og": "council-2027-budget-plan-vote-dec-1.png"
+  },
+  {
+   "slug": "council-votes-2027-property-tax-freeze",
+   "s": "council",
+   "tier": "lead",
+   "date": "2026-11-26",
+   "head": "Council votes Dec. 1 on asking for a 2027 budget with no tax revenue rise",
+   "dek": "Mayor Sean Easton wants staff to redraft the 2027 budget so the District collects no more property tax than it did in 2026. The draft budget would raise that revenue by 10.4%, the Squamish Chief reported. Council votes on his motion Tuesday, December 1, at Municipal Hall.",
+   "gist": [
+    "On Tuesday, December 1, council votes on the mayor's plan to keep the District's 2027 property tax money at the same level as 2026.",
+    "The current draft budget would raise it by 10.4%, and reports put the savings needed at more than $5 million or $6.3 million.",
+    "If it passes, staff would write a new draft budget that keeps services and avoids layoffs, and council would decide on it later.",
+    "Even with no rise in the total, each home's bill could still change, because it depends on the home's assessed value."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Meeting",
+     "v": "Tue, Dec 1, 6 p.m., Municipal Hall"
+    },
+    {
+     "level": "mid",
+     "k": "Draft 2027 budget",
+     "v": "+10.4% tax revenue; motion asks 0%"
+    },
+    {
+     "level": "mid",
+     "k": "Savings needed",
+     "v": "More than $5M or $6.3M (reports differ)"
+    },
+    {
+     "level": "mid",
+     "k": "2026 average home",
+     "v": "About $3,294 municipal tax (+$320)"
+    },
+    {
+     "level": "mid",
+     "k": "Also on agenda",
+     "v": "Fees, Westway child care, co-living and more"
+    }
+   ],
+   "bars": {
+    "taxrise": {
+     "title": "Increase in District property tax revenue, percent",
+     "rows": [
+      {
+       "label": "2026 general tax (Jan.)",
+       "v": 12.8,
+       "say": "12.8%"
+      },
+      {
+       "label": "Jan. plan for 2027",
+       "v": 13,
+       "say": "13%"
+      },
+      {
+       "label": "Jan. plan for 2028",
+       "v": 12.9,
+       "say": "12.9%"
+      },
+      {
+       "label": "2027 draft budget",
+       "v": 10.4,
+       "say": "10.4%",
+       "hl": true
+      },
+      {
+       "label": "Motion asks",
+       "v": 0,
+       "say": "0%"
+      }
+     ],
+     "note": "Figures from different stages of the plan; not directly comparable. Squamish Chief, January and November 2026."
+    },
+    "savings": {
+     "title": "Savings needed to reach no increase in 2027, millions of dollars",
+     "rows": [
+      {
+       "label": "Chief, Nov. 13",
+       "v": 5,
+       "say": "More than $5M"
+      },
+      {
+       "label": "Chief, Nov. 19",
+       "v": 6.3,
+       "say": "$6.3M",
+       "hl": true
+      }
+     ],
+     "note": "Squamish Chief, about November 13, 2026 (more than $5 million) and about November 19, 2026 ($6.3 million). Bar shows the $5M minimum. We have not confirmed which figure is current."
+    }
+   },
+   "take": "If the motion passes, staff would redraft the 2027 budget with no increase in total District property tax revenue; which savings figure is right, and when that budget returns to council, are still unknown.",
+   "body": "[[glance]]\n\nThe tax motion is item 13 on the agenda, near the end of the meeting. Unscheduled Public Attendance, where residents can speak, is item 4, near the start. We could not find what the motion would mean in dollars for an average tax bill.\n\n## What the tax motion asks\n\nCouncil will vote on a motion from [Mayor Sean Easton](/council/sean-easton/), first brought forward at the [November 17 meeting](/meetings/2026-11-17-regular/). Under the District's procedure bylaw, it was set for a vote on December 1 unless council chose otherwise, [the Squamish Reporter wrote](https://www.squamishreporter.com/2026/11/16/squamish-mayor-property-tax-revenue-2027/). It asks staff, through the Chief Administrative Officer (the District's top staff member), to bring back a revised draft 2027 budget, part of the 2027 to 2036 financial plan, that:\n\n- Has no increase in municipal property tax revenue over 2026.\n- Keeps resident services as available, timely and good as in 2026, or better.\n- Does this without layoffs or cut regular hours for unionized staff, and without moving their work to contractors.\n- Finds savings through a review led by the Chief Administrative Officer, looking at management layers, overhead, duplicated work, approval steps and letting frontline staff make more decisions. The review would hear from senior leaders, unions, frontline staff and residents.\n- Shows the overall effect on staffing, services, reserves, capital projects, debt, and fees and charges.\n\nIf it passes, this is a direction to draft a budget. The budget itself would come back to council later.\n\nA freeze on total revenue does not mean every bill stays the same. Each property's tax is its BC Assessment value times the tax rate, [the Chief explained](https://www.squamishchief.com/local-news/squamish-council-amends-10-year-financial-plan-boosts-reserves-with-woodfibre-lng-tax-windfall-12189221). The motion covers only the District's share of the bill, not other charges on it.\n\nEaston said the motion is meant \"to call attention to and respond to the affordability crisis that our town is facing,\" [the Squamish Chief reported](https://www.squamishchief.com/local-news/squamish-council-previews-debate-over-mayors-proposal-to-scrap-2027-budget-13035079). The same story said council was expected to hear a staff report on the motion's impacts on December 1. The agenda does not list a separate staff report.\n\n## The numbers behind it\n\nThe draft 2027 budget would raise property tax revenue by 10.4%. Getting to zero would mean finding more than $5 million, [according to the Squamish Chief](https://www.squamishchief.com/local-news/mayor-sean-easton-moves-to-restart-squamish-budget-process-13013416). A later [Chief story](https://www.squamishchief.com/local-news/squamish-council-previews-debate-over-mayors-proposal-to-scrap-2027-budget-13035079) put the savings needed at $6.3 million. We have not confirmed which figure is current.\n\n[[bars savings]]\nWhen council passed the 2026 budget in January, general property tax revenue was set at $56.1 million, up 12.8%. The 10-year plan projected increases of 13% in 2027 and 12.9% in 2028, which staff said were largely due to the rising cost of RCMP contracts, [the Chief reported](https://www.squamishchief.com/highlights/tough-budget-squamish-council-passes-first-decade-long-financial-plan-11710524).\n\n[[bars taxrise]]\nThe current 10.4% draft is lower than the 13% the January plan projected for 2027.\n\nRevised figures in spring put total 2026 municipal tax revenue at $61.9 million, compared with the January figure of $56.1 million for general property tax. We have not confirmed why the two figures differ. The District's share for the average home was about $3,294, up $320 or 10.8% from 2025. Separately, Woodfibre LNG paid $5.8 million more in taxes than expected, and the District put that into capital reserves, [the Chief reported](https://www.squamishchief.com/local-news/squamish-council-amends-10-year-financial-plan-boosts-reserves-with-woodfibre-lng-tax-windfall-12189221).\n\nEaston campaigned on a 2027 freeze, saying the District overspends on projects and staffing. He won by 175 votes, 3,681 to 3,506 over Jenna Stoner, [the Chief reported](https://www.squamishchief.com/local-news/update-official-squamish-election-results-confirm-sean-easton-as-mayor-12906562). More: [property taxes](/issues/property-taxes/).\n\n## Other decisions\n\n- **Fees and charges:** First three readings of a change to the bylaw that sets District fees. Could change what residents pay for some District services. Details were to be shared later.\n- **38320 Westway Avenue:** Final approval of a rezoning. This is Kiddie Cloud Montessori in Valleycliffe, which as of July 2025 cared for 16 children aged two and a half to five. It got first three readings in July 2025 to expand from the ground floor to the whole property, with plans for a crosswalk, [the Chief reported](https://www.squamishchief.com/local-news/kiddie-cloud-montessori-takes-steps-to-expand-child-care-spaces-in-valleycliffe-10967079). Final approval comes about 16 months after those readings.\n- **Co-living homes:** Final approval of business licence rules for homes where several people rent rooms and share space. Council already passed co-living zoning and charge rules 5 to 1, [the Chief reported](https://www.squamishchief.com/highlights/squamish-prepares-bylaw-for-more-co-living-style-housing-12060866). Earlier proposed rules would allow up to six private sleeping units per co-living dwelling unit, with each unit paying development charges for a combined total of $16,693, [the Squamish Reporter wrote](https://www.squamishreporter.com/2026/10/05/squamish-co-living-development-charges/).\n- **Holiday tree:** [Councillor Laura Prosko](/council/laura-prosko/) proposes $250 from council's 2026 contingency fund toward a holiday tree at the Squamish Adventure Centre.\n- **16 Days of Activism Against Gender-Based Violence:** After a presentation, council votes to recognize November 25 to December 10, 2026.\n- **Trees:** A staff memo on the Urban Forest Management Strategy, for information.\n- Council may move into a closed session the public cannot attend.\n\n## What we don't know yet\n\n- What the fees bylaw changes.\n- Which savings staff have found, and their full analysis.\n- What a frozen 2027 levy would mean in dollars for the average home.\n- The budget schedule after December 1 and how residents can comment.\n\n## How to take part\n\n- **When:** Tuesday, December 1, 2026, 6 p.m.\n- **Where:** Council Chambers, Municipal Hall, 37955 Second Avenue\n- Open to the public\n- **Speak:** Unscheduled Public Attendance is item 4, near the start of the meeting\n- **Tax motion:** item 13, near the end of the meeting\n- **Watch live:** streamed on the District's YouTube channel\n- **Call in:** 1-604-449-3026, access code 2773 519 7595\n- **Online:** WebEx, through the participation page linked in the agenda\n- [Read the agenda](https://squamish.civicweb.net/document/272515/) and see [our meeting page](/meetings/2026-12-01-regular/)",
+   "visual": {
+    "type": "big",
+    "big": "10.4%",
+    "small": "Draft 2027 property tax revenue rise"
+   },
+   "src": [
+    "Tuesday, December 1, 2026 council meeting agenda (District of Squamish)",
+    "https://squamish.civicweb.net/document/272515/"
+   ],
+   "more": [
+    "Full meeting page",
+    "/meetings/2026-12-01-regular/"
+   ],
+   "review_scores": [
+    6.6,
+    7.3,
+    7.3,
+    7.2
+   ],
+   "researched": true,
+   "social": "Your 2027 Squamish property tax: should the District collect no more than it did this year? Council votes Tuesday on asking staff for exactly that. The current draft would raise it 10.4%.\n\nMayor Sean Easton's motion asks for it while keeping services at least as good, with no layoffs or cut hours for unionized staff. A freeze on the total doesn't mean every bill stays the same. What the motion asks, how much savings it could take, and what else council decides December 1:",
+   "share": 4,
+   "auto": true,
+   "areas": [
+    "valleycliffe"
+   ],
+   "poll": {
+    "q": "How should Squamish set 2027 District property tax revenue?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Hold it flat, keeping services (as the motion asks)",
+      "means": "Staff would draft a budget with no revenue increase, services kept and no layoffs."
+     },
+     {
+      "key": "b",
+      "label": "Allow a smaller increase",
+      "means": "Revenue would rise less than the 10.4% in the draft while staff look for savings."
+     },
+     {
+      "key": "c",
+      "label": "Keep the draft increase",
+      "means": "Revenue would rise about 10.4% as in the current draft budget."
+     },
+     {
+      "key": "d",
+      "label": "Freeze, even with some cuts",
+      "means": "Revenue stays flat even if some services or staffing change."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/council-votes-2027-property-tax-freeze.jpg",
+    "og": "/news/library/council-2026-share.jpg",
+    "alt": "Mayor Sean Easton and Councillors Eric Andersen, Janice DesJardins, Sarah Ellis, Luc Perreault, Laura Prosko and Shaun Veltkamp",
+    "caption": "Squamish council for 2026 to 2030.",
+    "credit": "Campaign photos and District of Squamish; background Straitgate, CC BY-SA 3.0",
+    "link": "https://squamishvoters.com/council/"
+   },
+   "og": "council-votes-2027-property-tax-freeze.png"
+  },
+  {
    "slug": "regional-board-chair-squamish-seats",
    "s": "council",
    "tier": "card",
