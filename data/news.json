@@ -66,6 +66,153 @@
  ],
  "stories": [
   {
+   "slug": "woodfibre-flaring-permit-britannia-sound-moms",
+   "s": "safety",
+   "tier": "card",
+   "date": "2026-11-27",
+   "head": "Britannia group wants a year of air tests before Woodfibre starts flaring",
+   "dek": "A new Britannia Beach group wants a year of independent air testing before Woodfibre LNG starts burning off gas. Ten local health care workers signed its letter to Vancouver Coastal Health. Comments on the air permit close as soon as today (reported dates Nov. 27 to 29). Woodfibre holds open houses December 2 and 3.",
+   "gist": [
+    "Three Britannia Beach residents started a group called Sound Moms to get clearer health facts about the Woodfibre liquefied natural gas plant.",
+    "Woodfibre wants a provincial permit for its air emissions, including flaring, which means burning off gas through a tall stack.",
+    "The group wants flaring delayed one year so an independent monitor can first measure the local air in every season.",
+    "Comments close as soon as today, with reported dates from November 27 to 29, and Woodfibre holds open houses on December 2 and 3."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Comment deadline",
+     "v": "As soon as today (reported Nov. 27 to 29)"
+    },
+    {
+     "level": "mid",
+     "k": "Group's ask",
+     "v": "1 year delay and independent monitor"
+    },
+    {
+     "level": "mid",
+     "k": "Kitimat flaring",
+     "v": "Up to 15 times more gas than expected"
+    },
+    {
+     "level": "mid",
+     "k": "Kitimat 2025",
+     "v": "350 million m³, 10% of gas sent in"
+    },
+    {
+     "level": "mid",
+     "k": "Open houses",
+     "v": "Dec. 2 Britannia, Dec. 3 Squamish"
+    }
+   ],
+   "bars": {
+    "outage": {
+     "title": "Woodfibre's assumed yearly outage vs. one real LNG Canada outage (hours)",
+     "rows": [
+      {
+       "label": "Woodfibre thermal oxidizer, assumed per year",
+       "v": 96,
+       "say": "96 hours",
+       "hl": true
+      },
+      {
+       "label": "LNG Canada incinerator offline",
+       "v": 3336,
+       "say": "139 days"
+      }
+     ],
+     "note": "Figures as cited by Kristi Kremers in The Squamish Chief. Woodfibre's 96 hours is the yearly thermal oxidizer outage scenario its application assumes. LNG Canada's 139 days is a real period its incinerator was offline. 139 days in hours (3,336) is our arithmetic."
+    },
+    "output": {
+     "title": "Woodfibre yearly output, million tonnes of liquefied natural gas",
+     "rows": [
+      {
+       "label": "Original design",
+       "v": 2.1,
+       "say": "2.1 million t"
+      },
+      {
+       "label": "With federal money (up to)",
+       "v": 2.6,
+       "say": "Up to 2.6 million t",
+       "hl": true
+      }
+     ],
+     "note": "Pique, November 13, 2026, and The Narwhal. The Squamish Chief says the $200 million is for possible expansion."
+    }
+   },
+   "take": "Comments on Woodfibre LNG's air permit close as soon as today (reported dates Nov. 27 to 29), and open houses follow December 2 in Britannia Beach and December 3 in Squamish.",
+   "body": "[[glance]]\n\nA new Britannia Beach group called Sound Moms wants Woodfibre LNG to wait a year before flaring, so an independent monitor can first measure the local air. Ten local health care workers signed its letter asking Vancouver Coastal Health to back the delay.\n\n## How to take part\n\nSend your comment soon. The Squamish Chief says comments close November 29. [The Narwhal](https://thenarwhal.ca/bc-woodfibre-lng-squamish-air-quality-data/) says a 30 day window opened with the October 29 application, which would end around November 28. [My Sea to Sky](https://myseatosky.org/news/updates/woodfibre-lngs-toxic-air-pollution-permit/) gave November 27. Confirm the date with the BC Energy Regulator.\n\n- Quickest route: Sound Moms has an [online letter tool](https://soundmoms.com/). Kremers says it lets you pick concerns from the application and write to the regulator in under five minutes.\n- By email: write to Woodfibre LNG with a copy to the BC Energy Regulator. The addresses are in the [company notice](http://woodfibrelng.ca/news/2026/10/29/woodfibre-lng-submits-air-emissions-permit-application-to-bc-energy-regulator/).\n- Open house: Wednesday, December 2, 4:30 to 7:30 p.m., Britannia Beach Community Hall, 101 Church Street ([Sound Moms](https://soundmoms.com/))\n- Open house: Thursday, December 3, Executive Suites Squamish. We could not confirm the time.\n- The open houses also cover a second permit for stormwater and drainage ([Woodfibre LNG](http://woodfibrelng.ca/news/2026/10/29/woodfibre-lng-submits-air-emissions-permit-application-to-bc-energy-regulator/)).\n\n## What the group wants\n\nSound Moms formed in early November. Its founders are Kristi L. Kremers, Tamina Mousaeerad and Klaudia Van Doorn. They say residents have not been given enough facts about how the Woodfibre LNG (liquefied natural gas) plant could affect their health. Kremers says the group is neither for nor against the plant. \"We want to understand what our children will breathe,\" she said.\n\nThe group asks for:\n\n- A one year delay before flaring, which means burning off gas through a tall stack\n- An independent air quality monitor, chosen by local residents and paid for by Woodfibre. It would run for a year before flaring and then for the life of the project.\n- Clearer plans for telling residents about air quality once flaring starts\n\nThe year of testing would give a baseline: a record of what the air is normally like, so later readings can be compared with it. On November 23, the group sent a letter signed by ten local health care workers to Vancouver Coastal Health, the regional health authority, asking it to review the flaring application and recommend the delay. \"A local baseline would tell families what they are breathing through all four seasons,\" the letter reads. \"It would let clinicians and public health officials compare readings during an event with those recorded in the same community under similar winds and seasonal conditions.\" We could not find whether Vancouver Coastal Health has replied.\n\nAbout 500 people live in Britannia Beach, five kilometres across Howe Sound from the plant, a resident wrote to the [Times Colonist](https://www.timescolonist.com/opinion/letters-nov-27-bridge-or-tunnel-how-about-housing-answers-needed-on-lng-13065581). At an earlier open house, Woodfibre listed Britannia Beach among the areas affected by flaring, [Narcity reported](https://www.narcity.com/woodfibre-lng-details-flaring-plans-at-squamish-open-house). In 2024, Britannia residents complained about construction noise, and the local area director wrote, \"Sound travels across water, especially at night,\" [Pique reported](https://www.piquenewsmagazine.com/local-news/regional-district-muses-woodfibre-lng-related-noise-complaints-8414151).\n\n## What the permit covers\n\nThe BC Energy Regulator is reviewing Woodfibre's application for a Waste Discharge Authorization for air emissions, including flaring. The Chief says the application runs 4,195 pages. [The Narwhal](https://thenarwhal.ca/bc-woodfibre-lng-squamish-air-quality-data/) counts 4,149.\n\nAccording to the [company notice](http://woodfibrelng.ca/news/2026/10/29/woodfibre-lng-submits-air-emissions-permit-application-to-bc-energy-regulator/), the permit covers:\n\n- the heat medium furnace\n- the thermal oxidizer, a unit that burns waste gas\n- flare systems\n- \"intermittent-use essential diesel generators\"\n- firewater pumps and vents\n\nThe flare stack is 134 metres tall, [Pique notes](https://www.piquenewsmagazine.com/must-reads/britannia-beach-group-seeks-delay-for-woodfibre-lng-flaring-permit-13065813). The company's air modelling also counts other sources, including the FortisBC Squamish V2 Compressor Station and marine vessels.\n\nAt that earlier open house, the company said flaring would release what it called small amounts of nitrogen oxides, sulphur dioxide and soot. It listed Darrell Bay, Stá7mes, Squamish, Furry Creek and Britannia Beach as affected areas ([Narcity](https://www.narcity.com/woodfibre-lng-details-flaring-plans-at-squamish-open-house)).\n\nWoodfibre already runs an air station at the plant. It publishes [monthly reports](https://woodfibrelng.ca/wp-content/uploads/2025/03/WLNG-AQMS-Monthly-Report-2025-01-January-2025_V.2_Final.pdf) comparing its readings with provincial stations at Langdale and Squamish Elementary. Its [June 2026 report](https://woodfibrelng.ca/wp-content/uploads/2026/08/WLNG-AQMS-Monthly-Report-2026-06-June-2026.pdf) says readings at the plant station were generally higher than at those two stations. The part we reviewed does not say which pollutants this covers.\n\n## Why Kitimat worries them\n\nKremers says she acted after learning about long equipment problems at LNG Canada in Kitimat, including an incinerator offline for 139 days.\n\nThe Chief, citing The Narwhal, says that plant flared up to 15 times more gas than expected, with some problems lasting for months. Nearby residents reported black smoke and a film of black residue on yards, homes and cars. In 2025 it burned about 350 million cubic metres of gas, about 10 per cent of all the gas sent to the plant, [The Narwhal reported](https://thenarwhal.ca/newsletter-lng-canada-flaring/). The BC Energy Regulator says air readings around Kitimat show no public or environmental safety risk from the flaring, [The Energy Mix reported](https://www.theenergymix.com/black-smoke-broken-equipment-fuel-health-concerns-at-lng-canadas-kitimat-facility/).\n\nKremers says Woodfibre's application assumes two thermal oxidizer outages a year, totalling 96 hours. She wants to know the plan if a failure lasts longer.\n\n[[bars outage]]\n## What Woodfibre and the local member of the legislature say\n\nWoodfibre representative Andrew Stout says the company held several open houses for Britannia Beach and Squamish residents, both before and after it applied. He says the BC Energy Regulator will set the monitoring rules, but the company is considering more air monitoring. For equipment failures, he says Woodfibre has an adaptive management plan that responds to issues case by case. \"There is no single contingency plan because actions must address particular causes and impacts,\" he said.\n\nJeremy Valeriote, the Green member of the legislature for West Vancouver-Sea to Sky, called steady monitoring \"a pretty fair ask.\" He wants monitoring around all of Howe Sound. He pointed to $200 million in federal money for possible expansion: \"A small fraction of that could go into creating an air quality monitoring system that tells people what they deserve to know.\" Energy Minister Tim Hodgson announced the money November 13. It comes over three years and helps the plant produce up to 2.6 million tonnes a year, [Pique reported](https://www.piquenewsmagazine.com/must-reads/federal-government-invests-200-million-in-woodfibre-lng-expansion-13016317).\n\n[[bars output]]\n## Timeline\n\n- October 2015: environmental assessment certificate ([District of Squamish](https://squamish.ca/projects-plans-and-initiatives/projects-in-our-community/woodfibre-liquefied-natural-gas-and-fortisbceagle-mountain-pipeline/regulatory-process/))\n- March 2026: construction [65 per cent done](https://canada.constructconnect.com/joc/news/projects/2026/03/woodfibre-lng-reaches-65-completion-second-module-arrives)\n- October 29, 2026: [air permit application](http://woodfibrelng.ca/news/2026/10/29/woodfibre-lng-submits-air-emissions-permit-application-to-bc-energy-regulator/)\n- November 13, 2026: $200 million federal announcement\n- November 23, 2026: health care workers' letter to Vancouver Coastal Health\n- November 27 to 29, 2026: comment period ends (reported dates differ)\n- December 2 and 3, 2026: open houses in Britannia Beach and Squamish\n- 2027: [construction scheduled to finish](https://canada.constructconnect.com/joc/news/projects/2026/03/woodfibre-lng-reaches-65-completion-second-module-arrives)\n\n## Still unknown\n\n- When the regulator will decide, and whether it will publish the comments it gets\n- What extra monitoring Woodfibre is considering\n- Whether any of the $200 million could go to air monitoring\n- What role the Squamish Nation and the District of Squamish have in this permit. Our research did not find it.\n\nMore: [Woodfibre LNG](/issues/woodfibre-lng/) and [climate and environment](/issues/climate-and-environment/). Source: [The Squamish Chief](https://www.squamishchief.com/local-news/britannia-beach-group-seeks-delay-for-woodfibre-lng-flaring-permit-13065813), reported by Hilary Angus.",
+   "visual": {
+    "type": "big",
+    "big": "96 hrs vs 139 days",
+    "small": "Woodfibre assumes 96 hrs a year; one Kitimat outage lasted 139 days"
+   },
+   "src": [
+    "The Squamish Chief",
+    "https://www.squamishchief.com/local-news/britannia-beach-group-seeks-delay-for-woodfibre-lng-flaring-permit-13065813"
+   ],
+   "review_scores": [
+    6,
+    6.5,
+    7.3,
+    7.2
+   ],
+   "researched": true,
+   "social": "How long could Woodfibre's pollution controls be down in a year? Its permit application assumes 96 hours. In Kitimat, one incinerator was offline for 139 days.\n\nA new Britannia Beach group, backed by ten local health care workers, wants a year of independent air testing before Woodfibre LNG starts flaring (burning off gas). Comments on the air permit close as soon as today. How to send yours, plus open houses Dec. 2 and 3:",
+   "share": 3,
+   "auto": true,
+   "poll": {
+    "q": "Should Woodfibre LNG flaring wait for a year of local air testing first?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Yes, delay flaring one year",
+      "means": "Flaring would start only after a full year of baseline air data."
+     },
+     {
+      "key": "b",
+      "label": "Test air, but don't delay flaring",
+      "means": "An independent monitor would be added without changing the start date."
+     },
+     {
+      "key": "c",
+      "label": "Leave it to the regulator's rules",
+      "means": "The BC Energy Regulator would set monitoring as it sees fit."
+     },
+     {
+      "key": "d",
+      "label": "Monitor all of Howe Sound",
+      "means": "Air testing would cover the whole sound, not just near the plant."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/woodfibre-flaring-permit-britannia-sound-moms.jpg",
+    "alt": "Aerial view of the north end of Howe Sound with Squamish at the head of the inlet, surrounded by mountains",
+    "caption": "The north end of Howe Sound and Squamish, seen from the air.",
+    "credit": "Shawn from Airdrie, Canada, CC BY-SA 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:The_North_end_of_Howe_Sound_and_Squamish,_BC_(3828051167).jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/woodfibre-flaring-permit-britannia-sound-moms-2.jpg",
+     "alt": "Old wooden pier pilings standing in green water at Britannia Beach, framed by tree branches",
+     "caption": "Remains of an old pier at Britannia Beach on Howe Sound.",
+     "credit": "Anton Bielousov, CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Britannia_Beach_abandoned_pier_debris.jpg"
+    },
+    {
+     "file": "/news/photos/woodfibre-flaring-permit-britannia-sound-moms-3.jpg",
+     "alt": "Weathered wooden building covered in graffiti on the Britannia Beach waterfront, with Howe Sound and mountains behind",
+     "caption": "An abandoned building on the Britannia Beach waterfront.",
+     "credit": "Anton Bielousov, CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Abandoned_building_on_Britannia_Beach_pier.jpg"
+    }
+   ],
+   "og": "woodfibre-flaring-permit-britannia-sound-moms.png"
+  },
+  {
    "slug": "council-2027-budget-plan-vote-dec-1",
    "s": "council",
    "tier": "card",
