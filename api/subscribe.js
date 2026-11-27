@@ -60,7 +60,8 @@ export default async function handler(req, res) {
     return res.json(rows.length ? { ok: true } : { ok: false, error: 'This link no longer works, so your answers weren’t saved.' });
   }
   const email = String(b.email || '').trim().toLowerCase();
-  if (!/^[^@\s]{1,64}@[^@\s]{1,190}\.[a-z]{2,}$/i.test(email)) return res.status(400).json({ ok: false, error: 'Please check your email address.' });
+  // Close to what Resend accepts: no commas, quotes, brackets or double dots (a looser check let one through Nov 2026; Resend refused it)
+  if (!/^(?!\.)(?!.*\.\.)[a-z0-9.!#$%&'*+/=?^_`{|}~-]{1,64}(?<!\.)@(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.){1,8}[a-z]{2,24}$/i.test(email)) return res.status(400).json({ ok: false, error: 'Please check your email address.' });
   if (b.consent !== true) return res.status(400).json({ ok: false, error: 'Please tick the box so we know you want the email.' });
   const ip = dayHash(String(req.headers['x-forwarded-for'] || '').split(',')[0]);
   const [{ n }] = await sql`SELECT count(*)::int AS n FROM sv_subscribers WHERE ip_hash = ${ip} AND consent_at > now() - interval '1 day'`;
@@ -78,7 +79,12 @@ export default async function handler(req, res) {
   if (row.status === 'subscribed') return res.json({ ok: true, pending: false });
   // At most one confirm email per address per hour, so the form can't be used to flood someone's inbox.
   if (mailReady() && !(row.confirm_sent_at && Date.now() - new Date(row.confirm_sent_at) < 3600e3)) {
-    await sendConfirm(email, row.token).then(() => sql`UPDATE sv_subscribers SET confirm_sent_at = now() WHERE email = ${email}`).catch((e) => console.error('confirm email', e.message));
+    const err = await sendConfirm(email, row.token).then(() => sql`UPDATE sv_subscribers SET confirm_sent_at = now() WHERE email = ${email}`).then(() => null, (e) => (console.error('confirm email', e.message), e));
+    // Resend refused the address itself: tell the person now instead of showing "check your inbox" for an email that never comes
+    if (err && /Invalid `to` field/.test(err.message)) {
+      await sql`UPDATE sv_subscribers SET status = 'invalid' WHERE email = ${email} AND status = 'pending'`.catch(() => {});
+      return res.status(400).json({ ok: false, error: 'Please check your email address.' });
+    }
   }
   return res.json({ ok: true, pending: true, sent: mailReady() });
 }

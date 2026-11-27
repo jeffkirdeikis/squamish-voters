@@ -73,6 +73,14 @@ jobs:
             fi
             node scripts/pipeline/facebook.mjs || echo 'Facebook Page post skipped this pass' # waits for the Facebook secrets; posts stories once they're live
             node scripts/pipeline/push.mjs || echo 'Phone alerts skipped this pass' # app alerts for stories once they're live; waits for the Apple and Google push secrets
+            # Backup for the Friday email: GitHub's own timer for digest.yml fires hours late or not at all. From 15:00 UTC
+            # Friday (7 a.m. Pacific), if no weekly email run has started or succeeded today, start one (it only emails Jeff the Approve link).
+            # At most 3 tries a day, so a broken email script can't start a new run every 10 minutes.
+            if [ "$(date -u +%u)" = 5 ] && [ "$(date -u +%H)" -ge 15 ]; then
+              r=$(gh run list --workflow digest.yml --created ">=$(date -u +%Y-%m-%d)" --json conclusion --jq '"\([.[] | select(.conclusion != "failure")] | length) \(length)"' 2>/dev/null || echo 'x x')
+              ok=${r% *}; all=${r#* }
+              if [ "$ok" = 0 ] && [ "$all" -lt 3 ]; then gh workflow run digest.yml && echo 'Started the Friday email draft (GitHub timer was late)' || echo 'Could not start the Friday email; trying again next pass'; fi
+            fi
             pass=$(( pass + 1 ))
             next=$(( began + 600 ))
             [ $next -ge $end ] && break
