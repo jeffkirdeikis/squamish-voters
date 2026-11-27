@@ -6,5 +6,80 @@
  "civicweb_name": "Special Business Meeting - 01 Dec 2026",
  "time": "12:00",
  "place": "Council Chambers, Municipal Hall, 37955 Second Avenue",
- "agenda_url": "https://squamish.civicweb.net/Portal/MeetingInformation.aspx?Id=2122"
+ "agenda_url": "https://squamish.civicweb.net/document/272517/",
+ "agenda_pdf": "https://squamish.civicweb.net/document/272517/?printPdf=true",
+ "attachments": [
+  {
+   "url": "https://squamish.civicweb.net/FileStorage/2479C6AB0D9F49BF825F62B271152984-2027-2036%20Financial%20Plan%20-%20Tying%20it%20All%20Together.pdf",
+   "name": ""
+  }
+ ],
+ "agenda_place": "Council Chambers, Municipal Hall, 37955 Second Avenue",
+ "preview": "This short midday meeting is mostly about the District's 2027 to 2036 budget plan. Council will first meet privately on staff, legal and annual report matters, then vote on what goes into the draft budget.",
+ "has_public_hearing": false,
+ "closed_only": false,
+ "agenda_items": [
+  {
+   "plain": "Council will vote on whether staff should include the proposed operating budgets, capital budget, changes to service levels and special projects in the District's 10-year financial plan (the budget plan for 2027 to 2036).",
+   "ask": "Should the District include the proposed operating and capital budgets, service level changes and special projects in its 2027 to 2036 financial plan?",
+   "yes_means": "Staff will build these budgets, service changes and projects into the draft financial plan, which comes back to council later as a bylaw.",
+   "no_means": "Staff would not include them as presented, and council would need to give different direction on what goes into the plan.",
+   "depth": "detailed",
+   "context": "Each year the District must adopt a financial plan, which sets out what it will spend and how it will pay for it over the next 10 years. This report, called \"Tying It All Together\", brings the budget pieces into one place. A yes vote tells staff what to put in the draft plan. The plan itself is adopted later through a bylaw, and the property tax rates are set in a separate bylaw.",
+   "facts": [
+    "The plan covers 10 years, from 2027 to 2036",
+    "It includes three budgets: general operating, special operating and capital",
+    "It also includes proposed changes to service levels paid for from the general fund",
+    "It includes special operating projects that are still waiting for council's approval",
+    "The staff report is from Financial Services and is dated December 1, 2026"
+   ],
+   "supporters": [
+    "Staff recommend bringing all the budget pieces together into one plan",
+    "Gives staff clear direction so the financial plan bylaw can move forward",
+    "Lets council see the full picture of spending, service changes and projects at once"
+   ],
+   "concerns": [
+    "Service level changes and new projects can add to costs paid through property taxes",
+    "Some service changes and projects are still waiting for council's approval",
+    "Choices made now shape spending for several years ahead"
+   ],
+   "factors": [
+    "Effect on property taxes",
+    "Which services get more or less money",
+    "Which special projects go ahead",
+    "Long-term spending on roads, buildings and equipment",
+    "How the plan affects future budgets"
+   ],
+   "kind": "vote",
+   "topic": "taxes_spending",
+   "for_you": "This sets the direction for the budget that decides your property taxes and District services in 2027.",
+   "areas": [
+    "all"
+   ],
+   "issues": [
+    "budget-2027"
+   ]
+  },
+  {
+   "plain": "Council will meet privately to discuss staff and labour matters, possible or current lawsuits, legal advice, and progress on District goals for the annual report.",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
+   "depth": "simple",
+   "context": "",
+   "facts": [],
+   "supporters": [],
+   "concerns": [],
+   "factors": [],
+   "kind": "closed",
+   "topic": "other",
+   "for_you": "",
+   "areas": [
+    "all"
+   ],
+   "issues": []
+  }
+ ],
+ "agenda_hash": "aa9555524577bbed",
+ "agenda_checked": "2026-11-27T00:36:30.520Z"
 }
