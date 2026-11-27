@@ -3,7 +3,7 @@
  "date": "2026-12-01",
  "type": "special",
  "civicweb_id": 2122,
- "civicweb_name": "Special Business Meeting - 01 Dec 2026",
+ "civicweb_name": "Special Business Meeting - 01 Dec 2026 AMENDED",
  "time": "12:00",
  "place": "Council Chambers, Municipal Hall, 37955 Second Avenue",
  "agenda_url": "https://squamish.civicweb.net/document/272517/",
@@ -15,44 +15,43 @@
   }
  ],
  "agenda_place": "Council Chambers, Municipal Hall, 37955 Second Avenue",
- "preview": "This short midday meeting is mostly about the District's 2027 to 2036 budget plan. Council will first meet privately on staff, legal and annual report matters, then vote on what goes into the draft budget.",
+ "preview": "Council meets at noon to talk about the District's budget for 2027 to 2036 and decide what goes into it. Before that, council plans to close part of the meeting to the public to discuss staff, legal and labour matters.",
  "has_public_hearing": false,
  "closed_only": false,
  "agenda_items": [
   {
-   "plain": "Council will vote on whether staff should include the proposed operating budgets, capital budget, changes to service levels and special projects in the District's 10-year financial plan (the budget plan for 2027 to 2036).",
-   "ask": "Should the District include the proposed operating and capital budgets, service level changes and special projects in its 2027 to 2036 financial plan?",
-   "yes_means": "Staff will build these budgets, service changes and projects into the draft financial plan, which comes back to council later as a bylaw.",
-   "no_means": "Staff would not include them as presented, and council would need to give different direction on what goes into the plan.",
+   "plain": "Council will decide which day to day costs, special projects, building projects and proposed service changes go into the District's 10 year budget for 2027 to 2036.",
+   "ask": "Should the District include the operating budgets, capital budgets, proposed service changes and special projects presented by staff in its 2027 to 2036 budget?",
+   "yes_means": "Staff will build these spending items into the draft budget, which still needs more votes before it becomes final.",
+   "no_means": "Staff will not add these items as presented, and council would need to give different direction on what the budget should contain.",
    "depth": "detailed",
-   "context": "Each year the District must adopt a financial plan, which sets out what it will spend and how it will pay for it over the next 10 years. This report, called \"Tying It All Together\", brings the budget pieces into one place. A yes vote tells staff what to put in the draft plan. The plan itself is adopted later through a bylaw, and the property tax rates are set in a separate bylaw.",
+   "context": "The Financial Plan is the District's 10 year budget. It sets what the town spends on daily services, special projects and building projects, and it shapes how much property tax residents pay. This step pulls the earlier budget pieces together. The budget still has to go through bylaw readings and adoption, and a separate tax rate bylaw comes after that.",
    "facts": [
-    "The plan covers 10 years, from 2027 to 2036",
-    "It includes three budgets: general operating, special operating and capital",
-    "It also includes proposed changes to service levels paid for from the general fund",
-    "It includes special operating projects that are still waiting for council's approval",
-    "The staff report is from Financial Services and is dated December 1, 2026"
+    "Covers the 10 years from 2027 to 2036",
+    "Includes the general operating, special operating and capital budgets",
+    "Includes proposed service level changes that council has not yet endorsed",
+    "Includes proposed special projects that council has not yet endorsed"
    ],
    "supporters": [
-    "Staff recommend bringing all the budget pieces together into one plan",
-    "Gives staff clear direction so the financial plan bylaw can move forward",
-    "Lets council see the full picture of spending, service changes and projects at once"
+    "Staff say this report brings all the budget pieces together in one place",
+    "Agreeing on the contents now lets staff prepare the budget bylaw for adoption",
+    "Service changes and special projects can still be endorsed or changed later"
    ],
    "concerns": [
-    "Service level changes and new projects can add to costs paid through property taxes",
-    "Some service changes and projects are still waiting for council's approval",
-    "Choices made now shape spending for several years ahead"
+    "Spending choices made here affect the size of the property tax increase",
+    "Some service changes and projects are still waiting for council endorsement",
+    "Cutting items may delay services or projects some residents want"
    ],
    "factors": [
-    "Effect on property taxes",
-    "Which services get more or less money",
-    "Which special projects go ahead",
-    "Long-term spending on roads, buildings and equipment",
-    "How the plan affects future budgets"
+    "Cost to taxpayers",
+    "Size of next year's property tax increase",
+    "Level of town services",
+    "Building and repairing roads, pipes and facilities",
+    "Projects that may be delayed or dropped"
    ],
    "kind": "vote",
    "topic": "taxes_spending",
-   "for_you": "This sets the direction for the budget that decides your property taxes and District services in 2027.",
+   "for_you": "The choices in this budget will shape the property tax bill on every home in Squamish starting in 2027.",
    "areas": [
     "all"
    ],
@@ -61,7 +60,7 @@
    ]
   },
   {
-   "plain": "Council will meet privately to discuss staff and labour matters, possible or current lawsuits, legal advice, and progress on District goals for the annual report.",
+   "plain": "Council will meet in private to discuss staff positions, labour relations, legal matters and lawsuits, legal advice, and goals for the District's annual report.",
    "ask": "",
    "yes_means": "",
    "no_means": "",
@@ -80,6 +79,6 @@
    "issues": []
   }
  ],
- "agenda_hash": "aa9555524577bbed",
- "agenda_checked": "2026-11-27T00:36:30.520Z"
+ "agenda_hash": "eb64c4d367246301",
+ "agenda_checked": "2026-11-27T16:38:39.180Z"
 }
