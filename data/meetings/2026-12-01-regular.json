@@ -27,55 +27,71 @@
    "name": ""
   },
   {
+   "url": "https://squamish.civicweb.net/FileStorage/15D09CA9EBEE4D1B9460D36531CD7884-ConsentMemo_UFMS_20261201%20(2).pdf",
+   "name": ""
+  },
+  {
+   "url": "https://squamish.civicweb.net/FileStorage/C57C776C79894F8E89012FB276A29872-District%20of%20Squamish%20Fees%20and%20Charges%20Bylaw%20No.%2031.pdf",
+   "name": ""
+  },
+  {
+   "url": "https://squamish.civicweb.net/FileStorage/6FD3490666C7441CBA6A85661019E474-District%20of%20Squamish%20Fees%20and%20Charges%20Bylaw%20No.%2031.pdf",
+   "name": ""
+  },
+  {
    "url": "https://squamish.civicweb.net/FileStorage/0EEE41D6470849E8B4A89546E1C32655-Zoning%20Bylaw%20No.%202200,%202011,%20Amendment%20Bylaw%20(3832.pdf",
    "name": ""
   },
   {
    "url": "https://squamish.civicweb.net/FileStorage/3682BAE1AD30432AA4CD8D2E8DC678B8-District%20of%20Squamish%20Business%20Licence%20Bylaw%20No.%2024.pdf",
    "name": ""
+  },
+  {
+   "url": "https://squamish.civicweb.net/FileStorage/B162686F25164B7D9DCB4EC1FB6E1904-2027-2036%20Financial%20Plan%20-%20Zero%20Dollar%20Tax%20increas.pdf",
+   "name": ""
   }
  ],
- "preview": "Council will vote on Mayor Easton's motion asking staff to redo the draft 2027 budget so that property tax revenue does not go up from 2026. Council will also give final approval to a rezoning on Westway Avenue and a business licence change for co-living, and will vote on a change to District fees.",
+ "preview": "The main item is Mayor Easton's motion asking staff to redraw the 2027 budget with no increase in property tax revenue over 2026, along with a staff memo on how long that would take and what it would cost. Council will also give final approval to a rezoning on Westway Avenue and a business licence update for co-living, and consider changes to District fees.",
  "has_public_hearing": false,
  "closed_only": false,
  "agenda_items": [
   {
-   "plain": "Council will vote on Mayor Easton's motion asking staff to bring back a revised draft 2027 budget with no increase in municipal property tax revenue over 2026.",
-   "ask": "Should council ask staff to redraft the 2027 budget with no increase in property tax revenue over 2026?",
-   "yes_means": "Staff will prepare a revised draft 2027 budget that keeps property tax revenue at the 2026 level and shows how that affects staff, services, reserves, projects, debt and fees.",
-   "no_means": "Staff will not be directed to redraft the budget this way, and budget work continues on the current draft.",
+   "plain": "Council will decide whether to ask staff to bring back a new draft 2027 budget with no increase in property tax revenue over 2026, without layoffs and without cutting resident services.",
+   "ask": "Should the District ask staff to redraw the 2027 budget so property tax revenue does not go up from 2026?",
+   "yes_means": "Staff would prepare a revised draft 2027 budget with no property tax revenue increase, based on a review of how the District is organized and run.",
+   "no_means": "Budget work would continue on the current draft 2027 to 2036 Financial Plan without this direction.",
    "depth": "detailed",
-   "context": "Each year council sets a budget through a Financial Plan, a ten year spending plan, and the 2027 to 2036 plan is now in draft. Mayor Easton gave notice of this motion at the November 17 meeting, and council will now vote on it. If it passes, staff would bring a revised draft budget back to council for more debate before any budget bylaw is approved.",
+   "context": "Mayor Easton gave notice of this motion at the November 17 meeting. It asks staff to rework the draft 2027 budget, part of the 2027 to 2036 Financial Plan (the District's 10 year spending plan), so the District collects no more property tax than in 2026. At council's request, staff have written a memo on the timing, costs and options, including smaller or phased approaches, and the effect on the schedule for adopting the Financial Plan.",
    "facts": [
-    "Asks for no increase in municipal property tax revenue in 2027 compared with 2026",
-    "Services residents use must stay the same or get better than in 2026",
-    "No layoffs or cut hours for unionized staff, and no shift of their work to contractors",
-    "Savings would come from a review led by the Chief Administrative Officer (the District's top staff member)",
-    "Staff must report the effects on staffing, services, reserves, capital projects, debt, and fees and charges"
+    "Target: no increase in municipal property tax revenue over 2026",
+    "Services residents use must stay the same or improve compared with 2026",
+    "No involuntary layoffs or cuts to regular hours of unionized staff",
+    "No extra contracting out to replace work done by unionized staff",
+    "Savings would come from a review led by the Chief Administrative Officer (the District's top staff member)"
    ],
    "supporters": [
-    "The motion aims to keep 2027 property tax revenue at the 2026 level",
-    "It asks that services residents use stay the same or improve",
-    "It looks for savings in management layers, office overhead, duplicated work and approval processes",
-    "It protects unionized workers from layoffs and contracting out"
+    "The motion aims to hold property taxes steady for residents in 2027",
+    "It looks for savings in management layers, overhead, duplicated work and approval processes",
+    "It protects jobs and services while seeking efficiencies",
+    "It asks for a clear report on effects on staffing, reserves, capital projects, debt and fees"
    ],
    "concerns": [
-    "The motion itself asks staff to report effects on reserves, which could be drawn down",
-    "Capital projects could be delayed or changed to meet the target",
-    "Fees and charges could change as part of the revised plan",
-    "Finding savings without layoffs, cut hours or contracting out limits the options open to staff"
+    "Staff were asked to report how long the review would take and what work would be put on hold",
+    "The work could affect the timeline for adopting the 2027 to 2036 Financial Plan",
+    "There may be effects on planned or ongoing capital projects and purchasing",
+    "Savings may affect reserves, capital projects, debt or fees and charges"
    ],
    "factors": [
-    "Cost to taxpayers",
+    "Property tax bills in 2027",
     "Quality and timeliness of District services",
-    "Savings money for future needs",
-    "Timing of capital projects like roads and facilities",
-    "Debt and fees",
-    "Jobs and workload for District staff"
+    "Jobs for District employees",
+    "Delays to the budget schedule",
+    "Effects on roads, facilities and other capital projects",
+    "Use of savings, reserves and debt"
    ],
    "kind": "vote",
    "topic": "taxes_spending",
-   "for_you": "If it passes, staff would draft a 2027 budget with no increase in the total property tax the District collects compared with 2026.",
+   "for_you": "If passed and followed through, the District's share of property taxes would not raise more money in 2027 than in 2026.",
    "areas": [
     "all"
    ],
@@ -84,10 +100,10 @@
    ]
   },
   {
-   "plain": "Council will vote on the first three readings of a change to the bylaw that sets District fees and charges.",
-   "ask": "Should council approve the proposed changes to the District's fees and charges?",
-   "yes_means": "The fee changes pass three readings and come back to council for final approval.",
-   "no_means": "The current fees and charges stay as they are for now.",
+   "plain": "Council will vote on first, second and third reading of changes to the District's Fees and Charges Bylaw, which sets what the District charges for services.",
+   "ask": "Should the District approve the proposed changes to its fees and charges?",
+   "yes_means": "The fee changes move forward and would need one more vote for final adoption.",
+   "no_means": "Current District fees stay as they are for now.",
    "depth": "simple",
    "context": "",
    "facts": [],
@@ -96,17 +112,17 @@
    "factors": [],
    "kind": "vote",
    "topic": "taxes_spending",
-   "for_you": "Could change what residents pay for some District services. Details were to be shared later and were not in the agenda.",
+   "for_you": "",
    "areas": [
     "all"
    ],
    "issues": []
   },
   {
-   "plain": "Council will vote on final approval of a rezoning (changing what can be built on a piece of land) for 38320 Westway Avenue.",
-   "ask": "Should council give final approval to the rezoning of 38320 Westway Avenue?",
-   "yes_means": "The new zoning for 38320 Westway Avenue becomes law.",
-   "no_means": "The property keeps its current zoning for now.",
+   "plain": "Council will vote on final adoption of a rezoning (changing what can be built on a piece of land) for 38320 Westway Avenue.",
+   "ask": "Should the District give final approval to the rezoning of 38320 Westway Avenue?",
+   "yes_means": "The new zoning for 38320 Westway Avenue takes effect.",
+   "no_means": "The property keeps its current zoning.",
    "depth": "simple",
    "context": "",
    "facts": [],
@@ -115,17 +131,15 @@
    "factors": [],
    "kind": "vote",
    "topic": "growth",
-   "for_you": "Affects what can be built at 38320 Westway Avenue.",
-   "areas": [
-    "valleycliffe"
-   ],
+   "for_you": "Affects the property at 38320 Westway Avenue and its neighbours.",
+   "areas": [],
    "issues": []
   },
   {
-   "plain": "Council will vote on final approval of an update to the business licence rules for co-living homes, where several people rent rooms and share living space.",
-   "ask": "Should council give final approval to the updated business licence rules for co-living homes?",
+   "plain": "Council will vote on final adoption of an update to the Business Licence Bylaw dealing with co-living (homes where several people rent rooms and share common spaces).",
+   "ask": "Should the District adopt the business licence update for co-living housing?",
    "yes_means": "The updated business licence rules for co-living take effect.",
-   "no_means": "The current business licence rules for co-living stay in place.",
+   "no_means": "The current business licence rules stay in place.",
    "depth": "simple",
    "context": "",
    "facts": [],
@@ -134,17 +148,17 @@
    "factors": [],
    "kind": "vote",
    "topic": "housing_affordability",
-   "for_you": "May affect people who run or live in shared co-living homes.",
+   "for_you": "",
    "areas": [
     "all"
    ],
    "issues": []
   },
   {
-   "plain": "Council will vote on Councillor Prosko's proposal to give $250 from the 2026 council contingency fund toward a holiday tree at the Squamish Adventure Centre.",
-   "ask": "Should council give $250 toward a holiday tree at the Squamish Adventure Centre?",
-   "yes_means": "The District donates $250 from council's 2026 contingency fund for the tree.",
-   "no_means": "The District does not make the $250 donation.",
+   "plain": "Councillor Prosko proposes giving $250 from the 2026 council contingency fund as a donation for a holiday tree at the Squamish Adventure Centre.",
+   "ask": "Should council give $250 from its contingency fund for a holiday tree at the Squamish Adventure Centre?",
+   "yes_means": "The District donates $250 toward a holiday tree at the Adventure Centre.",
+   "no_means": "No District money goes to the holiday tree.",
    "depth": "simple",
    "context": "",
    "facts": [],
@@ -153,17 +167,17 @@
    "factors": [],
    "kind": "vote",
    "topic": "other",
-   "for_you": "A $250 donation from council's 2026 contingency fund.",
+   "for_you": "A $250 donation from council's contingency fund.",
    "areas": [
     "downtown"
    ],
    "issues": []
   },
   {
-   "plain": "Council will vote to formally recognize November 25 to December 10, 2026 as the 16 Days of Activism Against Gender-Based Violence, after a presentation.",
-   "ask": "Should council formally recognize the 16 Days of Activism Against Gender-Based Violence?",
-   "yes_means": "Council formally recognizes the campaign and encourages residents to take part.",
-   "no_means": "Council does not formally recognize the campaign.",
+   "plain": "Council will hear a presentation and vote to formally recognize November 25 to December 10, 2026, as the 16 Days of Activism Against Gender-Based Violence.",
+   "ask": "",
+   "yes_means": "",
+   "no_means": "",
    "depth": "simple",
    "context": "",
    "facts": [],
@@ -179,7 +193,7 @@
    "issues": []
   },
   {
-   "plain": "Council will receive a staff memo on the Urban Forest Management Strategy, a plan for trees in town, as information.",
+   "plain": "Staff are sharing a memo for information on the Urban Forest Management Strategy, the District's plan for trees in town.",
    "ask": "",
    "yes_means": "",
    "no_means": "",
@@ -189,27 +203,8 @@
    "supporters": [],
    "concerns": [],
    "factors": [],
-   "kind": "discussion",
-   "topic": "environment_lng",
-   "for_you": "",
-   "areas": [
-    "all"
-   ],
-   "issues": []
-  },
-  {
-   "plain": "Council may vote to move into a closed session, which the public cannot attend.",
-   "ask": "",
-   "yes_means": "",
-   "no_means": "",
-   "depth": "simple",
-   "context": "",
-   "facts": [],
-   "supporters": [],
-   "concerns": [],
-   "factors": [],
-   "kind": "closed",
-   "topic": "other",
+   "kind": "presentation",
+   "topic": "climate",
    "for_you": "",
    "areas": [
     "all"
@@ -217,6 +212,6 @@
    "issues": []
   }
  ],
- "agenda_hash": "ab18b1563c966de8",
- "agenda_checked": "2026-11-27T00:36:11.008Z"
+ "agenda_hash": "b099e821d8b4fca3",
+ "agenda_checked": "2026-11-28T02:34:27.434Z"
 }
