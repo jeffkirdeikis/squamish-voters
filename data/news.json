@@ -66,6 +66,144 @@
  ],
  "stories": [
   {
+   "slug": "keep-sandbags-high-tides-sunday-monday",
+   "s": "safety",
+   "tier": "card",
+   "date": "2026-11-27",
+   "head": "Keep sandbags in place: more high tides and surges early next week",
+   "dek": "Don't clear away your sandbags yet: the District of Squamish expects more high tides and storm surges early next week. High tides around 11 a.m. to noon on Sunday and Monday may affect getting to the Oceanfront.",
+   "gist": [
+    "You can fill your own sandbags at the north end of Brennan Park Recreation Centre, by Ball Field #5.",
+    "The District is also asking people to use less water indoors, to help the sewer system after the storms.",
+    "A local state of emergency was declared this week, and we found no notice that it has ended.",
+    "The District has not said which Oceanfront routes may be affected, or when sandbags can come down."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Next high tides",
+     "v": "Sun Nov 29 and Mon Nov 30"
+    },
+    {
+     "level": "mid",
+     "k": "High tide time",
+     "v": "About 11 a.m. to noon"
+    },
+    {
+     "level": "mid",
+     "k": "Thursday's lifted warning",
+     "v": "40 to 70 cm above normal tide"
+    },
+    {
+     "level": "mid",
+     "k": "Sandbag station",
+     "v": "Brennan Park, Ball Field #5"
+    },
+    {
+     "level": "mid",
+     "k": "Indoor water use",
+     "v": "Limit until further notice"
+    }
+   ],
+   "bars": {
+    "tides": {
+     "title": "Predicted high tide heights at the Squamish tide station, in metres",
+     "rows": [
+      {
+       "label": "Average daily higher high tide (CHS)",
+       "v": 4.53,
+       "say": "4.53 m"
+      },
+      {
+       "label": "Nov 26 and 27, 9 to 10 a.m. (CHS)",
+       "v": 5,
+       "say": "about 5.0 m"
+      },
+      {
+       "label": "Nov 28, 10 to 11 a.m. (CHS)",
+       "v": 5,
+       "say": "about 5.0 m"
+      },
+      {
+       "label": "Sunday Nov 29, 11:11 a.m. (Windfinder)",
+       "v": 4.87,
+       "say": "4.87 m",
+       "hl": true
+      },
+      {
+       "label": "King tide predicted (Chief, Nov 24)",
+       "v": 5.058,
+       "say": "5.06 m"
+      },
+      {
+       "label": "Highest tide possible from astronomy alone (CHS)",
+       "v": 5.16,
+       "say": "5.16 m"
+      }
+     ],
+     "note": "Canadian Hydrographic Service (CHS) predictions for its Squamish Inner station. Sunday figure from Windfinder, a private site that may differ from the CHS station. King tide figure from the Squamish Chief, Nov 24. Tide predictions only; storm surge adds water on top."
+    }
+   },
+   "take": "Leave your sandbags in place through early next week and plan any Oceanfront trips outside about 11 a.m. to noon on Sunday and Monday.",
+   "body": "[[glance]]\n\n## What to do\n\n- Leave sandbags where they are, or keep them on your property. The District of Squamish says more high tides and storm surges are expected early next week.\n- Need more? Fill your own at the north end of Brennan Park Recreation Centre by Ball Field #5, according to an earlier [District notice](https://squamish.ca/government-and-administration/district-information/news/flood-watch-remains-in-effect/). In past years the District told people to bring a spade or shovel, though District shovels were also there, the [Squamish Reporter noted in 2021](https://www.squamishreporter.com/2021/11/25/district-sets-up-self-serve-sandbag-station-at-brennan-park-recreation-centre/).\n- Earlier this week a downtown station was open in the lot next to Copper Coil, the [District said](https://squamish.ca/government-and-administration/district-information/news/coast/). It is not clear if it is still open.\n- Limit indoor water use until further notice. The District is asking this to help manage sewer flows, [The Canadian Press reported](https://fraservalleytoday.ca/2026/11/27/district-of-squamish-asks-residents-to-limit-indoor-water-use-after-wet-b-c-weather-2/).\n- Take care on the Corridor Trail under Highway 99 between Rose Park and downtown. The District warned it [will flood as tides rise](https://squamish.ca/government-and-administration/district-information/news/coast/).\n- The District declared a [state of local emergency](https://www.squamishchief.com/local-news/berms-and-sandbags-deployed-as-squamish-faces-highest-tide-risk-thursday-13053913) this week. We found no notice that it has been lifted.\n\nThe District has not said when sandbags can come down or how to get rid of them.\n\n## When the high tides come\n\n- Sunday, November 29: high tide forecast for about 11 a.m. to noon.\n- Monday, November 30: high tide forecast for about 11 a.m. to noon.\n\nThe District says these tides may affect access to the Oceanfront. It has not said which roads or areas, or whether anything will close. Watch the District [E-News](https://squamish.ca/government-and-administration/district-information/enews-archives/) for updates, and check river levels and alerts on our [today page](/today/).\n\n## What the tide forecasts show\n\nThe [Canadian Hydrographic Service](https://www.tides.gc.ca/en/stations/07811) hourly forecast for its Squamish Inner station showed about 5.0 metres at 9 to 10 a.m. on November 26 and 27, and about 5.0 metres at 10 to 11 a.m. on November 28. The station's [average daily higher high tide](https://www.tides.gc.ca/en/stations/07811/predictions?wbdisable=true) is 4.53 metres, and the highest tide possible from astronomy alone is 5.16 metres. The station is listed as temporary and not operational, so these are predictions, not live readings.\n\nA private site, [Windfinder](https://en.windfinder.com/tide/squamish_tide), shows a Sunday high of 4.87 metres at 11:11 a.m. We could not confirm Monday's height from a federal source.\n\n[[bars tides]]\nSunday's predicted tide is a little lower than this week's, but the District still expects storm surges, which add water on top of the tide. This week Environment Canada forecast water 40 to 70 centimetres above normal tide levels, then lifted its warnings Thursday afternoon, the [Chief reported](https://www.squamishchief.com/local-news/downtown-squamish-evades-major-damage-due-to-weather-surge-and-king-tide-13065736). We found no new warning for Sunday or Monday.\n\n## How this week went\n\n- On December 27, 2022, water from Howe Sound flowed onto Loggers Lane, flooding some businesses and homes. An official told the Chief this week's king tides were about the same as late 2022, but not quite as high as they will be in December, the [Chief reported](https://www.squamishchief.com/local-news/environment-canada-warns-of-flood-risk-in-squamish-similar-to-2022-event-13053913).\n- Earlier in November, residents north of Squamish sheltered in place after storm flooding, the [National Observer reported](https://www.nationalobserver.com/2026/11/13/news/rains-ease-storm-surge-heads-southwest-bc-posing-new-flood-risk).\n- Downtown avoided major flood damage after 60 hours of sandbagging and berm building. Crews also built a raised pad and sandbag walls near Loggers Lane and Vancouver Street for people at the downtown encampment, [The Canadian Press reported](https://www.pentictonherald.ca/spare_news/article_7df8c6cc-eab7-5b45-8924-fe90f681a169.html).\n\n## Bigger picture\n\nFrom the [District climate adaptation page](https://squamish.ca/sustainability-and-green-living/climate-action/climate-action/local-action/adaptation/):\n\n- 21 km dike system, to be upgraded over the long term\n- Flood plan adopted 2017 (Integrated Flood Hazard Management Plan)\n- 200 m of new sea dike planned downtown in 2023\n- Designed for 1 m of sea level rise\n\nWe could not confirm whether that dike was built. More on our [flood protection page](/issues/flood-protection/).",
+   "visual": {
+    "type": "big",
+    "big": "11 a.m. to noon",
+    "small": "High tides Sunday and Monday"
+   },
+   "src": [
+    "District of Squamish E-News",
+    "https://squamish.ca/government-and-administration/district-information/enews-archives/"
+   ],
+   "review_scores": [
+    6.2,
+    6.7,
+    6.7,
+    7.2
+   ],
+   "researched": true,
+   "social": "Keep your sandbags in place. More high tides and storm surges are expected early next week, with high tides around 11 a.m. to noon Sunday, Nov 29 and Monday, Nov 30, which may affect getting to the Oceanfront.\n\nSelf-serve sandbags are at Brennan Park, north end by Ball Field #5. The District also asks you to limit indoor water use. Details and tide forecasts:",
+   "share": 3,
+   "auto": true,
+   "areas": [
+    "downtown",
+    "oceanfront"
+   ],
+   "poll": {
+    "q": "What should Squamish focus on to protect downtown from high tides?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Speed up the dike upgrades",
+      "means": "The District would move faster on its long term plan to upgrade its dikes."
+     },
+     {
+      "key": "b",
+      "label": "Keep the current emergency response",
+      "means": "The District would keep relying on sandbags, berms and emergency crews when tides are high."
+     },
+     {
+      "key": "c",
+      "label": "Limit building in low areas",
+      "means": "Fewer new homes and businesses would go where the sea can reach."
+     },
+     {
+      "key": "d",
+      "label": "More help for owners to protect property",
+      "means": "Residents and businesses would get more support to flood proof their own buildings."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/keep-sandbags-high-tides-sunday-monday.jpg",
+    "alt": "Howe Sound seen from above Squamish",
+    "caption": "Howe Sound, seen from above Squamish.",
+    "credit": "Shafik Diwan, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Howe_Sound,_Squamish.jpg"
+   },
+   "og": "keep-sandbags-high-tides-sunday-monday.png"
+  },
+  {
    "slug": "tragically-hip-cover-band-squamish-nov-28",
    "s": "community",
    "tier": "card",
