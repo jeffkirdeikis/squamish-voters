@@ -66,6 +66,463 @@
  ],
  "stories": [
   {
+   "slug": "paradise-valley-bridge-closure-cancelled-2",
+   "s": "move",
+   "tier": "brief",
+   "date": "2026-11-27",
+   "head": "Paradise Valley bridge stays open Friday night; contractor finished early",
+   "dek": "The Paradise Valley Bailey Bridge will stay open Friday night after all. The District of Squamish cancelled the closure planned for 10 p.m. Friday, November 27, to 6 a.m. Saturday because the contractor completed the work ahead of schedule.",
+   "gist": [
+    "The Paradise Valley Bailey Bridge was set to close overnight on Friday, November 27, from 10 p.m. to 6 a.m.",
+    "That closure is cancelled because the contractor completed the work ahead of schedule.",
+    "The District says the work is close to wrapping up and expects to share another update next week.",
+    "The notice does not say whether any more closures are planned before the work is done."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Friday night",
+     "v": "No closure, it is cancelled"
+    },
+    {
+     "level": "mid",
+     "k": "Was planned",
+     "v": "Fri Nov 27, 10 p.m. to 6 a.m."
+    },
+    {
+     "level": "mid",
+     "k": "Closure length",
+     "v": "8 hours (cancelled)"
+    },
+    {
+     "level": "mid",
+     "k": "Why cancelled",
+     "v": "Work done ahead of schedule"
+    },
+    {
+     "level": "mid",
+     "k": "Next update",
+     "v": "Expected next week"
+    }
+   ],
+   "take": "The bridge work is close to wrapping up, and the District expects to post another update next week.",
+   "body": "[[glance]]\n\n## What changed\n\nThe District of Squamish has called off the overnight closure of the Paradise Valley Bailey Bridge that was set to run into Saturday morning, November 28. The contractor completed the work ahead of schedule, so the closure is no longer needed.\n\n## What comes next\n\nThe District says the work on the bridge is getting close to wrapping up. It expects to share another update next week.\n\nThe notice does not describe what the work on the bridge is. It also does not say whether any more closures are planned before the work is done.\n\nWe will update this story when the District posts its next update.\n\n## Where to find more\n\n- The District's notice is in its [E-News archive](https://squamish.ca/government-and-administration/district-information/enews-archives/).\n- For weather, Highway 99 and river conditions right now, see our [Today page](/today/).",
+   "visual": {
+    "type": "big",
+    "big": "Nov 27",
+    "small": "Overnight closure cancelled"
+   },
+   "src": [
+    "District of Squamish E-News",
+    "https://squamish.ca/government-and-administration/district-information/enews-archives/"
+   ],
+   "review_scores": [
+    6.8,
+    7.2,
+    7.2,
+    7.3
+   ],
+   "social": "Planning to cross the Paradise Valley Bailey Bridge late Friday night? You can.\n\nThe overnight closure set for Friday, Nov. 27, 10 p.m. to 6 a.m., is cancelled because the contractor completed the work ahead of schedule, the District of Squamish says. The District expects another update next week.",
+   "share": 2,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/paradise-valley-bridge-closure-cancelled-2.jpg",
+    "alt": "Clear green river water flowing past a forested bank with evergreen trees and hills behind",
+    "caption": "The Cheakamus River, which runs through Paradise Valley north of Squamish.",
+    "credit": "Sealnice, CC BY-SA 4.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Cheakamus_river.jpg"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/paradise-valley-bridge-closure-cancelled-2-2.jpg",
+     "alt": "3D satellite terrain map showing Squamish, Brackendale and the valley north toward Whistler",
+     "caption": "Terrain map of Squamish and the Cheakamus valley to the north.",
+     "credit": "NASA & OSM, Public domain",
+     "link": "https://commons.wikimedia.org/wiki/File:Squamish_%26_Cheakamus_World_Wind.png"
+    }
+   ],
+   "og": "paradise-valley-bridge-closure-cancelled-2.png"
+  },
+  {
+   "slug": "winter-parking-rules-dec-1",
+   "s": "move",
+   "tier": "card",
+   "date": "2026-11-27",
+   "head": "Winter parking limits start Dec. 1: one side only on signed streets",
+   "dek": "Check the signs on your street before Tuesday. From December 1 until March, select Squamish streets allow parking on one side only so snow plows and emergency vehicles can get through, the District of Squamish says.",
+   "gist": [
+    "From Tuesday, December 1, some Squamish streets allow parking on one side only.",
+    "The rule gives snow plows and emergency vehicles room to get through, and cars parked on the wrong side can be fined and towed.",
+    "The District's notice gives an end date of March 1, 2026, which has passed, so the year is not yet confirmed.",
+    "Check the signs on your street and the list at squamish.ca/winter-parking before you park."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Dates",
+     "v": "Dec 1 to March 1 (end year unconfirmed)"
+    },
+    {
+     "level": "mid",
+     "k": "Fine",
+     "v": "$250, and towing possible"
+    },
+    {
+     "level": "mid",
+     "k": "Pay early or late (2022 report)",
+     "v": "$200 in 14 days, $300 after 28"
+    },
+    {
+     "level": "mid",
+     "k": "Season",
+     "v": "Fifth winter since 2022"
+    },
+    {
+     "level": "mid",
+     "k": "Plow trucks (2022)",
+     "v": "3"
+    }
+   ],
+   "bars": {
+    "payment": {
+     "title": "Impeding snow removal fine by when you pay, as reported in 2022 (dollars)",
+     "rows": [
+      {
+       "label": "Within 14 days",
+       "v": 200,
+       "say": "$200"
+      },
+      {
+       "label": "Standard fine",
+       "v": 250,
+       "say": "$250",
+       "hl": true
+      },
+      {
+       "label": "After 28 days",
+       "v": 300,
+       "say": "$300"
+      }
+     ],
+     "note": "Squamish Reporter, October 24, 2022, figures reported when the fine was introduced"
+    },
+    "fines": {
+     "title": "Other snow fines compared with the parking fine (dollars)",
+     "rows": [
+      {
+       "label": "Impeding snow removal",
+       "v": 250,
+       "say": "$250",
+       "hl": true
+      },
+      {
+       "label": "Private snow on District land",
+       "v": 200,
+       "say": "$200 (2022)"
+      },
+      {
+       "label": "Uncleared sidewalk",
+       "v": 100,
+       "say": "$100"
+      }
+     ],
+     "note": "District of Squamish Bylaw No. 1832 (parking and sidewalk fines, undated); Squamish Reporter, October 24, 2022 (private snow fine, a 2022 figure)"
+    }
+   },
+   "take": "Check the signs on your street before Tuesday, December 1, and park only on the allowed side until March.",
+   "body": "[[glance]]\n\n## What changes\n\nWinter parking restrictions start on Tuesday, December 1. On select Squamish streets, parking is allowed on one side only, so snow plows and emergency vehicles can move through safely, the District of Squamish says. Cars on the No Parking side may be ticketed and towed at any time.\n\nThe District's notice says the rules last until March 1, 2026, a date that has already passed. Its [standing rule](https://squamish.ca/transportation-parking-and-mobility/parking/winter-parking/) is that the signed No Parking side is enforced from December 1 to March 1, which would make the end date March 1, 2027. The notice itself does not confirm this.\n\nOnly streets with signs are affected. Parking is still available on the other side of the street or on nearby streets, as signs indicate, the [District's winter parking page](https://squamish.ca/transportation-and-mobility/parking/winter-parking/) says.\n\n## Which streets\n\nThe full list is at [squamish.ca/winter-parking](https://squamish.ca/winter-parking). Streets named by the District and the [Squamish Chief](https://www.squamishchief.com/local-news/winter-parking-restrictions-to-hit-some-squamish-streets-on-dec-1-7880343) in past seasons include:\n\n- Third, Fourth, Fifth and Sixth avenues\n- Eaglewind Boulevard, Edgewater Drive and Edgewater Crescent\n- Harris Road, Hope Road, Diamond Head Road and Diamond Road\n- Hemlock and Chestnut avenues, Fir Street\n- No Name Road and Brother Place\n\nThe District reviews the list each season, so check the current list and your street's signs.\n\n## The penalty\n\n- The fine for impeding snow removal is $250, listed in [Bylaw No. 1832](https://squamish.civicweb.net/document/200800/).\n- The District has not said whether every car on the No Parking side gets this $250 ticket or a different parking ticket.\n- The District's [parking rules](https://squamish.ca/transportation-parking-and-mobility/parking/parking-regulations/) say cars can be towed without notice, and list a seasonal winter no parking area as one example.\n- In 2022 the [Squamish Reporter](https://www.squamishreporter.com/2022/10/24/impeding-snow-removal-will-net-a-new-250-fine-in-squamish/) reported that paying within 14 days lowers the fine to $200, and paying after 28 days raises it to $300.\n\n[[bars payment]]\n## Why the rule exists\n\nStaff reviewed snow clearing after the snow and ice storms of December 2021 and January 2022, a District [news release](https://squamish.ca/government-and-administration/district-information/news/new-parking-restrictions-introduced-to-improve-snow-and-ice-clearing/) says. That release said the fleet then had three plow trucks and one machine for trails, sidewalks and school routes. Council approved an updated Snow and Ice Control Policy on October 4, 2022, and the rules first took effect December 1, 2022, the Squamish Reporter reported ([October](https://www.squamishreporter.com/2022/10/24/impeding-snow-removal-will-net-a-new-250-fine-in-squamish/), [December](https://www.squamishreporter.com/2022/12/01/district-to-implement-street-parking-restrictions-in-winter/)). That makes this the fifth winter (our arithmetic). In a later season, the District called the program successful, the [Chief](https://www.squamishchief.com/local-news/winter-parking-restrictions-to-hit-some-squamish-streets-on-dec-1-7880343) reported.\n\n## Other snow rules and open questions\n\n- Clear snow and ice from the sidewalk next to your property ([release](https://squamish.ca/government-and-administration/district-information/news/new-parking-restrictions-introduced-to-improve-snow-and-ice-clearing/)). The fine is $100 ([Bylaw No. 1832](https://squamish.civicweb.net/document/200800/)).\n- Putting snow from private property onto District property can bring a $200 fine, the Reporter said in 2022.\n- Pile driveway snow on the right side as you face the road, so plows do not push it back into your driveway. To report a bylaw problem, call 604.815.5067 or email, using the address on the [District's snow page](https://squamish.ca/transportation-parking-and-mobility/road-maintenance-and-snow-clearing/snow-and-ice-control/).\n\n[[bars fines]]\nWe could not find District figures on towing or impound costs, where towed cars go, past tickets or tows, or whether streets changed this year. See our [parking issue page](/issues/parking/) and our [today page](/today/) for weather, Highway 99, river and air conditions.\n\nSource: [District of Squamish E-News, November 27, 2026](https://squamish.ca/government-and-administration/district-information/enews-archives/).",
+   "visual": {
+    "type": "big",
+    "big": "Dec 1",
+    "small": "Parking on one side starts"
+   },
+   "src": [
+    "District of Squamish E-News",
+    "https://squamish.ca/government-and-administration/district-information/enews-archives/"
+   ],
+   "review_scores": [
+    6.7,
+    7.2,
+    7.7,
+    7.8
+   ],
+   "researched": true,
+   "social": "Do you park on the street in winter? From Tuesday, Dec. 1, signed Squamish streets allow parking on one side only until March, so plows and emergency vehicles can get through.\n\nCars on the No Parking side can be ticketed and towed, and the fine is $250. Is your street on the list? The streets named, what paying early or late costs, and the other snow rules:",
+   "share": 3,
+   "auto": true,
+   "poll": {
+    "q": "Has winter parking on one side made snowy streets easier to get through?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Yes, plowing is clearly better",
+      "means": "The rule is doing what the District says it is for."
+     },
+     {
+      "key": "b",
+      "label": "It helps, but parking is harder",
+      "means": "The rule works for plows but costs residents parking space."
+     },
+     {
+      "key": "c",
+      "label": "No real difference",
+      "means": "The rule has not changed much on the streets you use."
+     },
+     {
+      "key": "d",
+      "label": "No, it causes more problems",
+      "means": "The rule creates more trouble than it solves."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/winter-parking-rules-dec-1.jpg",
+    "alt": "Downtown Squamish street with the Stawamus Chief behind",
+    "caption": "Downtown Squamish, with the Stawamus Chief behind.",
+    "credit": "Straitgate, CC BY-SA 3.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish_City_Centre.JPG"
+   },
+   "og": "winter-parking-rules-dec-1.png"
+  },
+  {
+   "slug": "squamish-certified-bird-friendly-city",
+   "s": "community",
+   "tier": "card",
+   "date": "2026-11-27",
+   "head": "Squamish is now a Bird Friendly City. Here's what earned the title",
+   "dek": "Nature Canada has certified Squamish as a Bird Friendly City, the District of Squamish said on November 27. Nine local partners, from nature groups to students, did the work behind it.",
+   "gist": [
+    "Nature Canada has given Squamish a certificate that names it a Bird Friendly City.",
+    "A local team pushed for more tree cover and for building guidelines that help birds, and it has held a Bird Festival every year.",
+    "The team also worked with local schools on classroom retrofits to reduce birds flying into windows.",
+    "The District has not said if new rules or money come with the title, or how people can join the team."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Certified by",
+     "v": "Nature Canada"
+    },
+    {
+     "level": "mid",
+     "k": "Includes",
+     "v": "District, students, 7 groups"
+    },
+    {
+     "level": "mid",
+     "k": "Festival",
+     "v": "Yearly"
+    },
+    {
+     "level": "mid",
+     "k": "Schools",
+     "v": "Window retrofits"
+    }
+   ],
+   "take": "Squamish now holds Nature Canada's Bird Friendly City certification, which Mayor Sean Easton says will help to protect the local bird population.",
+   "body": "[[glance]]\n\n## What happened\n\nNature Canada has announced that Squamish is officially certified as a Bird Friendly City. The District of Squamish shared the news in its E-News on November 27. [Mayor Sean Easton](/council/sean-easton/) said the title \"will help to protect our local bird population.\"\n\nThe certification came from work by the Bird Friendly Team in Squamish. The District says the team:\n\n- advocated for urban tree canopy goals (tree canopy means the leafy cover that trees spread over the town)\n- advocated for bird friendly design standards (guidelines for designing buildings so fewer birds fly into them)\n- has hosted an annual Bird Festival\n- partnered with local schools on classroom retrofits to reduce bird window collisions\n\nThe notice does not tell residents how to join the team or when the next Bird Festival takes place.\n\nTree cover and building design are part of the wider [climate and environment](/issues/climate-and-environment/) questions the town faces.\n\n## Who is on the team\n\nThe District lists nine partners:\n\n- Nature Squamish\n- Sea to Sky Invasive Species Council\n- Squamish River Watershed Society\n- Howe Sound Biosphere Region Initiative Society\n- SquamishCAN\n- Youth Climate Corps BC\n- local students\n- Squamish Community Foundation\n- District of Squamish\n\n## What the mayor said\n\nMayor Easton called it \"a welcome designation that will help to protect our local bird population and care for the natural environment that makes Squamish so unique.\" He thanked the Bird Friendly Squamish team \"for the work that they do to foster appreciation and stewardship for birds and their habitat.\"\n\n## What we don't know\n\nThe District's notice does not say whether the title brings any new rules, projects or funding. It does not say whether the District has adopted the canopy goals or the design standards the team advocated for. It does not name the schools involved.\n\nSource: [District of Squamish E-News](https://squamish.ca/government-and-administration/district-information/enews-archives/)",
+   "src": [
+    "District of Squamish E-News",
+    "https://squamish.ca/government-and-administration/district-information/enews-archives/"
+   ],
+   "review_scores": [
+    5.5,
+    5.8,
+    6.8,
+    7
+   ],
+   "social": "Ever heard a thud on your window and found a bird outside? Local groups and Squamish students have been working on that, and Nature Canada has now noticed.\n\nSquamish is now a certified Bird Friendly City. What earned it and who did the work:",
+   "share": 3,
+   "auto": true,
+   "photo": {
+    "file": "/news/photos/squamish-certified-bird-friendly-city.jpg",
+    "alt": "The Squamish River winding through a forested valley",
+    "caption": "The Squamish River valley, part of Area D.",
+    "credit": "Tim Gage, CC BY-SA 2.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish_River_Valley_101.jpg"
+   },
+   "og": "squamish-certified-bird-friendly-city.png"
+  },
+  {
+   "slug": "tax-freeze-6-million-savings-input",
+   "s": "money",
+   "tier": "card",
+   "date": "2026-11-27",
+   "head": "Flat tax revenue needs $6.3 million saved. What would you keep or cut?",
+   "dek": "Holding Squamish's total property tax revenue flat in 2027 would mean finding $6.3 million in savings, the District of Squamish says. Council considers a motion for that budget on Tuesday, December 1. The District is asking residents which services to protect, grow or trim. No closing date is given.",
+   "gist": [
+    "On Tuesday, December 1, council considers a 2027 budget that collects no more property tax money than this year, counting the whole town, not each home's bill.",
+    "Staff say $3.6 million of that is pre-committed or non-discretionary, leaving about $2.7 million discretionary (our math).",
+    "No list of possible cuts has been published, and there is no estimate of what this would mean for an average home.",
+    "You can tell the District what you would protect, fund more or cut at letstalksquamish.ca/budget-2027."
+   ],
+   "glance": [
+    {
+     "level": "mid",
+     "k": "Savings needed",
+     "v": "$6.3 million"
+    },
+    {
+     "level": "mid",
+     "k": "Discretionary",
+     "v": "About $2.7 million (our arithmetic)"
+    },
+    {
+     "level": "mid",
+     "k": "Staff draft",
+     "v": "10.4%, about $342 per average home"
+    },
+    {
+     "level": "mid",
+     "k": "2026 average tax",
+     "v": "About $3,294 (municipal share)"
+    },
+    {
+     "level": "mid",
+     "k": "Council considers",
+     "v": "Tuesday, December 1"
+    }
+   ],
+   "bars": {
+    "gap": {
+     "title": "How much of the $6.3 million council has room to cut (millions of dollars)",
+     "rows": [
+      {
+       "label": "Pre-committed or non-discretionary (hard to cut)",
+       "v": 3.6,
+       "say": "$3.6M"
+      },
+      {
+       "label": "Discretionary (our arithmetic)",
+       "v": 2.7,
+       "say": "About $2.7M",
+       "hl": true
+      }
+     ],
+     "note": "$6.3 million total: District of Squamish. $3.6 million pre-committed or non-discretionary: District staff, reported by the Squamish Chief, Nov. 2026. $2.7 million is our arithmetic. Staff say the full $6.3 million would come from the operating budget and reserve transfers."
+    },
+    "draft": {
+     "title": "What the 10.4% staff draft increase is made of (percentage points)",
+     "rows": [
+      {
+       "label": "Costs already committed",
+       "v": 6.6,
+       "say": "6.6 points"
+      },
+      {
+       "label": "Not already committed (our arithmetic)",
+       "v": 3.8,
+       "say": "3.8 points",
+       "hl": true
+      }
+     ],
+     "note": "10.4% total and 6.6 points committed: Squamish Voters, Nov. 2026. 3.8 points is our arithmetic. A budget with no increase would remove all 10.4 points."
+    },
+    "rises": {
+     "title": "Property tax revenue increase, per cent",
+     "rows": [
+      {
+       "label": "2026 in January plan",
+       "v": 12.8,
+       "say": "12.8%"
+      },
+      {
+       "label": "2027 in January plan",
+       "v": 13,
+       "say": "13%"
+      },
+      {
+       "label": "2027 staff draft",
+       "v": 10.4,
+       "say": "10.4%"
+      },
+      {
+       "label": "2027 under the motion",
+       "v": 0,
+       "say": "0%, no increase",
+       "hl": true
+      },
+      {
+       "label": "2028 in January plan",
+       "v": 12.9,
+       "say": "12.9%"
+      }
+     ],
+     "note": "2026, 2027 and 2028 in the January 10 year plan: Squamish Chief, Jan. 2026. That plan averaged 8.3% a year over 10 years. After the May amendment, the average residential municipal tax for 2026 was up 10.8% from 2025 (Squamish Chief, May 2026). 2027 staff draft: Squamish Voters, Nov. 2026. 0% is what the motion asks for."
+    }
+   },
+   "take": "Residents can tell the District what to protect, grow or cut at letstalksquamish.ca/budget-2027 before council considers the no increase motion on Tuesday, December 1.",
+   "body": "[[glance]]\n\n## What the District is asking you\n\nOn Tuesday, December 1, council considers a motion to build a 2027 budget with no increase to property tax revenue over last year. The District of Squamish says that would mean finding $6.3 million in savings. It has three questions for residents:\n\n- What would you prioritize? Examples it gives include recreation, housing and public safety.\n- Which services, projects or programs would you invest more in?\n- Where could spending be reduced?\n\nAnswer at [letstalksquamish.ca/budget-2027](https://letstalksquamish.ca/budget-2027). The District says feedback will be reviewed and shared with council during budget deliberations. No closing date is given, and the District says the budget will be adopted in December 2026, while [we expect the final number likely in January 2027](/issues/property-taxes/).\n\n## What it means for your bill\n\n\"Property tax revenue\" is the total the District collects from everyone, not each household's bill. The staff draft would raise it by 10.4%, about $342 more for the average home, our [property taxes](/issues/property-taxes/) page reports. Of that, 6.6 points are costs already committed. There is no published estimate of the average bill under a freeze.\n\n[[bars draft]]\nWhen council adopted the 10 year plan in January 2026, [2026 tax revenue was set to rise 12.8%](https://www.squamishchief.com/local-news/update-tough-budget-squamish-council-adopts-first-decade-long-financial-plan-11710524), about $382 more for the average residential taxpayer. That plan projected 13% for 2027, 12.9% for 2028 and an 8.3% yearly average over 10 years. Staff said the large 2027 and 2028 increases were mostly due to higher RCMP contract costs, along with debt payments, more fire staffing and transit expansion. In May, the plan was amended: [higher Woodfibre LNG assessments brought in roughly $7.2 million](https://www.squamishchief.com/local-news/squamish-council-amends-10-year-financial-plan-boosts-reserves-with-woodfibre-lng-tax-windfall-12189221), which went to reserves, and the average residential municipal tax came to about $3,294, up $320 or 10.8% from 2025.\n\n[[bars rises]]\n## The $6.3 million in savings\n\nOf the $6.3 million, [$3.6 million is pre-committed or non-discretionary items, District staff said](https://www.squamishchief.com/local-news/squamish-council-previews-debate-over-mayors-proposal-to-scrap-2027-budget-13035079), the Squamish Chief reported. That leaves about $2.7 million that is discretionary (our arithmetic). No breakdown by department has been published.\n\n[[bars gap]]\n[Capital projects are not paid for directly by taxes, so staff say](https://www.squamishchief.com/local-news/squamish-council-previews-debate-over-mayors-proposal-to-scrap-2027-budget-13035079) the full $6.3 million would come from the operating budget and reserve transfers, which is money set aside each year for future repairs and projects. Municipalities must pass a balanced budget and cannot run a deficit. [The capital plan totals $25 million for 2027 and $357 million over 10 years](https://www.squamishchief.com/local-news/squamish-municipal-budget-2027-heres-what-is-in-the-capital-plan-12894020). [The gap was first reported as more than $5 million](https://www.squamishchief.com/local-news/mayor-sean-easton-moves-to-restart-squamish-budget-process-13013416); staff now say $6.3 million.\n\n## What the motion says\n\n[Mayor Sean Easton](/council/sean-easton/) [brought the motion](https://www.squamishchief.com/local-news/mayor-sean-easton-moves-to-restart-squamish-budget-process-13013416). According to the [Squamish Reporter](https://www.squamishreporter.com/2026/11/16/squamish-mayor-property-tax-revenue-2027/), it asks for no increase in property tax revenue with services at least as accessible, available, timely and effective as in 2026, a review of management layers and overhead led by the chief administrative officer, and a revised budget showing effects on staffing, services, reserves, capital projects, debt and fees. It also bars involuntary layoffs or cut hours for union staff, and bars contractors replacing union work. Easton, [Laura Prosko](/council/laura-prosko/) and [Janice DesJardins](/council/janice-desjardins/) all [campaigned on a freeze](/issues/property-taxes/), and Prosko proposed a two year freeze for 2027 and 2028.\n\n## What comes next\n\n- The motion [comes up December 1 unless council decides otherwise](https://www.squamishreporter.com/2026/11/16/squamish-mayor-property-tax-revenue-2027/). See our [meeting page](/meetings/2026-12-01-regular/).\n- By law, the financial plan must be adopted before the tax rate bylaw, [which must be adopted before May 15](https://www.squamishchief.com/local-news/squamish-council-previews-debate-over-mayors-proposal-to-scrap-2027-budget-13035079).\n- Still unknown: which services would change, and what a freeze means for 2028.\n- Fill in the survey at [letstalksquamish.ca/budget-2027](https://letstalksquamish.ca/budget-2027), or weigh in on our [Have your say](/have-your-say/) page.\n\nSource: [District of Squamish E-News](https://squamish.ca/government-and-administration/district-information/enews-archives/)",
+   "visual": {
+    "type": "big",
+    "big": "$6.3M",
+    "small": "Savings needed for no tax revenue rise"
+   },
+   "src": [
+    "District of Squamish E-News",
+    "https://squamish.ca/government-and-administration/district-information/enews-archives/"
+   ],
+   "review_scores": [
+    5.7,
+    6.5,
+    6.7,
+    7.2
+   ],
+   "researched": true,
+   "social": "If Squamish collected no more property tax next year than this year, what would you give up, and what would you fight to keep?\n\nThat means the town's total tax take stays flat, not each bill. The District says it would take $6.3 million in savings, and about $2.7 million of it is discretionary, by our math. No estimate yet for the average bill. What residents are being asked and how the numbers break down:",
+   "share": 3,
+   "auto": true,
+   "poll": {
+    "q": "How should Squamish handle its 2027 property tax revenue?",
+    "options": [
+     {
+      "key": "a",
+      "label": "Hold it flat and find $6.3M",
+      "means": "The District would need to find $6.3 million in savings."
+     },
+     {
+      "key": "b",
+      "label": "Allow a smaller rise, cut some",
+      "means": "Some savings would be found and revenue would rise by less than 10.4%."
+     },
+     {
+      "key": "c",
+      "label": "Keep the staff draft",
+      "means": "Revenue rises 10.4%, about $342 more for the average home."
+     },
+     {
+      "key": "d",
+      "label": "Spend more on key services",
+      "means": "Revenue would rise more to invest in priorities like recreation or safety."
+     }
+    ]
+   },
+   "photo": {
+    "file": "/news/photos/tax-freeze-6-million-savings-input.jpg",
+    "alt": "Squamish Town Centre stone marker on a landscaped median with the Stawamus Chief granite cliffs behind",
+    "caption": "The Squamish Town Centre sign, with the Stawamus Chief behind.",
+    "credit": "Straitgate, CC BY-SA 3.0",
+    "link": "https://commons.wikimedia.org/wiki/File:Squamish_City_Centre.JPG"
+   },
+   "photos": [
+    {
+     "file": "/news/photos/tax-freeze-6-million-savings-input-2.jpg",
+     "alt": "Aerial view of Squamish neighbourhoods and highway in a forested valley below snow-capped mountains",
+     "caption": "Squamish and its valley neighbourhoods, seen from above.",
+     "credit": "Madhumanti Mandal, CC BY-SA 4.0",
+     "link": "https://commons.wikimedia.org/wiki/File:Downtown_Squamish.jpg"
+    },
+    {
+     "file": "/news/photos/tax-freeze-6-million-savings-input-3.jpg",
+     "alt": "Cleveland Avenue in downtown Squamish lined with shops and parked cars, snowy mountain peak in the distance",
+     "caption": "Cleveland Avenue in downtown Squamish.",
+     "credit": "The original uploader was Damieng at English Wikipedia., CC BY-SA 3.0",
+     "link": "https://commons.wikimedia.org/wiki/File:SquamishMain.jpg"
+    }
+   ],
+   "og": "tax-freeze-6-million-savings-input.png"
+  },
+  {
    "slug": "keep-sandbags-high-tides-sunday-monday",
    "s": "safety",
    "tier": "card",
